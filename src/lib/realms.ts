@@ -366,6 +366,27 @@ export const REALMS: RealmDefinition[] = [
     subtitle: 'Jagat media sosial viral, belanja online dompet digital, keamanan siber, kreator konten, dan cloud',
     categories: ['Dunia Digital'],
   },
+  {
+    id: 'theme_52_bahasainggris',
+    name: 'Kosakata Bahasa Inggris Menengah',
+    tag: 'Bahasa Inggris',
+    subtitle: 'Kosakata tindakan, karakter emosi, dunia pemikiran logika, kerja cerdas, dan interaksi sosial',
+    categories: ['Bahasa Inggris Menengah'],
+  },
+  {
+    id: 'theme_53_mitologi',
+    name: 'Mitologi, Kisah Klasik & Legenda Dunia',
+    tag: 'Mitologi & Kisah',
+    subtitle: 'Dewa Olympus Yunani, dewa Viking Nordik, mitos Mesir Kuno, satwa berkah, ksatria pedang, dan legenda',
+    categories: ['Mitologi Dunia'],
+  },
+  {
+    id: 'theme_54_antariksa',
+    name: 'Penjelajahan Antariksa & Misi Luar Angkasa',
+    tag: 'Misi Antariksa',
+    subtitle: 'Pendaratan Apollo di bulan, stasiun orbit ISS, robot penjelajah Mars, roket satelit, dan teleskop angkasa',
+    categories: ['Penjelajahan Antariksa'],
+  },
 ];
 
 export function getRealmForCategory(category?: string): RealmDefinition {

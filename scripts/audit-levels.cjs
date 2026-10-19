@@ -60,6 +60,9 @@ const categoryToRealm = {
   'Anatomi Manusia': 'Anatomi Manusia & Rahasia Tubuh',
   'Kesehatan & Gizi': 'Kesehatan, Gizi & Pola Hidup Sehat',
   'Dunia Digital': 'Dunia Digital, Internet & Media Sosial',
+  'Bahasa Inggris Menengah': 'Kosakata Bahasa Inggris Menengah',
+  'Mitologi Dunia': 'Mitologi, Kisah Klasik & Legenda Dunia',
+  'Penjelajahan Antariksa': 'Penjelajahan Antariksa & Misi Luar Angkasa',
 };
 
 levels.forEach((lvl, idx) => {

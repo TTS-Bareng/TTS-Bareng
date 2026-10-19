@@ -62,6 +62,9 @@ import {
   HeartPulse,
   Apple,
   Share2,
+  Languages,
+  Crown,
+  Rocket,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
@@ -122,6 +125,9 @@ const REALM_ICONS: Record<string, React.ElementType> = {
   theme_49_anatomi: HeartPulse,
   theme_50_kesehatangizi: Apple,
   theme_51_duniadigital: Share2,
+  theme_52_bahasainggris: Languages,
+  theme_53_mitologi: Crown,
+  theme_54_antariksa: Rocket,
 };
 
 /** Crossword Grid Pattern Overlay (Oversized Graphic Watermark Texture) */
