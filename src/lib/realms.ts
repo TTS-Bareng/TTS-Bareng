@@ -317,6 +317,20 @@ export const REALMS: RealmDefinition[] = [
     subtitle: 'Kaca pembesar detektif, penyelidikan bukti sidik jari, ruang sidang hakim, dan ketertiban hukum',
     categories: ['Kriminologi'],
   },
+  {
+    id: 'theme_45_internasional',
+    name: 'Hubungan Internasional & Diplomasi Bangsa',
+    tag: 'Diplomasi & Global',
+    subtitle: 'Kemitraan antarbangsa, konferensi organisasi dunia, paspor lintas batas, dan misi perdamaian',
+    categories: ['Hubungan Internasional'],
+  },
+  {
+    id: 'theme_46_senirupa',
+    name: 'Seni Rupa, Desain & Arsitektur Nusantara',
+    tag: 'Seni & Arsitektur',
+    subtitle: 'Arsitektur rumah adat, ukiran kriya kayu, galeri lukisan maestro, dan estetika visual modern',
+    categories: ['Seni & Arsitektur'],
+  },
 ];
 
 export function getRealmForCategory(category?: string): RealmDefinition {

@@ -53,6 +53,8 @@ const categoryToRealm = {
   'Karir & Finansial': 'Karir, Dunia Kerja & Finansial Modern',
   'Agraria & Pangan': 'Agraria, Hayati & Pangan Nusantara',
   'Kriminologi': 'Kriminologi & Penegakan Keadilan',
+  'Hubungan Internasional': 'Hubungan Internasional & Diplomasi Bangsa',
+  'Seni & Arsitektur': 'Seni Rupa, Desain & Arsitektur Nusantara',
 };
 
 levels.forEach((lvl, idx) => {
