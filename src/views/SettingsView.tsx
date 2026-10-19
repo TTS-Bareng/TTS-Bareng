@@ -20,9 +20,11 @@ import {
   Palette,
   Shield,
   ChevronRight,
+  Music,
 } from 'lucide-react';
-import { useGameStore } from '../store/useGameStore';
+import { useGameStore, type SoundPackKey } from '../store/useGameStore';
 import { THEMES, type ThemeKey } from '../lib/themes';
+import { soundManager } from '../lib/audio';
 
 export const SettingsView: React.FC = () => {
   const {
@@ -42,6 +44,7 @@ export const SettingsView: React.FC = () => {
     openLegalModal,
     openPlayerIdModal,
     user,
+    setSoundPack,
     restartOnboarding,
   } = useGameStore();
 
@@ -325,6 +328,71 @@ export const SettingsView: React.FC = () => {
               />
             </button>
           </div>
+
+          {/* Sub-row: Sound Pack Selector (Only if soundEnabled) */}
+          {soundEnabled && (
+            <div className="px-3 pb-3 pt-1 border-t border-black/5 dark:border-white/5">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[9.5px] font-black uppercase tracking-wider text-[var(--accent-main)] flex items-center gap-1">
+                  <Music className="w-3 h-3" />
+                  <span>Paket Karakter Suara Ketikan</span>
+                </span>
+                <span className="text-[8.5px] font-semibold text-[var(--text-secondary)]">
+                  Sentuh untuk uji
+                </span>
+              </div>
+              <div className="grid grid-cols-3 gap-1.5">
+                {[
+                  {
+                    id: 'apple_tactile' as SoundPackKey,
+                    name: 'Apple Tactile',
+                    desc: 'Mekanis iOS',
+                    icon: '🍎',
+                    play: () => soundManager.playKeyClick(),
+                  },
+                  {
+                    id: 'gamelan_classic' as SoundPackKey,
+                    name: 'Gamelan',
+                    desc: 'Slendro Lonceng',
+                    icon: '🔔',
+                    play: () => soundManager.playGamelanBell(),
+                  },
+                  {
+                    id: 'acoustic_nylon' as SoundPackKey,
+                    name: 'Akustik Dawai',
+                    desc: 'Senar Gitar',
+                    icon: '🎸',
+                    play: () => soundManager.playAcousticStrum(),
+                  },
+                ].map((pack) => {
+                  const isSelected = (user.soundPack || 'apple_tactile') === pack.id;
+                  return (
+                    <button
+                      key={pack.id}
+                      type="button"
+                      onClick={() => {
+                        setSoundPack(pack.id);
+                        pack.play();
+                      }}
+                      className={`p-2 rounded-xl flex flex-col items-center text-center gap-1 transition-all cursor-pointer tactile-active border ${
+                        isSelected
+                          ? 'bg-[var(--accent-light)] border-[var(--accent-main)]/40 ring-1 ring-[var(--accent-main)]/30 shadow-2xs'
+                          : 'bg-black/[0.02] dark:bg-white/[0.03] border-black/5 dark:border-white/10 hover:border-black/15'
+                      }`}
+                    >
+                      <span className="text-[14px]">{pack.icon}</span>
+                      <span className="text-[10px] font-black text-[var(--text-primary)] leading-tight">
+                        {pack.name}
+                      </span>
+                      <span className="text-[8px] text-[var(--text-secondary)] leading-tight">
+                        {pack.desc}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Row 2: Getaran Haptik */}
           <div className="flex items-center justify-between p-3">

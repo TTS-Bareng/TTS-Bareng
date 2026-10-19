@@ -16,6 +16,7 @@ import { DailyRushBriefingModal } from '../components/DailyRushBriefingModal';
 import confetti from 'canvas-confetti';
 import { type LevelData } from '../lib/crossword';
 import { MASCOTS } from '../assets/maskots';
+import { getAvatarFrame } from '../lib/avatarFrames';
 
 /** Crossword Grid Pattern Overlay (Oversized Graphic Watermark Texture) */
 const CrosswordPatternOverlay: React.FC<{ level: LevelData }> = ({ level }) => {
@@ -261,6 +262,8 @@ export const HomeView: React.FC = () => {
     )
   );
 
+  const activeFrame = getAvatarFrame(user.avatarFrame);
+
   const cleanCategory = (currentLevel.category || 'Eksplorasi').toUpperCase();
 
   return (
@@ -276,7 +279,7 @@ export const HomeView: React.FC = () => {
             aria-label="Ganti Foto Profil"
             className="relative cursor-pointer tactile-active shrink-0"
           >
-            <div className="w-10.5 h-10.5 rounded-full p-0.5 bg-gradient-to-tr from-[var(--accent-main)] to-[var(--accent-light)] flex items-center justify-center shadow-2xs">
+            <div className={`w-10.5 h-10.5 rounded-full p-0.5 ${activeFrame.ringClass} ${activeFrame.glowClass} flex items-center justify-center shadow-2xs transition-all duration-300`}>
               <div className="w-full h-full rounded-full overflow-hidden bg-[var(--bg-card)] flex items-center justify-center border border-white/20">
                 {isCustomImageAvatar ? (
                   <img

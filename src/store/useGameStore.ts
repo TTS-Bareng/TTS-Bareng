@@ -45,12 +45,17 @@ export interface BoardSnapshotPayload {
   senderName: string;
 }
 
+export type AvatarFrameKey = 'classic' | 'champion_gold' | 'sapphire' | 'emerald';
+export type SoundPackKey = 'apple_tactile' | 'gamelan_classic' | 'acoustic_nylon';
+
 export interface UserProfile {
   id?: string;
   name: string;
   email?: string;
   isGuest: boolean;
   avatar: string;
+  avatarFrame?: AvatarFrameKey;
+  soundPack?: SoundPackKey;
   joinedAt: string;
 }
 
@@ -186,6 +191,12 @@ interface GameState {
   startTournamentMatch: () => void;
   tickTournamentAi: () => void;
   tournamentAiCooldown: number;
+  tournamentTickets: number;
+  lastTicketClaimDate: string;
+  claimDailyTicket: () => boolean;
+  buyTournamentTicketWithStars: () => boolean;
+  setAvatarFrame: (frame: AvatarFrameKey) => void;
+  setSoundPack: (pack: SoundPackKey) => void;
 
   // User Profile
   user: UserProfile;
@@ -390,6 +401,23 @@ const STORAGE_KEY_LAST_COMPLETED_DAY = 'tts_quest_last_completed_day';
 const STORAGE_KEY_ERROR_FEEDBACK = 'tts_quest_error_feedback_mode';
 const STORAGE_KEY_AUTO_ADVANCE = 'tts_auto_advance';
 const STORAGE_KEY_ONBOARDED = 'tts_quest_onboarded';
+const STORAGE_KEY_TICKETS = 'tts_tournament_tickets_v1';
+const STORAGE_KEY_TICKET_DATE = 'tts_last_ticket_claim_v1';
+
+function getInitialTickets(): number {
+  if (typeof window === 'undefined') return 3;
+  const saved = localStorage.getItem(STORAGE_KEY_TICKETS);
+  if (saved !== null) {
+    const num = parseInt(saved, 10);
+    if (!isNaN(num) && num >= 0) return num;
+  }
+  return 3;
+}
+
+function getInitialTicketDate(): string {
+  if (typeof window === 'undefined') return '';
+  return localStorage.getItem(STORAGE_KEY_TICKET_DATE) || '';
+}
 
 function getInitialAuthStage(): 'auth' | 'onboarding' | 'completed' {
   if (typeof window === 'undefined') return 'completed';
@@ -1366,9 +1394,65 @@ export const useGameStore = create<GameState>((set, get) => ({
   openTournamentResult: () => set({ isTournamentResultOpen: true }),
   closeTournamentResult: () => set({ isTournamentResultOpen: false }),
   tournamentAiCooldown: 8,
+  tournamentTickets: getInitialTickets(),
+  lastTicketClaimDate: getInitialTicketDate(),
+
+  claimDailyTicket: () => {
+    const today = getTodayDateString();
+    const { lastTicketClaimDate, tournamentTickets } = get();
+    if (lastTicketClaimDate === today) {
+      get().showGlobalToast('Tiket harian sudah diambil hari ini!');
+      return false;
+    }
+    const nextTickets = tournamentTickets + 1;
+    localStorage.setItem(STORAGE_KEY_TICKETS, String(nextTickets));
+    localStorage.setItem(STORAGE_KEY_TICKET_DATE, today);
+    set({
+      tournamentTickets: nextTickets,
+      lastTicketClaimDate: today,
+    });
+    get().showGlobalToast('🎟️ +1 Tiket Turnamen Harian Berhasil Diklaim!');
+    return true;
+  },
+
+  buyTournamentTicketWithStars: () => {
+    const { stars, tournamentTickets, showGlobalToast } = get();
+    if (stars < 50) {
+      showGlobalToast('Bintang tidak mencukupi (Butuh 50★)!');
+      return false;
+    }
+    const nextStars = stars - 50;
+    const nextTickets = tournamentTickets + 1;
+    localStorage.setItem(STORAGE_KEY_STARS, String(nextStars));
+    localStorage.setItem(STORAGE_KEY_TICKETS, String(nextTickets));
+    set({
+      stars: nextStars,
+      tournamentTickets: nextTickets,
+    });
+    showGlobalToast('🎟️ Berhasil Menukar 50★ dengan 1 Tiket Turnamen!');
+    return true;
+  },
+
+  setAvatarFrame: (frame: AvatarFrameKey) => {
+    const { user, setUser } = get();
+    setUser({ ...user, avatarFrame: frame });
+    get().showGlobalToast(`Bingkai paspor berhasil diubah!`);
+  },
+
+  setSoundPack: (pack: SoundPackKey) => {
+    const { user, setUser } = get();
+    setUser({ ...user, soundPack: pack });
+    get().showGlobalToast(`Paket suara diperbarui!`);
+  },
 
   startTournamentMatch: () => {
-    const { tournamentState, levels, soundEnabled, hapticEnabled } = get();
+    const { tournamentState, tournamentTickets, levels, soundEnabled, hapticEnabled } = get();
+
+    if (tournamentTickets <= 0) {
+      get().showGlobalToast('Tiket turnamen habis! Klaim tiket harian gratis atau tukar 50★.');
+      return;
+    }
+
     const currentRoundKey = tournamentState.currentRound;
     const currentMatches = tournamentState.matches[currentRoundKey];
     const playerMatch = currentMatches.find((m) => m.isPlayerMatch);
@@ -1377,6 +1461,9 @@ export const useGameStore = create<GameState>((set, get) => ({
       get().showGlobalToast('Tidak ada pertandingan aktif untukmu.');
       return;
     }
+
+    const nextTickets = tournamentTickets - 1;
+    localStorage.setItem(STORAGE_KEY_TICKETS, String(nextTickets));
 
     const opponent = playerMatch.player1.isPlayer ? playerMatch.player2 : playerMatch.player1;
     const targetLevelIdx = findLevelForWordCount(levels, playerMatch.wordCount);
@@ -1390,6 +1477,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     const initialAiCooldown = Math.max(5, Math.floor(13 - (opponent.speedRating - 70) * 0.25));
 
     set({
+      tournamentTickets: nextTickets,
       gameMode: '1v1_battle',
       activeTournamentMatch: playerMatch,
       battleConfig: {
@@ -2164,7 +2252,16 @@ export const useGameStore = create<GameState>((set, get) => ({
     if (get().activeRoomCode) {
       mabarRealtime.broadcastInput(key, letter.toUpperCase());
     }
-    if (soundEnabled) soundManager.playKeyClick();
+    if (soundEnabled) {
+      const sp = get().user?.soundPack;
+      if (sp === 'gamelan_classic') {
+        soundManager.playGamelanBell();
+      } else if (sp === 'acoustic_nylon') {
+        soundManager.playAcousticStrum();
+      } else {
+        soundManager.playKeyClick();
+      }
+    }
     if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
       navigator.vibrate(6);
     }

@@ -19,6 +19,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
+import { getAvatarFrame } from '../lib/avatarFrames';
 
 interface CircularProgressProps {
   percent: number;
@@ -103,6 +104,8 @@ export const ProfileView: React.FC = () => {
       user.avatar.includes('.png')
     )
   );
+
+  const activeFrame = getAvatarFrame(user.avatarFrame);
 
   // Compute real statistics (Zero Dummy Data)
   const totalCompletedLevels = useMemo(() => {
@@ -404,7 +407,7 @@ export const ProfileView: React.FC = () => {
             aria-label="Ganti Foto Profil"
             className="relative group cursor-pointer tactile-active shrink-0"
           >
-            <div className="w-14 h-14 rounded-full p-0.5 bg-white/25 border-2 border-white/50 flex items-center justify-center overflow-hidden shadow-sm">
+            <div className={`w-14 h-14 rounded-full p-0.5 ${activeFrame.ringClass} ${activeFrame.glowClass} flex items-center justify-center overflow-hidden shadow-sm transition-all duration-300`}>
               <div className="w-full h-full rounded-full overflow-hidden bg-black/25 flex items-center justify-center">
                 {isCustomImageAvatar ? (
                   <img

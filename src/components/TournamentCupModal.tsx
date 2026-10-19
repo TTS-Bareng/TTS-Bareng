@@ -8,8 +8,9 @@ import {
   RotateCcw,
   Shield,
   Medal,
+  Ticket,
 } from 'lucide-react';
-import { useGameStore } from '../store/useGameStore';
+import { useGameStore, getTodayDateString } from '../store/useGameStore';
 import {
   type TournamentRoundKey,
   ROUND_NAMES,
@@ -31,6 +32,11 @@ export const TournamentCupModal: React.FC = () => {
     resetTournament,
     startTournamentMatch,
     trophies,
+    stars,
+    tournamentTickets,
+    lastTicketClaimDate,
+    claimDailyTicket,
+    buyTournamentTicketWithStars,
   } = useGameStore();
 
   const [selectedRound, setSelectedRound] = useState<TournamentRoundKey>(
@@ -125,6 +131,43 @@ export const TournamentCupModal: React.FC = () => {
                   <Shield className="w-3.5 h-3.5 stroke-[2]" />
                   <span>{trophies.bronze} Perunggu</span>
                 </div>
+              </div>
+            </div>
+
+            {/* Tournament Tickets & Claims Bar */}
+            <div className="flex items-center justify-between px-3 py-1.5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-[10px]">
+              <div className="flex items-center gap-1.5">
+                <Ticket className="w-3.5 h-3.5 text-amber-500 stroke-[2.2]" />
+                <span className="font-black text-[var(--text-primary)]">
+                  {tournamentTickets} Tiket Masuk
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={claimDailyTicket}
+                  disabled={lastTicketClaimDate === getTodayDateString()}
+                  className={`px-2 py-0.5 rounded-lg text-[8.5px] font-black transition-all ${
+                    lastTicketClaimDate === getTodayDateString()
+                      ? 'bg-black/10 dark:bg-white/10 text-[var(--text-secondary)] opacity-60 cursor-not-allowed'
+                      : 'bg-amber-500 text-zinc-950 hover:bg-amber-400 cursor-pointer tactile-active shadow-2xs'
+                  }`}
+                >
+                  {lastTicketClaimDate === getTodayDateString() ? 'Klaim: Selesai' : '+1 Tiket Harian'}
+                </button>
+                <button
+                  type="button"
+                  onClick={buyTournamentTicketWithStars}
+                  disabled={stars < 50}
+                  className={`px-2 py-0.5 rounded-lg text-[8.5px] font-black transition-all ${
+                    stars < 50
+                      ? 'bg-black/10 dark:bg-white/10 text-[var(--text-secondary)] opacity-60 cursor-not-allowed'
+                      : 'bg-black/10 dark:bg-white/10 text-[var(--text-primary)] border border-black/10 dark:border-white/15 hover:border-amber-400 cursor-pointer tactile-active'
+                  }`}
+                  title="Tukar 50 Bintang untuk 1 Tiket"
+                >
+                  +1 Tiket (50★)
+                </button>
               </div>
             </div>
 
@@ -373,10 +416,24 @@ export const TournamentCupModal: React.FC = () => {
                 <button
                   type="button"
                   onClick={startTournamentMatch}
-                  className="w-full py-3 rounded-2xl bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[13px] font-black flex items-center justify-center gap-2 cursor-pointer tactile-active shadow-md hover:opacity-95 transition-all"
+                  disabled={tournamentTickets <= 0}
+                  className={`w-full py-3 rounded-2xl text-[13px] font-black flex items-center justify-center gap-2 transition-all ${
+                    tournamentTickets > 0
+                      ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] cursor-pointer tactile-active shadow-md hover:opacity-95'
+                      : 'bg-amber-500/20 text-amber-500 border border-amber-500/30 cursor-not-allowed'
+                  }`}
                 >
-                  <Swords className="w-4 h-4 stroke-[2.5]" />
-                  <span>Mulai Babak Ini ⚡</span>
+                  {tournamentTickets > 0 ? (
+                    <>
+                      <Swords className="w-4 h-4 stroke-[2.5]" />
+                      <span>Mulai Babak Ini (-1 Tiket) ⚡</span>
+                    </>
+                  ) : (
+                    <>
+                      <Ticket className="w-4 h-4 stroke-[2.5]" />
+                      <span>Tiket Habis • Klaim Gratis di Atas</span>
+                    </>
+                  )}
                 </button>
               </div>
             ) : (

@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Camera, Upload, Check, User } from 'lucide-react';
-import { useGameStore } from '../store/useGameStore';
+import { X, Camera, Upload, Check, User, Lock, Sparkles, Shield } from 'lucide-react';
+import { useGameStore, type AvatarFrameKey } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
+import { AVATAR_FRAMES, getAvatarFrame } from '../lib/avatarFrames';
 
 const MASCOT_AVATARS = [
   { id: 'champion', name: 'Sang Juara', src: MASCOTS.crosswordChampion },
@@ -25,12 +26,18 @@ interface AvatarPickerModalProps {
 }
 
 export const AvatarPickerModal: React.FC<AvatarPickerModalProps> = ({ isOpen, onClose }) => {
-  const { user, setUser } = useGameStore();
+  const { user, setUser, trophies, stars, levelRecords } = useGameStore();
+  const [activeTab, setActiveTab] = useState<'avatar' | 'frame'>('avatar');
   const [selectedAvatar, setSelectedAvatar] = useState<string>(
     user.avatar || MASCOTS.crosswordChampion
   );
+  const [selectedFrame, setSelectedFrame] = useState<AvatarFrameKey>(
+    user.avatarFrame || 'classic'
+  );
   const [name, setName] = useState<string>(user.name || 'Pemain TTS');
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const previewFrameDef = getAvatarFrame(selectedFrame);
 
   // Handle uploading custom photo and resizing it to 128x128 for lightweight localStorage persistence
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,6 +76,7 @@ export const AvatarPickerModal: React.FC<AvatarPickerModalProps> = ({ isOpen, on
       ...user,
       name: name.trim() || user.name || 'Pemain TTS',
       avatar: selectedAvatar,
+      avatarFrame: selectedFrame,
     });
     onClose();
   };
@@ -102,7 +110,7 @@ export const AvatarPickerModal: React.FC<AvatarPickerModalProps> = ({ isOpen, on
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.92, opacity: 0, y: 15 }}
             transition={{ type: 'spring', damping: 25, stiffness: 320 }}
-            className="relative w-full max-w-[340px] rounded-[28px] border border-[var(--border-card)] p-5 select-none shadow-2xl liquid-glass-card overflow-hidden"
+            className="relative w-full max-w-[350px] rounded-[28px] border border-[var(--border-card)] p-5 select-none shadow-2xl liquid-glass-card overflow-hidden"
           >
             {/* Top Specular Sheen */}
             <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
@@ -118,19 +126,26 @@ export const AvatarPickerModal: React.FC<AvatarPickerModalProps> = ({ isOpen, on
             </button>
 
             {/* Header */}
-            <div className="text-center mb-4">
+            <div className="text-center mb-3">
               <h3 className="text-[16px] font-black tracking-tight text-[var(--text-primary)]">
-                Ganti Foto Profil
+                Kustomisasi Paspor
               </h3>
               <p className="text-[11px] text-[var(--text-secondary)] font-medium">
-                Pilih karakter resmi atau unggah foto sendiri
+                Pilih karakter maskot atau bingkai prestise
               </p>
             </div>
 
-            {/* Avatar Preview & Upload Trigger */}
-            <div className="flex flex-col items-center justify-center mb-4">
-              <div className="relative group cursor-pointer" onClick={() => fileInputRef.current?.click()}>
-                <div className="w-20 h-20 rounded-full liquid-glass-card border-2 border-[var(--accent-main)]/50 flex items-center justify-center overflow-hidden shadow-md bg-black/5 dark:bg-white/5 p-1">
+            {/* Avatar & Frame Preview Display */}
+            <div className="flex flex-col items-center justify-center mb-3">
+              <div
+                className="relative group cursor-pointer"
+                onClick={() => {
+                  if (activeTab === 'avatar') fileInputRef.current?.click();
+                }}
+              >
+                <div
+                  className={`w-20 h-20 rounded-full liquid-glass-card ${previewFrameDef.ringClass} ${previewFrameDef.glowClass} flex items-center justify-center overflow-hidden shadow-md bg-black/5 dark:bg-white/5 p-1 transition-all duration-300`}
+                >
                   {isImageAvatar(selectedAvatar) ? (
                     <img
                       src={selectedAvatar}
@@ -146,10 +161,16 @@ export const AvatarPickerModal: React.FC<AvatarPickerModalProps> = ({ isOpen, on
                   )}
                 </div>
 
-                {/* Camera upload badge */}
-                <div className="absolute bottom-0 right-0 w-6.5 h-6.5 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] flex items-center justify-center shadow-md border-2 border-[var(--bg-card)]">
-                  <Camera className="w-3.5 h-3.5 stroke-[2.4]" />
-                </div>
+                {/* Badge indicator on avatar bottom right */}
+                {activeTab === 'avatar' ? (
+                  <div className="absolute bottom-0 right-0 w-6.5 h-6.5 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] flex items-center justify-center shadow-md border-2 border-[var(--bg-card)]">
+                    <Camera className="w-3.5 h-3.5 stroke-[2.4]" />
+                  </div>
+                ) : (
+                  <div className="absolute bottom-0 right-0 w-6.5 h-6.5 rounded-full bg-black/80 text-white flex items-center justify-center shadow-md border-2 border-[var(--bg-card)] text-[11px]">
+                    {previewFrameDef.badgeIcon}
+                  </div>
+                )}
               </div>
 
               <input
@@ -160,18 +181,20 @@ export const AvatarPickerModal: React.FC<AvatarPickerModalProps> = ({ isOpen, on
                 className="hidden"
               />
 
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                className="mt-2 text-[10.5px] font-bold text-[var(--accent-main)] hover:underline flex items-center gap-1 cursor-pointer"
-              >
-                <Upload className="w-3 h-3" />
-                <span>Unggah Foto Sendiri</span>
-              </button>
+              {activeTab === 'avatar' && (
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="mt-1.5 text-[10.5px] font-bold text-[var(--accent-main)] hover:underline flex items-center gap-1 cursor-pointer"
+                >
+                  <Upload className="w-3 h-3" />
+                  <span>Unggah Foto Sendiri</span>
+                </button>
+              )}
             </div>
 
             {/* Name Input */}
-            <div className="mb-4">
+            <div className="mb-3">
               <label className="text-[9.5px] font-bold uppercase tracking-wider text-[var(--text-secondary)] block mb-1">
                 Nama Tampilan
               </label>
@@ -188,46 +211,148 @@ export const AvatarPickerModal: React.FC<AvatarPickerModalProps> = ({ isOpen, on
               </div>
             </div>
 
-            {/* Mascot Characters Grid */}
-            <div className="mb-4">
-              <div className="flex items-center justify-between mb-1.5">
-                <label className="text-[9.5px] font-bold uppercase tracking-wider text-[var(--text-secondary)] block">
-                  Karakter TTS Bareng
-                </label>
-                <span className="text-[8.5px] font-bold text-[var(--accent-main)]">
-                  {MASCOT_AVATARS.length} Karakter
-                </span>
-              </div>
-              <div className="grid grid-cols-4 gap-2 max-h-[145px] overflow-y-auto p-1.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10">
-                {MASCOT_AVATARS.map((mascot) => {
-                  const isSelected = selectedAvatar === mascot.src;
-                  return (
-                    <button
-                      key={mascot.id}
-                      type="button"
-                      title={mascot.name}
-                      onClick={() => setSelectedAvatar(mascot.src)}
-                      className={`relative aspect-square rounded-2xl p-1 flex items-center justify-center transition-all cursor-pointer tactile-active overflow-hidden ${
-                        isSelected
-                          ? 'bg-[var(--accent-light)] ring-2 ring-[var(--accent-main)] shadow-xs scale-105'
-                          : 'bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15'
-                      }`}
-                    >
-                      <img
-                        src={mascot.src}
-                        alt={mascot.name}
-                        className="w-full h-full object-contain filter drop-shadow-sm"
-                      />
-                      {isSelected && (
-                        <div className="absolute top-1 right-1 w-3.5 h-3.5 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] flex items-center justify-center shadow-xs">
-                          <Check className="w-2.5 h-2.5 stroke-[3]" />
-                        </div>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
+            {/* Segmented Tab Switcher */}
+            <div className="flex p-0.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 mb-3">
+              <button
+                type="button"
+                onClick={() => setActiveTab('avatar')}
+                className={`flex-1 py-1.5 rounded-lg text-[10.5px] font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                  activeTab === 'avatar'
+                    ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-xs'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                }`}
+              >
+                <Sparkles className="w-3 h-3" />
+                <span>Maskot Avatar</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('frame')}
+                className={`flex-1 py-1.5 rounded-lg text-[10.5px] font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                  activeTab === 'frame'
+                    ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-xs'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                }`}
+              >
+                <Shield className="w-3 h-3" />
+                <span>Bingkai Paspor</span>
+              </button>
             </div>
+
+            {/* Tab 1: Mascot Characters Grid */}
+            {activeTab === 'avatar' && (
+              <div className="mb-4">
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-[var(--text-secondary)]">
+                    Karakter TTS Bareng
+                  </span>
+                  <span className="text-[8.5px] font-bold text-[var(--accent-main)]">
+                    {MASCOT_AVATARS.length} Karakter
+                  </span>
+                </div>
+                <div className="grid grid-cols-4 gap-2 max-h-[145px] overflow-y-auto p-1.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10">
+                  {MASCOT_AVATARS.map((mascot) => {
+                    const isSelected = selectedAvatar === mascot.src;
+                    return (
+                      <button
+                        key={mascot.id}
+                        type="button"
+                        title={mascot.name}
+                        onClick={() => setSelectedAvatar(mascot.src)}
+                        className={`relative aspect-square rounded-2xl p-1 flex items-center justify-center transition-all cursor-pointer tactile-active overflow-hidden ${
+                          isSelected
+                            ? 'bg-[var(--accent-light)] ring-2 ring-[var(--accent-main)] shadow-xs scale-105'
+                            : 'bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15'
+                        }`}
+                      >
+                        <img
+                          src={mascot.src}
+                          alt={mascot.name}
+                          className="w-full h-full object-contain filter drop-shadow-sm"
+                        />
+                        {isSelected && (
+                          <div className="absolute top-1 right-1 w-3.5 h-3.5 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] flex items-center justify-center shadow-xs">
+                            <Check className="w-2.5 h-2.5 stroke-[3]" />
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Tab 2: Passport Avatar Frames */}
+            {activeTab === 'frame' && (
+              <div className="mb-4">
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-[var(--text-secondary)]">
+                    Koleksi Bingkai Prestise
+                  </span>
+                  <span className="text-[8.5px] font-bold text-[var(--accent-main)]">
+                    Prestise Apple Minimalis
+                  </span>
+                </div>
+                <div className="flex flex-col gap-2 max-h-[145px] overflow-y-auto pr-0.5 no-scrollbar">
+                  {AVATAR_FRAMES.map((f) => {
+                    const isUnlocked = f.checkUnlocked({
+                      trophies: trophies || { gold: 0, silver: 0, bronze: 0 },
+                      stars: stars || 0,
+                      completedLevelsCount: Object.values(levelRecords || {}).filter((r) => r.completed).length,
+                    });
+                    const isSelected = selectedFrame === f.id;
+
+                    return (
+                      <button
+                        key={f.id}
+                        type="button"
+                        disabled={!isUnlocked}
+                        onClick={() => isUnlocked && setSelectedFrame(f.id)}
+                        className={`w-full p-2 rounded-2xl border transition-all text-left flex items-center justify-between gap-2.5 ${
+                          isSelected
+                            ? 'bg-[var(--accent-light)] border-[var(--accent-main)] ring-1.5 ring-[var(--accent-main)]/30'
+                            : isUnlocked
+                            ? 'bg-black/5 dark:bg-white/5 border-black/5 dark:border-white/10 hover:border-black/15 cursor-pointer tactile-active'
+                            : 'bg-black/[0.02] dark:bg-white/[0.02] border-black/5 dark:border-white/5 opacity-60 cursor-not-allowed'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          {/* Mini frame preview ring */}
+                          <div
+                            className={`w-8 h-8 rounded-full ${f.ringClass} ${f.glowClass} flex items-center justify-center text-[12px] shrink-0 bg-black/5 dark:bg-white/10`}
+                          >
+                            <span>{f.badgeIcon}</span>
+                          </div>
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-1.5">
+                              <h4 className="text-[11px] font-black text-[var(--text-primary)] leading-tight truncate">
+                                {f.name}
+                              </h4>
+                              <span className="text-[8px] font-bold px-1.5 py-0.2 rounded-md bg-black/5 dark:bg-white/10 text-[var(--text-secondary)]">
+                                {f.badgeLabel}
+                              </span>
+                            </div>
+                            <span className="text-[9px] text-[var(--text-secondary)] block truncate">
+                              {isUnlocked ? f.subtitle : f.unlockRequirement}
+                            </span>
+                          </div>
+                        </div>
+
+                        {isSelected ? (
+                          <div className="w-5 h-5 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] flex items-center justify-center shrink-0 shadow-xs">
+                            <Check className="w-3 h-3 stroke-[3]" />
+                          </div>
+                        ) : !isUnlocked ? (
+                          <div className="w-5 h-5 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center shrink-0 text-[var(--text-secondary)]">
+                            <Lock className="w-2.5 h-2.5 stroke-[2.2]" />
+                          </div>
+                        ) : null}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
             {/* Action Button */}
             <button
