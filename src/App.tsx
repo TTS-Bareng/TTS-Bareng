@@ -16,6 +16,9 @@ const SettingsView = lazy(() => import('./views/SettingsView').then((m) => ({ de
 const AuthModal = lazy(() => import('./components/AuthModal').then((m) => ({ default: m.AuthModal })));
 const LeaderboardModal = lazy(() => import('./components/LeaderboardModal').then((m) => ({ default: m.LeaderboardModal })));
 const ShareModal = lazy(() => import('./components/ShareModal').then((m) => ({ default: m.ShareModal })));
+const StreakSavedModal = lazy(() => import('./components/StreakSavedModal').then((m) => ({ default: m.StreakSavedModal })));
+const LeagueModal = lazy(() => import('./components/LeagueModal').then((m) => ({ default: m.LeagueModal })));
+const AchievementDetailModal = lazy(() => import('./components/AchievementDetailModal').then((m) => ({ default: m.AchievementDetailModal })));
 
 const ViewLoadingFallback: React.FC = () => (
   <div className="w-full flex-1 flex flex-col items-center justify-center p-8 select-none">
@@ -48,12 +51,18 @@ export const App: React.FC = () => {
     setActiveRoomCode,
     globalToast,
     showGlobalToast,
+    checkDailyStreakOnMount,
   } = useGameStore();
 
   // Apply theme tokens on initial mount and when theme changes
   useEffect(() => {
     applyTheme(theme);
   }, [theme]);
+
+  // Check daily streak and streak shield protection on initial mount
+  useEffect(() => {
+    checkDailyStreakOnMount();
+  }, [checkDailyStreakOnMount]);
 
   // Deep Link & URL Query Sync Engine (?room=TTS-XXXX or ?level=N)
   useEffect(() => {
@@ -178,11 +187,14 @@ export const App: React.FC = () => {
       {/* 2. Sleek Bottom Tab Navigation */}
       <NavigationBottomBar />
 
-      {/* 3. Global Modals (Auth, Leaderboard, Share) with Suspense */}
+      {/* 3. Global Modals (Auth, Leaderboard, Share, Retention, League) with Suspense */}
       <Suspense fallback={null}>
         <AuthModal />
         <LeaderboardModal />
         <ShareModal />
+        <StreakSavedModal />
+        <LeagueModal />
+        <AchievementDetailModal />
       </Suspense>
     </div>
   );

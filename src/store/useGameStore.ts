@@ -96,6 +96,18 @@ export interface DailyRushLastRun {
   date: string;
 }
 
+export interface AchievementDetailData {
+  id: string;
+  title: string;
+  desc: string;
+  rarity: 'Umum' | 'Langka' | 'Epik' | 'Legendaris';
+  unlocked: boolean;
+  progress: string;
+  percent: number;
+  rewardStars: number;
+  unlockedDate?: string;
+}
+
 interface GameState {
   // Navigation
   currentTab: TabType;
@@ -169,9 +181,33 @@ interface GameState {
   playRandomLevel: () => void;
   levelRecords: Record<string, LevelProgressRecord>;
 
-  // Streak & Currency
+  // Streak, Currency & Retention Engine (Opsi A)
   streak: number;
+  streakShields: number;
+  lastActiveDate: string;
+  isStreakSavedModalOpen: boolean;
+  openStreakSavedModal: () => void;
+  closeStreakSavedModal: () => void;
+  buyStreakShield: () => boolean;
+  checkDailyStreakOnMount: () => void;
+  incrementStreakIfNewDay: () => void;
   stars: number;
+
+  // Divisi Liga Mingguan (Weekly Leagues)
+  weeklyLeagueXp: number;
+  weeklyLeagueWeekKey: string;
+  isLeagueModalOpen: boolean;
+  openLeagueModal: () => void;
+  closeLeagueModal: () => void;
+  addWeeklyLeagueXp: (amount: number) => void;
+
+  // Achievement Detail & Rewards
+  selectedAchievement: AchievementDetailData | null;
+  isAchievementModalOpen: boolean;
+  claimedAchievementRewards: Record<string, boolean>;
+  openAchievementDetail: (achievement: AchievementDetailData) => void;
+  closeAchievementDetail: () => void;
+  claimAchievementReward: (achievementId: string) => void;
 
   // Active play state
   activeClueId: string | null;
@@ -283,6 +319,81 @@ const STORAGE_KEY_HAPTIC = 'tts_haptics';
 const STORAGE_KEY_LEVEL_IDX = 'tts_quest_level_idx';
 const STORAGE_KEY_DAILY_RUSH = 'tts_quest_daily_rush_record';
 const STORAGE_KEY_ACTIVE_ROOM = 'tts_quest_active_room';
+const STORAGE_KEY_STREAK = 'tts_quest_streak';
+const STORAGE_KEY_STREAK_SHIELDS = 'tts_quest_streak_shields';
+const STORAGE_KEY_LAST_ACTIVE_DATE = 'tts_quest_last_active_date';
+const STORAGE_KEY_WEEKLY_LEAGUE_XP = 'tts_quest_weekly_league_xp';
+const STORAGE_KEY_WEEKLY_LEAGUE_WEEK = 'tts_quest_weekly_league_week';
+const STORAGE_KEY_CLAIMED_ACHIEVEMENTS = 'tts_quest_claimed_achievements';
+const STORAGE_KEY_LAST_COMPLETED_DAY = 'tts_quest_last_completed_day';
+
+export function getIsoWeekKey(d: Date = new Date()): string {
+  const target = new Date(d.valueOf());
+  const dayNr = (d.getDay() + 6) % 7;
+  target.setDate(target.getDate() - dayNr + 3);
+  const firstThursday = target.valueOf();
+  target.setMonth(0, 1);
+  if (target.getDay() !== 4) {
+    target.setMonth(0, 1 + ((4 - target.getDay() + 7) % 7));
+  }
+  const weekNum = 1 + Math.ceil((firstThursday - target.valueOf()) / 604800000);
+  return `${d.getFullYear()}-W${String(weekNum).padStart(2, '0')}`;
+}
+
+function getInitialStreak(): number {
+  if (typeof window === 'undefined') return 3;
+  const saved = localStorage.getItem(STORAGE_KEY_STREAK);
+  if (saved !== null) {
+    const num = parseInt(saved, 10);
+    if (!isNaN(num) && num >= 1) return num;
+  }
+  return 3;
+}
+
+function getInitialStreakShields(): number {
+  if (typeof window === 'undefined') return 1;
+  const saved = localStorage.getItem(STORAGE_KEY_STREAK_SHIELDS);
+  if (saved !== null) {
+    const num = parseInt(saved, 10);
+    if (!isNaN(num) && num >= 0 && num <= 2) return num;
+  }
+  return 1;
+}
+
+function getInitialLastActiveDate(): string {
+  if (typeof window === 'undefined') return getTodayDateString();
+  return localStorage.getItem(STORAGE_KEY_LAST_ACTIVE_DATE) || getTodayDateString();
+}
+
+function getInitialWeeklyLeagueXp(): number {
+  if (typeof window === 'undefined') return 240;
+  const currentWeek = getIsoWeekKey();
+  const savedWeek = localStorage.getItem(STORAGE_KEY_WEEKLY_LEAGUE_WEEK);
+  if (savedWeek !== currentWeek) {
+    localStorage.setItem(STORAGE_KEY_WEEKLY_LEAGUE_WEEK, currentWeek);
+    localStorage.setItem(STORAGE_KEY_WEEKLY_LEAGUE_XP, '240');
+    return 240;
+  }
+  const savedXp = localStorage.getItem(STORAGE_KEY_WEEKLY_LEAGUE_XP);
+  if (savedXp !== null) {
+    const num = parseInt(savedXp, 10);
+    if (!isNaN(num) && num >= 0) return num;
+  }
+  return 240;
+}
+
+function getInitialClaimedAchievements(): Record<string, boolean> {
+  if (typeof window === 'undefined') return {};
+  const saved = localStorage.getItem(STORAGE_KEY_CLAIMED_ACHIEVEMENTS);
+  if (saved) {
+    try {
+      return JSON.parse(saved);
+    } catch {
+      return {};
+    }
+  }
+  return {};
+}
 
 function getInitialActiveRoomCode(): string | null {
   if (typeof window === 'undefined') return null;
@@ -502,7 +613,171 @@ export const useGameStore = create<GameState>((set, get) => ({
   isDailyRushResultOpen: false,
   openDailyRushResult: () => set({ isDailyRushResultOpen: true }),
   closeDailyRushResult: () => set({ isDailyRushResultOpen: false }),
-  streak: 3,
+  streak: getInitialStreak(),
+  streakShields: getInitialStreakShields(),
+  lastActiveDate: getInitialLastActiveDate(),
+  isStreakSavedModalOpen: false,
+  openStreakSavedModal: () => set({ isStreakSavedModalOpen: true }),
+  closeStreakSavedModal: () => set({ isStreakSavedModalOpen: false }),
+
+  checkDailyStreakOnMount: () => {
+    const todayStr = getTodayDateString();
+    const lastActive = get().lastActiveDate;
+    if (!lastActive) {
+      localStorage.setItem(STORAGE_KEY_LAST_ACTIVE_DATE, todayStr);
+      set({ lastActiveDate: todayStr });
+      return;
+    }
+    if (lastActive === todayStr) {
+      return; // Already active today
+    }
+
+    // Calculate day difference
+    const [tY, tM, tD] = todayStr.split('-').map(Number);
+    const [lY, lM, lD] = lastActive.split('-').map(Number);
+    const tDate = new Date(tY, tM - 1, tD);
+    const lDate = new Date(lY, lM - 1, lD);
+    const diffDays = Math.round((tDate.getTime() - lDate.getTime()) / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 1) {
+      // Normal continuity
+      localStorage.setItem(STORAGE_KEY_LAST_ACTIVE_DATE, todayStr);
+      set({ lastActiveDate: todayStr });
+    } else if (diffDays === 2) {
+      // Missed exactly 1 day (yesterday)
+      const { streakShields, soundEnabled } = get();
+      if (streakShields > 0) {
+        const nextShields = streakShields - 1;
+        localStorage.setItem(STORAGE_KEY_STREAK_SHIELDS, String(nextShields));
+        localStorage.setItem(STORAGE_KEY_LAST_ACTIVE_DATE, todayStr);
+        set({
+          streakShields: nextShields,
+          lastActiveDate: todayStr,
+          isStreakSavedModalOpen: true,
+        });
+        if (soundEnabled) soundManager.playReward();
+      } else {
+        localStorage.setItem(STORAGE_KEY_STREAK, '1');
+        localStorage.setItem(STORAGE_KEY_LAST_ACTIVE_DATE, todayStr);
+        set({
+          streak: 1,
+          lastActiveDate: todayStr,
+        });
+        get().showGlobalToast('Streak terputus karena terlewat 1 hari tanpa perisai.', 3500);
+      }
+    } else if (diffDays > 2) {
+      // Missed multiple days
+      localStorage.setItem(STORAGE_KEY_STREAK, '1');
+      localStorage.setItem(STORAGE_KEY_LAST_ACTIVE_DATE, todayStr);
+      set({
+        streak: 1,
+        lastActiveDate: todayStr,
+      });
+      get().showGlobalToast('Streak terputus karena absen beberapa hari.', 3500);
+    }
+  },
+
+  incrementStreakIfNewDay: () => {
+    const today = getTodayDateString();
+    const lastCompleted = localStorage.getItem(STORAGE_KEY_LAST_COMPLETED_DAY);
+    if (lastCompleted === today) return; // already counted today
+
+    const nextStreak = get().streak + 1;
+    localStorage.setItem(STORAGE_KEY_LAST_COMPLETED_DAY, today);
+    localStorage.setItem(STORAGE_KEY_STREAK, String(nextStreak));
+    localStorage.setItem(STORAGE_KEY_LAST_ACTIVE_DATE, today);
+    set({
+      streak: nextStreak,
+      lastActiveDate: today,
+    });
+    get().showGlobalToast(`Api Streak Membara! 🔥 ${nextStreak} Hari Berturut-turut!`, 3200);
+  },
+
+  buyStreakShield: () => {
+    const { stars, streakShields, soundEnabled } = get();
+    if (streakShields >= 2) {
+      get().showGlobalToast('Slot Perisai sudah penuh (Maksimal 2 perisai).');
+      return false;
+    }
+    if (stars < 100) {
+      get().showGlobalToast('Bintang tidak cukup! Butuh 100★ untuk membeli perisai.');
+      return false;
+    }
+    const nextStars = stars - 100;
+    const nextShields = streakShields + 1;
+    localStorage.setItem(STORAGE_KEY_STARS, String(nextStars));
+    localStorage.setItem(STORAGE_KEY_STREAK_SHIELDS, String(nextShields));
+    set({
+      stars: nextStars,
+      streakShields: nextShields,
+    });
+    if (soundEnabled) soundManager.playReward();
+    confetti({
+      particleCount: 40,
+      spread: 60,
+      origin: { y: 0.7 },
+    });
+    get().showGlobalToast('Berhasil membeli 1 Perisai Runtun (-100★)!');
+    return true;
+  },
+
+  weeklyLeagueXp: getInitialWeeklyLeagueXp(),
+  weeklyLeagueWeekKey: getIsoWeekKey(),
+  isLeagueModalOpen: false,
+  openLeagueModal: () => set({ isLeagueModalOpen: true }),
+  closeLeagueModal: () => set({ isLeagueModalOpen: false }),
+
+  addWeeklyLeagueXp: (amount: number) => {
+    if (amount <= 0) return;
+    const currentWeek = getIsoWeekKey();
+    const { weeklyLeagueWeekKey, weeklyLeagueXp } = get();
+    let base = weeklyLeagueXp;
+    if (weeklyLeagueWeekKey !== currentWeek) {
+      base = 0;
+      localStorage.setItem(STORAGE_KEY_WEEKLY_LEAGUE_WEEK, currentWeek);
+    }
+    const newXp = base + amount;
+    localStorage.setItem(STORAGE_KEY_WEEKLY_LEAGUE_XP, String(newXp));
+    set({
+      weeklyLeagueXp: newXp,
+      weeklyLeagueWeekKey: currentWeek,
+    });
+  },
+
+  selectedAchievement: null,
+  isAchievementModalOpen: false,
+  claimedAchievementRewards: getInitialClaimedAchievements(),
+  openAchievementDetail: (achievement: AchievementDetailData) => {
+    set({
+      selectedAchievement: achievement,
+      isAchievementModalOpen: true,
+    });
+  },
+  closeAchievementDetail: () => {
+    set({
+      isAchievementModalOpen: false,
+      selectedAchievement: null,
+    });
+  },
+  claimAchievementReward: (achievementId: string) => {
+    const { claimedAchievementRewards, addStars, soundEnabled } = get();
+    if (claimedAchievementRewards[achievementId]) {
+      get().showGlobalToast('Hadiah lencana ini sudah diklaim.');
+      return;
+    }
+    const updated = { ...claimedAchievementRewards, [achievementId]: true };
+    localStorage.setItem(STORAGE_KEY_CLAIMED_ACHIEVEMENTS, JSON.stringify(updated));
+    addStars(25);
+    set({ claimedAchievementRewards: updated });
+    if (soundEnabled) soundManager.playReward();
+    confetti({
+      particleCount: 60,
+      spread: 70,
+      origin: { y: 0.7 },
+    });
+    get().showGlobalToast('Hadiah Lencana Diklaim (+25★)!', 2800);
+  },
+
   stars: getInitialStars(),
 
   activeClueId: null,
@@ -1368,6 +1643,13 @@ export const useGameStore = create<GameState>((set, get) => ({
       isDailyRushResultOpen: true,
     });
 
+    if (totalScore > 0) {
+      get().addWeeklyLeagueXp(totalScore);
+    }
+    if (isFullSolved) {
+      get().incrementStreakIfNewDay();
+    }
+
     // Auto-submit score to Supabase National Leaderboard
     const currentUser = get().user;
     submitDailyRushScore({
@@ -1565,6 +1847,8 @@ export const useGameStore = create<GameState>((set, get) => ({
           return;
         } else {
           if (soundEnabled) soundManager.playVictory();
+          get().addWeeklyLeagueXp(50);
+          get().incrementStreakIfNewDay();
           confetti({
             particleCount: 140,
             spread: 80,

@@ -10,6 +10,7 @@ import {
   ChevronDown,
   Users,
   Trophy,
+  Shield,
 } from 'lucide-react';
 import { useGameStore, getTodayDateString } from '../store/useGameStore';
 import { AvatarPickerModal } from '../components/AvatarPickerModal';
@@ -190,6 +191,7 @@ export const HomeView: React.FC = () => {
     currentLevelIndex,
     stars,
     streak,
+    streakShields,
     user,
     solvedClues,
     setCurrentTab,
@@ -314,8 +316,24 @@ export const HomeView: React.FC = () => {
 
         {/* Right: Dynamic Island Stats Capsule & Action Controls */}
         <div className="flex items-center gap-1.5 shrink-0">
-          {/* Dynamic Island Stats Pill (Bintang & Kosakata) */}
+          {/* Dynamic Island Stats Pill (Streak & Perisai, Bintang, Kosakata) */}
           <div className="h-8.5 px-2.5 rounded-full liquid-glass-card flex items-center gap-2 shadow-2xs">
+            {/* Streak & Shield */}
+            <div
+              className="flex items-center gap-1 text-[var(--accent-main)]"
+              title={streakShields > 0 ? `Streak ${streak} Hari (${streakShields} Perisai Aktif)` : `Streak ${streak} Hari`}
+            >
+              <Flame className="w-3.5 h-3.5 fill-current" />
+              <span className="text-[11.5px] font-black text-[var(--text-primary)] leading-none">
+                {streak}
+              </span>
+              {streakShields > 0 && (
+                <Shield className="w-2.5 h-2.5 fill-current/30 stroke-[2.2]" />
+              )}
+            </div>
+
+            <span className="w-px h-3 bg-black/10 dark:bg-white/15 rounded-full" />
+
             {/* Stars */}
             <div className="flex items-center gap-1 text-[var(--accent-main)]" title="Total Bintang">
               <Star className="w-3.5 h-3.5 fill-current" />

@@ -15,6 +15,7 @@ import {
   Zap,
   Crown,
   Medal,
+  Shield,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { AvatarPickerModal } from '../components/AvatarPickerModal';
@@ -77,6 +78,12 @@ export const ProfileView: React.FC = () => {
     openAuth,
     stars,
     streak,
+    streakShields,
+    buyStreakShield,
+    weeklyLeagueXp,
+    openLeagueModal,
+    openAchievementDetail,
+    claimedAchievementRewards,
     levels,
     levelRecords,
     openLexicon,
@@ -131,54 +138,75 @@ export const ProfileView: React.FC = () => {
         title: 'Langkah Awal',
         desc: 'Pecahkan kata silang pertama Anda',
         icon: Sparkles,
+        rarity: 'Umum' as const,
+        percent: Math.min(100, Math.round((totalSolvedWords / 1) * 100)),
+        rewardStars: 25,
         unlocked: totalSolvedWords >= 1,
-        progress: `${Math.min(totalSolvedWords, 1)}/1`,
+        progress: `${Math.min(totalSolvedWords, 1)}/1 Kata`,
       },
       {
         id: 'chapter_one',
         title: 'Penakluk Bab 1',
         desc: 'Tuntaskan Bab 1 Horizon Kata',
         icon: Trophy,
+        rarity: 'Umum' as const,
+        percent: levelRecords['level_1_santai']?.completed ? 100 : 0,
+        rewardStars: 25,
         unlocked: !!levelRecords['level_1_santai']?.completed,
-        progress: levelRecords['level_1_santai']?.completed ? 'Selesai' : '0/1',
+        progress: levelRecords['level_1_santai']?.completed ? 'Selesai' : '0/1 Bab',
       },
       {
         id: 'word_master_10',
         title: 'Kolektor Kata',
         desc: 'Pecahkan 10 kata teka-teki silang',
         icon: Brain,
+        rarity: 'Umum' as const,
+        percent: Math.min(100, Math.round((totalSolvedWords / 10) * 100)),
+        rewardStars: 25,
         unlocked: totalSolvedWords >= 10,
-        progress: `${Math.min(totalSolvedWords, 10)}/10`,
+        progress: `${Math.min(totalSolvedWords, 10)}/10 Kata`,
       },
       {
         id: 'word_master_25',
         title: 'Pujangga Muda',
         desc: 'Pecahkan 25 kata teka-teki silang',
         icon: Award,
+        rarity: 'Langka' as const,
+        percent: Math.min(100, Math.round((totalSolvedWords / 25) * 100)),
+        rewardStars: 25,
         unlocked: totalSolvedWords >= 25,
-        progress: `${Math.min(totalSolvedWords, 25)}/25`,
+        progress: `${Math.min(totalSolvedWords, 25)}/25 Kata`,
       },
       {
         id: 'word_master_50',
         title: 'Ahli Leksikon',
         desc: 'Kuasai 50 kata teka-teki silang',
         icon: BookOpen,
+        rarity: 'Langka' as const,
+        percent: Math.min(100, Math.round((totalSolvedWords / 50) * 100)),
+        rewardStars: 25,
         unlocked: totalSolvedWords >= 50,
-        progress: `${Math.min(totalSolvedWords, 50)}/50`,
+        progress: `${Math.min(totalSolvedWords, 50)}/50 Kata`,
       },
       {
         id: 'word_master_100',
         title: 'Begawan Bahasa',
         desc: 'Pecahkan 100 kosakata nusantara',
         icon: Crown,
+        rarity: 'Epik' as const,
+        percent: Math.min(100, Math.round((totalSolvedWords / 100) * 100)),
+        rewardStars: 25,
         unlocked: totalSolvedWords >= 100,
-        progress: `${Math.min(totalSolvedWords, 100)}/100`,
+        progress: `${Math.min(totalSolvedWords, 100)}/100 Kata`,
       },
       {
         id: 'streak_3',
         title: 'Semangat Menyala',
         desc: 'Pertahankan rentetan bermain 3 hari berturut-turut',
         icon: Flame,
+        rarity: 'Umum' as const,
+        percent: Math.min(100, Math.round((streak / 3) * 100)),
+        rewardStars: 25,
         unlocked: streak >= 3,
         progress: `${Math.min(streak, 3)}/3 Hari`,
       },
@@ -187,6 +215,9 @@ export const ProfileView: React.FC = () => {
         title: 'Api Abadi',
         desc: 'Pertahankan streak bermain 7 hari',
         icon: Zap,
+        rarity: 'Langka' as const,
+        percent: Math.min(100, Math.round((streak / 7) * 100)),
+        rewardStars: 25,
         unlocked: streak >= 7,
         progress: `${Math.min(streak, 7)}/7 Hari`,
       },
@@ -195,6 +226,9 @@ export const ProfileView: React.FC = () => {
         title: 'Penjelajah Bab',
         desc: 'Tuntaskan minimal 10 bab permainan',
         icon: Compass,
+        rarity: 'Langka' as const,
+        percent: Math.min(100, Math.round((totalCompletedLevels / 10) * 100)),
+        rewardStars: 25,
         unlocked: totalCompletedLevels >= 10,
         progress: `${Math.min(totalCompletedLevels, 10)}/10 Bab`,
       },
@@ -203,24 +237,33 @@ export const ProfileView: React.FC = () => {
         title: 'Bintang Terang',
         desc: 'Kumpulkan 150 bintang petualangan',
         icon: Star,
+        rarity: 'Epik' as const,
+        percent: Math.min(100, Math.round((stars / 150) * 100)),
+        rewardStars: 25,
         unlocked: stars >= 150,
-        progress: `${Math.min(stars, 150)}/150`,
+        progress: `${Math.min(stars, 150)}/150★`,
       },
       {
         id: 'star_master_500',
         title: 'Bintang Kejora',
         desc: 'Kumpulkan 500 bintang petualangan',
         icon: Medal,
+        rarity: 'Epik' as const,
+        percent: Math.min(100, Math.round((stars / 500) * 100)),
+        rewardStars: 25,
         unlocked: stars >= 500,
-        progress: `${Math.min(stars, 500)}/500`,
+        progress: `${Math.min(stars, 500)}/500★`,
       },
       {
         id: 'all_chapters',
         title: 'Sang Mahaguru',
         desc: 'Selesaikan seluruh bab petualangan nusantara',
         icon: Trophy,
+        rarity: 'Legendaris' as const,
+        percent: levels.length > 0 ? Math.min(100, Math.round((totalCompletedLevels / levels.length) * 100)) : 0,
+        rewardStars: 25,
         unlocked: totalCompletedLevels >= levels.length && levels.length > 0,
-        progress: `${totalCompletedLevels}/${levels.length}`,
+        progress: `${totalCompletedLevels}/${levels.length} Bab`,
       },
     ];
   }, [totalSolvedWords, levelRecords, streak, stars, totalCompletedLevels, levels.length]);
@@ -539,6 +582,126 @@ export const ProfileView: React.FC = () => {
         </div>
       </div>
 
+      {/* Retention Engine Bento: Perisai Runtun & Divisi Liga */}
+      <div className="w-full shrink-0 grid grid-cols-2 gap-3 relative z-10">
+        {/* Left: Perisai Runtun (Streak Shield) */}
+        <div
+          className="rounded-[22px] p-3.5 flex flex-col justify-between border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden"
+          style={{
+            background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+          }}
+        >
+          <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
+
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <div className="w-7 h-7 rounded-xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)]">
+                <Shield className="w-3.5 h-3.5 fill-current/20 stroke-[2.2]" />
+              </div>
+              {/* 2-slot indicator */}
+              <div className="flex items-center gap-1">
+                <div
+                  className={`w-5 h-5 rounded-md flex items-center justify-center text-[9px] font-black ${
+                    streakShields >= 1
+                      ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)]'
+                      : 'border border-dashed border-current/30 text-[var(--text-secondary)]'
+                  }`}
+                  title="Slot Perisai 1"
+                >
+                  {streakShields >= 1 ? '✓' : '+'}
+                </div>
+                <div
+                  className={`w-5 h-5 rounded-md flex items-center justify-center text-[9px] font-black ${
+                    streakShields >= 2
+                      ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)]'
+                      : 'border border-dashed border-current/30 text-[var(--text-secondary)]'
+                  }`}
+                  title="Slot Perisai 2"
+                >
+                  {streakShields >= 2 ? '✓' : '+'}
+                </div>
+              </div>
+            </div>
+
+            <h4 className="text-[12px] font-black text-[var(--text-primary)] leading-tight mb-0.5">
+              Perisai Runtun
+            </h4>
+            <p className="text-[8.5px] text-[var(--text-secondary)] leading-tight">
+              {streakShields > 0
+                ? `${streakShields} perisai siap menjaga streak.`
+                : 'Kosong. Beli perisai untuk jaga streak.'}
+            </p>
+          </div>
+
+          <div className="mt-2.5">
+            {streakShields < 2 ? (
+              <button
+                type="button"
+                onClick={buyStreakShield}
+                disabled={stars < 100}
+                className="w-full py-1.5 px-2 rounded-full font-black text-[9.5px] inline-flex items-center justify-center gap-1 transition-all tactile-active cursor-pointer shadow-xs disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{
+                  background: 'var(--accent-grad)',
+                  color: 'var(--accent-contrast)',
+                }}
+              >
+                <span>Beli (+100★)</span>
+              </button>
+            ) : (
+              <span className="text-[9px] font-bold text-emerald-400 block text-center py-1">
+                Slot Maksimal Aktif ✓
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Right: Divisi Liga Mingguan */}
+        <div
+          onClick={openLeagueModal}
+          className="rounded-[22px] p-3.5 flex flex-col justify-between border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden cursor-pointer tactile-active hover:border-[var(--accent-main)]/50 transition-all"
+          style={{
+            background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+          }}
+        >
+          <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
+
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <div className="w-7 h-7 rounded-xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)]">
+                <Crown className="w-3.5 h-3.5 stroke-[2.2]" />
+              </div>
+              <span className="text-[8px] font-black text-[var(--accent-main)] uppercase tracking-wider">
+                LIGA ↗
+              </span>
+            </div>
+
+            <h4 className="text-[12px] font-black text-[var(--text-primary)] leading-tight mb-0.5">
+              {weeklyLeagueXp >= 5000
+                ? 'Divisi Berlian'
+                : weeklyLeagueXp >= 3000
+                ? 'Divisi Safir'
+                : weeklyLeagueXp >= 1500
+                ? 'Divisi Emas'
+                : weeklyLeagueXp >= 500
+                ? 'Divisi Perak'
+                : 'Divisi Perunggu'}
+            </h4>
+            <p className="text-[8.5px] text-[var(--text-secondary)] leading-tight">
+              {weeklyLeagueXp.toLocaleString('id-ID')} Poin Liga minggu ini.
+            </p>
+          </div>
+
+          <div className="mt-2.5">
+            <button
+              type="button"
+              className="w-full py-1.5 px-2 rounded-full bg-white/10 dark:bg-white/5 border border-black/5 dark:border-white/10 text-[var(--text-primary)] font-black text-[9.5px] inline-flex items-center justify-center gap-1 transition-all"
+            >
+              <span>Lihat Tangga Liga</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
       {/* Card 4: Lencana Kehormatan Showcase */}
       <div
         className="w-full shrink-0 rounded-[24px] p-4 relative z-10 flex flex-col gap-2.5 border border-white/20 shadow-md overflow-hidden"
@@ -570,10 +733,24 @@ export const ProfileView: React.FC = () => {
         <div className="grid grid-cols-2 gap-2 pt-1 relative z-10 max-h-[300px] overflow-y-auto pr-1">
           {achievements.map((item) => {
             const IconComponent = item.icon;
+            const isClaimed = !!claimedAchievementRewards[item.id];
+            const canClaim = item.unlocked && !isClaimed;
             return (
               <div
                 key={item.id}
-                className={`rounded-[20px] p-3 border transition-all flex flex-col justify-between ${
+                onClick={() => {
+                  openAchievementDetail({
+                    id: item.id,
+                    title: item.title,
+                    desc: item.desc,
+                    rarity: item.rarity,
+                    unlocked: item.unlocked,
+                    progress: item.progress,
+                    percent: item.percent,
+                    rewardStars: item.rewardStars,
+                  });
+                }}
+                className={`rounded-[20px] p-3 border transition-all flex flex-col justify-between cursor-pointer tactile-active hover:scale-[1.02] ${
                   item.unlocked
                     ? 'bg-[var(--accent-contrast)]/10 border-[var(--accent-contrast)]/20 shadow-xs backdrop-blur-xs'
                     : 'bg-[var(--accent-contrast)]/5 border-[var(--accent-contrast)]/10 opacity-55'
@@ -592,12 +769,14 @@ export const ProfileView: React.FC = () => {
 
                   <span
                     className={`text-[7.5px] font-bold px-1.5 py-0.5 rounded-full ${
-                      item.unlocked
+                      canClaim
+                        ? 'bg-amber-400 text-stone-900 font-black animate-pulse'
+                        : item.unlocked
                         ? 'bg-[var(--accent-contrast)]/15 text-[var(--accent-contrast)] border border-[var(--accent-contrast)]/20'
                         : 'bg-[var(--accent-contrast)]/5 text-[var(--accent-contrast)]/60 border border-[var(--accent-contrast)]/10'
                     }`}
                   >
-                    {item.progress}
+                    {canClaim ? 'KLAIM +25★' : item.progress}
                   </span>
                 </div>
 
