@@ -51,6 +51,8 @@ import {
   Popcorn,
   Globe2,
   Flag,
+  Feather,
+  TrendingUp,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
@@ -100,6 +102,8 @@ const REALM_ICONS: Record<string, React.ElementType> = {
   theme_38_popculture: Popcorn,
   theme_39_ensiklopedia: Globe2,
   theme_40_faktanusantara: Flag,
+  theme_41_sastrabahasa: Feather,
+  theme_42_karirfinansial: TrendingUp,
 };
 
 /** Crossword Grid Pattern Overlay (Oversized Graphic Watermark Texture) */

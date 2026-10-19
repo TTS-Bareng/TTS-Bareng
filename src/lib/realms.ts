@@ -289,6 +289,20 @@ export const REALMS: RealmDefinition[] = [
     subtitle: 'Rekor kepulauan khatulistiwa, bapak bangsa pahlawan, satwa endemik, candi, dan rempah langka',
     categories: ['Fakta Nusantara'],
   },
+  {
+    id: 'theme_41_sastrabahasa',
+    name: 'Sastra, Bahasa & Khazanah Kata',
+    tag: 'Sastra & Kata',
+    subtitle: 'Dongeng rakyat, hikmah fabel, peribahasa sehari-hari, sastrawan legendaris, dan kata serapan',
+    categories: ['Sastra & Bahasa'],
+  },
+  {
+    id: 'theme_42_karirfinansial',
+    name: 'Karir, Dunia Kerja & Finansial Modern',
+    tag: 'Karir & Finansial',
+    subtitle: 'Profesi DKV kreatif, budaya kantor, pasar modal saham investor, wirausaha startup, dan etos kerja',
+    categories: ['Karir & Finansial'],
+  },
 ];
 
 export function getRealmForCategory(category?: string): RealmDefinition {

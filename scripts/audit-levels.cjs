@@ -49,6 +49,8 @@ const categoryToRealm = {
   'Pop Culture': 'Pop Culture & Hiburan Dunia',
   'Ensiklopedia Dunia': 'Fakta Unik & Ensiklopedia Dunia',
   'Fakta Nusantara': 'Fakta Unik Nusantara & Tokoh',
+  'Sastra & Bahasa': 'Sastra, Bahasa & Khazanah Kata',
+  'Karir & Finansial': 'Karir, Dunia Kerja & Finansial Modern',
 };
 
 levels.forEach((lvl, idx) => {
