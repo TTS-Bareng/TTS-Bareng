@@ -57,6 +57,8 @@ import {
   Fingerprint,
   Handshake,
   Brush,
+  Medal,
+  Palmtree,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
@@ -112,6 +114,8 @@ const REALM_ICONS: Record<string, React.ElementType> = {
   theme_44_kriminologi: Fingerprint,
   theme_45_internasional: Handshake,
   theme_46_senirupa: Brush,
+  theme_47_olahraga: Medal,
+  theme_48_wisatanusantara: Palmtree,
 };
 
 /** Crossword Grid Pattern Overlay (Oversized Graphic Watermark Texture) */

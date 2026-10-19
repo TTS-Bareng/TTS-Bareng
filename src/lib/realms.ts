@@ -331,6 +331,20 @@ export const REALMS: RealmDefinition[] = [
     subtitle: 'Arsitektur rumah adat, ukiran kriya kayu, galeri lukisan maestro, dan estetika visual modern',
     categories: ['Seni & Arsitektur'],
   },
+  {
+    id: 'theme_47_olahraga',
+    name: 'Olahraga Dunia & Pesta Prestasi',
+    tag: 'Olahraga Dunia',
+    subtitle: 'Bulutangkis All England, panggung Piala Dunia bola, pesta Olimpiade, arena stadion, dan sportivitas',
+    categories: ['Olahraga Dunia'],
+  },
+  {
+    id: 'theme_48_wisatanusantara',
+    name: 'Wisata, Pelancongan & Pesona Nusantara',
+    tag: 'Wisata Nusantara',
+    subtitle: 'Raja Ampat, Danau Toba, kaldera Bromo, desa adat asri, geopark UNESCO, dan pantai tropis nusantara',
+    categories: ['Wisata Nusantara'],
+  },
 ];
 
 export function getRealmForCategory(category?: string): RealmDefinition {

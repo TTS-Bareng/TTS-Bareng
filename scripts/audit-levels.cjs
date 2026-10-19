@@ -55,6 +55,8 @@ const categoryToRealm = {
   'Kriminologi': 'Kriminologi & Penegakan Keadilan',
   'Hubungan Internasional': 'Hubungan Internasional & Diplomasi Bangsa',
   'Seni & Arsitektur': 'Seni Rupa, Desain & Arsitektur Nusantara',
+  'Olahraga Dunia': 'Olahraga Dunia & Pesta Prestasi',
+  'Wisata Nusantara': 'Wisata, Pelancongan & Pesona Nusantara',
 };
 
 levels.forEach((lvl, idx) => {
