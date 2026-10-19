@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Trophy, RotateCcw, Clock, Sparkles, Zap, Award } from 'lucide-react';
+import { X, Trophy, RotateCcw, Clock, Sparkles, Zap, Award, Share2 } from 'lucide-react';
 import { useGameStore, getTodayDateString } from '../store/useGameStore';
+import { MASCOTS } from '../assets/maskots';
 
 export const LeaderboardModal: React.FC = () => {
   const {
@@ -12,6 +13,7 @@ export const LeaderboardModal: React.FC = () => {
     loadNationalLeaderboard,
     dailyRushRecord,
     user,
+    openShareModal,
   } = useGameStore();
 
   const [todayStr] = useState(getTodayDateString);
@@ -28,6 +30,22 @@ export const LeaderboardModal: React.FC = () => {
     (r) => r.user_name === user.name && r.rush_date === todayStr
   );
   const userRank = userRankIndex !== -1 ? userRankIndex + 1 : null;
+
+  const handleShareDailyRush = () => {
+    openShareModal({
+      badge: userRank ? `DAILY RUSH #${userRank}` : 'DAILY RUSH',
+      title: 'Top Jawara Daily Rush!',
+      subtitle: `${dailyRushRecord?.score || 0} poin berhasil dicapai dalam 90 detik pada Papan Peringkat Nasional TTS Bareng.`,
+      mascot: MASCOTS.crosswordChampion,
+      stats: [
+        { label: 'POIN', value: `${dailyRushRecord?.score || 0}` },
+        { label: 'PERINGKAT', value: userRank ? `#${userRank}` : '-' },
+        { label: 'WAKTU', value: `${dailyRushRecord?.timeSpent || 90}s` },
+      ],
+      shareUrl: window.location.origin,
+      shareText: `Saya mencetak skor ${dailyRushRecord?.score || 0} poin di Daily Rush TTS Bareng! Bisakah kamu mengalahkan peringkatku?`,
+    });
+  };
 
   return (
     <AnimatePresence>
@@ -213,11 +231,21 @@ export const LeaderboardModal: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-1 text-[var(--accent-main)] shrink-0">
-                <Zap className="w-3.5 h-3.5 stroke-[2.5]" />
-                <span className="text-[11.5px] font-black">
-                  {dailyRushRecord?.date === todayStr ? `${dailyRushRecord.score} Pts` : '+50 ★'}
-                </span>
+              <div className="flex items-center gap-1.5 shrink-0">
+                <div className="flex items-center gap-1 text-[var(--accent-main)]">
+                  <Zap className="w-3.5 h-3.5 stroke-[2.5]" />
+                  <span className="text-[11.5px] font-black">
+                    {dailyRushRecord?.date === todayStr ? `${dailyRushRecord.score} Pts` : '+50 ★'}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleShareDailyRush}
+                  className="w-7 h-7 rounded-lg bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 text-[var(--text-primary)] flex items-center justify-center cursor-pointer tactile-active transition-all"
+                  title="Bagikan Rekor"
+                >
+                  <Share2 className="w-3.5 h-3.5 stroke-[2.2]" />
+                </button>
               </div>
             </div>
           </motion.div>

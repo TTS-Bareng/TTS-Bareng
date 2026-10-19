@@ -781,83 +781,147 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
         </>
       )}
 
-      {/* --- QR CODE LIQUID GLASS MODAL --- */}
+      {/* --- QR CODE TICKET MABAR MODAL (Foto Keempat Plan & Go) --- */}
       {isQrModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          {/* Backdrop */}
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 select-none">
+          {/* Backdrop Blur */}
           <div
             onClick={() => setIsQrModalOpen(false)}
-            className="absolute inset-0 bg-black/60 backdrop-blur-md transition-opacity"
+            className="absolute inset-0 bg-black/65 backdrop-blur-md transition-opacity"
           />
 
-          {/* Modal Content */}
-          <div className="relative w-full max-w-[320px] rounded-[28px] liquid-glass-card p-5.5 flex flex-col items-center gap-3.5 shadow-2xl z-10 border border-white/20">
-            <div className="flex items-center justify-between w-full">
-              <div className="flex items-center gap-2">
-                <QrCode className="w-4 h-4 text-[var(--accent-main)] stroke-[2.2]" />
-                <span className="text-[13.5px] font-black text-[var(--text-primary)]">
-                  Pindai Kode QR
-                </span>
+          {/* Ticket Frame Container */}
+          <div className="relative w-full max-w-[340px] max-h-[92vh] overflow-y-auto rounded-[36px] bg-[#F7F5F0] dark:bg-[#1C1C1E] p-4.5 sm:p-5 shadow-2xl flex flex-col items-center border border-black/5 dark:border-white/10 z-10 text-slate-900">
+            {/* Top Brand Header & Close */}
+            <div className="w-full flex items-center justify-between mb-3 px-1">
+              <div className="px-3.5 py-1 rounded-full bg-[#111113] text-white font-black text-[11px] tracking-tight flex items-center gap-1.5 shadow-xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                <span>TTS Bareng</span>
               </div>
               <button
                 type="button"
                 onClick={() => setIsQrModalOpen(false)}
-                className="w-7 h-7 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer tactile-active"
+                className="w-7 h-7 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center text-slate-500 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white cursor-pointer tactile-active transition-all"
+                title="Tutup"
               >
-                <X className="w-3.5 h-3.5 stroke-[2.5]" />
+                <X className="w-3.5 h-3.5 stroke-[2.2]" />
               </button>
             </div>
 
-            {/* QR Code Canvas */}
-            <div className="p-3.5 bg-white rounded-2xl shadow-sm flex items-center justify-center">
-              {qrCodeDataUrl ? (
-                <img
-                  src={qrCodeDataUrl}
-                  alt="QR Code Kamar Mabar"
-                  className="w-44 h-44 rounded-xl object-contain"
-                />
-              ) : (
-                <div className="w-44 h-44 flex items-center justify-center text-xs text-[var(--text-secondary)]">
-                  Membuat QR...
+            {/* THE PHYSICAL TICKET SLEEVE */}
+            <div className="relative w-full rounded-[30px] shadow-xl overflow-visible my-1">
+              {/* Floating Avatar Sticker 1: Top Right */}
+              <div className="absolute -top-3.5 -right-2 z-30 flex items-center gap-1.5 pointer-events-none">
+                <div className="px-2.5 py-0.5 rounded-full bg-white text-slate-900 font-bold text-[9px] shadow-md border border-slate-200/80">
+                  Ayo mabar!
                 </div>
-              )}
+                <div className="w-9 h-9 rounded-full bg-white p-0.5 shadow-md shrink-0 border border-slate-100">
+                  <img
+                    src={MASCOTS.cheerfulBookBoy}
+                    alt="Avatar Teman"
+                    className="w-full h-full rounded-full object-cover bg-amber-50"
+                  />
+                </div>
+              </div>
+
+              {/* Warm Amber Physical Pocket Sleeve with Notch */}
+              <div
+                style={{
+                  background: 'linear-gradient(180deg, #F59E0B 0%, #EA580C 50%, #C2410C 100%)',
+                }}
+                className="w-full ticket-sleeve-notch pt-8 pb-5 px-5 text-white flex flex-col items-center text-center relative overflow-hidden shadow-xs"
+              >
+                <h2 className="text-[25px] font-black tracking-tight leading-[1.08] text-white drop-shadow-xs">
+                  Kamu Diajak<br />Mabar TTS!
+                </h2>
+
+                <p className="text-[8.5px] font-extrabold uppercase tracking-widest text-amber-100/90 mt-2">
+                  SATU PAPAN • ADU KATA • TAKLUKKAN BERSAMA
+                </p>
+
+                <div className="absolute bottom-2.5 right-3 border border-dashed border-amber-300/40 rounded-lg px-2 py-0.5 rotate-6 text-[8px] font-mono text-amber-200/80 pointer-events-none">
+                  ROOM #{roomCode}
+                </div>
+              </div>
+
+              {/* Perforated Tear Line (Zig-zag) */}
+              <div className="w-full h-3.5 perforation-edge bg-[#F7F5F0] dark:bg-[#1C1C1E]" />
+
+              {/* Floating Avatar Sticker 2: Bottom Left */}
+              <div className="absolute bottom-18 -left-2.5 z-30 flex items-center gap-1.5 pointer-events-none">
+                <div className="w-9 h-9 rounded-full bg-white p-0.5 shadow-md shrink-0 border border-slate-100">
+                  <img
+                    src={MASCOTS.crosswordGirl}
+                    alt="Avatar Pemain"
+                    className="w-full h-full rounded-full object-cover bg-rose-50"
+                  />
+                </div>
+                <div className="px-2.5 py-0.5 rounded-full bg-white text-slate-900 font-bold text-[9px] shadow-md border border-slate-200/80">
+                  Nungguin kamu nih
+                </div>
+              </div>
+
+              {/* White Ticket Base / QR Stub Sliding Out */}
+              <div className="w-full bg-white rounded-b-[30px] p-4 pt-2.5 flex flex-col items-center text-center shadow-md border-t border-slate-100">
+                {/* Real Scannable QR Code Frame */}
+                <div className="p-2.5 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 shadow-xs flex flex-col items-center my-1">
+                  {qrCodeDataUrl ? (
+                    <img
+                      src={qrCodeDataUrl}
+                      alt="QR Code Kamar Mabar"
+                      className="w-32 h-32 rounded-xl object-contain"
+                    />
+                  ) : (
+                    <div className="w-32 h-32 flex items-center justify-center text-xs text-slate-400">
+                      Membuat QR...
+                    </div>
+                  )}
+                  <span className="text-[13px] font-black tracking-widest text-slate-900 mt-1 font-mono">
+                    PIN: {roomCode.split('').join(' ')}
+                  </span>
+                </div>
+
+                {/* Host Subtitle */}
+                <div className="text-[9px] font-bold uppercase tracking-wider text-slate-400 mt-1.5">
+                  MABAR DENGAN
+                </div>
+                <div className="text-xs font-black text-slate-900 mt-0.5 tracking-tight truncate max-w-[220px]">
+                  {user?.name ? `${user.name.toUpperCase()} & TEMAN-TEMAN` : 'JAWARA & TEMAN-TEMAN'}
+                </div>
+              </div>
             </div>
 
-            <div className="text-center">
-              <span className="text-[14px] font-black text-[var(--text-primary)] tracking-widest block mb-0.5">
-                {roomCode}
+            {/* Bottom Instructions & Action Buttons */}
+            <div className="w-full flex flex-col items-center mt-3">
+              <span className="text-[9px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-0.5">
+                PINDAI QR ATAU KLIK UNTUK BERGABUNG
               </span>
-              <p className="text-[9.5px] text-[var(--text-secondary)] leading-tight px-1">
-                Arahkan kamera HP teman untuk langsung masuk ke kamar mabar ini.
-              </p>
-            </div>
+              <div className="text-slate-400 text-[10px] mb-2.5">
+                ▼
+              </div>
 
-            {/* Action Buttons in QR Modal */}
-            <div className="w-full flex gap-2 pt-1">
-              <button
-                type="button"
-                onClick={handleShareRoom}
-                className="flex-1 py-2.5 rounded-xl bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[10.5px] font-bold flex items-center justify-center gap-1.5 cursor-pointer tactile-active shadow-xs hover:opacity-95"
-              >
-                <Share2 className="w-3.5 h-3.5 stroke-[2.2]" />
-                <span>Bagikan</span>
-              </button>
-              <button
-                type="button"
-                onClick={handleCopyLink}
-                className="px-3.5 py-2.5 rounded-xl bg-black/5 dark:bg-white/10 text-[var(--text-primary)] hover:opacity-80 text-[10.5px] font-bold flex items-center justify-center gap-1.5 cursor-pointer tactile-active"
-                title="Salin Tautan"
-              >
-                <Copy className="w-3.5 h-3.5 stroke-[2.2]" />
-                <span>Salin</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setIsQrModalOpen(false)}
-                className="px-3 py-2.5 rounded-xl bg-black/5 dark:bg-white/10 text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-[10.5px] font-bold cursor-pointer tactile-active"
-              >
-                Tutup
-              </button>
+              <div className="w-full grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={handleShareRoom}
+                  className="py-2.5 rounded-xl bg-[#111113] hover:bg-[#27272A] text-white font-black text-xs flex items-center justify-center gap-1.5 cursor-pointer tactile-active shadow-sm"
+                >
+                  <Share2 className="w-3.5 h-3.5 stroke-[2.2]" />
+                  <span>Bagikan WA</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCopyLink}
+                  className="py-2.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-900 font-black text-xs flex items-center justify-center gap-1.5 shadow-xs cursor-pointer tactile-active"
+                >
+                  <Copy className="w-3.5 h-3.5 stroke-[2.2]" />
+                  <span>Salin Link</span>
+                </button>
+              </div>
+
+              <span className="text-[9px] text-slate-400 font-bold tracking-wide uppercase mt-2.5">
+                TTS Bareng - Mabar Teka Teki Silang
+              </span>
             </div>
           </div>
         </div>

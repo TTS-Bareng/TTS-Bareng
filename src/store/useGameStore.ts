@@ -42,6 +42,21 @@ export interface DailyRushRecord {
   completed: boolean;
 }
 
+export interface ShareStatItem {
+  label: string;
+  value: string;
+}
+
+export interface ShareModalData {
+  badge: string;
+  title: string;
+  subtitle: string;
+  mascot?: string;
+  stats: ShareStatItem[];
+  shareUrl?: string;
+  shareText?: string;
+}
+
 interface GameState {
   // Navigation
   currentTab: TabType;
@@ -145,6 +160,10 @@ interface GameState {
   nationalLeaderboard: DbDailyRushRecord[];
   isLoadingLeaderboard: boolean;
   loadNationalLeaderboard: (dateStr?: string) => Promise<void>;
+  isShareModalOpen: boolean;
+  shareModalData: ShareModalData | null;
+  openShareModal: (data: ShareModalData) => void;
+  closeShareModal: () => void;
 
   // Gameplay actions
   selectClue: (clueId: string, cellToFocus?: [number, number]) => void;
@@ -503,6 +522,11 @@ export const useGameStore = create<GameState>((set, get) => ({
       set({ isLoadingLeaderboard: false });
     }
   },
+
+  isShareModalOpen: false,
+  shareModalData: null,
+  openShareModal: (data: ShareModalData) => set({ isShareModalOpen: true, shareModalData: data }),
+  closeShareModal: () => set({ isShareModalOpen: false, shareModalData: null }),
 
   selectLevel: (index: number) => {
     const { levels, levelRecords } = get();

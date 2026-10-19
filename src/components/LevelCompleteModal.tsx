@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { RotateCcw, Star, ArrowRight, Home, Sparkles, Clock, BookOpen, Share2 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
-import { createDeepLink, shareOrCopy } from '../lib/deeplink';
+import { createDeepLink } from '../lib/deeplink';
 
 export const LevelCompleteModal: React.FC = () => {
   const {
@@ -17,7 +17,7 @@ export const LevelCompleteModal: React.FC = () => {
     currentLevelIndex,
     levelRecords,
     openLexicon,
-    showGlobalToast,
+    openShareModal,
   } = useGameStore();
 
   const totalWords = (level.clues?.across?.length || 0) + (level.clues?.down?.length || 0);
@@ -42,20 +42,22 @@ export const LevelCompleteModal: React.FC = () => {
     allClues[0]
   );
 
-  const handleShareLevel = async () => {
+  const handleShareLevel = () => {
     const levelUrl = createDeepLink({ level: currentLevelIndex + 1 });
     const formattedTime = formatDuration(timeSpent);
-    const result = await shareOrCopy({
-      title: `Tantangan TTS Quest: ${level.title}`,
-      text: `Saya menyelesaikan Bab ${currentLevelIndex + 1} (${level.title}) dalam ${formattedTime} dengan akurasi ${accuracy}%! Bisakah kamu menuntaskannya?`,
-      url: levelUrl,
+    openShareModal({
+      badge: `BAB ${currentLevelIndex + 1} TUNTAS`,
+      title: 'Gokil! Bab Ini Rata Kanan!',
+      subtitle: `Semua ${totalWords} kata teka-teki silang pada ${level.title} berhasil kamu tuntaskan dengan akurasi ${accuracy}%.`,
+      mascot: MASCOTS.crosswordChampion,
+      stats: [
+        { label: 'WAKTU', value: formattedTime },
+        { label: 'AKURASI', value: `${accuracy}%` },
+        { label: 'BINTANG', value: `${rating} ★` },
+      ],
+      shareUrl: levelUrl,
+      shareText: `Saya menyelesaikan Bab ${currentLevelIndex + 1} (${level.title}) dalam ${formattedTime} dengan akurasi ${accuracy}% di TTS Bareng! Bisakah kamu menuntaskannya?`,
     });
-
-    if (result === 'shared') {
-      showGlobalToast('Tautan tantangan dibagikan!');
-    } else if (result === 'copied') {
-      showGlobalToast('Tautan tantangan bab disalin!');
-    }
   };
 
   return (
