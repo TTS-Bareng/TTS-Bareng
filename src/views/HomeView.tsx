@@ -9,6 +9,7 @@ import {
   Map,
   ChevronDown,
   Users,
+  Trophy,
 } from 'lucide-react';
 import { useGameStore, getTodayDateString } from '../store/useGameStore';
 import { AvatarPickerModal } from '../components/AvatarPickerModal';
@@ -196,6 +197,7 @@ export const HomeView: React.FC = () => {
     openLexicon,
     startDailyRush,
     dailyRushRecord,
+    openLeaderboard,
   } = useGameStore();
 
   const [isAvatarPickerOpen, setIsAvatarPickerOpen] = useState(false);
@@ -467,11 +469,25 @@ export const HomeView: React.FC = () => {
                 90s KILAT
               </span>
             </div>
-            <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)] shrink-0">
-              {todayRushPlayed
-                ? (dailyRushRecord.completed ? 'SELESAI' : `${dailyRushRecord.score} PTS`)
-                : '+50 ★'}
-            </span>
+            <div className="flex items-center gap-1 shrink-0">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openLeaderboard();
+                }}
+                title="Papan Peringkat Nasional"
+                aria-label="Peringkat Nasional"
+                className="w-5 h-5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all cursor-pointer"
+              >
+                <Trophy className="w-2.5 h-2.5 stroke-[2.2]" />
+              </button>
+              <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)]">
+                {todayRushPlayed
+                  ? (dailyRushRecord.completed ? 'SELESAI' : `${dailyRushRecord.score} PTS`)
+                  : '+50 ★'}
+              </span>
+            </div>
           </div>
 
           {/* Title & Desc */}

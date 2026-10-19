@@ -38,6 +38,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
     startDailyRush,
     dailyRushRecord,
     mabarPeers,
+    openLeaderboard,
   } = useGameStore();
 
   const [todayStr] = useState(getTodayDateString);
@@ -650,6 +651,15 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
                 <Play className="w-3 h-3 fill-current stroke-[0]" />
                 <span>{todayRushPlayed ? 'Mainkan Lagi' : 'Mainkan Sekarang'}</span>
               </button>
+
+              <button
+                type="button"
+                onClick={openLeaderboard}
+                className="py-1.5 px-3 rounded-full bg-white/20 hover:bg-white/30 text-white border border-white/25 text-[10.5px] font-black inline-flex items-center gap-1.5 cursor-pointer tactile-active transition-colors"
+              >
+                <Trophy className="w-3 h-3 stroke-[2.2]" />
+                <span>Peringkat</span>
+              </button>
             </div>
 
             {/* Large Solid Mascot Overlay - Plush Indonesian Puzzle Kid */}
@@ -674,9 +684,14 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
                   Catatan Harian Anda
                 </span>
               </div>
-              <span className="text-[8px] font-bold px-2 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/20 text-[var(--accent-main)]">
-                {todayRushPlayed ? (dailyRushRecord?.completed ? '✓ Selesai (+50★)' : 'Tercatat') : 'Tersedia'}
-              </span>
+              <button
+                type="button"
+                onClick={openLeaderboard}
+                className="text-[8px] font-bold px-2 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/20 text-[var(--accent-main)] hover:scale-105 active:scale-95 transition-all inline-flex items-center gap-1 cursor-pointer"
+              >
+                <Trophy className="w-2.5 h-2.5 stroke-[2.2]" />
+                <span>{todayRushPlayed ? (dailyRushRecord?.completed ? '✓ Selesai' : 'Tercatat') : 'Peringkat'}</span>
+              </button>
             </div>
 
             <div className="grid grid-cols-3 divide-x divide-black/6 dark:divide-white/10 text-center py-1">

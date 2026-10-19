@@ -5,6 +5,7 @@ import { THEMES, type ThemeKey, applyTheme } from '../lib/themes';
 import { soundManager } from '../lib/audio';
 import confetti from 'canvas-confetti';
 import { mabarRealtime } from '../lib/mabarRealtime';
+import { submitDailyRushScore, fetchDailyRushLeaderboard, type DbDailyRushRecord } from '../lib/supabase';
 
 export type TabType = 'home' | 'social' | 'game' | 'quests' | 'profile' | 'stats' | 'settings' | 'arena';
 
@@ -138,6 +139,12 @@ interface GameState {
   closeLevelSelect: () => void;
   openLexicon: () => void;
   closeLexicon: () => void;
+  isLeaderboardOpen: boolean;
+  openLeaderboard: () => void;
+  closeLeaderboard: () => void;
+  nationalLeaderboard: DbDailyRushRecord[];
+  isLoadingLeaderboard: boolean;
+  loadNationalLeaderboard: (dateStr?: string) => Promise<void>;
 
   // Gameplay actions
   selectClue: (clueId: string, cellToFocus?: [number, number]) => void;
@@ -478,6 +485,25 @@ export const useGameStore = create<GameState>((set, get) => ({
   openLexicon: () => set({ isLexiconOpen: true }),
   closeLexicon: () => set({ isLexiconOpen: false }),
 
+  isLeaderboardOpen: false,
+  nationalLeaderboard: [],
+  isLoadingLeaderboard: false,
+  openLeaderboard: () => {
+    set({ isLeaderboardOpen: true });
+    get().loadNationalLeaderboard();
+  },
+  closeLeaderboard: () => set({ isLeaderboardOpen: false }),
+  loadNationalLeaderboard: async (dateStr?: string) => {
+    const targetDate = dateStr || getTodayDateString();
+    set({ isLoadingLeaderboard: true });
+    try {
+      const records = await fetchDailyRushLeaderboard(targetDate, 20);
+      set({ nationalLeaderboard: records, isLoadingLeaderboard: false });
+    } catch {
+      set({ isLoadingLeaderboard: false });
+    }
+  },
+
   selectLevel: (index: number) => {
     const { levels, levelRecords } = get();
     const safeIdx = Math.max(0, Math.min(index, levels.length - 1));
@@ -624,6 +650,22 @@ export const useGameStore = create<GameState>((set, get) => ({
       gameMode: 'classic',
       dailyRushRecord: newRecord,
       dailyRushTimeLeft: 0,
+    });
+
+    // Auto-submit score to Supabase National Leaderboard
+    const currentUser = get().user;
+    submitDailyRushScore({
+      userName: currentUser.name,
+      userAvatar: currentUser.avatar,
+      date: today,
+      score: finalScore,
+      timeSpent: isHigherScore ? timeSpent : (dailyRushRecord?.timeSpent || timeSpent),
+      accuracy: isHigherScore ? accuracy : (dailyRushRecord?.accuracy || accuracy),
+      completed: isFullSolved,
+    }).then((ok) => {
+      if (ok) {
+        get().loadNationalLeaderboard(today);
+      }
     });
   },
 

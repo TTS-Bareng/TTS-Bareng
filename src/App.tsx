@@ -14,6 +14,7 @@ const QuestsView = lazy(() => import('./views/QuestsView').then((m) => ({ defaul
 const ProfileView = lazy(() => import('./views/ProfileView').then((m) => ({ default: m.ProfileView })));
 const SettingsView = lazy(() => import('./views/SettingsView').then((m) => ({ default: m.SettingsView })));
 const AuthModal = lazy(() => import('./components/AuthModal').then((m) => ({ default: m.AuthModal })));
+const LeaderboardModal = lazy(() => import('./components/LeaderboardModal').then((m) => ({ default: m.LeaderboardModal })));
 
 const ViewLoadingFallback: React.FC = () => (
   <div className="w-full flex-1 flex flex-col items-center justify-center p-8 select-none">
@@ -169,9 +170,10 @@ export const App: React.FC = () => {
       {/* 2. Sleek Bottom Tab Navigation */}
       <NavigationBottomBar />
 
-      {/* 3. Global Modals (Auth) with Suspense */}
+      {/* 3. Global Modals (Auth, Leaderboard) with Suspense */}
       <Suspense fallback={null}>
         <AuthModal />
+        <LeaderboardModal />
       </Suspense>
     </div>
   );
