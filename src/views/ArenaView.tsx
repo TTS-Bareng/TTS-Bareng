@@ -45,7 +45,6 @@ import {
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
 import { SocialView } from './SocialView';
-import { LexiconModal } from '../components/LexiconModal';
 import { type LevelData } from '../lib/crossword';
 import { REALMS, getRealmForLevel, getLevelsByRealm, type RealmDefinition } from '../lib/realms';
 
@@ -768,9 +767,6 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' }> = ({
           <SocialView isEmbedded />
         </div>
       )}
-
-      {/* Vocabulary Lexicon Modal */}
-      <LexiconModal />
     </div>
   );
 };

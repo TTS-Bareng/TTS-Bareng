@@ -13,8 +13,6 @@ import {
   Shield,
 } from 'lucide-react';
 import { useGameStore, getTodayDateString } from '../store/useGameStore';
-import { AvatarPickerModal } from '../components/AvatarPickerModal';
-import { LexiconModal } from '../components/LexiconModal';
 import { DailyRushBriefingModal } from '../components/DailyRushBriefingModal';
 import confetti from 'canvas-confetti';
 import { type LevelData } from '../lib/crossword';
@@ -201,9 +199,8 @@ export const HomeView: React.FC = () => {
     dailyRushRecord,
     openDailyRushBriefing,
     openLeaderboard,
+    openAvatarPicker,
   } = useGameStore();
-
-  const [isAvatarPickerOpen, setIsAvatarPickerOpen] = useState(false);
 
   const [todayStr] = useState(getTodayDateString);
   const todayRushPlayed = dailyRushRecord?.date === todayStr;
@@ -276,7 +273,7 @@ export const HomeView: React.FC = () => {
         <div className="flex items-center gap-2.5 min-w-0">
           <button
             type="button"
-            onClick={() => setIsAvatarPickerOpen(true)}
+            onClick={openAvatarPicker}
             title="Ganti Foto Profil"
             aria-label="Ganti Foto Profil"
             className="relative cursor-pointer tactile-active shrink-0"
@@ -690,15 +687,6 @@ export const HomeView: React.FC = () => {
           className="absolute -bottom-2 -right-1 w-36 sm:w-44 h-40 sm:h-48 object-contain object-bottom pointer-events-none select-none z-0 filter drop-shadow-md group-hover:scale-105 transition-transform"
         />
       </div>
-
-      {/* Profile Avatar & Name Editor Modal */}
-      <AvatarPickerModal
-        isOpen={isAvatarPickerOpen}
-        onClose={() => setIsAvatarPickerOpen(false)}
-      />
-
-      {/* Personal KBBI Vocabulary Lexicon Modal */}
-      <LexiconModal />
 
       {/* Daily Rush Briefing Preparation Modal */}
       <DailyRushBriefingModal />

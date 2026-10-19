@@ -18,8 +18,6 @@ import {
   Shield,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
-import { AvatarPickerModal } from '../components/AvatarPickerModal';
-import { LexiconModal } from '../components/LexiconModal';
 import { MASCOTS } from '../assets/maskots';
 
 interface CircularProgressProps {
@@ -88,9 +86,9 @@ export const ProfileView: React.FC = () => {
     levelRecords,
     openLexicon,
     setCurrentTab,
+    openAvatarPicker,
   } = useGameStore();
 
-  const [isAvatarPickerOpen, setIsAvatarPickerOpen] = useState(false);
   const [toastMessage] = useState<string | null>(null);
 
   const isCustomImageAvatar = Boolean(
@@ -339,7 +337,7 @@ export const ProfileView: React.FC = () => {
           <div className="flex items-center gap-3 mb-2">
             <button
               type="button"
-              onClick={() => setIsAvatarPickerOpen(true)}
+              onClick={openAvatarPicker}
               title="Ganti Foto Profil"
               aria-label="Ganti Foto Profil"
               className="relative group cursor-pointer tactile-active shrink-0"
@@ -395,7 +393,7 @@ export const ProfileView: React.FC = () => {
           ) : (
             <button
               type="button"
-              onClick={() => setIsAvatarPickerOpen(true)}
+              onClick={openAvatarPicker}
               className="py-1.5 px-3.5 rounded-full bg-white text-[10.5px] font-black inline-flex items-center gap-1.5 cursor-pointer tactile-active shadow-sm group-hover:scale-105 transition-transform"
               style={{ color: 'var(--hero-btn-text, #111113)' }}
             >
@@ -829,13 +827,6 @@ export const ProfileView: React.FC = () => {
         </div>
       </div>
 
-      {/* Modals */}
-      <AvatarPickerModal
-        isOpen={isAvatarPickerOpen}
-        onClose={() => setIsAvatarPickerOpen(false)}
-      />
-
-      <LexiconModal />
     </div>
   );
 };

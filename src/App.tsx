@@ -19,6 +19,8 @@ const ShareModal = lazy(() => import('./components/ShareModal').then((m) => ({ d
 const StreakSavedModal = lazy(() => import('./components/StreakSavedModal').then((m) => ({ default: m.StreakSavedModal })));
 const LeagueModal = lazy(() => import('./components/LeagueModal').then((m) => ({ default: m.LeagueModal })));
 const AchievementDetailModal = lazy(() => import('./components/AchievementDetailModal').then((m) => ({ default: m.AchievementDetailModal })));
+const LexiconModal = lazy(() => import('./components/LexiconModal').then((m) => ({ default: m.LexiconModal })));
+const AvatarPickerModal = lazy(() => import('./components/AvatarPickerModal').then((m) => ({ default: m.AvatarPickerModal })));
 
 const ViewLoadingFallback: React.FC = () => (
   <div className="w-full flex-1 flex flex-col items-center justify-center p-8 select-none">
@@ -39,8 +41,9 @@ export const App: React.FC = () => {
     activeClueId,
     level,
     isLevelCompleteOpen,
-    isAdModalOpen,
     isAuthOpen,
+    isAvatarPickerOpen,
+    closeAvatarPicker,
     inputLetter,
     deleteLetter,
     closeKeyboard,
@@ -93,7 +96,7 @@ export const App: React.FC = () => {
 
     const handleKeyDown = (e: KeyboardEvent) => {
       // Ignore if any modal is active
-      if (isLevelCompleteOpen || isAdModalOpen || isAuthOpen) return;
+      if (isLevelCompleteOpen || isAuthOpen) return;
 
       if (e.key === 'Escape') {
         closeKeyboard();
@@ -136,7 +139,6 @@ export const App: React.FC = () => {
     currentTab,
     activeClueId,
     isLevelCompleteOpen,
-    isAdModalOpen,
     isAuthOpen,
     level,
     inputLetter,
@@ -187,7 +189,7 @@ export const App: React.FC = () => {
       {/* 2. Sleek Bottom Tab Navigation */}
       <NavigationBottomBar />
 
-      {/* 3. Global Modals (Auth, Leaderboard, Share, Retention, League) with Suspense */}
+      {/* 3. Global Modals (Auth, Leaderboard, Share, Retention, League, Lexicon, AvatarPicker) with Suspense */}
       <Suspense fallback={null}>
         <AuthModal />
         <LeaderboardModal />
@@ -195,6 +197,11 @@ export const App: React.FC = () => {
         <StreakSavedModal />
         <LeagueModal />
         <AchievementDetailModal />
+        <LexiconModal />
+        <AvatarPickerModal
+          isOpen={isAvatarPickerOpen}
+          onClose={closeAvatarPicker}
+        />
       </Suspense>
     </div>
   );

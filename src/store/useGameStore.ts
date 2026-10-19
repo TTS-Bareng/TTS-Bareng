@@ -264,13 +264,13 @@ interface GameState {
   // Modals
   isSettingsOpen: boolean;
   isLevelCompleteOpen: boolean;
-  isAdModalOpen: boolean;
   isLevelSelectOpen: boolean;
   isLexiconOpen: boolean;
+  isAvatarPickerOpen: boolean;
   openSettings: () => void;
   closeSettings: () => void;
-  openAdModal: () => void;
-  closeAdModal: () => void;
+  openAvatarPicker: () => void;
+  closeAvatarPicker: () => void;
   closeLevelComplete: () => void;
   openLevelSelect: () => void;
   closeLevelSelect: () => void;
@@ -305,7 +305,6 @@ interface GameState {
   useHint: () => void;
   clearActiveWord: () => void;
   addStars: (amount: number) => void;
-  rewardAdWatch: () => void;
   restartLevel: () => void;
   resetAllProgress: () => void;
 
@@ -1118,7 +1117,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   isSettingsOpen: false,
   isLevelCompleteOpen: false,
-  isAdModalOpen: false,
+  isAvatarPickerOpen: false,
   isLevelSelectOpen: false,
   isLexiconOpen: false,
 
@@ -1137,8 +1136,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       isSettingsOpen: false,
     });
   },
-  openAdModal: () => set({ isAdModalOpen: true }),
-  closeAdModal: () => set({ isAdModalOpen: false }),
+  openAvatarPicker: () => set({ isAvatarPickerOpen: true }),
+  closeAvatarPicker: () => set({ isAvatarPickerOpen: false }),
   closeLevelComplete: () => set({ isLevelCompleteOpen: false }),
   openLevelSelect: () => set({ isLevelSelectOpen: true }),
   closeLevelSelect: () => set({ isLevelSelectOpen: false }),
@@ -2369,7 +2368,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     } = get();
 
     if (stars < 10) {
-      set({ isAdModalOpen: true });
+      get().showGlobalToast('Bintang tidak cukup! Tuntaskan bab atau misi harian untuk menambah bintang.', 3200);
       return;
     }
 
@@ -2523,16 +2522,6 @@ export const useGameStore = create<GameState>((set, get) => ({
     });
   },
 
-  rewardAdWatch: () => {
-    const { stars, soundEnabled, hapticEnabled } = get();
-    const newStars = stars + 30;
-    localStorage.setItem(STORAGE_KEY_STARS, newStars.toString());
-    if (soundEnabled) soundManager.playReward();
-    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate([20, 40]);
-    }
-    set({ stars: newStars, isAdModalOpen: false });
-  },
 
   addStars: (amount: number) => {
     const { stars, soundEnabled, hapticEnabled } = get();

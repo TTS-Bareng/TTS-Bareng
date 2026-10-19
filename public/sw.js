@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tts-quest-cache-v1';
+const CACHE_NAME = 'tts-quest-cache-v2';
 
 const PRECACHE_ASSETS = [
   '/',
@@ -7,26 +7,8 @@ const PRECACHE_ASSETS = [
   '/favicon.svg',
   '/pwa-192x192.png',
   '/pwa-512x512.png',
-  // All 19 WebP Mascot Assets
-  '/maskot/Cheerful%20Plush%20Puzzle%20Explorer.webp',
-  '/maskot/Cheerful%20Puzzle%20Book%20Boy.webp',
-  '/maskot/Cute%20Plush%20Crossword%20Girl%20Sticker.webp',
-  '/maskot/Fierce%20Plush%20Crossword%20Champion.webp',
-  '/maskot/Fuzzy%20Crossword%20Friends%20Playing%20Together.webp',
-  '/maskot/Fuzzy%20Crossword%20Puzzle%20Mascot.webp',
-  '/maskot/Maskot%20Teka-Teki%20Silang%20Ceria.webp',
-  '/maskot/Playful%20Plush%20Crossword%20Board.webp',
-  '/maskot/Plush%20Boy%20Crying%20Over%20Lost%20Streak.webp',
-  '/maskot/Plush%20Boy%20Solving%20a%20Puzzle.webp',
-  '/maskot/Plush%20Crossword%20Duel%20at%2000_45.webp',
-  '/maskot/Plush%20Crossword%20Puzzle%20Girl.webp',
-  '/maskot/Plush%20Crossword%20Puzzle%20Moment.webp',
-  '/maskot/Plush%20Crossword%20Thinker.webp',
-  '/maskot/Plush%20Indonesian%20Batik%20Wordsmith%20Mascot.webp',
-  '/maskot/Plush%20Indonesian%20Puzzle%20Kid.webp',
-  '/maskot/Plush%20Indonesian%20Puzzle%20Pals.webp',
-  '/maskot/Plush%20Puzzle%20Gamer%20with%20Cozy%20Accessories.webp',
-  '/maskot/Plush%20Tech-Savvy%20Walker.webp',
+  '/logo-dark.webp',
+  '/logo-light.webp',
 ];
 
 // Precache static assets & mascots on install

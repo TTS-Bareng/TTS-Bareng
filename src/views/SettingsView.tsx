@@ -19,7 +19,6 @@ import {
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { THEMES, type ThemeKey } from '../lib/themes';
-import { AvatarPickerModal } from '../components/AvatarPickerModal';
 import { MASCOTS } from '../assets/maskots';
 import { promptPWAInstall, onInstallabilityChange } from '../lib/pwa';
 
@@ -42,10 +41,10 @@ export const SettingsView: React.FC = () => {
     toggleAutoAdvance,
     errorFeedbackMode,
     setErrorFeedbackMode,
+    openAvatarPicker,
   } = useGameStore();
 
   const [showResetConfirm, setShowResetConfirm] = useState(false);
-  const [isAvatarPickerOpen, setIsAvatarPickerOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isInstallable, setIsInstallable] = useState(false);
 
@@ -232,7 +231,7 @@ export const SettingsView: React.FC = () => {
           {/* Avatar Button */}
           <button
             type="button"
-            onClick={() => setIsAvatarPickerOpen(true)}
+            onClick={openAvatarPicker}
             title="Ganti Foto Profil"
             className="w-13 h-13 rounded-2xl bg-white/20 border border-white/30 flex items-center justify-center p-1 overflow-hidden relative group cursor-pointer tactile-active shrink-0 shadow-sm"
           >
@@ -267,7 +266,7 @@ export const SettingsView: React.FC = () => {
 
             <button
               type="button"
-              onClick={() => setIsAvatarPickerOpen(true)}
+              onClick={openAvatarPicker}
               className="text-[10px] text-white/85 hover:text-white font-bold hover:underline block text-left cursor-pointer mb-2 transition-colors"
             >
               Ubah Foto & Nama Profil →
@@ -739,12 +738,6 @@ export const SettingsView: React.FC = () => {
           <span>v1.0 • Mabar Teka Teki Silang • Standar KBBI</span>
         </div>
       </footer>
-
-      {/* Avatar Picker Modal Component */}
-      <AvatarPickerModal
-        isOpen={isAvatarPickerOpen}
-        onClose={() => setIsAvatarPickerOpen(false)}
-      />
     </div>
   );
 };

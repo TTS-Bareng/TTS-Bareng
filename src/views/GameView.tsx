@@ -9,8 +9,6 @@ import { CustomKeyboard } from '../components/CustomKeyboard';
 import { ClueListDrawer } from '../components/ClueListDrawer';
 import { LevelCompleteModal } from '../components/LevelCompleteModal';
 import { LevelSelectModal } from '../components/LevelSelectModal';
-import { LexiconModal } from '../components/LexiconModal';
-import { AdModal } from '../components/AdModal';
 import { MabarReactionTray } from '../components/MabarReactionTray';
 import { BattleResultModal } from '../components/BattleResultModal';
 import { DailyRushResultModal } from '../components/DailyRushResultModal';
@@ -135,8 +133,6 @@ export const GameView: React.FC = () => {
       {/* 5. Modals & Drawers */}
       <LevelCompleteModal />
       <LevelSelectModal />
-      <LexiconModal />
-      <AdModal />
       <BattleResultModal />
       <DailyRushResultModal />
       <AnagramWheelDrawer />
