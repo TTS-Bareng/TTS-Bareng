@@ -261,6 +261,20 @@ export const REALMS: RealmDefinition[] = [
     subtitle: 'Teorema Pythagoras, aljabar persamaan, kalkulus limit, fraktal, topologi, dan bilangan prima',
     categories: ['Matematika'],
   },
+  {
+    id: 'theme_37_nostalgia',
+    name: 'Nostalgia Generasi 90 & 2000an',
+    tag: 'Nostalgia & Jadul',
+    subtitle: 'Kartun minggu pagi, era warnet biling, rental PS, jingle iklan TV, dan lagu hits',
+    categories: ['Nostalgia'],
+  },
+  {
+    id: 'theme_38_popculture',
+    name: 'Pop Culture & Hiburan Dunia',
+    tag: 'Pop Culture & Tren',
+    subtitle: 'Film box office, komik manga, panggung konser musik akbar, dan tren gaya hidup',
+    categories: ['Pop Culture'],
+  },
 ];
 
 export function getRealmForCategory(category?: string): RealmDefinition {

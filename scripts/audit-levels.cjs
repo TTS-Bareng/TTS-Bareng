@@ -45,6 +45,8 @@ const categoryToRealm = {
   'Sejarah Dunia': 'Sejarah Peradaban Dunia',
   'Biologi Molekuler': 'Biologi Molekuler & Sel',
   'Matematika': 'Matematika & Geometri',
+  'Nostalgia': 'Nostalgia Generasi 90 & 2000an',
+  'Pop Culture': 'Pop Culture & Hiburan Dunia',
 };
 
 levels.forEach((lvl, idx) => {

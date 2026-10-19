@@ -47,6 +47,8 @@ import {
   Castle,
   Dna,
   Binary,
+  Tv,
+  Popcorn,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
@@ -92,6 +94,8 @@ const REALM_ICONS: Record<string, React.ElementType> = {
   theme_34_sejarahdunia: Castle,
   theme_35_biologimolekuler: Dna,
   theme_36_matematika: Binary,
+  theme_37_nostalgia: Tv,
+  theme_38_popculture: Popcorn,
 };
 
 /** Crossword Grid Pattern Overlay (Oversized Graphic Watermark Texture) */

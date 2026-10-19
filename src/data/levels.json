@@ -110820,5 +110820,5598 @@
         }
       ]
     }
+  },
+  {
+    "id": "level_361_kartun_minggu_pagi",
+    "title": "Kartun Minggu Pagi & Anime TV",
+    "category": "Nostalgia",
+    "size": {
+      "rows": 8,
+      "cols": 10
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 7,
+        "answer": "K",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 0,
+        "c": 9,
+        "answer": "L",
+        "number": 2,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 1,
+        "answer": "K",
+        "number": 3,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "answer": "A",
+        "number": 4,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 1,
+        "c": 6,
+        "answer": "P",
+        "number": 5,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": "across_5",
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 8,
+        "answer": "G",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 9,
+        "answer": "I",
+        "number": null,
+        "across": "across_5",
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 0,
+        "answer": "B",
+        "number": 6,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": "down_3"
+      },
+      {
+        "r": 2,
+        "c": 2,
+        "answer": "L",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "answer": "I",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": "across_6",
+        "down": "down_4"
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "answer": "G",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 7,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 9,
+        "answer": "B",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 1,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 3,
+        "c": 7,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 9,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 1,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 4,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 4,
+        "c": 7,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 9,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 5,
+        "c": 0,
+        "answer": "D",
+        "number": 7,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 1,
+        "answer": "O",
+        "number": null,
+        "across": "across_7",
+        "down": "down_3"
+      },
+      {
+        "r": 5,
+        "c": 2,
+        "answer": "R",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 4,
+        "answer": "E",
+        "number": null,
+        "across": "across_7",
+        "down": "down_4"
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "answer": "M",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 6,
+        "answer": "O",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 7,
+        "answer": "N",
+        "number": null,
+        "across": "across_7",
+        "down": "down_1"
+      },
+      {
+        "r": 6,
+        "c": 1,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 7,
+        "c": 1,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_5",
+          "number": 5,
+          "direction": "across",
+          "text": "Waktu penayangan serial animasi di hari minggu ceria",
+          "answer": "PAGI",
+          "cells": [
+            [
+              1,
+              6
+            ],
+            [
+              1,
+              7
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              1,
+              9
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Alat terbang baling-baling bambu andalan Nobita",
+          "answer": "BALING",
+          "cells": [
+            [
+              2,
+              0
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              2,
+              5
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_7",
+          "number": 7,
+          "direction": "across",
+          "text": "Robot kucing masa depan dari abad ke-22 berkantong ajaib",
+          "answer": "DORAEMON",
+          "cells": [
+            [
+              5,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              5,
+              3
+            ],
+            [
+              5,
+              4
+            ],
+            [
+              5,
+              5
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              5,
+              7
+            ]
+          ],
+          "length": 8
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Tontonan animasi favorit anak-anak di layar televisi",
+          "answer": "KARTUN",
+          "cells": [
+            [
+              0,
+              7
+            ],
+            [
+              1,
+              7
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              3,
+              7
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              7
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Hari minggu menyenangkan untuk bersantai menonton televisi",
+          "answer": "LIBUR",
+          "cells": [
+            [
+              0,
+              9
+            ],
+            [
+              1,
+              9
+            ],
+            [
+              2,
+              9
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              4,
+              9
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Tempat ajaib Doraemon menyimpan berbagai peralatan canggih",
+          "answer": "KANTONG",
+          "cells": [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              1
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_4",
+          "number": 4,
+          "direction": "down",
+          "text": "Animasi khas negeri sakura Jepang yang digemari remaja",
+          "answer": "ANIME",
+          "cells": [
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              5,
+              4
+            ]
+          ],
+          "length": 5
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_362_era_warnet_game_online",
+    "title": "Kejayaan Era Warnet & Game Online",
+    "category": "Nostalgia",
+    "size": {
+      "rows": 8,
+      "cols": 11
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 5,
+        "answer": "M",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "answer": "D",
+        "number": 2,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 2,
+        "answer": "B",
+        "number": 3,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "answer": "I",
+        "number": null,
+        "across": "across_3",
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "answer": "L",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "answer": "L",
+        "number": null,
+        "across": "across_3",
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 6,
+        "answer": "I",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 7,
+        "answer": "N",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 8,
+        "answer": "G",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 10,
+        "answer": "W",
+        "number": 4,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 5,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 4,
+        "c": 3,
+        "answer": "K",
+        "number": 5,
+        "across": "across_5",
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 4,
+        "answer": "O",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 5,
+        "answer": "M",
+        "number": null,
+        "across": "across_5",
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 6,
+        "answer": "P",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 7,
+        "answer": "U",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 8,
+        "answer": "T",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 9,
+        "answer": "E",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 10,
+        "answer": "R",
+        "number": null,
+        "across": "across_5",
+        "down": "down_4"
+      },
+      {
+        "r": 5,
+        "c": 3,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 5,
+        "c": 10,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 6,
+        "c": 0,
+        "answer": "C",
+        "number": 6,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 1,
+        "answer": "H",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 2,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 3,
+        "answer": "T",
+        "number": null,
+        "across": "across_6",
+        "down": "down_2"
+      },
+      {
+        "r": 6,
+        "c": 5,
+        "answer": "O",
+        "number": 7,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 6,
+        "answer": "N",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 7,
+        "answer": "L",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 8,
+        "answer": "I",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 9,
+        "answer": "N",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 10,
+        "answer": "E",
+        "number": null,
+        "across": "across_7",
+        "down": "down_4"
+      },
+      {
+        "r": 7,
+        "c": 10,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_3",
+          "number": 3,
+          "direction": "across",
+          "text": "Program komputer pencatat durasi waktu pemakaian internet",
+          "answer": "BILLING",
+          "cells": [
+            [
+              2,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              2,
+              8
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_5",
+          "number": 5,
+          "direction": "across",
+          "text": "Perangkat meja tabung tebal di dalam bilik warnet",
+          "answer": "KOMPUTER",
+          "cells": [
+            [
+              4,
+              3
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              4,
+              8
+            ],
+            [
+              4,
+              9
+            ],
+            [
+              4,
+              10
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Obrolan pesan instan era sembilan puluhan lewat mIRC",
+          "answer": "CHAT",
+          "cells": [
+            [
+              6,
+              0
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              6,
+              2
+            ],
+            [
+              6,
+              3
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "across_7",
+          "number": 7,
+          "direction": "across",
+          "text": "Mode permainan multipemain terhubung jaringan maya",
+          "answer": "ONLINE",
+          "cells": [
+            [
+              6,
+              5
+            ],
+            [
+              6,
+              6
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              6,
+              9
+            ],
+            [
+              6,
+              10
+            ]
+          ],
+          "length": 6
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Paket begadang murah di warnet dari malam hingga subuh",
+          "answer": "MALAM",
+          "cells": [
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              4,
+              5
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Media penyimpan data magnetik jadul berkapasitas kecil",
+          "answer": "DISKET",
+          "cells": [
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              5,
+              3
+            ],
+            [
+              6,
+              3
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_4",
+          "number": 4,
+          "direction": "down",
+          "text": "Tempat sewa komputer dan internet bertarif per jam",
+          "answer": "WARNET",
+          "cells": [
+            [
+              2,
+              10
+            ],
+            [
+              3,
+              10
+            ],
+            [
+              4,
+              10
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              6,
+              10
+            ],
+            [
+              7,
+              10
+            ]
+          ],
+          "length": 6
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_363_rental_ps_game_konsol",
+    "title": "Rental PS & Game Konsol Legendaris",
+    "category": "Nostalgia",
+    "size": {
+      "rows": 7,
+      "cols": 11
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 1,
+        "answer": "M",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 0,
+        "c": 4,
+        "answer": "M",
+        "number": 2,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 0,
+        "answer": "R",
+        "number": 3,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 1,
+        "answer": "E",
+        "number": null,
+        "across": "across_3",
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 2,
+        "answer": "N",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "answer": "T",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_3",
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "answer": "L",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 1,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 6,
+        "answer": "K",
+        "number": 4,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 3,
+        "c": 0,
+        "answer": "P",
+        "number": 5,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_5",
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 2,
+        "answer": "T",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "answer": "U",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": "across_5",
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 5,
+        "answer": "G",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": "across_5",
+        "down": "down_4"
+      },
+      {
+        "r": 3,
+        "c": 7,
+        "answer": "N",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 10,
+        "answer": "S",
+        "number": 6,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 4,
+        "c": 1,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 6,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 4,
+        "c": 10,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 5,
+        "c": 1,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "answer": "M",
+        "number": 7,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 6,
+        "answer": "E",
+        "number": null,
+        "across": "across_7",
+        "down": "down_4"
+      },
+      {
+        "r": 5,
+        "c": 7,
+        "answer": "M",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 8,
+        "answer": "O",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 9,
+        "answer": "R",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 10,
+        "answer": "I",
+        "number": null,
+        "across": "across_7",
+        "down": "down_6"
+      },
+      {
+        "r": 6,
+        "c": 6,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 6,
+        "c": 10,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_3",
+          "number": 3,
+          "direction": "across",
+          "text": "Tempat sewa bermain konsol video game favorit anak-anak",
+          "answer": "RENTAL",
+          "cells": [
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_5",
+          "number": 5,
+          "direction": "across",
+          "text": "Mengumpulkan uang jajan bersama kawan demi sewa satu jam",
+          "answer": "PATUNGAN",
+          "cells": [
+            [
+              3,
+              0
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              3,
+              2
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              3,
+              7
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "across_7",
+          "number": 7,
+          "direction": "across",
+          "text": "Kartu penyimpan berkas progres permainan agar tidak hilang",
+          "answer": "MEMORI",
+          "cells": [
+            [
+              5,
+              5
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              5,
+              8
+            ],
+            [
+              5,
+              9
+            ],
+            [
+              5,
+              10
+            ]
+          ],
+          "length": 6
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Hasil gembira berhasil mengalahkan skor lawan main",
+          "answer": "MENANG",
+          "cells": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Aktivitas seru menantang teman bertanding sepak bola",
+          "answer": "MAIN",
+          "cells": [
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              3,
+              4
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "down_4",
+          "number": 4,
+          "direction": "down",
+          "text": "Cakram piringan game yang dimasukkan ke dalam mesin",
+          "answer": "KASET",
+          "cells": [
+            [
+              2,
+              6
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              6,
+              6
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_6",
+          "number": 6,
+          "direction": "down",
+          "text": "Alat pengendali permainan yang digenggam dua tangan",
+          "answer": "STIK",
+          "cells": [
+            [
+              3,
+              10
+            ],
+            [
+              4,
+              10
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              6,
+              10
+            ]
+          ],
+          "length": 4
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_364_iklan_tv_jadul_jingle",
+    "title": "Iklan TV Jadul & Jingle Terngiang",
+    "category": "Nostalgia",
+    "size": {
+      "rows": 10,
+      "cols": 7
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 0,
+        "answer": "J",
+        "number": 1,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 1,
+        "answer": "I",
+        "number": 2,
+        "across": "across_1",
+        "down": "down_2"
+      },
+      {
+        "r": 0,
+        "c": 2,
+        "answer": "N",
+        "number": null,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 3,
+        "answer": "G",
+        "number": null,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 4,
+        "answer": "L",
+        "number": null,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 5,
+        "answer": "E",
+        "number": null,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 1,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 1,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "answer": "S",
+        "number": 3,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 0,
+        "answer": "H",
+        "number": 4,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_4",
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 2,
+        "answer": "F",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "answer": "L",
+        "number": null,
+        "across": "across_4",
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 1,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 4,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 5,
+        "c": 2,
+        "answer": "L",
+        "number": 5,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 5,
+        "c": 4,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 6,
+        "c": 0,
+        "answer": "S",
+        "number": 6,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 1,
+        "answer": "I",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 2,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": "down_5"
+      },
+      {
+        "r": 6,
+        "c": 3,
+        "answer": "R",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": "down_3"
+      },
+      {
+        "r": 6,
+        "c": 5,
+        "answer": "N",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 2,
+        "answer": "Y",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 7,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 8,
+        "c": 2,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 9,
+        "c": 1,
+        "answer": "P",
+        "number": 7,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 2,
+        "answer": "R",
+        "number": null,
+        "across": "across_7",
+        "down": "down_5"
+      },
+      {
+        "r": 9,
+        "c": 3,
+        "answer": "O",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 4,
+        "answer": "D",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 5,
+        "answer": "U",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 6,
+        "answer": "K",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_1",
+          "number": 1,
+          "direction": "across",
+          "text": "Lagu pendek khas promosi yang selalu terngiang di ingatan",
+          "answer": "JINGLE",
+          "cells": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_4",
+          "number": 4,
+          "direction": "across",
+          "text": "Kondisi ingat di luar kepala lirik lagu iklan yang sering tayang",
+          "answer": "HAFAL",
+          "cells": [
+            [
+              3,
+              0
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              3,
+              2
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              3,
+              4
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Pancaran gelombang program acara ke seluruh pelosok tanah air",
+          "answer": "SIARAN",
+          "cells": [
+            [
+              6,
+              0
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              6,
+              2
+            ],
+            [
+              6,
+              3
+            ],
+            [
+              6,
+              4
+            ],
+            [
+              6,
+              5
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_7",
+          "number": 7,
+          "direction": "across",
+          "text": "Barang dagangan sabun atau minuman yang dipromosikan",
+          "answer": "PRODUK",
+          "cells": [
+            [
+              9,
+              1
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              9,
+              4
+            ],
+            [
+              9,
+              5
+            ],
+            [
+              9,
+              6
+            ]
+          ],
+          "length": 6
+        }
+      ],
+      "down": [
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Tayangan pariwara produk yang disiarkan di jeda acara televisi",
+          "answer": "IKLAN",
+          "cells": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Kalimat semboyan menarik pemikat perhatian pemirsa",
+          "answer": "SLOGAN",
+          "cells": [
+            [
+              2,
+              4
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              5,
+              4
+            ],
+            [
+              6,
+              4
+            ],
+            [
+              7,
+              4
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Permukaan kaca tabung televisi tempat gambar bergerak tampil",
+          "answer": "LAYAR",
+          "cells": [
+            [
+              5,
+              2
+            ],
+            [
+              6,
+              2
+            ],
+            [
+              7,
+              2
+            ],
+            [
+              8,
+              2
+            ],
+            [
+              9,
+              2
+            ]
+          ],
+          "length": 5
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_365_mainan_jadul_jajanan_sd",
+    "title": "Mainan Jadul & Jajanan SD",
+    "category": "Nostalgia",
+    "size": {
+      "rows": 12,
+      "cols": 8
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 4,
+        "answer": "P",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 0,
+        "answer": "K",
+        "number": 2,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 1,
+        "answer": "E",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 2,
+        "answer": "L",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "answer": "E",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "answer": "R",
+        "number": null,
+        "across": "across_2",
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "answer": "E",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 6,
+        "answer": "N",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 7,
+        "answer": "G",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 1,
+        "answer": "T",
+        "number": 3,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 4,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 5,
+        "c": 0,
+        "answer": "J",
+        "number": 4,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_4",
+        "down": "down_3"
+      },
+      {
+        "r": 5,
+        "c": 2,
+        "answer": "J",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": "across_4",
+        "down": "down_1"
+      },
+      {
+        "r": 6,
+        "c": 1,
+        "answer": "Z",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 7,
+        "c": 0,
+        "answer": "L",
+        "number": 5,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 1,
+        "answer": "O",
+        "number": null,
+        "across": "across_5",
+        "down": "down_3"
+      },
+      {
+        "r": 7,
+        "c": 2,
+        "answer": "N",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 3,
+        "answer": "C",
+        "number": 6,
+        "across": "across_5",
+        "down": "down_6"
+      },
+      {
+        "r": 7,
+        "c": 4,
+        "answer": "E",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 5,
+        "answer": "N",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 6,
+        "answer": "G",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 1,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 8,
+        "c": 3,
+        "answer": "H",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 9,
+        "c": 3,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 10,
+        "c": 3,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 11,
+        "c": 0,
+        "answer": "T",
+        "number": 7,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 2,
+        "answer": "M",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 3,
+        "answer": "I",
+        "number": null,
+        "across": "across_7",
+        "down": "down_6"
+      },
+      {
+        "r": 11,
+        "c": 4,
+        "answer": "Y",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 5,
+        "answer": "A",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_2",
+          "number": 2,
+          "direction": "across",
+          "text": "Butiran kaca bulat bening aneka warna untuk adu bidik",
+          "answer": "KELERENG",
+          "cells": [
+            [
+              2,
+              0
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "across_4",
+          "number": 4,
+          "direction": "across",
+          "text": "Membeli kudapan di gerobak abang penjual depan pagar sekolah",
+          "answer": "JAJAN",
+          "cells": [
+            [
+              5,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              5,
+              3
+            ],
+            [
+              5,
+              4
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_5",
+          "number": 5,
+          "direction": "across",
+          "text": "Bunyi tanda istirahat berdentang disambut sorak siswa",
+          "answer": "LONCENG",
+          "cells": [
+            [
+              7,
+              0
+            ],
+            [
+              7,
+              1
+            ],
+            [
+              7,
+              2
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              7,
+              4
+            ],
+            [
+              7,
+              5
+            ],
+            [
+              7,
+              6
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_7",
+          "number": 7,
+          "direction": "across",
+          "text": "Mobil balap mini empat roda berdinamo yang melaju di lintasan",
+          "answer": "TAMIYA",
+          "cells": [
+            [
+              11,
+              0
+            ],
+            [
+              11,
+              1
+            ],
+            [
+              11,
+              2
+            ],
+            [
+              11,
+              3
+            ],
+            [
+              11,
+              4
+            ],
+            [
+              11,
+              5
+            ]
+          ],
+          "length": 6
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Gula-gula manis favorit pelekat lidah sepulang jam sekolah",
+          "answer": "PERMEN",
+          "cells": [
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              5,
+              4
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Kepingan plastik bundar bergambar karakter untuk disusun",
+          "answer": "TAZOS",
+          "cells": [
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              1
+            ],
+            [
+              8,
+              1
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_6",
+          "number": 6,
+          "direction": "down",
+          "text": "Makanan ringan renyah berhadiah stiker atau tazos mainan",
+          "answer": "CHIKI",
+          "cells": [
+            [
+              7,
+              3
+            ],
+            [
+              8,
+              3
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              10,
+              3
+            ],
+            [
+              11,
+              3
+            ]
+          ],
+          "length": 5
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_366_lagu_hits_band_dua_ribu",
+    "title": "Lagu Hits Band Indonesia 2000-an",
+    "category": "Nostalgia",
+    "size": {
+      "rows": 11,
+      "cols": 7
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 0,
+        "answer": "V",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 0,
+        "c": 4,
+        "answer": "H",
+        "number": 2,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 0,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 0,
+        "answer": "K",
+        "number": 3,
+        "across": "across_3",
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 2,
+        "answer": "S",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "answer": "E",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "answer": "T",
+        "number": null,
+        "across": "across_3",
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 0,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 0,
+        "answer": "L",
+        "number": 4,
+        "across": "across_4",
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 2,
+        "answer": "G",
+        "number": 5,
+        "across": "across_4",
+        "down": "down_5"
+      },
+      {
+        "r": 4,
+        "c": 3,
+        "answer": "U",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 2,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 6,
+        "c": 2,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 7,
+        "c": 2,
+        "answer": "A",
+        "number": 6,
+        "across": "across_6",
+        "down": "down_5"
+      },
+      {
+        "r": 7,
+        "c": 3,
+        "answer": "L",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 4,
+        "answer": "B",
+        "number": 7,
+        "across": "across_6",
+        "down": "down_7"
+      },
+      {
+        "r": 7,
+        "c": 5,
+        "answer": "U",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 6,
+        "answer": "M",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 2,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 8,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 9,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 10,
+        "c": 4,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_3",
+          "number": 3,
+          "direction": "across",
+          "text": "Pita magnetik musik yang diputar dalam radio tape recorder",
+          "answer": "KASET",
+          "cells": [
+            [
+              2,
+              0
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              2,
+              4
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_4",
+          "number": 4,
+          "direction": "across",
+          "text": "Gubahan musik indah bersyair yang dinyanyikan penuh perasaan",
+          "answer": "LAGU",
+          "cells": [
+            [
+              4,
+              0
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              4,
+              3
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Kumpulan lagu rekaman yang dirilis resmi oleh grup musik",
+          "answer": "ALBUM",
+          "cells": [
+            [
+              7,
+              2
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              7,
+              4
+            ],
+            [
+              7,
+              5
+            ],
+            [
+              7,
+              6
+            ]
+          ],
+          "length": 5
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Suara merdu sang penyanyi utama pemikat hati pendengar",
+          "answer": "VOKAL",
+          "cells": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              3,
+              0
+            ],
+            [
+              4,
+              0
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Lagu paling populer dan sering diputar di tangga radio",
+          "answer": "HITS",
+          "cells": [
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              3,
+              4
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Alat musik berdawai andalan pengiring petikan melodi pop",
+          "answer": "GITAR",
+          "cells": [
+            [
+              4,
+              2
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              6,
+              2
+            ],
+            [
+              7,
+              2
+            ],
+            [
+              8,
+              2
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_7",
+          "number": 7,
+          "direction": "down",
+          "text": "Grup musik beranggotakan vokalis, gitaris, dan penabuh drum",
+          "answer": "BAND",
+          "cells": [
+            [
+              7,
+              4
+            ],
+            [
+              8,
+              4
+            ],
+            [
+              9,
+              4
+            ],
+            [
+              10,
+              4
+            ]
+          ],
+          "length": 4
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_367_film_box_office_ikonik",
+    "title": "Film Box Office & Karakter Ikonik",
+    "category": "Pop Culture",
+    "size": {
+      "rows": 8,
+      "cols": 10
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 2,
+        "answer": "N",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 0,
+        "answer": "B",
+        "number": 2,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 1,
+        "answer": "I",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 2,
+        "answer": "O",
+        "number": null,
+        "across": "across_2",
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "answer": "S",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "answer": "K",
+        "number": 3,
+        "across": "across_2",
+        "down": "down_3"
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "answer": "O",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 6,
+        "answer": "P",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 2,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 2,
+        "c": 7,
+        "answer": "S",
+        "number": 4,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 3,
+        "c": 0,
+        "answer": "A",
+        "number": 5,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 1,
+        "answer": "K",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 2,
+        "answer": "T",
+        "number": null,
+        "across": "across_5",
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "answer": "O",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "answer": "R",
+        "number": null,
+        "across": "across_5",
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 6,
+        "answer": "H",
+        "number": 6,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 7,
+        "answer": "E",
+        "number": null,
+        "across": "across_6",
+        "down": "down_4"
+      },
+      {
+        "r": 3,
+        "c": 8,
+        "answer": "R",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 9,
+        "answer": "O",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 2,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 4,
+        "answer": "P",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 7,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 5,
+        "c": 2,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 5,
+        "c": 4,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 5,
+        "c": 7,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 6,
+        "c": 4,
+        "answer": "T",
+        "number": 7,
+        "across": "across_7",
+        "down": "down_3"
+      },
+      {
+        "r": 6,
+        "c": 5,
+        "answer": "I",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 6,
+        "answer": "K",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 7,
+        "answer": "E",
+        "number": null,
+        "across": "across_7",
+        "down": "down_4"
+      },
+      {
+        "r": 6,
+        "c": 8,
+        "answer": "T",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 7,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_2",
+          "number": 2,
+          "direction": "across",
+          "text": "Gedung berlayar raksasa tempat pemutaran film-film perdana",
+          "answer": "BIOSKOP",
+          "cells": [
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              6
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_5",
+          "number": 5,
+          "direction": "across",
+          "text": "Pemeran watak yang menghidupkan tokoh dalam cerita sinema",
+          "answer": "AKTOR",
+          "cells": [
+            [
+              3,
+              0
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              3,
+              2
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              3,
+              4
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Sosok pahlawan pembela kebenaran pelindung warga kota",
+          "answer": "HERO",
+          "cells": [
+            [
+              3,
+              6
+            ],
+            [
+              3,
+              7
+            ],
+            [
+              3,
+              8
+            ],
+            [
+              3,
+              9
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "across_7",
+          "number": 7,
+          "direction": "across",
+          "text": "Tanda karcis masuk ruang teater tempat duduk bernomor",
+          "answer": "TIKET",
+          "cells": [
+            [
+              6,
+              4
+            ],
+            [
+              6,
+              5
+            ],
+            [
+              6,
+              6
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "length": 5
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Duduk menyaksikan tayangan seru bersama sahabat terdekat",
+          "answer": "NONTON",
+          "cells": [
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              3,
+              2
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              5,
+              2
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Hamparan kain merah tempat para bintang berjalan di festival",
+          "answer": "KARPET",
+          "cells": [
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              5,
+              4
+            ],
+            [
+              6,
+              4
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_4",
+          "number": 4,
+          "direction": "down",
+          "text": "Film lanjutan penyambung kisah sukses karya sebelumnya",
+          "answer": "SEKUEL",
+          "cells": [
+            [
+              2,
+              7
+            ],
+            [
+              3,
+              7
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              7,
+              7
+            ]
+          ],
+          "length": 6
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_368_seri_animasi_dan_komik",
+    "title": "Seri Animasi & Komik Populer",
+    "category": "Pop Culture",
+    "size": {
+      "rows": 10,
+      "cols": 6
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 1,
+        "answer": "T",
+        "number": 1,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 2,
+        "answer": "O",
+        "number": null,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 3,
+        "answer": "K",
+        "number": 2,
+        "across": "across_1",
+        "down": "down_2"
+      },
+      {
+        "r": 0,
+        "c": 4,
+        "answer": "O",
+        "number": null,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 5,
+        "answer": "H",
+        "number": null,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "answer": "G",
+        "number": 3,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 0,
+        "answer": "C",
+        "number": 4,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 1,
+        "answer": "E",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 2,
+        "answer": "R",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "answer": "I",
+        "number": null,
+        "across": "across_4",
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "answer": "T",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 5,
+        "answer": "A",
+        "number": null,
+        "across": "across_4",
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 3,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 5,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 5,
+        "c": 2,
+        "answer": "P",
+        "number": 5,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "answer": "B",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 6,
+        "c": 1,
+        "answer": "M",
+        "number": 6,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 2,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": "down_5"
+      },
+      {
+        "r": 6,
+        "c": 3,
+        "answer": "N",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 4,
+        "answer": "G",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 5,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": "down_3"
+      },
+      {
+        "r": 7,
+        "c": 2,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 7,
+        "c": 5,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 8,
+        "c": 2,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 9,
+        "c": 0,
+        "answer": "B",
+        "number": 7,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 2,
+        "answer": "L",
+        "number": null,
+        "across": "across_7",
+        "down": "down_5"
+      },
+      {
+        "r": 9,
+        "c": 3,
+        "answer": "O",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_1",
+          "number": 1,
+          "direction": "across",
+          "text": "Figur rekaan utama penggerak seluruh rangkaian alur cerita",
+          "answer": "TOKOH",
+          "cells": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_4",
+          "number": 4,
+          "direction": "across",
+          "text": "Alur kisah petualangan seru sang tokoh utama dari awal",
+          "answer": "CERITA",
+          "cells": [
+            [
+              3,
+              0
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              3,
+              2
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              3,
+              5
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Sebutan komik gaya khas Jepang yang dibaca dari kanan",
+          "answer": "MANGA",
+          "cells": [
+            [
+              6,
+              1
+            ],
+            [
+              6,
+              2
+            ],
+            [
+              6,
+              3
+            ],
+            [
+              6,
+              4
+            ],
+            [
+              6,
+              5
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_7",
+          "number": 7,
+          "direction": "across",
+          "text": "Ruang lingkaran tempat teks percakapan tokoh dituliskan",
+          "answer": "BALON",
+          "cells": [
+            [
+              9,
+              0
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              9,
+              4
+            ]
+          ],
+          "length": 5
+        }
+      ],
+      "down": [
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Cerita bergambar dalam buku yang disukai aneka kalangan",
+          "answer": "KOMIK",
+          "cells": [
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              4,
+              3
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Karya visual ilustrasi yang memperjelas suasana babak",
+          "answer": "GAMBAR",
+          "cells": [
+            [
+              2,
+              5
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              5,
+              5
+            ],
+            [
+              6,
+              5
+            ],
+            [
+              7,
+              5
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Kotak bingkai pemisah adegan gambar pada halaman komik",
+          "answer": "PANEL",
+          "cells": [
+            [
+              5,
+              2
+            ],
+            [
+              6,
+              2
+            ],
+            [
+              7,
+              2
+            ],
+            [
+              8,
+              2
+            ],
+            [
+              9,
+              2
+            ]
+          ],
+          "length": 5
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_369_konser_musik_festival",
+    "title": "Konser Musik & Panggung Festival",
+    "category": "Pop Culture",
+    "size": {
+      "rows": 12,
+      "cols": 9
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 6,
+        "answer": "M",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 6,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "answer": "S",
+        "number": 2,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "answer": "O",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 6,
+        "answer": "R",
+        "number": null,
+        "across": "across_2",
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 8,
+        "answer": "K",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 6,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 1,
+        "answer": "P",
+        "number": 3,
+        "across": "across_3",
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 2,
+        "answer": "A",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 3,
+        "answer": "N",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 4,
+        "answer": "G",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 5,
+        "answer": "G",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 6,
+        "answer": "U",
+        "number": null,
+        "across": "across_3",
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 7,
+        "answer": "N",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 8,
+        "answer": "G",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 1,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 6,
+        "c": 1,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 7,
+        "c": 0,
+        "answer": "S",
+        "number": 4,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 1,
+        "answer": "O",
+        "number": null,
+        "across": "across_4",
+        "down": "down_3"
+      },
+      {
+        "r": 7,
+        "c": 2,
+        "answer": "R",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 3,
+        "answer": "O",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 4,
+        "answer": "T",
+        "number": 5,
+        "across": "across_4",
+        "down": "down_5"
+      },
+      {
+        "r": 8,
+        "c": 1,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 8,
+        "c": 4,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 9,
+        "c": 1,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 9,
+        "c": 4,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 10,
+        "c": 0,
+        "answer": "K",
+        "number": 6,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 1,
+        "answer": "O",
+        "number": null,
+        "across": "across_6",
+        "down": "down_3"
+      },
+      {
+        "r": 10,
+        "c": 2,
+        "answer": "N",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 3,
+        "answer": "S",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 4,
+        "answer": "E",
+        "number": null,
+        "across": "across_6",
+        "down": "down_5"
+      },
+      {
+        "r": 10,
+        "c": 5,
+        "answer": "R",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 1,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 11,
+        "c": 4,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_2",
+          "number": 2,
+          "direction": "across",
+          "text": "Gemuruh teriakan kagum para penonton saat lagu pembuka",
+          "answer": "SORAK",
+          "cells": [
+            [
+              2,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              2,
+              8
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_3",
+          "number": 3,
+          "direction": "across",
+          "text": "Area pentas tempat musisi beraksi di bawah sorot lampu",
+          "answer": "PANGGUNG",
+          "cells": [
+            [
+              4,
+              1
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              4,
+              8
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "across_4",
+          "number": 4,
+          "direction": "across",
+          "text": "Lampu panggung aneka warna pemeriah suasana pertunjukan",
+          "answer": "SOROT",
+          "cells": [
+            [
+              7,
+              0
+            ],
+            [
+              7,
+              1
+            ],
+            [
+              7,
+              2
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              7,
+              4
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Pertunjukan musik langsung yang dihadiri ribuan penggemar",
+          "answer": "KONSER",
+          "cells": [
+            [
+              10,
+              0
+            ],
+            [
+              10,
+              1
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              10,
+              3
+            ],
+            [
+              10,
+              4
+            ],
+            [
+              10,
+              5
+            ]
+          ],
+          "length": 6
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Suara vokal indah yang menggetarkan sanubari hadirin",
+          "answer": "MERDU",
+          "cells": [
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              4,
+              6
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Kerumunan penggemar yang bernyanyi bersama sang idola",
+          "answer": "PENONTON",
+          "cells": [
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              1
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              10,
+              1
+            ],
+            [
+              11,
+              1
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Tiket gelang masuk gelanggang festival musik akbar",
+          "answer": "TIKET",
+          "cells": [
+            [
+              7,
+              4
+            ],
+            [
+              8,
+              4
+            ],
+            [
+              9,
+              4
+            ],
+            [
+              10,
+              4
+            ],
+            [
+              11,
+              4
+            ]
+          ],
+          "length": 5
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_370_tren_mode_gaya_pakaian",
+    "title": "Tren Mode & Gaya Pakaian Populer",
+    "category": "Pop Culture",
+    "size": {
+      "rows": 10,
+      "cols": 9
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 7,
+        "answer": "W",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "answer": "K",
+        "number": 2,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 1,
+        "answer": "S",
+        "number": 3,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 2,
+        "answer": "N",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "answer": "E",
+        "number": null,
+        "across": "across_3",
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "answer": "K",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 6,
+        "answer": "E",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 7,
+        "answer": "R",
+        "number": null,
+        "across": "across_3",
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 8,
+        "answer": "S",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 7,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 2,
+        "answer": "C",
+        "number": 4,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 3,
+        "answer": "E",
+        "number": null,
+        "across": "across_4",
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 4,
+        "answer": "L",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 5,
+        "answer": "A",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 6,
+        "answer": "N",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": "across_4",
+        "down": "down_1"
+      },
+      {
+        "r": 5,
+        "c": 1,
+        "answer": "J",
+        "number": 5,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 5,
+        "c": 3,
+        "answer": "J",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 6,
+        "c": 0,
+        "answer": "G",
+        "number": 6,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": "down_5"
+      },
+      {
+        "r": 6,
+        "c": 2,
+        "answer": "Y",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": "down_2"
+      },
+      {
+        "r": 7,
+        "c": 1,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 8,
+        "c": 1,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 9,
+        "c": 1,
+        "answer": "T",
+        "number": 7,
+        "across": "across_7",
+        "down": "down_5"
+      },
+      {
+        "r": 9,
+        "c": 2,
+        "answer": "O",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 3,
+        "answer": "P",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 4,
+        "answer": "I",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_3",
+          "number": 3,
+          "direction": "across",
+          "text": "Sepatu kasual beralas karet yang nyaman dipakai sehari-hari",
+          "answer": "SNEAKERS",
+          "cells": [
+            [
+              2,
+              1
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              2,
+              8
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "across_4",
+          "number": 4,
+          "direction": "across",
+          "text": "Pakaian bawahan penutup kaki yang pas dan nyaman dikenakan",
+          "answer": "CELANA",
+          "cells": [
+            [
+              4,
+              2
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              4,
+              7
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Penampilan khas seseorang yang mencerminkan rasa percaya diri",
+          "answer": "GAYA",
+          "cells": [
+            [
+              6,
+              0
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              6,
+              2
+            ],
+            [
+              6,
+              3
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "across_7",
+          "number": 7,
+          "direction": "across",
+          "text": "Penutup kepala pelindung terik matahari sekaligus gaya",
+          "answer": "TOPI",
+          "cells": [
+            [
+              9,
+              1
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              9,
+              4
+            ]
+          ],
+          "length": 4
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Pilihan corak cerah atau netral pada paduan busana",
+          "answer": "WARNA",
+          "cells": [
+            [
+              0,
+              7
+            ],
+            [
+              1,
+              7
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              3,
+              7
+            ],
+            [
+              4,
+              7
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Pakaian berkerah berkancing rapi untuk suasana semi formal",
+          "answer": "KEMEJA",
+          "cells": [
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              5,
+              3
+            ],
+            [
+              6,
+              3
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Pakaian luaran hangat penambah gaya saat bepergian santai",
+          "answer": "JAKET",
+          "cells": [
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              1
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              9,
+              1
+            ]
+          ],
+          "length": 5
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_371_komunitas_hobi_kreatif",
+    "title": "Komunitas & Hobi Kreatif",
+    "category": "Pop Culture",
+    "size": {
+      "rows": 12,
+      "cols": 10
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 3,
+        "answer": "F",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 0,
+        "c": 6,
+        "answer": "K",
+        "number": 2,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "answer": "A",
+        "number": 3,
+        "across": "across_3",
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "answer": "C",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "answer": "A",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 6,
+        "answer": "R",
+        "number": null,
+        "across": "across_3",
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 6,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 3,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 6,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 5,
+        "c": 1,
+        "answer": "K",
+        "number": 4,
+        "across": "across_4",
+        "down": "down_4"
+      },
+      {
+        "r": 5,
+        "c": 2,
+        "answer": "O",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 3,
+        "answer": "M",
+        "number": null,
+        "across": "across_4",
+        "down": "down_1"
+      },
+      {
+        "r": 5,
+        "c": 4,
+        "answer": "U",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "answer": "N",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 6,
+        "answer": "I",
+        "number": null,
+        "across": "across_4",
+        "down": "down_2"
+      },
+      {
+        "r": 5,
+        "c": 7,
+        "answer": "T",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 9,
+        "answer": "S",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 1,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 6,
+        "c": 6,
+        "answer": "F",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 7,
+        "c": 1,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 7,
+        "c": 3,
+        "answer": "K",
+        "number": 5,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 8,
+        "c": 0,
+        "answer": "T",
+        "number": 6,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 1,
+        "answer": "E",
+        "number": null,
+        "across": "across_6",
+        "down": "down_4"
+      },
+      {
+        "r": 8,
+        "c": 2,
+        "answer": "M",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": "down_5"
+      },
+      {
+        "r": 8,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 1,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 9,
+        "c": 3,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 10,
+        "c": 1,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 10,
+        "c": 3,
+        "answer": "Y",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 11,
+        "c": 1,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 11,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_3",
+          "number": 3,
+          "direction": "across",
+          "text": "Kegiatan pameran atau pertemuan rutin antar penggemar",
+          "answer": "ACARA",
+          "cells": [
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              1,
+              7
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_4",
+          "number": 4,
+          "direction": "across",
+          "text": "Perkumpulan orang dengan minat dan kegemaran yang sama",
+          "answer": "KOMUNITAS",
+          "cells": [
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              5,
+              3
+            ],
+            [
+              5,
+              4
+            ],
+            [
+              5,
+              5
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              5,
+              8
+            ],
+            [
+              5,
+              9
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Sahabat sehobi tempat bertukar cerita dan koleksi barang",
+          "answer": "TEMAN",
+          "cells": [
+            [
+              8,
+              0
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              8,
+              2
+            ],
+            [
+              8,
+              3
+            ],
+            [
+              8,
+              4
+            ]
+          ],
+          "length": 5
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Kelompok penggemar setia suatu karya atau figur idola",
+          "answer": "FANDOM",
+          "cells": [
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              5,
+              3
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Daya cipta melahirkan karya unik di luar kebiasaan umum",
+          "answer": "KREATIF",
+          "cells": [
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              6,
+              6
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_4",
+          "number": 4,
+          "direction": "down",
+          "text": "Kumpulan benda hobi yang dikumpulkan dengan penuh dedikasi",
+          "answer": "KOLEKSI",
+          "cells": [
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              1
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              10,
+              1
+            ],
+            [
+              11,
+              1
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Hasil ciptaan orisinal buatan tangan anggota komunitas",
+          "answer": "KARYA",
+          "cells": [
+            [
+              7,
+              3
+            ],
+            [
+              8,
+              3
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              10,
+              3
+            ],
+            [
+              11,
+              3
+            ]
+          ],
+          "length": 5
+        }
+      ]
+    }
   }
 ]
