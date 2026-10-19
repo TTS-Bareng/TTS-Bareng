@@ -387,6 +387,27 @@ export const REALMS: RealmDefinition[] = [
     subtitle: 'Pendaratan Apollo di bulan, stasiun orbit ISS, robot penjelajah Mars, roket satelit, dan teleskop angkasa',
     categories: ['Penjelajahan Antariksa'],
   },
+  {
+    id: 'theme_55_kelautan',
+    name: 'Kelautan, Oseanografi & Misteri Samudra',
+    tag: 'Kelautan & Samudra',
+    subtitle: 'Palung terdalam Mariana, pasang surut arus laut, raksasa samudra paus, segitiga terumbu karang, dan mangrove',
+    categories: ['Kelautan & Samudra'],
+  },
+  {
+    id: 'theme_56_cuacaiklim',
+    name: 'Cuaca, Iklim & Dinamika Semesta',
+    tag: 'Cuaca & Iklim',
+    subtitle: 'Pusaran badai tropis tornado, erupsi magma vulkanik, gempa tektonik richter, dinamika El Nino, dan pelangi',
+    categories: ['Cuaca & Iklim'],
+  },
+  {
+    id: 'theme_57_kerajaannusantara',
+    name: 'Kerajaan Kuno & Hikayat Nusantara',
+    tag: 'Kerajaan Nusantara',
+    subtitle: 'Kejayaan Majapahit Sumpah Palapa, armada Sriwijaya, Singasari Ken Arok, Mataram Kuno, dan prasasti lontar',
+    categories: ['Kerajaan Nusantara'],
+  },
 ];
 
 export function getRealmForCategory(category?: string): RealmDefinition {

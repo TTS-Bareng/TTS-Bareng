@@ -65,6 +65,9 @@ import {
   Languages,
   Crown,
   Rocket,
+  Waves,
+  CloudLightning,
+  ShieldAlert,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
@@ -128,6 +131,9 @@ const REALM_ICONS: Record<string, React.ElementType> = {
   theme_52_bahasainggris: Languages,
   theme_53_mitologi: Crown,
   theme_54_antariksa: Rocket,
+  theme_55_kelautan: Waves,
+  theme_56_cuacaiklim: CloudLightning,
+  theme_57_kerajaannusantara: ShieldAlert,
 };
 
 /** Crossword Grid Pattern Overlay (Oversized Graphic Watermark Texture) */

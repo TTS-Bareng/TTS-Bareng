@@ -63,6 +63,9 @@ const categoryToRealm = {
   'Bahasa Inggris Menengah': 'Kosakata Bahasa Inggris Menengah',
   'Mitologi Dunia': 'Mitologi, Kisah Klasik & Legenda Dunia',
   'Penjelajahan Antariksa': 'Penjelajahan Antariksa & Misi Luar Angkasa',
+  'Kelautan & Samudra': 'Kelautan, Oseanografi & Misteri Samudra',
+  'Cuaca & Iklim': 'Cuaca, Iklim & Dinamika Semesta',
+  'Kerajaan Nusantara': 'Kerajaan Kuno & Hikayat Nusantara',
 };
 
 levels.forEach((lvl, idx) => {
