@@ -185,7 +185,7 @@ export const SettingsView: React.FC = () => {
         <span className="text-[10px] font-black uppercase tracking-wider text-[var(--text-secondary)] px-1">
           TAMPILAN & WARNA
         </span>
-        <div className="w-full rounded-[20px] p-3 liquid-glass-card border border-black/5 dark:border-white/10 shadow-xs relative overflow-hidden">
+        <div className="w-full rounded-[20px] p-3 liquid-glass-neutral-card relative overflow-hidden">
           <div className="flex items-center justify-between mb-2 px-0.5">
             <div className="flex items-center gap-1.5 text-[var(--text-primary)]">
               <Palette className="w-3.5 h-3.5 text-[var(--accent-main)]" />
@@ -196,8 +196,8 @@ export const SettingsView: React.FC = () => {
             </span>
           </div>
 
-          {/* Compact Horizontal Swatch Strip */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+          {/* Horizontal Swatch Strip - Kotak Rounded Miniature Previews */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar px-0.5">
             {themeList.map((t) => {
               const isSelected = theme === t.id;
               return (
@@ -205,28 +205,61 @@ export const SettingsView: React.FC = () => {
                   key={t.id}
                   type="button"
                   onClick={() => setTheme(t.id as ThemeKey)}
-                  className={`flex flex-col items-center gap-1.5 py-2 px-2.5 rounded-xl transition-all cursor-pointer tactile-active shrink-0 ${
+                  className={`flex flex-col items-center gap-1.5 p-1.5 rounded-[14px] transition-all cursor-pointer tactile-active shrink-0 ${
                     isSelected
-                      ? 'bg-[var(--accent-light)] border border-[var(--accent-main)]/30 ring-1 ring-[var(--accent-main)]/20 shadow-xs'
-                      : 'bg-black/3 dark:bg-white/5 border border-black/5 dark:border-white/10 hover:border-black/15'
+                      ? 'bg-[var(--accent-light)] border border-[var(--accent-main)]/35 ring-1.5 ring-[var(--accent-main)]/25 shadow-xs'
+                      : 'bg-black/[0.03] dark:bg-white/[0.04] border border-black/5 dark:border-white/10 hover:border-black/15'
                   }`}
                 >
+                  {/* Kotak Rounded Swatch Tile Preview */}
                   <div
-                    className="w-7 h-7 rounded-full flex items-center justify-center shadow-xs border border-black/10 dark:border-white/15 relative"
+                    className="w-[64px] h-[38px] rounded-[9px] p-1.5 flex flex-col justify-between border border-black/10 dark:border-white/15 relative overflow-hidden shadow-2xs"
                     style={{ backgroundColor: t.previewBg }}
                   >
-                    <div
-                      className="w-3.5 h-3.5 rounded-full flex items-center justify-center"
-                      style={{ backgroundColor: t.previewAccent }}
-                    >
+                    {/* Top Row: Mini accent bar + Selected check badge */}
+                    <div className="flex items-center justify-between">
+                      <div
+                        className="w-4 h-1.5 rounded-full shadow-2xs"
+                        style={{ backgroundColor: t.previewAccent }}
+                      />
                       {isSelected && (
-                        <Check className="w-2 h-2 stroke-[3.5] text-white" />
+                        <div
+                          className="w-3.5 h-3.5 rounded-[4px] flex items-center justify-center shadow-xs"
+                          style={{ backgroundColor: t.previewAccent }}
+                        >
+                          <Check
+                            className="w-2.5 h-2.5 stroke-[3.5]"
+                            style={{
+                              color: THEMES[t.id as ThemeKey]?.vars['--accent-contrast'] || '#FFFFFF',
+                            }}
+                          />
+                        </div>
                       )}
                     </div>
+
+                    {/* Bottom Row: 3 mini crossword block tiles (kotak rounded) */}
+                    <div className="flex items-center gap-1">
+                      <div
+                        className="w-2.5 h-2.5 rounded-[3px] shadow-2xs"
+                        style={{ backgroundColor: t.previewAccent }}
+                      />
+                      <div
+                        className="w-2.5 h-2.5 rounded-[3px] border border-black/15 dark:border-white/20 bg-white/20"
+                      />
+                      <div
+                        className="w-2.5 h-2.5 rounded-[3px] border border-black/15 dark:border-white/20 bg-white/20"
+                      />
+                    </div>
                   </div>
-                  <span className={`text-[9.5px] truncate max-w-[70px] leading-none ${
-                    isSelected ? 'font-black text-[var(--text-primary)]' : 'font-medium text-[var(--text-secondary)]'
-                  }`}>
+
+                  {/* Theme Name */}
+                  <span
+                    className={`text-[9.5px] truncate max-w-[68px] leading-tight text-center ${
+                      isSelected
+                        ? 'font-black text-[var(--text-primary)]'
+                        : 'font-semibold text-[var(--text-secondary)]'
+                    }`}
+                  >
                     {t.name}
                   </span>
                 </button>
@@ -241,7 +274,7 @@ export const SettingsView: React.FC = () => {
         <span className="text-[10px] font-black uppercase tracking-wider text-[var(--text-secondary)] px-1">
           PENGALAMAN BERMAIN
         </span>
-        <div className="w-full rounded-[20px] overflow-hidden liquid-glass-card border border-black/5 dark:border-white/10 shadow-xs divide-y divide-black/5 dark:divide-white/10">
+        <div className="w-full rounded-[20px] overflow-hidden liquid-glass-neutral-card divide-y divide-black/5 dark:divide-white/10">
           {/* Row 1: Efek Suara */}
           <div className="flex items-center justify-between p-3">
             <div className="flex items-center gap-3 min-w-0 pr-2">
@@ -417,7 +450,7 @@ export const SettingsView: React.FC = () => {
         <span className="text-[10px] font-black uppercase tracking-wider text-[var(--text-secondary)] px-1">
           PENYIMPANAN & CADANGAN
         </span>
-        <div className="w-full rounded-[20px] p-3 liquid-glass-card border border-black/5 dark:border-white/10 shadow-xs flex flex-col gap-2.5">
+        <div className="w-full rounded-[20px] p-3 liquid-glass-neutral-card flex flex-col gap-2.5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-7.5 h-7.5 rounded-xl bg-[var(--accent-light)] text-[var(--accent-main)] flex items-center justify-center shrink-0">
@@ -472,7 +505,7 @@ export const SettingsView: React.FC = () => {
         <span className="text-[10px] font-black uppercase tracking-wider text-[var(--text-secondary)] px-1">
           INFORMASI & LEGALITAS
         </span>
-        <div className="w-full rounded-[20px] overflow-hidden liquid-glass-card border border-black/5 dark:border-white/10 shadow-xs divide-y divide-black/5 dark:divide-white/10">
+        <div className="w-full rounded-[20px] overflow-hidden liquid-glass-neutral-card divide-y divide-black/5 dark:divide-white/10">
           <button
             type="button"
             onClick={() => openLegalModal('privacy')}
@@ -543,7 +576,7 @@ export const SettingsView: React.FC = () => {
         <span className="text-[10px] font-black uppercase tracking-wider text-red-500/80 px-1">
           PENGELOLAAN DATA & AKUN
         </span>
-        <div className="w-full rounded-[20px] overflow-hidden liquid-glass-card border border-red-500/20 shadow-xs divide-y divide-black/5 dark:divide-white/10">
+        <div className="w-full rounded-[20px] overflow-hidden liquid-glass-neutral-card border-red-500/25 divide-y divide-black/5 dark:divide-white/10">
           {/* Reset Progres Bab */}
           <div className="p-3">
             {showResetConfirm ? (
