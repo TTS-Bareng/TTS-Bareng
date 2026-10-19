@@ -83,6 +83,19 @@ export interface BattleConfig {
   wordCount: 'short' | 'medium' | 'long';
 }
 
+export interface DailyRushLastRun {
+  score: number;
+  speedScore: number;
+  accuracyScore: number;
+  streakScore: number;
+  completionBonus: number;
+  timeSpent: number;
+  accuracy: number;
+  isFullSolved: boolean;
+  isNewBest: boolean;
+  date: string;
+}
+
 interface GameState {
   // Navigation
   currentTab: TabType;
@@ -93,6 +106,13 @@ interface GameState {
   gameMode: 'classic' | 'daily_rush' | '1v1_battle';
   dailyRushTimeLeft: number;
   dailyRushRecord: DailyRushRecord | null;
+  dailyRushLastRunResult: DailyRushLastRun | null;
+  isDailyRushBriefingOpen: boolean;
+  openDailyRushBriefing: () => void;
+  closeDailyRushBriefing: () => void;
+  isDailyRushResultOpen: boolean;
+  openDailyRushResult: () => void;
+  closeDailyRushResult: () => void;
   startDailyRush: () => void;
   tickDailyRush: () => void;
   finishDailyRush: (completed: boolean) => void;
@@ -475,6 +495,13 @@ export const useGameStore = create<GameState>((set, get) => ({
   gameMode: 'classic',
   dailyRushTimeLeft: 90,
   dailyRushRecord: getInitialDailyRushRecord(),
+  dailyRushLastRunResult: null,
+  isDailyRushBriefingOpen: false,
+  openDailyRushBriefing: () => set({ isDailyRushBriefingOpen: true }),
+  closeDailyRushBriefing: () => set({ isDailyRushBriefingOpen: false }),
+  isDailyRushResultOpen: false,
+  openDailyRushResult: () => set({ isDailyRushResultOpen: true }),
+  closeDailyRushResult: () => set({ isDailyRushResultOpen: false }),
   streak: 3,
   stars: getInitialStars(),
 
@@ -1228,9 +1255,9 @@ export const useGameStore = create<GameState>((set, get) => ({
     const { levels, selectLevel, soundEnabled, hapticEnabled } = get();
     const dailyIdx = getDailyRushLevelIndex(levels.length);
     selectLevel(dailyIdx);
-    if (soundEnabled) soundManager.playKeyClick();
+    if (soundEnabled) soundManager.playReward();
     if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate(15);
+      navigator.vibrate(20);
     }
     set({
       gameMode: 'daily_rush',
@@ -1238,7 +1265,21 @@ export const useGameStore = create<GameState>((set, get) => ({
       currentTab: 'game',
       wordStreak: 0,
       comboMessage: null,
+      validationMessage: null,
+      isDailyRushBriefingOpen: false,
+      isDailyRushResultOpen: false,
+      userInputs: {},
+      lockedCells: {},
+      solvedClues: [],
+      cellAuthors: {},
+      clueAuthors: {},
+      activeClueId: null,
+      focusedCell: null,
+      levelStartTime: Date.now(),
+      levelMistakes: 0,
+      levelHintsUsed: 0,
     });
+    get().showGlobalToast('Daily Rush 90s Dimulai! Pecahkan secepat mungkin!', 2800);
   },
 
   tickDailyRush: () => {
@@ -1267,7 +1308,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       solvedClues,
       level,
       addStars,
-      showGlobalToast,
+      soundEnabled,
       dailyRushRecord,
     } = get();
 
@@ -1298,15 +1339,33 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     if (isFullSolved) {
       addStars(50);
-      showGlobalToast(`Daily Rush Selesai! Skor: ${totalScore} Pts (+50★)`, 3500);
-    } else {
-      showGlobalToast(`Waktu Habis! Skor Akhir: ${totalScore} Pts`, 3200);
+      if (soundEnabled) soundManager.playVictory();
+      confetti({
+        particleCount: 140,
+        spread: 80,
+        origin: { y: 0.6 },
+      });
     }
+
+    const lastRun: DailyRushLastRun = {
+      score: totalScore,
+      speedScore,
+      accuracyScore,
+      streakScore,
+      completionBonus,
+      timeSpent,
+      accuracy,
+      isFullSolved,
+      isNewBest: isHigherScore,
+      date: today,
+    };
 
     set({
       gameMode: 'classic',
       dailyRushRecord: newRecord,
       dailyRushTimeLeft: 0,
+      dailyRushLastRunResult: lastRun,
+      isDailyRushResultOpen: true,
     });
 
     // Auto-submit score to Supabase National Leaderboard

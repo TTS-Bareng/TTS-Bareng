@@ -14,6 +14,7 @@ import {
 import { useGameStore, getTodayDateString } from '../store/useGameStore';
 import { AvatarPickerModal } from '../components/AvatarPickerModal';
 import { LexiconModal } from '../components/LexiconModal';
+import { DailyRushBriefingModal } from '../components/DailyRushBriefingModal';
 import confetti from 'canvas-confetti';
 import { type LevelData } from '../lib/crossword';
 import { MASCOTS } from '../assets/maskots';
@@ -195,8 +196,8 @@ export const HomeView: React.FC = () => {
     addStars,
     openAuth,
     openLexicon,
-    startDailyRush,
     dailyRushRecord,
+    openDailyRushBriefing,
     openLeaderboard,
   } = useGameStore();
 
@@ -453,7 +454,7 @@ export const HomeView: React.FC = () => {
       <div className="w-full grid grid-cols-2 gap-3 shrink-0">
         {/* Left: Daily Rush (Half Card, Mascot: Plush Puzzle Gamer - Enlarged) */}
         <div
-          onClick={startDailyRush}
+          onClick={openDailyRushBriefing}
           className="rounded-[24px] p-3.5 relative z-10 cursor-pointer tactile-active group transition-all overflow-hidden border border-[var(--accent-main)]/20 shadow-xs flex flex-col justify-between min-h-[175px]"
           style={{
             background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
@@ -680,6 +681,9 @@ export const HomeView: React.FC = () => {
 
       {/* Personal KBBI Vocabulary Lexicon Modal */}
       <LexiconModal />
+
+      {/* Daily Rush Briefing Preparation Modal */}
+      <DailyRushBriefingModal />
     </div>
   );
 };

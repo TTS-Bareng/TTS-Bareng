@@ -19,6 +19,7 @@ export const Header: React.FC = () => {
     isLevelCompleteOpen,
     gameMode,
     dailyRushTimeLeft,
+    finishDailyRush,
     activeRoomCode,
     mabarPeers,
     leaveMabarSession,
@@ -70,6 +71,13 @@ export const Header: React.FC = () => {
             if (isBattle) {
               if (window.confirm('Tinggalkan duel 1v1 yang sedang berjalan?')) {
                 setCurrentTab('arena');
+              }
+              return;
+            }
+            if (isDailyRush) {
+              if (window.confirm('Keluar dari sesi Daily Rush? Sisa waktu akan hangus.')) {
+                finishDailyRush(false);
+                setCurrentTab('home');
               }
               return;
             }

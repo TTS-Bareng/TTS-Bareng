@@ -13,6 +13,7 @@ import { LexiconModal } from '../components/LexiconModal';
 import { AdModal } from '../components/AdModal';
 import { MabarReactionTray } from '../components/MabarReactionTray';
 import { BattleResultModal } from '../components/BattleResultModal';
+import { DailyRushResultModal } from '../components/DailyRushResultModal';
 
 export const GameView: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -136,6 +137,7 @@ export const GameView: React.FC = () => {
       <LexiconModal />
       <AdModal />
       <BattleResultModal />
+      <DailyRushResultModal />
     </div>
   );
 };
