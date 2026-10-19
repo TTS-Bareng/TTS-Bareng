@@ -1,0 +1,5293 @@
+[
+  {
+    "id": "level_151_rendang_minang",
+    "title": "Warisan Rendang Minangkabau & Karamelisasi Santan",
+    "category": "Kuliner",
+    "size": {
+      "rows": 14,
+      "cols": 14
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 12,
+        "answer": "D",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 12,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 10,
+        "answer": "T",
+        "number": 2,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 12,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 1,
+        "answer": "L",
+        "number": 3,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 9,
+        "answer": "G",
+        "number": 4,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 10,
+        "answer": "U",
+        "number": null,
+        "across": "across_4",
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 11,
+        "answer": "L",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 12,
+        "answer": "A",
+        "number": null,
+        "across": "across_4",
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 13,
+        "answer": "I",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 1,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 6,
+        "answer": "S",
+        "number": 5,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 4,
+        "c": 8,
+        "answer": "M",
+        "number": 6,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 4,
+        "c": 10,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 12,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 5,
+        "c": 1,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 5,
+        "c": 3,
+        "answer": "R",
+        "number": 7,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "answer": "D",
+        "number": 8,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": "across_8",
+        "down": "down_5"
+      },
+      {
+        "r": 5,
+        "c": 7,
+        "answer": "G",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 8,
+        "answer": "I",
+        "number": null,
+        "across": "across_8",
+        "down": "down_6"
+      },
+      {
+        "r": 5,
+        "c": 9,
+        "answer": "N",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 10,
+        "answer": "G",
+        "number": null,
+        "across": "across_8",
+        "down": "down_2"
+      },
+      {
+        "r": 6,
+        "c": 1,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 6,
+        "c": 3,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 6,
+        "c": 6,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 6,
+        "c": 8,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 6,
+        "c": 10,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 7,
+        "c": 1,
+        "answer": "K",
+        "number": 9,
+        "across": "across_9",
+        "down": "down_3"
+      },
+      {
+        "r": 7,
+        "c": 2,
+        "answer": "U",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 3,
+        "answer": "N",
+        "number": null,
+        "across": "across_9",
+        "down": "down_7"
+      },
+      {
+        "r": 7,
+        "c": 4,
+        "answer": "Y",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 5,
+        "answer": "I",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 6,
+        "answer": "T",
+        "number": null,
+        "across": "across_9",
+        "down": "down_5"
+      },
+      {
+        "r": 7,
+        "c": 8,
+        "answer": "Y",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 7,
+        "c": 10,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 8,
+        "c": 1,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 8,
+        "c": 3,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 8,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 8,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 9,
+        "c": 0,
+        "answer": "C",
+        "number": 10,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_10",
+        "down": "down_3"
+      },
+      {
+        "r": 9,
+        "c": 2,
+        "answer": "B",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": "across_10",
+        "down": "down_7"
+      },
+      {
+        "r": 9,
+        "c": 4,
+        "answer": "I",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 6,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 9,
+        "c": 8,
+        "answer": "K",
+        "number": 11,
+        "across": "across_11",
+        "down": "down_6"
+      },
+      {
+        "r": 9,
+        "c": 9,
+        "answer": "A",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 10,
+        "answer": "S",
+        "number": 12,
+        "across": "across_11",
+        "down": "down_12"
+      },
+      {
+        "r": 9,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 12,
+        "answer": "R",
+        "number": 13,
+        "across": "across_11",
+        "down": "down_13"
+      },
+      {
+        "r": 10,
+        "c": 1,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 10,
+        "c": 3,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 10,
+        "c": 10,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 10,
+        "c": 12,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 11,
+        "c": 3,
+        "answer": "G",
+        "number": 14,
+        "across": "across_14",
+        "down": "down_7"
+      },
+      {
+        "r": 11,
+        "c": 4,
+        "answer": "U",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 5,
+        "answer": "R",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 6,
+        "answer": "I",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 7,
+        "answer": "H",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 9,
+        "answer": "A",
+        "number": 15,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 10,
+        "answer": "R",
+        "number": null,
+        "across": "across_15",
+        "down": "down_12"
+      },
+      {
+        "r": 11,
+        "c": 11,
+        "answer": "O",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 12,
+        "answer": "M",
+        "number": null,
+        "across": "across_15",
+        "down": "down_13"
+      },
+      {
+        "r": 11,
+        "c": 13,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 12,
+        "c": 12,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 13,
+        "c": 10,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 13,
+        "c": 12,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_13"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_4",
+          "number": 4,
+          "direction": "across",
+          "text": "Masakan berkuah santan kental berbumbu rempah kuning gurih",
+          "answer": "GULAI",
+          "cells": [
+            [
+              3,
+              9
+            ],
+            [
+              3,
+              10
+            ],
+            [
+              3,
+              11
+            ],
+            [
+              3,
+              12
+            ],
+            [
+              3,
+              13
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_8",
+          "number": 8,
+          "direction": "across",
+          "text": "Bagian otot sapi pilihan bahan baku utama rendang luhur",
+          "answer": "DAGING",
+          "cells": [
+            [
+              5,
+              5
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              5,
+              8
+            ],
+            [
+              5,
+              9
+            ],
+            [
+              5,
+              10
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_9",
+          "number": 9,
+          "direction": "across",
+          "text": "Rimpang kuning alami pewarna dan bumbu antiseptik khas dapur nusantara",
+          "answer": "KUNYIT",
+          "cells": [
+            [
+              7,
+              1
+            ],
+            [
+              7,
+              2
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              7,
+              4
+            ],
+            [
+              7,
+              5
+            ],
+            [
+              7,
+              6
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_10",
+          "number": 10,
+          "direction": "across",
+          "text": "Buah pedas berwarna merah sumber senyawa kapsaisin perangsang nafsu makan",
+          "answer": "CABAI",
+          "cells": [
+            [
+              9,
+              0
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              9,
+              4
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_11",
+          "number": 11,
+          "direction": "across",
+          "text": "Tekstur dedak bumbu rempah kelapa sangrai olahan tradisional",
+          "answer": "KASAR",
+          "cells": [
+            [
+              9,
+              8
+            ],
+            [
+              9,
+              9
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              9,
+              11
+            ],
+            [
+              9,
+              12
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_14",
+          "number": 14,
+          "direction": "across",
+          "text": "Sensasi rasa umami lezat perpaduan santan dan bumbu kaya rasa",
+          "answer": "GURIH",
+          "cells": [
+            [
+              11,
+              3
+            ],
+            [
+              11,
+              4
+            ],
+            [
+              11,
+              5
+            ],
+            [
+              11,
+              6
+            ],
+            [
+              11,
+              7
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_15",
+          "number": 15,
+          "direction": "across",
+          "text": "Wangi harum semerbak kepulan masakan bumbu tumis",
+          "answer": "AROMA",
+          "cells": [
+            [
+              11,
+              9
+            ],
+            [
+              11,
+              10
+            ],
+            [
+              11,
+              11
+            ],
+            [
+              11,
+              12
+            ],
+            [
+              11,
+              13
+            ]
+          ],
+          "length": 5
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Endapan bumbu rendang berwarna cokelat kehitaman yang gurih dan kaya rempah",
+          "answer": "DEDAK",
+          "cells": [
+            [
+              0,
+              12
+            ],
+            [
+              1,
+              12
+            ],
+            [
+              2,
+              12
+            ],
+            [
+              3,
+              12
+            ],
+            [
+              4,
+              12
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Perapian tanah liat tradisional berbahan bakar kayu",
+          "answer": "TUNGKU",
+          "cells": [
+            [
+              2,
+              10
+            ],
+            [
+              3,
+              10
+            ],
+            [
+              4,
+              10
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              6,
+              10
+            ],
+            [
+              7,
+              10
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Tumbuhan rimpang bumbu dapur pemberi aroma segar masakan gulai dan rendang",
+          "answer": "LENGKUAS",
+          "cells": [
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              1
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              10,
+              1
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Cairan putih gurih sari perasan parutan kelapa",
+          "answer": "SANTAN",
+          "cells": [
+            [
+              4,
+              6
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              6,
+              6
+            ],
+            [
+              7,
+              6
+            ],
+            [
+              8,
+              6
+            ],
+            [
+              9,
+              6
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_6",
+          "number": 6,
+          "direction": "down",
+          "text": "Minyak kelapa alami yang keluar dari proses reduksi santan pekat",
+          "answer": "MINYAK",
+          "cells": [
+            [
+              4,
+              8
+            ],
+            [
+              5,
+              8
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              9,
+              8
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_7",
+          "number": 7,
+          "direction": "down",
+          "text": "Masakan daging Minangkabau dengan santan kental yang dimasak hingga menghitam",
+          "answer": "RENDANG",
+          "cells": [
+            [
+              5,
+              3
+            ],
+            [
+              6,
+              3
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              8,
+              3
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              10,
+              3
+            ],
+            [
+              11,
+              3
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_12",
+          "number": 12,
+          "direction": "down",
+          "text": "Batang rumput aromatik bumbu dapur pemberi kesegaran masakan nusantara",
+          "answer": "SERAI",
+          "cells": [
+            [
+              9,
+              10
+            ],
+            [
+              10,
+              10
+            ],
+            [
+              11,
+              10
+            ],
+            [
+              12,
+              10
+            ],
+            [
+              13,
+              10
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_13",
+          "number": 13,
+          "direction": "down",
+          "text": "Kondisi serat rempah kering yang digiling lembut di cobek",
+          "answer": "REMUK",
+          "cells": [
+            [
+              9,
+              12
+            ],
+            [
+              10,
+              12
+            ],
+            [
+              11,
+              12
+            ],
+            [
+              12,
+              12
+            ],
+            [
+              13,
+              12
+            ]
+          ],
+          "length": 5
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_152_soto_nusantara",
+    "title": "Khazanah Soto Nusantara & Kuah Rempah Aromatik",
+    "category": "Kuliner",
+    "size": {
+      "rows": 11,
+      "cols": 18
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 13,
+        "answer": "J",
+        "number": 1,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 14,
+        "answer": "E",
+        "number": 2,
+        "across": "across_1",
+        "down": "down_2"
+      },
+      {
+        "r": 0,
+        "c": 15,
+        "answer": "R",
+        "number": null,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 16,
+        "answer": "U",
+        "number": null,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 17,
+        "answer": "K",
+        "number": 3,
+        "across": "across_1",
+        "down": "down_3"
+      },
+      {
+        "r": 1,
+        "c": 6,
+        "answer": "K",
+        "number": 4,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 1,
+        "c": 14,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 17,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 2,
+        "c": 6,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 2,
+        "c": 9,
+        "answer": "P",
+        "number": 5,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 2,
+        "c": 14,
+        "answer": "P",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 17,
+        "answer": "Y",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 6,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 3,
+        "c": 8,
+        "answer": "S",
+        "number": 6,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 9,
+        "answer": "E",
+        "number": null,
+        "across": "across_6",
+        "down": "down_5"
+      },
+      {
+        "r": 3,
+        "c": 10,
+        "answer": "L",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 11,
+        "answer": "E",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 12,
+        "answer": "D",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 13,
+        "answer": "R",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 14,
+        "answer": "I",
+        "number": null,
+        "across": "across_6",
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 17,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 6,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 4,
+        "c": 9,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 4,
+        "c": 14,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "answer": "M",
+        "number": 7,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": "across_7",
+        "down": "down_4"
+      },
+      {
+        "r": 5,
+        "c": 7,
+        "answer": "N",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 8,
+        "answer": "G",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 9,
+        "answer": "K",
+        "number": null,
+        "across": "across_7",
+        "down": "down_5"
+      },
+      {
+        "r": 5,
+        "c": 10,
+        "answer": "U",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 11,
+        "answer": "K",
+        "number": 8,
+        "across": "across_7",
+        "down": "down_8"
+      },
+      {
+        "r": 5,
+        "c": 14,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 6,
+        "c": 2,
+        "answer": "K",
+        "number": 9,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 6,
+        "c": 6,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 6,
+        "c": 9,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 6,
+        "c": 11,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 7,
+        "c": 1,
+        "answer": "B",
+        "number": 10,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 2,
+        "answer": "A",
+        "number": null,
+        "across": "across_10",
+        "down": "down_9"
+      },
+      {
+        "r": 7,
+        "c": 3,
+        "answer": "W",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 5,
+        "answer": "N",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 6,
+        "answer": "G",
+        "number": null,
+        "across": "across_10",
+        "down": "down_4"
+      },
+      {
+        "r": 7,
+        "c": 9,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 7,
+        "c": 11,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 7,
+        "c": 13,
+        "answer": "S",
+        "number": 11,
+        "across": "across_11",
+        "down": "down_11"
+      },
+      {
+        "r": 7,
+        "c": 14,
+        "answer": "U",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 15,
+        "answer": "W",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 16,
+        "answer": "I",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 17,
+        "answer": "R",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 2,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 8,
+        "c": 9,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 8,
+        "c": 11,
+        "answer": "Y",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 8,
+        "c": 13,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 9,
+        "c": 2,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 9,
+        "c": 4,
+        "answer": "S",
+        "number": 12,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 5,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 6,
+        "answer": "M",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 7,
+        "answer": "B",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 9,
+        "answer": "L",
+        "number": null,
+        "across": "across_12",
+        "down": "down_5"
+      },
+      {
+        "r": 9,
+        "c": 11,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 9,
+        "c": 13,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 10,
+        "c": 0,
+        "answer": "S",
+        "number": 13,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 1,
+        "answer": "O",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 2,
+        "answer": "U",
+        "number": null,
+        "across": "across_13",
+        "down": "down_9"
+      },
+      {
+        "r": 10,
+        "c": 3,
+        "answer": "N",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 11,
+        "answer": "T",
+        "number": 14,
+        "across": "across_14",
+        "down": "down_8"
+      },
+      {
+        "r": 10,
+        "c": 12,
+        "answer": "A",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 13,
+        "answer": "O",
+        "number": null,
+        "across": "across_14",
+        "down": "down_11"
+      },
+      {
+        "r": 10,
+        "c": 14,
+        "answer": "G",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 15,
+        "answer": "E",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_1",
+          "number": 1,
+          "direction": "across",
+          "text": "Perasan jeruk nipis pemberi sensasi asam segar pada kuah soto hangat",
+          "answer": "JERUK",
+          "cells": [
+            [
+              0,
+              13
+            ],
+            [
+              0,
+              14
+            ],
+            [
+              0,
+              15
+            ],
+            [
+              0,
+              16
+            ],
+            [
+              0,
+              17
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Daun herba hijau cincang pemberi aroma wangi segar kaldu",
+          "answer": "SELEDRI",
+          "cells": [
+            [
+              3,
+              8
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              3,
+              10
+            ],
+            [
+              3,
+              11
+            ],
+            [
+              3,
+              12
+            ],
+            [
+              3,
+              13
+            ],
+            [
+              3,
+              14
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_7",
+          "number": 7,
+          "direction": "across",
+          "text": "Wadah porselen cekung tempat menyajikan kuah soto panas",
+          "answer": "MANGKUK",
+          "cells": [
+            [
+              5,
+              5
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              5,
+              8
+            ],
+            [
+              5,
+              9
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              5,
+              11
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_10",
+          "number": 10,
+          "direction": "across",
+          "text": "Irisan bawang merah goreng taburan renyah aroma harum",
+          "answer": "BAWANG",
+          "cells": [
+            [
+              7,
+              1
+            ],
+            [
+              7,
+              2
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              7,
+              4
+            ],
+            [
+              7,
+              5
+            ],
+            [
+              7,
+              6
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_11",
+          "number": 11,
+          "direction": "across",
+          "text": "Daging ayam yang dirobek halus memanjang sebagai taburan mangkuk",
+          "answer": "SUWIR",
+          "cells": [
+            [
+              7,
+              13
+            ],
+            [
+              7,
+              14
+            ],
+            [
+              7,
+              15
+            ],
+            [
+              7,
+              16
+            ],
+            [
+              7,
+              17
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_12",
+          "number": 12,
+          "direction": "across",
+          "text": "Pelekat rasa pedas cabai rawit ulek pendamping santapan soto",
+          "answer": "SAMBAL",
+          "cells": [
+            [
+              9,
+              4
+            ],
+            [
+              9,
+              5
+            ],
+            [
+              9,
+              6
+            ],
+            [
+              9,
+              7
+            ],
+            [
+              9,
+              8
+            ],
+            [
+              9,
+              9
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_13",
+          "number": 13,
+          "direction": "across",
+          "text": "Mi bening kenyal dari pati kacang hijau atau sagu pengisi mangkuk",
+          "answer": "SOUN",
+          "cells": [
+            [
+              10,
+              0
+            ],
+            [
+              10,
+              1
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              10,
+              3
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "across_14",
+          "number": 14,
+          "direction": "across",
+          "text": "Kecambah kacang hijau renyah penyegar mangkuk soto",
+          "answer": "TAOGE",
+          "cells": [
+            [
+              10,
+              11
+            ],
+            [
+              10,
+              12
+            ],
+            [
+              10,
+              13
+            ],
+            [
+              10,
+              14
+            ],
+            [
+              10,
+              15
+            ]
+          ],
+          "length": 5
+        }
+      ],
+      "down": [
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Keripik gurih pipih agak pahit dari biji melinjo",
+          "answer": "EMPING",
+          "cells": [
+            [
+              0,
+              14
+            ],
+            [
+              1,
+              14
+            ],
+            [
+              2,
+              14
+            ],
+            [
+              3,
+              14
+            ],
+            [
+              4,
+              14
+            ],
+            [
+              5,
+              14
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Bubuk gurih taburan soto berbahan kerupuk udang dan bawang putih goreng",
+          "answer": "KOYA",
+          "cells": [
+            [
+              0,
+              17
+            ],
+            [
+              1,
+              17
+            ],
+            [
+              2,
+              17
+            ],
+            [
+              3,
+              17
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "down_4",
+          "number": 4,
+          "direction": "down",
+          "text": "Irisan umbi goreng pelengkap kelezatan kuah soto Betawi",
+          "answer": "KENTANG",
+          "cells": [
+            [
+              1,
+              6
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              6,
+              6
+            ],
+            [
+              7,
+              6
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Lauk olahan kentang tumbuk goreng berbalut telur",
+          "answer": "PERKEDEL",
+          "cells": [
+            [
+              2,
+              9
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              4,
+              9
+            ],
+            [
+              5,
+              9
+            ],
+            [
+              6,
+              9
+            ],
+            [
+              7,
+              9
+            ],
+            [
+              8,
+              9
+            ],
+            [
+              9,
+              9
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_8",
+          "number": 8,
+          "direction": "down",
+          "text": "Bumbu rempah kuning pemberi rona cerah soto Lamongan dan Madura",
+          "answer": "KUNYIT",
+          "cells": [
+            [
+              5,
+              11
+            ],
+            [
+              6,
+              11
+            ],
+            [
+              7,
+              11
+            ],
+            [
+              8,
+              11
+            ],
+            [
+              9,
+              11
+            ],
+            [
+              10,
+              11
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_9",
+          "number": 9,
+          "direction": "down",
+          "text": "Air rebusan saripati tulang dan daging berbumbu gurih",
+          "answer": "KALDU",
+          "cells": [
+            [
+              6,
+              2
+            ],
+            [
+              7,
+              2
+            ],
+            [
+              8,
+              2
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              10,
+              2
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_11",
+          "number": 11,
+          "direction": "down",
+          "text": "Hidangan sup berkuah kaldu rempah kaya rasa khas berbagai daerah di Indonesia",
+          "answer": "SOTO",
+          "cells": [
+            [
+              7,
+              13
+            ],
+            [
+              8,
+              13
+            ],
+            [
+              9,
+              13
+            ],
+            [
+              10,
+              13
+            ]
+          ],
+          "length": 4
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_153_jamu_gendong",
+    "title": "Jamu Gendong & Rimpang Biofarmaka Tradisional",
+    "category": "Kesehatan",
+    "size": {
+      "rows": 16,
+      "cols": 15
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 4,
+        "answer": "K",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "answer": "H",
+        "number": 2,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "answer": "E",
+        "number": null,
+        "across": "across_2",
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "answer": "R",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 6,
+        "answer": "B",
+        "number": 3,
+        "across": "across_2",
+        "down": "down_3"
+      },
+      {
+        "r": 1,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 6,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 2,
+        "answer": "S",
+        "number": 4,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "answer": "C",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 6,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 1,
+        "answer": "T",
+        "number": 5,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 2,
+        "answer": "E",
+        "number": null,
+        "across": "across_5",
+        "down": "down_4"
+      },
+      {
+        "r": 4,
+        "c": 3,
+        "answer": "M",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 4,
+        "answer": "U",
+        "number": null,
+        "across": "across_5",
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 5,
+        "answer": "L",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": "across_5",
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 7,
+        "answer": "W",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 9,
+        "answer": "K",
+        "number": 6,
+        "across": "across_5",
+        "down": "down_6"
+      },
+      {
+        "r": 5,
+        "c": 2,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 5,
+        "c": 4,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 5,
+        "c": 6,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 5,
+        "c": 9,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 6,
+        "c": 2,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 6,
+        "c": 9,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 7,
+        "c": 0,
+        "answer": "S",
+        "number": 7,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 1,
+        "answer": "I",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 2,
+        "answer": "N",
+        "number": null,
+        "across": "across_7",
+        "down": "down_4"
+      },
+      {
+        "r": 7,
+        "c": 3,
+        "answer": "O",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 4,
+        "answer": "M",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 7,
+        "answer": "R",
+        "number": 8,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 7,
+        "c": 9,
+        "answer": "Y",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 8,
+        "c": 2,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 8,
+        "c": 7,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 8,
+        "c": 9,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 9,
+        "c": 1,
+        "answer": "P",
+        "number": 9,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 2,
+        "answer": "A",
+        "number": null,
+        "across": "across_9",
+        "down": "down_4"
+      },
+      {
+        "r": 9,
+        "c": 3,
+        "answer": "H",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 4,
+        "answer": "I",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 5,
+        "answer": "T",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 7,
+        "answer": "B",
+        "number": 10,
+        "across": "across_10",
+        "down": "down_8"
+      },
+      {
+        "r": 9,
+        "c": 8,
+        "answer": "O",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 9,
+        "answer": "T",
+        "number": null,
+        "across": "across_10",
+        "down": "down_6"
+      },
+      {
+        "r": 9,
+        "c": 10,
+        "answer": "O",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 11,
+        "answer": "L",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 2,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 10,
+        "c": 7,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 11,
+        "c": 2,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 11,
+        "c": 7,
+        "answer": "S",
+        "number": 11,
+        "across": "across_11",
+        "down": "down_8"
+      },
+      {
+        "r": 11,
+        "c": 8,
+        "answer": "E",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 9,
+        "answer": "H",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 10,
+        "answer": "A",
+        "number": 12,
+        "across": "across_11",
+        "down": "down_12"
+      },
+      {
+        "r": 11,
+        "c": 11,
+        "answer": "T",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 10,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 12,
+        "c": 12,
+        "answer": "G",
+        "number": 13,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 13,
+        "c": 9,
+        "answer": "B",
+        "number": 14,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": "across_14",
+        "down": "down_12"
+      },
+      {
+        "r": 13,
+        "c": 11,
+        "answer": "K",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 12,
+        "answer": "U",
+        "number": null,
+        "across": "across_14",
+        "down": "down_13"
+      },
+      {
+        "r": 13,
+        "c": 13,
+        "answer": "L",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 14,
+        "c": 10,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 14,
+        "c": 12,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 15,
+        "c": 11,
+        "answer": "J",
+        "number": 15,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 15,
+        "c": 12,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": "down_13"
+      },
+      {
+        "r": 15,
+        "c": 13,
+        "answer": "M",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 15,
+        "c": 14,
+        "answer": "U",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_2",
+          "number": 2,
+          "direction": "across",
+          "text": "Tumbuhan khasiat obat alami warisan leluhur",
+          "answer": "HERBA",
+          "cells": [
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              1,
+              7
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_5",
+          "number": 5,
+          "direction": "across",
+          "text": "Rimpang asli Indonesia pelindung fungsi hati dan peningkat stamina",
+          "answer": "TEMULAWAK",
+          "cells": [
+            [
+              4,
+              1
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              4,
+              8
+            ],
+            [
+              4,
+              9
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "across_7",
+          "number": 7,
+          "direction": "across",
+          "text": "Pucuk daun asam muda bahan minuman penyegar dan pelancar pencernaan",
+          "answer": "SINOM",
+          "cells": [
+            [
+              7,
+              0
+            ],
+            [
+              7,
+              1
+            ],
+            [
+              7,
+              2
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              7,
+              4
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_9",
+          "number": 9,
+          "direction": "across",
+          "text": "Sensasi rasa daun sambiloto dan brotowali pembasmi racun",
+          "answer": "PAHIT",
+          "cells": [
+            [
+              9,
+              1
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              9,
+              4
+            ],
+            [
+              9,
+              5
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_10",
+          "number": 10,
+          "direction": "across",
+          "text": "Wadah kaca berjejer di dalam bakul anyaman bambu perajin jamu",
+          "answer": "BOTOL",
+          "cells": [
+            [
+              9,
+              7
+            ],
+            [
+              9,
+              8
+            ],
+            [
+              9,
+              9
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              9,
+              11
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_11",
+          "number": 11,
+          "direction": "across",
+          "text": "Kondisi bugar jasmani dan rohani berkat ramuan alami",
+          "answer": "SEHAT",
+          "cells": [
+            [
+              11,
+              7
+            ],
+            [
+              11,
+              8
+            ],
+            [
+              11,
+              9
+            ],
+            [
+              11,
+              10
+            ],
+            [
+              11,
+              11
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_14",
+          "number": 14,
+          "direction": "across",
+          "text": "Keranjang bambu tempat memuat botol jamu yang digendong kain",
+          "answer": "BAKUL",
+          "cells": [
+            [
+              13,
+              9
+            ],
+            [
+              13,
+              10
+            ],
+            [
+              13,
+              11
+            ],
+            [
+              13,
+              12
+            ],
+            [
+              13,
+              13
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_15",
+          "number": 15,
+          "direction": "across",
+          "text": "Minuman herbal tradisional nusantara pencegah penyakit dan penyegar raga",
+          "answer": "JAMU",
+          "cells": [
+            [
+              15,
+              11
+            ],
+            [
+              15,
+              12
+            ],
+            [
+              15,
+              13
+            ],
+            [
+              15,
+              14
+            ]
+          ],
+          "length": 4
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Rimpang kecil aromatik herba pereda batuk dan masuk angin",
+          "answer": "KENCUR",
+          "cells": [
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              5,
+              4
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Bahan pokok campuran beras kencur pereda pegal linu dan penambah nafsu makan",
+          "answer": "BERAS",
+          "cells": [
+            [
+              1,
+              6
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              5,
+              6
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_4",
+          "number": 4,
+          "direction": "down",
+          "text": "Kain panjang pembebat bakul jamu di punggung penjual",
+          "answer": "SELENDANG",
+          "cells": [
+            [
+              3,
+              2
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              6,
+              2
+            ],
+            [
+              7,
+              2
+            ],
+            [
+              8,
+              2
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              11,
+              2
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "down_6",
+          "number": 6,
+          "direction": "down",
+          "text": "Rimpang kurkuminoid tinggi antioksidan dan antiseptik alami",
+          "answer": "KUNYIT",
+          "cells": [
+            [
+              4,
+              9
+            ],
+            [
+              5,
+              9
+            ],
+            [
+              6,
+              9
+            ],
+            [
+              7,
+              9
+            ],
+            [
+              8,
+              9
+            ],
+            [
+              9,
+              9
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_8",
+          "number": 8,
+          "direction": "down",
+          "text": "Proses mendidihkan ramuan rimpang di kuali tanah",
+          "answer": "REBUS",
+          "cells": [
+            [
+              7,
+              7
+            ],
+            [
+              8,
+              7
+            ],
+            [
+              9,
+              7
+            ],
+            [
+              10,
+              7
+            ],
+            [
+              11,
+              7
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_12",
+          "number": 12,
+          "direction": "down",
+          "text": "Buah polong masam pelengkap rasa segar jamu kunyit asam",
+          "answer": "ASAM",
+          "cells": [
+            [
+              11,
+              10
+            ],
+            [
+              12,
+              10
+            ],
+            [
+              13,
+              10
+            ],
+            [
+              14,
+              10
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "down_13",
+          "number": 13,
+          "direction": "down",
+          "text": "Pemanis alami gula kelapa atau aren penyeimbang rasa pahit rimpang",
+          "answer": "GULA",
+          "cells": [
+            [
+              12,
+              12
+            ],
+            [
+              13,
+              12
+            ],
+            [
+              14,
+              12
+            ],
+            [
+              15,
+              12
+            ]
+          ],
+          "length": 4
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_154_kopi_nusantara",
+    "title": "Kopi Arabika Gayo & Toraja Dataran Tinggi",
+    "category": "Agraria",
+    "size": {
+      "rows": 15,
+      "cols": 14
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 1,
+        "answer": "C",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 1,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "answer": "G",
+        "number": 2,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 0,
+        "answer": "P",
+        "number": 3,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 1,
+        "answer": "E",
+        "number": null,
+        "across": "across_3",
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 2,
+        "answer": "T",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "answer": "A",
+        "number": 4,
+        "across": "across_3",
+        "down": "down_4"
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "answer": "I",
+        "number": null,
+        "across": "across_3",
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 7,
+        "answer": "A",
+        "number": 5,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 3,
+        "c": 1,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 3,
+        "c": 5,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 7,
+        "answer": "R",
+        "number": 6,
+        "across": "across_6",
+        "down": "down_5"
+      },
+      {
+        "r": 3,
+        "c": 8,
+        "answer": "O",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 9,
+        "answer": "B",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 10,
+        "answer": "U",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 11,
+        "answer": "S",
+        "number": 7,
+        "across": "across_6",
+        "down": "down_7"
+      },
+      {
+        "r": 3,
+        "c": 12,
+        "answer": "T",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 13,
+        "answer": "A",
+        "number": 8,
+        "across": "across_6",
+        "down": "down_8"
+      },
+      {
+        "r": 4,
+        "c": 0,
+        "answer": "G",
+        "number": 9,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_9",
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 2,
+        "answer": "Y",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 3,
+        "answer": "O",
+        "number": null,
+        "across": "across_9",
+        "down": "down_4"
+      },
+      {
+        "r": 4,
+        "c": 5,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 4,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 4,
+        "c": 13,
+        "answer": "C",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 5,
+        "c": 3,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 5,
+        "c": 7,
+        "answer": "B",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 5,
+        "c": 11,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 5,
+        "c": 13,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 6,
+        "c": 2,
+        "answer": "C",
+        "number": 10,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": "across_10",
+        "down": "down_4"
+      },
+      {
+        "r": 6,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 5,
+        "answer": "G",
+        "number": null,
+        "across": "across_10",
+        "down": "down_2"
+      },
+      {
+        "r": 6,
+        "c": 6,
+        "answer": "K",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 7,
+        "answer": "I",
+        "number": null,
+        "across": "across_10",
+        "down": "down_5"
+      },
+      {
+        "r": 6,
+        "c": 8,
+        "answer": "R",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 11,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 6,
+        "c": 13,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 7,
+        "c": 7,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 7,
+        "c": 9,
+        "answer": "K",
+        "number": 11,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 7,
+        "c": 11,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 7,
+        "c": 13,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 8,
+        "c": 4,
+        "answer": "T",
+        "number": 12,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 5,
+        "answer": "O",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 6,
+        "answer": "R",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": "down_5"
+      },
+      {
+        "r": 8,
+        "c": 8,
+        "answer": "J",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 9,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": "down_11"
+      },
+      {
+        "r": 8,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 8,
+        "c": 13,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 9,
+        "c": 9,
+        "answer": "F",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 9,
+        "c": 11,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 9,
+        "c": 13,
+        "answer": "Y",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 10,
+        "c": 7,
+        "answer": "S",
+        "number": 13,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 10,
+        "c": 9,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 11,
+        "c": 6,
+        "answer": "P",
+        "number": 14,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 7,
+        "answer": "E",
+        "number": null,
+        "across": "across_14",
+        "down": "down_13"
+      },
+      {
+        "r": 11,
+        "c": 8,
+        "answer": "T",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 9,
+        "answer": "I",
+        "number": null,
+        "across": "across_14",
+        "down": "down_11"
+      },
+      {
+        "r": 11,
+        "c": 10,
+        "answer": "K",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 7,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 12,
+        "c": 9,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 13,
+        "c": 7,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 14,
+        "c": 5,
+        "answer": "C",
+        "number": 15,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 14,
+        "c": 6,
+        "answer": "E",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 14,
+        "c": 7,
+        "answer": "R",
+        "number": null,
+        "across": "across_15",
+        "down": "down_13"
+      },
+      {
+        "r": 14,
+        "c": 8,
+        "answer": "I",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_3",
+          "number": 3,
+          "direction": "across",
+          "text": "Sosok perawat kebun dan pemetik ceri kopi di lereng pegunungan",
+          "answer": "PETANI",
+          "cells": [
+            [
+              2,
+              0
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              2,
+              5
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Kopi berkafein tinggi dengan bodi tebal dan rasa pahit cokelat kuat",
+          "answer": "ROBUSTA",
+          "cells": [
+            [
+              3,
+              7
+            ],
+            [
+              3,
+              8
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              3,
+              10
+            ],
+            [
+              3,
+              11
+            ],
+            [
+              3,
+              12
+            ],
+            [
+              3,
+              13
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_9",
+          "number": 9,
+          "direction": "across",
+          "text": "Dataran tinggi Aceh penghasil biji arabika organik mendunia",
+          "answer": "GAYO",
+          "cells": [
+            [
+              4,
+              0
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              4,
+              3
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "across_10",
+          "number": 10,
+          "direction": "across",
+          "text": "Wadah keramik kecil tempat menyesap kopi hangat",
+          "answer": "CANGKIR",
+          "cells": [
+            [
+              6,
+              2
+            ],
+            [
+              6,
+              3
+            ],
+            [
+              6,
+              4
+            ],
+            [
+              6,
+              5
+            ],
+            [
+              6,
+              6
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              6,
+              8
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_12",
+          "number": 12,
+          "direction": "across",
+          "text": "Wilayah pegunungan Sulawesi Selatan penghasil kopi bernada rasa rempah",
+          "answer": "TORAJA",
+          "cells": [
+            [
+              8,
+              4
+            ],
+            [
+              8,
+              5
+            ],
+            [
+              8,
+              6
+            ],
+            [
+              8,
+              7
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              8,
+              9
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_14",
+          "number": 14,
+          "direction": "across",
+          "text": "Kegiatan memanen buah ceri kopi merah matang di pohon",
+          "answer": "PETIK",
+          "cells": [
+            [
+              11,
+              6
+            ],
+            [
+              11,
+              7
+            ],
+            [
+              11,
+              8
+            ],
+            [
+              11,
+              9
+            ],
+            [
+              11,
+              10
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_15",
+          "number": 15,
+          "direction": "across",
+          "text": "Buah kopi matang ranum berwarna merah tua manis",
+          "answer": "CERI",
+          "cells": [
+            [
+              14,
+              5
+            ],
+            [
+              14,
+              6
+            ],
+            [
+              14,
+              7
+            ],
+            [
+              14,
+              8
+            ]
+          ],
+          "length": 4
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Busa halus cokelat keemasan di atas permukaan espresso segar",
+          "answer": "CREMA",
+          "cells": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Penghalusan biji kopi sangrai menjadi bubuk halus atau kasar",
+          "answer": "GILING",
+          "cells": [
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              5,
+              5
+            ],
+            [
+              6,
+              5
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_4",
+          "number": 4,
+          "direction": "down",
+          "text": "Uap wangi kompleks semerbak dari secangkir seduhan kopi",
+          "answer": "AROMA",
+          "cells": [
+            [
+              2,
+              3
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              5,
+              3
+            ],
+            [
+              6,
+              3
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Spesies kopi beraroma buah dan keasaman seimbang dari dataran tinggi",
+          "answer": "ARABIKA",
+          "cells": [
+            [
+              2,
+              7
+            ],
+            [
+              3,
+              7
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              7,
+              7
+            ],
+            [
+              8,
+              7
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_7",
+          "number": 7,
+          "direction": "down",
+          "text": "Proses memanggang biji kopi hijau di drum panas hingga merekah",
+          "answer": "SANGRAI",
+          "cells": [
+            [
+              3,
+              11
+            ],
+            [
+              4,
+              11
+            ],
+            [
+              5,
+              11
+            ],
+            [
+              6,
+              11
+            ],
+            [
+              7,
+              11
+            ],
+            [
+              8,
+              11
+            ],
+            [
+              9,
+              11
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_8",
+          "number": 8,
+          "direction": "down",
+          "text": "Tingkat keasaman segar bernuansa buah pada seduhan kopi",
+          "answer": "ACIDITY",
+          "cells": [
+            [
+              3,
+              13
+            ],
+            [
+              4,
+              13
+            ],
+            [
+              5,
+              13
+            ],
+            [
+              6,
+              13
+            ],
+            [
+              7,
+              13
+            ],
+            [
+              8,
+              13
+            ],
+            [
+              9,
+              13
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_11",
+          "number": 11,
+          "direction": "down",
+          "text": "Senyawa alkaloid pemicu fokus dan pereda kantuk alami",
+          "answer": "KAFEIN",
+          "cells": [
+            [
+              7,
+              9
+            ],
+            [
+              8,
+              9
+            ],
+            [
+              9,
+              9
+            ],
+            [
+              10,
+              9
+            ],
+            [
+              11,
+              9
+            ],
+            [
+              12,
+              9
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_13",
+          "number": 13,
+          "direction": "down",
+          "text": "Aliran air panas mengekstraksi sari minyak kopi aromatik",
+          "answer": "SEDUR",
+          "cells": [
+            [
+              10,
+              7
+            ],
+            [
+              11,
+              7
+            ],
+            [
+              12,
+              7
+            ],
+            [
+              13,
+              7
+            ],
+            [
+              14,
+              7
+            ]
+          ],
+          "length": 5
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_155_kudapan_tradisi",
+    "title": "Kudapan Tradisional Jajanan Pasar & Ketan Daun Pisang",
+    "category": "Kuliner",
+    "size": {
+      "rows": 15,
+      "cols": 14
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 9,
+        "answer": "M",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 9,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 7,
+        "answer": "C",
+        "number": 2,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 8,
+        "answer": "E",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 9,
+        "answer": "N",
+        "number": null,
+        "across": "across_2",
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 10,
+        "answer": "I",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 11,
+        "answer": "L",
+        "number": 3,
+        "across": "across_2",
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 9,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 11,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 5,
+        "answer": "K",
+        "number": 4,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 6,
+        "answer": "U",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 7,
+        "answer": "K",
+        "number": 5,
+        "across": "across_4",
+        "down": "down_5"
+      },
+      {
+        "r": 4,
+        "c": 8,
+        "answer": "U",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 9,
+        "answer": "S",
+        "number": null,
+        "across": "across_4",
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 11,
+        "answer": "P",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 5,
+        "c": 7,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 5,
+        "c": 11,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 6,
+        "c": 7,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 6,
+        "c": 9,
+        "answer": "P",
+        "number": 6,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 11,
+        "answer": "S",
+        "number": null,
+        "across": "across_6",
+        "down": "down_3"
+      },
+      {
+        "r": 6,
+        "c": 12,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 13,
+        "answer": "R",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 3,
+        "answer": "P",
+        "number": 7,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 5,
+        "answer": "N",
+        "number": 8,
+        "across": "across_7",
+        "down": "down_8"
+      },
+      {
+        "r": 7,
+        "c": 6,
+        "answer": "D",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": "across_7",
+        "down": "down_5"
+      },
+      {
+        "r": 7,
+        "c": 8,
+        "answer": "N",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 5,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 8,
+        "c": 7,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 8,
+        "c": 11,
+        "answer": "T",
+        "number": 9,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 9,
+        "c": 3,
+        "answer": "D",
+        "number": 10,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 9,
+        "c": 5,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 9,
+        "c": 8,
+        "answer": "K",
+        "number": 11,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 9,
+        "c": 11,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 10,
+        "c": 0,
+        "answer": "K",
+        "number": 12,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 1,
+        "answer": "E",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 2,
+        "answer": "L",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": "down_10"
+      },
+      {
+        "r": 10,
+        "c": 4,
+        "answer": "P",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 5,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": "down_8"
+      },
+      {
+        "r": 10,
+        "c": 8,
+        "answer": "L",
+        "number": 13,
+        "across": "across_13",
+        "down": "down_11"
+      },
+      {
+        "r": 10,
+        "c": 9,
+        "answer": "E",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 10,
+        "answer": "M",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 11,
+        "answer": "P",
+        "number": null,
+        "across": "across_13",
+        "down": "down_9"
+      },
+      {
+        "r": 10,
+        "c": 12,
+        "answer": "E",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 13,
+        "answer": "R",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 3,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 11,
+        "c": 5,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 11,
+        "c": 8,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 11,
+        "c": 11,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 12,
+        "c": 1,
+        "answer": "K",
+        "number": 14,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 2,
+        "answer": "I",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 3,
+        "answer": "N",
+        "number": null,
+        "across": "across_14",
+        "down": "down_10"
+      },
+      {
+        "r": 12,
+        "c": 4,
+        "answer": "C",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 5,
+        "answer": "A",
+        "number": null,
+        "across": "across_14",
+        "down": "down_8"
+      },
+      {
+        "r": 12,
+        "c": 8,
+        "answer": "P",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 12,
+        "c": 11,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 13,
+        "c": 5,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 13,
+        "c": 8,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 13,
+        "c": 11,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 14,
+        "c": 4,
+        "answer": "P",
+        "number": 15,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 14,
+        "c": 5,
+        "answer": "I",
+        "number": null,
+        "across": "across_15",
+        "down": "down_8"
+      },
+      {
+        "r": 14,
+        "c": 6,
+        "answer": "S",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 14,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 14,
+        "c": 8,
+        "answer": "N",
+        "number": null,
+        "across": "across_15",
+        "down": "down_11"
+      },
+      {
+        "r": 14,
+        "c": 9,
+        "answer": "G",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_2",
+          "number": 2,
+          "direction": "across",
+          "text": "Kue kenyal warna-warni dari pati singkong bertabur kelapa",
+          "answer": "CENIL",
+          "cells": [
+            [
+              2,
+              7
+            ],
+            [
+              2,
+              8
+            ],
+            [
+              2,
+              9
+            ],
+            [
+              2,
+              10
+            ],
+            [
+              2,
+              11
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_4",
+          "number": 4,
+          "direction": "across",
+          "text": "Metode mematangkan adonan kue dengan uap air panas",
+          "answer": "KUKUS",
+          "cells": [
+            [
+              4,
+              5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              4,
+              8
+            ],
+            [
+              4,
+              9
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Tempat bertemunya penjual dan pembeli jajanan subuh tradisional",
+          "answer": "PASAR",
+          "cells": [
+            [
+              6,
+              9
+            ],
+            [
+              6,
+              10
+            ],
+            [
+              6,
+              11
+            ],
+            [
+              6,
+              12
+            ],
+            [
+              6,
+              13
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_7",
+          "number": 7,
+          "direction": "across",
+          "text": "Daun wangi penambah aroma harum dan pewarna hijau alami",
+          "answer": "PANDAN",
+          "cells": [
+            [
+              7,
+              3
+            ],
+            [
+              7,
+              4
+            ],
+            [
+              7,
+              5
+            ],
+            [
+              7,
+              6
+            ],
+            [
+              7,
+              7
+            ],
+            [
+              7,
+              8
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_12",
+          "number": 12,
+          "direction": "across",
+          "text": "Parutan buah kelapa setengah tua penabur rasa gurih kue",
+          "answer": "KELAPA",
+          "cells": [
+            [
+              10,
+              0
+            ],
+            [
+              10,
+              1
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              10,
+              3
+            ],
+            [
+              10,
+              4
+            ],
+            [
+              10,
+              5
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_13",
+          "number": 13,
+          "direction": "across",
+          "text": "Ketan kukus berbalut daun pisang berisi suwiran daging gurih",
+          "answer": "LEMPER",
+          "cells": [
+            [
+              10,
+              8
+            ],
+            [
+              10,
+              9
+            ],
+            [
+              10,
+              10
+            ],
+            [
+              10,
+              11
+            ],
+            [
+              10,
+              12
+            ],
+            [
+              10,
+              13
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_14",
+          "number": 14,
+          "direction": "across",
+          "text": "Sirup manis kental gula merah aren aroma daun pandan",
+          "answer": "KINCA",
+          "cells": [
+            [
+              12,
+              1
+            ],
+            [
+              12,
+              2
+            ],
+            [
+              12,
+              3
+            ],
+            [
+              12,
+              4
+            ],
+            [
+              12,
+              5
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_15",
+          "number": 15,
+          "direction": "across",
+          "text": "Buah tropis manis isian jajanan tradisional kukus",
+          "answer": "PISANG",
+          "cells": [
+            [
+              14,
+              4
+            ],
+            [
+              14,
+              5
+            ],
+            [
+              14,
+              6
+            ],
+            [
+              14,
+              7
+            ],
+            [
+              14,
+              8
+            ],
+            [
+              14,
+              9
+            ]
+          ],
+          "length": 6
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Cita rasa gula aren asli pembawa kehangatan kudapan",
+          "answer": "MANIS",
+          "cells": [
+            [
+              0,
+              9
+            ],
+            [
+              1,
+              9
+            ],
+            [
+              2,
+              9
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              4,
+              9
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Ketan segitiga kenyal berbalut parutan kelapa dan sirup kinca gula merah",
+          "answer": "LUPIS",
+          "cells": [
+            [
+              2,
+              11
+            ],
+            [
+              3,
+              11
+            ],
+            [
+              4,
+              11
+            ],
+            [
+              5,
+              11
+            ],
+            [
+              6,
+              11
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Beras pulut gurih berkadar amilopektin tinggi bahan aneka jajanan",
+          "answer": "KETAN",
+          "cells": [
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              7,
+              7
+            ],
+            [
+              8,
+              7
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_8",
+          "number": 8,
+          "direction": "down",
+          "text": "Kue tepung beras lembut berbalut daun pisang berisi irisan pisang manis",
+          "answer": "NAGASARI",
+          "cells": [
+            [
+              7,
+              5
+            ],
+            [
+              8,
+              5
+            ],
+            [
+              9,
+              5
+            ],
+            [
+              10,
+              5
+            ],
+            [
+              11,
+              5
+            ],
+            [
+              12,
+              5
+            ],
+            [
+              13,
+              5
+            ],
+            [
+              14,
+              5
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_9",
+          "number": 9,
+          "direction": "down",
+          "text": "Bahan serbuk beras atau ketan pembentuk tekstur kue lembut",
+          "answer": "TEPUNG",
+          "cells": [
+            [
+              8,
+              11
+            ],
+            [
+              9,
+              11
+            ],
+            [
+              10,
+              11
+            ],
+            [
+              11,
+              11
+            ],
+            [
+              12,
+              11
+            ],
+            [
+              13,
+              11
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_10",
+          "number": 10,
+          "direction": "down",
+          "text": "Daun pisang pembungkus alami pelindung aroma wangi kue tradisional",
+          "answer": "DAUN",
+          "cells": [
+            [
+              9,
+              3
+            ],
+            [
+              10,
+              3
+            ],
+            [
+              11,
+              3
+            ],
+            [
+              12,
+              3
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "down_11",
+          "number": 11,
+          "direction": "down",
+          "text": "Kue bulat kenyal berlumur kelapa berisi lelehan gula aren cair",
+          "answer": "KLEPON",
+          "cells": [
+            [
+              9,
+              8
+            ],
+            [
+              10,
+              8
+            ],
+            [
+              11,
+              8
+            ],
+            [
+              12,
+              8
+            ],
+            [
+              13,
+              8
+            ],
+            [
+              14,
+              8
+            ]
+          ],
+          "length": 6
+        }
+      ]
+    }
+  }
+]

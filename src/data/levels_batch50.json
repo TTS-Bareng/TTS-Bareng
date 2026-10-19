@@ -1,0 +1,5909 @@
+[
+  {
+    "id": "level_256_roket_lapan_rhan",
+    "title": "Riset Roket RHAN LAPAN & Balistik Antariksa",
+    "category": "Dirgantara",
+    "size": {
+      "rows": 20,
+      "cols": 13
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 10,
+        "answer": "B",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "answer": "P",
+        "number": 2,
+        "across": "across_2",
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 6,
+        "answer": "R",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 7,
+        "answer": "O",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 8,
+        "answer": "P",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 9,
+        "answer": "E",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 10,
+        "answer": "L",
+        "number": null,
+        "across": "across_2",
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 12,
+        "answer": "N",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 2,
+        "answer": "M",
+        "number": 3,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 5,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 10,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 2,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 5,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 7,
+        "answer": "K",
+        "number": 4,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 4,
+        "c": 10,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 5,
+        "c": 2,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 5,
+        "c": 4,
+        "answer": "T",
+        "number": 5,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "answer": "E",
+        "number": null,
+        "across": "across_5",
+        "down": "down_2"
+      },
+      {
+        "r": 5,
+        "c": 6,
+        "answer": "L",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 7,
+        "answer": "E",
+        "number": null,
+        "across": "across_5",
+        "down": "down_4"
+      },
+      {
+        "r": 5,
+        "c": 8,
+        "answer": "M",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 9,
+        "answer": "E",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 10,
+        "answer": "T",
+        "number": null,
+        "across": "across_5",
+        "down": "down_1"
+      },
+      {
+        "r": 5,
+        "c": 11,
+        "answer": "R",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 12,
+        "answer": "I",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 2,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 6,
+        "c": 5,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 6,
+        "c": 7,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 6,
+        "c": 10,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 7,
+        "c": 2,
+        "answer": "R",
+        "number": 6,
+        "across": "across_6",
+        "down": "down_3"
+      },
+      {
+        "r": 7,
+        "c": 3,
+        "answer": "H",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 5,
+        "answer": "N",
+        "number": null,
+        "across": "across_6",
+        "down": "down_2"
+      },
+      {
+        "r": 7,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 7,
+        "c": 10,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 8,
+        "c": 5,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 8,
+        "c": 7,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 9,
+        "c": 5,
+        "answer": "P",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 9,
+        "c": 7,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 10,
+        "c": 3,
+        "answer": "E",
+        "number": 7,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 4,
+        "answer": "L",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 5,
+        "answer": "E",
+        "number": null,
+        "across": "across_7",
+        "down": "down_2"
+      },
+      {
+        "r": 10,
+        "c": 6,
+        "answer": "V",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": "across_7",
+        "down": "down_4"
+      },
+      {
+        "r": 10,
+        "c": 8,
+        "answer": "S",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 9,
+        "answer": "I",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 1,
+        "answer": "J",
+        "number": 8,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 11,
+        "c": 5,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 11,
+        "c": 7,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 12,
+        "c": 0,
+        "answer": "T",
+        "number": 9,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 1,
+        "answer": "E",
+        "number": null,
+        "across": "across_9",
+        "down": "down_8"
+      },
+      {
+        "r": 12,
+        "c": 2,
+        "answer": "K",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 3,
+        "answer": "N",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 4,
+        "answer": "I",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 5,
+        "answer": "K",
+        "number": null,
+        "across": "across_9",
+        "down": "down_2"
+      },
+      {
+        "r": 12,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 13,
+        "c": 1,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 13,
+        "c": 7,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 14,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 14,
+        "c": 4,
+        "answer": "S",
+        "number": 10,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 15,
+        "c": 1,
+        "answer": "J",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 15,
+        "c": 4,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 15,
+        "c": 8,
+        "answer": "R",
+        "number": 11,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 16,
+        "c": 0,
+        "answer": "L",
+        "number": 12,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 16,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": "down_8"
+      },
+      {
+        "r": 16,
+        "c": 2,
+        "answer": "P",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 16,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 16,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": "across_12",
+        "down": "down_10"
+      },
+      {
+        "r": 16,
+        "c": 6,
+        "answer": "U",
+        "number": 13,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 16,
+        "c": 7,
+        "answer": "J",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 16,
+        "c": 8,
+        "answer": "I",
+        "number": null,
+        "across": "across_13",
+        "down": "down_11"
+      },
+      {
+        "r": 17,
+        "c": 1,
+        "answer": "H",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 17,
+        "c": 4,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 17,
+        "c": 8,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 18,
+        "c": 4,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 18,
+        "c": 8,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 19,
+        "c": 4,
+        "answer": "R",
+        "number": 14,
+        "across": "across_14",
+        "down": "down_10"
+      },
+      {
+        "r": 19,
+        "c": 5,
+        "answer": "O",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 19,
+        "c": 6,
+        "answer": "K",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 19,
+        "c": 7,
+        "answer": "E",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 19,
+        "c": 8,
+        "answer": "T",
+        "number": null,
+        "across": "across_14",
+        "down": "down_11"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_2",
+          "number": 2,
+          "direction": "across",
+          "text": "Bahan bakar pendorong roket padat berbahan komposit kalium nitrat",
+          "answer": "PROPELAN",
+          "cells": [
+            [
+              2,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              2,
+              8
+            ],
+            [
+              2,
+              9
+            ],
+            [
+              2,
+              10
+            ],
+            [
+              2,
+              11
+            ],
+            [
+              2,
+              12
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "across_5",
+          "number": 5,
+          "direction": "across",
+          "text": "Sistem transmisi nirkabel pemancar data uji coba ke stasiun kontrol bumi",
+          "answer": "TELEMETRI",
+          "cells": [
+            [
+              5,
+              4
+            ],
+            [
+              5,
+              5
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              5,
+              8
+            ],
+            [
+              5,
+              9
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              5,
+              11
+            ],
+            [
+              5,
+              12
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Roket Pertahanan Nasional kaliber seratus dua puluh dua milimeter",
+          "answer": "RHAN",
+          "cells": [
+            [
+              7,
+              2
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              7,
+              4
+            ],
+            [
+              7,
+              5
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "across_7",
+          "number": 7,
+          "direction": "across",
+          "text": "Sudut kemiringan rel peluncur penentu jangkauan jarak tembak roket",
+          "answer": "ELEVASI",
+          "cells": [
+            [
+              10,
+              3
+            ],
+            [
+              10,
+              4
+            ],
+            [
+              10,
+              5
+            ],
+            [
+              10,
+              6
+            ],
+            [
+              10,
+              7
+            ],
+            [
+              10,
+              8
+            ],
+            [
+              10,
+              9
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_9",
+          "number": 9,
+          "direction": "across",
+          "text": "Keahlian metalurgi mesin dan aerodinamika para ilmuwan muda Indonesia",
+          "answer": "TEKNIK",
+          "cells": [
+            [
+              12,
+              0
+            ],
+            [
+              12,
+              1
+            ],
+            [
+              12,
+              2
+            ],
+            [
+              12,
+              3
+            ],
+            [
+              12,
+              4
+            ],
+            [
+              12,
+              5
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_12",
+          "number": 12,
+          "direction": "across",
+          "text": "Lembaga Penerbangan dan Antariksa Nasional pionir roket Indonesia",
+          "answer": "LAPAN",
+          "cells": [
+            [
+              16,
+              0
+            ],
+            [
+              16,
+              1
+            ],
+            [
+              16,
+              2
+            ],
+            [
+              16,
+              3
+            ],
+            [
+              16,
+              4
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_13",
+          "number": 13,
+          "direction": "across",
+          "text": "Uji coba peluncuran statis dan dinamis membuktikan kestabilan aerodinamis",
+          "answer": "UJI",
+          "cells": [
+            [
+              16,
+              6
+            ],
+            [
+              16,
+              7
+            ],
+            [
+              16,
+              8
+            ]
+          ],
+          "length": 3
+        },
+        {
+          "id": "across_14",
+          "number": 14,
+          "direction": "across",
+          "text": "Wahana peluncur propelan padat riset kedaulatan sains antariksa",
+          "answer": "ROKET",
+          "cells": [
+            [
+              19,
+              4
+            ],
+            [
+              19,
+              5
+            ],
+            [
+              19,
+              6
+            ],
+            [
+              19,
+              7
+            ],
+            [
+              19,
+              8
+            ]
+          ],
+          "length": 5
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Lintasan terbang parabola proyektil menembus lapisan atmosfer udara",
+          "answer": "BALISTIK",
+          "cells": [
+            [
+              0,
+              10
+            ],
+            [
+              1,
+              10
+            ],
+            [
+              2,
+              10
+            ],
+            [
+              3,
+              10
+            ],
+            [
+              4,
+              10
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              6,
+              10
+            ],
+            [
+              7,
+              10
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Stasiun uji terbang peluncuran roket pantai selatan Garut Jawa Barat",
+          "answer": "PAMEUNGPEUK",
+          "cells": [
+            [
+              2,
+              5
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              5,
+              5
+            ],
+            [
+              6,
+              5
+            ],
+            [
+              7,
+              5
+            ],
+            [
+              8,
+              5
+            ],
+            [
+              9,
+              5
+            ],
+            [
+              10,
+              5
+            ],
+            [
+              11,
+              5
+            ],
+            [
+              12,
+              5
+            ]
+          ],
+          "length": 11
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Tabung motor roket bertekanan tinggi penyembur gas dorong jet",
+          "answer": "MOTOR",
+          "cells": [
+            [
+              3,
+              2
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              6,
+              2
+            ],
+            [
+              7,
+              2
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_4",
+          "number": 4,
+          "direction": "down",
+          "text": "Kemampuan pertahanan mandiri menjaga keutuhan wilayah udara nusantara",
+          "answer": "KEDAULATAN",
+          "cells": [
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              7,
+              7
+            ],
+            [
+              8,
+              7
+            ],
+            [
+              9,
+              7
+            ],
+            [
+              10,
+              7
+            ],
+            [
+              11,
+              7
+            ],
+            [
+              12,
+              7
+            ],
+            [
+              13,
+              7
+            ]
+          ],
+          "length": 10
+        },
+        {
+          "id": "down_8",
+          "number": 8,
+          "direction": "down",
+          "text": "Daya jelajah terbang roket hingga mencapai lapisan stratosfer bumi",
+          "answer": "JELAJAH",
+          "cells": [
+            [
+              11,
+              1
+            ],
+            [
+              12,
+              1
+            ],
+            [
+              13,
+              1
+            ],
+            [
+              14,
+              1
+            ],
+            [
+              15,
+              1
+            ],
+            [
+              16,
+              1
+            ],
+            [
+              17,
+              1
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_10",
+          "number": 10,
+          "direction": "down",
+          "text": "Perangkat elektronik pengukur percepatan kecepatan dan ketinggian terbang",
+          "answer": "SENSOR",
+          "cells": [
+            [
+              14,
+              4
+            ],
+            [
+              15,
+              4
+            ],
+            [
+              16,
+              4
+            ],
+            [
+              17,
+              4
+            ],
+            [
+              18,
+              4
+            ],
+            [
+              19,
+              4
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_11",
+          "number": 11,
+          "direction": "down",
+          "text": "Pengembangan teknologi mandiri rekayasa propulsi dirgantara bangsa",
+          "answer": "RISET",
+          "cells": [
+            [
+              15,
+              8
+            ],
+            [
+              16,
+              8
+            ],
+            [
+              17,
+              8
+            ],
+            [
+              18,
+              8
+            ],
+            [
+              19,
+              8
+            ]
+          ],
+          "length": 5
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_257_satelit_lapan_a2",
+    "title": "Satelit Mikro LAPAN-A2 Orari & Mitigasi Bencana",
+    "category": "Aviasi",
+    "size": {
+      "rows": 14,
+      "cols": 13
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 3,
+        "answer": "R",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "answer": "A",
+        "number": 2,
+        "across": "across_2",
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "answer": "I",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "answer": "S",
+        "number": 3,
+        "across": "across_2",
+        "down": "down_3"
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 2,
+        "answer": "C",
+        "number": 4,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "answer": "I",
+        "number": null,
+        "across": "across_4",
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "answer": "T",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 5,
+        "answer": "R",
+        "number": null,
+        "across": "across_4",
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 3,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 5,
+        "answer": "Y",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 10,
+        "answer": "M",
+        "number": 5,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 4,
+        "c": 12,
+        "answer": "S",
+        "number": 6,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "answer": "A",
+        "number": 7,
+        "across": "across_7",
+        "down": "down_3"
+      },
+      {
+        "r": 5,
+        "c": 6,
+        "answer": "N",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 7,
+        "answer": "T",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 8,
+        "answer": "E",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 9,
+        "answer": "N",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": "across_7",
+        "down": "down_5"
+      },
+      {
+        "r": 5,
+        "c": 12,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 6,
+        "c": 0,
+        "answer": "B",
+        "number": 8,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 1,
+        "answer": "O",
+        "number": 9,
+        "across": "across_8",
+        "down": "down_9"
+      },
+      {
+        "r": 6,
+        "c": 2,
+        "answer": "G",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 3,
+        "answer": "O",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 4,
+        "answer": "R",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 10,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 6,
+        "c": 12,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 7,
+        "c": 1,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 7,
+        "c": 8,
+        "answer": "B",
+        "number": 10,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 7,
+        "c": 10,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 7,
+        "c": 12,
+        "answer": "Y",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 8,
+        "c": 1,
+        "answer": "B",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 8,
+        "c": 8,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 8,
+        "c": 10,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 8,
+        "c": 12,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 9,
+        "c": 0,
+        "answer": "M",
+        "number": 11,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 1,
+        "answer": "I",
+        "number": null,
+        "across": "across_11",
+        "down": "down_9"
+      },
+      {
+        "r": 9,
+        "c": 2,
+        "answer": "K",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 3,
+        "answer": "R",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 4,
+        "answer": "O",
+        "number": 12,
+        "across": "across_11",
+        "down": "down_12"
+      },
+      {
+        "r": 9,
+        "c": 6,
+        "answer": "K",
+        "number": 13,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 7,
+        "answer": "O",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 8,
+        "answer": "N",
+        "number": null,
+        "across": "across_13",
+        "down": "down_10"
+      },
+      {
+        "r": 9,
+        "c": 9,
+        "answer": "T",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 10,
+        "answer": "R",
+        "number": null,
+        "across": "across_13",
+        "down": "down_5"
+      },
+      {
+        "r": 9,
+        "c": 11,
+        "answer": "O",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 12,
+        "answer": "L",
+        "number": null,
+        "across": "across_13",
+        "down": "down_6"
+      },
+      {
+        "r": 10,
+        "c": 1,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 10,
+        "c": 4,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 10,
+        "c": 8,
+        "answer": "C",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 10,
+        "c": 10,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 11,
+        "c": 2,
+        "answer": "S",
+        "number": 14,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 3,
+        "answer": "W",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_14",
+        "down": "down_12"
+      },
+      {
+        "r": 11,
+        "c": 5,
+        "answer": "S",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 6,
+        "answer": "T",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 7,
+        "answer": "H",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": "across_14",
+        "down": "down_10"
+      },
+      {
+        "r": 12,
+        "c": 4,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 12,
+        "c": 8,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 13,
+        "c": 4,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 13,
+        "c": 7,
+        "answer": "K",
+        "number": 15,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": "down_10"
+      },
+      {
+        "r": 13,
+        "c": 9,
+        "answer": "M",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 10,
+        "answer": "E",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 11,
+        "answer": "R",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 12,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_2",
+          "number": 2,
+          "direction": "across",
+          "text": "Sistem identifikasi otomatis pelacak pergerakan kapal laut di perairan nusantara",
+          "answer": "AIS",
+          "cells": [
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ]
+          ],
+          "length": 3
+        },
+        {
+          "id": "across_4",
+          "number": 4,
+          "direction": "across",
+          "text": "Rekaman foto permukaan bumi pendukung pemetaan tata ruang nasional",
+          "answer": "CITRA",
+          "cells": [
+            [
+              3,
+              2
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              3,
+              6
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_7",
+          "number": 7,
+          "direction": "across",
+          "text": "Perangkat penerima dan pemancar data telemetri di Pusat Roket Rumpin Bogor",
+          "answer": "ANTENA",
+          "cells": [
+            [
+              5,
+              5
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              5,
+              8
+            ],
+            [
+              5,
+              9
+            ],
+            [
+              5,
+              10
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_8",
+          "number": 8,
+          "direction": "across",
+          "text": "Pusat Teknologi Satelit LAPAN di Rumpin Bogor tempat perakitan satelit",
+          "answer": "BOGOR",
+          "cells": [
+            [
+              6,
+              0
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              6,
+              2
+            ],
+            [
+              6,
+              3
+            ],
+            [
+              6,
+              4
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_11",
+          "number": 11,
+          "direction": "across",
+          "text": "Satelit berukuran kompak seberat lima puluh kilogram karya mandiri anak bangsa",
+          "answer": "MIKRO",
+          "cells": [
+            [
+              9,
+              0
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              9,
+              4
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_13",
+          "number": 13,
+          "direction": "across",
+          "text": "Stasiun bumi pengendali attitude orbit dan kesehatan subsistem satelit",
+          "answer": "KONTROL",
+          "cells": [
+            [
+              9,
+              6
+            ],
+            [
+              9,
+              7
+            ],
+            [
+              9,
+              8
+            ],
+            [
+              9,
+              9
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              9,
+              11
+            ],
+            [
+              9,
+              12
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_14",
+          "number": 14,
+          "direction": "across",
+          "text": "Nama sandi LAPAN-A2 Orari lambang kemandirian teknologi antariksa",
+          "answer": "SWASTHA",
+          "cells": [
+            [
+              11,
+              2
+            ],
+            [
+              11,
+              3
+            ],
+            [
+              11,
+              4
+            ],
+            [
+              11,
+              5
+            ],
+            [
+              11,
+              6
+            ],
+            [
+              11,
+              7
+            ],
+            [
+              11,
+              8
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_15",
+          "number": 15,
+          "direction": "across",
+          "text": "Lensa kamera digital resolusi tinggi pengambil foto citra bumi dari angkasa",
+          "answer": "KAMERA",
+          "cells": [
+            [
+              13,
+              7
+            ],
+            [
+              13,
+              8
+            ],
+            [
+              13,
+              9
+            ],
+            [
+              13,
+              10
+            ],
+            [
+              13,
+              11
+            ],
+            [
+              13,
+              12
+            ]
+          ],
+          "length": 6
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Komunikasi suara radio amatir penghubung relawan SAR di daerah terisolir",
+          "answer": "RADIO",
+          "cells": [
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              4,
+              3
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Panel surya sel fotovoltaik pengubah cahaya mentari menjadi energi listrik",
+          "answer": "SURYA",
+          "cells": [
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              5,
+              5
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Kebanggaan bangsa berhasil merancang dan mengintegrasikan satelit sendiri",
+          "answer": "MANDIRI",
+          "cells": [
+            [
+              4,
+              10
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              6,
+              10
+            ],
+            [
+              7,
+              10
+            ],
+            [
+              8,
+              10
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              10,
+              10
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_6",
+          "number": 6,
+          "direction": "down",
+          "text": "Pancaran sinyal data frekuensi radio komunikasi kebencanaan pelosok",
+          "answer": "SINYAL",
+          "cells": [
+            [
+              4,
+              12
+            ],
+            [
+              5,
+              12
+            ],
+            [
+              6,
+              12
+            ],
+            [
+              7,
+              12
+            ],
+            [
+              8,
+              12
+            ],
+            [
+              9,
+              12
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_9",
+          "number": 9,
+          "direction": "down",
+          "text": "Orbit ekuatorial melintasi wilayah Indonesia empat belas kali setiap hari",
+          "answer": "ORBIT",
+          "cells": [
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              1
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              10,
+              1
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_10",
+          "number": 10,
+          "direction": "down",
+          "text": "Mitigasi dan pemantauan dini bencana alam gempa bumi tsunami dan banjir",
+          "answer": "BENCANA",
+          "cells": [
+            [
+              7,
+              8
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              9,
+              8
+            ],
+            [
+              10,
+              8
+            ],
+            [
+              11,
+              8
+            ],
+            [
+              12,
+              8
+            ],
+            [
+              13,
+              8
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_12",
+          "number": 12,
+          "direction": "down",
+          "text": "Organisasi Amatir Radio Indonesia pengguna muatan relay komunikasi darurat",
+          "answer": "ORARI",
+          "cells": [
+            [
+              9,
+              4
+            ],
+            [
+              10,
+              4
+            ],
+            [
+              11,
+              4
+            ],
+            [
+              12,
+              4
+            ],
+            [
+              13,
+              4
+            ]
+          ],
+          "length": 5
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_258_teropong_bintang_timau",
+    "title": "Observatorium Nasional Timau NTT & Langit Gelap",
+    "category": "Dirgantara",
+    "size": {
+      "rows": 11,
+      "cols": 19
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 1,
+        "answer": "O",
+        "number": 1,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 2,
+        "answer": "P",
+        "number": null,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 3,
+        "answer": "T",
+        "number": 2,
+        "across": "across_1",
+        "down": "down_2"
+      },
+      {
+        "r": 0,
+        "c": 4,
+        "answer": "I",
+        "number": null,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 5,
+        "answer": "K",
+        "number": 3,
+        "across": "across_1",
+        "down": "down_3"
+      },
+      {
+        "r": 0,
+        "c": 14,
+        "answer": "M",
+        "number": 4,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 1,
+        "c": 13,
+        "answer": "G",
+        "number": 5,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 14,
+        "answer": "A",
+        "number": null,
+        "across": "across_5",
+        "down": "down_4"
+      },
+      {
+        "r": 1,
+        "c": 15,
+        "answer": "L",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 16,
+        "answer": "A",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 17,
+        "answer": "X",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 18,
+        "answer": "Y",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "answer": "B",
+        "number": 6,
+        "across": "across_6",
+        "down": "down_3"
+      },
+      {
+        "r": 2,
+        "c": 6,
+        "answer": "I",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 7,
+        "answer": "N",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 8,
+        "answer": "T",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 9,
+        "answer": "A",
+        "number": 7,
+        "across": "across_6",
+        "down": "down_7"
+      },
+      {
+        "r": 2,
+        "c": 10,
+        "answer": "N",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 11,
+        "answer": "G",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 14,
+        "answer": "H",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 5,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 9,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 3,
+        "c": 12,
+        "answer": "C",
+        "number": 8,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 3,
+        "c": 14,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 4,
+        "c": 1,
+        "answer": "C",
+        "number": 9,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 2,
+        "answer": "E",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 3,
+        "answer": "R",
+        "number": null,
+        "across": "across_9",
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 5,
+        "answer": "H",
+        "number": null,
+        "across": "across_9",
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 9,
+        "answer": "T",
+        "number": 10,
+        "across": "across_10",
+        "down": "down_7"
+      },
+      {
+        "r": 4,
+        "c": 10,
+        "answer": "E",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 11,
+        "answer": "L",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 12,
+        "answer": "E",
+        "number": null,
+        "across": "across_10",
+        "down": "down_8"
+      },
+      {
+        "r": 4,
+        "c": 13,
+        "answer": "S",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 14,
+        "answer": "K",
+        "number": null,
+        "across": "across_10",
+        "down": "down_4"
+      },
+      {
+        "r": 4,
+        "c": 15,
+        "answer": "O",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 16,
+        "answer": "P",
+        "number": 11,
+        "across": "across_10",
+        "down": "down_11"
+      },
+      {
+        "r": 5,
+        "c": 9,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 5,
+        "c": 12,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 5,
+        "c": 14,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 5,
+        "c": 16,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 6,
+        "c": 3,
+        "answer": "T",
+        "number": 12,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 6,
+        "c": 9,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 6,
+        "c": 12,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 6,
+        "c": 14,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 6,
+        "c": 16,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 7,
+        "c": 3,
+        "answer": "I",
+        "number": 13,
+        "across": "across_13",
+        "down": "down_12"
+      },
+      {
+        "r": 7,
+        "c": 4,
+        "answer": "L",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 5,
+        "answer": "M",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 6,
+        "answer": "U",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 7,
+        "answer": "W",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 9,
+        "answer": "N",
+        "number": null,
+        "across": "across_13",
+        "down": "down_7"
+      },
+      {
+        "r": 7,
+        "c": 12,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 7,
+        "c": 14,
+        "answer": "Y",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 7,
+        "c": 16,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 8,
+        "c": 3,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 8,
+        "c": 9,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 8,
+        "c": 12,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 8,
+        "c": 14,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 8,
+        "c": 16,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 9,
+        "c": 0,
+        "answer": "D",
+        "number": 14,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 2,
+        "answer": "T",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": "across_14",
+        "down": "down_12"
+      },
+      {
+        "r": 9,
+        "c": 9,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 9,
+        "c": 16,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 10,
+        "c": 3,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 10,
+        "c": 5,
+        "answer": "L",
+        "number": 15,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 7,
+        "answer": "N",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 8,
+        "answer": "G",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 9,
+        "answer": "I",
+        "number": null,
+        "across": "across_15",
+        "down": "down_7"
+      },
+      {
+        "r": 10,
+        "c": 10,
+        "answer": "T",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_1",
+          "number": 1,
+          "direction": "across",
+          "text": "Sistem optik lensa presisi tinggi pendeteksi radiasi spektrum cahaya redup",
+          "answer": "OPTIK",
+          "cells": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              0,
+              5
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_5",
+          "number": 5,
+          "direction": "across",
+          "text": "Galaksi spiral dan gugus bintang purba sasaran riset astrofisika modern",
+          "answer": "GALAXY",
+          "cells": [
+            [
+              1,
+              13
+            ],
+            [
+              1,
+              14
+            ],
+            [
+              1,
+              15
+            ],
+            [
+              1,
+              16
+            ],
+            [
+              1,
+              17
+            ],
+            [
+              1,
+              18
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Miliaran bintang gugusan bima sakti yang tampak berkilau sangat terang",
+          "answer": "BINTANG",
+          "cells": [
+            [
+              2,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              2,
+              8
+            ],
+            [
+              2,
+              9
+            ],
+            [
+              2,
+              10
+            ],
+            [
+              2,
+              11
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_9",
+          "number": 9,
+          "direction": "across",
+          "text": "Jumlah malam cerah tanpa awan mencapai lebih dari tujuh puluh persen setahun",
+          "answer": "CERAH",
+          "cells": [
+            [
+              4,
+              1
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              4,
+              5
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_10",
+          "number": 10,
+          "direction": "across",
+          "text": "Teropong optik cermin berdiameter tiga koma delapan meter penatap bintang",
+          "answer": "TELESKOP",
+          "cells": [
+            [
+              4,
+              9
+            ],
+            [
+              4,
+              10
+            ],
+            [
+              4,
+              11
+            ],
+            [
+              4,
+              12
+            ],
+            [
+              4,
+              13
+            ],
+            [
+              4,
+              14
+            ],
+            [
+              4,
+              15
+            ],
+            [
+              4,
+              16
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "across_13",
+          "number": 13,
+          "direction": "across",
+          "text": "Astronom nasional dan internasional pembedah misteri pembentukan kosmos",
+          "answer": "ILMUWAN",
+          "cells": [
+            [
+              7,
+              3
+            ],
+            [
+              7,
+              4
+            ],
+            [
+              7,
+              5
+            ],
+            [
+              7,
+              6
+            ],
+            [
+              7,
+              7
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              7,
+              9
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_14",
+          "number": 14,
+          "direction": "across",
+          "text": "Rekaman spektroskopi digital kontribusi Indonesia bagi astronomi global",
+          "answer": "DATA",
+          "cells": [
+            [
+              9,
+              0
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              9,
+              3
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "across_15",
+          "number": 15,
+          "direction": "across",
+          "text": "Kubah langit gelap bebas polusi cahaya kota terbaik di kawasan Asia Tenggara",
+          "answer": "LANGIT",
+          "cells": [
+            [
+              10,
+              5
+            ],
+            [
+              10,
+              6
+            ],
+            [
+              10,
+              7
+            ],
+            [
+              10,
+              8
+            ],
+            [
+              10,
+              9
+            ],
+            [
+              10,
+              10
+            ]
+          ],
+          "length": 6
+        }
+      ],
+      "down": [
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Pulau di Nusa Tenggara Timur beriklim kering dengan malam cerah terbanyak",
+          "answer": "TIMOR",
+          "cells": [
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              4,
+              3
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Bangunan kubah pelindung teleskop yang berputar mengikuti rotasi bumi",
+          "answer": "KUBAH",
+          "cells": [
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              4,
+              5
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_4",
+          "number": 4,
+          "direction": "down",
+          "text": "Fasilitas sains antariksa termegah kebanggaan peradaban sains nusantara",
+          "answer": "MAHAKARYA",
+          "cells": [
+            [
+              0,
+              14
+            ],
+            [
+              1,
+              14
+            ],
+            [
+              2,
+              14
+            ],
+            [
+              3,
+              14
+            ],
+            [
+              4,
+              14
+            ],
+            [
+              5,
+              14
+            ],
+            [
+              6,
+              14
+            ],
+            [
+              7,
+              14
+            ],
+            [
+              8,
+              14
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "down_7",
+          "number": 7,
+          "direction": "down",
+          "text": "Penelitian ilmu falak dan evolusi alam semesta dari langit belahan selatan",
+          "answer": "ASTRONOMI",
+          "cells": [
+            [
+              2,
+              9
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              4,
+              9
+            ],
+            [
+              5,
+              9
+            ],
+            [
+              6,
+              9
+            ],
+            [
+              7,
+              9
+            ],
+            [
+              8,
+              9
+            ],
+            [
+              9,
+              9
+            ],
+            [
+              10,
+              9
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "down_8",
+          "number": 8,
+          "direction": "down",
+          "text": "Permukaan pemantul cahaya cermin raksasa pembidik galaksi dan eksoplanet",
+          "answer": "CERMIN",
+          "cells": [
+            [
+              3,
+              12
+            ],
+            [
+              4,
+              12
+            ],
+            [
+              5,
+              12
+            ],
+            [
+              6,
+              12
+            ],
+            [
+              7,
+              12
+            ],
+            [
+              8,
+              12
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_11",
+          "number": 11,
+          "direction": "down",
+          "text": "Pencarian planet di luar tata surya tempat potensi adanya kehidupan",
+          "answer": "PLANET",
+          "cells": [
+            [
+              4,
+              16
+            ],
+            [
+              5,
+              16
+            ],
+            [
+              6,
+              16
+            ],
+            [
+              7,
+              16
+            ],
+            [
+              8,
+              16
+            ],
+            [
+              9,
+              16
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_12",
+          "number": 12,
+          "direction": "down",
+          "text": "Puncak gunung di Timor Tengah Utara NTT lokasi observatorium astronomi terbesar",
+          "answer": "TIMAU",
+          "cells": [
+            [
+              6,
+              3
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              8,
+              3
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              10,
+              3
+            ]
+          ],
+          "length": 5
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_259_drone_elang_hitam",
+    "title": "Pesawat Nirawak Elang Hitam PUNA Male",
+    "category": "Aviasi",
+    "size": {
+      "rows": 14,
+      "cols": 17
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 12,
+        "answer": "T",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 0,
+        "c": 14,
+        "answer": "M",
+        "number": 2,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 2,
+        "answer": "P",
+        "number": 3,
+        "across": "across_3",
+        "down": "down_3"
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "answer": "U",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "answer": "A",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 10,
+        "answer": "K",
+        "number": 4,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 1,
+        "c": 12,
+        "answer": "E",
+        "number": 5,
+        "across": "across_5",
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 13,
+        "answer": "L",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 14,
+        "answer": "A",
+        "number": null,
+        "across": "across_5",
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 15,
+        "answer": "N",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 16,
+        "answer": "G",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 2,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 2,
+        "c": 7,
+        "answer": "K",
+        "number": 6,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 2,
+        "c": 10,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 2,
+        "c": 12,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 14,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 2,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 7,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 3,
+        "c": 10,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 3,
+        "c": 12,
+        "answer": "B",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 14,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 2,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 7,
+        "answer": "N",
+        "number": 7,
+        "across": "across_7",
+        "down": "down_6"
+      },
+      {
+        "r": 4,
+        "c": 8,
+        "answer": "I",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 9,
+        "answer": "R",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": "across_7",
+        "down": "down_4"
+      },
+      {
+        "r": 4,
+        "c": 11,
+        "answer": "W",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 12,
+        "answer": "A",
+        "number": null,
+        "across": "across_7",
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 13,
+        "answer": "K",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 0,
+        "answer": "H",
+        "number": 8,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 1,
+        "answer": "I",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 2,
+        "answer": "T",
+        "number": null,
+        "across": "across_8",
+        "down": "down_3"
+      },
+      {
+        "r": 5,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 4,
+        "answer": "M",
+        "number": 9,
+        "across": "across_8",
+        "down": "down_9"
+      },
+      {
+        "r": 5,
+        "c": 7,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 5,
+        "c": 10,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 5,
+        "c": 12,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 6,
+        "c": 4,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 6,
+        "c": 7,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 6,
+        "c": 10,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 6,
+        "c": 12,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 7,
+        "c": 4,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 7,
+        "c": 7,
+        "answer": "R",
+        "number": 10,
+        "across": "across_10",
+        "down": "down_6"
+      },
+      {
+        "r": 7,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 9,
+        "answer": "D",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": "across_10",
+        "down": "down_4"
+      },
+      {
+        "r": 7,
+        "c": 11,
+        "answer": "R",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 4,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 8,
+        "c": 7,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 8,
+        "c": 10,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 9,
+        "c": 1,
+        "answer": "P",
+        "number": 11,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 2,
+        "answer": "A",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 3,
+        "answer": "T",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 4,
+        "answer": "R",
+        "number": null,
+        "across": "across_11",
+        "down": "down_9"
+      },
+      {
+        "r": 9,
+        "c": 5,
+        "answer": "O",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 6,
+        "answer": "L",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 7,
+        "answer": "I",
+        "number": null,
+        "across": "across_11",
+        "down": "down_6"
+      },
+      {
+        "r": 9,
+        "c": 9,
+        "answer": "M",
+        "number": 12,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": "down_4"
+      },
+      {
+        "r": 9,
+        "c": 11,
+        "answer": "N",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 12,
+        "answer": "D",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 13,
+        "answer": "I",
+        "number": 13,
+        "across": "across_12",
+        "down": "down_13"
+      },
+      {
+        "r": 9,
+        "c": 14,
+        "answer": "R",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 15,
+        "answer": "I",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 4,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 10,
+        "c": 7,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 10,
+        "c": 10,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 10,
+        "c": 13,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 11,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 11,
+        "c": 7,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 11,
+        "c": 13,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 12,
+        "c": 12,
+        "answer": "S",
+        "number": 14,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 13,
+        "answer": "A",
+        "number": null,
+        "across": "across_14",
+        "down": "down_13"
+      },
+      {
+        "r": 12,
+        "c": 14,
+        "answer": "Y",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 15,
+        "answer": "A",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 16,
+        "answer": "P",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 13,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_13"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_3",
+          "number": 3,
+          "direction": "across",
+          "text": "Pesawat Udara Nirawak rancangan konsorsium PTDI BPPT dan Kemenhan",
+          "answer": "PUNA",
+          "cells": [
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "across_5",
+          "number": 5,
+          "direction": "across",
+          "text": "Burung pemangsa elang hitam inspirasi nama drone tempur taktis nasional",
+          "answer": "ELANG",
+          "cells": [
+            [
+              1,
+              12
+            ],
+            [
+              1,
+              13
+            ],
+            [
+              1,
+              14
+            ],
+            [
+              1,
+              15
+            ],
+            [
+              1,
+              16
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_7",
+          "number": 7,
+          "direction": "across",
+          "text": "Pesawat terbang kendali jarak jauh tanpa awak pilot di dalam kokpit",
+          "answer": "NIRAWAK",
+          "cells": [
+            [
+              4,
+              7
+            ],
+            [
+              4,
+              8
+            ],
+            [
+              4,
+              9
+            ],
+            [
+              4,
+              10
+            ],
+            [
+              4,
+              11
+            ],
+            [
+              4,
+              12
+            ],
+            [
+              4,
+              13
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_8",
+          "number": 8,
+          "direction": "across",
+          "text": "Kelir badan drone stealth berkemampuan intai intelijen perbatasan laut",
+          "answer": "HITAM",
+          "cells": [
+            [
+              5,
+              0
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              5,
+              3
+            ],
+            [
+              5,
+              4
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_10",
+          "number": 10,
+          "direction": "across",
+          "text": "Sistem sensor elektro optik infra merah pembaca sasaran di darat dan laut",
+          "answer": "RADAR",
+          "cells": [
+            [
+              7,
+              7
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              7,
+              9
+            ],
+            [
+              7,
+              10
+            ],
+            [
+              7,
+              11
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_11",
+          "number": 11,
+          "direction": "across",
+          "text": "Patroli pengawasan wilayah kedaulatan laut ZEE dan pulau terluar",
+          "answer": "PATROLI",
+          "cells": [
+            [
+              9,
+              1
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              9,
+              4
+            ],
+            [
+              9,
+              5
+            ],
+            [
+              9,
+              6
+            ],
+            [
+              9,
+              7
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_12",
+          "number": 12,
+          "direction": "across",
+          "text": "Penguasaan alutsista mandiri mengurangi ketergantungan impor senjata",
+          "answer": "MANDIRI",
+          "cells": [
+            [
+              9,
+              9
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              9,
+              11
+            ],
+            [
+              9,
+              12
+            ],
+            [
+              9,
+              13
+            ],
+            [
+              9,
+              14
+            ],
+            [
+              9,
+              15
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_14",
+          "number": 14,
+          "direction": "across",
+          "text": "Bentang sayap sepanjang enam belas meter efisien membelah hambatan angin",
+          "answer": "SAYAP",
+          "cells": [
+            [
+              12,
+              12
+            ],
+            [
+              12,
+              13
+            ],
+            [
+              12,
+              14
+            ],
+            [
+              12,
+              15
+            ],
+            [
+              12,
+              16
+            ]
+          ],
+          "length": 5
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Kemampuan jelajah terbang tinggi di atas dua puluh ribu kaki permukaan laut",
+          "answer": "TERBANG",
+          "cells": [
+            [
+              0,
+              12
+            ],
+            [
+              1,
+              12
+            ],
+            [
+              2,
+              12
+            ],
+            [
+              3,
+              12
+            ],
+            [
+              4,
+              12
+            ],
+            [
+              5,
+              12
+            ],
+            [
+              6,
+              12
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Kategori Medium Altitude Long Endurance mampu terbang melayang tiga puluh jam",
+          "answer": "MALE",
+          "cells": [
+            [
+              0,
+              14
+            ],
+            [
+              1,
+              14
+            ],
+            [
+              2,
+              14
+            ],
+            [
+              3,
+              14
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Operator darat pengendali misi dari stasiun GCS Ground Control Station",
+          "answer": "PILOT",
+          "cells": [
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              3,
+              2
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              5,
+              2
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_4",
+          "number": 4,
+          "direction": "down",
+          "text": "Perlindungan teritorial NKRI dari marabahaya infiltrasi musuh luar",
+          "answer": "KEDAULATAN",
+          "cells": [
+            [
+              1,
+              10
+            ],
+            [
+              2,
+              10
+            ],
+            [
+              3,
+              10
+            ],
+            [
+              4,
+              10
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              6,
+              10
+            ],
+            [
+              7,
+              10
+            ],
+            [
+              8,
+              10
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              10,
+              10
+            ]
+          ],
+          "length": 10
+        },
+        {
+          "id": "down_6",
+          "number": 6,
+          "direction": "down",
+          "text": "Kerja sama lembaga riset industri pertahanan dan perguruan tinggi negeri",
+          "answer": "KONSORSIUM",
+          "cells": [
+            [
+              2,
+              7
+            ],
+            [
+              3,
+              7
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              7,
+              7
+            ],
+            [
+              8,
+              7
+            ],
+            [
+              9,
+              7
+            ],
+            [
+              10,
+              7
+            ],
+            [
+              11,
+              7
+            ]
+          ],
+          "length": 10
+        },
+        {
+          "id": "down_9",
+          "number": 9,
+          "direction": "down",
+          "text": "Teknologi avionik fly-by-wire mutakhir karya putra putri bangsa",
+          "answer": "MODEREN",
+          "cells": [
+            [
+              5,
+              4
+            ],
+            [
+              6,
+              4
+            ],
+            [
+              7,
+              4
+            ],
+            [
+              8,
+              4
+            ],
+            [
+              9,
+              4
+            ],
+            [
+              10,
+              4
+            ],
+            [
+              11,
+              4
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_13",
+          "number": 13,
+          "direction": "down",
+          "text": "Misi pengintaian pemantauan garis pantai dari ancaman penyelundupan ilegal",
+          "answer": "INTAI",
+          "cells": [
+            [
+              9,
+              13
+            ],
+            [
+              10,
+              13
+            ],
+            [
+              11,
+              13
+            ],
+            [
+              12,
+              13
+            ],
+            [
+              13,
+              13
+            ]
+          ],
+          "length": 5
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_260_centennial_angkasa_260",
+    "title": "Puncak Mahardika Angkasa 260 & Kejayaan Antariksa",
+    "category": "Dirgantara",
+    "size": {
+      "rows": 13,
+      "cols": 18
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 1,
+        "answer": "S",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 0,
+        "c": 5,
+        "answer": "K",
+        "number": 2,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 0,
+        "c": 7,
+        "answer": "M",
+        "number": 3,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 0,
+        "c": 10,
+        "answer": "C",
+        "number": 4,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 0,
+        "c": 14,
+        "answer": "K",
+        "number": 5,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 1,
+        "c": 0,
+        "answer": "M",
+        "number": 6,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 2,
+        "answer": "S",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "answer": "A",
+        "number": 7,
+        "across": "across_6",
+        "down": "down_7"
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 1,
+        "c": 10,
+        "answer": "A",
+        "number": 8,
+        "across": "across_8",
+        "down": "down_4"
+      },
+      {
+        "r": 1,
+        "c": 11,
+        "answer": "S",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 12,
+        "answer": "T",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 13,
+        "answer": "R",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 14,
+        "answer": "O",
+        "number": null,
+        "across": "across_8",
+        "down": "down_5"
+      },
+      {
+        "r": 1,
+        "c": 15,
+        "answer": "N",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 16,
+        "answer": "O",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 17,
+        "answer": "T",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 1,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "answer": "B",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 7,
+        "answer": "H",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 2,
+        "c": 10,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 2,
+        "c": 14,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 3,
+        "c": 0,
+        "answer": "P",
+        "number": 9,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 1,
+        "answer": "E",
+        "number": null,
+        "across": "across_9",
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 2,
+        "answer": "R",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": "across_9",
+        "down": "down_7"
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "answer": "D",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 5,
+        "answer": "A",
+        "number": null,
+        "across": "across_9",
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 6,
+        "answer": "B",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": "across_9",
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 8,
+        "answer": "N",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 10,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 3,
+        "c": 14,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 4,
+        "c": 1,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 3,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 4,
+        "c": 5,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 7,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 4,
+        "c": 13,
+        "answer": "R",
+        "number": 10,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 14,
+        "answer": "O",
+        "number": null,
+        "across": "across_10",
+        "down": "down_5"
+      },
+      {
+        "r": 4,
+        "c": 15,
+        "answer": "K",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 16,
+        "answer": "E",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 17,
+        "answer": "T",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 1,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 5,
+        "c": 3,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 5,
+        "c": 7,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 5,
+        "c": 10,
+        "answer": "W",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 5,
+        "c": 12,
+        "answer": "A",
+        "number": 11,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 5,
+        "c": 14,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 6,
+        "c": 1,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 6,
+        "c": 5,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 6,
+        "c": 7,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 6,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 6,
+        "c": 12,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 7,
+        "c": 5,
+        "answer": "T",
+        "number": 12,
+        "across": "across_12",
+        "down": "down_2"
+      },
+      {
+        "r": 7,
+        "c": 6,
+        "answer": "E",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 7,
+        "answer": "K",
+        "number": null,
+        "across": "across_12",
+        "down": "down_3"
+      },
+      {
+        "r": 7,
+        "c": 8,
+        "answer": "N",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 9,
+        "answer": "O",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 10,
+        "answer": "L",
+        "number": null,
+        "across": "across_12",
+        "down": "down_4"
+      },
+      {
+        "r": 7,
+        "c": 11,
+        "answer": "O",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 12,
+        "answer": "G",
+        "number": null,
+        "across": "across_12",
+        "down": "down_11"
+      },
+      {
+        "r": 7,
+        "c": 13,
+        "answer": "I",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 5,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 8,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 8,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 8,
+        "c": 12,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 9,
+        "c": 0,
+        "answer": "B",
+        "number": 13,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 1,
+        "answer": "I",
+        "number": 14,
+        "across": "across_13",
+        "down": "down_14"
+      },
+      {
+        "r": 9,
+        "c": 2,
+        "answer": "N",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 3,
+        "answer": "T",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 5,
+        "answer": "N",
+        "number": null,
+        "across": "across_13",
+        "down": "down_2"
+      },
+      {
+        "r": 9,
+        "c": 6,
+        "answer": "G",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 11,
+        "answer": "B",
+        "number": 15,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 12,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": "down_11"
+      },
+      {
+        "r": 9,
+        "c": 13,
+        "answer": "N",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 14,
+        "answer": "G",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 15,
+        "answer": "S",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 16,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 1,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_14"
+      },
+      {
+        "r": 10,
+        "c": 12,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 11,
+        "c": 1,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_14"
+      },
+      {
+        "r": 11,
+        "c": 12,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 12,
+        "c": 1,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_14"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Masa depan emas menyongsong abad baru kebangkitan sains nusantara",
+          "answer": "MASA",
+          "cells": [
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              3
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "across_8",
+          "number": 8,
+          "direction": "across",
+          "text": "Penjelajah masa depan pembawa bibit unggul peradaban ke stasiun antariksa",
+          "answer": "ASTRONOT",
+          "cells": [
+            [
+              1,
+              10
+            ],
+            [
+              1,
+              11
+            ],
+            [
+              1,
+              12
+            ],
+            [
+              1,
+              13
+            ],
+            [
+              1,
+              14
+            ],
+            [
+              1,
+              15
+            ],
+            [
+              1,
+              16
+            ],
+            [
+              1,
+              17
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "across_9",
+          "number": 9,
+          "direction": "across",
+          "text": "Tonggak puncak kebudayaan agung Indonesia mercusuar dunia",
+          "answer": "PERADABAN",
+          "cells": [
+            [
+              3,
+              0
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              3,
+              2
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              3,
+              7
+            ],
+            [
+              3,
+              8
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "across_10",
+          "number": 10,
+          "direction": "across",
+          "text": "Pilar peluncur bertenaga dahsyat penembus gravitasi menuju bintang gemintang",
+          "answer": "ROKET",
+          "cells": [
+            [
+              4,
+              13
+            ],
+            [
+              4,
+              14
+            ],
+            [
+              4,
+              15
+            ],
+            [
+              4,
+              16
+            ],
+            [
+              4,
+              17
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_12",
+          "number": 12,
+          "direction": "across",
+          "text": "Kecerdasan rekayasa manusia penembus batas ketidaktahuan zaman",
+          "answer": "TEKNOLOGI",
+          "cells": [
+            [
+              7,
+              5
+            ],
+            [
+              7,
+              6
+            ],
+            [
+              7,
+              7
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              7,
+              9
+            ],
+            [
+              7,
+              10
+            ],
+            [
+              7,
+              11
+            ],
+            [
+              7,
+              12
+            ],
+            [
+              7,
+              13
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "across_13",
+          "number": 13,
+          "direction": "across",
+          "text": "Cahaya pemandu perjalanan peradaban menuju kemakmuran abadi bangsa",
+          "answer": "BINTANG",
+          "cells": [
+            [
+              9,
+              0
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              9,
+              4
+            ],
+            [
+              9,
+              5
+            ],
+            [
+              9,
+              6
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_15",
+          "number": 15,
+          "direction": "across",
+          "text": "Masyarakat cerdas berkarakter luhur pengawal keutuhan pertiwi nusantara",
+          "answer": "BANGSA",
+          "cells": [
+            [
+              9,
+              11
+            ],
+            [
+              9,
+              12
+            ],
+            [
+              9,
+              13
+            ],
+            [
+              9,
+              14
+            ],
+            [
+              9,
+              15
+            ],
+            [
+              9,
+              16
+            ]
+          ],
+          "length": 6
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Ratusan wahana pengorbit bumi pemancar peradaban sains dan teknologi",
+          "answer": "SATELIT",
+          "cells": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Marwah kedaulatan dirgantara abadi menaungi tanah air dari Sabang ke Merauke",
+          "answer": "KEDAULATAN",
+          "cells": [
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              5,
+              5
+            ],
+            [
+              6,
+              5
+            ],
+            [
+              7,
+              5
+            ],
+            [
+              8,
+              5
+            ],
+            [
+              9,
+              5
+            ]
+          ],
+          "length": 10
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Puncak keagungan peradaban ilmu pengetahuan dan kemerdekaan jiwa bangsa",
+          "answer": "MAHARDIKA",
+          "cells": [
+            [
+              0,
+              7
+            ],
+            [
+              1,
+              7
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              3,
+              7
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              7,
+              7
+            ],
+            [
+              8,
+              7
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "down_4",
+          "number": 4,
+          "direction": "down",
+          "text": "Garis batas ufuk tempat bermulanya lompatan sains generasi penerus",
+          "answer": "CAKRAWALA",
+          "cells": [
+            [
+              0,
+              10
+            ],
+            [
+              1,
+              10
+            ],
+            [
+              2,
+              10
+            ],
+            [
+              3,
+              10
+            ],
+            [
+              4,
+              10
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              6,
+              10
+            ],
+            [
+              7,
+              10
+            ],
+            [
+              8,
+              10
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Keteraturan tatanan alam semesta raya dari partikel atom hingga galaksi",
+          "answer": "KOSMOS",
+          "cells": [
+            [
+              0,
+              14
+            ],
+            [
+              1,
+              14
+            ],
+            [
+              2,
+              14
+            ],
+            [
+              3,
+              14
+            ],
+            [
+              4,
+              14
+            ],
+            [
+              5,
+              14
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_7",
+          "number": 7,
+          "direction": "down",
+          "text": "Kejayaan karya bangsa yang terukir abadi dalam lembaran sejarah dunia",
+          "answer": "ABADI",
+          "cells": [
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              5,
+              3
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_11",
+          "number": 11,
+          "direction": "down",
+          "text": "Kubah langit raya tempat berlabuhnya mimpi dan cita-cita luhur bangsa",
+          "answer": "ANGKASA",
+          "cells": [
+            [
+              5,
+              12
+            ],
+            [
+              6,
+              12
+            ],
+            [
+              7,
+              12
+            ],
+            [
+              8,
+              12
+            ],
+            [
+              9,
+              12
+            ],
+            [
+              10,
+              12
+            ],
+            [
+              11,
+              12
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_14",
+          "number": 14,
+          "direction": "down",
+          "text": "Kekuatan ilmu pengetahuan sebagai obor penerang kegelapan zaman",
+          "answer": "ILMU",
+          "cells": [
+            [
+              9,
+              1
+            ],
+            [
+              10,
+              1
+            ],
+            [
+              11,
+              1
+            ],
+            [
+              12,
+              1
+            ]
+          ],
+          "length": 4
+        }
+      ]
+    }
+  }
+]

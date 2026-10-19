@@ -1,0 +1,72 @@
+[
+  {
+    "id": "level_49_bintang_pari",
+    "title": "Kompas Bintang Selatan",
+    "category": "Astronomi",
+    "words": [
+      {
+        "answer": "BINTANG",
+        "clue": "Benda angkasa berpijar mandiri penghias langit malam"
+      },
+      {
+        "answer": "PARI",
+        "clue": "Gugus rasi salib selatan penunjuk arah navigasi pelaut Nusantara"
+      },
+      {
+        "answer": "ZODIAK",
+        "clue": "Lingkaran khayal di langit yang terbagi menjadi dua belas rasi bintang"
+      },
+      {
+        "answer": "ZENIT",
+        "clue": "Titik puncak khayal di langit tepat tegak lurus di atas pengamat"
+      },
+      {
+        "answer": "AZIMUT",
+        "clue": "Sudut kompas penunjuk arah horizontal suatu benda langit dari kutub utara"
+      },
+      {
+        "answer": "NADIR",
+        "clue": "Titik terendah pada bola langit tepat di bawah kaki pengamat"
+      },
+      {
+        "answer": "KOSMIK",
+        "clue": "Segala hal yang berkaitan dengan keteraturan alam semesta dan jagat raya"
+      }
+    ]
+  },
+  {
+    "id": "level_50_keemasan",
+    "title": "Mahakarya Nusantara Raya",
+    "category": "Mahakarya",
+    "words": [
+      {
+        "answer": "NUSANTARA",
+        "clue": "Sebutan kepulauan tanah air yang terbentang luas dari Sabang hingga Merauke"
+      },
+      {
+        "answer": "BHINNEKA",
+        "clue": "Semboyan luhur persatuan dalam keragaman suku, bahasa, dan budaya bangsa"
+      },
+      {
+        "answer": "TUNGGAL",
+        "clue": "Satu padu dan utuh dalam bingkai kesatuan negara Republik Indonesia"
+      },
+      {
+        "answer": "PANCASILA",
+        "clue": "Dasar negara dan pandangan hidup bangsa yang terdiri atas lima sila agung"
+      },
+      {
+        "answer": "MERDEKA",
+        "clue": "Keadaan bebas dan berdaulat lepas dari belenggu penjajahan"
+      },
+      {
+        "answer": "DAULAT",
+        "clue": "Kekuasaan tertinggi suatu bangsa yang mandiri dan merdeka"
+      },
+      {
+        "answer": "ABADI",
+        "clue": "Kekal tak berkesudahan mengarungi perjalanan sejarah kejayaan bangsa"
+      }
+    ]
+  }
+]

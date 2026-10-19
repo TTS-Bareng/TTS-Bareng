@@ -1,0 +1,9 @@
+{
+  "title": "Docs",
+  "pages": [
+    "index",
+    "usage",
+    "styles",
+    "...components"
+  ]
+}

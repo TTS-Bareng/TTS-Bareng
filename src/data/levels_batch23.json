@@ -1,0 +1,6241 @@
+[
+  {
+    "id": "level_121_palung_jawa",
+    "title": "Misteri Palung Sunda & Samudra Dalam",
+    "category": "Bahari",
+    "size": {
+      "rows": 13,
+      "cols": 15
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 9,
+        "answer": "F",
+        "number": 1,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 10,
+        "answer": "O",
+        "number": null,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 11,
+        "answer": "S",
+        "number": 2,
+        "across": "across_1",
+        "down": "down_2"
+      },
+      {
+        "r": 0,
+        "c": 12,
+        "answer": "I",
+        "number": null,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 13,
+        "answer": "L",
+        "number": null,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 1,
+        "answer": "K",
+        "number": 3,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 2,
+        "answer": "E",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "answer": "R",
+        "number": 4,
+        "across": "across_3",
+        "down": "down_4"
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "answer": "K",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 11,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 2,
+        "c": 6,
+        "answer": "L",
+        "number": 5,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 2,
+        "c": 11,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 3,
+        "c": 5,
+        "answer": "S",
+        "number": 6,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 6,
+        "answer": "U",
+        "number": null,
+        "across": "across_6",
+        "down": "down_5"
+      },
+      {
+        "r": 3,
+        "c": 7,
+        "answer": "B",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 8,
+        "answer": "D",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 9,
+        "answer": "U",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 10,
+        "answer": "K",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 11,
+        "answer": "S",
+        "number": null,
+        "across": "across_6",
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 12,
+        "answer": "I",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 3,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 4,
+        "c": 6,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 4,
+        "c": 11,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 5,
+        "c": 2,
+        "answer": "B",
+        "number": 7,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 3,
+        "answer": "E",
+        "number": null,
+        "across": "across_7",
+        "down": "down_4"
+      },
+      {
+        "r": 5,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "answer": "T",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 6,
+        "answer": "I",
+        "number": null,
+        "across": "across_7",
+        "down": "down_5"
+      },
+      {
+        "r": 5,
+        "c": 7,
+        "answer": "K",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 11,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 6,
+        "c": 3,
+        "answer": "F",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 6,
+        "c": 6,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 6,
+        "c": 8,
+        "answer": "S",
+        "number": 8,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 6,
+        "c": 10,
+        "answer": "P",
+        "number": 9,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 7,
+        "c": 5,
+        "answer": "T",
+        "number": 10,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 6,
+        "answer": "E",
+        "number": null,
+        "across": "across_10",
+        "down": "down_5"
+      },
+      {
+        "r": 7,
+        "c": 7,
+        "answer": "K",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": "across_10",
+        "down": "down_8"
+      },
+      {
+        "r": 7,
+        "c": 9,
+        "answer": "N",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": "across_10",
+        "down": "down_9"
+      },
+      {
+        "r": 7,
+        "c": 11,
+        "answer": "N",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 13,
+        "answer": "B",
+        "number": 11,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 8,
+        "c": 2,
+        "answer": "H",
+        "number": 12,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 8,
+        "c": 6,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 8,
+        "c": 8,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 8,
+        "c": 10,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 8,
+        "c": 13,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 9,
+        "c": 2,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 9,
+        "c": 6,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 9,
+        "c": 8,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 9,
+        "c": 10,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 9,
+        "c": 13,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 10,
+        "c": 0,
+        "answer": "S",
+        "number": 13,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 1,
+        "answer": "E",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 2,
+        "answer": "D",
+        "number": null,
+        "across": "across_13",
+        "down": "down_12"
+      },
+      {
+        "r": 10,
+        "c": 3,
+        "answer": "I",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 4,
+        "answer": "M",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 5,
+        "answer": "E",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 6,
+        "answer": "N",
+        "number": null,
+        "across": "across_13",
+        "down": "down_5"
+      },
+      {
+        "r": 10,
+        "c": 8,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 10,
+        "c": 10,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 10,
+        "c": 13,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 11,
+        "c": 2,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 11,
+        "c": 6,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 11,
+        "c": 8,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 11,
+        "c": 10,
+        "answer": "G",
+        "number": 14,
+        "across": "across_14",
+        "down": "down_9"
+      },
+      {
+        "r": 11,
+        "c": 11,
+        "answer": "E",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 12,
+        "answer": "L",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 13,
+        "answer": "A",
+        "number": null,
+        "across": "across_14",
+        "down": "down_11"
+      },
+      {
+        "r": 11,
+        "c": 14,
+        "answer": "P",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 2,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 12,
+        "c": 4,
+        "answer": "A",
+        "number": 15,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 5,
+        "answer": "B",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 6,
+        "answer": "I",
+        "number": null,
+        "across": "across_15",
+        "down": "down_5"
+      },
+      {
+        "r": 12,
+        "c": 7,
+        "answer": "S",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": "down_8"
+      },
+      {
+        "r": 12,
+        "c": 9,
+        "answer": "L",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 13,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_1",
+          "number": 1,
+          "direction": "across",
+          "text": "Sisa organisme purba yang terawetkan dalam lapisan batuan",
+          "answer": "FOSIL",
+          "cells": [
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ],
+            [
+              0,
+              11
+            ],
+            [
+              0,
+              12
+            ],
+            [
+              0,
+              13
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_3",
+          "number": 3,
+          "direction": "across",
+          "text": "Lapisan terluar bumi pembentuk lantai samudra",
+          "answer": "KERAK",
+          "cells": [
+            [
+              1,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Penunjaman lempeng tektonik ke bawah lempeng lain",
+          "answer": "SUBDUKSI",
+          "cells": [
+            [
+              3,
+              5
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              3,
+              7
+            ],
+            [
+              3,
+              8
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              3,
+              10
+            ],
+            [
+              3,
+              11
+            ],
+            [
+              3,
+              12
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "across_7",
+          "number": 7,
+          "direction": "across",
+          "text": "Organisme yang hidup menempel atau merayap di dasar laut",
+          "answer": "BENTIK",
+          "cells": [
+            [
+              5,
+              2
+            ],
+            [
+              5,
+              3
+            ],
+            [
+              5,
+              4
+            ],
+            [
+              5,
+              5
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              5,
+              7
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_10",
+          "number": 10,
+          "direction": "across",
+          "text": "Besaran gaya per satuan luas yang sangat dahsyat di laut dalam",
+          "answer": "TEKANAN",
+          "cells": [
+            [
+              7,
+              5
+            ],
+            [
+              7,
+              6
+            ],
+            [
+              7,
+              7
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              7,
+              9
+            ],
+            [
+              7,
+              10
+            ],
+            [
+              7,
+              11
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_13",
+          "number": 13,
+          "direction": "across",
+          "text": "Endapan mineral dan partikel organik di lantai samudra",
+          "answer": "SEDIMEN",
+          "cells": [
+            [
+              10,
+              0
+            ],
+            [
+              10,
+              1
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              10,
+              3
+            ],
+            [
+              10,
+              4
+            ],
+            [
+              10,
+              5
+            ],
+            [
+              10,
+              6
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_14",
+          "number": 14,
+          "direction": "across",
+          "text": "Ketiadaan cahaya matahari di kedalaman samudra abisal",
+          "answer": "GELAP",
+          "cells": [
+            [
+              11,
+              10
+            ],
+            [
+              11,
+              11
+            ],
+            [
+              11,
+              12
+            ],
+            [
+              11,
+              13
+            ],
+            [
+              11,
+              14
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_15",
+          "number": 15,
+          "direction": "across",
+          "text": "Mintakat laut dalam antara dua ribu hingga enam ribu meter",
+          "answer": "ABISAL",
+          "cells": [
+            [
+              12,
+              4
+            ],
+            [
+              12,
+              5
+            ],
+            [
+              12,
+              6
+            ],
+            [
+              12,
+              7
+            ],
+            [
+              12,
+              8
+            ],
+            [
+              12,
+              9
+            ]
+          ],
+          "length": 6
+        }
+      ],
+      "down": [
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Peranti peraba atau pendeteksi parameter fisik oseanografi",
+          "answer": "SENSOR",
+          "cells": [
+            [
+              0,
+              11
+            ],
+            [
+              1,
+              11
+            ],
+            [
+              2,
+              11
+            ],
+            [
+              3,
+              11
+            ],
+            [
+              4,
+              11
+            ],
+            [
+              5,
+              11
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_4",
+          "number": 4,
+          "direction": "down",
+          "text": "Bentuk tonjolan dan lekukan tinggi rendah bentang dasar laut",
+          "answer": "RELIEF",
+          "cells": [
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              5,
+              3
+            ],
+            [
+              6,
+              3
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Emisi pancaran pendaran cahaya alami oleh biota laut dalam",
+          "answer": "LUMINESENSI",
+          "cells": [
+            [
+              2,
+              6
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              6,
+              6
+            ],
+            [
+              7,
+              6
+            ],
+            [
+              8,
+              6
+            ],
+            [
+              9,
+              6
+            ],
+            [
+              10,
+              6
+            ],
+            [
+              11,
+              6
+            ],
+            [
+              12,
+              6
+            ]
+          ],
+          "length": 11
+        },
+        {
+          "id": "down_8",
+          "number": 8,
+          "direction": "down",
+          "text": "Lautan luas dan dalam pembungkus sebagian besar bumi",
+          "answer": "SAMUDRA",
+          "cells": [
+            [
+              6,
+              8
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              9,
+              8
+            ],
+            [
+              10,
+              8
+            ],
+            [
+              11,
+              8
+            ],
+            [
+              12,
+              8
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_9",
+          "number": 9,
+          "direction": "down",
+          "text": "Lekukan curam dan sangat dalam di dasar samudra",
+          "answer": "PALUNG",
+          "cells": [
+            [
+              6,
+              10
+            ],
+            [
+              7,
+              10
+            ],
+            [
+              8,
+              10
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              10,
+              10
+            ],
+            [
+              11,
+              10
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_11",
+          "number": 11,
+          "direction": "down",
+          "text": "Zona laut berkedalaman antara dua ratus hingga dua ribu meter",
+          "answer": "BATIAL",
+          "cells": [
+            [
+              7,
+              13
+            ],
+            [
+              8,
+              13
+            ],
+            [
+              9,
+              13
+            ],
+            [
+              10,
+              13
+            ],
+            [
+              11,
+              13
+            ],
+            [
+              12,
+              13
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_12",
+          "number": 12,
+          "direction": "down",
+          "text": "Zona laut terdalam melebihi kedalaman enam ribu meter",
+          "answer": "HADAL",
+          "cells": [
+            [
+              8,
+              2
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              11,
+              2
+            ],
+            [
+              12,
+              2
+            ]
+          ],
+          "length": 5
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_122_ekosistem_lamun",
+    "title": "Padang Lamun & Penyu Hijau Derawan",
+    "category": "Bahari",
+    "size": {
+      "rows": 16,
+      "cols": 17
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 11,
+        "answer": "P",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 7,
+        "answer": "P",
+        "number": 2,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 11,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 6,
+        "answer": "K",
+        "number": 3,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": "across_3",
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 8,
+        "answer": "R",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 9,
+        "answer": "B",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 10,
+        "answer": "O",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 11,
+        "answer": "N",
+        "number": null,
+        "across": "across_3",
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 7,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 11,
+        "answer": "Y",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 13,
+        "answer": "R",
+        "number": 4,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 4,
+        "c": 7,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 10,
+        "answer": "T",
+        "number": 5,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 11,
+        "answer": "U",
+        "number": null,
+        "across": "across_5",
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 12,
+        "answer": "K",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 13,
+        "answer": "I",
+        "number": null,
+        "across": "across_5",
+        "down": "down_4"
+      },
+      {
+        "r": 4,
+        "c": 14,
+        "answer": "K",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 0,
+        "answer": "D",
+        "number": 6,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "answer": "V",
+        "number": 7,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 5,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 5,
+        "c": 13,
+        "answer": "Z",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 6,
+        "c": 0,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 6,
+        "c": 4,
+        "answer": "P",
+        "number": 8,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 5,
+        "answer": "E",
+        "number": null,
+        "across": "across_8",
+        "down": "down_7"
+      },
+      {
+        "r": 6,
+        "c": 6,
+        "answer": "S",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 7,
+        "answer": "I",
+        "number": null,
+        "across": "across_8",
+        "down": "down_2"
+      },
+      {
+        "r": 6,
+        "c": 8,
+        "answer": "S",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 9,
+        "answer": "I",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 10,
+        "answer": "R",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 13,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 7,
+        "c": 0,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 7,
+        "c": 5,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 7,
+        "c": 13,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 8,
+        "c": 0,
+        "answer": "O",
+        "number": 9,
+        "across": "across_9",
+        "down": "down_6"
+      },
+      {
+        "r": 8,
+        "c": 1,
+        "answer": "K",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 2,
+        "answer": "S",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 3,
+        "answer": "I",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 4,
+        "answer": "G",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 5,
+        "answer": "E",
+        "number": null,
+        "across": "across_9",
+        "down": "down_7"
+      },
+      {
+        "r": 8,
+        "c": 6,
+        "answer": "N",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 8,
+        "answer": "K",
+        "number": 10,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 8,
+        "c": 10,
+        "answer": "K",
+        "number": 11,
+        "across": "across_11",
+        "down": "down_11"
+      },
+      {
+        "r": 8,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 12,
+        "answer": "R",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 13,
+        "answer": "A",
+        "number": null,
+        "across": "across_11",
+        "down": "down_4"
+      },
+      {
+        "r": 8,
+        "c": 14,
+        "answer": "P",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 15,
+        "answer": "A",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 16,
+        "answer": "S",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 0,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 9,
+        "c": 5,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 9,
+        "c": 8,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 9,
+        "c": 10,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 10,
+        "c": 0,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 10,
+        "c": 5,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 10,
+        "c": 8,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 10,
+        "c": 10,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 11,
+        "c": 5,
+        "answer": "S",
+        "number": 12,
+        "across": "across_12",
+        "down": "down_7"
+      },
+      {
+        "r": 11,
+        "c": 6,
+        "answer": "U",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 7,
+        "answer": "B",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 8,
+        "answer": "S",
+        "number": null,
+        "across": "across_12",
+        "down": "down_10"
+      },
+      {
+        "r": 11,
+        "c": 9,
+        "answer": "T",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 10,
+        "answer": "R",
+        "number": null,
+        "across": "across_12",
+        "down": "down_11"
+      },
+      {
+        "r": 11,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 12,
+        "answer": "T",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 5,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 12,
+        "c": 8,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 12,
+        "c": 10,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 13,
+        "c": 8,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 13,
+        "c": 10,
+        "answer": "F",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 14,
+        "c": 8,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 14,
+        "c": 10,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 15,
+        "c": 2,
+        "answer": "N",
+        "number": 13,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 15,
+        "c": 3,
+        "answer": "U",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 15,
+        "c": 4,
+        "answer": "T",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 15,
+        "c": 5,
+        "answer": "R",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 15,
+        "c": 6,
+        "answer": "I",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 15,
+        "c": 7,
+        "answer": "E",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 15,
+        "c": 8,
+        "answer": "N",
+        "number": null,
+        "across": "across_13",
+        "down": "down_10"
+      },
+      {
+        "r": 15,
+        "c": 10,
+        "answer": "L",
+        "number": 14,
+        "across": "across_14",
+        "down": "down_11"
+      },
+      {
+        "r": 15,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 15,
+        "c": 12,
+        "answer": "M",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 15,
+        "c": 13,
+        "answer": "U",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 15,
+        "c": 14,
+        "answer": "N",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_3",
+          "number": 3,
+          "direction": "across",
+          "text": "Unsur penting yang diserap dan disimpan oleh vegetasi pesisir",
+          "answer": "KARBON",
+          "cells": [
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              2,
+              8
+            ],
+            [
+              2,
+              9
+            ],
+            [
+              2,
+              10
+            ],
+            [
+              2,
+              11
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_5",
+          "number": 5,
+          "direction": "across",
+          "text": "Anak penyu yang baru menetas dan merayap menuju laut bebas",
+          "answer": "TUKIK",
+          "cells": [
+            [
+              4,
+              10
+            ],
+            [
+              4,
+              11
+            ],
+            [
+              4,
+              12
+            ],
+            [
+              4,
+              13
+            ],
+            [
+              4,
+              14
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_8",
+          "number": 8,
+          "direction": "across",
+          "text": "Mintakat tepian daratan yang terpengaruh dinamika pasang surut laut",
+          "answer": "PESISIR",
+          "cells": [
+            [
+              6,
+              4
+            ],
+            [
+              6,
+              5
+            ],
+            [
+              6,
+              6
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              6,
+              9
+            ],
+            [
+              6,
+              10
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_9",
+          "number": 9,
+          "direction": "across",
+          "text": "Gas penunjang kehidupan hasil fotosintesis tumbuhan padang lamun",
+          "answer": "OKSIGEN",
+          "cells": [
+            [
+              8,
+              0
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              8,
+              2
+            ],
+            [
+              8,
+              3
+            ],
+            [
+              8,
+              4
+            ],
+            [
+              8,
+              5
+            ],
+            [
+              8,
+              6
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_11",
+          "number": 11,
+          "direction": "across",
+          "text": "Cangkang pelindung keras pada bagian punggung penyu",
+          "answer": "KARAPAS",
+          "cells": [
+            [
+              8,
+              10
+            ],
+            [
+              8,
+              11
+            ],
+            [
+              8,
+              12
+            ],
+            [
+              8,
+              13
+            ],
+            [
+              8,
+              14
+            ],
+            [
+              8,
+              15
+            ],
+            [
+              8,
+              16
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_12",
+          "number": 12,
+          "direction": "across",
+          "text": "Lapisan lumpur atau pasir tempat menancapnya perakaran lamun",
+          "answer": "SUBSTRAT",
+          "cells": [
+            [
+              11,
+              5
+            ],
+            [
+              11,
+              6
+            ],
+            [
+              11,
+              7
+            ],
+            [
+              11,
+              8
+            ],
+            [
+              11,
+              9
+            ],
+            [
+              11,
+              10
+            ],
+            [
+              11,
+              11
+            ],
+            [
+              11,
+              12
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "across_13",
+          "number": 13,
+          "direction": "across",
+          "text": "Zat hara terlarut pendorong kesuburan vegetasi laut dangkal",
+          "answer": "NUTRIEN",
+          "cells": [
+            [
+              15,
+              2
+            ],
+            [
+              15,
+              3
+            ],
+            [
+              15,
+              4
+            ],
+            [
+              15,
+              5
+            ],
+            [
+              15,
+              6
+            ],
+            [
+              15,
+              7
+            ],
+            [
+              15,
+              8
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_14",
+          "number": 14,
+          "direction": "across",
+          "text": "Tumbuhan berbunga yang hidup beradaptasi terendam di laut dangkal",
+          "answer": "LAMUN",
+          "cells": [
+            [
+              15,
+              10
+            ],
+            [
+              15,
+              11
+            ],
+            [
+              15,
+              12
+            ],
+            [
+              15,
+              13
+            ],
+            [
+              15,
+              14
+            ]
+          ],
+          "length": 5
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Reptil laut bertempurung keras perenang samudra jarak jauh",
+          "answer": "PENYU",
+          "cells": [
+            [
+              0,
+              11
+            ],
+            [
+              1,
+              11
+            ],
+            [
+              2,
+              11
+            ],
+            [
+              3,
+              11
+            ],
+            [
+              4,
+              11
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Hamparan pasir tepi laut lokasi penyu betina menggali sarang telur",
+          "answer": "PANTAI",
+          "cells": [
+            [
+              1,
+              7
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              3,
+              7
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              6,
+              7
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_4",
+          "number": 4,
+          "direction": "down",
+          "text": "Batang menjalar di bawah endapan pengikat pasir dasar laut",
+          "answer": "RIZOMA",
+          "cells": [
+            [
+              3,
+              13
+            ],
+            [
+              4,
+              13
+            ],
+            [
+              5,
+              13
+            ],
+            [
+              6,
+              13
+            ],
+            [
+              7,
+              13
+            ],
+            [
+              8,
+              13
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_6",
+          "number": 6,
+          "direction": "down",
+          "text": "Mamalia laut herbivor pemakan utama rumput padang lamun",
+          "answer": "DUGONG",
+          "cells": [
+            [
+              5,
+              0
+            ],
+            [
+              6,
+              0
+            ],
+            [
+              7,
+              0
+            ],
+            [
+              8,
+              0
+            ],
+            [
+              9,
+              0
+            ],
+            [
+              10,
+              0
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_7",
+          "number": 7,
+          "direction": "down",
+          "text": "Kehidupan beraneka ragam tumbuhan penutup ekosistem perairan",
+          "answer": "VEGETASI",
+          "cells": [
+            [
+              5,
+              5
+            ],
+            [
+              6,
+              5
+            ],
+            [
+              7,
+              5
+            ],
+            [
+              8,
+              5
+            ],
+            [
+              9,
+              5
+            ],
+            [
+              10,
+              5
+            ],
+            [
+              11,
+              5
+            ],
+            [
+              12,
+              5
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_10",
+          "number": 10,
+          "direction": "down",
+          "text": "Organisme pemakan produsen primer dalam jaring makanan bahari",
+          "answer": "KONSUMEN",
+          "cells": [
+            [
+              8,
+              8
+            ],
+            [
+              9,
+              8
+            ],
+            [
+              10,
+              8
+            ],
+            [
+              11,
+              8
+            ],
+            [
+              12,
+              8
+            ],
+            [
+              13,
+              8
+            ],
+            [
+              14,
+              8
+            ],
+            [
+              15,
+              8
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_11",
+          "number": 11,
+          "direction": "down",
+          "text": "Zat hijau daun pada lamun penyerap energi radiasi matahari",
+          "answer": "KLOROFIL",
+          "cells": [
+            [
+              8,
+              10
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              10,
+              10
+            ],
+            [
+              11,
+              10
+            ],
+            [
+              12,
+              10
+            ],
+            [
+              13,
+              10
+            ],
+            [
+              14,
+              10
+            ],
+            [
+              15,
+              10
+            ]
+          ],
+          "length": 8
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_123_maritim_malaka",
+    "title": "Sejarah Jalur Sutra Maritim Selat Malaka",
+    "category": "Bahari",
+    "size": {
+      "rows": 14,
+      "cols": 15
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 4,
+        "answer": "B",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 0,
+        "c": 9,
+        "answer": "A",
+        "number": 2,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 10,
+        "answer": "R",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 11,
+        "answer": "M",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 12,
+        "answer": "A",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 13,
+        "answer": "D",
+        "number": 3,
+        "across": "across_2",
+        "down": "down_3"
+      },
+      {
+        "r": 0,
+        "c": 14,
+        "answer": "A",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 7,
+        "answer": "M",
+        "number": 4,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 1,
+        "c": 13,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 2,
+        "c": 2,
+        "answer": "C",
+        "number": 5,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "answer": "E",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": "across_5",
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "answer": "G",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 6,
+        "answer": "K",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 7,
+        "answer": "E",
+        "number": null,
+        "across": "across_5",
+        "down": "down_4"
+      },
+      {
+        "r": 2,
+        "c": 8,
+        "answer": "H",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 10,
+        "answer": "K",
+        "number": 6,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 2,
+        "c": 13,
+        "answer": "P",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 7,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 3,
+        "c": 10,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 3,
+        "c": 13,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 0,
+        "answer": "R",
+        "number": 7,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 1,
+        "answer": "E",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 2,
+        "answer": "M",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 3,
+        "answer": "P",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_7",
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 5,
+        "answer": "H",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 7,
+        "answer": "C",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 4,
+        "c": 10,
+        "answer": "M",
+        "number": 8,
+        "across": "across_8",
+        "down": "down_6"
+      },
+      {
+        "r": 4,
+        "c": 11,
+        "answer": "U",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 12,
+        "answer": "S",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 13,
+        "answer": "O",
+        "number": null,
+        "across": "across_8",
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 14,
+        "answer": "N",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 4,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 5,
+        "c": 7,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 5,
+        "c": 10,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 5,
+        "c": 13,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 6,
+        "c": 7,
+        "answer": "S",
+        "number": 9,
+        "across": "across_9",
+        "down": "down_4"
+      },
+      {
+        "r": 6,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 9,
+        "answer": "U",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 10,
+        "answer": "D",
+        "number": null,
+        "across": "across_9",
+        "down": "down_6"
+      },
+      {
+        "r": 6,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 12,
+        "answer": "G",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 13,
+        "answer": "A",
+        "number": null,
+        "across": "across_9",
+        "down": "down_3"
+      },
+      {
+        "r": 6,
+        "c": 14,
+        "answer": "R",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 2,
+        "answer": "M",
+        "number": 10,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 7,
+        "c": 7,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 7,
+        "c": 10,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 7,
+        "c": 13,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 8,
+        "c": 1,
+        "answer": "N",
+        "number": 11,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 2,
+        "answer": "A",
+        "number": null,
+        "across": "across_11",
+        "down": "down_10"
+      },
+      {
+        "r": 8,
+        "c": 3,
+        "answer": "K",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 4,
+        "answer": "H",
+        "number": 12,
+        "across": "across_11",
+        "down": "down_12"
+      },
+      {
+        "r": 8,
+        "c": 5,
+        "answer": "O",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 6,
+        "answer": "D",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": "across_11",
+        "down": "down_4"
+      },
+      {
+        "r": 8,
+        "c": 10,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 8,
+        "c": 13,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 9,
+        "c": 2,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 9,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 9,
+        "c": 7,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 9,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 9,
+        "c": 12,
+        "answer": "J",
+        "number": 13,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 10,
+        "c": 2,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 10,
+        "c": 4,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 10,
+        "c": 10,
+        "answer": "S",
+        "number": 14,
+        "across": "across_14",
+        "down": "down_6"
+      },
+      {
+        "r": 10,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 12,
+        "answer": "U",
+        "number": null,
+        "across": "across_14",
+        "down": "down_13"
+      },
+      {
+        "r": 10,
+        "c": 13,
+        "answer": "H",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 2,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 11,
+        "c": 4,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 11,
+        "c": 12,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 12,
+        "c": 0,
+        "answer": "N",
+        "number": 15,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 1,
+        "answer": "I",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 2,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": "down_10"
+      },
+      {
+        "r": 12,
+        "c": 3,
+        "answer": "G",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": "down_12"
+      },
+      {
+        "r": 12,
+        "c": 12,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 13,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_2",
+          "number": 2,
+          "direction": "across",
+          "text": "Rombongan kapal niaga atau perang dalam pelayaran samudra luas",
+          "answer": "ARMADA",
+          "cells": [
+            [
+              0,
+              9
+            ],
+            [
+              0,
+              10
+            ],
+            [
+              0,
+              11
+            ],
+            [
+              0,
+              12
+            ],
+            [
+              0,
+              13
+            ],
+            [
+              0,
+              14
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_5",
+          "number": 5,
+          "direction": "across",
+          "text": "Kuntum bunga kering aromatik rempah asli kepulauan Maluku",
+          "answer": "CENGKEH",
+          "cells": [
+            [
+              2,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              2,
+              8
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_7",
+          "number": 7,
+          "direction": "across",
+          "text": "Hasil bumi beraroma harum bernilai tinggi incaran pedagang mancanegara",
+          "answer": "REMPAH",
+          "cells": [
+            [
+              4,
+              0
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              4,
+              5
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_8",
+          "number": 8,
+          "direction": "across",
+          "text": "Angin musiman penentu jadwal pelayaran kapal niaga lintas benua",
+          "answer": "MUSON",
+          "cells": [
+            [
+              4,
+              10
+            ],
+            [
+              4,
+              11
+            ],
+            [
+              4,
+              12
+            ],
+            [
+              4,
+              13
+            ],
+            [
+              4,
+              14
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_9",
+          "number": 9,
+          "direction": "across",
+          "text": "Pedagang besar perantau samudra yang berniaga antarbandar pelabuhan",
+          "answer": "SAUDAGAR",
+          "cells": [
+            [
+              6,
+              7
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              6,
+              9
+            ],
+            [
+              6,
+              10
+            ],
+            [
+              6,
+              11
+            ],
+            [
+              6,
+              12
+            ],
+            [
+              6,
+              13
+            ],
+            [
+              6,
+              14
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "across_11",
+          "number": 11,
+          "direction": "across",
+          "text": "Pemimpin tertinggi yang bertanggung jawab atas pelayaran kapal laut",
+          "answer": "NAKHODA",
+          "cells": [
+            [
+              8,
+              1
+            ],
+            [
+              8,
+              2
+            ],
+            [
+              8,
+              3
+            ],
+            [
+              8,
+              4
+            ],
+            [
+              8,
+              5
+            ],
+            [
+              8,
+              6
+            ],
+            [
+              8,
+              7
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_14",
+          "number": 14,
+          "direction": "across",
+          "text": "Jangkar besi penahan laju kapal agar tidak hanyut terbawa arus ombak",
+          "answer": "SAUH",
+          "cells": [
+            [
+              10,
+              10
+            ],
+            [
+              10,
+              11
+            ],
+            [
+              10,
+              12
+            ],
+            [
+              10,
+              13
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "across_15",
+          "number": 15,
+          "direction": "across",
+          "text": "Kegiatan jual beli dan pertukaran barang dagangan antarbangsa",
+          "answer": "NIAGA",
+          "cells": [
+            [
+              12,
+              0
+            ],
+            [
+              12,
+              1
+            ],
+            [
+              12,
+              2
+            ],
+            [
+              12,
+              3
+            ],
+            [
+              12,
+              4
+            ]
+          ],
+          "length": 5
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Kota pelabuhan ramai tempat persinggahan kapal dan bongkar muat barang",
+          "answer": "BANDAR",
+          "cells": [
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              5,
+              4
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Seni perundingan dan hubungan persahabatan antarpenguasa pelabuhan",
+          "answer": "DIPLOMASI",
+          "cells": [
+            [
+              0,
+              13
+            ],
+            [
+              1,
+              13
+            ],
+            [
+              2,
+              13
+            ],
+            [
+              3,
+              13
+            ],
+            [
+              4,
+              13
+            ],
+            [
+              5,
+              13
+            ],
+            [
+              6,
+              13
+            ],
+            [
+              7,
+              13
+            ],
+            [
+              8,
+              13
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "down_4",
+          "number": 4,
+          "direction": "down",
+          "text": "Menara suar pemancar cahaya pemandu navigasi kapal di perairan selat",
+          "answer": "MERCUSUAR",
+          "cells": [
+            [
+              1,
+              7
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              3,
+              7
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              7,
+              7
+            ],
+            [
+              8,
+              7
+            ],
+            [
+              9,
+              7
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "down_6",
+          "number": 6,
+          "direction": "down",
+          "text": "Barang dagangan pokok bernilai ekonomi tinggi dalam perdagangan internasional",
+          "answer": "KOMODITAS",
+          "cells": [
+            [
+              2,
+              10
+            ],
+            [
+              3,
+              10
+            ],
+            [
+              4,
+              10
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              6,
+              10
+            ],
+            [
+              7,
+              10
+            ],
+            [
+              8,
+              10
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              10,
+              10
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "down_10",
+          "number": 10,
+          "direction": "down",
+          "text": "Selat strategis jalur pelayaran rempah dunia sejak masa lampau",
+          "answer": "MALAKA",
+          "cells": [
+            [
+              7,
+              2
+            ],
+            [
+              8,
+              2
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              11,
+              2
+            ],
+            [
+              12,
+              2
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_12",
+          "number": 12,
+          "direction": "down",
+          "text": "Bagian moncong ujung depan kapal penunjuk arah pelayaran",
+          "answer": "HALUAN",
+          "cells": [
+            [
+              8,
+              4
+            ],
+            [
+              9,
+              4
+            ],
+            [
+              10,
+              4
+            ],
+            [
+              11,
+              4
+            ],
+            [
+              12,
+              4
+            ],
+            [
+              13,
+              4
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_13",
+          "number": 13,
+          "direction": "down",
+          "text": "Kapal layar kayu bertiang banyak kebanggaan bahari Nusantara kuno",
+          "answer": "JUNG",
+          "cells": [
+            [
+              9,
+              12
+            ],
+            [
+              10,
+              12
+            ],
+            [
+              11,
+              12
+            ],
+            [
+              12,
+              12
+            ]
+          ],
+          "length": 4
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_124_biota_pelagis",
+    "title": "Ikan Pelagis & Migrasi Hiu Paus Teluk Cendrawasih",
+    "category": "Bahari",
+    "size": {
+      "rows": 19,
+      "cols": 17
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 1,
+        "answer": "T",
+        "number": 1,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 2,
+        "answer": "U",
+        "number": null,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 0,
+        "c": 3,
+        "answer": "N",
+        "number": 2,
+        "across": "across_1",
+        "down": "down_2"
+      },
+      {
+        "r": 0,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_1",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 2,
+        "answer": "D",
+        "number": 3,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 3,
+        "answer": "O",
+        "number": null,
+        "across": "across_3",
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 4,
+        "answer": "R",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 5,
+        "answer": "S",
+        "number": 4,
+        "across": "across_3",
+        "down": "down_4"
+      },
+      {
+        "r": 4,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 7,
+        "answer": "L",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 10,
+        "answer": "K",
+        "number": 5,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 4,
+        "c": 13,
+        "answer": "P",
+        "number": 6,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 5,
+        "c": 3,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 5,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 5,
+        "c": 13,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 5,
+        "c": 15,
+        "answer": "T",
+        "number": 7,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 6,
+        "c": 5,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 6,
+        "c": 9,
+        "answer": "P",
+        "number": 8,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 10,
+        "answer": "R",
+        "number": null,
+        "across": "across_8",
+        "down": "down_5"
+      },
+      {
+        "r": 6,
+        "c": 11,
+        "answer": "E",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 12,
+        "answer": "D",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 13,
+        "answer": "A",
+        "number": null,
+        "across": "across_8",
+        "down": "down_6"
+      },
+      {
+        "r": 6,
+        "c": 14,
+        "answer": "T",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 15,
+        "answer": "O",
+        "number": null,
+        "across": "across_8",
+        "down": "down_7"
+      },
+      {
+        "r": 6,
+        "c": 16,
+        "answer": "R",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 5,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 7,
+        "c": 8,
+        "answer": "R",
+        "number": 9,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 7,
+        "c": 10,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 7,
+        "c": 13,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 7,
+        "c": 15,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 8,
+        "c": 5,
+        "answer": "P",
+        "number": 10,
+        "across": "across_10",
+        "down": "down_4"
+      },
+      {
+        "r": 8,
+        "c": 6,
+        "answer": "E",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 7,
+        "answer": "L",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": "across_10",
+        "down": "down_9"
+      },
+      {
+        "r": 8,
+        "c": 9,
+        "answer": "G",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 10,
+        "answer": "I",
+        "number": null,
+        "across": "across_10",
+        "down": "down_5"
+      },
+      {
+        "r": 8,
+        "c": 11,
+        "answer": "S",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 13,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 8,
+        "c": 15,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 9,
+        "c": 8,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 9,
+        "c": 10,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 9,
+        "c": 13,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 9,
+        "c": 15,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 10,
+        "c": 4,
+        "answer": "K",
+        "number": 11,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 10,
+        "c": 8,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 10,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 10,
+        "c": 13,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 10,
+        "c": 15,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 11,
+        "c": 3,
+        "answer": "C",
+        "number": 12,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": "down_11"
+      },
+      {
+        "r": 11,
+        "c": 5,
+        "answer": "K",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 7,
+        "answer": "L",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": "down_9"
+      },
+      {
+        "r": 11,
+        "c": 9,
+        "answer": "N",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 10,
+        "answer": "G",
+        "number": null,
+        "across": "across_12",
+        "down": "down_5"
+      },
+      {
+        "r": 11,
+        "c": 13,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 11,
+        "c": 15,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 12,
+        "c": 4,
+        "answer": "W",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 12,
+        "c": 8,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 12,
+        "c": 10,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 13,
+        "c": 0,
+        "answer": "M",
+        "number": 13,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 1,
+        "answer": "I",
+        "number": 14,
+        "across": "across_13",
+        "down": "down_14"
+      },
+      {
+        "r": 13,
+        "c": 2,
+        "answer": "G",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 3,
+        "answer": "R",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_13",
+        "down": "down_11"
+      },
+      {
+        "r": 13,
+        "c": 5,
+        "answer": "S",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 6,
+        "answer": "I",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 14,
+        "c": 1,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_14"
+      },
+      {
+        "r": 14,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 15,
+        "c": 1,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_14"
+      },
+      {
+        "r": 15,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 16,
+        "c": 0,
+        "answer": "B",
+        "number": 15,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 16,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": "down_14"
+      },
+      {
+        "r": 16,
+        "c": 2,
+        "answer": "G",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 16,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 16,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": "across_15",
+        "down": "down_11"
+      },
+      {
+        "r": 17,
+        "c": 1,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_14"
+      },
+      {
+        "r": 18,
+        "c": 1,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_14"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_1",
+          "number": 1,
+          "direction": "across",
+          "text": "Ikan pelagis berdarah panas perenang cepat bernilai komersial tinggi",
+          "answer": "TUNA",
+          "cells": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "across_3",
+          "number": 3,
+          "direction": "across",
+          "text": "Posisi sirip yang terletak kokoh tegak di punggung atas hiu",
+          "answer": "DORSAL",
+          "cells": [
+            [
+              4,
+              2
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              4,
+              7
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_8",
+          "number": 8,
+          "direction": "across",
+          "text": "Karnivor pemangsa puncak dalam jalinan piramida rantai makanan bahari",
+          "answer": "PREDATOR",
+          "cells": [
+            [
+              6,
+              9
+            ],
+            [
+              6,
+              10
+            ],
+            [
+              6,
+              11
+            ],
+            [
+              6,
+              12
+            ],
+            [
+              6,
+              13
+            ],
+            [
+              6,
+              14
+            ],
+            [
+              6,
+              15
+            ],
+            [
+              6,
+              16
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "across_10",
+          "number": 10,
+          "direction": "across",
+          "text": "Kelompok ikan perenang bebas yang hidup mengembara di mintakat perairan terbuka",
+          "answer": "PELAGIS",
+          "cells": [
+            [
+              8,
+              5
+            ],
+            [
+              8,
+              6
+            ],
+            [
+              8,
+              7
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              8,
+              9
+            ],
+            [
+              8,
+              10
+            ],
+            [
+              8,
+              11
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_12",
+          "number": 12,
+          "direction": "across",
+          "text": "Ikan pelagis tangkas bertubuh membulat kerabat dekat tuna",
+          "answer": "CAKALANG",
+          "cells": [
+            [
+              11,
+              3
+            ],
+            [
+              11,
+              4
+            ],
+            [
+              11,
+              5
+            ],
+            [
+              11,
+              6
+            ],
+            [
+              11,
+              7
+            ],
+            [
+              11,
+              8
+            ],
+            [
+              11,
+              9
+            ],
+            [
+              11,
+              10
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "across_13",
+          "number": 13,
+          "direction": "across",
+          "text": "Ruaya pengembaraan musiman jarak jauh melintasi berbagai wilayah laut",
+          "answer": "MIGRASI",
+          "cells": [
+            [
+              13,
+              0
+            ],
+            [
+              13,
+              1
+            ],
+            [
+              13,
+              2
+            ],
+            [
+              13,
+              3
+            ],
+            [
+              13,
+              4
+            ],
+            [
+              13,
+              5
+            ],
+            [
+              13,
+              6
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_15",
+          "number": 15,
+          "direction": "across",
+          "text": "Rakit jaring apung bertenda nelayan penarik kawanan hiu paus mencari mangsa",
+          "answer": "BAGAN",
+          "cells": [
+            [
+              16,
+              0
+            ],
+            [
+              16,
+              1
+            ],
+            [
+              16,
+              2
+            ],
+            [
+              16,
+              3
+            ],
+            [
+              16,
+              4
+            ]
+          ],
+          "length": 5
+        }
+      ],
+      "down": [
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Kelompok fauna bahari yang sanggup berenang aktif mandiri melawan arus",
+          "answer": "NEKTON",
+          "cells": [
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              5,
+              3
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_4",
+          "number": 4,
+          "direction": "down",
+          "text": "Organ gerak pipih penyeimbang dan pendorong ikan berenang di lautan",
+          "answer": "SIRIP",
+          "cells": [
+            [
+              4,
+              5
+            ],
+            [
+              5,
+              5
+            ],
+            [
+              6,
+              5
+            ],
+            [
+              7,
+              5
+            ],
+            [
+              8,
+              5
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Jaringan tulang rawan elastis penyusun seluruh rangka tubuh ikan hiu",
+          "answer": "KARTILAGO",
+          "cells": [
+            [
+              4,
+              10
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              6,
+              10
+            ],
+            [
+              7,
+              10
+            ],
+            [
+              8,
+              10
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              10,
+              10
+            ],
+            [
+              11,
+              10
+            ],
+            [
+              12,
+              10
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "down_6",
+          "number": 6,
+          "direction": "down",
+          "text": "Organisme renik laut melayang sumber santapan utama hiu paus penyaring",
+          "answer": "PLANKTON",
+          "cells": [
+            [
+              4,
+              13
+            ],
+            [
+              5,
+              13
+            ],
+            [
+              6,
+              13
+            ],
+            [
+              7,
+              13
+            ],
+            [
+              8,
+              13
+            ],
+            [
+              9,
+              13
+            ],
+            [
+              10,
+              13
+            ],
+            [
+              11,
+              13
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_7",
+          "number": 7,
+          "direction": "down",
+          "text": "Ikan laut perenang gesit bertubuh ramping pemakan biota kecil",
+          "answer": "TONGKOL",
+          "cells": [
+            [
+              5,
+              15
+            ],
+            [
+              6,
+              15
+            ],
+            [
+              7,
+              15
+            ],
+            [
+              8,
+              15
+            ],
+            [
+              9,
+              15
+            ],
+            [
+              10,
+              15
+            ],
+            [
+              11,
+              15
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_9",
+          "number": 9,
+          "direction": "down",
+          "text": "Ukuran dimensi tubuh amat masif melampaui ukuran ikan bertulang sejati",
+          "answer": "RAKSASA",
+          "cells": [
+            [
+              7,
+              8
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              9,
+              8
+            ],
+            [
+              10,
+              8
+            ],
+            [
+              11,
+              8
+            ],
+            [
+              12,
+              8
+            ],
+            [
+              13,
+              8
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_11",
+          "number": 11,
+          "direction": "down",
+          "text": "Formasi rombongan gerombolan ikan yang bergerak serempak demi perlindungan",
+          "answer": "KAWANAN",
+          "cells": [
+            [
+              10,
+              4
+            ],
+            [
+              11,
+              4
+            ],
+            [
+              12,
+              4
+            ],
+            [
+              13,
+              4
+            ],
+            [
+              14,
+              4
+            ],
+            [
+              15,
+              4
+            ],
+            [
+              16,
+              4
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_14",
+          "number": 14,
+          "direction": "down",
+          "text": "Aparatus pernapasan dan penyaring makanan renik pada rongga dada ikan",
+          "answer": "INSANG",
+          "cells": [
+            [
+              13,
+              1
+            ],
+            [
+              14,
+              1
+            ],
+            [
+              15,
+              1
+            ],
+            [
+              16,
+              1
+            ],
+            [
+              17,
+              1
+            ],
+            [
+              18,
+              1
+            ]
+          ],
+          "length": 6
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_125_arus_lintas_indonesia",
+    "title": "Arlindo & Sirkulasi Oseanografi Arus Lintas",
+    "category": "Bahari",
+    "size": {
+      "rows": 16,
+      "cols": 18
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 15,
+        "answer": "F",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 10,
+        "answer": "T",
+        "number": 2,
+        "across": "across_2",
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 11,
+        "answer": "E",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 12,
+        "answer": "R",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 13,
+        "answer": "M",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 14,
+        "answer": "A",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 15,
+        "answer": "L",
+        "number": null,
+        "across": "across_2",
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 10,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 15,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 6,
+        "answer": "P",
+        "number": 3,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 7,
+        "answer": "U",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 8,
+        "answer": "S",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 9,
+        "answer": "A",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 10,
+        "answer": "R",
+        "number": null,
+        "across": "across_3",
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 12,
+        "answer": "N",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 15,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 10,
+        "answer": "B",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 15,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 5,
+        "c": 8,
+        "answer": "O",
+        "number": 4,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 5,
+        "c": 10,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 5,
+        "c": 13,
+        "answer": "S",
+        "number": 5,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 5,
+        "c": 15,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 6,
+        "c": 8,
+        "answer": "S",
+        "number": 6,
+        "across": "across_6",
+        "down": "down_4"
+      },
+      {
+        "r": 6,
+        "c": 9,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 10,
+        "answer": "L",
+        "number": null,
+        "across": "across_6",
+        "down": "down_2"
+      },
+      {
+        "r": 6,
+        "c": 11,
+        "answer": "I",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 12,
+        "answer": "N",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 13,
+        "answer": "I",
+        "number": null,
+        "across": "across_6",
+        "down": "down_5"
+      },
+      {
+        "r": 6,
+        "c": 14,
+        "answer": "T",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 15,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": "down_1"
+      },
+      {
+        "r": 6,
+        "c": 16,
+        "answer": "S",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 8,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 7,
+        "c": 10,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 7,
+        "c": 13,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 7,
+        "c": 15,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 8,
+        "c": 2,
+        "answer": "A",
+        "number": 7,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 8,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 8,
+        "c": 10,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 8,
+        "c": 13,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 8,
+        "c": 15,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 9,
+        "c": 0,
+        "answer": "T",
+        "number": 8,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 1,
+        "answer": "E",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 2,
+        "answer": "R",
+        "number": null,
+        "across": "across_8",
+        "down": "down_7"
+      },
+      {
+        "r": 9,
+        "c": 3,
+        "answer": "M",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 4,
+        "answer": "O",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 5,
+        "answer": "K",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 6,
+        "answer": "L",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 7,
+        "answer": "I",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 8,
+        "answer": "N",
+        "number": null,
+        "across": "across_8",
+        "down": "down_4"
+      },
+      {
+        "r": 9,
+        "c": 10,
+        "answer": "S",
+        "number": 9,
+        "across": "across_9",
+        "down": "down_2"
+      },
+      {
+        "r": 9,
+        "c": 11,
+        "answer": "U",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 12,
+        "answer": "R",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 13,
+        "answer": "U",
+        "number": null,
+        "across": "across_9",
+        "down": "down_5"
+      },
+      {
+        "r": 9,
+        "c": 14,
+        "answer": "T",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 2,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 10,
+        "c": 8,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 10,
+        "c": 10,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 10,
+        "c": 13,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 10,
+        "c": 16,
+        "answer": "A",
+        "number": 10,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 11,
+        "c": 2,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 11,
+        "c": 8,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 11,
+        "c": 12,
+        "answer": "P",
+        "number": 11,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 13,
+        "answer": "A",
+        "number": null,
+        "across": "across_11",
+        "down": "down_5"
+      },
+      {
+        "r": 11,
+        "c": 14,
+        "answer": "S",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 15,
+        "answer": "A",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 16,
+        "answer": "N",
+        "number": null,
+        "across": "across_11",
+        "down": "down_10"
+      },
+      {
+        "r": 11,
+        "c": 17,
+        "answer": "G",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 8,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 12,
+        "c": 13,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 12,
+        "c": 16,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 13,
+        "c": 2,
+        "answer": "D",
+        "number": 12,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 3,
+        "answer": "E",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 5,
+        "answer": "S",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 6,
+        "answer": "I",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 7,
+        "answer": "T",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": "down_4"
+      },
+      {
+        "r": 13,
+        "c": 9,
+        "answer": "S",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 12,
+        "answer": "H",
+        "number": 13,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 13,
+        "answer": "I",
+        "number": null,
+        "across": "across_13",
+        "down": "down_5"
+      },
+      {
+        "r": 13,
+        "c": 14,
+        "answer": "N",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 15,
+        "answer": "D",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 16,
+        "answer": "I",
+        "number": null,
+        "across": "across_13",
+        "down": "down_10"
+      },
+      {
+        "r": 13,
+        "c": 17,
+        "answer": "A",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 14,
+        "c": 8,
+        "answer": "F",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 14,
+        "c": 16,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 15,
+        "c": 5,
+        "answer": "P",
+        "number": 14,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 15,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 15,
+        "c": 7,
+        "answer": "S",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 15,
+        "c": 8,
+        "answer": "I",
+        "number": null,
+        "across": "across_14",
+        "down": "down_4"
+      },
+      {
+        "r": 15,
+        "c": 9,
+        "answer": "F",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 15,
+        "c": 10,
+        "answer": "I",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 15,
+        "c": 11,
+        "answer": "K",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_2",
+          "number": 2,
+          "direction": "across",
+          "text": "Sifat energi panas yang disimpan dan dipindahkan oleh aliran samudra",
+          "answer": "TERMAL",
+          "cells": [
+            [
+              1,
+              10
+            ],
+            [
+              1,
+              11
+            ],
+            [
+              1,
+              12
+            ],
+            [
+              1,
+              13
+            ],
+            [
+              1,
+              14
+            ],
+            [
+              1,
+              15
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_3",
+          "number": 3,
+          "direction": "across",
+          "text": "Aliran melingkar air laut berskala besar di cekungan samudra",
+          "answer": "PUSARAN",
+          "cells": [
+            [
+              3,
+              6
+            ],
+            [
+              3,
+              7
+            ],
+            [
+              3,
+              8
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              3,
+              10
+            ],
+            [
+              3,
+              11
+            ],
+            [
+              3,
+              12
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Tingkat keasinan atau konsentrasi kadar garam terlarut dalam air laut",
+          "answer": "SALINITAS",
+          "cells": [
+            [
+              6,
+              8
+            ],
+            [
+              6,
+              9
+            ],
+            [
+              6,
+              10
+            ],
+            [
+              6,
+              11
+            ],
+            [
+              6,
+              12
+            ],
+            [
+              6,
+              13
+            ],
+            [
+              6,
+              14
+            ],
+            [
+              6,
+              15
+            ],
+            [
+              6,
+              16
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "across_8",
+          "number": 8,
+          "direction": "across",
+          "text": "Lapisan perairan dengan gradien penurunan suhu amat drastis seiring kedalaman",
+          "answer": "TERMOKLIN",
+          "cells": [
+            [
+              9,
+              0
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              9,
+              4
+            ],
+            [
+              9,
+              5
+            ],
+            [
+              9,
+              6
+            ],
+            [
+              9,
+              7
+            ],
+            [
+              9,
+              8
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "across_9",
+          "number": 9,
+          "direction": "across",
+          "text": "Peristiwa turunnya paras air laut menuju batas terendah harian",
+          "answer": "SURUT",
+          "cells": [
+            [
+              9,
+              10
+            ],
+            [
+              9,
+              11
+            ],
+            [
+              9,
+              12
+            ],
+            [
+              9,
+              13
+            ],
+            [
+              9,
+              14
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_11",
+          "number": 11,
+          "direction": "across",
+          "text": "Peristiwa naiknya paras air laut akibat gaya tarik gravitasi bulan",
+          "answer": "PASANG",
+          "cells": [
+            [
+              11,
+              12
+            ],
+            [
+              11,
+              13
+            ],
+            [
+              11,
+              14
+            ],
+            [
+              11,
+              15
+            ],
+            [
+              11,
+              16
+            ],
+            [
+              11,
+              17
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_12",
+          "number": 12,
+          "direction": "across",
+          "text": "Kerapatan massa jenis air laut yang dipengaruhi oleh suhu dan salinitas",
+          "answer": "DENSITAS",
+          "cells": [
+            [
+              13,
+              2
+            ],
+            [
+              13,
+              3
+            ],
+            [
+              13,
+              4
+            ],
+            [
+              13,
+              5
+            ],
+            [
+              13,
+              6
+            ],
+            [
+              13,
+              7
+            ],
+            [
+              13,
+              8
+            ],
+            [
+              13,
+              9
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "across_13",
+          "number": 13,
+          "direction": "across",
+          "text": "Samudra tujuan tumpahan massa air hangat yang melintasi selat Indonesia",
+          "answer": "HINDIA",
+          "cells": [
+            [
+              13,
+              12
+            ],
+            [
+              13,
+              13
+            ],
+            [
+              13,
+              14
+            ],
+            [
+              13,
+              15
+            ],
+            [
+              13,
+              16
+            ],
+            [
+              13,
+              17
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_14",
+          "number": 14,
+          "direction": "across",
+          "text": "Samudra terluas di bumi sumber pasokan utama massa air arus lintas",
+          "answer": "PASIFIK",
+          "cells": [
+            [
+              15,
+              5
+            ],
+            [
+              15,
+              6
+            ],
+            [
+              15,
+              7
+            ],
+            [
+              15,
+              8
+            ],
+            [
+              15,
+              9
+            ],
+            [
+              15,
+              10
+            ],
+            [
+              15,
+              11
+            ]
+          ],
+          "length": 7
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Gejala ketidaktetapan naik turunnya parameter fisik laut secara berkala",
+          "answer": "FLUKTUASI",
+          "cells": [
+            [
+              0,
+              15
+            ],
+            [
+              1,
+              15
+            ],
+            [
+              2,
+              15
+            ],
+            [
+              3,
+              15
+            ],
+            [
+              4,
+              15
+            ],
+            [
+              5,
+              15
+            ],
+            [
+              6,
+              15
+            ],
+            [
+              7,
+              15
+            ],
+            [
+              8,
+              15
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Gerakan olakan massa air laut yang bergolak secara acak dan tidak teratur",
+          "answer": "TURBULENSI",
+          "cells": [
+            [
+              1,
+              10
+            ],
+            [
+              2,
+              10
+            ],
+            [
+              3,
+              10
+            ],
+            [
+              4,
+              10
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              6,
+              10
+            ],
+            [
+              7,
+              10
+            ],
+            [
+              8,
+              10
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              10,
+              10
+            ]
+          ],
+          "length": 10
+        },
+        {
+          "id": "down_4",
+          "number": 4,
+          "direction": "down",
+          "text": "Ilmu eksplorasi yang mengkaji fenomena fisik dan dinamis samudra raya",
+          "answer": "OSEANOGRAFI",
+          "cells": [
+            [
+              5,
+              8
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              9,
+              8
+            ],
+            [
+              10,
+              8
+            ],
+            [
+              11,
+              8
+            ],
+            [
+              12,
+              8
+            ],
+            [
+              13,
+              8
+            ],
+            [
+              14,
+              8
+            ],
+            [
+              15,
+              8
+            ]
+          ],
+          "length": 11
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Peredaran pergerakan massa air laut melintasi kepulauan Nusantara",
+          "answer": "SIRKULASI",
+          "cells": [
+            [
+              5,
+              13
+            ],
+            [
+              6,
+              13
+            ],
+            [
+              7,
+              13
+            ],
+            [
+              8,
+              13
+            ],
+            [
+              9,
+              13
+            ],
+            [
+              10,
+              13
+            ],
+            [
+              11,
+              13
+            ],
+            [
+              12,
+              13
+            ],
+            [
+              13,
+              13
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "down_7",
+          "number": 7,
+          "direction": "down",
+          "text": "Gerakan mengalir massa air laut yang luas dipicu gradien tekanan dan angin",
+          "answer": "ARUS",
+          "cells": [
+            [
+              8,
+              2
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              11,
+              2
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "down_10",
+          "number": 10,
+          "direction": "down",
+          "text": "Pergerakan udara di atas permukaan laut pemicu gelombang dan arus atas",
+          "answer": "ANGIN",
+          "cells": [
+            [
+              10,
+              16
+            ],
+            [
+              11,
+              16
+            ],
+            [
+              12,
+              16
+            ],
+            [
+              13,
+              16
+            ],
+            [
+              14,
+              16
+            ]
+          ],
+          "length": 5
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,162 @@
+---
+title: Achievement Unlocked
+description: "Celebratory React dialog for newly unlocked achievements with headline, badge, and share actions. Use for unlock moments, level up animations and more. Built on shadcn/ui + Tailwind. Open source."
+seoTitle: "Achievement Unlocked — Level Up Animation UI for React"
+keywords:
+  - level up animation
+  - react achievement component
+  - achievement UI examples
+  - gamification frontend library
+  - shadcn gamification components
+---
+
+Achievement Unlocked is a focused gamification moment for celebrating unlocks, level up animations, congratulating users, reinforcing rewards, and encouraging sharing in achievement-driven gamification experiences.
+
+<ComponentPreview name="achievement-unlocked" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add https://ui.trophy.so/achievement-unlocked
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="achievement-unlocked" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { AchievementUnlocked } from "@/components/ui/achievement-unlocked"
+```
+
+```tsx
+const [open, setOpen] = useState(false)
+
+<button
+  type="button"
+  onClick={() => setOpen(true)}
+  className="rounded-lg border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+>
+  Unlock achievement
+</button>
+
+<AchievementUnlocked
+  achievement={{
+    id: "task-champion",
+    name: "Task Champion",
+    description: "Complete a task 30 days in a row. Congratulations!!",
+    unlockedAt: new Date().toISOString(),
+  }}
+  open={open}
+  onOpenChange={setOpen}
+  secondaryActionLabel="Share"
+  onSecondaryActionClick={() => {
+    navigator.share?.({
+      title: "I unlocked Task Champion!",
+      text: "Complete a task 30 days in a row. Congratulations!!",
+      url: window.location.href,
+    })
+  }}
+/>
+```
+
+## Examples
+
+### Basic Usage
+
+<ComponentPreview name="achievement-unlocked" />
+
+```tsx
+const [open, setOpen] = useState(false)
+
+<button
+  type="button"
+  onClick={() => setOpen(true)}
+  className="rounded-lg border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+>
+  Unlock achievement
+</button>
+
+<AchievementUnlocked
+  achievement={{
+    id: "task-champion",
+    name: "Task Champion",
+    description: "Complete a task 30 days in a row. Congratulations!!",
+    unlockedAt: new Date().toISOString(),
+  }}
+  open={open}
+  onOpenChange={setOpen}
+/>
+```
+
+## With Trophy
+
+Use the [Trophy SDK](https://docs.trophy.so/api-reference/client-libraries) to send a metric event server-side:
+
+<OpenApiCodeSamples
+  spec="application"
+  method="post"
+  endpoint="/metrics/{key}/event"
+/>
+
+Then pass and transform the response into `AchievementUnlocked` props in your UI layer:
+
+```tsx
+const unlockedAchievement = response.achievements?.[0]
+const shouldOpen = Boolean(unlockedAchievement)
+
+{
+  unlockedAchievement ? (
+    <AchievementUnlocked achievement={unlockedAchievement} open={shouldOpen} />
+  ) : null
+}
+```
+
+## API Reference
+
+### AchievementUnlocked
+
+| Prop                     | Type                      | Default   | Description                                                       |
+| ------------------------ | ------------------------- | --------- | ----------------------------------------------------------------- |
+| `achievement`            | `Achievement`             | Required  | The achievement to display                                        |
+| `open`                   | `boolean`                 | Required  | Controls dialog visibility                                        |
+| `onOpenChange`           | `(open: boolean) => void` | Required  | Called when open state changes                                    |
+| `secondaryActionLabel`   | `string`                  | `"Share"` | Label for the secondary action button                             |
+| `onSecondaryActionClick` | `() => void`              | -         | Secondary button click handler for social share or custom actions |
+| `onShare`                | `() => void`              | -         | Deprecated alias for `onSecondaryActionClick`                     |
+| `className`              | `string`                  | -         | Additional classes for the dialog                                 |
+
+### Achievement
+
+```ts
+interface Achievement {
+  id: string
+  name: string
+  description?: string | null
+  unlockedAt?: string
+}
+```

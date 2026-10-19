@@ -1,0 +1,5693 @@
+[
+  {
+    "id": "level_181_padma_rafflesia",
+    "title": "Bunga Padma Raksasa Rafflesia Arnoldii Bengkulu",
+    "category": "Hayati",
+    "size": {
+      "rows": 13,
+      "cols": 16
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 11,
+        "answer": "M",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 8,
+        "answer": "B",
+        "number": 2,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 9,
+        "answer": "O",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 10,
+        "answer": "T",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": "across_2",
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 12,
+        "answer": "N",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 13,
+        "answer": "I",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 11,
+        "answer": "H",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 14,
+        "answer": "K",
+        "number": 3,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 7,
+        "answer": "B",
+        "number": 4,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 8,
+        "answer": "E",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 9,
+        "answer": "N",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 10,
+        "answer": "G",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 11,
+        "answer": "K",
+        "number": null,
+        "across": "across_4",
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 12,
+        "answer": "U",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 13,
+        "answer": "L",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 14,
+        "answer": "U",
+        "number": null,
+        "across": "across_4",
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 6,
+        "answer": "R",
+        "number": 5,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 4,
+        "c": 11,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 14,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "answer": "P",
+        "number": 6,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": "down_5"
+      },
+      {
+        "r": 5,
+        "c": 7,
+        "answer": "R",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 8,
+        "answer": "A",
+        "number": 7,
+        "across": "across_6",
+        "down": "down_7"
+      },
+      {
+        "r": 5,
+        "c": 9,
+        "answer": "S",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 10,
+        "answer": "I",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 11,
+        "answer": "T",
+        "number": null,
+        "across": "across_6",
+        "down": "down_1"
+      },
+      {
+        "r": 5,
+        "c": 14,
+        "answer": "C",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 6,
+        "c": 6,
+        "answer": "F",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 6,
+        "c": 8,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 6,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 6,
+        "c": 14,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 7,
+        "c": 1,
+        "answer": "S",
+        "number": 8,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 7,
+        "c": 3,
+        "answer": "I",
+        "number": 9,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 7,
+        "c": 6,
+        "answer": "F",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 7,
+        "c": 8,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 7,
+        "c": 14,
+        "answer": "P",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 8,
+        "c": 1,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 8,
+        "c": 3,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 8,
+        "c": 6,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 8,
+        "c": 8,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 8,
+        "c": 13,
+        "answer": "P",
+        "number": 10,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 8,
+        "c": 15,
+        "answer": "M",
+        "number": 11,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 9,
+        "c": 0,
+        "answer": "L",
+        "number": 12,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": "down_8"
+      },
+      {
+        "r": 9,
+        "c": 2,
+        "answer": "L",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": "down_9"
+      },
+      {
+        "r": 9,
+        "c": 4,
+        "answer": "T",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 6,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 9,
+        "c": 8,
+        "answer": "L",
+        "number": 13,
+        "across": "across_13",
+        "down": "down_7"
+      },
+      {
+        "r": 9,
+        "c": 9,
+        "answer": "A",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 10,
+        "answer": "N",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 11,
+        "answer": "G",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 12,
+        "answer": "K",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 13,
+        "answer": "A",
+        "number": null,
+        "across": "across_13",
+        "down": "down_10"
+      },
+      {
+        "r": 9,
+        "c": 15,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 10,
+        "c": 1,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 10,
+        "c": 3,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 10,
+        "c": 6,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 10,
+        "c": 8,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 10,
+        "c": 13,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 10,
+        "c": 15,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 11,
+        "c": 0,
+        "answer": "B",
+        "number": 14,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_14",
+        "down": "down_8"
+      },
+      {
+        "r": 11,
+        "c": 2,
+        "answer": "N",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 3,
+        "answer": "G",
+        "number": null,
+        "across": "across_14",
+        "down": "down_9"
+      },
+      {
+        "r": 11,
+        "c": 4,
+        "answer": "K",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 5,
+        "answer": "A",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 6,
+        "answer": "I",
+        "number": null,
+        "across": "across_14",
+        "down": "down_5"
+      },
+      {
+        "r": 11,
+        "c": 8,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 11,
+        "c": 11,
+        "answer": "R",
+        "number": 15,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 12,
+        "answer": "I",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 13,
+        "answer": "M",
+        "number": null,
+        "across": "across_15",
+        "down": "down_10"
+      },
+      {
+        "r": 11,
+        "c": 14,
+        "answer": "B",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 15,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": "down_11"
+      },
+      {
+        "r": 12,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 12,
+        "c": 8,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 12,
+        "c": 13,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 12,
+        "c": 15,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_2",
+          "number": 2,
+          "direction": "across",
+          "text": "Kajian ilmu flora penyingkap siklus biologis unik bunga raksasa",
+          "answer": "BOTANI",
+          "cells": [
+            [
+              1,
+              8
+            ],
+            [
+              1,
+              9
+            ],
+            [
+              1,
+              10
+            ],
+            [
+              1,
+              11
+            ],
+            [
+              1,
+              12
+            ],
+            [
+              1,
+              13
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_4",
+          "number": 4,
+          "direction": "across",
+          "text": "Provinsi di pesisir barat Sumatra berjuluk Bumi Rafflesia",
+          "answer": "BENGKULU",
+          "cells": [
+            [
+              3,
+              7
+            ],
+            [
+              3,
+              8
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              3,
+              10
+            ],
+            [
+              3,
+              11
+            ],
+            [
+              3,
+              12
+            ],
+            [
+              3,
+              13
+            ],
+            [
+              3,
+              14
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Sifat hidup menyerap nutrisi inang tetrastigma tanpa fotosintesis",
+          "answer": "PARASIT",
+          "cells": [
+            [
+              5,
+              5
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              5,
+              8
+            ],
+            [
+              5,
+              9
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              5,
+              11
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_12",
+          "number": 12,
+          "direction": "across",
+          "text": "Serangga pemakan bangkai pembantu penyerbukan serbuk sari bunga",
+          "answer": "LALAT",
+          "cells": [
+            [
+              9,
+              0
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              9,
+              4
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_13",
+          "number": 13,
+          "direction": "across",
+          "text": "Status keberadaan flora yang terancam punah dan dilindungi ketat",
+          "answer": "LANGKA",
+          "cells": [
+            [
+              9,
+              8
+            ],
+            [
+              9,
+              9
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              9,
+              11
+            ],
+            [
+              9,
+              12
+            ],
+            [
+              9,
+              13
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_14",
+          "number": 14,
+          "direction": "across",
+          "text": "Aroma busuk menyengat penarik serangga penyerbuk datang mendekat",
+          "answer": "BANGKAI",
+          "cells": [
+            [
+              11,
+              0
+            ],
+            [
+              11,
+              1
+            ],
+            [
+              11,
+              2
+            ],
+            [
+              11,
+              3
+            ],
+            [
+              11,
+              4
+            ],
+            [
+              11,
+              5
+            ],
+            [
+              11,
+              6
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_15",
+          "number": 15,
+          "direction": "across",
+          "text": "Hutan hujan tropis lebat lembap habitat alami padma raksasa",
+          "answer": "RIMBA",
+          "cells": [
+            [
+              11,
+              11
+            ],
+            [
+              11,
+              12
+            ],
+            [
+              11,
+              13
+            ],
+            [
+              11,
+              14
+            ],
+            [
+              11,
+              15
+            ]
+          ],
+          "length": 5
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Lima kelopak tebal oranye kemerahan berbercak putih kasar",
+          "answer": "MAHKOTA",
+          "cells": [
+            [
+              0,
+              11
+            ],
+            [
+              1,
+              11
+            ],
+            [
+              2,
+              11
+            ],
+            [
+              3,
+              11
+            ],
+            [
+              4,
+              11
+            ],
+            [
+              5,
+              11
+            ],
+            [
+              6,
+              11
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Bakal bunga bulat menyerupai kubis membutuhkan sembilan bulan mekar",
+          "answer": "KUNCUP",
+          "cells": [
+            [
+              2,
+              14
+            ],
+            [
+              3,
+              14
+            ],
+            [
+              4,
+              14
+            ],
+            [
+              5,
+              14
+            ],
+            [
+              6,
+              14
+            ],
+            [
+              7,
+              14
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Genus tumbuhan langka pembuka mahkota berdiameter hingga satu meter",
+          "answer": "RAFFLESIA",
+          "cells": [
+            [
+              4,
+              6
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              6,
+              6
+            ],
+            [
+              7,
+              6
+            ],
+            [
+              8,
+              6
+            ],
+            [
+              9,
+              6
+            ],
+            [
+              10,
+              6
+            ],
+            [
+              11,
+              6
+            ],
+            [
+              12,
+              6
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "down_7",
+          "number": 7,
+          "direction": "down",
+          "text": "Spesies padma raksasa terbesar di dunia ditemukan di hutan Bengkulu",
+          "answer": "ARNOLDII",
+          "cells": [
+            [
+              5,
+              8
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              9,
+              8
+            ],
+            [
+              10,
+              8
+            ],
+            [
+              11,
+              8
+            ],
+            [
+              12,
+              8
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_8",
+          "number": 8,
+          "direction": "down",
+          "text": "Kawasan konservasi cagar alam penyelamat plasma nutfah nusantara",
+          "answer": "SUAKA",
+          "cells": [
+            [
+              7,
+              1
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              10,
+              1
+            ],
+            [
+              11,
+              1
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_9",
+          "number": 9,
+          "direction": "down",
+          "text": "Tumbuhan liana pemanjat tempat berparasitnya kuncup rafflesia",
+          "answer": "INANG",
+          "cells": [
+            [
+              7,
+              3
+            ],
+            [
+              8,
+              3
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              10,
+              3
+            ],
+            [
+              11,
+              3
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_10",
+          "number": 10,
+          "direction": "down",
+          "text": "Bunga raksasa parasit tanpa daun, batang, dan akar sejati",
+          "answer": "PADMA",
+          "cells": [
+            [
+              8,
+              13
+            ],
+            [
+              9,
+              13
+            ],
+            [
+              10,
+              13
+            ],
+            [
+              11,
+              13
+            ],
+            [
+              12,
+              13
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_11",
+          "number": 11,
+          "direction": "down",
+          "text": "Fase puncak terbukanya mahkota bunga yang hanya bertahan sepekan",
+          "answer": "MEKAR",
+          "cells": [
+            [
+              8,
+              15
+            ],
+            [
+              9,
+              15
+            ],
+            [
+              10,
+              15
+            ],
+            [
+              11,
+              15
+            ],
+            [
+              12,
+              15
+            ]
+          ],
+          "length": 5
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_182_hutan_lumut_leuser",
+    "title": "Ekosistem Kanopi Lumut Hutan Gunung Leuser",
+    "category": "Alam",
+    "size": {
+      "rows": 13,
+      "cols": 15
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 2,
+        "answer": "H",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 0,
+        "c": 8,
+        "answer": "S",
+        "number": 2,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 0,
+        "c": 11,
+        "answer": "F",
+        "number": 3,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 1,
+        "c": 2,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 8,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 2,
+        "c": 0,
+        "answer": "R",
+        "number": 4,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 1,
+        "answer": "I",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 2,
+        "answer": "M",
+        "number": null,
+        "across": "across_4",
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "answer": "B",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 8,
+        "answer": "H",
+        "number": 5,
+        "across": "across_5",
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 9,
+        "answer": "U",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 10,
+        "answer": "L",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 11,
+        "answer": "U",
+        "number": null,
+        "across": "across_5",
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 2,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 5,
+        "answer": "A",
+        "number": 6,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 3,
+        "c": 8,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 11,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 13,
+        "answer": "L",
+        "number": 7,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 4,
+        "c": 2,
+        "answer": "S",
+        "number": 8,
+        "across": "across_8",
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 3,
+        "answer": "P",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 4,
+        "answer": "O",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 5,
+        "answer": "N",
+        "number": null,
+        "across": "across_8",
+        "down": "down_6"
+      },
+      {
+        "r": 4,
+        "c": 6,
+        "answer": "G",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 7,
+        "answer": "E",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 10,
+        "answer": "K",
+        "number": 9,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": "across_9",
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 12,
+        "answer": "B",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 13,
+        "answer": "U",
+        "number": null,
+        "across": "across_9",
+        "down": "down_7"
+      },
+      {
+        "r": 4,
+        "c": 14,
+        "answer": "T",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 5,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 5,
+        "c": 13,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 6,
+        "c": 5,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 6,
+        "c": 10,
+        "answer": "S",
+        "number": 10,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 11,
+        "answer": "E",
+        "number": 11,
+        "across": "across_10",
+        "down": "down_11"
+      },
+      {
+        "r": 6,
+        "c": 12,
+        "answer": "J",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 13,
+        "answer": "U",
+        "number": null,
+        "across": "across_10",
+        "down": "down_7"
+      },
+      {
+        "r": 6,
+        "c": 14,
+        "answer": "K",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 5,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 7,
+        "c": 7,
+        "answer": "L",
+        "number": 12,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 7,
+        "c": 9,
+        "answer": "K",
+        "number": 13,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 7,
+        "c": 11,
+        "answer": "P",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 7,
+        "c": 13,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 8,
+        "c": 4,
+        "answer": "V",
+        "number": 14,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 5,
+        "answer": "E",
+        "number": null,
+        "across": "across_14",
+        "down": "down_6"
+      },
+      {
+        "r": 8,
+        "c": 6,
+        "answer": "G",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 7,
+        "answer": "E",
+        "number": null,
+        "across": "across_14",
+        "down": "down_12"
+      },
+      {
+        "r": 8,
+        "c": 8,
+        "answer": "T",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 9,
+        "answer": "A",
+        "number": null,
+        "across": "across_14",
+        "down": "down_13"
+      },
+      {
+        "r": 8,
+        "c": 10,
+        "answer": "S",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 11,
+        "answer": "I",
+        "number": null,
+        "across": "across_14",
+        "down": "down_11"
+      },
+      {
+        "r": 9,
+        "c": 5,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 9,
+        "c": 7,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 9,
+        "c": 9,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 9,
+        "c": 11,
+        "answer": "F",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 10,
+        "c": 7,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 10,
+        "c": 9,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 10,
+        "c": 11,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 11,
+        "c": 7,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 11,
+        "c": 9,
+        "answer": "P",
+        "number": null,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 11,
+        "c": 11,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 12,
+        "c": 3,
+        "answer": "C",
+        "number": 15,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 5,
+        "answer": "G",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 7,
+        "answer": "R",
+        "number": null,
+        "across": "across_15",
+        "down": "down_12"
+      },
+      {
+        "r": 12,
+        "c": 9,
+        "answer": "Í",
+        "number": null,
+        "across": null,
+        "down": "down_13"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_4",
+          "number": 4,
+          "direction": "across",
+          "text": "Hutan primer perawan paru-paru bumi penyerap karbon global",
+          "answer": "RIMBA",
+          "cells": [
+            [
+              2,
+              0
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              2,
+              4
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_5",
+          "number": 5,
+          "direction": "across",
+          "text": "Pangkal mata air pegunungan penghidup ratusan sungai hilir",
+          "answer": "HULU",
+          "cells": [
+            [
+              2,
+              8
+            ],
+            [
+              2,
+              9
+            ],
+            [
+              2,
+              10
+            ],
+            [
+              2,
+              11
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "across_8",
+          "number": 8,
+          "direction": "across",
+          "text": "Fungsi lumut tebal penyerap cadangan air tawar bagi hulu sungai",
+          "answer": "SPONGE",
+          "cells": [
+            [
+              4,
+              2
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              4,
+              7
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_9",
+          "number": 9,
+          "direction": "across",
+          "text": "Kondensasi uap air dingin penyelubung vegetasi pegunungan tinggi",
+          "answer": "KABUT",
+          "cells": [
+            [
+              4,
+              10
+            ],
+            [
+              4,
+              11
+            ],
+            [
+              4,
+              12
+            ],
+            [
+              4,
+              13
+            ],
+            [
+              4,
+              14
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_10",
+          "number": 10,
+          "direction": "across",
+          "text": "Hawa dingin menyegarkan di sela rimbun tutupan pohon hutan kabut",
+          "answer": "SEJUK",
+          "cells": [
+            [
+              6,
+              10
+            ],
+            [
+              6,
+              11
+            ],
+            [
+              6,
+              12
+            ],
+            [
+              6,
+              13
+            ],
+            [
+              6,
+              14
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_14",
+          "number": 14,
+          "direction": "across",
+          "text": "Komunitas tetumbuhan subalpin di ketinggian lereng Leuser",
+          "answer": "VEGETASI",
+          "cells": [
+            [
+              8,
+              4
+            ],
+            [
+              8,
+              5
+            ],
+            [
+              8,
+              6
+            ],
+            [
+              8,
+              7
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              8,
+              9
+            ],
+            [
+              8,
+              10
+            ],
+            [
+              8,
+              11
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "across_15",
+          "number": 15,
+          "direction": "across",
+          "text": "Status kawasan suaka alam yang dipertahankan keasliannya",
+          "answer": "CAGAR",
+          "cells": [
+            [
+              12,
+              3
+            ],
+            [
+              12,
+              4
+            ],
+            [
+              12,
+              5
+            ],
+            [
+              12,
+              6
+            ],
+            [
+              12,
+              7
+            ]
+          ],
+          "length": 5
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Lapisan tanah subur kehitaman hasil pelapukan daun gugur dan lumut",
+          "answer": "HUMUS",
+          "cells": [
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              3,
+              2
+            ],
+            [
+              4,
+              2
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Temperatur udara dingin lembap pemacu pertumbuhan talus lumut",
+          "answer": "SUHU",
+          "cells": [
+            [
+              0,
+              8
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              2,
+              8
+            ],
+            [
+              3,
+              8
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Satwa endemik pemanfaat ekosistem hutan lumut sebagai perlindungan",
+          "answer": "FAUNA",
+          "cells": [
+            [
+              0,
+              11
+            ],
+            [
+              1,
+              11
+            ],
+            [
+              2,
+              11
+            ],
+            [
+              3,
+              11
+            ],
+            [
+              4,
+              11
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_6",
+          "number": 6,
+          "direction": "down",
+          "text": "Bunga epifit elok menempel di dahan basah berlumut tebal",
+          "answer": "ANGGREK",
+          "cells": [
+            [
+              3,
+              5
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              5,
+              5
+            ],
+            [
+              6,
+              5
+            ],
+            [
+              7,
+              5
+            ],
+            [
+              8,
+              5
+            ],
+            [
+              9,
+              5
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_7",
+          "number": 7,
+          "direction": "down",
+          "text": "Tumbuhan nonvaskular penghampar tebal dahan dan tanah hutan kabut",
+          "answer": "LUMUT",
+          "cells": [
+            [
+              3,
+              13
+            ],
+            [
+              4,
+              13
+            ],
+            [
+              5,
+              13
+            ],
+            [
+              6,
+              13
+            ],
+            [
+              7,
+              13
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_11",
+          "number": 11,
+          "direction": "down",
+          "text": "Tumbuhan yang menumpang hidup di kulit batang pohon tanpa merugikan",
+          "answer": "EPIFIT",
+          "cells": [
+            [
+              6,
+              11
+            ],
+            [
+              7,
+              11
+            ],
+            [
+              8,
+              11
+            ],
+            [
+              9,
+              11
+            ],
+            [
+              10,
+              11
+            ],
+            [
+              11,
+              11
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_12",
+          "number": 12,
+          "direction": "down",
+          "text": "Taman Nasional Leuser benteng terakhir megafauna dunia di Aceh",
+          "answer": "LEUSER",
+          "cells": [
+            [
+              7,
+              7
+            ],
+            [
+              8,
+              7
+            ],
+            [
+              9,
+              7
+            ],
+            [
+              10,
+              7
+            ],
+            [
+              11,
+              7
+            ],
+            [
+              12,
+              7
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_13",
+          "number": 13,
+          "direction": "down",
+          "text": "Tudung rimbun dedaunan pohon purba penahan curahan air hujan",
+          "answer": "KANOPÍ",
+          "cells": [
+            [
+              7,
+              9
+            ],
+            [
+              8,
+              9
+            ],
+            [
+              9,
+              9
+            ],
+            [
+              10,
+              9
+            ],
+            [
+              11,
+              9
+            ],
+            [
+              12,
+              9
+            ]
+          ],
+          "length": 6
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_183_harimau_sumatra",
+    "title": "Harimau Sumatra & Kucing Merah Rimba Borneo",
+    "category": "Hayati",
+    "size": {
+      "rows": 19,
+      "cols": 13
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 6,
+        "answer": "P",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 6,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "answer": "E",
+        "number": 2,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 6,
+        "answer": "N",
+        "number": null,
+        "across": "across_2",
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 7,
+        "answer": "D",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 8,
+        "answer": "E",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 9,
+        "answer": "M",
+        "number": 3,
+        "across": "across_2",
+        "down": "down_3"
+      },
+      {
+        "r": 2,
+        "c": 10,
+        "answer": "I",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 11,
+        "answer": "K",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 6,
+        "answer": "C",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 9,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 2,
+        "answer": "R",
+        "number": 4,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 3,
+        "answer": "O",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 5,
+        "answer": "D",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": "across_4",
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 9,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 11,
+        "answer": "T",
+        "number": 5,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 5,
+        "c": 6,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 5,
+        "c": 8,
+        "answer": "C",
+        "number": 6,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 9,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": "down_3"
+      },
+      {
+        "r": 5,
+        "c": 10,
+        "answer": "K",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": "down_5"
+      },
+      {
+        "r": 5,
+        "c": 12,
+        "answer": "R",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 9,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 6,
+        "c": 11,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 7,
+        "c": 11,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 8,
+        "c": 5,
+        "answer": "T",
+        "number": 7,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 8,
+        "c": 7,
+        "answer": "K",
+        "number": 8,
+        "across": "across_8",
+        "down": "down_8"
+      },
+      {
+        "r": 8,
+        "c": 8,
+        "answer": "U",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 9,
+        "answer": "C",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 10,
+        "answer": "I",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 11,
+        "answer": "N",
+        "number": null,
+        "across": "across_8",
+        "down": "down_5"
+      },
+      {
+        "r": 8,
+        "c": 12,
+        "answer": "G",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 5,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 9,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 10,
+        "c": 3,
+        "answer": "K",
+        "number": 9,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 10,
+        "c": 5,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 10,
+        "c": 7,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 10,
+        "c": 9,
+        "answer": "H",
+        "number": 10,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 11,
+        "c": 2,
+        "answer": "B",
+        "number": 11,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": "across_11",
+        "down": "down_9"
+      },
+      {
+        "r": 11,
+        "c": 4,
+        "answer": "B",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 5,
+        "answer": "I",
+        "number": null,
+        "across": "across_11",
+        "down": "down_7"
+      },
+      {
+        "r": 11,
+        "c": 6,
+        "answer": "R",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 7,
+        "answer": "U",
+        "number": null,
+        "across": "across_11",
+        "down": "down_8"
+      },
+      {
+        "r": 11,
+        "c": 8,
+        "answer": "S",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 9,
+        "answer": "A",
+        "number": null,
+        "across": "across_11",
+        "down": "down_10"
+      },
+      {
+        "r": 12,
+        "c": 3,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 12,
+        "c": 5,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 12,
+        "c": 7,
+        "answer": "F",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 12,
+        "c": 9,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 13,
+        "c": 0,
+        "answer": "B",
+        "number": 12,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 1,
+        "answer": "O",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 2,
+        "answer": "R",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 3,
+        "answer": "N",
+        "number": null,
+        "across": "across_12",
+        "down": "down_9"
+      },
+      {
+        "r": 13,
+        "c": 4,
+        "answer": "E",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 5,
+        "answer": "O",
+        "number": null,
+        "across": "across_12",
+        "down": "down_7"
+      },
+      {
+        "r": 13,
+        "c": 7,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 13,
+        "c": 9,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 14,
+        "c": 3,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 14,
+        "c": 5,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 14,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 14,
+        "c": 9,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 15,
+        "c": 3,
+        "answer": "V",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 15,
+        "c": 5,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 15,
+        "c": 7,
+        "answer": "S",
+        "number": 13,
+        "across": "across_13",
+        "down": "down_8"
+      },
+      {
+        "r": 15,
+        "c": 8,
+        "answer": "U",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 15,
+        "c": 9,
+        "answer": "A",
+        "number": null,
+        "across": "across_13",
+        "down": "down_10"
+      },
+      {
+        "r": 15,
+        "c": 10,
+        "answer": "K",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 15,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 16,
+        "c": 3,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 16,
+        "c": 7,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 16,
+        "c": 9,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 17,
+        "c": 1,
+        "answer": "L",
+        "number": 14,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 17,
+        "c": 2,
+        "answer": "O",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 17,
+        "c": 3,
+        "answer": "R",
+        "number": null,
+        "across": "across_14",
+        "down": "down_9"
+      },
+      {
+        "r": 17,
+        "c": 4,
+        "answer": "E",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 17,
+        "c": 5,
+        "answer": "N",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 17,
+        "c": 6,
+        "answer": "G",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 18,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_2",
+          "number": 2,
+          "direction": "across",
+          "text": "Spesies satwa asli yang hanya ditemukan di satu kawasan spesifik",
+          "answer": "ENDEMIK",
+          "cells": [
+            [
+              2,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              2,
+              8
+            ],
+            [
+              2,
+              9
+            ],
+            [
+              2,
+              10
+            ],
+            [
+              2,
+              11
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_4",
+          "number": 4,
+          "direction": "across",
+          "text": "Jelajah patroli pejantan menjaga kedaulatan hutan teritorialnya",
+          "answer": "RONDA",
+          "cells": [
+            [
+              4,
+              2
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              4,
+              6
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Kuku melengkung tajam yang dapat disembunyikan di bantalan kaki",
+          "answer": "CAKAR",
+          "cells": [
+            [
+              5,
+              8
+            ],
+            [
+              5,
+              9
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              5,
+              11
+            ],
+            [
+              5,
+              12
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_8",
+          "number": 8,
+          "direction": "across",
+          "text": "Felidae felid karnivora lincah pemanjat pohon hutan tropis",
+          "answer": "KUCING",
+          "cells": [
+            [
+              8,
+              7
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              8,
+              9
+            ],
+            [
+              8,
+              10
+            ],
+            [
+              8,
+              11
+            ],
+            [
+              8,
+              12
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_11",
+          "number": 11,
+          "direction": "across",
+          "text": "Babi liar mangsa alami harimau di pedalaman hutan lebat",
+          "answer": "BABIRUSA",
+          "cells": [
+            [
+              11,
+              2
+            ],
+            [
+              11,
+              3
+            ],
+            [
+              11,
+              4
+            ],
+            [
+              11,
+              5
+            ],
+            [
+              11,
+              6
+            ],
+            [
+              11,
+              7
+            ],
+            [
+              11,
+              8
+            ],
+            [
+              11,
+              9
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "across_12",
+          "number": 12,
+          "direction": "across",
+          "text": "Pulau Kalimantan habitat kucing merah endemik yang sangat misterius",
+          "answer": "BORNEO",
+          "cells": [
+            [
+              13,
+              0
+            ],
+            [
+              13,
+              1
+            ],
+            [
+              13,
+              2
+            ],
+            [
+              13,
+              3
+            ],
+            [
+              13,
+              4
+            ],
+            [
+              13,
+              5
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_13",
+          "number": 13,
+          "direction": "across",
+          "text": "Kawasan konservasi habitat bebas perburuan satwa liar dilindungi",
+          "answer": "SUAKA",
+          "cells": [
+            [
+              15,
+              7
+            ],
+            [
+              15,
+              8
+            ],
+            [
+              15,
+              9
+            ],
+            [
+              15,
+              10
+            ],
+            [
+              15,
+              11
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_14",
+          "number": 14,
+          "direction": "across",
+          "text": "Corak garis hitam khas pada bulu oranye kamuflase di sela rumput",
+          "answer": "LORENG",
+          "cells": [
+            [
+              17,
+              1
+            ],
+            [
+              17,
+              2
+            ],
+            [
+              17,
+              3
+            ],
+            [
+              17,
+              4
+            ],
+            [
+              17,
+              5
+            ],
+            [
+              17,
+              6
+            ]
+          ],
+          "length": 6
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Predator tingkat tertinggi pemegang peran kunci rantai makanan",
+          "answer": "PUNCAK",
+          "cells": [
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              5,
+              6
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Sifat nokturnal satwa predator berburu mangsa di bawah kegelapan",
+          "answer": "MALAM",
+          "cells": [
+            [
+              2,
+              9
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              4,
+              9
+            ],
+            [
+              5,
+              9
+            ],
+            [
+              6,
+              9
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Gigi taring runcing panjang senjata melumpuhkan mangsa buruan",
+          "answer": "TARIN",
+          "cells": [
+            [
+              4,
+              11
+            ],
+            [
+              5,
+              11
+            ],
+            [
+              6,
+              11
+            ],
+            [
+              7,
+              11
+            ],
+            [
+              8,
+              11
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_7",
+          "number": 7,
+          "direction": "down",
+          "text": "Wilayah jelajah yang ditandai dengan cakaran dan aroma air seni",
+          "answer": "TERITORI",
+          "cells": [
+            [
+              8,
+              5
+            ],
+            [
+              9,
+              5
+            ],
+            [
+              10,
+              5
+            ],
+            [
+              11,
+              5
+            ],
+            [
+              12,
+              5
+            ],
+            [
+              13,
+              5
+            ],
+            [
+              14,
+              5
+            ],
+            [
+              15,
+              5
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_8",
+          "number": 8,
+          "direction": "down",
+          "text": "Kesesuaian warna bulu dengan bayangan dedaunan rimba lebat",
+          "answer": "KAMUFLASE",
+          "cells": [
+            [
+              8,
+              7
+            ],
+            [
+              9,
+              7
+            ],
+            [
+              10,
+              7
+            ],
+            [
+              11,
+              7
+            ],
+            [
+              12,
+              7
+            ],
+            [
+              13,
+              7
+            ],
+            [
+              14,
+              7
+            ],
+            [
+              15,
+              7
+            ],
+            [
+              16,
+              7
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "down_9",
+          "number": 9,
+          "direction": "down",
+          "text": "Satwa pemakan daging penjaga keseimbangan populasi herbivora",
+          "answer": "KARNIVORA",
+          "cells": [
+            [
+              10,
+              3
+            ],
+            [
+              11,
+              3
+            ],
+            [
+              12,
+              3
+            ],
+            [
+              13,
+              3
+            ],
+            [
+              14,
+              3
+            ],
+            [
+              15,
+              3
+            ],
+            [
+              16,
+              3
+            ],
+            [
+              17,
+              3
+            ],
+            [
+              18,
+              3
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "down_10",
+          "number": 10,
+          "direction": "down",
+          "text": "Panthera tigris sumatrae pemangsa puncak hutan tropis Sumatra",
+          "answer": "HARIMAU",
+          "cells": [
+            [
+              10,
+              9
+            ],
+            [
+              11,
+              9
+            ],
+            [
+              12,
+              9
+            ],
+            [
+              13,
+              9
+            ],
+            [
+              14,
+              9
+            ],
+            [
+              15,
+              9
+            ],
+            [
+              16,
+              9
+            ]
+          ],
+          "length": 7
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_184_kantong_semar",
+    "title": "Kantong Semar Nepenthes & Flora Karnivora Rawa",
+    "category": "Hayati",
+    "size": {
+      "rows": 13,
+      "cols": 20
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 1,
+        "answer": "S",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 0,
+        "c": 8,
+        "answer": "S",
+        "number": 2,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 1,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "answer": "K",
+        "number": 3,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 1,
+        "c": 7,
+        "answer": "P",
+        "number": 4,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 8,
+        "answer": "E",
+        "number": null,
+        "across": "across_4",
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 9,
+        "answer": "N",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 10,
+        "answer": "U",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 11,
+        "answer": "T",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 12,
+        "answer": "U",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 13,
+        "answer": "P",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 0,
+        "answer": "F",
+        "number": 5,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 1,
+        "answer": "L",
+        "number": null,
+        "across": "across_5",
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 2,
+        "answer": "O",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "answer": "R",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_5",
+        "down": "down_3"
+      },
+      {
+        "r": 2,
+        "c": 8,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 1,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 1,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 4,
+        "answer": "N",
+        "number": 6,
+        "across": "across_6",
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 5,
+        "answer": "E",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 6,
+        "answer": "P",
+        "number": 7,
+        "across": "across_6",
+        "down": "down_7"
+      },
+      {
+        "r": 4,
+        "c": 7,
+        "answer": "E",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 8,
+        "answer": "N",
+        "number": null,
+        "across": "across_6",
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 9,
+        "answer": "T",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 10,
+        "answer": "H",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 11,
+        "answer": "E",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 12,
+        "answer": "S",
+        "number": 8,
+        "across": "across_6",
+        "down": "down_8"
+      },
+      {
+        "r": 5,
+        "c": 4,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 5,
+        "c": 6,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 5,
+        "c": 8,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 5,
+        "c": 12,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 6,
+        "c": 4,
+        "answer": "V",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 6,
+        "c": 6,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 6,
+        "c": 8,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 6,
+        "c": 10,
+        "answer": "G",
+        "number": 9,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 12,
+        "answer": "M",
+        "number": null,
+        "across": "across_9",
+        "down": "down_8"
+      },
+      {
+        "r": 6,
+        "c": 13,
+        "answer": "B",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 14,
+        "answer": "U",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 15,
+        "answer": "T",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 4,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 7,
+        "c": 6,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 7,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 7,
+        "c": 12,
+        "answer": "B",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 7,
+        "c": 18,
+        "answer": "E",
+        "number": 10,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 8,
+        "c": 4,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 8,
+        "c": 6,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 8,
+        "c": 11,
+        "answer": "N",
+        "number": 11,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 12,
+        "answer": "I",
+        "number": null,
+        "across": "across_11",
+        "down": "down_8"
+      },
+      {
+        "r": 8,
+        "c": 13,
+        "answer": "T",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 14,
+        "answer": "R",
+        "number": 12,
+        "across": "across_11",
+        "down": "down_12"
+      },
+      {
+        "r": 8,
+        "c": 15,
+        "answer": "O",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 16,
+        "answer": "G",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 17,
+        "answer": "E",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 18,
+        "answer": "N",
+        "number": null,
+        "across": "across_11",
+        "down": "down_10"
+      },
+      {
+        "r": 9,
+        "c": 3,
+        "answer": "K",
+        "number": 13,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_13",
+        "down": "down_3"
+      },
+      {
+        "r": 9,
+        "c": 5,
+        "answer": "N",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 6,
+        "answer": "T",
+        "number": null,
+        "across": "across_13",
+        "down": "down_7"
+      },
+      {
+        "r": 9,
+        "c": 7,
+        "answer": "O",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 8,
+        "answer": "N",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 9,
+        "answer": "G",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 12,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 9,
+        "c": 14,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 9,
+        "c": 18,
+        "answer": "Z",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 10,
+        "c": 6,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 10,
+        "c": 12,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 10,
+        "c": 14,
+        "answer": "W",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 10,
+        "c": 16,
+        "answer": "U",
+        "number": 14,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 17,
+        "answer": "N",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 18,
+        "answer": "I",
+        "number": null,
+        "across": "across_14",
+        "down": "down_10"
+      },
+      {
+        "r": 10,
+        "c": 19,
+        "answer": "K",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 6,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 11,
+        "c": 10,
+        "answer": "C",
+        "number": 15,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 12,
+        "answer": "I",
+        "number": null,
+        "across": "across_15",
+        "down": "down_8"
+      },
+      {
+        "r": 11,
+        "c": 13,
+        "answer": "R",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 14,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": "down_12"
+      },
+      {
+        "r": 11,
+        "c": 15,
+        "answer": "N",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 18,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 12,
+        "c": 12,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_4",
+          "number": 4,
+          "direction": "across",
+          "text": "Tudung atas kantong pelindung cairan enzim dari enceran air hujan",
+          "answer": "PENUTUP",
+          "cells": [
+            [
+              1,
+              7
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              1,
+              9
+            ],
+            [
+              1,
+              10
+            ],
+            [
+              1,
+              11
+            ],
+            [
+              1,
+              12
+            ],
+            [
+              1,
+              13
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_5",
+          "number": 5,
+          "direction": "across",
+          "text": "Koleksi keanekaragaman tetumbuhan eksotis nusantara",
+          "answer": "FLORA",
+          "cells": [
+            [
+              2,
+              0
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              2,
+              4
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Nama ilmiah tumbuhan kantong semar pemakan serangga tropis",
+          "answer": "NEPENTHES",
+          "cells": [
+            [
+              4,
+              4
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              4,
+              8
+            ],
+            [
+              4,
+              9
+            ],
+            [
+              4,
+              10
+            ],
+            [
+              4,
+              11
+            ],
+            [
+              4,
+              12
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "across_9",
+          "number": 9,
+          "direction": "across",
+          "text": "Tanah rawa miskin hara habitat adaptasi revolusioner nepenthes",
+          "answer": "GAMBUT",
+          "cells": [
+            [
+              6,
+              10
+            ],
+            [
+              6,
+              11
+            ],
+            [
+              6,
+              12
+            ],
+            [
+              6,
+              13
+            ],
+            [
+              6,
+              14
+            ],
+            [
+              6,
+              15
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_11",
+          "number": 11,
+          "direction": "across",
+          "text": "Unsur hara vital pertumbuhan yang diserap dari jasad serangga hancur",
+          "answer": "NITROGEN",
+          "cells": [
+            [
+              8,
+              11
+            ],
+            [
+              8,
+              12
+            ],
+            [
+              8,
+              13
+            ],
+            [
+              8,
+              14
+            ],
+            [
+              8,
+              15
+            ],
+            [
+              8,
+              16
+            ],
+            [
+              8,
+              17
+            ],
+            [
+              8,
+              18
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "across_13",
+          "number": 13,
+          "direction": "across",
+          "text": "Modifikasi ujung daun berbentuk piala perangkap serangga",
+          "answer": "KANTONG",
+          "cells": [
+            [
+              9,
+              3
+            ],
+            [
+              9,
+              4
+            ],
+            [
+              9,
+              5
+            ],
+            [
+              9,
+              6
+            ],
+            [
+              9,
+              7
+            ],
+            [
+              9,
+              8
+            ],
+            [
+              9,
+              9
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_14",
+          "number": 14,
+          "direction": "across",
+          "text": "Bentuk adaptasi morfologi luar biasa menghadapi tanah miskin nutrisi",
+          "answer": "UNIK",
+          "cells": [
+            [
+              10,
+              16
+            ],
+            [
+              10,
+              17
+            ],
+            [
+              10,
+              18
+            ],
+            [
+              10,
+              19
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "across_15",
+          "number": 15,
+          "direction": "across",
+          "text": "Larutan getah pencerna di dasar piala kantong semar",
+          "answer": "CAIRAN",
+          "cells": [
+            [
+              11,
+              10
+            ],
+            [
+              11,
+              11
+            ],
+            [
+              11,
+              12
+            ],
+            [
+              11,
+              13
+            ],
+            [
+              11,
+              14
+            ],
+            [
+              11,
+              15
+            ]
+          ],
+          "length": 6
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Tangkai penopang spiral yang membelit ranting pohon di sekitarnya",
+          "answer": "SULUR",
+          "cells": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Semut, lalat, dan kumbang mangsa kaya nutrisi bagi kantong semar",
+          "answer": "SERANGGA",
+          "cells": [
+            [
+              0,
+              8
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              2,
+              8
+            ],
+            [
+              3,
+              8
+            ],
+            [
+              4,
+              8
+            ],
+            [
+              5,
+              8
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              7,
+              8
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Flora yang melengkapi nutrisi nitrogennya dengan mencerna hewan renik",
+          "answer": "KARNIVORA",
+          "cells": [
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              5,
+              4
+            ],
+            [
+              6,
+              4
+            ],
+            [
+              7,
+              4
+            ],
+            [
+              8,
+              4
+            ],
+            [
+              9,
+              4
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "down_7",
+          "number": 7,
+          "direction": "down",
+          "text": "Bibir licin berigi di mulut kantong pembelincir serangga ke dalam",
+          "answer": "PERISTOM",
+          "cells": [
+            [
+              4,
+              6
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              6,
+              6
+            ],
+            [
+              7,
+              6
+            ],
+            [
+              8,
+              6
+            ],
+            [
+              9,
+              6
+            ],
+            [
+              10,
+              6
+            ],
+            [
+              11,
+              6
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_8",
+          "number": 8,
+          "direction": "down",
+          "text": "Kerja sama saling menguntungkan kantong semar dengan kelelawar wol",
+          "answer": "SIMBIOSIS",
+          "cells": [
+            [
+              4,
+              12
+            ],
+            [
+              5,
+              12
+            ],
+            [
+              6,
+              12
+            ],
+            [
+              7,
+              12
+            ],
+            [
+              8,
+              12
+            ],
+            [
+              9,
+              12
+            ],
+            [
+              10,
+              12
+            ],
+            [
+              11,
+              12
+            ],
+            [
+              12,
+              12
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "down_10",
+          "number": 10,
+          "direction": "down",
+          "text": "Cairan asam kaya enzim protease pemecah protein tubuh serangga",
+          "answer": "ENZIM",
+          "cells": [
+            [
+              7,
+              18
+            ],
+            [
+              8,
+              18
+            ],
+            [
+              9,
+              18
+            ],
+            [
+              10,
+              18
+            ],
+            [
+              11,
+              18
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_12",
+          "number": 12,
+          "direction": "down",
+          "text": "Ekosistem basah tempat merambatnya sulur daun kantong semar",
+          "answer": "RAWA",
+          "cells": [
+            [
+              8,
+              14
+            ],
+            [
+              9,
+              14
+            ],
+            [
+              10,
+              14
+            ],
+            [
+              11,
+              14
+            ]
+          ],
+          "length": 4
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_185_cenderawasih_papua",
+    "title": "Burung Cenderawasih & Merak Hijau Jawa",
+    "category": "Hayati",
+    "size": {
+      "rows": 17,
+      "cols": 10
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 7,
+        "answer": "P",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "answer": "E",
+        "number": 2,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 1,
+        "answer": "C",
+        "number": 3,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "answer": "L",
+        "number": 4,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "answer": "K",
+        "number": 5,
+        "across": "across_5",
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 6,
+        "answer": "I",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 7,
+        "answer": "P",
+        "number": null,
+        "across": "across_5",
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": "across_5",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 9,
+        "answer": "S",
+        "number": 6,
+        "across": "across_5",
+        "down": "down_6"
+      },
+      {
+        "r": 3,
+        "c": 1,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 3,
+        "c": 5,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 7,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 9,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 4,
+        "c": 1,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 3,
+        "answer": "S",
+        "number": 7,
+        "across": "across_7",
+        "down": "down_4"
+      },
+      {
+        "r": 4,
+        "c": 4,
+        "answer": "U",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 5,
+        "answer": "R",
+        "number": null,
+        "across": "across_7",
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 6,
+        "answer": "G",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": "across_7",
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 9,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 5,
+        "c": 1,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 5,
+        "c": 3,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 5,
+        "c": 9,
+        "answer": "W",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 6,
+        "c": 0,
+        "answer": "M",
+        "number": 8,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 1,
+        "answer": "E",
+        "number": null,
+        "across": "across_8",
+        "down": "down_3"
+      },
+      {
+        "r": 6,
+        "c": 2,
+        "answer": "R",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": "across_8",
+        "down": "down_4"
+      },
+      {
+        "r": 6,
+        "c": 4,
+        "answer": "K",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 6,
+        "answer": "J",
+        "number": 9,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 8,
+        "answer": "W",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 9,
+        "answer": "A",
+        "number": null,
+        "across": "across_9",
+        "down": "down_6"
+      },
+      {
+        "r": 7,
+        "c": 1,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 7,
+        "c": 3,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 8,
+        "c": 0,
+        "answer": "T",
+        "number": 10,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_10",
+        "down": "down_3"
+      },
+      {
+        "r": 8,
+        "c": 2,
+        "answer": "R",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 3,
+        "answer": "I",
+        "number": null,
+        "across": "across_10",
+        "down": "down_4"
+      },
+      {
+        "r": 8,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 5,
+        "answer": "N",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 1,
+        "answer": "W",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 10,
+        "c": 0,
+        "answer": "J",
+        "number": 11,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_11",
+        "down": "down_3"
+      },
+      {
+        "r": 10,
+        "c": 2,
+        "answer": "M",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 3,
+        "answer": "B",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 4,
+        "answer": "U",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 5,
+        "answer": "L",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 1,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 12,
+        "c": 0,
+        "answer": "R",
+        "number": 12,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 1,
+        "answer": "I",
+        "number": null,
+        "across": "across_12",
+        "down": "down_3"
+      },
+      {
+        "r": 12,
+        "c": 2,
+        "answer": "T",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 3,
+        "answer": "U",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 4,
+        "answer": "A",
+        "number": 13,
+        "across": "across_12",
+        "down": "down_13"
+      },
+      {
+        "r": 12,
+        "c": 5,
+        "answer": "L",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 1,
+        "answer": "H",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 13,
+        "c": 4,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 13,
+        "c": 7,
+        "answer": "B",
+        "number": 14,
+        "across": null,
+        "down": "down_14"
+      },
+      {
+        "r": 14,
+        "c": 3,
+        "answer": "P",
+        "number": 15,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 14,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": "down_13"
+      },
+      {
+        "r": 14,
+        "c": 5,
+        "answer": "R",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 14,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 14,
+        "c": 7,
+        "answer": "U",
+        "number": null,
+        "across": "across_15",
+        "down": "down_14"
+      },
+      {
+        "r": 15,
+        "c": 4,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 15,
+        "c": 7,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_14"
+      },
+      {
+        "r": 16,
+        "c": 7,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_14"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_5",
+          "number": 5,
+          "direction": "across",
+          "text": "Bentangan ekor merak jantan berbentuk setengah lingkaran memukau",
+          "answer": "KIPAS",
+          "cells": [
+            [
+              2,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              2,
+              8
+            ],
+            [
+              2,
+              9
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_7",
+          "number": 7,
+          "direction": "across",
+          "text": "Julukan burung surga bagi cenderawasih karena kemolekan bulunya",
+          "answer": "SURGA",
+          "cells": [
+            [
+              4,
+              3
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              4,
+              7
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_8",
+          "number": 8,
+          "direction": "across",
+          "text": "Pavo muticus merak hijau anggun dengan ekor kipas bertotol mata",
+          "answer": "MERAK",
+          "cells": [
+            [
+              6,
+              0
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              6,
+              2
+            ],
+            [
+              6,
+              3
+            ],
+            [
+              6,
+              4
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_9",
+          "number": 9,
+          "direction": "across",
+          "text": "Taman Nasional Baluran dan Alas Purwo habitat merak hijau liar",
+          "answer": "JAWA",
+          "cells": [
+            [
+              6,
+              6
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              6,
+              9
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "across_10",
+          "number": 10,
+          "direction": "across",
+          "text": "Gerakan anggun pejantan di dahan tinggi memikat perhatian sang betina",
+          "answer": "TARIAN",
+          "cells": [
+            [
+              8,
+              0
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              8,
+              2
+            ],
+            [
+              8,
+              3
+            ],
+            [
+              8,
+              4
+            ],
+            [
+              8,
+              5
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_11",
+          "number": 11,
+          "direction": "across",
+          "text": "Mahkota bulu tegak di atas kepala merak pembawa wibawa agung",
+          "answer": "JAMBUL",
+          "cells": [
+            [
+              10,
+              0
+            ],
+            [
+              10,
+              1
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              10,
+              3
+            ],
+            [
+              10,
+              4
+            ],
+            [
+              10,
+              5
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_12",
+          "number": 12,
+          "direction": "across",
+          "text": "Perilaku kawin spektakuler memamerkan ornamen keindahan tubuh",
+          "answer": "RITUAL",
+          "cells": [
+            [
+              12,
+              0
+            ],
+            [
+              12,
+              1
+            ],
+            [
+              12,
+              2
+            ],
+            [
+              12,
+              3
+            ],
+            [
+              12,
+              4
+            ],
+            [
+              12,
+              5
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_15",
+          "number": 15,
+          "direction": "across",
+          "text": "Suara serak lengkingan khas merak terdengar menembus sabana",
+          "answer": "PARAU",
+          "cells": [
+            [
+              14,
+              3
+            ],
+            [
+              14,
+              4
+            ],
+            [
+              14,
+              5
+            ],
+            [
+              14,
+              6
+            ],
+            [
+              14,
+              7
+            ]
+          ],
+          "length": 5
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Bumi mutiara hitam timur nusantara surga spesies cenderawasih",
+          "answer": "PAPUA",
+          "cells": [
+            [
+              0,
+              7
+            ],
+            [
+              1,
+              7
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              3,
+              7
+            ],
+            [
+              4,
+              7
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Rangkaian bulu memanjang melengkung yang dimekarkan saat merayu betina",
+          "answer": "EKOR",
+          "cells": [
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              4,
+              5
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Unggas surga Paradisaeidae dari tanah Papua berbulu ekor mahaindah",
+          "answer": "CENDERAWASIH",
+          "cells": [
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              1
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              10,
+              1
+            ],
+            [
+              11,
+              1
+            ],
+            [
+              12,
+              1
+            ],
+            [
+              13,
+              1
+            ]
+          ],
+          "length": 12
+        },
+        {
+          "id": "down_4",
+          "number": 4,
+          "direction": "down",
+          "text": "Keadaan terjaga hidup damai tanpa ancaman perburuan liar",
+          "answer": "LESTARI",
+          "cells": [
+            [
+              2,
+              3
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              5,
+              3
+            ],
+            [
+              6,
+              3
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              8,
+              3
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_6",
+          "number": 6,
+          "direction": "down",
+          "text": "Hewan langka warisan puspa dan satwa nasional yang dilindungi",
+          "answer": "SATWA",
+          "cells": [
+            [
+              2,
+              9
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              4,
+              9
+            ],
+            [
+              5,
+              9
+            ],
+            [
+              6,
+              9
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_13",
+          "number": 13,
+          "direction": "down",
+          "text": "Hutan rimba purba tempat bersarangnya kawanan burung endemik",
+          "answer": "ALAS",
+          "cells": [
+            [
+              12,
+              4
+            ],
+            [
+              13,
+              4
+            ],
+            [
+              14,
+              4
+            ],
+            [
+              15,
+              4
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "down_14",
+          "number": 14,
+          "direction": "down",
+          "text": "Helai lembut warna-warni memikat daya tarik saat ritual tarian kawin",
+          "answer": "BULU",
+          "cells": [
+            [
+              13,
+              7
+            ],
+            [
+              14,
+              7
+            ],
+            [
+              15,
+              7
+            ],
+            [
+              16,
+              7
+            ]
+          ],
+          "length": 4
+        }
+      ]
+    }
+  }
+]

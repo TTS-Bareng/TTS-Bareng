@@ -1,0 +1,237 @@
+[
+  {
+    "id": "level_81_nanoteknologi",
+    "title": "Nanoteknologi & Rekayasa Material",
+    "category": "Sains",
+    "words": [
+      {
+        "answer": "NANOMETER",
+        "clue": "Satuan panjang sepermilyar meter yang digunakan dalam skala partikel nano"
+      },
+      {
+        "answer": "GRAFENA",
+        "clue": "Lembaran alotrop karbon berstruktur heksagonal setebal satu atom dengan konduktivitas tinggi"
+      },
+      {
+        "answer": "KARBON",
+        "clue": "Unsur kimia bukan logam bernomor atom enam yang menjadi basis struktur fulerena dan tabung nano"
+      },
+      {
+        "answer": "POLIMER",
+        "clue": "Senyawa makromolekul rantai panjang dari monomer berulang untuk komposit canggih"
+      },
+      {
+        "answer": "MOLEKUL",
+        "clue": "Bagian terkecil senyawa yang tersusun atas ikatan dua atom atau lebih"
+      },
+      {
+        "answer": "PARTIKEL",
+        "clue": "Unsur butir benda sangat kecil seperti elektron, proton, atau debu renik"
+      },
+      {
+        "answer": "KRISTAL",
+        "clue": "Bentuk zat padat dengan susunan atom atau molekul yang teratur secara periodik"
+      },
+      {
+        "answer": "ATOM",
+        "clue": "Satuan dasar materi yang terdiri atas inti atom bermuatan positif dan elektron"
+      },
+      {
+        "answer": "SINTESIS",
+        "clue": "Proses pembentukan senyawa atau material baru melalui reaksi kimia terarah"
+      },
+      {
+        "answer": "KATALIS",
+        "clue": "Zat yang mempercepat laju reaksi kimia material tanpa terkonsumsi secara permanen"
+      }
+    ]
+  },
+  {
+    "id": "level_82_bioinformatika",
+    "title": "Bioinformatika & Sekuensial DNA",
+    "category": "Sains",
+    "words": [
+      {
+        "answer": "SEKUENSI",
+        "clue": "Penentuan urutan linier basa nitrogen atau asam nukleat dalam genom"
+      },
+      {
+        "answer": "GENOM",
+        "clue": "Keseluruhan informasi genetik atau susunan kromosom lengkap suatu organisme"
+      },
+      {
+        "answer": "KROMOSOM",
+        "clue": "Struktur pembawa materi genetik berbentuk benang kromatin di inti sel"
+      },
+      {
+        "answer": "PROTEIN",
+        "clue": "Senyawa biomolekul kompleks polipeptida yang tersusun dari asam amino"
+      },
+      {
+        "answer": "ADENIN",
+        "clue": "Salah satu basa nitrogen purina pembentuk pasangan dalam rantai heliks ganda DNA"
+      },
+      {
+        "answer": "SITOSIN",
+        "clue": "Basa nitrogen pirimidina yang berpasangan secara spesifik dengan guanin"
+      },
+      {
+        "answer": "GUANIN",
+        "clue": "Basa purina utama yang menyusun asam deoksiribonukleat bersama sitosin"
+      },
+      {
+        "answer": "HELIKS",
+        "clue": "Bentuk geometri ulir ganda pilinan rantai asam deoksiribonukleat atau DNA"
+      },
+      {
+        "answer": "MUTASI",
+        "clue": "Perubahan mendadak pada urutan basa DNA yang dapat diwariskan ke generasi berikutnya"
+      },
+      {
+        "answer": "KODON",
+        "clue": "Kode genetik triplet basa nitrogen pada RNA duta penentu sintesis asam amino"
+      }
+    ]
+  },
+  {
+    "id": "level_83_satelit",
+    "title": "Konstelasi Satelit Palapa & Orbit Geo",
+    "category": "Teknologi",
+    "words": [
+      {
+        "answer": "FREKUENSI",
+        "clue": "Jumlah getaran atau gelombang elektromagnetik per detik pada pita transmisi"
+      },
+      {
+        "answer": "TELEMETRI",
+        "clue": "Sistem pengukuran dan pengiriman data operasional wahana antariksa dari jarak jauh"
+      },
+      {
+        "answer": "SATELIT",
+        "clue": "Wahana antariksa buatan pengorbit bumi untuk transmisi sinyal komunikasi"
+      },
+      {
+        "answer": "PALAPA",
+        "clue": "Nama seri satelit komunikasi perintis milik Indonesia yang diluncurkan sejak 1976"
+      },
+      {
+        "answer": "SINYAL",
+        "clue": "Gelombang elektromagnetik pembawa data suara, teks, dan gambar dari satelit"
+      },
+      {
+        "answer": "ANTENA",
+        "clue": "Perangkat penerima dan pemancar gelombang elektromagnetik stasiun bumi"
+      },
+      {
+        "answer": "SENSOR",
+        "clue": "Peranti pendeteksi radiasi atau pencitraan optik pada satelit penginderaan jauh"
+      },
+      {
+        "answer": "ORBIT",
+        "clue": "Lintasan melengkung teratur wahana antariksa mengelilingi planet bumi"
+      },
+      {
+        "answer": "ROKET",
+        "clue": "Kendaraan peluncur bermesin pendorong propelan untuk menembus atmosfer"
+      },
+      {
+        "answer": "RADAR",
+        "clue": "Sistem deteksi dan penjejakan objek jarak jauh menggunakan gelombang radio"
+      }
+    ]
+  },
+  {
+    "id": "level_84_kecerdasan_buatan",
+    "title": "Algoritma Komputasi & Kecerdasan Buatan",
+    "category": "Teknologi",
+    "words": [
+      {
+        "answer": "ALGORITMA",
+        "clue": "Urutan langkah terstruktur dan logis dalam pemrograman penyelesaian masalah"
+      },
+      {
+        "answer": "HEURISTIK",
+        "clue": "Metode pencarian solusi praktis berbasis perkiraan atau uji coba terarah"
+      },
+      {
+        "answer": "INFERENSI",
+        "clue": "Penarikan simpulan logis berdasarkan fakta atau aturan dalam sistem cerdas"
+      },
+      {
+        "answer": "PREDIKSI",
+        "clue": "Prakiraan luaran atau klasifikasi masa depan berdasarkan analisis pola data"
+      },
+      {
+        "answer": "MATRIKS",
+        "clue": "Susunan baris dan kolom bilangan untuk representasi vektor dan tensor data"
+      },
+      {
+        "answer": "ITERASI",
+        "clue": "Pengulangan langkah komputasi secara berkala untuk memperbarui bobot model"
+      },
+      {
+        "answer": "NEURON",
+        "clue": "Simpul komputasi dasar tiruan yang menerima masukan dan mengaktifkan keluaran"
+      },
+      {
+        "answer": "LOGIKA",
+        "clue": "Dasar penalaran sistemik dan aturan proposisi dalam pemrograman cerdas"
+      },
+      {
+        "answer": "MODEL",
+        "clue": "Representasi matematis hasil pelatihan mesin untuk memprediksi pola baru"
+      },
+      {
+        "answer": "DATA",
+        "clue": "Kumpulan fakta mentah yang diolah oleh sistem komputasi menjadi informasi"
+      }
+    ]
+  },
+  {
+    "id": "level_85_ekologi_mangrove",
+    "title": "Sabuk Hijau Hutan Bakau & Karbon Biru",
+    "category": "Alam",
+    "words": [
+      {
+        "answer": "SALINITAS",
+        "clue": "Derajat konsentrasi garam terlarut dalam lingkungan perairan hutan bakau"
+      },
+      {
+        "answer": "MANGROVE",
+        "clue": "Komunitas tumbuhan pesisir toleran garam penjaga stabilitas garis pantai"
+      },
+      {
+        "answer": "ESTUARI",
+        "clue": "Wilayah perairan payau muara sungai pertemuan air tawar dan air laut"
+      },
+      {
+        "answer": "SEDIMEN",
+        "clue": "Material endapan lumpur dan pasir yang tertahan oleh jalinan akar bakau"
+      },
+      {
+        "answer": "HABITAT",
+        "clue": "Lingkungan alami tempat hidup dan berkembang biak aneka biota rawa payau"
+      },
+      {
+        "answer": "KARBON",
+        "clue": "Unsur kimia penting yang diserap dan disimpan dalam jumlah besar di rawa pesisir"
+      },
+      {
+        "answer": "PASANG",
+        "clue": "Fenomena naik dan bertambah tingginya permukaan air laut akibat gravitasi bulan"
+      },
+      {
+        "answer": "EROSI",
+        "clue": "Pengikisan tebing atau pantai oleh deburan ombak yang diredam rumpun bakau"
+      },
+      {
+        "answer": "FAUNA",
+        "clue": "Komunitas aneka ragam hewan seperti kepiting dan burung penghuni hutan bakau"
+      },
+      {
+        "answer": "AKAR",
+        "clue": "Bagian tumbuhan penopang dan penyerap hara termasuk tipe cakar napas di lumpur"
+      }
+    ]
+  }
+]

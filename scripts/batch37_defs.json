@@ -1,0 +1,337 @@
+[
+  {
+    "id": "level_191_fusi_tokamak",
+    "title": "Fusi Nuklir Tokamak & Plasma Energi Masa Depan",
+    "category": "Sains",
+    "words": [
+      {
+        "answer": "FUSI",
+        "clue": "Reaksi penggabungan inti atom ringan menjadi berat pelepas energi bintang"
+      },
+      {
+        "answer": "TOKAMAK",
+        "clue": "Bejana magnetik berbentuk donat pengungkung plasma bersuhu jutaan derajat"
+      },
+      {
+        "answer": "PLASMA",
+        "clue": "Wujud zat keempat gas terionisasi berisi elektron dan ion bebas berenergi"
+      },
+      {
+        "answer": "MAGNETIK",
+        "clue": "Medan gaya penahan plasma panas agar tidak menyentuh dinding reaktor"
+      },
+      {
+        "answer": "DEUTERIUM",
+        "clue": "Isotop hidrogen bermassa dua bahan bakar melimpah dari air laut"
+      },
+      {
+        "answer": "TRITIUM",
+        "clue": "Isotop hidrogen radioaktif mitra reaksi fusi penghasil helium"
+      },
+      {
+        "answer": "ENERGI",
+        "clue": "Tenaga bersih nirkarbon penopang kelangsungan peradaban masa depan"
+      },
+      {
+        "answer": "REAKTOR",
+        "clue": "Instalasi teknologi canggih tempat berlangsungnya fusi terkendali"
+      },
+      {
+        "answer": "ATOM",
+        "clue": "Partikel dasar penyusun materi yang intinya menyimpan tenaga dahsyat"
+      },
+      {
+        "answer": "SUHU",
+        "clue": "Panas ekstrem ratusan juta derajat pelebur gaya tolak inti atom"
+      },
+      {
+        "answer": "HELIUM",
+        "clue": "Gas mulia produk sampingan bersih dari reaksi fusi deuterium-tritium"
+      },
+      {
+        "answer": "LASER",
+        "clue": "Pemicu fusi kurungan inersia pemadat bahan bakar secara serentak"
+      },
+      {
+        "answer": "FISIKA",
+        "clue": "Ilmu penyingkap hukum dasar alam penguasa materi dan energi"
+      },
+      {
+        "answer": "BERSIH",
+        "clue": "Sifat energi fusi tanpa emisi gas rumah kaca dan limbah berbahaya"
+      },
+      {
+        "answer": "MATAHARI",
+        "clue": "Reaktor fusi alami raksasa di pusat tata surya pemberi kehidupan bumi"
+      }
+    ]
+  },
+  {
+    "id": "level_192_robotika_industri",
+    "title": "Kecerdasan Robotika & Mekatronika Industri",
+    "category": "Teknologi",
+    "words": [
+      {
+        "answer": "ROBOTIKA",
+        "clue": "Cabang teknik perancang mesin cerdas terprogram pembantu tugas manusia"
+      },
+      {
+        "answer": "MEKATRONIKA",
+        "clue": "Sinergi teknik mesin, elektronika, dan komputasi cerdas"
+      },
+      {
+        "answer": "AKTUATOR",
+        "clue": "Motor penggerak fisik sendi robot peniru gerakan lengan manusia"
+      },
+      {
+        "answer": "SENSOR",
+        "clue": "Pendeteksi besaran fisik jarak, tekanan, dan visual lingkungan robot"
+      },
+      {
+        "answer": "OTOMASI",
+        "clue": "Pengoperasian sistem produksi mandiri berulang dengan presisi tinggi"
+      },
+      {
+        "answer": "LIDAR",
+        "clue": "Sensor laser pemindai lingkungan tiga dimensi navigasi robotik"
+      },
+      {
+        "answer": "VISION",
+        "clue": "Sistem penglihatan komputer pengenal objek kamera di ban berjalan"
+      },
+      {
+        "answer": "KONTROLER",
+        "clue": "Mikroprosesor pusat pengendali instruksi logika pergerakan robot"
+      },
+      {
+        "answer": "SERVO",
+        "clue": "Motor listrik presisi pengendali sudut putaran sendi robotik"
+      },
+      {
+        "answer": "KINEMATIKA",
+        "clue": "Kajian gerak lintasan ujung lengan robotik tanpa meninjau gaya"
+      },
+      {
+        "answer": "MANIPULATOR",
+        "clue": "Lengan mekanis penjepit atau pengelas logam di pabrik perakitan"
+      },
+      {
+        "answer": "PRESISI",
+        "clue": "Tingkat akurasi mikrometer gerakan lengan robotik tanpa lelah"
+      },
+      {
+        "answer": "KODE",
+        "clue": "Barisan perintah bahasa pemrograman pengarah logika robot"
+      },
+      {
+        "answer": "PABRIK",
+        "clue": "Kawasan industri modern tempat kolaborasi robot dan pekerja"
+      },
+      {
+        "answer": "EFISIEN",
+        "clue": "Optimalisasi waktu dan daya produksi berkat bantuan otomatisasi"
+      }
+    ]
+  },
+  {
+    "id": "level_193_radar_doppler",
+    "title": "Meteorologi Radar Doppler & Atmosfer Tropis",
+    "category": "Sains",
+    "words": [
+      {
+        "answer": "DOPPLER",
+        "clue": "Efek pergeseran frekuensi gelombang pemantau kecepatan angin badai"
+      },
+      {
+        "answer": "RADAR",
+        "clue": "Peranti pemancar gelombang mikro pendeteksi butir hujan di awan"
+      },
+      {
+        "answer": "METEOROLOGI",
+        "clue": "Ilmu penelaah gejala cuaca dan dinamika atmosfer bumi"
+      },
+      {
+        "answer": "ATMOSFER",
+        "clue": "Lapisan selimut udara pembungkus bumi tempat sirkulasi angin"
+      },
+      {
+        "answer": "KUMULONIMBUS",
+        "clue": "Awan badai raksasa vertikal pemicu petir, hujan lebat, dan turbulensi"
+      },
+      {
+        "answer": "PETIR",
+        "clue": "Loncatan kilat listrik statis tegangan tinggi antarmuatan awan"
+      },
+      {
+        "answer": "HUJAN",
+        "clue": "Presipitasi tetes air cair yang jatuh dari kondensasi awan jenuh"
+      },
+      {
+        "answer": "ANGIN",
+        "clue": "Pergerakan massa udara dari daerah bertekanan tinggi ke rendah"
+      },
+      {
+        "answer": "SIKLON",
+        "clue": "Pusaran badai tropis bertekanan rendah pembawa gelombang tinggi"
+      },
+      {
+        "answer": "BMKG",
+        "clue": "Badan nasional penyampai peringatan dini cuaca, iklim, dan gempa"
+      },
+      {
+        "answer": "ECHO",
+        "clue": "Pantulan sinyal radar pemeta kepadatan curah hujan di layar"
+      },
+      {
+        "answer": "CUACA",
+        "clue": "Kondisi udara pada waktu dan tempat tertentu yang cepat berubah"
+      },
+      {
+        "answer": "TROPIS",
+        "clue": "Wilayah khatulistiwa dengan kelembapan tinggi dan konveksi aktif"
+      },
+      {
+        "answer": "SATELIT",
+        "clue": "Wahana antariksa pemantau pergerakan tutupan awan regional nusantara"
+      },
+      {
+        "answer": "DERAJAT",
+        "clue": "Satuan suhu udara pemantau pemanasan permukaan daratan dan laut"
+      }
+    ]
+  },
+  {
+    "id": "level_194_polimer_hijau",
+    "title": "Sintesis Senyawa Polimer & Biodegradable Hijau",
+    "category": "Sains",
+    "words": [
+      {
+        "answer": "POLIMER",
+        "clue": "Makromolekul rantai panjang bentukan berulang unit monomer kecil"
+      },
+      {
+        "answer": "MONOMER",
+        "clue": "Unit molekul tunggal pembangun rangkaian rantai polimer"
+      },
+      {
+        "answer": "BIODEGRADABLE",
+        "clue": "Sifat material yang dapat diurai tuntas oleh mikroorganisme alami"
+      },
+      {
+        "answer": "SINGKONG",
+        "clue": "Umbi kaya pati bahan baku plastik biopolimer ramah lingkungan"
+      },
+      {
+        "answer": "PATI",
+        "clue": "Polisakarida alami penyusun utama bioplastik pengurai tanah"
+      },
+      {
+        "answer": "SINTESIS",
+        "clue": "Proses pembentukan senyawa kimia kompleks dari zat-zat sederhana"
+      },
+      {
+        "answer": "SELULOSA",
+        "clue": "Polimer dinding sel tumbuhan bahan serat kertas dan biokomposit"
+      },
+      {
+        "answer": "KOMPOS",
+        "clue": "Pupuk organik hasil penguraian bahan biopolimer di dalam tanah"
+      },
+      {
+        "answer": "MOLEKUL",
+        "clue": "Gabungan dua atau lebih atom terikat gaya kimia kovalen"
+      },
+      {
+        "answer": "RANTAI",
+        "clue": "Jalinan panjang ikatan karbon pembentuk ketahanan elastisitas plastik"
+      },
+      {
+        "answer": "ELASTIS",
+        "clue": "Kemampuan material kembali ke wujud semula usai diregangkan"
+      },
+      {
+        "answer": "HIJAU",
+        "clue": "Konsep kimia ramah lingkungan pengurang pencemaran sampah bumi"
+      },
+      {
+        "answer": "TERMA",
+        "clue": "Sifat ketahanan material polimer terhadap paparan panas suhu"
+      },
+      {
+        "answer": "URAI",
+        "clue": "Proses pembusukan biologis tanpa meninggalkan mikroplastik racun"
+      },
+      {
+        "answer": "KIMIA",
+        "clue": "Kajian ilmu zat dan perubahannya pembuka material inovasi baru"
+      }
+    ]
+  },
+  {
+    "id": "level_195_kriptografi_kuantum",
+    "title": "Kriptografi Kuantum & Keamanan Data Siber",
+    "category": "Teknologi",
+    "words": [
+      {
+        "answer": "KRIPTOGRAFI",
+        "clue": "Seni dan ilmu merahasiakan pesan dengan teknik penyandian kunci"
+      },
+      {
+        "answer": "KUANTUM",
+        "clue": "Fisika skala atom pemanfaatan sifat foton untuk keamanan mutlak"
+      },
+      {
+        "answer": "FOTON",
+        "clue": "Kuantum tunggal partikel cahaya pembawa kunci enkripsi rahasia"
+      },
+      {
+        "answer": "KUNCI",
+        "clue": "Deretan bit sandi pembuka dan pengunci teks terenkripsi"
+      },
+      {
+        "answer": "ENKRIPSI",
+        "clue": "Pengacakan pesan asli menjadi kode rahasia tak terbaca penyusup"
+      },
+      {
+        "answer": "DEKRIPSI",
+        "clue": "Pengembalian kode sandi rahasia menjadi pesan asli yang terbaca"
+      },
+      {
+        "answer": "KUBIT",
+        "clue": "Unit dasar informasi kuantum yang berada dalam kondisi superposisi"
+      },
+      {
+        "answer": "SUPERPOSISI",
+        "clue": "Keadaan kubit menempati nilai nol dan satu secara serentak"
+      },
+      {
+        "answer": "KUSUTAN",
+        "clue": "Keterikatan kuantum antarfoton terpisah jarak tanpa perantara kawat"
+      },
+      {
+        "answer": "SIBER",
+        "clue": "Dunia maya jaringan komputer tempat lalu lintas data global"
+      },
+      {
+        "answer": "DATA",
+        "clue": "Informasi digital berharga yang wajib dilindungi dari peretasan"
+      },
+      {
+        "answer": "AMAN",
+        "clue": "Kondisi terlindung dari intipan pihak ketiga berkat hukum fisika"
+      },
+      {
+        "answer": "SERVER",
+        "clue": "Pusat komputer penyimpan dan pelayan berkas enkripsi aman"
+      },
+      {
+        "answer": "JARINGAN",
+        "clue": "Koneksi serat optik pemancar berkas foton kunci kuantum"
+      },
+      {
+        "answer": "LOGIKA",
+        "clue": "Dasar penalaran algoritma matematika pembuat sandi tangguh"
+      }
+    ]
+  }
+]

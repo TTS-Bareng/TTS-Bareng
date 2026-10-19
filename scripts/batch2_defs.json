@@ -1,0 +1,212 @@
+[
+  {
+    "id": "level_13_antariksa",
+    "title": "Cakrawala Antariksa",
+    "category": "Sains",
+    "words": [
+      {
+        "answer": "BINTANG",
+        "clue": "Benda langit pemancar cahaya sendiri di angkasa luas"
+      },
+      {
+        "answer": "GALAKSI",
+        "clue": "Kumpulan miliaran bintang, gas, dan debu yang terikat gravitasi"
+      },
+      {
+        "answer": "SATELIT",
+        "clue": "Benda langit pengiring planet yang mengitari induknya"
+      },
+      {
+        "answer": "METEOR",
+        "clue": "Batu angkasa yang berpijar saat memasuki atmosfer bumi"
+      },
+      {
+        "answer": "PLANET",
+        "clue": "Benda angkasa pengedar yang mengelilingi matahari"
+      },
+      {
+        "answer": "ORBIT",
+        "clue": "Jalan teratur yang dilalui benda langit dalam lintasannya"
+      },
+      {
+        "answer": "KOMET",
+        "clue": "Bintang berekor berupa bongkahan es dan debu di antariksa"
+      }
+    ]
+  },
+  {
+    "id": "level_14_teknologi",
+    "title": "Era Inovasi Digital",
+    "category": "Teknologi",
+    "words": [
+      {
+        "answer": "JARINGAN",
+        "clue": "Sistem keterhubungan antarkomputer untuk bertukar data"
+      },
+      {
+        "answer": "INTERNET",
+        "clue": "Jaringan komputer global penghubung miliaran perangkat dunia"
+      },
+      {
+        "answer": "PROGRAM",
+        "clue": "Rancangan instruksi terstruktur untuk dieksekusi sistem komputer"
+      },
+      {
+        "answer": "MEMORI",
+        "clue": "Perangkat keras penyimpan data dan instruksi pemrosesan"
+      },
+      {
+        "answer": "SERVER",
+        "clue": "Komputer induk penyedia layanan dan sumber daya bagi klien"
+      },
+      {
+        "answer": "SENSOR",
+        "clue": "Perangkat pendeteksi perubahan fisik seperti panas dan gerak"
+      },
+      {
+        "answer": "ROBOT",
+        "clue": "Mesin otomatis terprogram yang membantu tugas manusia"
+      }
+    ]
+  },
+  {
+    "id": "level_15_fauna",
+    "title": "Satwa Langka Kepulauan",
+    "category": "Hayati",
+    "words": [
+      {
+        "answer": "ORANGUTAN",
+        "clue": "Kera besar berlengan panjang berbulu kemerahan di Kalimantan"
+      },
+      {
+        "answer": "HARIMAU",
+        "clue": "Kucing besar pemangsa bergaris loreng endemik Sumatra"
+      },
+      {
+        "answer": "BEKANTAN",
+        "clue": "Kera endemik Kalimantan berhidung besar dan panjang"
+      },
+      {
+        "answer": "KASUARI",
+        "clue": "Burung besar bermahkota keras endemik rimba Papua"
+      },
+      {
+        "answer": "KOMODO",
+        "clue": "Kadal purba raksasa endemik kepulauan Nusa Tenggara Timur"
+      },
+      {
+        "answer": "BADAK",
+        "clue": "Mamalia darat bercula terancam punah di Ujung Kulon"
+      },
+      {
+        "answer": "ANOA",
+        "clue": "Satwa liar kerdil menyerupai kerbau khas Sulawesi"
+      }
+    ]
+  },
+  {
+    "id": "level_16_fisika",
+    "title": "Misteri Fisika & Energi",
+    "category": "Sains",
+    "words": [
+      {
+        "answer": "GRAVITASI",
+        "clue": "Gaya tarik alami antarbenda yang memiliki massa di alam semesta"
+      },
+      {
+        "answer": "LISTRIK",
+        "clue": "Aliran muatan partikel elektron penopang daya modern"
+      },
+      {
+        "answer": "KINETIK",
+        "clue": "Energi gerak yang tersimpan pada benda yang sedang melaju"
+      },
+      {
+        "answer": "MAGNET",
+        "clue": "Benda logam penghasil medan gaya penarik serbuk besi"
+      },
+      {
+        "answer": "ENERGI",
+        "clue": "Daya kemampuan untuk melakukan usaha atau kerja fisik"
+      },
+      {
+        "answer": "KALOR",
+        "clue": "Perpindahan energi termal akibat perbedaan suhu antarbenda"
+      },
+      {
+        "answer": "ATOM",
+        "clue": "Partikel dasar materi penyusun setiap unsur kimia"
+      }
+    ]
+  },
+  {
+    "id": "level_17_bumi",
+    "title": "Litosfer & Geologi Bumi",
+    "category": "Geografi",
+    "words": [
+      {
+        "answer": "TEKTONIK",
+        "clue": "Proses pergerakan dan tumbukan lempeng penyusun kerak bumi"
+      },
+      {
+        "answer": "MINERAL",
+        "clue": "Zat padat anorganik alami penyusun struktur batuan bumi"
+      },
+      {
+        "answer": "BATUAN",
+        "clue": "Massa padat kerak bumi yang tersusun dari kumpulan mineral"
+      },
+      {
+        "answer": "GEMPA",
+        "clue": "Getaran gelombang seismik akibat pelepasan energi sesar bumi"
+      },
+      {
+        "answer": "MAGMA",
+        "clue": "Cairan batuan pijar bersuhu ribuan derajat di dalam perut bumi"
+      },
+      {
+        "answer": "KAWAH",
+        "clue": "Depresi melingkar di puncak gunung tempat keluarnya material erupsi"
+      },
+      {
+        "answer": "EROSI",
+        "clue": "Pengikisan permukaan tanah atau batuan akibat aliran air dan angin"
+      }
+    ]
+  },
+  {
+    "id": "level_18_lingkungan",
+    "title": "Ekosistem & Konservasi",
+    "category": "Alam",
+    "words": [
+      {
+        "answer": "EKOSISTEM",
+        "clue": "Tatanan interaksi utuh antara makhluk hidup dengan lingkungan alam"
+      },
+      {
+        "answer": "KONSERVASI",
+        "clue": "Upaya pelestarian dan perlindungan alam dari kerusakan lingkungan"
+      },
+      {
+        "answer": "HABITAT",
+        "clue": "Tempat hidup dan berkembang biak alami bagi flora dan fauna"
+      },
+      {
+        "answer": "POPULASI",
+        "clue": "Sekumpulan individu sejenis yang mendiami wilayah tertentu"
+      },
+      {
+        "answer": "BIOMA",
+        "clue": "Komunitas biologis utama berskala luas dengan iklim seragam"
+      },
+      {
+        "answer": "MANGROVE",
+        "clue": "Tumbuhan pantai penahan abrasi gelombang dan habitat biota laut"
+      },
+      {
+        "answer": "POLUSI",
+        "clue": "Pencemaran lingkungan akibat masuknya zat atau energi asing berbahaya"
+      }
+    ]
+  }
+]

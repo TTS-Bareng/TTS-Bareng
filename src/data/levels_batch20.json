@@ -1,0 +1,6085 @@
+[
+  {
+    "id": "level_106_filologi_kuno",
+    "title": "Filologi & Aksara Kawi Jawa Kuno",
+    "category": "Sastra",
+    "size": {
+      "rows": 17,
+      "cols": 19
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 4,
+        "answer": "B",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 0,
+        "c": 13,
+        "answer": "M",
+        "number": 2,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "answer": "K",
+        "number": 3,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_3",
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "answer": "W",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 6,
+        "answer": "I",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 13,
+        "answer": "A",
+        "number": 4,
+        "across": "across_4",
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 14,
+        "answer": "K",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 15,
+        "answer": "S",
+        "number": 5,
+        "across": "across_4",
+        "down": "down_5"
+      },
+      {
+        "r": 1,
+        "c": 16,
+        "answer": "A",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 17,
+        "answer": "R",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 18,
+        "answer": "A",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "answer": "H",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 13,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 15,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 13,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 15,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 4,
+        "c": 2,
+        "answer": "P",
+        "number": 6,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 3,
+        "answer": "U",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 4,
+        "answer": "S",
+        "number": null,
+        "across": "across_6",
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 5,
+        "answer": "T",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 7,
+        "answer": "K",
+        "number": 7,
+        "across": "across_6",
+        "down": "down_7"
+      },
+      {
+        "r": 4,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 11,
+        "answer": "N",
+        "number": 8,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 12,
+        "answer": "A",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 13,
+        "answer": "S",
+        "number": null,
+        "across": "across_8",
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 14,
+        "answer": "K",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 15,
+        "answer": "A",
+        "number": null,
+        "across": "across_8",
+        "down": "down_5"
+      },
+      {
+        "r": 4,
+        "c": 16,
+        "answer": "H",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 5,
+        "c": 7,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 5,
+        "c": 10,
+        "answer": "S",
+        "number": 9,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 5,
+        "c": 13,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 5,
+        "c": 15,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 6,
+        "c": 7,
+        "answer": "D",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 6,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 6,
+        "c": 13,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 7,
+        "c": 6,
+        "answer": "F",
+        "number": 10,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 7,
+        "answer": "I",
+        "number": null,
+        "across": "across_10",
+        "down": "down_7"
+      },
+      {
+        "r": 7,
+        "c": 8,
+        "answer": "L",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 9,
+        "answer": "O",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 10,
+        "answer": "L",
+        "number": null,
+        "across": "across_10",
+        "down": "down_9"
+      },
+      {
+        "r": 7,
+        "c": 11,
+        "answer": "O",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 12,
+        "answer": "G",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 13,
+        "answer": "I",
+        "number": null,
+        "across": "across_10",
+        "down": "down_2"
+      },
+      {
+        "r": 8,
+        "c": 1,
+        "answer": "L",
+        "number": 11,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 8,
+        "c": 7,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 8,
+        "c": 10,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 8,
+        "c": 13,
+        "answer": "P",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 9,
+        "c": 1,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 9,
+        "c": 7,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 9,
+        "c": 10,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 10,
+        "c": 1,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 10,
+        "c": 5,
+        "answer": "T",
+        "number": 12,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 6,
+        "answer": "U",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 7,
+        "answer": "L",
+        "number": null,
+        "across": "across_12",
+        "down": "down_7"
+      },
+      {
+        "r": 10,
+        "c": 8,
+        "answer": "I",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 9,
+        "answer": "S",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": "down_9"
+      },
+      {
+        "r": 10,
+        "c": 11,
+        "answer": "N",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 1,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 11,
+        "c": 3,
+        "answer": "S",
+        "number": 13,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 11,
+        "c": 7,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 11,
+        "c": 10,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 12,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 12,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 12,
+        "c": 7,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 13,
+        "c": 0,
+        "answer": "P",
+        "number": 14,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 1,
+        "answer": "R",
+        "number": null,
+        "across": "across_14",
+        "down": "down_11"
+      },
+      {
+        "r": 13,
+        "c": 2,
+        "answer": "A",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 3,
+        "answer": "S",
+        "number": null,
+        "across": "across_14",
+        "down": "down_13"
+      },
+      {
+        "r": 13,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 5,
+        "answer": "S",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 6,
+        "answer": "T",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 13,
+        "c": 7,
+        "answer": "I",
+        "number": null,
+        "across": "across_14",
+        "down": "down_7"
+      },
+      {
+        "r": 14,
+        "c": 3,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 15,
+        "c": 3,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_13"
+      },
+      {
+        "r": 16,
+        "c": 2,
+        "answer": "M",
+        "number": 15,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 16,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": "down_13"
+      },
+      {
+        "r": 16,
+        "c": 4,
+        "answer": "K",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 16,
+        "c": 5,
+        "answer": "N",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      },
+      {
+        "r": 16,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": "across_15",
+        "down": null
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_3",
+          "number": 3,
+          "direction": "across",
+          "text": "Ragam bahasa sastra Jawa Kuno yang banyak menyerap kosakata Sanskerta",
+          "answer": "KAWI",
+          "cells": [
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              6
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "across_4",
+          "number": 4,
+          "direction": "across",
+          "text": "Sistem tanda grafis yang digunakan manusia untuk berkomunikasi dan menulis",
+          "answer": "AKSARA",
+          "cells": [
+            [
+              1,
+              13
+            ],
+            [
+              1,
+              14
+            ],
+            [
+              1,
+              15
+            ],
+            [
+              1,
+              16
+            ],
+            [
+              1,
+              17
+            ],
+            [
+              1,
+              18
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Kitab peninggalan tulisan berharga sumber hikmah dan ilmu pengetahuan",
+          "answer": "PUSTAKA",
+          "cells": [
+            [
+              4,
+              2
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              4,
+              8
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_8",
+          "number": 8,
+          "direction": "across",
+          "text": "Dokumen tertulis atau lembaran bertulis warisan masa lampau yang bernilai tinggi",
+          "answer": "NASKAH",
+          "cells": [
+            [
+              4,
+              11
+            ],
+            [
+              4,
+              12
+            ],
+            [
+              4,
+              13
+            ],
+            [
+              4,
+              14
+            ],
+            [
+              4,
+              15
+            ],
+            [
+              4,
+              16
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_10",
+          "number": 10,
+          "direction": "across",
+          "text": "Ilmu yang menyelidiki kebudayaan bangsa melalui naskah kuno dan bahasa tertulis",
+          "answer": "FILOLOGI",
+          "cells": [
+            [
+              7,
+              6
+            ],
+            [
+              7,
+              7
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              7,
+              9
+            ],
+            [
+              7,
+              10
+            ],
+            [
+              7,
+              11
+            ],
+            [
+              7,
+              12
+            ],
+            [
+              7,
+              13
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "across_12",
+          "number": 12,
+          "direction": "across",
+          "text": "Hasil mencatat aksara atau lambang bunyi pada suatu media",
+          "answer": "TULISAN",
+          "cells": [
+            [
+              10,
+              5
+            ],
+            [
+              10,
+              6
+            ],
+            [
+              10,
+              7
+            ],
+            [
+              10,
+              8
+            ],
+            [
+              10,
+              9
+            ],
+            [
+              10,
+              10
+            ],
+            [
+              10,
+              11
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_14",
+          "number": 14,
+          "direction": "across",
+          "text": "Piagam atau dokumen kuno yang dipahatkan pada batu atau lempengan logam",
+          "answer": "PRASASTI",
+          "cells": [
+            [
+              13,
+              0
+            ],
+            [
+              13,
+              1
+            ],
+            [
+              13,
+              2
+            ],
+            [
+              13,
+              3
+            ],
+            [
+              13,
+              4
+            ],
+            [
+              13,
+              5
+            ],
+            [
+              13,
+              6
+            ],
+            [
+              13,
+              7
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "across_15",
+          "number": 15,
+          "direction": "across",
+          "text": "Arti atau maksud yang terkandung dalam kata, kalimat, atau lambang tertulis",
+          "answer": "MAKNA",
+          "cells": [
+            [
+              16,
+              2
+            ],
+            [
+              16,
+              3
+            ],
+            [
+              16,
+              4
+            ],
+            [
+              16,
+              5
+            ],
+            [
+              16,
+              6
+            ]
+          ],
+          "length": 5
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Sistem lambang bunyi ujaran yang dipakai anggota masyarakat untuk berinteraksi",
+          "answer": "BAHASA",
+          "cells": [
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              5,
+              4
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Naskah tulisan tangan peninggalan masa lalu yang menyimpan khazanah sejarah",
+          "answer": "MANUSKRIP",
+          "cells": [
+            [
+              0,
+              13
+            ],
+            [
+              1,
+              13
+            ],
+            [
+              2,
+              13
+            ],
+            [
+              3,
+              13
+            ],
+            [
+              4,
+              13
+            ],
+            [
+              5,
+              13
+            ],
+            [
+              6,
+              13
+            ],
+            [
+              7,
+              13
+            ],
+            [
+              8,
+              13
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Tulisan atau lembaran yang memuat pesan dan catatan berita",
+          "answer": "SURAT",
+          "cells": [
+            [
+              1,
+              15
+            ],
+            [
+              2,
+              15
+            ],
+            [
+              3,
+              15
+            ],
+            [
+              4,
+              15
+            ],
+            [
+              5,
+              15
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_7",
+          "number": 7,
+          "direction": "down",
+          "text": "Ilmu tentang naskah bertulis tangan, bahan fisik, dan sejarah penjilidannya",
+          "answer": "KODIKOLOGI",
+          "cells": [
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              7,
+              7
+            ],
+            [
+              8,
+              7
+            ],
+            [
+              9,
+              7
+            ],
+            [
+              10,
+              7
+            ],
+            [
+              11,
+              7
+            ],
+            [
+              12,
+              7
+            ],
+            [
+              13,
+              7
+            ]
+          ],
+          "length": 10
+        },
+        {
+          "id": "down_9",
+          "number": 9,
+          "direction": "down",
+          "text": "Turunan atau rekaman naskah kuno yang ditulis ulang oleh juru tulis",
+          "answer": "SALINAN",
+          "cells": [
+            [
+              5,
+              10
+            ],
+            [
+              6,
+              10
+            ],
+            [
+              7,
+              10
+            ],
+            [
+              8,
+              10
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              10,
+              10
+            ],
+            [
+              11,
+              10
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_11",
+          "number": 11,
+          "direction": "down",
+          "text": "Daun pohon siwalan yang dikeringkan untuk media penulisan naskah tradisional",
+          "answer": "LONTAR",
+          "cells": [
+            [
+              8,
+              1
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              10,
+              1
+            ],
+            [
+              11,
+              1
+            ],
+            [
+              12,
+              1
+            ],
+            [
+              13,
+              1
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_13",
+          "number": 13,
+          "direction": "down",
+          "text": "Karya seni tulisan yang bernilai estetis dan kaya imajinasi bahasa",
+          "answer": "SASTRA",
+          "cells": [
+            [
+              11,
+              3
+            ],
+            [
+              12,
+              3
+            ],
+            [
+              13,
+              3
+            ],
+            [
+              14,
+              3
+            ],
+            [
+              15,
+              3
+            ],
+            [
+              16,
+              3
+            ]
+          ],
+          "length": 6
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_107_epos_kakawin",
+    "title": "Kakawin Sutasoma & Bhinneka Tunggal Ika",
+    "category": "Sastra",
+    "size": {
+      "rows": 13,
+      "cols": 22
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 11,
+        "answer": "B",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 6,
+        "answer": "T",
+        "number": 2,
+        "across": "across_2",
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 7,
+        "answer": "U",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 8,
+        "answer": "N",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 9,
+        "answer": "G",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 10,
+        "answer": "G",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": "across_2",
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 12,
+        "answer": "L",
+        "number": null,
+        "across": "across_2",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 6,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 11,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 20,
+        "answer": "D",
+        "number": 3,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 6,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 8,
+        "answer": "S",
+        "number": 4,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 3,
+        "c": 11,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 20,
+        "answer": "H",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 6,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 8,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 4,
+        "c": 12,
+        "answer": "B",
+        "number": 5,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 4,
+        "c": 15,
+        "answer": "S",
+        "number": 6,
+        "across": "across_6",
+        "down": "down_6"
+      },
+      {
+        "r": 4,
+        "c": 16,
+        "answer": "E",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 17,
+        "answer": "L",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 18,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 19,
+        "answer": "R",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 20,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 21,
+        "answer": "S",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 5,
+        "c": 6,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 5,
+        "c": 8,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 5,
+        "c": 10,
+        "answer": "T",
+        "number": 7,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 5,
+        "c": 12,
+        "answer": "H",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 5,
+        "c": 15,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 5,
+        "c": 20,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 6,
+        "c": 5,
+        "answer": "M",
+        "number": 8,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": "across_8",
+        "down": "down_2"
+      },
+      {
+        "r": 6,
+        "c": 7,
+        "answer": "J",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": "across_8",
+        "down": "down_4"
+      },
+      {
+        "r": 6,
+        "c": 9,
+        "answer": "P",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": "across_8",
+        "down": "down_7"
+      },
+      {
+        "r": 6,
+        "c": 11,
+        "answer": "H",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 12,
+        "answer": "I",
+        "number": null,
+        "across": "across_8",
+        "down": "down_5"
+      },
+      {
+        "r": 6,
+        "c": 13,
+        "answer": "T",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 15,
+        "answer": "M",
+        "number": 9,
+        "across": "across_9",
+        "down": "down_6"
+      },
+      {
+        "r": 6,
+        "c": 16,
+        "answer": "E",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 17,
+        "answer": "T",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 18,
+        "answer": "R",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 19,
+        "answer": "U",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 20,
+        "answer": "M",
+        "number": null,
+        "across": "across_9",
+        "down": "down_3"
+      },
+      {
+        "r": 7,
+        "c": 6,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 7,
+        "c": 8,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 7,
+        "c": 10,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 7,
+        "c": 12,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 7,
+        "c": 15,
+        "answer": "B",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 7,
+        "c": 20,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 8,
+        "c": 1,
+        "answer": "R",
+        "number": 10,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 8,
+        "c": 6,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 8,
+        "c": 8,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 8,
+        "c": 10,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 8,
+        "c": 12,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 8,
+        "c": 15,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 9,
+        "c": 0,
+        "answer": "H",
+        "number": 11,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_11",
+        "down": "down_10"
+      },
+      {
+        "r": 9,
+        "c": 2,
+        "answer": "R",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 3,
+        "answer": "M",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 4,
+        "answer": "O",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 5,
+        "answer": "N",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 6,
+        "answer": "I",
+        "number": null,
+        "across": "across_11",
+        "down": "down_2"
+      },
+      {
+        "r": 9,
+        "c": 8,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 9,
+        "c": 10,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 9,
+        "c": 12,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 9,
+        "c": 15,
+        "answer": "Y",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 10,
+        "c": 1,
+        "answer": "J",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 10,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 10,
+        "c": 10,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 10,
+        "c": 12,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 10,
+        "c": 15,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 11,
+        "c": 0,
+        "answer": "K",
+        "number": 12,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": "down_10"
+      },
+      {
+        "r": 11,
+        "c": 2,
+        "answer": "S",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 3,
+        "answer": "I",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 4,
+        "answer": "H",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 9,
+        "answer": "K",
+        "number": 13,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": "across_13",
+        "down": "down_7"
+      },
+      {
+        "r": 11,
+        "c": 11,
+        "answer": "K",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 12,
+        "answer": "A",
+        "number": null,
+        "across": "across_13",
+        "down": "down_5"
+      },
+      {
+        "r": 11,
+        "c": 13,
+        "answer": "W",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 14,
+        "answer": "I",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 15,
+        "answer": "N",
+        "number": null,
+        "across": "across_13",
+        "down": "down_6"
+      },
+      {
+        "r": 12,
+        "c": 10,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_2",
+          "number": 2,
+          "direction": "across",
+          "text": "Satu atau esa dalam ikatan persaudaraan dan keutuhan bangsa",
+          "answer": "TUNGGAL",
+          "cells": [
+            [
+              1,
+              6
+            ],
+            [
+              1,
+              7
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              1,
+              9
+            ],
+            [
+              1,
+              10
+            ],
+            [
+              1,
+              11
+            ],
+            [
+              1,
+              12
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Keserasian yang padu dan seimbang tanpa perselisihan",
+          "answer": "SELARAS",
+          "cells": [
+            [
+              4,
+              15
+            ],
+            [
+              4,
+              16
+            ],
+            [
+              4,
+              17
+            ],
+            [
+              4,
+              18
+            ],
+            [
+              4,
+              19
+            ],
+            [
+              4,
+              20
+            ],
+            [
+              4,
+              21
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_8",
+          "number": 8,
+          "direction": "across",
+          "text": "Kemaharajaan maritim raya di Jawa Timur tempat gubahan kakawin termasyhur",
+          "answer": "MAJAPAHIT",
+          "cells": [
+            [
+              6,
+              5
+            ],
+            [
+              6,
+              6
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              6,
+              9
+            ],
+            [
+              6,
+              10
+            ],
+            [
+              6,
+              11
+            ],
+            [
+              6,
+              12
+            ],
+            [
+              6,
+              13
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "across_9",
+          "number": 9,
+          "direction": "across",
+          "text": "Pola irama suku kata panjang dan pendek yang mendasari bait kakawin",
+          "answer": "METRUM",
+          "cells": [
+            [
+              6,
+              15
+            ],
+            [
+              6,
+              16
+            ],
+            [
+              6,
+              17
+            ],
+            [
+              6,
+              18
+            ],
+            [
+              6,
+              19
+            ],
+            [
+              6,
+              20
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_11",
+          "number": 11,
+          "direction": "across",
+          "text": "Keselarasan bunyi dan keserasian hidup berdampingan secara damai",
+          "answer": "HARMONI",
+          "cells": [
+            [
+              9,
+              0
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              9,
+              4
+            ],
+            [
+              9,
+              5
+            ],
+            [
+              9,
+              6
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_12",
+          "number": 12,
+          "direction": "across",
+          "text": "Perasaan cinta dan belas welas asih tulus kepada sesama makhluk hidup",
+          "answer": "KASIH",
+          "cells": [
+            [
+              11,
+              0
+            ],
+            [
+              11,
+              1
+            ],
+            [
+              11,
+              2
+            ],
+            [
+              11,
+              3
+            ],
+            [
+              11,
+              4
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_13",
+          "number": 13,
+          "direction": "across",
+          "text": "Bentuk puisi naratif panjang Jawa Kuno yang terikat metrum persajakan India",
+          "answer": "KAKAWIN",
+          "cells": [
+            [
+              11,
+              9
+            ],
+            [
+              11,
+              10
+            ],
+            [
+              11,
+              11
+            ],
+            [
+              11,
+              12
+            ],
+            [
+              11,
+              13
+            ],
+            [
+              11,
+              14
+            ],
+            [
+              11,
+              15
+            ]
+          ],
+          "length": 7
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Satu kesatuan baris puisi yang membawakan satu gagasan atau rima",
+          "answer": "BAIT",
+          "cells": [
+            [
+              0,
+              11
+            ],
+            [
+              1,
+              11
+            ],
+            [
+              2,
+              11
+            ],
+            [
+              3,
+              11
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Sikap saling menghargai perbedaan pandangan, keyakinan, dan pendirian",
+          "answer": "TOLERANSI",
+          "cells": [
+            [
+              1,
+              6
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              6,
+              6
+            ],
+            [
+              7,
+              6
+            ],
+            [
+              8,
+              6
+            ],
+            [
+              9,
+              6
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Ajaran kebajikan, kewajiban suci, dan kebenaran hakiki dalam falsafah hidup",
+          "answer": "DHARMA",
+          "cells": [
+            [
+              2,
+              20
+            ],
+            [
+              3,
+              20
+            ],
+            [
+              4,
+              20
+            ],
+            [
+              5,
+              20
+            ],
+            [
+              6,
+              20
+            ],
+            [
+              7,
+              20
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_4",
+          "number": 4,
+          "direction": "down",
+          "text": "Tokoh raja bajik pahlawan epos karya Mpu Tantular lambang pengorbanan suci",
+          "answer": "SUTASOMA",
+          "cells": [
+            [
+              3,
+              8
+            ],
+            [
+              4,
+              8
+            ],
+            [
+              5,
+              8
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              9,
+              8
+            ],
+            [
+              10,
+              8
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Berbeda-beda atau beraneka ragam dalam bingkai persatuan yang selaras",
+          "answer": "BHINNEKA",
+          "cells": [
+            [
+              4,
+              12
+            ],
+            [
+              5,
+              12
+            ],
+            [
+              6,
+              12
+            ],
+            [
+              7,
+              12
+            ],
+            [
+              8,
+              12
+            ],
+            [
+              9,
+              12
+            ],
+            [
+              10,
+              12
+            ],
+            [
+              11,
+              12
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_6",
+          "number": 6,
+          "direction": "down",
+          "text": "Kalimat atau kata ringkas pemersatu pedoman perjuangan luhur",
+          "answer": "SEMBOYAN",
+          "cells": [
+            [
+              4,
+              15
+            ],
+            [
+              5,
+              15
+            ],
+            [
+              6,
+              15
+            ],
+            [
+              7,
+              15
+            ],
+            [
+              8,
+              15
+            ],
+            [
+              9,
+              15
+            ],
+            [
+              10,
+              15
+            ],
+            [
+              11,
+              15
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_7",
+          "number": 7,
+          "direction": "down",
+          "text": "Pujangga besar Kerajaan Majapahit pencetus semboyan Bhinneka Tunggal Ika",
+          "answer": "TANTULAR",
+          "cells": [
+            [
+              5,
+              10
+            ],
+            [
+              6,
+              10
+            ],
+            [
+              7,
+              10
+            ],
+            [
+              8,
+              10
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              10,
+              10
+            ],
+            [
+              11,
+              10
+            ],
+            [
+              12,
+              10
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_10",
+          "number": 10,
+          "direction": "down",
+          "text": "Pemimpin atau penguasa berdaulat suatu kerajaan yang melindungi rakyatnya",
+          "answer": "RAJA",
+          "cells": [
+            [
+              8,
+              1
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              10,
+              1
+            ],
+            [
+              11,
+              1
+            ]
+          ],
+          "length": 4
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_108_semiotika_budaya",
+    "title": "Semiotika Simbolik & Ragam Hias Nusantara",
+    "category": "Budaya",
+    "size": {
+      "rows": 15,
+      "cols": 17
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 4,
+        "answer": "U",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 0,
+        "c": 7,
+        "answer": "G",
+        "number": 2,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 7,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 0,
+        "answer": "M",
+        "number": 3,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "answer": "S",
+        "number": 4,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 4,
+        "answer": "I",
+        "number": null,
+        "across": "across_4",
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 5,
+        "answer": "M",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 6,
+        "answer": "B",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 7,
+        "answer": "O",
+        "number": null,
+        "across": "across_4",
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 8,
+        "answer": "L",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 0,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 3,
+        "c": 4,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 7,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 10,
+        "answer": "E",
+        "number": 5,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 4,
+        "c": 0,
+        "answer": "T",
+        "number": 6,
+        "across": "across_6",
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 1,
+        "answer": "U",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 2,
+        "answer": "M",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 3,
+        "answer": "P",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 5,
+        "answer": "L",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 7,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 10,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 5,
+        "c": 0,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 5,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 5,
+        "c": 7,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 5,
+        "c": 10,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 5,
+        "c": 15,
+        "answer": "O",
+        "number": 7,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 6,
+        "c": 0,
+        "answer": "F",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 6,
+        "c": 7,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 6,
+        "c": 10,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 6,
+        "c": 12,
+        "answer": "A",
+        "number": 8,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 6,
+        "c": 15,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 7,
+        "c": 7,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 7,
+        "c": 10,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 7,
+        "c": 12,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 7,
+        "c": 15,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 8,
+        "c": 7,
+        "answer": "S",
+        "number": 9,
+        "across": "across_9",
+        "down": "down_2"
+      },
+      {
+        "r": 8,
+        "c": 8,
+        "answer": "E",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 9,
+        "answer": "M",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 10,
+        "answer": "I",
+        "number": null,
+        "across": "across_9",
+        "down": "down_5"
+      },
+      {
+        "r": 8,
+        "c": 11,
+        "answer": "O",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 12,
+        "answer": "T",
+        "number": null,
+        "across": "across_9",
+        "down": "down_8"
+      },
+      {
+        "r": 8,
+        "c": 13,
+        "answer": "I",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 14,
+        "answer": "K",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 8,
+        "c": 15,
+        "answer": "A",
+        "number": null,
+        "across": "across_9",
+        "down": "down_7"
+      },
+      {
+        "r": 9,
+        "c": 4,
+        "answer": "K",
+        "number": 10,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 9,
+        "c": 10,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 9,
+        "c": 12,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 9,
+        "c": 15,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 10,
+        "c": 0,
+        "answer": "K",
+        "number": 11,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 1,
+        "answer": "A",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 2,
+        "answer": "R",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 3,
+        "answer": "Y",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 4,
+        "answer": "A",
+        "number": null,
+        "across": "across_11",
+        "down": "down_10"
+      },
+      {
+        "r": 10,
+        "c": 6,
+        "answer": "F",
+        "number": 12,
+        "across": "across_12",
+        "down": "down_12"
+      },
+      {
+        "r": 10,
+        "c": 7,
+        "answer": "L",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 8,
+        "answer": "O",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 9,
+        "answer": "R",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": "down_5"
+      },
+      {
+        "r": 10,
+        "c": 12,
+        "answer": "F",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 10,
+        "c": 15,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 11,
+        "c": 4,
+        "answer": "W",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 11,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 11,
+        "c": 11,
+        "answer": "P",
+        "number": 13,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 12,
+        "answer": "A",
+        "number": null,
+        "across": "across_13",
+        "down": "down_8"
+      },
+      {
+        "r": 11,
+        "c": 13,
+        "answer": "R",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 14,
+        "answer": "A",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 15,
+        "answer": "N",
+        "number": null,
+        "across": "across_13",
+        "down": "down_7"
+      },
+      {
+        "r": 11,
+        "c": 16,
+        "answer": "G",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 3,
+        "answer": "S",
+        "number": 14,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 4,
+        "answer": "U",
+        "number": null,
+        "across": "across_14",
+        "down": "down_10"
+      },
+      {
+        "r": 12,
+        "c": 5,
+        "answer": "L",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 6,
+        "answer": "U",
+        "number": null,
+        "across": "across_14",
+        "down": "down_12"
+      },
+      {
+        "r": 12,
+        "c": 7,
+        "answer": "R",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 12,
+        "c": 12,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 13,
+        "c": 4,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 13,
+        "c": 6,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      },
+      {
+        "r": 14,
+        "c": 4,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 14,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_12"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_4",
+          "number": 4,
+          "direction": "across",
+          "text": "Lambang atau tanda yang mewakili gagasan, makna, atau nilai tertentu",
+          "answer": "SIMBOL",
+          "cells": [
+            [
+              2,
+              3
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              2,
+              8
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Ragam hias segitiga berderet lambang kesuburan dan penangkal marabahaya",
+          "answer": "TUMPAL",
+          "cells": [
+            [
+              4,
+              0
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              4,
+              5
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_9",
+          "number": 9,
+          "direction": "across",
+          "text": "Ilmu tentang tanda, lambang, dan sistem pemaknaan dalam kebudayaan manusia",
+          "answer": "SEMIOTIKA",
+          "cells": [
+            [
+              8,
+              7
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              8,
+              9
+            ],
+            [
+              8,
+              10
+            ],
+            [
+              8,
+              11
+            ],
+            [
+              8,
+              12
+            ],
+            [
+              8,
+              13
+            ],
+            [
+              8,
+              14
+            ],
+            [
+              8,
+              15
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "across_11",
+          "number": 11,
+          "direction": "across",
+          "text": "Ciptaan seni dan wujud buah pikiran yang memancarkan estetika mendalam",
+          "answer": "KARYA",
+          "cells": [
+            [
+              10,
+              0
+            ],
+            [
+              10,
+              1
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              10,
+              3
+            ],
+            [
+              10,
+              4
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_12",
+          "number": 12,
+          "direction": "across",
+          "text": "Ragam hias sulur dedaunan dan bunga lambang keindahan serta kehidupan asri",
+          "answer": "FLORA",
+          "cells": [
+            [
+              10,
+              6
+            ],
+            [
+              10,
+              7
+            ],
+            [
+              10,
+              8
+            ],
+            [
+              10,
+              9
+            ],
+            [
+              10,
+              10
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_13",
+          "number": 13,
+          "direction": "across",
+          "text": "Motif batik klasik berpola lereng miring lambang keteguhan dan perjuangan",
+          "answer": "PARANG",
+          "cells": [
+            [
+              11,
+              11
+            ],
+            [
+              11,
+              12
+            ],
+            [
+              11,
+              13
+            ],
+            [
+              11,
+              14
+            ],
+            [
+              11,
+              15
+            ],
+            [
+              11,
+              16
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_14",
+          "number": 14,
+          "direction": "across",
+          "text": "Ornamen pilin tanaman menjalar perlambang kesinambungan hidup tanpa putus",
+          "answer": "SULUR",
+          "cells": [
+            [
+              12,
+              3
+            ],
+            [
+              12,
+              4
+            ],
+            [
+              12,
+              5
+            ],
+            [
+              12,
+              6
+            ],
+            [
+              12,
+              7
+            ]
+          ],
+          "length": 5
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Seni pahat hiasan timbul pada kayu atau batu sarat perlambang kearifan",
+          "answer": "UKIRAN",
+          "cells": [
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              5,
+              4
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Ragam hias berdasarkan bentuk garis, lingkaran, segitiga, dan bangun beraturan",
+          "answer": "GEOMETRIS",
+          "cells": [
+            [
+              0,
+              7
+            ],
+            [
+              1,
+              7
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              3,
+              7
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              7,
+              7
+            ],
+            [
+              8,
+              7
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Pola dasar atau corak tema utama pada karya seni rupa dan kriya tekstil",
+          "answer": "MOTIF",
+          "cells": [
+            [
+              2,
+              0
+            ],
+            [
+              3,
+              0
+            ],
+            [
+              4,
+              0
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              6,
+              0
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Cabang filsafat yang menelaah keindahan dan nilai rasa dalam karya seni",
+          "answer": "ESTETIKA",
+          "cells": [
+            [
+              3,
+              10
+            ],
+            [
+              4,
+              10
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              6,
+              10
+            ],
+            [
+              7,
+              10
+            ],
+            [
+              8,
+              10
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              10,
+              10
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_7",
+          "number": 7,
+          "direction": "down",
+          "text": "Ragam hias atau pola dekoratif untuk memperindah benda dan arsitektur",
+          "answer": "ORNAMEN",
+          "cells": [
+            [
+              5,
+              15
+            ],
+            [
+              6,
+              15
+            ],
+            [
+              7,
+              15
+            ],
+            [
+              8,
+              15
+            ],
+            [
+              9,
+              15
+            ],
+            [
+              10,
+              15
+            ],
+            [
+              11,
+              15
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_8",
+          "number": 8,
+          "direction": "down",
+          "text": "Benda peninggalan budaya buatan tangan manusia masa lalu yang bernilai sejarah",
+          "answer": "ARTEFAK",
+          "cells": [
+            [
+              6,
+              12
+            ],
+            [
+              7,
+              12
+            ],
+            [
+              8,
+              12
+            ],
+            [
+              9,
+              12
+            ],
+            [
+              10,
+              12
+            ],
+            [
+              11,
+              12
+            ],
+            [
+              12,
+              12
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_10",
+          "number": 10,
+          "direction": "down",
+          "text": "Motif batik kuno berbentuk irisan buah aren melambangkan kemurnian hati",
+          "answer": "KAWUNG",
+          "cells": [
+            [
+              9,
+              4
+            ],
+            [
+              10,
+              4
+            ],
+            [
+              11,
+              4
+            ],
+            [
+              12,
+              4
+            ],
+            [
+              13,
+              4
+            ],
+            [
+              14,
+              4
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "down_12",
+          "number": 12,
+          "direction": "down",
+          "text": "Ragam hias stilasi aneka satwa lambang kekuatan dan penjaga alam semesta",
+          "answer": "FAUNA",
+          "cells": [
+            [
+              10,
+              6
+            ],
+            [
+              11,
+              6
+            ],
+            [
+              12,
+              6
+            ],
+            [
+              13,
+              6
+            ],
+            [
+              14,
+              6
+            ]
+          ],
+          "length": 5
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_109_etika_falsafah",
+    "title": "Etika Falsafah Kebajikan & Budi Pekerti",
+    "category": "Filosofi",
+    "size": {
+      "rows": 15,
+      "cols": 17
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 10,
+        "answer": "K",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 0,
+        "c": 12,
+        "answer": "R",
+        "number": 2,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 10,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 12,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 14,
+        "answer": "J",
+        "number": 3,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 2,
+        "c": 10,
+        "answer": "S",
+        "number": 4,
+        "across": "across_4",
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 12,
+        "answer": "N",
+        "number": null,
+        "across": "across_4",
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 13,
+        "answer": "T",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 2,
+        "c": 14,
+        "answer": "U",
+        "number": null,
+        "across": "across_4",
+        "down": "down_3"
+      },
+      {
+        "r": 2,
+        "c": 15,
+        "answer": "N",
+        "number": null,
+        "across": "across_4",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 12,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 14,
+        "answer": "J",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 4,
+        "c": 10,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 12,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 14,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 5,
+        "c": 8,
+        "answer": "F",
+        "number": 5,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 5,
+        "c": 10,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 5,
+        "c": 12,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 5,
+        "c": 14,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_3"
+      },
+      {
+        "r": 5,
+        "c": 16,
+        "answer": "M",
+        "number": 6,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 6,
+        "c": 6,
+        "answer": "K",
+        "number": 7,
+        "across": "across_7",
+        "down": "down_7"
+      },
+      {
+        "r": 6,
+        "c": 7,
+        "answer": "E",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": "across_7",
+        "down": "down_5"
+      },
+      {
+        "r": 6,
+        "c": 9,
+        "answer": "R",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 10,
+        "answer": "I",
+        "number": null,
+        "across": "across_7",
+        "down": "down_1"
+      },
+      {
+        "r": 6,
+        "c": 11,
+        "answer": "F",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 12,
+        "answer": "A",
+        "number": null,
+        "across": "across_7",
+        "down": "down_2"
+      },
+      {
+        "r": 6,
+        "c": 13,
+        "answer": "N",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 16,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 7,
+        "c": 6,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 7,
+        "c": 8,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 7,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 7,
+        "c": 12,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 7,
+        "c": 16,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 8,
+        "c": 2,
+        "answer": "E",
+        "number": 8,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 8,
+        "c": 6,
+        "answer": "B",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 8,
+        "c": 8,
+        "answer": "S",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 8,
+        "c": 16,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_6"
+      },
+      {
+        "r": 9,
+        "c": 2,
+        "answer": "T",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 9,
+        "c": 5,
+        "answer": "T",
+        "number": 9,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": "across_9",
+        "down": "down_7"
+      },
+      {
+        "r": 9,
+        "c": 7,
+        "answer": "W",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 8,
+        "answer": "A",
+        "number": null,
+        "across": "across_9",
+        "down": "down_5"
+      },
+      {
+        "r": 9,
+        "c": 9,
+        "answer": "D",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 10,
+        "answer": "U",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 11,
+        "answer": "K",
+        "number": null,
+        "across": "across_9",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 13,
+        "answer": "A",
+        "number": 10,
+        "across": "across_10",
+        "down": "down_10"
+      },
+      {
+        "r": 9,
+        "c": 14,
+        "answer": "D",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 15,
+        "answer": "I",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 16,
+        "answer": "L",
+        "number": null,
+        "across": "across_10",
+        "down": "down_6"
+      },
+      {
+        "r": 10,
+        "c": 2,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 10,
+        "c": 6,
+        "answer": "J",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 10,
+        "c": 8,
+        "answer": "F",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 10,
+        "c": 13,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 11,
+        "c": 0,
+        "answer": "P",
+        "number": 11,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 1,
+        "answer": "E",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 2,
+        "answer": "K",
+        "number": null,
+        "across": "across_11",
+        "down": "down_8"
+      },
+      {
+        "r": 11,
+        "c": 3,
+        "answer": "E",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 4,
+        "answer": "R",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 5,
+        "answer": "T",
+        "number": null,
+        "across": "across_11",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 6,
+        "answer": "I",
+        "number": null,
+        "across": "across_11",
+        "down": "down_7"
+      },
+      {
+        "r": 11,
+        "c": 8,
+        "answer": "A",
+        "number": 12,
+        "across": "across_12",
+        "down": "down_5"
+      },
+      {
+        "r": 11,
+        "c": 9,
+        "answer": "M",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 10,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 11,
+        "answer": "N",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 12,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 13,
+        "answer": "H",
+        "number": null,
+        "across": "across_12",
+        "down": "down_10"
+      },
+      {
+        "r": 12,
+        "c": 2,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_8"
+      },
+      {
+        "r": 12,
+        "c": 6,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 12,
+        "c": 8,
+        "answer": "H",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 12,
+        "c": 13,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 13,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 13,
+        "c": 13,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      },
+      {
+        "r": 14,
+        "c": 6,
+        "answer": "N",
+        "number": 13,
+        "across": "across_13",
+        "down": "down_7"
+      },
+      {
+        "r": 14,
+        "c": 7,
+        "answer": "U",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 14,
+        "c": 8,
+        "answer": "R",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 14,
+        "c": 9,
+        "answer": "A",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 14,
+        "c": 10,
+        "answer": "N",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 14,
+        "c": 11,
+        "answer": "I",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 14,
+        "c": 13,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_10"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_4",
+          "number": 4,
+          "direction": "across",
+          "text": "Sikap halus budi bahasa dan beradab sopan dalam bertingkah laku",
+          "answer": "SANTUN",
+          "cells": [
+            [
+              2,
+              10
+            ],
+            [
+              2,
+              11
+            ],
+            [
+              2,
+              12
+            ],
+            [
+              2,
+              13
+            ],
+            [
+              2,
+              14
+            ],
+            [
+              2,
+              15
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_7",
+          "number": 7,
+          "direction": "across",
+          "text": "Kebijaksanaan mendalam bersumber dari pengalaman hidup dan nilai luhur",
+          "answer": "KEARIFAN",
+          "cells": [
+            [
+              6,
+              6
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              6,
+              9
+            ],
+            [
+              6,
+              10
+            ],
+            [
+              6,
+              11
+            ],
+            [
+              6,
+              12
+            ],
+            [
+              6,
+              13
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "across_9",
+          "number": 9,
+          "direction": "across",
+          "text": "Sikap rendah hati dan tidak menyombongkan diri atas kelebihan yang dimiliki",
+          "answer": "TAWADUK",
+          "cells": [
+            [
+              9,
+              5
+            ],
+            [
+              9,
+              6
+            ],
+            [
+              9,
+              7
+            ],
+            [
+              9,
+              8
+            ],
+            [
+              9,
+              9
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              9,
+              11
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_10",
+          "number": 10,
+          "direction": "across",
+          "text": "Sikap tidak berat sebelah, menempatkan segala sesuatu sesuai pada tempatnya",
+          "answer": "ADIL",
+          "cells": [
+            [
+              9,
+              13
+            ],
+            [
+              9,
+              14
+            ],
+            [
+              9,
+              15
+            ],
+            [
+              9,
+              16
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "across_11",
+          "number": 11,
+          "direction": "across",
+          "text": "Perangai, tabiat, dan kelakuan budi yang terpuji dalam pergaulan hidup",
+          "answer": "PEKERTI",
+          "cells": [
+            [
+              11,
+              0
+            ],
+            [
+              11,
+              1
+            ],
+            [
+              11,
+              2
+            ],
+            [
+              11,
+              3
+            ],
+            [
+              11,
+              4
+            ],
+            [
+              11,
+              5
+            ],
+            [
+              11,
+              6
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_12",
+          "number": 12,
+          "direction": "across",
+          "text": "Sifat dapat dipercaya dalam mengemban tanggung jawab dan janji yang diikrarkan",
+          "answer": "AMANAH",
+          "cells": [
+            [
+              11,
+              8
+            ],
+            [
+              11,
+              9
+            ],
+            [
+              11,
+              10
+            ],
+            [
+              11,
+              11
+            ],
+            [
+              11,
+              12
+            ],
+            [
+              11,
+              13
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_13",
+          "number": 13,
+          "direction": "across",
+          "text": "Suara lubuk hati terdalam yang selalu membisikkan kebenaran dan keadilan",
+          "answer": "NURANI",
+          "cells": [
+            [
+              14,
+              6
+            ],
+            [
+              14,
+              7
+            ],
+            [
+              14,
+              8
+            ],
+            [
+              14,
+              9
+            ],
+            [
+              14,
+              10
+            ],
+            [
+              14,
+              11
+            ]
+          ],
+          "length": 6
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Sikap berani, jujur, berjiwa luhur, dan bertanggung jawab membela kebenaran",
+          "answer": "KESATRIA",
+          "cells": [
+            [
+              0,
+              10
+            ],
+            [
+              1,
+              10
+            ],
+            [
+              2,
+              10
+            ],
+            [
+              3,
+              10
+            ],
+            [
+              4,
+              10
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              6,
+              10
+            ],
+            [
+              7,
+              10
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Pemikiran mendalam dan perenungan batin mengenai makna sejati kehidupan",
+          "answer": "RENUNGAN",
+          "cells": [
+            [
+              0,
+              12
+            ],
+            [
+              1,
+              12
+            ],
+            [
+              2,
+              12
+            ],
+            [
+              3,
+              12
+            ],
+            [
+              4,
+              12
+            ],
+            [
+              5,
+              12
+            ],
+            [
+              6,
+              12
+            ],
+            [
+              7,
+              12
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_3",
+          "number": 3,
+          "direction": "down",
+          "text": "Sikap lurus hati, tulus, dan tidak berkata dusta dalam setiap keadaan",
+          "answer": "JUJUR",
+          "cells": [
+            [
+              1,
+              14
+            ],
+            [
+              2,
+              14
+            ],
+            [
+              3,
+              14
+            ],
+            [
+              4,
+              14
+            ],
+            [
+              5,
+              14
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Pandangan hidup yang mendalam tentang hakikat kebenaran dan kebajikan",
+          "answer": "FALSAFAH",
+          "cells": [
+            [
+              5,
+              8
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              9,
+              8
+            ],
+            [
+              10,
+              8
+            ],
+            [
+              11,
+              8
+            ],
+            [
+              12,
+              8
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_6",
+          "number": 6,
+          "direction": "down",
+          "text": "Ajaran tentang baik buruk yang diterima umum mengenai perbuatan dan budi pekerti",
+          "answer": "MORAL",
+          "cells": [
+            [
+              5,
+              16
+            ],
+            [
+              6,
+              16
+            ],
+            [
+              7,
+              16
+            ],
+            [
+              8,
+              16
+            ],
+            [
+              9,
+              16
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_7",
+          "number": 7,
+          "direction": "down",
+          "text": "Sifat mulia yang mendatangkan kebaikan dan faedah bagi sesama manusia",
+          "answer": "KEBAJIKAN",
+          "cells": [
+            [
+              6,
+              6
+            ],
+            [
+              7,
+              6
+            ],
+            [
+              8,
+              6
+            ],
+            [
+              9,
+              6
+            ],
+            [
+              10,
+              6
+            ],
+            [
+              11,
+              6
+            ],
+            [
+              12,
+              6
+            ],
+            [
+              13,
+              6
+            ],
+            [
+              14,
+              6
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "down_8",
+          "number": 8,
+          "direction": "down",
+          "text": "Ilmu tentang asas akhlak dan perilaku baik-buruk yang dianut masyarakat",
+          "answer": "ETIKA",
+          "cells": [
+            [
+              8,
+              2
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              11,
+              2
+            ],
+            [
+              12,
+              2
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_10",
+          "number": 10,
+          "direction": "down",
+          "text": "Budi pekerti luhur dan perangai utama yang menghiasi jiwa seseorang",
+          "answer": "AKHLAK",
+          "cells": [
+            [
+              9,
+              13
+            ],
+            [
+              10,
+              13
+            ],
+            [
+              11,
+              13
+            ],
+            [
+              12,
+              13
+            ],
+            [
+              13,
+              13
+            ],
+            [
+              14,
+              13
+            ]
+          ],
+          "length": 6
+        }
+      ]
+    }
+  },
+  {
+    "id": "level_110_puisi_pujangga_baru",
+    "title": "Angkatan Pujangga Baru & Renaisans Sastra",
+    "category": "Sastra",
+    "size": {
+      "rows": 13,
+      "cols": 16
+    },
+    "tiles": [
+      {
+        "r": 0,
+        "c": 3,
+        "answer": "R",
+        "number": 1,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 0,
+        "c": 15,
+        "answer": "L",
+        "number": 2,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 1,
+        "c": 0,
+        "answer": "P",
+        "number": 3,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 1,
+        "answer": "E",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 2,
+        "answer": "L",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 3,
+        "answer": "O",
+        "number": null,
+        "across": "across_3",
+        "down": "down_1"
+      },
+      {
+        "r": 1,
+        "c": 4,
+        "answer": "P",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 5,
+        "answer": "O",
+        "number": null,
+        "across": "across_3",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 6,
+        "answer": "R",
+        "number": 4,
+        "across": "across_3",
+        "down": "down_4"
+      },
+      {
+        "r": 1,
+        "c": 9,
+        "answer": "A",
+        "number": 5,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 1,
+        "c": 12,
+        "answer": "T",
+        "number": 6,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 13,
+        "answer": "E",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 14,
+        "answer": "M",
+        "number": null,
+        "across": "across_6",
+        "down": null
+      },
+      {
+        "r": 1,
+        "c": 15,
+        "answer": "A",
+        "number": null,
+        "across": "across_6",
+        "down": "down_2"
+      },
+      {
+        "r": 2,
+        "c": 3,
+        "answer": "M",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 2,
+        "c": 6,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 2,
+        "c": 9,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 2,
+        "c": 15,
+        "answer": "R",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 3,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_1"
+      },
+      {
+        "r": 3,
+        "c": 6,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 3,
+        "c": 9,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 3,
+        "c": 11,
+        "answer": "P",
+        "number": 7,
+        "across": "across_7",
+        "down": "down_7"
+      },
+      {
+        "r": 3,
+        "c": 12,
+        "answer": "U",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 13,
+        "answer": "I",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 14,
+        "answer": "S",
+        "number": null,
+        "across": "across_7",
+        "down": null
+      },
+      {
+        "r": 3,
+        "c": 15,
+        "answer": "I",
+        "number": null,
+        "across": "across_7",
+        "down": "down_2"
+      },
+      {
+        "r": 4,
+        "c": 1,
+        "answer": "S",
+        "number": 8,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 2,
+        "answer": "O",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 3,
+        "answer": "N",
+        "number": null,
+        "across": "across_8",
+        "down": "down_1"
+      },
+      {
+        "r": 4,
+        "c": 4,
+        "answer": "E",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 5,
+        "answer": "T",
+        "number": null,
+        "across": "across_8",
+        "down": null
+      },
+      {
+        "r": 4,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": "across_8",
+        "down": "down_4"
+      },
+      {
+        "r": 4,
+        "c": 9,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 4,
+        "c": 11,
+        "answer": "U",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 4,
+        "c": 15,
+        "answer": "K",
+        "number": null,
+        "across": null,
+        "down": "down_2"
+      },
+      {
+        "r": 5,
+        "c": 6,
+        "answer": "I",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 5,
+        "c": 9,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 5,
+        "c": 11,
+        "answer": "J",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 5,
+        "c": 13,
+        "answer": "M",
+        "number": 9,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 6,
+        "c": 6,
+        "answer": "S",
+        "number": 10,
+        "across": "across_10",
+        "down": "down_4"
+      },
+      {
+        "r": 6,
+        "c": 7,
+        "answer": "A",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 8,
+        "answer": "S",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 9,
+        "answer": "T",
+        "number": null,
+        "across": "across_10",
+        "down": "down_5"
+      },
+      {
+        "r": 6,
+        "c": 10,
+        "answer": "R",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": "across_10",
+        "down": "down_7"
+      },
+      {
+        "r": 6,
+        "c": 12,
+        "answer": "W",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 6,
+        "c": 13,
+        "answer": "A",
+        "number": null,
+        "across": "across_10",
+        "down": "down_9"
+      },
+      {
+        "r": 6,
+        "c": 14,
+        "answer": "N",
+        "number": null,
+        "across": "across_10",
+        "down": null
+      },
+      {
+        "r": 7,
+        "c": 0,
+        "answer": "M",
+        "number": 11,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 7,
+        "c": 6,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 7,
+        "c": 9,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 7,
+        "c": 11,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 7,
+        "c": 13,
+        "answer": "J",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 8,
+        "c": 0,
+        "answer": "O",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 8,
+        "c": 6,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_4"
+      },
+      {
+        "r": 8,
+        "c": 9,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_5"
+      },
+      {
+        "r": 8,
+        "c": 11,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 8,
+        "c": 13,
+        "answer": "A",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 9,
+        "c": 0,
+        "answer": "D",
+        "number": 12,
+        "across": "across_12",
+        "down": "down_11"
+      },
+      {
+        "r": 9,
+        "c": 1,
+        "answer": "I",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 2,
+        "answer": "N",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 4,
+        "answer": "M",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 5,
+        "answer": "I",
+        "number": null,
+        "across": "across_12",
+        "down": null
+      },
+      {
+        "r": 9,
+        "c": 6,
+        "answer": "S",
+        "number": null,
+        "across": "across_12",
+        "down": "down_4"
+      },
+      {
+        "r": 9,
+        "c": 11,
+        "answer": "G",
+        "number": null,
+        "across": null,
+        "down": "down_7"
+      },
+      {
+        "r": 9,
+        "c": 13,
+        "answer": "L",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 10,
+        "c": 0,
+        "answer": "E",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      },
+      {
+        "r": 10,
+        "c": 10,
+        "answer": "G",
+        "number": 13,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 11,
+        "answer": "A",
+        "number": null,
+        "across": "across_13",
+        "down": "down_7"
+      },
+      {
+        "r": 10,
+        "c": 12,
+        "answer": "Y",
+        "number": null,
+        "across": "across_13",
+        "down": null
+      },
+      {
+        "r": 10,
+        "c": 13,
+        "answer": "A",
+        "number": null,
+        "across": "across_13",
+        "down": "down_9"
+      },
+      {
+        "r": 11,
+        "c": 0,
+        "answer": "R",
+        "number": 14,
+        "across": "across_14",
+        "down": "down_11"
+      },
+      {
+        "r": 11,
+        "c": 1,
+        "answer": "I",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 2,
+        "answer": "M",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 3,
+        "answer": "A",
+        "number": null,
+        "across": "across_14",
+        "down": null
+      },
+      {
+        "r": 11,
+        "c": 13,
+        "answer": "H",
+        "number": null,
+        "across": null,
+        "down": "down_9"
+      },
+      {
+        "r": 12,
+        "c": 0,
+        "answer": "N",
+        "number": null,
+        "across": null,
+        "down": "down_11"
+      }
+    ],
+    "clues": {
+      "across": [
+        {
+          "id": "across_3",
+          "number": 3,
+          "direction": "across",
+          "text": "Perintis atau tokoh yang berjalan di garis depan membuka jalan pembaharuan",
+          "answer": "PELOPOR",
+          "cells": [
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              1,
+              6
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_6",
+          "number": 6,
+          "direction": "across",
+          "text": "Gagasan pokok atau persoalan utama yang mendasari isi ciptaan sastra",
+          "answer": "TEMA",
+          "cells": [
+            [
+              1,
+              12
+            ],
+            [
+              1,
+              13
+            ],
+            [
+              1,
+              14
+            ],
+            [
+              1,
+              15
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "across_7",
+          "number": 7,
+          "direction": "across",
+          "text": "Ragam sastra yang bahasanya terikat oleh irama, rima, dan larik penuh kiasan",
+          "answer": "PUISI",
+          "cells": [
+            [
+              3,
+              11
+            ],
+            [
+              3,
+              12
+            ],
+            [
+              3,
+              13
+            ],
+            [
+              3,
+              14
+            ],
+            [
+              3,
+              15
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "across_8",
+          "number": 8,
+          "direction": "across",
+          "text": "Bentuk puisi bertali empat belas larik yang dipelopori para pembaru sastra",
+          "answer": "SONETA",
+          "cells": [
+            [
+              4,
+              1
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              4,
+              6
+            ]
+          ],
+          "length": 6
+        },
+        {
+          "id": "across_10",
+          "number": 10,
+          "direction": "across",
+          "text": "Pengarang atau ahli sastra yang melahirkan karya-karya cipta sastra",
+          "answer": "SASTRAWAN",
+          "cells": [
+            [
+              6,
+              6
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              6,
+              9
+            ],
+            [
+              6,
+              10
+            ],
+            [
+              6,
+              11
+            ],
+            [
+              6,
+              12
+            ],
+            [
+              6,
+              13
+            ],
+            [
+              6,
+              14
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "across_12",
+          "number": 12,
+          "direction": "across",
+          "text": "Semangat penuh daya gerak dan gelora perubahan ke arah kemajuan",
+          "answer": "DINAMIS",
+          "cells": [
+            [
+              9,
+              0
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              9,
+              4
+            ],
+            [
+              9,
+              5
+            ],
+            [
+              9,
+              6
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "across_13",
+          "number": 13,
+          "direction": "across",
+          "text": "Corak ekspresi bahasa khas yang membedakan ciri karya seorang penulis",
+          "answer": "GAYA",
+          "cells": [
+            [
+              10,
+              10
+            ],
+            [
+              10,
+              11
+            ],
+            [
+              10,
+              12
+            ],
+            [
+              10,
+              13
+            ]
+          ],
+          "length": 4
+        },
+        {
+          "id": "across_14",
+          "number": 14,
+          "direction": "across",
+          "text": "Pengulangan bunyi yang berselang pada larik sajak untuk menghasilkan kemerduan",
+          "answer": "RIMA",
+          "cells": [
+            [
+              11,
+              0
+            ],
+            [
+              11,
+              1
+            ],
+            [
+              11,
+              2
+            ],
+            [
+              11,
+              3
+            ]
+          ],
+          "length": 4
+        }
+      ],
+      "down": [
+        {
+          "id": "down_1",
+          "number": 1,
+          "direction": "down",
+          "text": "Karya prosa fiksi panjang yang melukiskan lika-liku kehidupan para tokohnya",
+          "answer": "ROMAN",
+          "cells": [
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              4,
+              3
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_2",
+          "number": 2,
+          "direction": "down",
+          "text": "Baris dalam bait puisi yang memuat untaian kata bermakna puitis",
+          "answer": "LARIK",
+          "cells": [
+            [
+              0,
+              15
+            ],
+            [
+              1,
+              15
+            ],
+            [
+              2,
+              15
+            ],
+            [
+              3,
+              15
+            ],
+            [
+              4,
+              15
+            ]
+          ],
+          "length": 5
+        },
+        {
+          "id": "down_4",
+          "number": 4,
+          "direction": "down",
+          "text": "Masa kelahiran kembali dan kebangkitan kebudayaan, seni, serta sastra",
+          "answer": "RENAISANS",
+          "cells": [
+            [
+              1,
+              6
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              6,
+              6
+            ],
+            [
+              7,
+              6
+            ],
+            [
+              8,
+              6
+            ],
+            [
+              9,
+              6
+            ]
+          ],
+          "length": 9
+        },
+        {
+          "id": "down_5",
+          "number": 5,
+          "direction": "down",
+          "text": "Kelompok sastrawan yang memiliki kesamaan corak, visi, dan semangat zaman",
+          "answer": "ANGKATAN",
+          "cells": [
+            [
+              1,
+              9
+            ],
+            [
+              2,
+              9
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              4,
+              9
+            ],
+            [
+              5,
+              9
+            ],
+            [
+              6,
+              9
+            ],
+            [
+              7,
+              9
+            ],
+            [
+              8,
+              9
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_7",
+          "number": 7,
+          "direction": "down",
+          "text": "Ahli sastra dan pengarang ulung pencipta karya-karya bermutu tinggi",
+          "answer": "PUJANGGA",
+          "cells": [
+            [
+              3,
+              11
+            ],
+            [
+              4,
+              11
+            ],
+            [
+              5,
+              11
+            ],
+            [
+              6,
+              11
+            ],
+            [
+              7,
+              11
+            ],
+            [
+              8,
+              11
+            ],
+            [
+              9,
+              11
+            ],
+            [
+              10,
+              11
+            ]
+          ],
+          "length": 8
+        },
+        {
+          "id": "down_9",
+          "number": 9,
+          "direction": "down",
+          "text": "Terbitan berkala yang menjadi wadah lahirnya gagasan kemodernan sastra",
+          "answer": "MAJALAH",
+          "cells": [
+            [
+              5,
+              13
+            ],
+            [
+              6,
+              13
+            ],
+            [
+              7,
+              13
+            ],
+            [
+              8,
+              13
+            ],
+            [
+              9,
+              13
+            ],
+            [
+              10,
+              13
+            ],
+            [
+              11,
+              13
+            ]
+          ],
+          "length": 7
+        },
+        {
+          "id": "down_11",
+          "number": 11,
+          "direction": "down",
+          "text": "Corak pemikiran baru yang maju dan melepaskan diri dari pola tradisional",
+          "answer": "MODERN",
+          "cells": [
+            [
+              7,
+              0
+            ],
+            [
+              8,
+              0
+            ],
+            [
+              9,
+              0
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              11,
+              0
+            ],
+            [
+              12,
+              0
+            ]
+          ],
+          "length": 6
+        }
+      ]
+    }
+  }
+]

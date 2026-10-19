@@ -1,0 +1,220 @@
+[
+  {
+    "id": "level_1_santai",
+    "title": "Horizon Kata",
+    "category": "Eksplorasi",
+    "words": [
+      {
+        "answer": "WARNET",
+        "clue": "Tempat sewa komputer dan berselancar di dunia maya"
+      },
+      {
+        "answer": "OMBAK",
+        "clue": "Buih deburan air laut yang menyapu bibir pantai"
+      },
+      {
+        "answer": "HUTAN",
+        "clue": "Kawasan lebat penuh pepohonan liar dan satwa"
+      },
+      {
+        "answer": "SURYA",
+        "clue": "Matahari yang memancarkan cahaya di siang hari"
+      },
+      {
+        "answer": "RUMAH",
+        "clue": "Tempat berteduh dan berkumpul bersama keluarga"
+      },
+      {
+        "answer": "ANGIN",
+        "clue": "Aliran udara sejuk bertiup menggerakkan dedaunan"
+      },
+      {
+        "answer": "BAKSO",
+        "clue": "Bola daging kenyal disajikan dengan kuah gurih"
+      },
+      {
+        "answer": "TAMAN",
+        "clue": "Ruang hijau terbuka untuk bersantai penuh tanaman"
+      }
+    ]
+  },
+  {
+    "id": "level_2_kuliner",
+    "title": "Kuliner Nusantara",
+    "category": "Makanan",
+    "words": [
+      {
+        "answer": "SOTO",
+        "clue": "Sup kuah kuning gurih beraroma kunyit dan serai"
+      },
+      {
+        "answer": "KROKET",
+        "clue": "Gorengan kentang tumbuk isi daging cincang"
+      },
+      {
+        "answer": "BAKSO",
+        "clue": "Bola daging sapi kenyal berkuah kaldu segar"
+      },
+      {
+        "answer": "SATE",
+        "clue": "Daging bakar berlumur bumbu kecap atau kacang"
+      },
+      {
+        "answer": "RENDANG",
+        "clue": "Masakan olahan daging kaya rempah khas Minangkabau"
+      },
+      {
+        "answer": "NASI",
+        "clue": "Makanan pokok beras matang masyarakat Indonesia"
+      }
+    ]
+  },
+  {
+    "id": "level_3_jelajah",
+    "title": "Jelajah Nusantara",
+    "category": "Wisata",
+    "words": [
+      {
+        "answer": "CANDI",
+        "clue": "Bangunan purbakala megah peninggalan bersejarah"
+      },
+      {
+        "answer": "PANTAI",
+        "clue": "Pesisir berpasir putih di tepian air laut"
+      },
+      {
+        "answer": "KAPAL",
+        "clue": "Kendaraan laut besar pengangkut penumpang dan logistik"
+      },
+      {
+        "answer": "DANAU",
+        "clue": "Genangan air tawar luas alami dikelilingi daratan"
+      },
+      {
+        "answer": "ALAM",
+        "clue": "Segala isi lingkungan hidup di sekitar kita"
+      },
+      {
+        "answer": "PASAR",
+        "clue": "Tempat bertemunya penjual dan pembeli bertransaksi"
+      }
+    ]
+  },
+  {
+    "id": "level_4_hayati",
+    "title": "Zamrud Khatulistiwa",
+    "category": "Hayati",
+    "words": [
+      {
+        "answer": "BADAK",
+        "clue": "Mamalia langka bercula satu khas Ujung Kulon"
+      },
+      {
+        "answer": "BAKAU",
+        "clue": "Pohon pesisir berakar napas penahan abrasi ombak"
+      },
+      {
+        "answer": "KUSKUS",
+        "clue": "Mamalia berkantung pemanjat pohon hutan Papua"
+      },
+      {
+        "answer": "MERAK",
+        "clue": "Unggas indah berekor kipas megah warna-warni"
+      },
+      {
+        "answer": "ANOA",
+        "clue": "Kerbau kerdil endemik hutan belantara Sulawesi"
+      },
+      {
+        "answer": "ANGGREK",
+        "clue": "Puspa pesona nusantara yang harum dan memesona"
+      },
+      {
+        "answer": "KOMODO",
+        "clue": "Kadal purba karnivor terbesar di dunia asal NTT"
+      },
+      {
+        "answer": "RUSA",
+        "clue": "Satwa anggun bertanduk cabang di padang sabana"
+      }
+    ]
+  },
+  {
+    "id": "level_5_sastra",
+    "title": "Gurindam Pujangga",
+    "category": "Sastra",
+    "words": [
+      {
+        "answer": "PANTUN",
+        "clue": "Bentuk puisi lama Indonesia bersajak a-b-a-b berisi sampiran dan isi"
+      },
+      {
+        "answer": "MAJAS",
+        "clue": "Gaya bahasa kiasan untuk memperindah daya ungkap kalimat"
+      },
+      {
+        "answer": "GURINDAM",
+        "clue": "Karya sastra lama berisi dua baris berima sarat petuah hidup"
+      },
+      {
+        "answer": "BAHTERA",
+        "clue": "Perahu besar kiasan dalam sastra melambangkan arung hidup"
+      },
+      {
+        "answer": "PUJANGGA",
+        "clue": "Pengarang atau sastrawan ulung pencipta karya adiluhung"
+      },
+      {
+        "answer": "TEMA",
+        "clue": "Gagasan pokok atau ide dasar pembangun cerita sastra"
+      },
+      {
+        "answer": "NADA",
+        "clue": "Tinggi rendah bunyi atau intonasi dalam pembacaan puisi"
+      },
+      {
+        "answer": "SYAIR",
+        "clue": "Puisi lama empat baris serima penuh nasihat dan kiasan mendalam"
+      }
+    ]
+  },
+  {
+    "id": "level_6_bahari",
+    "title": "Samudra Bahari",
+    "category": "Bahari",
+    "words": [
+      {
+        "answer": "PINISI",
+        "clue": "Kapal layar kayu legendaris mahakarya suku Bugis-Makassar"
+      },
+      {
+        "answer": "LAYAR",
+        "clue": "Kain tebal penangkap tenaga angin pendorong laju perahu"
+      },
+      {
+        "answer": "KARANG",
+        "clue": "Terumbu kapur laut tempat berlindung aneka biota pesisir"
+      },
+      {
+        "answer": "PULAU",
+        "clue": "Daratan yang sekelilingnya dikelilingi oleh air lautan"
+      },
+      {
+        "answer": "PELAUT",
+        "clue": "Pemberani yang mengarungi samudera luas dengan perahu"
+      },
+      {
+        "answer": "SAMUDRA",
+        "clue": "Lautan luas tanpa tepi yang memisahkan pulau dan benua"
+      },
+      {
+        "answer": "OMBAK",
+        "clue": "Gulungan air laut yang terhempas ke bibir pantai berpasir"
+      },
+      {
+        "answer": "JANGKAR",
+        "clue": "Besi berat pengait dasar laut agar kapal tidak hanyut ombak"
+      }
+    ]
+  }
+]

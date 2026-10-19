@@ -1,0 +1,1892 @@
+{
+  "admin get /attributes": {
+    "spec": "admin",
+    "method": "get",
+    "path": "/attributes",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst attributes = await trophy.admin.attributes.list({\n  limit: 10,\n  skip: 0\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nattributes = client.admin.attributes.list(\n  limit=10,\n  skip=0\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Attributes.List(context.TODO(), nil)\n"
+        }
+      ]
+    }
+  },
+  "admin post /attributes": {
+    "spec": "admin",
+    "method": "post",
+    "path": "/attributes",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.attributes.create([\n  {\n    name: 'Plan',\n    key: 'plan',\n    type: 'user'\n  },\n  {\n    name: 'Device',\n    key: 'device',\n    type: 'event'\n  }\n]);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.attributes.create([\n  {\n    \"name\": \"Plan\",\n    \"key\": \"plan\",\n    \"type\": \"user\"\n  },\n  {\n    \"name\": \"Device\",\n    \"key\": \"device\",\n    \"type\": \"event\"\n  }\n])\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Attributes.Create(context.TODO(), api.CreateAttributesRequest{})\n"
+        }
+      ]
+    }
+  },
+  "admin patch /attributes": {
+    "spec": "admin",
+    "method": "patch",
+    "path": "/attributes",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.attributes.update([\n  {\n    id: '550e8400-e29b-41d4-a716-446655440000',\n    name: 'Subscription Plan'\n  }\n]);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.attributes.update([\n  {\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"name\": \"Subscription Plan\"\n  }\n])\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Attributes.Update(context.TODO(), api.UpdateAttributesRequest{})\n"
+        }
+      ]
+    }
+  },
+  "admin delete /attributes": {
+    "spec": "admin",
+    "method": "delete",
+    "path": "/attributes",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.attributes.delete({\n  ids: [\n    '550e8400-e29b-41d4-a716-446655440000',\n    '550e8400-e29b-41d4-a716-446655440001'\n  ]\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.attributes.delete(\n  ids=[\n    '550e8400-e29b-41d4-a716-446655440000',\n    '550e8400-e29b-41d4-a716-446655440001'\n  ]\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Attributes.Delete(context.TODO(), nil)\n"
+        }
+      ]
+    }
+  },
+  "admin get /attributes/{id}": {
+    "spec": "admin",
+    "method": "get",
+    "path": "/attributes/{id}",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst attribute = await trophy.admin.attributes.get(\n  '550e8400-e29b-41d4-a716-446655440000'\n);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nattribute = client.admin.attributes.get(\n  \"550e8400-e29b-41d4-a716-446655440000\"\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Attributes.Get(context.TODO(), \"550e8400-e29b-41d4-a716-446655440000\")\n"
+        }
+      ]
+    }
+  },
+  "admin get /achievements": {
+    "spec": "admin",
+    "method": "get",
+    "path": "/achievements",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst achievements = await trophy.admin.achievements.list({\n  limit: 10,\n  skip: 0\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nachievements = client.admin.achievements.list(\n  limit=10,\n  skip=0\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Achievements.List(context.TODO(), nil)\n"
+        }
+      ]
+    }
+  },
+  "admin post /achievements": {
+    "spec": "admin",
+    "method": "post",
+    "path": "/achievements",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.achievements.create([\n  {\n    name: 'First Workout',\n    trigger: 'metric',\n    metricId: '660f9500-f30c-42e5-b827-557766550001',\n    metricValue: 1\n  },\n  {\n    name: 'Custom Unlock',\n    trigger: 'api',\n    key: 'custom-unlock'\n  }\n]);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.achievements.create([\n  {\n    \"name\": \"First Workout\",\n    \"trigger\": \"metric\",\n    \"metric_id\": \"660f9500-f30c-42e5-b827-557766550001\",\n    \"metric_value\": 1\n  },\n  {\n    \"name\": \"Custom Unlock\",\n    \"trigger\": \"api\",\n    \"key\": \"custom-unlock\"\n  }\n])\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Achievements.Create(context.TODO(), api.CreateAchievementsRequest{})\n"
+        }
+      ]
+    }
+  },
+  "admin patch /achievements": {
+    "spec": "admin",
+    "method": "patch",
+    "path": "/achievements",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.achievements.update([\n  {\n    id: '550e8400-e29b-41d4-a716-446655440000',\n    name: 'First Workout Completed',\n    status: 'active'\n  }\n]);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.achievements.update([\n  {\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"name\": \"First Workout Completed\",\n    \"status\": \"active\"\n  }\n])\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Achievements.Update(context.TODO(), api.UpdateAchievementsRequest{})\n"
+        }
+      ]
+    }
+  },
+  "admin delete /achievements": {
+    "spec": "admin",
+    "method": "delete",
+    "path": "/achievements",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.achievements.delete({\n  ids: [\n    '550e8400-e29b-41d4-a716-446655440000',\n    '550e8400-e29b-41d4-a716-446655440001'\n  ]\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.achievements.delete(\n  ids=[\n    '550e8400-e29b-41d4-a716-446655440000',\n    '550e8400-e29b-41d4-a716-446655440001'\n  ]\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Achievements.Delete(context.TODO(), nil)\n"
+        }
+      ]
+    }
+  },
+  "admin get /achievements/{id}": {
+    "spec": "admin",
+    "method": "get",
+    "path": "/achievements/{id}",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst achievement = await trophy.admin.achievements.get(\n  '550e8400-e29b-41d4-a716-446655440000'\n);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nachievement = client.admin.achievements.get(\n  \"550e8400-e29b-41d4-a716-446655440000\"\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Achievements.Get(context.TODO(), \"550e8400-e29b-41d4-a716-446655440000\")\n"
+        }
+      ]
+    }
+  },
+  "admin get /metrics": {
+    "spec": "admin",
+    "method": "get",
+    "path": "/metrics",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst metrics = await trophy.admin.metrics.list({\n  limit: 10,\n  skip: 0\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nmetrics = client.admin.metrics.list(\n  limit=10,\n  skip=0\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Metrics.List(context.TODO(), nil)\n"
+        }
+      ]
+    }
+  },
+  "admin post /metrics": {
+    "spec": "admin",
+    "method": "post",
+    "path": "/metrics",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.metrics.create([\n  {\n    name: 'Invites Sent',\n    key: 'invites-sent'\n  },\n  {\n    name: 'Revenue',\n    key: 'revenue',\n    unitType: 'currency',\n    units: 'USD'\n  }\n]);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.metrics.create([\n  {\n    \"name\": \"Invites Sent\",\n    \"key\": \"invites-sent\"\n  },\n  {\n    \"name\": \"Revenue\",\n    \"key\": \"revenue\",\n    \"unitType\": \"currency\",\n    \"units\": \"USD\"\n  }\n])\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Metrics.Create(context.TODO(), api.CreateMetricsRequest{})\n"
+        }
+      ]
+    }
+  },
+  "admin patch /metrics": {
+    "spec": "admin",
+    "method": "patch",
+    "path": "/metrics",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.metrics.update([\n  {\n    id: '550e8400-e29b-41d4-a716-446655440000',\n    name: 'Invites Completed',\n    units: 'invites'\n  },\n  {\n    id: '550e8400-e29b-41d4-a716-446655440001',\n    unitType: 'number',\n    units: 'dollars'\n  }\n]);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.metrics.update([\n  {\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"name\": \"Invites Completed\",\n    \"units\": \"invites\"\n  },\n  {\n    \"id\": \"550e8400-e29b-41d4-a716-446655440001\",\n    \"unitType\": \"number\",\n    \"units\": \"dollars\"\n  }\n])\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Metrics.Update(context.TODO(), api.UpdateMetricsRequest{})\n"
+        }
+      ]
+    }
+  },
+  "admin delete /metrics": {
+    "spec": "admin",
+    "method": "delete",
+    "path": "/metrics",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.metrics.delete({\n  ids: [\n    '550e8400-e29b-41d4-a716-446655440000',\n    '550e8400-e29b-41d4-a716-446655440001'\n  ]\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.metrics.delete(\n  ids=[\n    '550e8400-e29b-41d4-a716-446655440000',\n    '550e8400-e29b-41d4-a716-446655440001'\n  ]\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Metrics.Delete(context.TODO(), nil)\n"
+        }
+      ]
+    }
+  },
+  "admin get /metrics/{id}": {
+    "spec": "admin",
+    "method": "get",
+    "path": "/metrics/{id}",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst metric = await trophy.admin.metrics.get(\n  '550e8400-e29b-41d4-a716-446655440000'\n);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nmetric = client.admin.metrics.get(\n  \"550e8400-e29b-41d4-a716-446655440000\"\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Metrics.Get(context.TODO(), \"550e8400-e29b-41d4-a716-446655440000\")\n"
+        }
+      ]
+    }
+  },
+  "admin post /metrics/events": {
+    "spec": "admin",
+    "method": "post",
+    "path": "/metrics/events",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.metrics.batchEvents([\n  {\n    key: 'words-written',\n    user: {\n      id: 'user-id',\n      email: 'user@example.com',\n      tz: 'Europe/London'\n    },\n    value: 750,\n    idempotencyKey: 'e4296e4b-8493-4bd1-9c30-5a1a9ac4d78f',\n    attributes: {\n      category: 'writing'\n    }\n  }\n]);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.metrics.batch_events(\n  [\n    {\n      \"key\": \"words-written\",\n      \"user\": {\n        \"id\": \"user-id\",\n        \"email\": \"user@example.com\",\n        \"tz\": \"Europe/London\"\n      },\n      \"value\": 750,\n      \"idempotencyKey\": \"e4296e4b-8493-4bd1-9c30-5a1a9ac4d78f\",\n      \"attributes\": {\n        \"category\": \"writing\"\n      }\n    }\n  ]\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Metrics.BatchEvents(\n  context.TODO(),\n  []*api.BatchMetricEvent{\n    {\n      Key: \"words-written\",\n      User: &api.BatchMetricEventUser{Id: \"user-id\"},\n      Value: 750,\n      Attributes: map[string]string{\n        \"category\": \"writing\",\n      },\n    },\n  },\n)\n"
+        }
+      ]
+    }
+  },
+  "admin get /points": {
+    "spec": "admin",
+    "method": "get",
+    "path": "/points",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst systems = await trophy.admin.points.systems.list({\n  limit: 10,\n  skip: 0\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nsystems = client.admin.points.systems.list(\n  limit=10,\n  skip=0\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Points.Systems.List(context.TODO(), nil)\n"
+        }
+      ]
+    }
+  },
+  "admin post /points": {
+    "spec": "admin",
+    "method": "post",
+    "path": "/points",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst result = await trophy.admin.points.systems.create([\n  {\n    name: 'XP',\n    key: 'xp',\n    description: 'Experience points',\n    levels: [\n      { name: 'Bronze', key: 'bronze', points: 100 },\n      { name: 'Silver', key: 'silver', points: 500 }\n    ]\n  }\n]);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresult = client.admin.points.systems.create(\n  request=[{\n    \"name\": \"XP\",\n    \"key\": \"xp\",\n    \"description\": \"Experience points\",\n    \"levels\": [\n      {\"name\": \"Bronze\", \"key\": \"bronze\", \"points\": 100},\n      {\"name\": \"Silver\", \"key\": \"silver\", \"points\": 500}\n    ]\n  }]\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Points.Systems.Create(context.TODO(), api.CreatePointsSystemsRequest{})\n"
+        }
+      ]
+    }
+  },
+  "admin patch /points": {
+    "spec": "admin",
+    "method": "patch",
+    "path": "/points",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst result = await trophy.admin.points.systems.update([\n  {\n    id: 'system-uuid',\n    name: 'New Name',\n    description: 'Updated description'\n  }\n]);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresult = client.admin.points.systems.update(\n  request=[{\n    \"id\": \"system-uuid\",\n    \"name\": \"New Name\",\n    \"description\": \"Updated description\"\n  }]\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Points.Systems.Update(context.TODO(), api.UpdatePointsSystemsRequest{})\n"
+        }
+      ]
+    }
+  },
+  "admin delete /points": {
+    "spec": "admin",
+    "method": "delete",
+    "path": "/points",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst result = await trophy.admin.points.systems.delete({\n  ids: ['system-uuid-1', 'system-uuid-2']\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresult = client.admin.points.systems.delete(\n  ids=['system-uuid-1', 'system-uuid-2']\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Points.Systems.Delete(context.TODO(), nil)\n"
+        }
+      ]
+    }
+  },
+  "admin get /points/{id}": {
+    "spec": "admin",
+    "method": "get",
+    "path": "/points/{id}",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst system = await trophy.admin.points.systems.get('system-uuid');\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nsystem = client.admin.points.systems.get(id='system-uuid')\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Points.Systems.Get(context.TODO(), \"550e8400-e29b-41d4-a716-446655440000\")\n"
+        }
+      ]
+    }
+  },
+  "admin get /points/{systemId}/boosts": {
+    "spec": "admin",
+    "method": "get",
+    "path": "/points/{systemId}/boosts",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst boosts = await trophy.admin.points.boosts.list('system-uuid', {\n  limit: 10,\n  skip: 0\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nboosts = client.admin.points.boosts.list(\n  system_id='system-uuid',\n  limit=10,\n  skip=0\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Points.Boosts.List(context.TODO(), \"system-uuid\", nil)\n"
+        }
+      ]
+    }
+  },
+  "admin post /points/{systemId}/boosts": {
+    "spec": "admin",
+    "method": "post",
+    "path": "/points/{systemId}/boosts",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.points.boosts.create('system-uuid', [\n  {\n    userId: 'user-123',\n    name: 'Double XP Weekend',\n    start: '2024-01-01',\n    end: '2024-01-03',\n    multiplier: 2\n  },\n  {\n    name: 'Global Holiday Bonus',\n    start: '2024-12-25',\n    multiplier: 1.5,\n    rounding: 'up'\n  },\n  {\n    name: 'Premium User Boost',\n    start: '2024-01-01',\n    multiplier: 2,\n    userAttributes: [\n      { attributeId: 'attr-uuid', attributeValue: 'premium' }\n    ]\n  }\n]);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.points.boosts.create(\n  system_id='system-uuid',\n  boosts=[\n    {\n      \"userId\": \"user-123\",\n      \"name\": \"Double XP Weekend\",\n      \"start\": \"2024-01-01\",\n      \"end\": \"2024-01-03\",\n      \"multiplier\": 2\n    },\n    {\n      \"name\": \"Global Holiday Bonus\",\n      \"start\": \"2024-12-25\",\n      \"multiplier\": 1.5,\n      \"rounding\": \"up\"\n    },\n    {\n      \"name\": \"Premium User Boost\",\n      \"start\": \"2024-01-01\",\n      \"multiplier\": 2,\n      \"userAttributes\": [\n        {\"attributeId\": \"attr-uuid\", \"attributeValue\": \"premium\"}\n      ]\n    }\n  ]\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Points.Boosts.Create(context.TODO(), \"system-uuid\", api.CreatePointsBoostsRequest{})\n"
+        }
+      ]
+    }
+  },
+  "admin patch /points/{systemId}/boosts": {
+    "spec": "admin",
+    "method": "patch",
+    "path": "/points/{systemId}/boosts",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.points.boosts.update('system-uuid', [\n  {\n    id: 'boost-uuid-1',\n    name: 'Updated Boost Name',\n    multiplier: 3\n  }\n]);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.points.boosts.update(\n  system_id='system-uuid',\n  boosts=[\n    {\n      \"id\": \"boost-uuid-1\",\n      \"name\": \"Updated Boost Name\",\n      \"multiplier\": 3\n    }\n  ]\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Points.Boosts.Update(context.TODO(), \"system-uuid\", api.PatchPointsBoostsRequest{})\n"
+        }
+      ]
+    }
+  },
+  "admin delete /points/{systemId}/boosts": {
+    "spec": "admin",
+    "method": "delete",
+    "path": "/points/{systemId}/boosts",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.points.boosts.delete('system-uuid', {\n  ids: ['boost-uuid-1', 'boost-uuid-2', 'boost-uuid-3']\n});\n\nconsole.log(`Deleted ${response.deleted.length} boosts`);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.points.boosts.delete(\n  system_id='system-uuid',\n  ids=['boost-uuid-1', 'boost-uuid-2', 'boost-uuid-3']\n)\n\nprint(f\"Deleted {len(response.deleted)} boosts\")\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Points.Boosts.Delete(context.TODO(), \"system-uuid\", nil)\n"
+        }
+      ]
+    }
+  },
+  "admin get /points/{systemId}/boosts/{id}": {
+    "spec": "admin",
+    "method": "get",
+    "path": "/points/{systemId}/boosts/{id}",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst boost = await trophy.admin.points.boosts.get('system-uuid', 'boost-uuid');\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nboost = client.admin.points.boosts.get(\n  system_id='system-uuid',\n  boost_id='boost-uuid'\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Points.Boosts.Get(context.TODO(), \"system-uuid\", \"boost-uuid\")\n"
+        }
+      ]
+    }
+  },
+  "admin get /points/{systemId}/levels": {
+    "spec": "admin",
+    "method": "get",
+    "path": "/points/{systemId}/levels",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst levels = await trophy.admin.points.levels.list('system-uuid', {\n  limit: 10,\n  skip: 0\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nlevels = client.admin.points.levels.list(\n  system_id='system-uuid',\n  limit=10,\n  skip=0\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Points.Levels.List(context.TODO(), \"system-uuid\", nil)\n"
+        }
+      ]
+    }
+  },
+  "admin post /points/{systemId}/levels": {
+    "spec": "admin",
+    "method": "post",
+    "path": "/points/{systemId}/levels",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst result = await trophy.admin.points.levels.create('system-uuid', [\n  {\n    name: 'Bronze',\n    key: 'bronze',\n    points: 100,\n    description: 'Starting level',\n    badge: { url: 'https://example.com/bronze.png' }\n  }\n]);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresult = client.admin.points.levels.create(\n  system_id='system-uuid',\n  request=[{\n    \"name\": \"Bronze\",\n    \"key\": \"bronze\",\n    \"points\": 100,\n    \"description\": \"Starting level\",\n    \"badge\": {\"url\": \"https://example.com/bronze.png\"}\n  }]\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Points.Levels.Create(context.TODO(), \"system-uuid\", api.CreatePointsLevelsRequest{})\n"
+        }
+      ]
+    }
+  },
+  "admin patch /points/{systemId}/levels": {
+    "spec": "admin",
+    "method": "patch",
+    "path": "/points/{systemId}/levels",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst result = await trophy.admin.points.levels.update('system-uuid', [\n  {\n    id: '550e8400-e29b-41d4-a716-446655440000',\n    name: 'Bronze Tier',\n    points: 150\n  }\n]);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresult = client.admin.points.levels.update(\n  system_id='system-uuid',\n  request=[{\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"name\": \"Bronze Tier\",\n    \"points\": 150\n  }]\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Points.Levels.Update(context.TODO(), \"system-uuid\", api.PatchPointsLevelsRequest{})\n"
+        }
+      ]
+    }
+  },
+  "admin delete /points/{systemId}/levels": {
+    "spec": "admin",
+    "method": "delete",
+    "path": "/points/{systemId}/levels",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst result = await trophy.admin.points.levels.delete('system-uuid', {\n  ids: ['550e8400-e29b-41d4-a716-446655440000']\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresult = client.admin.points.levels.delete(\n  system_id='system-uuid',\n  ids=['550e8400-e29b-41d4-a716-446655440000']\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Points.Levels.Delete(context.TODO(), \"system-uuid\", nil)\n"
+        }
+      ]
+    }
+  },
+  "admin get /points/{systemId}/levels/{id}": {
+    "spec": "admin",
+    "method": "get",
+    "path": "/points/{systemId}/levels/{id}",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst level = await trophy.admin.points.levels.get('system-uuid', 'level-uuid');\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nlevel = client.admin.points.levels.get(\n  system_id='system-uuid',\n  level_id='level-uuid'\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Points.Levels.Get(context.TODO(), \"system-uuid\", \"level-uuid\")\n"
+        }
+      ]
+    }
+  },
+  "admin get /points/{systemId}/triggers": {
+    "spec": "admin",
+    "method": "get",
+    "path": "/points/{systemId}/triggers",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst triggers = await trophy.admin.points.triggers.list('system-uuid', {\n  limit: 10,\n  skip: 0\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\ntriggers = client.admin.points.triggers.list(\n  system_id='system-uuid',\n  limit=10,\n  skip=0\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Points.Triggers.List(context.TODO(), \"system-uuid\", nil)\n"
+        }
+      ]
+    }
+  },
+  "admin post /points/{systemId}/triggers": {
+    "spec": "admin",
+    "method": "post",
+    "path": "/points/{systemId}/triggers",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst result = await trophy.admin.points.triggers.create('system-uuid', [\n  {\n    type: 'metric',\n    points: 10,\n    metricId: 'metric-uuid',\n    metricThreshold: 5\n  }\n]);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresult = client.admin.points.triggers.create(\n  system_id='system-uuid',\n  request=[{\n    'type': 'metric',\n    'points': 10,\n    'metric_id': 'metric-uuid',\n    'metric_threshold': 5\n  }]\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Points.Triggers.Create(context.TODO(), \"system-uuid\", api.CreatePointsTriggersRequest{})\n"
+        }
+      ]
+    }
+  },
+  "admin patch /points/{systemId}/triggers": {
+    "spec": "admin",
+    "method": "patch",
+    "path": "/points/{systemId}/triggers",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst result = await trophy.admin.points.triggers.update('system-uuid', [\n  { id: 'trigger-uuid', points: 20 }\n]);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresult = client.admin.points.triggers.update(\n  system_id='system-uuid',\n  request=[{'id': 'trigger-uuid', 'points': 20}]\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Points.Triggers.Update(context.TODO(), \"system-uuid\", api.PatchPointsTriggersRequest{})\n"
+        }
+      ]
+    }
+  },
+  "admin delete /points/{systemId}/triggers": {
+    "spec": "admin",
+    "method": "delete",
+    "path": "/points/{systemId}/triggers",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst result = await trophy.admin.points.triggers.delete('system-uuid', {\n  ids: ['trigger-uuid-1', 'trigger-uuid-2']\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresult = client.admin.points.triggers.delete(\n  system_id='system-uuid',\n  ids=['trigger-uuid-1', 'trigger-uuid-2']\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Points.Triggers.Delete(context.TODO(), \"system-uuid\", nil)\n"
+        }
+      ]
+    }
+  },
+  "admin get /points/{systemId}/triggers/{id}": {
+    "spec": "admin",
+    "method": "get",
+    "path": "/points/{systemId}/triggers/{id}",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst trigger = await trophy.admin.points.triggers.get('system-uuid', 'trigger-uuid');\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\ntrigger = client.admin.points.triggers.get(\n  system_id='system-uuid',\n  id='trigger-uuid'\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Points.Triggers.Get(context.TODO(), \"system-uuid\", \"trigger-uuid\")\n"
+        }
+      ]
+    }
+  },
+  "admin get /leaderboards": {
+    "spec": "admin",
+    "method": "get",
+    "path": "/leaderboards",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst leaderboards = await trophy.admin.leaderboards.list({\n  limit: 10,\n  skip: 0\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nleaderboards = client.admin.leaderboards.list(\n  limit=10,\n  skip=0\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Leaderboards.List(context.TODO(), nil)\n"
+        }
+      ]
+    }
+  },
+  "admin post /leaderboards": {
+    "spec": "admin",
+    "method": "post",
+    "path": "/leaderboards",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.leaderboards.create([\n  {\n    name: 'Revenue Champions',\n    key: 'revenue-champions',\n    status: 'inactive',\n    rankBy: 'metric',\n    metricId: '550e8400-e29b-41d4-a716-446655440000',\n    maxParticipants: 100,\n    start: '2026-04-20'\n  },\n  {\n    name: 'Streak Legends',\n    key: 'streak-legends',\n    status: 'scheduled',\n    rankBy: 'streak',\n    start: '2026-04-27'\n  }\n]);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.leaderboards.create([\n  {\n    \"name\": \"Revenue Champions\",\n    \"key\": \"revenue-champions\",\n    \"status\": \"inactive\",\n    \"rankBy\": \"metric\",\n    \"metricId\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"maxParticipants\": 100,\n    \"start\": \"2026-04-20\"\n  },\n  {\n    \"name\": \"Streak Legends\",\n    \"key\": \"streak-legends\",\n    \"status\": \"scheduled\",\n    \"rankBy\": \"streak\",\n    \"start\": \"2026-04-27\"\n  }\n])\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Leaderboards.Create(context.TODO(), api.CreateLeaderboardsRequest{})\n"
+        }
+      ]
+    }
+  },
+  "admin patch /leaderboards": {
+    "spec": "admin",
+    "method": "patch",
+    "path": "/leaderboards",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.leaderboards.update([\n  {\n    id: '550e8400-e29b-41d4-a716-446655440100',\n    name: 'Monthly Revenue Champions',\n    description: 'Ranked by monthly revenue',\n    status: 'active'\n  },\n  {\n    id: '550e8400-e29b-41d4-a716-446655440101',\n    status: 'finished'\n  }\n]);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.leaderboards.update([\n  {\n    \"id\": \"550e8400-e29b-41d4-a716-446655440100\",\n    \"name\": \"Monthly Revenue Champions\",\n    \"description\": \"Ranked by monthly revenue\",\n    \"status\": \"active\"\n  },\n  {\n    \"id\": \"550e8400-e29b-41d4-a716-446655440101\",\n    \"status\": \"finished\"\n  }\n])\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Leaderboards.Update(context.TODO(), api.UpdateLeaderboardsRequest{})\n"
+        }
+      ]
+    }
+  },
+  "admin delete /leaderboards": {
+    "spec": "admin",
+    "method": "delete",
+    "path": "/leaderboards",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.leaderboards.delete({\n  ids: [\n    '550e8400-e29b-41d4-a716-446655440100',\n    '550e8400-e29b-41d4-a716-446655440101'\n  ]\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.leaderboards.delete(\n  ids=[\n    '550e8400-e29b-41d4-a716-446655440100',\n    '550e8400-e29b-41d4-a716-446655440101'\n  ]\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Leaderboards.Delete(context.TODO(), nil)\n"
+        }
+      ]
+    }
+  },
+  "admin get /leaderboards/{id}": {
+    "spec": "admin",
+    "method": "get",
+    "path": "/leaderboards/{id}",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst leaderboard = await trophy.admin.leaderboards.get(\n  '550e8400-e29b-41d4-a716-446655440100'\n);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nleaderboard = client.admin.leaderboards.get(\n  \"550e8400-e29b-41d4-a716-446655440100\"\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Leaderboards.Get(context.TODO(), \"550e8400-e29b-41d4-a716-446655440000\")\n"
+        }
+      ]
+    }
+  },
+  "admin post /streaks/freezes": {
+    "spec": "admin",
+    "method": "post",
+    "path": "/streaks/freezes",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.streaks.freezes.create({\n  freezes: [\n    { userId: 'user-123' },\n    { userId: 'user-456' },\n  ]\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.streaks.freezes.create({\n  \"freezes\": [\n    {\"userId\": \"user-123\"},\n    {\"userId\": \"user-456\"}\n  ]\n})\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Streaks.Freezes.Create(context.TODO(), nil)\n"
+        }
+      ]
+    }
+  },
+  "admin post /streaks/pauses": {
+    "spec": "admin",
+    "method": "post",
+    "path": "/streaks/pauses",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.streaks.pauses.create({\n  pauses: [\n    { userId: 'user-123', start: '2026-08-20', end: '2026-08-27' },\n    { userId: 'user-456', start: '2026-09-01', end: '2026-09-07' },\n  ]\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.streaks.pauses.create({\n  \"pauses\": [\n    {\"userId\": \"user-123\", \"start\": \"2026-08-20\", \"end\": \"2026-08-27\"},\n    {\"userId\": \"user-456\", \"start\": \"2026-09-01\", \"end\": \"2026-09-07\"}\n  ]\n})\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Streaks.Pauses.Create(context.TODO(), nil)\n"
+        }
+      ]
+    }
+  },
+  "admin delete /streaks/pauses": {
+    "spec": "admin",
+    "method": "delete",
+    "path": "/streaks/pauses",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.streaks.pauses.delete({\n  ids: [\n    '550e8400-e29b-41d4-a716-446655440000',\n    '550e8400-e29b-41d4-a716-446655440001'\n  ]\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.streaks.pauses.delete(\n  ids=[\n    '550e8400-e29b-41d4-a716-446655440000',\n    '550e8400-e29b-41d4-a716-446655440001'\n  ]\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Streaks.Pauses.Delete(context.TODO(), nil)\n"
+        }
+      ]
+    }
+  },
+  "admin post /streaks/restore": {
+    "spec": "admin",
+    "method": "post",
+    "path": "/streaks/restore",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.streaks.restore({\n  users: [{ id: 'user-123' }, { id: 'user-456' }]\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.streaks.restore({\n  \"users\": [{\"id\": \"user-123\"}, {\"id\": \"user-456\"}]\n})\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Streaks.Restore(context.TODO(), nil)\n"
+        }
+      ]
+    }
+  },
+  "admin post /streaks/reset": {
+    "spec": "admin",
+    "method": "post",
+    "path": "/streaks/reset",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.streaks.reset({\n  users: [{ id: 'user-123' }, { id: 'user-456' }]\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.streaks.reset({\n  \"users\": [{\"id\": \"user-123\"}, {\"id\": \"user-456\"}]\n})\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Streaks.Reset(context.TODO(), nil)\n"
+        }
+      ]
+    }
+  },
+  "admin get /settings": {
+    "spec": "admin",
+    "method": "get",
+    "path": "/settings",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst settings = await trophy.admin.settings.get();\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nsettings = client.admin.settings.get()\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Settings.Get(context.TODO(), nil)\n"
+        }
+      ]
+    }
+  },
+  "admin patch /settings": {
+    "spec": "admin",
+    "method": "patch",
+    "path": "/settings",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst settings = await trophy.admin.settings.update({\n  branding: {\n    appName: 'Trophy',\n    appUrl: 'https://app.example.com',\n    brandColor: '#1a2b3c'\n  },\n  experimentation: {\n    controlRatio: 10,\n    userActivationWindow: 14\n  },\n  aggregationPeriod: 'weekly'\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nsettings = client.admin.settings.update({\n  \"branding\": {\n    \"app_name\": \"Trophy\",\n    \"app_url\": \"https://app.example.com\",\n    \"brand_color\": \"#1a2b3c\"\n  },\n  \"experimentation\": {\n    \"control_ratio\": 10,\n    \"user_activation_window\": 14\n  },\n  \"aggregation_period\": \"weekly\"\n})\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Settings.Update(\n  context.TODO(),\n  &api.UpdateAdminSettingsRequest{},\n)\n"
+        }
+      ]
+    }
+  },
+  "admin get /streaks/settings": {
+    "spec": "admin",
+    "method": "get",
+    "path": "/streaks/settings",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst settings = await trophy.admin.streaks.settings.get();\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nsettings = client.admin.streaks.settings.get()\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Streaks.Settings.Get(context.TODO(), nil)\n"
+        }
+      ]
+    }
+  },
+  "admin patch /streaks/settings": {
+    "spec": "admin",
+    "method": "patch",
+    "path": "/streaks/settings",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst settings = await trophy.admin.streaks.settings.update({\n  frequency: 'daily',\n  evaluationMode: 'OR',\n  customizationEnabled: true,\n  daysOff: [0, 6],\n  metrics: [{ key: 'words-written', threshold: 500 }],\n  freezes: {\n    startCount: 1,\n    maxCount: 2,\n    autoEarnInterval: 7,\n    autoEarnAmount: 1\n  }\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nsettings = client.admin.streaks.settings.update({\n  \"frequency\": \"daily\",\n  \"evaluation_mode\": \"OR\",\n  \"customization_enabled\": True,\n  \"days_off\": [0, 6],\n  \"metrics\": [{\"key\": \"words-written\", \"threshold\": 500}],\n  \"freezes\": {\n    \"start_count\": 1,\n    \"max_count\": 2,\n    \"auto_earn_interval\": 7,\n    \"auto_earn_amount\": 1\n  }\n})\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Streaks.Settings.Update(\n  context.TODO(),\n  &api.UpdateStreakSettingsRequest{},\n)\n"
+        }
+      ]
+    }
+  },
+  "admin post /application-api-keys": {
+    "spec": "admin",
+    "method": "post",
+    "path": "/application-api-keys",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.applicationApiKeys.create([\n  { userId: 'user_123' }\n]);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.applicationApiKeys.create([\n  { \"userId\": \"user_123\" }\n])\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.ApplicationApiKeys.Create(context.TODO(), api.CreateApplicationKeysRequest{})\n"
+        }
+      ]
+    }
+  },
+  "admin delete /application-api-keys": {
+    "spec": "admin",
+    "method": "delete",
+    "path": "/application-api-keys",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.applicationApiKeys.delete({\n  ids: [\n    '550e8400-e29b-41d4-a716-446655440000',\n    '550e8400-e29b-41d4-a716-446655440001'\n  ]\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.applicationApiKeys.delete(\n  ids=[\n    '550e8400-e29b-41d4-a716-446655440000',\n    '550e8400-e29b-41d4-a716-446655440001'\n  ]\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.ApplicationApiKeys.Delete(context.TODO(), nil)\n"
+        }
+      ]
+    }
+  },
+  "admin get /environments": {
+    "spec": "admin",
+    "method": "get",
+    "path": "/environments",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst environments = await trophy.admin.environments.list();\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nenvironments = client.admin.environments.list()\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Environments.List(context.TODO(), nil)\n"
+        }
+      ]
+    }
+  },
+  "admin get /tenants": {
+    "spec": "admin",
+    "method": "get",
+    "path": "/tenants",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst tenants = await trophy.admin.tenants.list({\n  limit: 10,\n  skip: 0\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\ntenants = client.admin.tenants.list(\n  limit=10,\n  skip=0\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Tenants.List(context.TODO(), nil)\n"
+        }
+      ]
+    }
+  },
+  "admin post /tenants": {
+    "spec": "admin",
+    "method": "post",
+    "path": "/tenants",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.tenants.create([\n  {\n    customerId: 'customer_12345',\n    name: 'Acme Corp'\n  }\n]);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.tenants.create([\n  {\n    \"customerId\": \"customer_12345\",\n    \"name\": \"Acme Corp\"\n  }\n])\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Tenants.Create(context.TODO(), api.CreateTenantsRequest{})\n"
+        }
+      ]
+    }
+  },
+  "admin patch /tenants": {
+    "spec": "admin",
+    "method": "patch",
+    "path": "/tenants",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.tenants.update([\n  {\n    id: '550e8400-e29b-41d4-a716-446655440000',\n    name: 'Acme Corporation'\n  }\n]);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.tenants.update([\n  {\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"name\": \"Acme Corporation\"\n  }\n])\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Tenants.Update(context.TODO(), api.UpdateTenantsRequest{})\n"
+        }
+      ]
+    }
+  },
+  "admin delete /tenants": {
+    "spec": "admin",
+    "method": "delete",
+    "path": "/tenants",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.admin.tenants.delete({\n  ids: [\n    '550e8400-e29b-41d4-a716-446655440000',\n    '550e8400-e29b-41d4-a716-446655440001'\n  ]\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.admin.tenants.delete(\n  ids=[\n    '550e8400-e29b-41d4-a716-446655440000',\n    '550e8400-e29b-41d4-a716-446655440001'\n  ]\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Tenants.Delete(context.TODO(), nil)\n"
+        }
+      ]
+    }
+  },
+  "admin get /tenants/{id}": {
+    "spec": "admin",
+    "method": "get",
+    "path": "/tenants/{id}",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst tenant = await trophy.admin.tenants.get(\n  '550e8400-e29b-41d4-a716-446655440000'\n);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\ntenant = client.admin.tenants.get(\n  \"550e8400-e29b-41d4-a716-446655440000\"\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Admin.Tenants.Get(context.TODO(), \"550e8400-e29b-41d4-a716-446655440000\")\n"
+        }
+      ]
+    }
+  },
+  "application get /achievements": {
+    "spec": "application",
+    "method": "get",
+    "path": "/achievements",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.achievements.all();\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.achievements.all()\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Achievements.All(context.TODO(), &api.AchievementsAllRequest{})\n"
+        }
+      ]
+    }
+  },
+  "application post /achievements/{key}/complete": {
+    "spec": "application",
+    "method": "post",
+    "path": "/achievements/{key}/complete",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.achievements.complete(\"achievement-key\", {\n  user: {\n    id: \"user-id\",\n  }\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nuser = UpsertedUser(id=\"123\")\n\nresponse = client.achievements.complete(\"achievement-key\", user=user)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Achievements.Complete(\n  context.TODO(),\n  \"achievement-key\",\n  &api.AchievementsCompleteRequest{\n    User: &api.UpsertedUser{Id: \"user-id\"},\n  },\n)\n"
+        }
+      ]
+    }
+  },
+  "application post /metrics/{key}/event": {
+    "spec": "application",
+    "method": "post",
+    "path": "/metrics/{key}/event",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.metrics.event(\n  \"words-written\",\n  {\n    user: {\n      id: 'user-id',\n      email: 'user@example.com',\n      tz: 'Europe/London',\n      subscribeToEmails: true,\n      attributes: {\n        department: 'engineering',\n        role: 'developer'\n      }\n    },\n    value: 750,\n    attributes: {\n      category: 'writing',\n      source: 'mobile-app'\n    }\n  }\n);\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nuser = UpsertedUser(\n  id=\"123\",\n  email=\"user@example.com\",\n  tz=\"Europe/London\",\n  subscribeToEmails=True,\n  attributes={\n    \"department\": \"engineering\",\n    \"role\": \"developer\"\n  }\n)\n\nresponse = client.metrics.event(\n  \"words-written\",\n  user=user,\n  value=750,\n  attributes={\n    \"category\": \"writing\",\n    \"source\": \"mobile-app\"\n})\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Metrics.Event(\n  context.TODO(),\n  \"words-written\",\n  &api.MetricsEventRequest{\n    User: &api.UpsertedUser{Id: \"user-id\"},\n    Value: 750,\n    Attributes: map[string]string{\n      \"category\": \"writing\",\n      \"source\": \"mobile-app\",\n    },\n  },\n)\n"
+        }
+      ]
+    }
+  },
+  "application post /users": {
+    "spec": "application",
+    "method": "post",
+    "path": "/users",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.users.create({\n  id: 'user-id',\n  email: 'user@example.com',\n  tz: 'Europe/London',\n  subscribeToEmails: true,\n  attributes: {\n    department: 'engineering',\n    role: 'developer'\n  }\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.users.create(\n  id=\"123\",\n  email=\"user@example.com\",\n  tz=\"Europe/London\",\n  subscribeToEmails=True,\n  attributes={\n    \"department\": \"engineering\",\n    \"role\": \"developer\"\n  }\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Users.Create(\n  context.TODO(),\n  &api.UpsertedUser{Id: \"user-id\"},\n)\n"
+        }
+      ]
+    }
+  },
+  "application get /users/{id}": {
+    "spec": "application",
+    "method": "get",
+    "path": "/users/{id}",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.users.get(\"user-id\");\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.users.get(\"user-id\")\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Users.Get(context.TODO(), \"user-id\")\n"
+        }
+      ]
+    }
+  },
+  "application put /users/{id}": {
+    "spec": "application",
+    "method": "put",
+    "path": "/users/{id}",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.users.identify(\"user-id\", {\n  email: 'user@example.com',\n  tz: 'Europe/London',\n  attributes: {\n    department: 'engineering',\n    role: 'developer'\n  }\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.users.identify(\n  id=\"123\",\n  email=\"user@example.com\",\n  tz=\"Europe/London\",\n  subscribeToEmails=True,\n  attributes={\n    \"department\": \"engineering\",\n    \"role\": \"developer\"\n  }\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Users.Identify(\n  context.TODO(),\n  \"user-id\",\n  &api.UpdatedUser{},\n)\n"
+        }
+      ]
+    }
+  },
+  "application patch /users/{id}": {
+    "spec": "application",
+    "method": "patch",
+    "path": "/users/{id}",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.users.update(\"user-id\", {\n  email: 'user@example.com',\n  tz: 'Europe/London',\n  attributes: {\n    department: 'engineering',\n    role: 'developer'\n  }\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.users.update(\n  id=\"123\",\n  email=\"user@example.com\",\n  tz=\"Europe/London\",\n  subscribeToEmails=True,\n  attributes={\n    \"department\": \"engineering\",\n    \"role\": \"developer\"\n  }\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Users.Update(\n  context.TODO(),\n  \"user-id\",\n  &api.UpdatedUser{},\n)\n"
+        }
+      ]
+    }
+  },
+  "application get /users/{id}/preferences": {
+    "spec": "application",
+    "method": "get",
+    "path": "/users/{id}/preferences",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.users.getPreferences(\"user-123\");\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.users.get_preferences(id=\"user-123\")\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Users.GetPreferences(context.TODO(), \"user-123\")\n"
+        }
+      ]
+    }
+  },
+  "application patch /users/{id}/preferences": {
+    "spec": "application",
+    "method": "patch",
+    "path": "/users/{id}/preferences",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.users.updatePreferences(\"user-123\", {\n  notifications: {\n    recap: [\"email\"],\n    streak_reminder: []\n  }\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.users.update_preferences(\n  id=\"user-123\",\n  notifications={\n    \"recap\": [\"email\"],\n    \"streak_reminder\": []\n  }\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Users.UpdatePreferences(\n  context.TODO(),\n  \"user-123\",\n  &api.UpdateUserPreferencesRequest{},\n)\n"
+        }
+      ]
+    }
+  },
+  "application get /users/{id}/metrics": {
+    "spec": "application",
+    "method": "get",
+    "path": "/users/{id}/metrics",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.users.allMetrics(\"user-id\");\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.users.all_metrics(\"user-id\")\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Users.AllMetrics(context.TODO(), \"user-id\")\n"
+        }
+      ]
+    }
+  },
+  "application get /users/{id}/metrics/{key}": {
+    "spec": "application",
+    "method": "get",
+    "path": "/users/{id}/metrics/{key}",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.users.singleMetric(\"user-id\", \"words-written\");\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.users.single_metric(id=\"user-id\", key=\"words-written\")\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Users.SingleMetric(context.TODO(), \"user-id\", \"words-written\")\n"
+        }
+      ]
+    }
+  },
+  "application get /users/{id}/metrics/{key}/event-summary": {
+    "spec": "application",
+    "method": "get",
+    "path": "/users/{id}/metrics/{key}/event-summary",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.users.metricEventSummary(\"user-id\", \"words-written\", {\n  aggregation: \"daily\",\n  startDate: \"2024-01-01\",\n  endDate: \"2024-01-31\"\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.users.metric_event_summary(\n  id=\"user-id\",\n  key=\"words-written\",\n  aggregation=\"daily\",\n  start_date=\"2024-01-01\",\n  end_date=\"2024-01-31\"\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Users.MetricEventSummary(\n  context.TODO(),\n  \"user-id\",\n  \"words-written\",\n  &api.UsersMetricEventSummaryRequest{\n    Aggregation: api.UsersMetricEventSummaryRequestAggregationDaily,\n    StartDate: \"2024-01-01\",\n    EndDate: \"2024-01-31\",\n  },\n)\n"
+        }
+      ]
+    }
+  },
+  "application get /users/{id}/achievements": {
+    "spec": "application",
+    "method": "get",
+    "path": "/users/{id}/achievements",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "label": "Get a user's completed achievements",
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.users.achievements(\"user-id\");\n"
+        },
+        {
+          "label": "Get a user's achievements (include incomplete)",
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.users.achievements(\"user-id\", {\n  includeIncomplete: true\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "label": "Get a user's completed achievements",
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.users.achievements(id=\"user-id\")\n"
+        },
+        {
+          "label": "Get a user's achievements (include incomplete)",
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.users.achievements(id=\"user-id\", include_incomplete=\"true\")\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Users.Achievements(\n  context.TODO(),\n  \"user-id\",\n  &api.UsersAchievementsRequest{},\n)\n"
+        }
+      ]
+    }
+  },
+  "application get /users/{id}/streak": {
+    "spec": "application",
+    "method": "get",
+    "path": "/users/{id}/streak",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.users.streak(\"user-id\", {\n  historyPeriods: 14\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.users.streak(id=\"user-id\", history_periods=14)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Users.Streak(\n  context.TODO(),\n  \"user-id\",\n  &api.UsersStreakRequest{},\n)\n"
+        }
+      ]
+    }
+  },
+  "application get /streaks": {
+    "spec": "application",
+    "method": "get",
+    "path": "/streaks",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst response = await trophy.streaks.list({\n  userIds: ['user-123', 'user-456', 'user-789']\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.streaks.list(user_ids=[\"user-123\", \"user-456\", \"user-789\"])\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Streaks.List(\n  context.TODO(),\n  &api.StreaksListRequest{\n    UserIds: []*string{api.String(\"user-123\"), api.String(\"user-456\"), api.String(\"user-789\")},\n  },\n)\n"
+        }
+      ]
+    }
+  },
+  "application get /users/{id}/points/{key}": {
+    "spec": "application",
+    "method": "get",
+    "path": "/users/{id}/points/{key}",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.users.points(\"user-id\", \"points-system-key\");\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.users.points(id=\"user-id\", key=\"points-system-key\")\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Users.Points(\n  context.TODO(),\n  \"user-id\",\n  \"points-system-key\",\n  &api.UsersPointsRequest{},\n)\n"
+        }
+      ]
+    }
+  },
+  "application get /users/{id}/points/{key}/boosts": {
+    "spec": "application",
+    "method": "get",
+    "path": "/users/{id}/points/{key}/boosts",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.users.pointsBoosts(\"user-id\", \"points-system-key\");\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.users.points_boosts(id=\"user-id\", key=\"points-system-key\")\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Users.PointsBoosts(context.TODO(), \"user-id\", \"points-system-key\")\n"
+        }
+      ]
+    }
+  },
+  "application get /users/{id}/points/{key}/event-summary": {
+    "spec": "application",
+    "method": "get",
+    "path": "/users/{id}/points/{key}/event-summary",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.users.pointsEventSummary(\"user-id\", \"points-system-key\", {\n  aggregation: \"daily\",\n  startDate: \"2024-01-01\",\n  endDate: \"2024-01-31\"\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.users.points_event_summary(\n  id=\"user-id\",\n  key=\"points-system-key\",\n  aggregation=\"daily\",\n  start_date=\"2024-01-01\",\n  end_date=\"2024-01-31\"\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Users.PointsEventSummary(\n  context.TODO(),\n  \"user-id\",\n  \"points-system-key\",\n  &api.UsersPointsEventSummaryRequest{\n    Aggregation: api.UsersPointsEventSummaryRequestAggregationDaily,\n    StartDate: \"2024-01-01\",\n    EndDate: \"2024-01-31\",\n  },\n)\n"
+        }
+      ]
+    }
+  },
+  "application get /users/{id}/leaderboards/{key}": {
+    "spec": "application",
+    "method": "get",
+    "path": "/users/{id}/leaderboards/{key}",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.users.leaderboards(\"user-123\", \"weekly-words\", {\n  run: \"2025-01-15\"\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.users.leaderboards(\n  user_id=\"user-123\",\n  key=\"weekly-words\",\n  run=\"2025-01-15\"\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Users.Leaderboard(\n  context.TODO(),\n  \"user-id\",\n  \"leaderboard-key\",\n  &api.UsersLeaderboardRequest{},\n)\n"
+        }
+      ]
+    }
+  },
+  "application get /users/{id}/wrapped": {
+    "spec": "application",
+    "method": "get",
+    "path": "/users/{id}/wrapped",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.users.wrapped(\"user-123\", {\n  year: 2024\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.users.wrapped(id=\"user-123\", year=2024)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Users.Wrapped(\n  context.TODO(),\n  \"user-123\",\n  &api.UsersWrappedRequest{Year: api.Int(2024)},\n)\n"
+        }
+      ]
+    }
+  },
+  "application get /points/{key}/summary": {
+    "spec": "application",
+    "method": "get",
+    "path": "/points/{key}/summary",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.points.summary(\"points-system-key\", {\n  userAttributes: \"plan-type:premium,region:us-east\"\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.points.summary(\n  key=\"points-system-key\",\n  user_attributes=\"plan-type:premium,region:us-east\"\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Points.Summary(\n  context.TODO(),\n  \"points-system-key\",\n  &api.PointsSummaryRequest{UserAttributes: api.String(\"plan-type:premium,region:us-east\")},\n)\n"
+        }
+      ]
+    }
+  },
+  "application get /points/{key}": {
+    "spec": "application",
+    "method": "get",
+    "path": "/points/{key}",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.points.system(\"points-system-key\");\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.points.system(key=\"points-system-key\")\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Points.System(context.TODO(), \"points-system-key\")\n"
+        }
+      ]
+    }
+  },
+  "application get /points/{key}/boosts": {
+    "spec": "application",
+    "method": "get",
+    "path": "/points/{key}/boosts",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.points.boosts(\"points-system-key\");\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.points.boosts(key=\"points-system-key\")\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Points.Boosts(\n  context.TODO(),\n  \"points-system-key\",\n  &api.PointsBoostsRequest{},\n)\n"
+        }
+      ]
+    }
+  },
+  "application get /points/{key}/levels": {
+    "spec": "application",
+    "method": "get",
+    "path": "/points/{key}/levels",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.points.levels(\"points-system-key\");\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.points.levels(key=\"points-system-key\")\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Points.Levels(context.TODO(), \"points-system-key\")\n"
+        }
+      ]
+    }
+  },
+  "application get /points/{key}/level-summary": {
+    "spec": "application",
+    "method": "get",
+    "path": "/points/{key}/level-summary",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.points.levelSummary(\"points-system-key\");\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.points.level_summary(key=\"points-system-key\")\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Points.LevelSummary(context.TODO(), \"points-system-key\")\n"
+        }
+      ]
+    }
+  },
+  "application get /leaderboards": {
+    "spec": "application",
+    "method": "get",
+    "path": "/leaderboards",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.leaderboards.all();\n"
+        }
+      ],
+      "python": [
+        {
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.leaderboards.all()\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Leaderboards.All(\n  context.TODO(),\n  &api.LeaderboardsAllRequest{},\n)\n"
+        }
+      ]
+    }
+  },
+  "application get /leaderboards/{key}": {
+    "spec": "application",
+    "method": "get",
+    "path": "/leaderboards/{key}",
+    "samplesByLanguage": {
+      "javascript": [
+        {
+          "label": "Get rankings",
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.leaderboards.get(\"weekly-words\", {\n  offset: 0,\n  limit: 10,\n  run: \"2025-01-15\"\n});\n"
+        },
+        {
+          "label": "Get rankings by user attribute",
+          "source": "import { TrophyApiClient } from '@trophyso/node';\n\nconst trophy = new TrophyApiClient({\n  apiKey: 'YOUR_API_KEY'\n});\n\nconst response = await trophy.leaderboards.get(\"weekly-words\", {\n  offset: 0,\n  limit: 10,\n  run: \"2025-01-15\",\n  userAttributes: \"city:london\"\n});\n"
+        }
+      ],
+      "python": [
+        {
+          "label": "Get rankings",
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.leaderboards.get(\n  key=\"weekly-words\",\n  offset=0,\n  limit=10,\n  run=\"2025-01-15\"\n)\n"
+        },
+        {
+          "label": "Get rankings by user attribute",
+          "source": "from trophy import TrophyApi\n\nclient = TrophyApi(api_key='YOUR_API_KEY')\n\nresponse = client.leaderboards.get(\n  key=\"weekly-words\",\n  offset=0,\n  limit=10,\n  run=\"2025-01-15\",\n  user_attributes=\"city:london\"\n)\n"
+        }
+      ],
+      "go": [
+        {
+          "source": "import (\n  \"context\"\n\n  api \"github.com/trophyso/trophy-go\"\n  trophyclient \"github.com/trophyso/trophy-go/client\"\n  \"github.com/trophyso/trophy-go/option\"\n)\n\nclient := trophyclient.NewClient(\n  option.WithApiKey(\"YOUR_API_KEY\"),\n)\n\nresponse, err := client.Leaderboards.Get(\n  context.TODO(),\n  \"leaderboard-key\",\n  &api.LeaderboardsGetRequest{},\n)\n"
+        }
+      ]
+    }
+  }
+}

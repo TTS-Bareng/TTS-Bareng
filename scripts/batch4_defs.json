@@ -1,0 +1,212 @@
+[
+  {
+    "id": "level_25_kesehatan",
+    "title": "Raga & Kebugaran Alami",
+    "category": "Kesehatan",
+    "words": [
+      {
+        "answer": "IMUNITAS",
+        "clue": "Sistem kekebalan alami tubuh untuk menangkal infeksi dan bibit penyakit"
+      },
+      {
+        "answer": "NUTRISI",
+        "clue": "Zat makanan bergizi yang dibutuhkan untuk pertumbuhan dan daya tahan tubuh"
+      },
+      {
+        "answer": "JANTUNG",
+        "clue": "Organ vital pemompa darah berotot dalam sistem peredaran darah manusia"
+      },
+      {
+        "answer": "STAMINA",
+        "clue": "Daya tahan dan keuletan fisik saat melakukan aktivitas berdurasi panjang"
+      },
+      {
+        "answer": "VITAMIN",
+        "clue": "Senyawa organik esensial penunjang proses biokimia dan metabolisme sel"
+      },
+      {
+        "answer": "SENAM",
+        "clue": "Latihan gerak tubuh berirama untuk melatih kelenturan dan kebugaran jasmani"
+      },
+      {
+        "answer": "BUGAR",
+        "clue": "Kondisi tubuh yang sehat, bertenaga, dan segar untuk beraktivitas optimal"
+      }
+    ]
+  },
+  {
+    "id": "level_26_transportasi",
+    "title": "Moda Transportasi Nusantara",
+    "category": "Transportasi",
+    "words": [
+      {
+        "answer": "TERMINAL",
+        "clue": "Pangkalan transportasi darat tempat bus menaikkan dan menurunkan penumpang"
+      },
+      {
+        "answer": "DERMAGA",
+        "clue": "Bangunan pelabuhan tempat merapatnya kapal untuk bongkar muat penumpang"
+      },
+      {
+        "answer": "PESAWAT",
+        "clue": "Moda transportasi udara bersayap penjelajah langit antar-pulau nusantara"
+      },
+      {
+        "answer": "KERETA",
+        "clue": "Rangkaian gerbong beroda besi yang melaju kencang di atas jalur rel"
+      },
+      {
+        "answer": "PERAHU",
+        "clue": "Kendaraan air tradisional bertenaga dayung atau layar pembelah ombak"
+      },
+      {
+        "answer": "DELMAN",
+        "clue": "Kereta roda dua beroda kayu yang ditarik oleh tenaga kuda"
+      },
+      {
+        "answer": "SAMPAN",
+        "clue": "Perahu kayu kecil berlantai datar yang dikayuh di sungai atau perairan tenang"
+      }
+    ]
+  },
+  {
+    "id": "level_27_fauna_air",
+    "title": "Biota Sungai & Rawa",
+    "category": "Hayati",
+    "words": [
+      {
+        "answer": "GURAMI",
+        "clue": "Ikan air tawar bernilai tinggi bersirip dada panjang khas perairan Nusantara"
+      },
+      {
+        "answer": "ARWANA",
+        "clue": "Ikan purba eksotis bersisik indah dengan dua sungut di rahang bawah"
+      },
+      {
+        "answer": "BIAWAK",
+        "clue": "Kadal raksasa perenang ulung penghuni bantaran sungai dan rawa tropis"
+      },
+      {
+        "answer": "GABUS",
+        "clue": "Ikan air tawar predator berkepala pipih kaya kandungan protein albumin"
+      },
+      {
+        "answer": "BUAYA",
+        "clue": "Reptil purba amfibi bertubuh besar bergigi tajam penjaga ekosistem rawa"
+      },
+      {
+        "answer": "PATIN",
+        "clue": "Ikan tawar berkumis halus dengan daging bertekstur lembut mirip lele"
+      },
+      {
+        "answer": "BELUT",
+        "clue": "Ikan bertubuh licin memanjang menyerupai ular penghuni lumpur basah"
+      }
+    ]
+  },
+  {
+    "id": "level_28_mineral",
+    "title": "Harta Tambang & Logam Mulia",
+    "category": "Geologi",
+    "words": [
+      {
+        "answer": "BATUBARA",
+        "clue": "Batuan sedimen organik padat yang mudah terbakar dari endapan tumbuhan purba"
+      },
+      {
+        "answer": "TEMBAGA",
+        "clue": "Logam kemerahan berkemampuan hantar listrik tinggi untuk kawat kabel"
+      },
+      {
+        "answer": "BAUKSIT",
+        "clue": "Mineral bijih utama sebagai bahan baku pembuatan logam aluminium murni"
+      },
+      {
+        "answer": "GRANIT",
+        "clue": "Batuan beku berbutir kasar yang kokoh pembentuk lempeng kerak benua"
+      },
+      {
+        "answer": "NIKEL",
+        "clue": "Logam keras tahan karat berwarna putih keperakan komponen baterai modern"
+      },
+      {
+        "answer": "TIMAH",
+        "clue": "Logam lunak penahan karat untuk solder dan pelapis kaleng kemasan"
+      },
+      {
+        "answer": "INTAN",
+        "clue": "Batu mulia kristal karbon alami terkeras dan berkilau sangat memikat"
+      }
+    ]
+  },
+  {
+    "id": "level_29_cuaca",
+    "title": "Atmosfer & Dinamika Cuaca",
+    "category": "Sains",
+    "words": [
+      {
+        "answer": "MENDUNG",
+        "clue": "Awan kelabu tebal menggantung di angkasa pertanda curahan hujan akan turun"
+      },
+      {
+        "answer": "KEMARAU",
+        "clue": "Musim kering berkepanjangan dengan curah hujan sangat minim dan terik surya"
+      },
+      {
+        "answer": "PELANGI",
+        "clue": "Busur spektrum tujuh warna di langit hasil pembiasan cahaya matahari oleh rintik air"
+      },
+      {
+        "answer": "GERIMIS",
+        "clue": "Hujan rintik-rintik halus dengan tetesan air kecil yang jatuh berhamburan"
+      },
+      {
+        "answer": "GUNTUR",
+        "clue": "Suara gemuruh memecah angkasa akibat gelombang kejut sambaran kilat"
+      },
+      {
+        "answer": "ANGIN",
+        "clue": "Aliran massa udara yang bergerak dari daerah bertekanan tinggi ke rendah"
+      },
+      {
+        "answer": "PETIR",
+        "clue": "Kilatan listrik raksasa di udara yang disertai suara halilintar menggelegar"
+      }
+    ]
+  },
+  {
+    "id": "level_30_tenun",
+    "title": "Wastra & Benang Kencana",
+    "category": "Budaya",
+    "words": [
+      {
+        "answer": "SONGKET",
+        "clue": "Wastra mewah ditenun bertabur sulaman benang emas atau perak kemilau"
+      },
+      {
+        "answer": "LUNGSIN",
+        "clue": "Untaian benang memanjang sejajar yang disilangkan benang pakan pada alat tenun"
+      },
+      {
+        "answer": "CANTING",
+        "clue": "Alat tembaga bercorong kecil bertangkai bambu untuk menorehkan cairan malam"
+      },
+      {
+        "answer": "SUTRA",
+        "clue": "Serat benang alami berkilap lembut hasil pilinan kepompong ulat murbei"
+      },
+      {
+        "answer": "MOTIF",
+        "clue": "Corak atau ragam hias khas yang berulang pada permukaan kain tradisional"
+      },
+      {
+        "answer": "PRADA",
+        "clue": "Hiasan serbuk emas atau perak yang ditempelkan mempercantik kain adat"
+      },
+      {
+        "answer": "TENUN",
+        "clue": "Keterampilan menganyam persilangan benang menjadi sehelai kain elok bermutu"
+      }
+    ]
+  }
+]

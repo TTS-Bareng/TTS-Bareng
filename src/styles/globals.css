@@ -1,0 +1,764 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="obsidian"], [data-theme="espresso"], [data-theme="oxford"], [data-theme="dark"], .dark, .dark *));
+@custom-variant light (&:where([data-theme="milky"], [data-theme="clean_white"], [data-theme="sage"], [data-theme="nube"], [data-theme="bordo"], [data-theme="racing"], [data-theme="electric"], [data-theme="blossom"], [data-theme="light"], .light, .light *));
+
+@theme {
+  --font-sans:
+    "Urbanist", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+  --font-serif: "Newsreader", Georgia, serif;
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-typewriter: "Courier Prime", "Courier New", Courier, monospace;
+}
+
+/* ============================================================
+   1. WARM OBSIDIAN (Dark Mode) — Apple Monochrome Luxury
+   ============================================================ */
+:root,
+:root[data-theme="obsidian"],
+:root[data-theme="dark"],
+.dark,
+.theme-obsidian {
+  --c-glass: #bbbbbc;
+  --c-light: #ffffff;
+  --c-dark: #000000;
+  --glass-reflex-dark: 2;
+  --glass-reflex-light: 0.35;
+  --saturation: 175%;
+
+  --bg-base: #111113;
+  --bg-primary: #111113;
+  --bg-elevated: #18181c;
+  --bg-elevated-2: #222228;
+  --bg-card: #18181c;
+  --bg-paper: #111113;
+  --bg-bookshelf-luminance: radial-gradient(
+      ellipse 85% 55% at 50% -6%,
+      rgba(255, 255, 255, 0.065) 0%,
+      rgba(255, 255, 255, 0.015) 50%,
+      transparent 80%
+    ),
+    linear-gradient(180deg, #161619 0%, #111113 55%, #0b0b0d 100%);
+
+  --bg-card-contrast: #ffffff;
+  --text-contrast: #121212;
+  --text-contrast-sub: #52525b;
+
+  --glass-fill: rgba(26, 26, 32, 0.65);
+  --glass-fill-strong: rgba(34, 34, 42, 0.78);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-highlight: rgba(255, 255, 255, 0.22);
+  --glass-refraction: rgba(0, 0, 0, 0.35);
+  --glass-shadow-color: rgba(0, 0, 0, 0.45);
+
+  --glass-surface: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  --glass-surface-strong: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.16) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+
+  --text-primary: #f5f5f4;
+  --text-secondary: #a8a29e;
+  --text-tertiary: #78716c;
+
+  --accent: #f5f5f4;
+  --accent-secondary: #d6d3d1;
+  --accent-ink: #111113;
+
+  --dock-bg: rgba(20, 20, 24, 0.72);
+  --dock-border: rgba(255, 255, 255, 0.14);
+  --dock-active-pill: rgba(255, 255, 255, 0.14);
+  --dock-active-ink: #ffffff;
+  --dock-inactive-ink: rgba(255, 255, 255, 0.45);
+  --dock-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.3);
+  --dock-active-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+  --card-gradient-hero: linear-gradient(
+    155deg,
+    rgba(28, 28, 34, 0.75) 0%,
+    rgba(18, 18, 22, 0.85) 100%
+  );
+  --hero-grad: var(--card-gradient-hero);
+  --hero-btn-text: #111113;
+  --card-gradient-subtle: linear-gradient(
+    145deg,
+    rgba(26, 26, 32, 0.65) 0%,
+    rgba(18, 18, 22, 0.75) 100%
+  );
+
+  --sheet-bg: #18181c;
+  --sheet-border: 1px solid var(--glass-border);
+  --sheet-shadow: 0 -12px 40px rgba(0, 0, 0, 0.6);
+  --glass-milky: var(--glass-fill);
+  --glass-milky-border: 1px solid var(--glass-border);
+  --glass-milky-shadow: var(--shadow-card);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-strength: rgba(0, 0, 0, 0.35);
+  --shadow-card:
+    0 10px 30px -4px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.18);
+  --shadow-polaroid: 0 12px 36px -4px rgba(0, 0, 0, 0.65);
+
+  --bg-canvas: var(--bg-base);
+  --ink-primary: var(--text-primary);
+  --ink-secondary: var(--text-secondary);
+  --ink-tertiary: var(--text-tertiary);
+  --hairline: var(--glass-border);
+}
+
+/* ============================================================
+   2. NOCTURNE ESPRESSO (Warm Dark Mode) — Roasted Cocoa & Ink
+   ============================================================ */
+:root[data-theme="espresso"],
+.theme-espresso {
+  --bg-base: #191716;
+  --bg-primary: #191716;
+  --bg-elevated: #23201e;
+  --bg-elevated-2: #2c2825;
+  --bg-card: #23201e;
+  --bg-paper: #191716;
+  --bg-bookshelf-luminance: radial-gradient(
+      ellipse 85% 55% at 50% -6%,
+      rgba(255, 242, 226, 0.055) 0%,
+      rgba(255, 242, 226, 0.012) 50%,
+      transparent 80%
+    ),
+    linear-gradient(180deg, #221e1b 0%, #191716 55%, #131211 100%);
+
+  --bg-card-contrast: #ede8e1;
+  --text-contrast: #191716;
+  --text-contrast-sub: #78716c;
+
+  --text-primary: #ede8e1;
+  --text-secondary: #b5aca2;
+  --text-tertiary: #7d746b;
+
+  --accent: #ede8e1;
+  --accent-secondary: #d6cec2;
+  --accent-ink: #191716;
+
+  --glass-fill: rgba(35, 32, 30, 0.68);
+  --glass-fill-strong: rgba(44, 40, 37, 0.82);
+  --glass-surface: linear-gradient(
+    135deg,
+    rgba(255, 248, 238, 0.11) 0%,
+    rgba(255, 248, 238, 0.02) 100%
+  );
+  --glass-surface-strong: linear-gradient(
+    135deg,
+    rgba(255, 248, 238, 0.16) 0%,
+    rgba(255, 248, 238, 0.05) 100%
+  );
+  --glass-border: rgba(237, 232, 225, 0.13);
+  --glass-highlight: rgba(255, 248, 238, 0.2);
+  --glass-refraction: rgba(0, 0, 0, 0.4);
+  --glass-shadow-color: rgba(0, 0, 0, 0.55);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+  --shadow-card:
+    0 10px 30px -4px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.2);
+  --shadow-polaroid: 0 12px 36px -4px rgba(0, 0, 0, 0.7);
+
+  --sheet-bg: #23201e;
+  --sheet-border: rgba(237, 232, 225, 0.12);
+}
+
+/* ============================================================
+   2.5 OXFORD NAVY (Dark Mode) — Archival Midnight Ink & Platinum
+   ============================================================ */
+:root[data-theme="oxford"],
+.theme-oxford {
+  --bg-base: #101520;
+  --bg-primary: #101520;
+  --bg-elevated: #151b29;
+  --bg-elevated-2: #1b2335;
+  --bg-card: #151b29;
+  --bg-paper: #101520;
+  --bg-bookshelf-luminance: radial-gradient(
+      ellipse 85% 55% at 50% -6%,
+      rgba(210, 230, 255, 0.075) 0%,
+      rgba(210, 230, 255, 0.015) 50%,
+      transparent 80%
+    ),
+    linear-gradient(180deg, #151b28 0%, #101520 55%, #0a0d14 100%);
+
+  --bg-card-contrast: #ffffff;
+  --text-contrast: #0f141d;
+  --text-contrast-sub: #64748b;
+
+  --glass-fill: rgba(21, 27, 41, 0.68);
+  --glass-fill-strong: rgba(27, 35, 53, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-highlight: rgba(255, 255, 255, 0.2);
+  --glass-refraction: rgba(0, 0, 0, 0.4);
+  --glass-shadow-color: rgba(0, 0, 0, 0.5);
+
+  --glass-surface: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  --glass-surface-strong: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #64748b;
+
+  --accent: #f1f5f9;
+  --accent-secondary: #cbd5e1;
+  --accent-ink: #101520;
+
+  --dock-bg: rgba(21, 27, 41, 0.76);
+  --dock-border: rgba(255, 255, 255, 0.14);
+  --dock-active-pill: rgba(255, 255, 255, 0.14);
+  --dock-active-ink: #ffffff;
+  --dock-inactive-ink: rgba(255, 255, 255, 0.45);
+  --dock-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 4px 12px rgba(0, 0, 0, 0.35);
+  --dock-active-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+
+  --card-gradient-hero: linear-gradient(
+    155deg,
+    rgba(26, 34, 52, 0.8) 0%,
+    rgba(16, 21, 32, 0.9) 100%
+  );
+  --card-gradient-subtle: linear-gradient(
+    145deg,
+    rgba(21, 27, 41, 0.7) 0%,
+    rgba(16, 21, 32, 0.8) 100%
+  );
+
+  --sheet-bg: #151b29;
+  --sheet-border: 1px solid var(--glass-border);
+  --sheet-shadow: 0 -12px 40px rgba(0, 0, 0, 0.65);
+  --glass-milky: var(--glass-fill);
+  --glass-milky-border: 1px solid var(--glass-border);
+  --glass-milky-shadow: var(--shadow-card);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+  --shadow-card:
+    0 10px 30px -4px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.25);
+  --shadow-polaroid: 0 12px 36px -4px rgba(0, 0, 0, 0.7);
+}
+
+/* ============================================================
+   3. MILKY GLASS (Light Opalescent Mode) — #F8FAFC & Titanium
+   ============================================================ */
+:root[data-theme="milky"],
+.theme-milky {
+  --bg-base: #f8fafc;
+  --bg-canvas: #f8fafc;
+  --bg-primary: #f8fafc;
+  --bg-elevated: rgba(255, 255, 255, 0.88);
+  --bg-elevated-2: rgba(248, 250, 252, 0.95);
+  --bg-card: #ffffff;
+  --bg-paper: #f8fafc;
+  --bg-bookshelf-luminance: radial-gradient(
+      ellipse 90% 60% at 50% -8%,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(241, 245, 249, 0.55) 60%,
+      transparent 100%
+    ),
+    linear-gradient(180deg, #f8fafc 0%, #f1f5f9 55%, #e2e8f0 100%);
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #64748b;
+
+  --accent: #0f172a;
+  --accent-secondary: #334155;
+  --accent-ink: #ffffff;
+
+  --glass-fill: rgba(255, 255, 255, 0.82);
+  --glass-fill-strong: rgba(255, 255, 255, 0.92);
+  --glass-surface: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(241, 245, 249, 0.7) 100%
+  );
+  --glass-surface-strong: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(241, 245, 249, 0.85) 100%
+  );
+  --glass-border: rgba(15, 23, 42, 0.08);
+  --glass-highlight: rgba(255, 255, 255, 0.98);
+  --glass-refraction: rgba(15, 23, 42, 0.04);
+  --glass-shadow-color: rgba(15, 23, 42, 0.06);
+
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.04);
+  --shadow-card:
+    0 8px 24px -4px rgba(15, 23, 42, 0.06),
+    0 2px 6px -1px rgba(15, 23, 42, 0.02);
+  --shadow-polaroid: 0 12px 32px -4px rgba(15, 23, 42, 0.08);
+
+  --sheet-bg: #ffffff;
+  --sheet-border: rgba(15, 23, 42, 0.08);
+}
+
+/* ============================================================
+   4. CRISP IVORY (Clean White / Light) — Clear Liquid Glass
+   ============================================================ */
+:root[data-theme="clean_white"],
+:root[data-theme="nube"],
+:root[data-theme="light"],
+.light,
+.theme-clean_white {
+  --c-glass: #ffffff;
+  --c-light: #ffffff;
+  --c-dark: #000000;
+  --glass-reflex-dark: 1;
+  --glass-reflex-light: 1;
+  --saturation: 190%;
+
+  --bg-base: #fcfcfa;
+  --bg-canvas: #fcfcfa;
+  --bg-primary: #ffffff;
+  --bg-paper: #fcfcfa;
+  --bg-bookshelf-luminance: radial-gradient(
+      ellipse 85% 55% at 50% -6%,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0.45) 50%,
+      transparent 80%
+    ),
+    linear-gradient(180deg, #ffffff 0%, #fafafc 55%, #f2f2f7 100%);
+
+  --bg-elevated: rgba(255, 255, 255, 0.75);
+  --bg-elevated-2: rgba(248, 248, 252, 0.68);
+
+  --bg-card: #ffffff;
+  --glass-fill: rgba(255, 255, 255, 0.78);
+  --glass-fill-strong: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(15, 23, 42, 0.075);
+  --glass-highlight: #ffffff;
+  --glass-refraction: rgba(24, 24, 27, 0.04);
+  --glass-shadow-color: rgba(25, 30, 48, 0.06);
+
+  --glass-surface: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(250, 250, 252, 0.65) 100%
+  );
+  --glass-surface-strong: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(245, 245, 248, 0.78) 100%
+  );
+
+  --bg-card-contrast: #18181b;
+  --text-contrast: #ffffff;
+  --text-contrast-sub: #a1a1aa;
+
+  --text-primary: #18181b;
+  --text-secondary: #3f3f46;
+  --text-tertiary: #71717a;
+
+  --accent: #18181b;
+  --accent-secondary: #27272a;
+  --accent-ink: #ffffff;
+
+  --dock-bg: rgba(255, 255, 255, 0.86);
+  --dock-border: rgba(255, 255, 255, 0.92);
+  --dock-active-pill: #ffffff;
+  --dock-active-ink: #09090b;
+  --dock-inactive-ink: #64748b;
+  --dock-shadow:
+    0 16px 38px -8px rgba(25, 30, 48, 0.08),
+    0 4px 14px -2px rgba(25, 30, 48, 0.03), inset 0 1.5px 0 #ffffff;
+  --dock-active-shadow:
+    0 2px 6px -1px rgba(15, 23, 42, 0.08), inset 0 1px 0 #ffffff;
+
+  --sheet-bg: #ffffff;
+  --sheet-border: 1px solid rgba(15, 23, 42, 0.075);
+  --sheet-shadow: inset 0 1.5px 0 #ffffff, 0 -10px 36px rgba(20, 25, 38, 0.06);
+
+  --glass-milky: rgba(255, 255, 255, 0.82);
+  --glass-milky-border: 1px solid rgba(15, 23, 42, 0.075);
+  --glass-milky-shadow:
+    0 10px 24px -4px rgba(25, 30, 48, 0.05),
+    0 2px 6px -1px rgba(25, 30, 48, 0.02), inset 0 1.5px 0 #ffffff;
+
+  --card-gradient-hero: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(250, 250, 252, 0.74) 100%
+  );
+  --card-gradient-subtle: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.84) 0%,
+    rgba(250, 250, 252, 0.68) 100%
+  );
+
+  --shadow-sm: 0 1px 3px rgba(24, 24, 27, 0.05);
+  --shadow-strength: rgba(20, 25, 38, 0.04);
+  --shadow-card:
+    0 10px 24px -4px rgba(25, 30, 48, 0.05),
+    0 2px 6px -1px rgba(25, 30, 48, 0.02), inset 0 1.5px 0 #ffffff;
+  --shadow-polaroid: 0 12px 32px -4px rgba(24, 24, 27, 0.08);
+
+  --bg-canvas: var(--bg-base);
+  --ink-primary: var(--text-primary);
+  --ink-secondary: var(--text-secondary);
+  --ink-tertiary: var(--text-tertiary);
+  --hairline: var(--glass-border);
+}
+
+/* ============================================================
+   5. KYOTO MATCHA (Light Mode) — Authentic Matcha Washi Paper
+   ============================================================ */
+:root[data-theme="sage"],
+.theme-sage {
+  --bg-base: #dbe6db;
+  --bg-primary: #dbe6db;
+  --bg-elevated: rgba(235, 244, 235, 0.85);
+  --bg-elevated-2: rgba(228, 239, 228, 0.95);
+  --bg-card: #e5efe5;
+  --bg-paper: #dbe6db;
+  --bg-bookshelf-luminance: radial-gradient(
+      ellipse 85% 55% at 50% -6%,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      transparent 80%
+    ),
+    linear-gradient(180deg, #eaf2ea 0%, #dbe6db 55%, #c8dac8 100%);
+
+  --text-primary: #122416;
+  --text-secondary: #3e5443;
+  --text-tertiary: #495e4e;
+
+  --accent: #122416;
+  --accent-ink: #dbe6db;
+
+  --glass-fill: rgba(229, 239, 229, 0.78);
+  --glass-fill-strong: rgba(229, 239, 229, 0.92);
+  --glass-surface: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(219, 230, 219, 0.7) 100%
+  );
+  --glass-surface-strong: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.96) 0%,
+    rgba(219, 230, 219, 0.85) 100%
+  );
+  --glass-border: rgba(18, 36, 22, 0.12);
+  --glass-highlight: rgba(255, 255, 255, 0.92);
+  --glass-refraction: rgba(18, 36, 22, 0.05);
+  --glass-shadow-color: rgba(18, 36, 22, 0.06);
+
+  --shadow-sm: 0 1px 3px rgba(18, 36, 22, 0.04);
+  --shadow-card:
+    0 8px 24px -4px rgba(18, 36, 22, 0.07),
+    0 2px 6px -1px rgba(18, 36, 22, 0.03);
+  --shadow-polaroid: 0 12px 32px -4px rgba(18, 36, 22, 0.14);
+
+  --sheet-bg: #e5efe5;
+  --sheet-border: rgba(18, 36, 22, 0.12);
+}
+
+/* ============================================================
+   LIGHT MODE TEXT DARKENING HELPERS
+   ============================================================ */
+.light .text-neutral-400,
+.light .text-neutral-500,
+.light .text-zinc-400,
+.light .text-zinc-500,
+.light .text-gray-400,
+.light .text-gray-500,
+:root[data-theme="clean_white"] .text-neutral-400,
+:root[data-theme="clean_white"] .text-neutral-500,
+:root[data-theme="clean_white"] .text-zinc-400,
+:root[data-theme="clean_white"] .text-zinc-500,
+:root[data-theme="clean_white"] .text-gray-400,
+:root[data-theme="clean_white"] .text-gray-500,
+:root[data-theme="light"] .text-neutral-400,
+:root[data-theme="light"] .text-neutral-500,
+:root[data-theme="light"] .text-zinc-400,
+:root[data-theme="light"] .text-zinc-500,
+:root[data-theme="light"] .text-gray-400,
+:root[data-theme="light"] .text-gray-500 {
+  color: #52525b;
+}
+
+.light .text-neutral-300,
+.light .text-zinc-300,
+.light .text-gray-300,
+:root[data-theme="clean_white"] .text-neutral-300,
+:root[data-theme="clean_white"] .text-zinc-300,
+:root[data-theme="clean_white"] .text-gray-300,
+:root[data-theme="light"] .text-neutral-300,
+:root[data-theme="light"] .text-zinc-300,
+:root[data-theme="light"] .text-gray-300 {
+  color: #64748b;
+}
+
+/* ============================================================
+   GLOBAL BASE
+   ============================================================ */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  overflow-x: clip;
+  transition:
+    background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================================
+   TTS QUEST SPECIFIC INTERACTION & TILE UTILITIES
+   ============================================================ */
+.tactile-active:active {
+  transform: translateY(1.5px) scale(0.98);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.15) !important;
+}
+
+.liquid-gloss-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0.18) 45%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.06) 100%
+  );
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(150, 150, 150, 0.2);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(150, 150, 150, 0.4);
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ============================================================
+   KARTU DALAM: MILKY PORCELAIN LIQUID GLASS (TTS & Native)
+   ============================================================ */
+.glass-surface,
+.glass-card,
+.glass,
+.liquid-glass-card {
+  background: var(--glass-fill, rgba(255, 255, 255, 0.82));
+  backdrop-filter: blur(24px) saturate(var(--saturation, 180%));
+  -webkit-backdrop-filter: blur(24px) saturate(var(--saturation, 180%));
+  border: 1px solid var(--border-card, rgba(15, 23, 42, 0.075));
+  border-radius: 24px;
+  box-shadow:
+    var(--shadow-card, 0 10px 24px -4px rgba(25, 30, 48, 0.05)),
+    inset 0 1.5px 0 var(--glass-highlight, #ffffff);
+  position: relative;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+:where([data-theme="obsidian"], [data-theme="espresso"], [data-theme="oxford"], [data-theme="dark"], .dark) .liquid-glass-card {
+  background: var(--glass-fill, linear-gradient(145deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.025) 100%));
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.12));
+  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.45), inset 0 1px 0 var(--glass-highlight, rgba(255, 255, 255, 0.16));
+  backdrop-filter: blur(32px) saturate(190%);
+  -webkit-backdrop-filter: blur(32px) saturate(190%);
+}
+
+:where([data-theme="sage"]) .liquid-glass-card {
+  background: linear-gradient(180deg, rgba(235, 244, 235, 0.92) 0%, rgba(224, 236, 224, 0.78) 100%);
+  border: 1px solid rgba(18, 36, 22, 0.12);
+  box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.8), 0 8px 24px -4px rgba(18, 36, 22, 0.06);
+  color: #122416;
+}
+
+:where([data-theme="milky"]) .liquid-glass-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.88) 100%);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: inset 0 1.5px 0 #FFFFFF, 0 8px 24px -4px rgba(15, 23, 42, 0.04);
+  color: #18181b;
+}
+
+/* ============================================================
+   MILKY LIQUID GLASS CARD (Frosted Translucent Milk Sheen)
+   ============================================================ */
+.milky-glass-card {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 24px;
+  box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.95), 0 8px 24px -4px rgba(0, 0, 0, 0.04);
+  position: relative;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+:where([data-theme="obsidian"], [data-theme="espresso"], [data-theme="oxford"], [data-theme="dark"], .dark) .milky-glass-card {
+  background: rgba(26, 26, 32, 0.74) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 10px 28px -4px rgba(0, 0, 0, 0.45) !important;
+}
+
+:where([data-theme="sage"]) .milky-glass-card {
+  background: rgba(235, 244, 235, 0.85) !important;
+  border: 1px solid rgba(18, 36, 22, 0.12) !important;
+  box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.9), 0 8px 24px -4px rgba(18, 36, 22, 0.05) !important;
+  color: #122416 !important;
+}
+
+:where([data-theme="milky"]) .milky-glass-card {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: inset 0 1.5px 0 #FFFFFF, 0 8px 24px -4px rgba(15, 23, 42, 0.04) !important;
+  color: #18181b !important;
+}
+
+/* ============================================================
+   CONTAINER SLAB: CLEAR LIQUID GLASS TRAY & DOCK
+   ============================================================ */
+.floating-slab {
+  background-color: color-mix(in srgb, var(--c-glass) 10%, transparent);
+  backdrop-filter: blur(28px) saturate(var(--saturation, 180%));
+  -webkit-backdrop-filter: blur(28px) saturate(var(--saturation, 180%));
+  border: 1px solid color-mix(in srgb, var(--c-light) 14%, transparent);
+  border-radius: 28px;
+  box-shadow:
+    inset 0 1px 0 0 color-mix(in srgb, var(--c-light) 20%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, var(--c-light) 6%, transparent);
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.floating-dock,
+.liquid-glass-nav {
+  background: var(--dock-bg, rgba(255, 255, 255, 0.88));
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid var(--dock-border, rgba(255, 255, 255, 0.92));
+  border-radius: 28px;
+  box-shadow: var(--dock-shadow, 0 16px 40px rgba(0, 0, 0, 0.1));
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+:where([data-theme="obsidian"], [data-theme="espresso"], [data-theme="oxford"], [data-theme="dark"], .dark) .liquid-glass-nav {
+  background: var(--dock-bg, rgba(20, 20, 24, 0.72)) !important;
+  border: 1px solid var(--dock-border, rgba(255, 255, 255, 0.14)) !important;
+  box-shadow: var(--dock-shadow, 0 16px 40px rgba(0, 0, 0, 0.5)) !important;
+}
+
+:where([data-theme="sage"]) .liquid-glass-nav {
+  background: rgba(219, 230, 219, 0.92) !important;
+  border: 1px solid rgba(18, 36, 22, 0.14) !important;
+  box-shadow: 0 16px 44px -6px rgba(18, 36, 22, 0.1), inset 0 1.5px 0 #FFFFFF !important;
+}
+
+:where([data-theme="milky"]) .liquid-glass-nav {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 16px 44px -6px rgba(15, 23, 42, 0.08), inset 0 1.5px 0 #FFFFFF !important;
+}
+
+/* ============================================================
+   TILES & BUTTONS (Crossword Virtual Keyboard & Interactive Tiles)
+   ============================================================ */
+.liquid-glass-tile {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 1px 2px rgba(0, 0, 0, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--text-primary);
+  border-radius: 12px;
+}
+
+:where([data-theme="obsidian"], [data-theme="espresso"], [data-theme="oxford"], [data-theme="dark"], .dark) .liquid-glass-tile {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  color: var(--text-primary) !important;
+}
+
+:where([data-theme="sage"]) .liquid-glass-tile {
+  background: rgba(18, 36, 22, 0.05) !important;
+  border: 1px solid rgba(18, 36, 22, 0.12) !important;
+  color: #122416 !important;
+}
+
+:where([data-theme="milky"]) .liquid-glass-tile {
+  background: rgba(15, 23, 42, 0.04) !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  color: #18181b !important;
+}
+
+.liquid-glass-tile-active {
+  background: var(--accent-main) !important;
+  border: 1px solid var(--accent-main) !important;
+  color: var(--accent-contrast) !important;
+}
+
+:where([data-theme="obsidian"], [data-theme="espresso"], [data-theme="oxford"], [data-theme="dark"], .dark) .liquid-glass-tile-active {
+  background: var(--accent-main) !important;
+  border: 1px solid var(--accent-main) !important;
+  color: var(--accent-contrast) !important;
+}
+
+.liquid-glass-center-btn {
+  background: var(--accent-main);
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  box-shadow: inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.45), 0 4px 12px -2px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  color: var(--accent-contrast);
+}
+
+:where([data-theme="obsidian"], [data-theme="espresso"], [data-theme="oxford"], [data-theme="dark"], .dark) .liquid-glass-center-btn {
+  background: var(--accent-main) !important;
+  color: var(--accent-contrast) !important;
+}
+
+.liquid-glass-button {
+  background: var(--accent-grad, linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 243, 255, 0.75) 100%));
+  box-shadow:
+    0 10px 25px -4px rgba(0, 0, 0, 0.15),
+    inset 0 1.5px 2px rgba(255, 255, 255, 1),
+    inset 0 -1.5px 2px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}

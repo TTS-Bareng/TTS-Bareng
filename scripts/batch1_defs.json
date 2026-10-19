@@ -1,0 +1,212 @@
+[
+  {
+    "id": "level_7_budaya",
+    "title": "Adat & Budaya Nusantara",
+    "category": "Budaya",
+    "words": [
+      {
+        "answer": "TONGKONAN",
+        "clue": "Rumah panggung adat beratap melengkung mirip perahu khas masyarakat Toraja"
+      },
+      {
+        "answer": "SONGKET",
+        "clue": "Kain tenun mewah berhiaskan sulaman benang emas atau perak khas Melayu"
+      },
+      {
+        "answer": "RENCONG",
+        "clue": "Senjata tikam pusaka khas Aceh lambang keberanian dan perjuangan bangsa"
+      },
+      {
+        "answer": "WAYANG",
+        "clue": "Seni pertunjukan bayangan kulit tradisional warisan adiluhung Nusantara"
+      },
+      {
+        "answer": "BATIK",
+        "clue": "Kain bergambar khas Indonesia yang dibuat menggunakan cairan malam dan canting"
+      },
+      {
+        "answer": "KERIS",
+        "clue": "Senjata pusaka berbilah kelok atau lurus warisan leluhur Nusantara"
+      },
+      {
+        "answer": "TENUN",
+        "clue": "Kriya pembuatan kain dengan merapatkan benang lungsin dan pakan"
+      }
+    ]
+  },
+  {
+    "id": "level_8_flora",
+    "title": "Flora & Rimba Tropis",
+    "category": "Hayati",
+    "words": [
+      {
+        "answer": "RAFLESIA",
+        "clue": "Bunga raksasa parasit langka berbau busuk penyengat khas hutan Sumatra"
+      },
+      {
+        "answer": "BERINGIN",
+        "clue": "Pohon besar berakar gantung lebat yang melambangkan keteduhan dan persatuan"
+      },
+      {
+        "answer": "CENDANA",
+        "clue": "Pohon harum penghasil kayu aromatik dan minyak wangi dari Nusa Tenggara"
+      },
+      {
+        "answer": "MERANTI",
+        "clue": "Pohon kayu komersial bernilai tinggi dari rimba hutan hujan Kalimantan"
+      },
+      {
+        "answer": "ANGGREK",
+        "clue": "Tanaman hias berbunga anggun yang sering hidup menempel pada dahan pohon"
+      },
+      {
+        "answer": "KELAPA",
+        "clue": "Tumbuhan serbaguna yang tumbuh subur di sepanjang pesisir pantai tropis"
+      },
+      {
+        "answer": "ROTAN",
+        "clue": "Tumbuhan berduri penghasil batang panjang lentur untuk bahan anyaman perabot"
+      }
+    ]
+  },
+  {
+    "id": "level_9_sejarah",
+    "title": "Jejak Candi & Kerajaan",
+    "category": "Sejarah",
+    "words": [
+      {
+        "answer": "MAJAPAHIT",
+        "clue": "Kerajaan bahari terbesar di Nusantara pimpinan Hayam Wuruk dan Gajah Mada"
+      },
+      {
+        "answer": "SRIWIJAYA",
+        "clue": "Kerajaan maritim adidaya bercorak Buddha yang berpusat di muara Sungai Musi"
+      },
+      {
+        "answer": "BOROBUDUR",
+        "clue": "Mahakarya candi Buddha terbesar di dunia peninggalan wangsa Syailendra"
+      },
+      {
+        "answer": "PRAMBANAN",
+        "clue": "Kompleks candi Hindu terindah di Jawa yang dipersembahkan untuk Dewa Trimurti"
+      },
+      {
+        "answer": "PRASASTI",
+        "clue": "Piagam piagam kuno yang dipahatkan pada batu atau tembaga sebagai bukti sejarah"
+      },
+      {
+        "answer": "ARTEFAK",
+        "clue": "Benda peninggalan arkeologis masa lampau buatan manusia yang sarat nilai sejarah"
+      },
+      {
+        "answer": "MATARAM",
+        "clue": "Kerajaan agraris dan maritim di Jawa yang masyhur pada era Sultan Agung"
+      }
+    ]
+  },
+  {
+    "id": "level_10_seni",
+    "title": "Alunan Musik & Seni Daerah",
+    "category": "Seni",
+    "words": [
+      {
+        "answer": "KOLINTANG",
+        "clue": "Alat musik perkusi bilah kayu melodis khas Minahasa Sulawesi Utara"
+      },
+      {
+        "answer": "ANGKLUNG",
+        "clue": "Alat musik bambu bernada getar khas Sunda yang diakui sebagai warisan UNESCO"
+      },
+      {
+        "answer": "GAMELAN",
+        "clue": "Ensembel instrumen gong dan tabuh gamelan tradisional Jawa dan Bali"
+      },
+      {
+        "answer": "SASANDO",
+        "clue": "Alat musik petik berdawai dari Pulau Rote berlapiskan anyaman daun lontar"
+      },
+      {
+        "answer": "KENDANG",
+        "clue": "Instrumen tabuh membranofon pengatur tempo utama dalam pagelaran karawitan"
+      },
+      {
+        "answer": "SULING",
+        "clue": "Alat musik tiup bambu berlubang nada berdesir lembut mengalun merdu"
+      },
+      {
+        "answer": "SAMAN",
+        "clue": "Tarian tepuk tangan seribu gerakan harmonis dari dataran tinggi Gayo Aceh"
+      }
+    ]
+  },
+  {
+    "id": "level_11_geografi",
+    "title": "Bentang Alam Nusantara",
+    "category": "Geografi",
+    "words": [
+      {
+        "answer": "KRAKATAU",
+        "clue": "Gunung api legendaris di Selat Sunda yang letusannya mengguncang dunia tahun 1883"
+      },
+      {
+        "answer": "SAMUDRA",
+        "clue": "Hamparan lautan luas tak terhingga yang membingkai gugusan pulau Indonesia"
+      },
+      {
+        "answer": "LEMBAH",
+        "clue": "Dataran rendah yang membentang di antara dua tebing atau lereng perbukitan"
+      },
+      {
+        "answer": "GUNUNG",
+        "clue": "Gundukan batuan kerak bumi menjulang tinggi berhawa sejuk di puncaknya"
+      },
+      {
+        "answer": "SUNGAI",
+        "clue": "Aliran air alami memanjang mengalir dari hulu gunung menuju muara laut"
+      },
+      {
+        "answer": "PANTAI",
+        "clue": "Batas pertemuan daratan dan perairan laut berpasir tempat deburan ombak"
+      },
+      {
+        "answer": "DANAU",
+        "clue": "Cekungan daratan luas alami tergenang air tawar seperti Toba dan Batur"
+      }
+    ]
+  },
+  {
+    "id": "level_12_rempah",
+    "title": "Wangi Rempah Khatulistiwa",
+    "category": "Kuliner",
+    "words": [
+      {
+        "answer": "KAYUMANIS",
+        "clue": "Kulit batang pohon beraroma manis hangat penggugah cita rasa masakan"
+      },
+      {
+        "answer": "KAPULAGA",
+        "clue": "Rempah polong harum berselaput biji khas ramuan gulai dan sup nusantara"
+      },
+      {
+        "answer": "KETUMBAR",
+        "clue": "Biji rempah bulat kecil beraroma gurih andalan bumbu ungkep dan marinasi"
+      },
+      {
+        "answer": "CENGKEH",
+        "clue": "Kuncup bunga kering wangi primadona rempah Kepulauan Maluku penakluk dunia"
+      },
+      {
+        "answer": "KUNYIT",
+        "clue": "Rimpang berakar jingga kuning alami penambah cita rasa dan pewarna masakan"
+      },
+      {
+        "answer": "SERAI",
+        "clue": "Batang tanaman berdaun panjang pengharum aroma segar sup dan seduhan wedang"
+      },
+      {
+        "answer": "PALA",
+        "clue": "Biji rempah aromatik berkulit keras bersalut fuli merah khas Kepulauan Banda"
+      }
+    ]
+  }
+]

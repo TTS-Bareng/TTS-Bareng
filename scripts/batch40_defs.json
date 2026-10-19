@@ -1,0 +1,112 @@
+[
+  {
+    "id": "level_206_kaldera_bromo",
+    "title": "Pesona Kaldera Bromo & Pasir Berbisik",
+    "category": "Wisata",
+    "words": [
+      { "answer": "BROMO", "clue": "Gunung api aktif di Jawa Timur dengan kaldera pasir berbisik yang masyhur" },
+      { "answer": "TENGGER", "clue": "Suku asli yang mendiami lereng Bromo penjaga tradisi leluhur Majapahit" },
+      { "answer": "KALDERA", "clue": "Kawah raksasa hasil letusan purba yang kini menjadi lautan pasir luas" },
+      { "answer": "LAUTAN", "clue": "Hamparan pasir hitam vulkanik seluas puluhan kilometer persegi di Bromo" },
+      { "answer": "KASADA", "clue": "Upacara adat tahunan suku Tengger melarung sesaji ke kawah Bromo" },
+      { "answer": "SESAJI", "clue": "Persembahan hasil bumi ternak dan bunga yang dilarung ke kawah suci" },
+      { "answer": "BATOK", "clue": "Gunung kerucut mati yang berdiri anggun di samping kawah Bromo" },
+      { "answer": "PENANJAKAN", "clue": "Puncak tertinggi titik terbaik menyaksikan pesona mentari terbit" },
+      { "answer": "SUBUH", "clue": "Waktu dini hari ketika wisatawan mendaki berburu pemandangan matahari fajar" },
+      { "answer": "MENTARI", "clue": "Sinar emas fajar pagi yang menyinari lautan kabut di kaldera Bromo" },
+      { "answer": "KABUT", "clue": "Gumpalan awan putih yang mengambang menutupi dasar kaldera pagi hari" },
+      { "answer": "KUDA", "clue": "Tunggangan sewa khas suku Tengger melintasi lautan pasir berbisik" },
+      { "answer": "PURA", "clue": "Tempat ibadah umat Hindu Poten di tengah hamparan pasir kaki Bromo" },
+      { "answer": "BELERANG", "clue": "Asap gas vulkanik beraroma khas yang mengepul dari dasar kawah aktif" },
+      { "answer": "WISATA", "clue": "Daya tarik pelesir alam yang memesona jutaan pelancong nusantara dan dunia" }
+    ]
+  },
+  {
+    "id": "level_207_labuan_bajo",
+    "title": "Labuan Bajo & Habitat Komodo Flores",
+    "category": "Destinasi",
+    "words": [
+      { "answer": "LABUAN", "clue": "Kota pelabuhan di ujung barat Flores pintu gerbang Taman Nasional Komodo" },
+      { "answer": "KOMODO", "clue": "Kadal raksasa purba endemik Indonesia yang mendiami Pulau Rinca dan Komodo" },
+      { "answer": "PADAR", "clue": "Pulau perbukitan eksotis dengan tiga teluk berpasir warna berbeda" },
+      { "answer": "RINCA", "clue": "Salah satu pulau utama habitat alami populasi kadal komodo di NTT" },
+      { "answer": "PINISI", "clue": "Kapal layar tradisional kayu khas pelayaran mewah mengarungi perairan Bajo" },
+      { "answer": "FLORES", "clue": "Pulau bunga eksotis tempat bermulanya petualangan alam Nusa Tenggara Timur" },
+      { "answer": "MANGGARAI", "clue": "Kabupaten di Nusa Tenggara Timur tempat Labuan Bajo berada" },
+      { "answer": "KARANG", "clue": "Taman laut bawah air berhias aneka terumbu karang warna-warni memikat" },
+      { "answer": "SAVANA", "clue": "Padang rumput keemasan yang menyelimuti perbukitan pulau-pulau kecil" },
+      { "answer": "MANTA", "clue": "Pari raksasa anggun yang sering dijumpai penyelam di Manta Point Bajo" },
+      { "answer": "TELUK", "clue": "Perairan laut menjorok ke daratan tempat kapal-kapal pinisi berlabuh tenang" },
+      { "answer": "SENJA", "clue": "Pemandangan matahari terbenam spektakuler berlatar siluet kapal layar" },
+      { "answer": "KADAL", "clue": "Reptil pemangsa puncak berdarah dingin kebanggaan satwa nasional Indonesia" },
+      { "answer": "DIVER", "clue": "Penyelam penjelajah keindahan palung laut dan biota bawah air Flores" },
+      { "answer": "WISATAWAN", "clue": "Para pelancong dari berbagai belahan bumi penikmat pesona maritim NTT" }
+    ]
+  },
+  {
+    "id": "level_208_taman_bunaken",
+    "title": "Taman Nasional Bunaken & Terumbu Karang",
+    "category": "Wisata",
+    "words": [
+      { "answer": "BUNAKEN", "clue": "Taman nasional laut di Sulawesi Utara surga selam dunia dengan dinding karang megah" },
+      { "answer": "MANADO", "clue": "Kota pesisir ibu kota Sulawesi Utara pangkalan keberangkatan menuju Bunaken" },
+      { "answer": "TERUMBU", "clue": "Gugusan karang bawah air tempat hidup ribuan spesies ikan dan biota laut" },
+      { "answer": "KARANG", "clue": "Hewan tak bertulang belakang pembentuk ekosistem terumbu bawah laut tropis" },
+      { "answer": "PENYU", "clue": "Reptil laut sisik yang berenang anggun di antara dinding terumbu Bunaken" },
+      { "answer": "SELAM", "clue": "Aktivitas menyelam mengagumi keajaiban bawah laut segitiga terumbu karang" },
+      { "answer": "SULAWESI", "clue": "Pulau berbentuk huruf K tempat perairan Bunaken yang kaya biodiversitas" },
+      { "answer": "PALUNG", "clue": "Jurang bawah laut curam tempat bertemunya arus kaya nutrisi laut dalam" },
+      { "answer": "BIOTA", "clue": "Keanekaragaman makhluk hayati laut yang dilindungi di kawasan konservasi" },
+      { "answer": "DINDING", "clue": "Tebing karang vertikal bawah air menjulang sedalam ratusan meter" },
+      { "answer": "IKAN", "clue": "Ratusan spesies ikan karang warna-warni seperti badut dan kakatua" },
+      { "answer": "BENING", "clue": "Kondisi kejernihan air laut Bunaken dengan jarak pandang sangat luas" },
+      { "answer": "ANGGUN", "clue": "Gaya renang satwa laut melayang santai di antara liukan gorgonia" },
+      { "answer": "DERMAGA", "clue": "Jembatan kayu tempat perahu motor bersandar mengangkut para penyelam" },
+      { "answer": "LINDUNG", "clue": "Upaya konservasi menjaga keasrian terumbu karang dari ancaman kerusakan" }
+    ]
+  },
+  {
+    "id": "level_209_danau_toba",
+    "title": "Danau Toba & Budaya Batak Samosir",
+    "category": "Destinasi",
+    "words": [
+      { "answer": "TOBA", "clue": "Danau vulkanik terbesar di dunia hasil letusan supervolcano puluhan ribu tahun lalu" },
+      { "answer": "SAMOSIR", "clue": "Pulau vulkanik besar yang berada tepat di tengah perairan Danau Toba" },
+      { "answer": "BATAK", "clue": "Suku asli yang mendiami kawasan Danau Toba dengan adat istiadat luhur" },
+      { "answer": "ULOS", "clue": "Kain tenun tradisional Batak lambang restu kehangatan dan persaudaraan" },
+      { "answer": "TOMOK", "clue": "Desa wisata bersejarah di Samosir tempat makam Raja Sidabutar dan boneka Sigale-gale" },
+      { "answer": "TUKTUK", "clue": "Semenanjung indah di Pulau Samosir pusat penginapan dan santai wisatawan" },
+      { "answer": "KALDERA", "clue": "Bentang kawah raksasa Danau Toba yang diakui UNESCO Global Geopark" },
+      { "answer": "DANAU", "clue": "Genangan air tawar luas berhawa sejuk dikelilingi perbukitan hijau asri" },
+      { "answer": "PERAHU", "clue": "Sarana transportasi air penyeberangan wisatawan dari Parapat ke Samosir" },
+      { "answer": "LELUHUR", "clue": "Nenek moyang pembawa nilai falsafah dalihan na tolu masyarakat Batak" },
+      { "answer": "TEBING", "clue": "Dinding batu perbukitan curam yang membentengi sekeliling Danau Toba" },
+      { "answer": "AIRTERJUN", "clue": "Curahan air Sipiso-piso yang jatuh dramatis menghadap hamparan Danau Toba" },
+      { "answer": "HARMONI", "clue": "Keselarasan hidup masyarakat dan alam permai dataran tinggi Sumatra Utara" },
+      { "answer": "PARAPAT", "clue": "Kota gerbang utama penyeberangan kapal ferry menuju Pulau Samosir" },
+      { "answer": "MUSIK", "clue": "Alunan instrumen gondang Batak pengiring upacara adat dan tarian tor-tor" }
+    ]
+  },
+  {
+    "id": "level_210_kete_kesu_toraja",
+    "title": "Kete Kesu & Warisan Adat Tana Toraja",
+    "category": "Wisata",
+    "words": [
+      { "answer": "TORAJA", "clue": "Suku dan kawasan pegunungan di Sulawesi Selatan dengan tradisi pemakaman unik" },
+      { "answer": "TONGKONAN", "clue": "Rumah adat Toraja beratap melengkung mirip perahu dengan tanduk kerbau berjejer" },
+      { "answer": "KETEKESU", "clue": "Desa adat tertua di Tana Toraja warisan budaya dunia berhias lumbung padi kuno" },
+      { "answer": "RANTEPAO", "clue": "Kota pusat kebudayaan dan pariwisata Toraja di lembah pegunungan asri" },
+      { "answer": "RAMBUSOLO", "clue": "Upacara adat pemakaman agung masyarakat Toraja pengantar arwah ke alam puya" },
+      { "answer": "KERBAU", "clue": "Satwa sakral pengorbanan upacara adat Toraja terutama jenis tedong bonga langka" },
+      { "answer": "TANDUK", "clue": "Pajangan tanduk kerbau di tiang utama rumah tongkonan penanda status sosial" },
+      { "answer": "ERONG", "clue": "Peti mati kayu berukir berbentuk perahu atau babi yang diletakkan di liang batu" },
+      { "answer": "LIANG", "clue": "Lubang ceruk di tebing batu kapur tempat persemayaman peti jenazah leluhur" },
+      { "answer": "UKIRAN", "clue": "Pahatan motif geometris khas Toraja bernama passura sarat filosofi hidup" },
+      { "answer": "ADAT", "clue": "Tata kelola kearifan lokal aluk todolo warisan leluhur yang dijunjung tinggi" },
+      { "answer": "TEBING", "clue": "Dinding batu cadas curam pemakaman gantung para bangsawan Toraja" },
+      { "answer": "LUMBUNG", "clue": "Bangunan alang tempat menyimpan butir padi berhadapan dengan tongkonan" },
+      { "answer": "PATUNG", "clue": "Boneka kayu tau-tau pahatan figur mendiang bangsawan penjaga makam batu" },
+      { "answer": "LELUHUR", "clue": "Nenek moyang pencipta peradaban tinggi di lembah pegunungan Sulawesi Selatan" }
+    ]
+  }
+]

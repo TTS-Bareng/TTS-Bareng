@@ -1,0 +1,112 @@
+---
+title: Streak Badge
+description: "React streak counter UI in a compact badge supporting daily, weekly, monthly or yearly streaks. Built on shadcn/ui + Tailwind. Open source."
+seoTitle: "Streak Badge — React Streak Component & Streak Counter"
+keywords:
+  - react streak component
+  - streak counter component
+  - streak UI component
+  - streak UI design component
+  - habit tracking UI
+---
+
+The Streak Badge is a compact building block for streak gamification UI in React. Display current streak length, embed optional flame or custom icons, and control layout for habit tracking and engagement gamification flows. Compose with [Streak Card](/docs/components/streak-card) or [Streak Calendar](/docs/components/streak-calendar) when you need streak gamification UI at scale.
+
+<ComponentPreview name="streak-badge" />
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add https://ui.trophy.so/streak-badge
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="streak-badge" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+Import the component:
+
+```tsx
+import { StreakBadge } from "@/components/ui/streak-badge"
+```
+
+Basic usage with a streak length:
+
+<ComponentPreview name="streak-badge-basic" />
+
+## Examples
+
+### Basic Usage
+
+<ComponentPreview name="streak-badge" />
+
+```tsx
+<StreakBadge length={7} />
+```
+
+### Sizes
+
+Available in three sizes: `sm`, `default`, and `lg`.
+
+<ComponentPreview name="streak-badge-sizes" />
+
+## With Trophy
+
+Use the [Trophy SDK](https://docs.trophy.so/api-reference/client-libraries) to fetch streak data for a particular user server-side:
+
+<OpenApiCodeSamples
+  spec="application"
+  method="get"
+  endpoint="/users/{id}/streak"
+/>
+
+Then pass response fields into `StreakBadge` in your UI layer:
+
+```tsx
+<StreakBadge length={response.length} frequency={response.frequency} />
+```
+
+## API Reference
+
+### Props
+
+| Prop        | Type                               | Default     | Description                                       |
+| ----------- | ---------------------------------- | ----------- | ------------------------------------------------- |
+| `length`    | `number`                           | -           | Streak length value                               |
+| `frequency` | `"daily" \| "weekly" \| "monthly"` | `"daily"`   | Frequency label used to render streak description |
+| `size`      | `"sm" \| "default" \| "lg"`        | `"default"` | Badge size                                        |
+| `icon`      | `ReactNode`                        | -           | Custom icon to replace flame                      |
+
+### Types
+
+```ts
+interface StreakResponse {
+  length: number
+  frequency: "daily" | "weekly" | "monthly"
+}
+```
