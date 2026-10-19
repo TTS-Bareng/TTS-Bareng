@@ -781,148 +781,141 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
         </>
       )}
 
-      {/* --- QR CODE TICKET MABAR MODAL (Foto Keempat Plan & Go) --- */}
+      {/* --- FULL SCREEN TICKET MABAR MODAL (Foto Keempat Plan & Go) --- */}
       {isQrModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 select-none">
-          {/* Backdrop Blur */}
-          <div
-            onClick={() => setIsQrModalOpen(false)}
-            className="absolute inset-0 bg-black/65 backdrop-blur-md transition-opacity"
-          />
+        <div className="fixed inset-0 z-50 bg-[#F7F5F0] dark:bg-[#111113] flex flex-col justify-between items-center p-4 sm:p-6 overflow-y-auto select-none transition-colors duration-300">
+          {/* Top Brand Header & Close */}
+          <div className="w-full max-w-[360px] flex items-center justify-between shrink-0 pt-1 px-1">
+            <div className="px-3.5 py-1.5 rounded-full bg-[#111113] dark:bg-white/10 text-white font-black text-[11px] tracking-tight flex items-center gap-1.5 shadow-xs border border-white/10">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              <span>TTS Bareng</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsQrModalOpen(false)}
+              className="w-8 h-8 rounded-full bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white cursor-pointer tactile-active transition-all"
+              title="Tutup"
+            >
+              <X className="w-4 h-4 stroke-[2.2]" />
+            </button>
+          </div>
 
-          {/* Ticket Frame Container */}
-          <div className="relative w-full max-w-[340px] max-h-[92vh] overflow-y-auto rounded-[36px] bg-[#F7F5F0] dark:bg-[#1C1C1E] p-4.5 sm:p-5 shadow-2xl flex flex-col items-center border border-black/5 dark:border-white/10 z-10 text-slate-900">
-            {/* Top Brand Header & Close */}
-            <div className="w-full flex items-center justify-between mb-3 px-1">
-              <div className="px-3.5 py-1 rounded-full bg-[#111113] text-white font-black text-[11px] tracking-tight flex items-center gap-1.5 shadow-xs">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                <span>TTS Bareng</span>
+          {/* THE PHYSICAL TICKET SLEEVE */}
+          <div className="relative w-full max-w-[340px] rounded-[30px] shadow-2xl overflow-visible my-auto py-2">
+            {/* Floating Avatar Sticker 1: Top Right */}
+            <div className="absolute -top-2.5 -right-2 z-30 flex items-center gap-1.5 pointer-events-none">
+              <div className="px-2.5 py-0.5 rounded-full bg-white text-slate-900 font-bold text-[9px] shadow-md border border-slate-200/80">
+                Ayo mabar!
               </div>
+              <div className="w-9 h-9 rounded-full bg-white p-0.5 shadow-md shrink-0 border border-slate-100">
+                <img
+                  src={MASCOTS.cheerfulBookBoy}
+                  alt="Avatar Teman"
+                  className="w-full h-full rounded-full object-cover bg-amber-50"
+                />
+              </div>
+            </div>
+
+            {/* Sleeve with Theme Accent Gradient */}
+            <div
+              style={{
+                background: 'var(--hero-grad, var(--accent-grad))',
+                color: '#ffffff',
+              }}
+              className="w-full ticket-sleeve-notch pt-8 pb-5 px-5 text-white flex flex-col items-center text-center relative overflow-hidden shadow-xs"
+            >
+              <h2 className="text-[25px] font-black tracking-tight leading-[1.08] text-white drop-shadow-xs">
+                Kamu Diajak<br />Mabar TTS!
+              </h2>
+
+              <p className="text-[8.5px] font-extrabold uppercase tracking-widest text-white/80 mt-2">
+                SATU PAPAN • ADU KATA • TAKLUKKAN BERSAMA
+              </p>
+
+              <div className="absolute bottom-2.5 right-3 border border-dashed border-white/30 rounded-lg px-2 py-0.5 rotate-6 text-[8px] font-mono text-white/80 pointer-events-none">
+                ROOM #{roomCode}
+              </div>
+            </div>
+
+            {/* Perforated Tear Line (Zig-zag) */}
+            <div className="w-full h-3.5 perforation-edge bg-[#F7F5F0] dark:bg-[#111113]" />
+
+            {/* Floating Avatar Sticker 2: Bottom Left (positioned beside ticket stub) */}
+            <div className="absolute bottom-6 -left-2.5 z-30 flex items-center gap-1.5 pointer-events-none">
+              <div className="w-9 h-9 rounded-full bg-white p-0.5 shadow-md shrink-0 border border-slate-100">
+                <img
+                  src={MASCOTS.crosswordGirl}
+                  alt="Avatar Pemain"
+                  className="w-full h-full rounded-full object-cover bg-rose-50"
+                />
+              </div>
+              <div className="px-2.5 py-0.5 rounded-full bg-white text-slate-900 font-bold text-[9px] shadow-md border border-slate-200/80">
+                Nungguin kamu nih
+              </div>
+            </div>
+
+            {/* White Ticket Base / QR Stub Sliding Out */}
+            <div className="w-full bg-white rounded-b-[30px] p-4.5 pt-2.5 flex flex-col items-center text-center shadow-md border-t border-slate-100">
+              {/* Real Scannable QR Code Frame */}
+              <div className="p-2.5 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 shadow-xs flex flex-col items-center my-1">
+                {qrCodeDataUrl ? (
+                  <img
+                    src={qrCodeDataUrl}
+                    alt="QR Code Kamar Mabar"
+                    className="w-32 h-32 rounded-xl object-contain"
+                  />
+                ) : (
+                  <div className="w-32 h-32 flex items-center justify-center text-xs text-slate-400">
+                    Membuat QR...
+                  </div>
+                )}
+                <span className="text-[13px] font-black tracking-widest text-slate-900 mt-1 font-mono">
+                  PIN: {roomCode.split('').join(' ')}
+                </span>
+              </div>
+
+              {/* Host Subtitle */}
+              <div className="text-[9px] font-bold uppercase tracking-wider text-slate-400 mt-1.5">
+                MABAR DENGAN
+              </div>
+              <div className="text-xs font-black text-slate-900 mt-0.5 tracking-tight truncate max-w-[220px]">
+                {user?.name ? `${user.name.toUpperCase()} & TEMAN-TEMAN` : 'JAWARA & TEMAN-TEMAN'}
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Instructions & Action Buttons (No Chevron, WA Button with Accent Gradient) */}
+          <div className="w-full max-w-[340px] flex flex-col items-center shrink-0 pb-2">
+            <span className="text-[9.5px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2.5">
+              PINDAI QR ATAU KLIK UNTUK BERGABUNG
+            </span>
+
+            <div className="w-full grid grid-cols-2 gap-2.5">
               <button
                 type="button"
-                onClick={() => setIsQrModalOpen(false)}
-                className="w-7 h-7 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center text-slate-500 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white cursor-pointer tactile-active transition-all"
-                title="Tutup"
+                onClick={handleShareRoom}
+                style={{
+                  background: 'var(--accent-grad)',
+                  color: 'var(--hero-btn-text, var(--accent-contrast, #ffffff))',
+                }}
+                className="py-3 rounded-2xl font-black text-xs flex items-center justify-center gap-1.5 cursor-pointer tactile-active shadow-md hover:opacity-95 transition-all"
               >
-                <X className="w-3.5 h-3.5 stroke-[2.2]" />
+                <Share2 className="w-4 h-4 stroke-[2.2]" />
+                <span>Bagikan WA</span>
+              </button>
+              <button
+                type="button"
+                onClick={handleCopyLink}
+                className="py-3 rounded-2xl bg-white dark:bg-white/10 hover:bg-slate-50 dark:hover:bg-white/15 border border-slate-200 dark:border-white/15 text-slate-900 dark:text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-xs cursor-pointer tactile-active transition-all"
+              >
+                <Copy className="w-4 h-4 stroke-[2.2]" />
+                <span>Salin Link</span>
               </button>
             </div>
 
-            {/* THE PHYSICAL TICKET SLEEVE */}
-            <div className="relative w-full rounded-[30px] shadow-xl overflow-visible my-1">
-              {/* Floating Avatar Sticker 1: Top Right */}
-              <div className="absolute -top-3.5 -right-2 z-30 flex items-center gap-1.5 pointer-events-none">
-                <div className="px-2.5 py-0.5 rounded-full bg-white text-slate-900 font-bold text-[9px] shadow-md border border-slate-200/80">
-                  Ayo mabar!
-                </div>
-                <div className="w-9 h-9 rounded-full bg-white p-0.5 shadow-md shrink-0 border border-slate-100">
-                  <img
-                    src={MASCOTS.cheerfulBookBoy}
-                    alt="Avatar Teman"
-                    className="w-full h-full rounded-full object-cover bg-amber-50"
-                  />
-                </div>
-              </div>
-
-              {/* Warm Amber Physical Pocket Sleeve with Notch */}
-              <div
-                style={{
-                  background: 'linear-gradient(180deg, #F59E0B 0%, #EA580C 50%, #C2410C 100%)',
-                }}
-                className="w-full ticket-sleeve-notch pt-8 pb-5 px-5 text-white flex flex-col items-center text-center relative overflow-hidden shadow-xs"
-              >
-                <h2 className="text-[25px] font-black tracking-tight leading-[1.08] text-white drop-shadow-xs">
-                  Kamu Diajak<br />Mabar TTS!
-                </h2>
-
-                <p className="text-[8.5px] font-extrabold uppercase tracking-widest text-amber-100/90 mt-2">
-                  SATU PAPAN • ADU KATA • TAKLUKKAN BERSAMA
-                </p>
-
-                <div className="absolute bottom-2.5 right-3 border border-dashed border-amber-300/40 rounded-lg px-2 py-0.5 rotate-6 text-[8px] font-mono text-amber-200/80 pointer-events-none">
-                  ROOM #{roomCode}
-                </div>
-              </div>
-
-              {/* Perforated Tear Line (Zig-zag) */}
-              <div className="w-full h-3.5 perforation-edge bg-[#F7F5F0] dark:bg-[#1C1C1E]" />
-
-              {/* Floating Avatar Sticker 2: Bottom Left */}
-              <div className="absolute bottom-18 -left-2.5 z-30 flex items-center gap-1.5 pointer-events-none">
-                <div className="w-9 h-9 rounded-full bg-white p-0.5 shadow-md shrink-0 border border-slate-100">
-                  <img
-                    src={MASCOTS.crosswordGirl}
-                    alt="Avatar Pemain"
-                    className="w-full h-full rounded-full object-cover bg-rose-50"
-                  />
-                </div>
-                <div className="px-2.5 py-0.5 rounded-full bg-white text-slate-900 font-bold text-[9px] shadow-md border border-slate-200/80">
-                  Nungguin kamu nih
-                </div>
-              </div>
-
-              {/* White Ticket Base / QR Stub Sliding Out */}
-              <div className="w-full bg-white rounded-b-[30px] p-4 pt-2.5 flex flex-col items-center text-center shadow-md border-t border-slate-100">
-                {/* Real Scannable QR Code Frame */}
-                <div className="p-2.5 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 shadow-xs flex flex-col items-center my-1">
-                  {qrCodeDataUrl ? (
-                    <img
-                      src={qrCodeDataUrl}
-                      alt="QR Code Kamar Mabar"
-                      className="w-32 h-32 rounded-xl object-contain"
-                    />
-                  ) : (
-                    <div className="w-32 h-32 flex items-center justify-center text-xs text-slate-400">
-                      Membuat QR...
-                    </div>
-                  )}
-                  <span className="text-[13px] font-black tracking-widest text-slate-900 mt-1 font-mono">
-                    PIN: {roomCode.split('').join(' ')}
-                  </span>
-                </div>
-
-                {/* Host Subtitle */}
-                <div className="text-[9px] font-bold uppercase tracking-wider text-slate-400 mt-1.5">
-                  MABAR DENGAN
-                </div>
-                <div className="text-xs font-black text-slate-900 mt-0.5 tracking-tight truncate max-w-[220px]">
-                  {user?.name ? `${user.name.toUpperCase()} & TEMAN-TEMAN` : 'JAWARA & TEMAN-TEMAN'}
-                </div>
-              </div>
-            </div>
-
-            {/* Bottom Instructions & Action Buttons */}
-            <div className="w-full flex flex-col items-center mt-3">
-              <span className="text-[9px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-0.5">
-                PINDAI QR ATAU KLIK UNTUK BERGABUNG
-              </span>
-              <div className="text-slate-400 text-[10px] mb-2.5">
-                ▼
-              </div>
-
-              <div className="w-full grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  onClick={handleShareRoom}
-                  className="py-2.5 rounded-xl bg-[#111113] hover:bg-[#27272A] text-white font-black text-xs flex items-center justify-center gap-1.5 cursor-pointer tactile-active shadow-sm"
-                >
-                  <Share2 className="w-3.5 h-3.5 stroke-[2.2]" />
-                  <span>Bagikan WA</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={handleCopyLink}
-                  className="py-2.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-900 font-black text-xs flex items-center justify-center gap-1.5 shadow-xs cursor-pointer tactile-active"
-                >
-                  <Copy className="w-3.5 h-3.5 stroke-[2.2]" />
-                  <span>Salin Link</span>
-                </button>
-              </div>
-
-              <span className="text-[9px] text-slate-400 font-bold tracking-wide uppercase mt-2.5">
-                TTS Bareng - Mabar Teka Teki Silang
-              </span>
-            </div>
+            <span className="text-[9.5px] text-slate-400 font-bold tracking-wide uppercase mt-3">
+              TTS Bareng - Mabar Teka Teki Silang
+            </span>
           </div>
         </div>
       )}

@@ -785,7 +785,7 @@ body,
 }
 
 :where([data-theme="obsidian"], [data-theme="espresso"], [data-theme="oxford"], [data-theme="dark"], .dark) .ticket-sleeve-notch::before {
-  background: #1C1C1E;
+  background: #111113;
 }
 
 .perforation-edge {
