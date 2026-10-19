@@ -25,6 +25,7 @@ import confetti from 'canvas-confetti';
 import { MASCOTS } from '../assets/maskots';
 import { createDeepLink, shareOrCopy } from '../lib/deeplink';
 import { QrScannerModal } from '../components/QrScannerModal';
+import { BattleLobbyModal } from '../components/BattleLobbyModal';
 import { mabarRealtime } from '../lib/mabarRealtime';
 
 export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = false }) => {
@@ -48,6 +49,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
     isScannerOpen,
     openScanner,
     closeScanner,
+    openBattleLobby,
   } = useGameStore();
 
   const [todayStr] = useState(getTodayDateString);
@@ -514,7 +516,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
             <div className="flex items-center gap-2 justify-start relative z-10">
               <button
                 type="button"
-                onClick={handleCreateRoom}
+                onClick={openBattleLobby}
                 className="py-1.5 px-3.5 rounded-full bg-white text-[10.5px] font-black inline-flex items-center gap-1.5 cursor-pointer tactile-active shadow-sm group-hover:scale-105 transition-transform"
                 style={{ color: 'var(--hero-btn-text, #111113)' }}
               >
@@ -993,6 +995,9 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
           </div>
         </div>
       )}
+
+      {/* --- 1V1 TUG-OF-WAR BATTLE LOBBY MODAL --- */}
+      <BattleLobbyModal />
 
       {/* --- QR CODE CAMERA & GALLERY SCANNER MODAL --- */}
       <QrScannerModal

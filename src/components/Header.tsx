@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Settings, Star, Clock, ChevronDown, Zap, LogOut } from 'lucide-react';
+import { ArrowLeft, Settings, Star, Clock, ChevronDown, Zap, LogOut, Swords, Shield } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
+import { getBattlePalette } from '../lib/battlePalette';
 
 export const Header: React.FC = () => {
   const {
@@ -22,13 +23,18 @@ export const Header: React.FC = () => {
     mabarPeers,
     leaveMabarSession,
     partnerReconnecting,
+    battleConfig,
+    battleCurrentRound,
+    battleScores,
+    battleTimeLeft,
+    theme,
   } = useGameStore();
 
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
 
   // Live timer ticking while in game (classic mode)
   useEffect(() => {
-    if (isLevelCompleteOpen || gameMode === 'daily_rush') return;
+    if (isLevelCompleteOpen || gameMode === 'daily_rush' || gameMode === '1v1_battle') return;
 
     const updateTimer = () => {
       setElapsedSeconds(Math.max(0, Math.floor((Date.now() - levelStartTime) / 1000)));
@@ -49,6 +55,10 @@ export const Header: React.FC = () => {
   const solvedCount = solvedClues.length;
   const progressPercent = totalClues > 0 ? Math.round((solvedCount / totalClues) * 100) : 0;
   const isDailyRush = gameMode === 'daily_rush';
+  const isBattle = gameMode === '1v1_battle';
+  const palette = getBattlePalette(theme);
+  const partnerPeer = mabarPeers.find((p) => p.name !== user.name);
+  const partnerName = partnerPeer?.name || 'Lawan';
 
   return (
     <header className="w-full px-3.5 pt-3 pb-1.5 flex flex-col gap-1.5 select-none shrink-0 z-20">
@@ -56,15 +66,35 @@ export const Header: React.FC = () => {
         {/* Back Button Bulat Kaca */}
         <button
           type="button"
-          onClick={() => setCurrentTab(previousTab && previousTab !== 'game' ? previousTab : 'arena')}
+          onClick={() => {
+            if (isBattle) {
+              if (window.confirm('Tinggalkan duel 1v1 yang sedang berjalan?')) {
+                setCurrentTab('arena');
+              }
+              return;
+            }
+            setCurrentTab(previousTab && previousTab !== 'game' ? previousTab : 'arena');
+          }}
           aria-label="Kembali"
           className="w-9 h-9 rounded-full flex items-center justify-center liquid-glass-card border border-black/5 dark:border-white/10 shadow-xs cursor-pointer tactile-active text-[var(--text-primary)] hover:opacity-90"
         >
           <ArrowLeft className="w-4 h-4 stroke-[2.2]" />
         </button>
 
-        {/* Center: Stage Bab & Level or Daily Rush Mode or Mabar Mode */}
-        {isDailyRush ? (
+        {/* Center: Stage Bab & Level or Daily Rush Mode or 1v1 Battle or Mabar Mode */}
+        {isBattle ? (
+          <div className="flex flex-col items-center text-center px-2 py-0.5">
+            <div className="flex items-center gap-1 leading-none mb-0.5">
+              <Swords className="w-2.5 h-2.5 text-[var(--accent-main)] stroke-[3]" />
+              <span className="text-[8.5px] font-black uppercase tracking-wider text-[var(--accent-main)]">
+                RONDE {battleCurrentRound}/{battleConfig.rounds} • TUG-OF-WAR
+              </span>
+            </div>
+            <h2 className="text-[14.5px] font-black tracking-tight leading-tight text-[var(--text-primary)]">
+              {level.title}
+            </h2>
+          </div>
+        ) : isDailyRush ? (
           <div className="flex flex-col items-center text-center px-2 py-0.5">
             <div className="flex items-center gap-1 leading-none mb-0.5">
               <Zap className="w-2.5 h-2.5 text-[var(--accent-main)] stroke-[3]" />
@@ -193,37 +223,99 @@ export const Header: React.FC = () => {
         </div>
       </div>
 
-      {/* Live Micro-Progress Bar & Live Timer / Daily Rush Countdown */}
-      <div className="w-full flex items-center justify-between gap-2.5 px-0.5 pt-0.5">
-        <div className={`flex items-center gap-1 text-[9.5px] font-bold shrink-0 ${
-          isDailyRush
-            ? dailyRushTimeLeft <= 10
-              ? 'text-[var(--accent-main)] font-black animate-pulse'
-              : 'text-[var(--text-primary)] font-black'
-            : 'text-[var(--text-secondary)]'
-        }`}>
-          {isDailyRush ? (
-            <Zap className="w-3 h-3 text-[var(--accent-main)] stroke-[2.5]" />
-          ) : (
-            <Clock className="w-3 h-3 text-[var(--accent-main)] stroke-[2.2]" />
-          )}
-          <span>{formatDuration(isDailyRush ? dailyRushTimeLeft : elapsedSeconds)}</span>
-        </div>
+      {/* Live Micro-Progress Bar & Live Timer / Daily Rush Countdown / 1v1 Tug-of-War Bar */}
+      {isBattle ? (
+        <div className="w-full flex flex-col gap-1 px-0.5 pt-0.5">
+          <div className="flex items-center justify-between text-[9px] font-black">
+            {/* Player 1 (Kamu) Score Chip */}
+            <div
+              className="flex items-center gap-1 px-2 py-0.5 rounded-full shadow-2xs"
+              style={{ background: palette.p1.grad, color: palette.p1.text }}
+            >
+              <Shield className="w-2.5 h-2.5" />
+              <span>{user.name || 'Kamu'}: {battleScores.local} Pts</span>
+            </div>
 
-        <div className="flex-1 h-1.5 rounded-full bg-black/5 dark:bg-white/10 overflow-hidden">
-          <div
-            className="h-full rounded-full transition-all duration-300 ease-out"
-            style={{
-              width: `${Math.max(3, isDailyRush ? Math.round((dailyRushTimeLeft / 90) * 100) : progressPercent)}%`,
-              background: isDailyRush && dailyRushTimeLeft <= 10 ? 'var(--accent-main)' : 'var(--accent-grad)',
-            }}
-          />
-        </div>
+            {/* Countdown Timer in Center */}
+            <div
+              className={`flex items-center gap-1 text-[10px] font-black ${
+                battleTimeLeft <= 10 ? 'text-rose-500 animate-pulse' : 'text-[var(--text-primary)]'
+              }`}
+            >
+              <Clock className="w-3 h-3 stroke-[2.2]" />
+              <span>{formatDuration(battleTimeLeft)}</span>
+            </div>
 
-        <span className="text-[9.5px] font-bold shrink-0 text-[var(--text-secondary)]">
-          {solvedCount}/{totalClues} Kata ({progressPercent}%)
-        </span>
-      </div>
+            {/* Player 2 (Lawan) Score Chip */}
+            <div
+              className="flex items-center gap-1 px-2 py-0.5 rounded-full shadow-2xs"
+              style={{ background: palette.p2.grad, color: palette.p2.text }}
+            >
+              <span>{partnerName}: {battleScores.partner} Pts</span>
+              <Swords className="w-2.5 h-2.5" />
+            </div>
+          </div>
+
+          {/* Real-time Dynamic Tug-of-War Split Bar */}
+          <div className="w-full h-2 rounded-full overflow-hidden flex bg-black/10 dark:bg-white/10 border border-black/5 dark:border-white/10 relative">
+            <div
+              className="h-full transition-all duration-300 ease-out"
+              style={{
+                width: `${
+                  battleScores.local + battleScores.partner === 0
+                    ? 50
+                    : Math.max(5, Math.min(95, Math.round((battleScores.local / (battleScores.local + battleScores.partner)) * 100)))
+                }%`,
+                background: palette.p1.grad,
+              }}
+            />
+            <div
+              className="h-full transition-all duration-300 ease-out"
+              style={{
+                width: `${
+                  battleScores.local + battleScores.partner === 0
+                    ? 50
+                    : Math.max(5, Math.min(95, 100 - Math.round((battleScores.local / (battleScores.local + battleScores.partner)) * 100)))
+                }%`,
+                background: palette.p2.grad,
+              }}
+            />
+            {/* Center Split Pin */}
+            <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-0.5 bg-white shadow-xs z-10 opacity-80" />
+          </div>
+        </div>
+      ) : (
+        <div className="w-full flex items-center justify-between gap-2.5 px-0.5 pt-0.5">
+          <div className={`flex items-center gap-1 text-[9.5px] font-bold shrink-0 ${
+            isDailyRush
+              ? dailyRushTimeLeft <= 10
+                ? 'text-[var(--accent-main)] font-black animate-pulse'
+                : 'text-[var(--text-primary)] font-black'
+              : 'text-[var(--text-secondary)]'
+          }`}>
+            {isDailyRush ? (
+              <Zap className="w-3 h-3 text-[var(--accent-main)] stroke-[2.5]" />
+            ) : (
+              <Clock className="w-3 h-3 text-[var(--accent-main)] stroke-[2.2]" />
+            )}
+            <span>{formatDuration(isDailyRush ? dailyRushTimeLeft : elapsedSeconds)}</span>
+          </div>
+
+          <div className="flex-1 h-1.5 rounded-full bg-black/5 dark:bg-white/10 overflow-hidden">
+            <div
+              className="h-full rounded-full transition-all duration-300 ease-out"
+              style={{
+                width: `${Math.max(3, isDailyRush ? Math.round((dailyRushTimeLeft / 90) * 100) : progressPercent)}%`,
+                background: isDailyRush && dailyRushTimeLeft <= 10 ? 'var(--accent-main)' : 'var(--accent-grad)',
+              }}
+            />
+          </div>
+
+          <span className="text-[9.5px] font-bold shrink-0 text-[var(--text-secondary)]">
+            {solvedCount}/{totalClues} Kata ({progressPercent}%)
+          </span>
+        </div>
+      )}
     </header>
   );
 };

@@ -77,19 +77,48 @@ export interface ShareModalData {
   shareText?: string;
 }
 
+export interface BattleConfig {
+  rounds: 1 | 3 | 5;
+  durationSeconds: 60 | 90 | 120;
+  wordCount: 'short' | 'medium' | 'long';
+}
+
 interface GameState {
   // Navigation
   currentTab: TabType;
   previousTab: TabType;
   setCurrentTab: (tab: TabType) => void;
 
-  // Daily Rush 90s speedrun
-  gameMode: 'classic' | 'daily_rush';
+  // Game Modes (Classic, Daily Rush, 1v1 Battle)
+  gameMode: 'classic' | 'daily_rush' | '1v1_battle';
   dailyRushTimeLeft: number;
   dailyRushRecord: DailyRushRecord | null;
   startDailyRush: () => void;
   tickDailyRush: () => void;
   finishDailyRush: (completed: boolean) => void;
+
+  // 1v1 Tug-of-War Battle
+  battleConfig: BattleConfig;
+  setBattleConfig: (config: Partial<BattleConfig>, broadcast?: boolean) => void;
+  battleCurrentRound: number;
+  battleRoundWins: { local: number; partner: number };
+  battleScores: { local: number; partner: number };
+  battleClueOwners: Record<string, 'local' | 'partner'>;
+  battleTimeLeft: number;
+  isBattleLobbyOpen: boolean;
+  isBattleResultOpen: boolean;
+  battleWinner: 'local' | 'partner' | 'draw' | null;
+  openBattleLobby: () => void;
+  closeBattleLobby: () => void;
+  openBattleResult: () => void;
+  closeBattleResult: () => void;
+  startBattleMatch: () => void;
+  receiveBattleStart: (payload: { levelIndex: number; config: BattleConfig }) => void;
+  tickBattleTimer: () => void;
+  claimBattleClue: (clueId: string, newlySolved: string[], solver: 'local' | 'partner', partnerName?: string) => void;
+  finishBattleRound: () => void;
+  startNextBattleRound: () => void;
+  rematchBattle: () => void;
 
   // User Profile
   user: UserProfile;
@@ -348,6 +377,24 @@ const currentLevelRecord = initialRecords[currentInitialLevel.id] || {
   completed: false,
   starsEarned: 0,
 };
+
+export function findLevelForWordCount(levels: LevelData[], preference: 'short' | 'medium' | 'long'): number {
+  const matches: number[] = [];
+  levels.forEach((lvl, idx) => {
+    const totalWords = (lvl.clues.across?.length || 0) + (lvl.clues.down?.length || 0);
+    if (preference === 'short' && totalWords >= 4 && totalWords <= 6) {
+      matches.push(idx);
+    } else if (preference === 'medium' && totalWords >= 7 && totalWords <= 9) {
+      matches.push(idx);
+    } else if (preference === 'long' && totalWords >= 10) {
+      matches.push(idx);
+    }
+  });
+  if (matches.length > 0) {
+    return matches[Math.floor(Math.random() * matches.length)];
+  }
+  return Math.floor(Math.random() * levels.length);
+}
 
 export const useGameStore = create<GameState>((set, get) => ({
   currentTab: 'home',
@@ -766,6 +813,345 @@ export const useGameStore = create<GameState>((set, get) => ({
   openScanner: () => set({ isScannerOpen: true }),
   closeScanner: () => set({ isScannerOpen: false }),
 
+  // 1v1 Tug-of-War Battle State & Methods
+  battleConfig: {
+    rounds: 3,
+    durationSeconds: 90,
+    wordCount: 'medium',
+  },
+  setBattleConfig: (config, broadcast = true) => {
+    const nextConfig = { ...get().battleConfig, ...config };
+    set({ battleConfig: nextConfig });
+    if (broadcast && get().activeRoomCode) {
+      mabarRealtime.broadcastBattleConfig(nextConfig);
+    }
+  },
+  battleCurrentRound: 1,
+  battleRoundWins: { local: 0, partner: 0 },
+  battleScores: { local: 0, partner: 0 },
+  battleClueOwners: {},
+  battleTimeLeft: 90,
+  isBattleLobbyOpen: false,
+  isBattleResultOpen: false,
+  battleWinner: null,
+  openBattleLobby: () => set({ isBattleLobbyOpen: true }),
+  closeBattleLobby: () => set({ isBattleLobbyOpen: false }),
+  openBattleResult: () => set({ isBattleResultOpen: true }),
+  closeBattleResult: () => set({ isBattleResultOpen: false }),
+
+  startBattleMatch: () => {
+    const { levels, battleConfig, soundEnabled, hapticEnabled } = get();
+    const targetLevelIdx = findLevelForWordCount(levels, battleConfig.wordCount);
+    const targetLevel = levels[targetLevelIdx];
+
+    if (soundEnabled) soundManager.playReward();
+    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate([20, 50, 30]);
+    }
+
+    if (get().activeRoomCode) {
+      mabarRealtime.broadcastBattleStart(targetLevelIdx, battleConfig);
+    }
+
+    set({
+      gameMode: '1v1_battle',
+      battleCurrentRound: 1,
+      battleRoundWins: { local: 0, partner: 0 },
+      battleScores: { local: 0, partner: 0 },
+      battleClueOwners: {},
+      battleTimeLeft: battleConfig.durationSeconds,
+      battleWinner: null,
+      isBattleLobbyOpen: false,
+      isBattleResultOpen: false,
+      currentLevelIndex: targetLevelIdx,
+      level: targetLevel,
+      userInputs: {},
+      lockedCells: {},
+      solvedClues: [],
+      cellAuthors: {},
+      clueAuthors: {},
+      wordStreak: 0,
+      comboMessage: null,
+      validationMessage: null,
+      activeClueId: null,
+      focusedCell: null,
+      currentTab: 'game',
+    });
+
+    get().showGlobalToast(`Duel Dimulai! Ronde 1/${battleConfig.rounds} • Rebut petak!`, 3200);
+  },
+
+  receiveBattleStart: (payload) => {
+    const { levels, soundEnabled, hapticEnabled } = get();
+    const targetLevel = levels[payload.levelIndex] || levels[0];
+
+    if (soundEnabled) soundManager.playReward();
+    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate([20, 50, 30]);
+    }
+
+    set({
+      gameMode: '1v1_battle',
+      battleConfig: payload.config,
+      battleCurrentRound: 1,
+      battleRoundWins: { local: 0, partner: 0 },
+      battleScores: { local: 0, partner: 0 },
+      battleClueOwners: {},
+      battleTimeLeft: payload.config.durationSeconds,
+      battleWinner: null,
+      isBattleLobbyOpen: false,
+      isBattleResultOpen: false,
+      currentLevelIndex: payload.levelIndex,
+      level: targetLevel,
+      userInputs: {},
+      lockedCells: {},
+      solvedClues: [],
+      cellAuthors: {},
+      clueAuthors: {},
+      wordStreak: 0,
+      comboMessage: null,
+      validationMessage: null,
+      activeClueId: null,
+      focusedCell: null,
+      currentTab: 'game',
+    });
+
+    get().showGlobalToast(`Duel Dimulai! Ronde 1/${payload.config.rounds} • Rebut petak!`, 3200);
+  },
+
+  tickBattleTimer: () => {
+    const { gameMode, battleTimeLeft, isBattleResultOpen, finishBattleRound, soundEnabled } = get();
+    if (gameMode !== '1v1_battle' || isBattleResultOpen) return;
+
+    if (battleTimeLeft <= 1) {
+      finishBattleRound();
+      return;
+    }
+
+    const nextTime = battleTimeLeft - 1;
+    if (nextTime <= 10 && nextTime > 0) {
+      if (soundEnabled) soundManager.playHeartbeat();
+      if (typeof navigator !== 'undefined' && navigator.vibrate) {
+        navigator.vibrate(10);
+      }
+    }
+
+    set({ battleTimeLeft: nextTime });
+  },
+
+  claimBattleClue: (clueId, newlySolved, solver, partnerName) => {
+    const {
+      battleClueOwners,
+      battleScores,
+      level,
+      lockedCells,
+      userInputs,
+      cellAuthors,
+      clueAuthors,
+      solvedClues,
+      soundEnabled,
+      hapticEnabled,
+      finishBattleRound,
+    } = get();
+
+    if (battleClueOwners[clueId]) return;
+
+    const clue = findClueById(level, clueId);
+    if (!clue) return;
+
+    const clueLength = clue.answer.length;
+    const pointsGained = clueLength * 10;
+
+    const nextOwners = { ...battleClueOwners, [clueId]: solver };
+    const nextScores = {
+      ...battleScores,
+      [solver]: battleScores[solver] + pointsGained,
+    };
+
+    const nextLocked = { ...lockedCells };
+    const nextInputs = { ...userInputs };
+    const nextAuthors = { ...cellAuthors };
+    const nextClueAuthors = { ...clueAuthors, [clueId]: solver };
+
+    clue.cells.forEach(([r, c], idx) => {
+      const k = `${r},${c}`;
+      nextLocked[k] = true;
+      nextInputs[k] = clue.answer[idx];
+      nextAuthors[k] = solver;
+    });
+
+    const nextSolved = solvedClues.includes(clueId) ? solvedClues : [...solvedClues, clueId];
+
+    if (solver === 'local') {
+      if (get().activeRoomCode) {
+        mabarRealtime.broadcastBattleClue(clueId, newlySolved);
+      }
+      if (soundEnabled) soundManager.playWordCorrect(1);
+      if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
+        navigator.vibrate([15, 30, 20]);
+      }
+    } else {
+      if (soundEnabled) soundManager.playWordCorrect(1);
+      get().showGlobalToast(`${partnerName || 'Lawan'} merebut ${clue.answer} (+${pointsGained} Pts)!`, 2200);
+    }
+
+    const totalClues = (level.clues.across?.length || 0) + (level.clues.down?.length || 0);
+    const isBoardFull = Object.keys(nextOwners).length >= totalClues;
+
+    set({
+      battleClueOwners: nextOwners,
+      battleScores: nextScores,
+      lockedCells: nextLocked,
+      userInputs: nextInputs,
+      cellAuthors: nextAuthors,
+      clueAuthors: nextClueAuthors,
+      solvedClues: nextSolved,
+    });
+
+    if (isBoardFull) {
+      setTimeout(() => {
+        finishBattleRound();
+      }, 500);
+    }
+  },
+
+  finishBattleRound: () => {
+    const {
+      battleScores,
+      battleRoundWins,
+      battleCurrentRound,
+      battleConfig,
+      soundEnabled,
+      addStars,
+      showGlobalToast,
+    } = get();
+
+    let roundWinner: 'local' | 'partner' | 'draw' = 'draw';
+    const nextRoundWins = { ...battleRoundWins };
+
+    if (battleScores.local > battleScores.partner) {
+      roundWinner = 'local';
+      nextRoundWins.local += 1;
+    } else if (battleScores.partner > battleScores.local) {
+      roundWinner = 'partner';
+      nextRoundWins.partner += 1;
+    }
+
+    const winsNeeded = Math.ceil(battleConfig.rounds / 2);
+    const isMatchOver =
+      nextRoundWins.local >= winsNeeded ||
+      nextRoundWins.partner >= winsNeeded ||
+      battleCurrentRound >= battleConfig.rounds;
+
+    let overallWinner: 'local' | 'partner' | 'draw' | null = null;
+    if (isMatchOver) {
+      if (nextRoundWins.local > nextRoundWins.partner) {
+        overallWinner = 'local';
+        addStars(25);
+        if (soundEnabled) soundManager.playVictory();
+        confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+        showGlobalToast('Selamat! Kamu memenangkan duel 1v1 (+25★)!', 3500);
+      } else if (nextRoundWins.partner > nextRoundWins.local) {
+        overallWinner = 'partner';
+        showGlobalToast('Lawan memenangkan duel! Tetap semangat!', 3500);
+      } else {
+        overallWinner = 'draw';
+        showGlobalToast('Duel Berakhir Seri!', 3000);
+      }
+    } else {
+      if (roundWinner === 'local') {
+        showGlobalToast(`Kamu memenangkan Ronde ${battleCurrentRound}!`, 2800);
+      } else if (roundWinner === 'partner') {
+        showGlobalToast(`Lawan memenangkan Ronde ${battleCurrentRound}!`, 2800);
+      } else {
+        showGlobalToast(`Ronde ${battleCurrentRound} Seri!`, 2500);
+      }
+    }
+
+    set({
+      battleRoundWins: nextRoundWins,
+      battleWinner: overallWinner,
+      isBattleResultOpen: true,
+    });
+  },
+
+  startNextBattleRound: () => {
+    const { levels, battleConfig, battleCurrentRound, soundEnabled, hapticEnabled } = get();
+    const nextRound = battleCurrentRound + 1;
+    const targetLevelIdx = findLevelForWordCount(levels, battleConfig.wordCount);
+    const targetLevel = levels[targetLevelIdx];
+
+    if (soundEnabled) soundManager.playReward();
+    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate([20, 50, 30]);
+    }
+
+    if (get().activeRoomCode) {
+      mabarRealtime.broadcastBattleStart(targetLevelIdx, battleConfig);
+    }
+
+    set({
+      battleCurrentRound: nextRound,
+      battleScores: { local: 0, partner: 0 },
+      battleClueOwners: {},
+      battleTimeLeft: battleConfig.durationSeconds,
+      isBattleResultOpen: false,
+      currentLevelIndex: targetLevelIdx,
+      level: targetLevel,
+      userInputs: {},
+      lockedCells: {},
+      solvedClues: [],
+      cellAuthors: {},
+      clueAuthors: {},
+      wordStreak: 0,
+      comboMessage: null,
+      validationMessage: null,
+      activeClueId: null,
+      focusedCell: null,
+    });
+
+    get().showGlobalToast(`Ronde ${nextRound}/${battleConfig.rounds} Dimulai!`, 3000);
+  },
+
+  rematchBattle: () => {
+    const { levels, battleConfig, soundEnabled, hapticEnabled } = get();
+    const targetLevelIdx = findLevelForWordCount(levels, battleConfig.wordCount);
+    const targetLevel = levels[targetLevelIdx];
+
+    if (soundEnabled) soundManager.playReward();
+    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate([20, 50, 30]);
+    }
+
+    if (get().activeRoomCode) {
+      mabarRealtime.broadcastBattleRematch();
+    }
+
+    set({
+      battleCurrentRound: 1,
+      battleRoundWins: { local: 0, partner: 0 },
+      battleScores: { local: 0, partner: 0 },
+      battleClueOwners: {},
+      battleTimeLeft: battleConfig.durationSeconds,
+      battleWinner: null,
+      isBattleResultOpen: false,
+      currentLevelIndex: targetLevelIdx,
+      level: targetLevel,
+      userInputs: {},
+      lockedCells: {},
+      solvedClues: [],
+      cellAuthors: {},
+      clueAuthors: {},
+      wordStreak: 0,
+      comboMessage: null,
+      validationMessage: null,
+      activeClueId: null,
+      focusedCell: null,
+    });
+
+    get().showGlobalToast(`Tanding Ulang Dimulai! Ronde 1/${battleConfig.rounds}!`, 3200);
+  },
+
   selectLevel: (index: number, broadcastMabar = false) => {
     const { levels, levelRecords, activeRoomCode } = get();
     const safeIdx = Math.max(0, Math.min(index, levels.length - 1));
@@ -1090,7 +1476,11 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     if (newlySolvedClues.length > 0) {
       // Word(s) solved!
-      if (get().activeRoomCode) {
+      if (get().gameMode === '1v1_battle') {
+        newlySolvedClues.forEach((cid) => {
+          get().claimBattleClue(cid, newlySolvedClues, 'local');
+        });
+      } else if (get().activeRoomCode) {
         mabarRealtime.broadcastClueSolved(activeClueId || newlySolvedClues[0], newlySolvedClues);
       }
       nextWordStreak = wordStreak + newlySolvedClues.length;
@@ -1111,16 +1501,20 @@ export const useGameStore = create<GameState>((set, get) => ({
       if (isLevelComplete) {
         if (get().gameMode === 'daily_rush') {
           get().finishDailyRush(true);
+        } else if (get().gameMode === '1v1_battle') {
+          get().finishBattleRound();
+          return;
+        } else {
+          if (soundEnabled) soundManager.playVictory();
+          confetti({
+            particleCount: 140,
+            spread: 80,
+            origin: { y: 0.6 },
+          });
+          setTimeout(() => {
+            set({ isLevelCompleteOpen: true });
+          }, 600);
         }
-        if (soundEnabled) soundManager.playVictory();
-        confetti({
-          particleCount: 140,
-          spread: 80,
-          origin: { y: 0.6 },
-        });
-        setTimeout(() => {
-          set({ isLevelCompleteOpen: true });
-        }, 600);
       } else {
         // Automatically jump to the next unsolved clue
         const currIdx = allClues.findIndex((cl) => cl.id === activeClueId);

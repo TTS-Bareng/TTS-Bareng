@@ -1,5 +1,5 @@
 import { supabase, isSupabaseConfigured } from './supabase';
-import { useGameStore } from '../store/useGameStore';
+import { useGameStore, type BattleConfig } from '../store/useGameStore';
 import type { RealtimeChannel } from '@supabase/supabase-js';
 
 let activeChannel: RealtimeChannel | null = null;
@@ -170,6 +170,32 @@ export const mabarRealtime = {
       .on('broadcast', { event: 'leave_session' }, ({ payload }) => {
         const store = useGameStore.getState();
         store.showGlobalToast(`${payload.senderName || 'Teman'} keluar dari sesi mabar.`);
+      })
+      .on('broadcast', { event: 'battle_config' }, ({ payload }) => {
+        if (payload?.config) {
+          useGameStore.getState().setBattleConfig(payload.config, false);
+        }
+      })
+      .on('broadcast', { event: 'battle_start' }, ({ payload }) => {
+        if (typeof payload?.levelIndex === 'number' && payload?.config) {
+          useGameStore.getState().receiveBattleStart({
+            levelIndex: payload.levelIndex,
+            config: payload.config,
+          });
+        }
+      })
+      .on('broadcast', { event: 'battle_clue_claim' }, ({ payload }) => {
+        if (payload?.clueId) {
+          useGameStore.getState().claimBattleClue(
+            payload.clueId,
+            payload.newlySolved || [],
+            'partner',
+            payload.senderName || 'Lawan'
+          );
+        }
+      })
+      .on('broadcast', { event: 'battle_rematch' }, () => {
+        useGameStore.getState().rematchBattle();
       })
       .subscribe(async (status) => {
         if (status === 'SUBSCRIBED') {
@@ -432,6 +458,64 @@ export const mabarRealtime = {
         cellAuthors,
         senderName: user.name,
       },
+    });
+  },
+
+  /**
+   * Broadcast 1v1 battle config changes (rounds, duration, wordCount)
+   */
+  broadcastBattleConfig(config: BattleConfig) {
+    if (!activeChannel) return;
+    activeChannel.send({
+      type: 'broadcast',
+      event: 'battle_config',
+      payload: { config },
+    });
+  },
+
+  /**
+   * Broadcast 1v1 battle start to opponent
+   */
+  broadcastBattleStart(levelIndex: number, config: BattleConfig) {
+    if (!activeChannel) return;
+    const { user } = useGameStore.getState();
+    activeChannel.send({
+      type: 'broadcast',
+      event: 'battle_start',
+      payload: {
+        levelIndex,
+        config,
+        senderName: user.name,
+      },
+    });
+  },
+
+  /**
+   * Broadcast 1v1 clue claim
+   */
+  broadcastBattleClue(clueId: string, newlySolved: string[]) {
+    if (!activeChannel) return;
+    const { user } = useGameStore.getState();
+    activeChannel.send({
+      type: 'broadcast',
+      event: 'battle_clue_claim',
+      payload: {
+        clueId,
+        newlySolved,
+        senderName: user.name,
+      },
+    });
+  },
+
+  /**
+   * Broadcast 1v1 rematch request
+   */
+  broadcastBattleRematch() {
+    if (!activeChannel) return;
+    activeChannel.send({
+      type: 'broadcast',
+      event: 'battle_rematch',
+      payload: {},
     });
   },
 };

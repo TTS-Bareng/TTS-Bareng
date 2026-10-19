@@ -12,6 +12,7 @@ import { LevelSelectModal } from '../components/LevelSelectModal';
 import { LexiconModal } from '../components/LexiconModal';
 import { AdModal } from '../components/AdModal';
 import { MabarReactionTray } from '../components/MabarReactionTray';
+import { BattleResultModal } from '../components/BattleResultModal';
 
 export const GameView: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -24,7 +25,9 @@ export const GameView: React.FC = () => {
     comboMessage,
     gameMode,
     tickDailyRush,
+    tickBattleTimer,
     isLevelCompleteOpen,
+    isBattleResultOpen,
     partnerReconnecting,
   } = useGameStore();
 
@@ -36,6 +39,15 @@ export const GameView: React.FC = () => {
     }, 1000);
     return () => clearInterval(timer);
   }, [gameMode, isLevelCompleteOpen, tickDailyRush]);
+
+  // 1v1 Battle countdown interval
+  useEffect(() => {
+    if (gameMode !== '1v1_battle' || isBattleResultOpen) return;
+    const timer = setInterval(() => {
+      tickBattleTimer();
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [gameMode, isBattleResultOpen, tickBattleTimer]);
 
   // Auto-focus first unsolved clue when entering game if none active
   useEffect(() => {
@@ -123,6 +135,7 @@ export const GameView: React.FC = () => {
       <LevelSelectModal />
       <LexiconModal />
       <AdModal />
+      <BattleResultModal />
     </div>
   );
 };
