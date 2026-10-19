@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import { X, Play, Star, Clock, Sparkles, CheckCircle2 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { REALMS } from '../lib/realms';
@@ -16,6 +16,7 @@ export const LevelSelectModal: React.FC = () => {
   } = useGameStore();
 
   const [selectedFilterRealm, setSelectedFilterRealm] = useState<string>('all');
+  const dragControls = useDragControls();
 
   if (!isLevelSelectOpen) return null;
 
@@ -47,25 +48,46 @@ export const LevelSelectModal: React.FC = () => {
           className="absolute inset-0 bg-black/60 backdrop-blur-md"
         />
 
-        {/* Slide-up Glass Sheet (Apple Liquid Glass) */}
+        {/* Slide-up Glass Sheet with Native Drag-to-Dismiss (Apple Liquid Glass) */}
         <motion.div
           initial={{ y: '100%' }}
           animate={{ y: 0 }}
           exit={{ y: '100%' }}
           transition={{ type: 'spring', damping: 28, stiffness: 320 }}
+          drag="y"
+          dragListener={false}
+          dragControls={dragControls}
+          dragConstraints={{ top: 0 }}
+          dragElastic={{ top: 0, bottom: 0.5 }}
+          onDragEnd={(_, info) => {
+            if (info.offset.y > 80 || info.velocity.y > 350) {
+              closeLevelSelect();
+            }
+          }}
           className="relative w-full max-w-[430px] mx-auto max-h-[84vh] rounded-t-[32px] p-4.5 flex flex-col gap-2.5 shadow-2xl border-t border-black/5 dark:border-white/15 z-10 overflow-hidden liquid-glass-card"
         >
           {/* Top Specular Sheen Highlight */}
           <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
 
-          {/* Top Handle Pill */}
+          {/* Top Handle Pill - Draggable on mobile */}
           <div
-            onClick={closeLevelSelect}
-            className="w-10 h-1.5 rounded-full bg-black/15 dark:bg-white/20 mx-auto cursor-pointer hover:bg-black/25 dark:hover:bg-white/35 transition-colors shrink-0"
-          />
+            onPointerDown={(e) => dragControls.start(e)}
+            className="w-full flex flex-col items-center pt-0 pb-1 cursor-grab active:cursor-grabbing touch-none select-none shrink-0"
+          >
+            <div
+              onClick={closeLevelSelect}
+              className="w-12 h-1.5 rounded-full bg-black/20 dark:bg-white/25 mx-auto hover:bg-black/30 dark:hover:bg-white/40 transition-colors"
+            />
+          </div>
 
-          {/* Header */}
-          <div className="flex items-center justify-between pb-0.5 shrink-0">
+          {/* Header - Also draggable */}
+          <div
+            onPointerDown={(e) => {
+              if ((e.target as HTMLElement).closest('button')) return;
+              dragControls.start(e);
+            }}
+            className="flex items-center justify-between pb-0.5 shrink-0 cursor-grab active:cursor-grabbing select-none"
+          >
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="text-[16px] font-black tracking-tight leading-tight">

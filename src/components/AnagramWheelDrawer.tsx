@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import { Shuffle, RotateCcw, Check, X, Sparkles } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { findClueById } from '../lib/crossword';
@@ -38,6 +38,7 @@ export const AnagramWheelDrawer: React.FC = () => {
     return findClueById(level, activeClueId);
   }, [level, activeClueId]);
 
+  const dragControls = useDragControls();
   const targetAnswer = activeClue?.answer?.toUpperCase() || '';
   const [shuffleKey, setShuffleKey] = useState(0);
   const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
@@ -87,8 +88,6 @@ export const AnagramWheelDrawer: React.FC = () => {
     if (soundEnabled) soundManager.playFocusTick();
   };
 
-  if (!isAnagramDrawerOpen || !activeClue) return null;
-
   const currentSpelled = selectedIndices.map((idx) => bankLetters[idx]).join('');
   const isMatch = currentSpelled === targetAnswer;
 
@@ -100,59 +99,84 @@ export const AnagramWheelDrawer: React.FC = () => {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-end justify-center p-0 select-none">
-        {/* Backdrop */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={closeAnagramDrawer}
-          className="absolute inset-0 bg-black/70 backdrop-blur-sm"
-        />
+      {isAnagramDrawerOpen && activeClue && (
+        <div className="fixed inset-0 z-50 flex items-end justify-center p-0 select-none">
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeAnagramDrawer}
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+          />
 
-        {/* Drawer Window */}
-        <motion.div
-          initial={{ y: '100%' }}
-          animate={{ y: 0 }}
-          exit={{ y: '100%' }}
-          transition={{ type: 'spring', damping: 26, stiffness: 320 }}
-          className="relative w-full max-w-[430px] rounded-t-[32px] p-5 liquid-glass-card border-t border-[var(--accent-main)]/30 shadow-2xl flex flex-col items-center overflow-hidden z-10"
-          style={{
-            background: 'linear-gradient(180deg, var(--bg-card) 0%, var(--bg-surface) 100%)',
-          }}
-        >
-          {/* Top specular highlight */}
-          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
+          {/* Drawer Window with Native Drag-to-Dismiss */}
+          <motion.div
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 26, stiffness: 320 }}
+            drag="y"
+            dragListener={false}
+            dragControls={dragControls}
+            dragConstraints={{ top: 0 }}
+            dragElastic={{ top: 0, bottom: 0.5 }}
+            onDragEnd={(_, info) => {
+              if (info.offset.y > 80 || info.velocity.y > 350) {
+                closeAnagramDrawer();
+              }
+            }}
+            className="relative w-full max-w-[430px] rounded-t-[32px] p-5 liquid-glass-card border-t border-[var(--accent-main)]/30 shadow-2xl flex flex-col items-center overflow-hidden z-10"
+            style={{
+              background: 'linear-gradient(180deg, var(--bg-card) 0%, var(--bg-surface) 100%)',
+            }}
+          >
+            {/* Top specular highlight */}
+            <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
 
-          {/* Grab Handle */}
-          <div className="w-10 h-1.5 rounded-full bg-black/15 dark:bg-white/20 mb-3" />
-
-          {/* Header Row */}
-          <div className="w-full flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2">
-              <span
-                className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full"
-                style={{
-                  background: 'var(--accent-main)',
-                  color: 'var(--accent-contrast)',
-                }}
-              >
-                {activeClue.direction === 'across' ? 'Mendatar' : 'Menurun'} {activeClue.number}
-              </span>
-              <span className="text-[10.5px] font-bold text-[var(--text-secondary)]">
-                {activeClue.length} Huruf
-              </span>
+            {/* Grab Handle Header - Draggable on mobile */}
+            <div
+              onPointerDown={(e) => dragControls.start(e)}
+              className="w-full flex flex-col items-center pt-0 pb-2 cursor-grab active:cursor-grabbing touch-none select-none shrink-0"
+            >
+              <div
+                onClick={closeAnagramDrawer}
+                className="w-12 h-1.5 rounded-full bg-black/20 dark:bg-white/25 mx-auto hover:bg-black/30 dark:hover:bg-white/40 transition-colors"
+              />
             </div>
 
-            <button
-              type="button"
-              onClick={closeAnagramDrawer}
-              className="w-7 h-7 rounded-full bg-white/10 dark:bg-white/5 border border-white/10 flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer tactile-active"
-              aria-label="Tutup"
+            {/* Header Row - Also draggable */}
+            <div
+              onPointerDown={(e) => {
+                if ((e.target as HTMLElement).closest('button')) return;
+                dragControls.start(e);
+              }}
+              className="w-full flex items-center justify-between mb-2 cursor-grab active:cursor-grabbing select-none"
             >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
+              <div className="flex items-center gap-2">
+                <span
+                  className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full"
+                  style={{
+                    background: 'var(--accent-main)',
+                    color: 'var(--accent-contrast)',
+                  }}
+                >
+                  {activeClue.direction === 'across' ? 'Mendatar' : 'Menurun'} {activeClue.number}
+                </span>
+                <span className="text-[10.5px] font-bold text-[var(--text-secondary)]">
+                  {activeClue.length} Huruf
+                </span>
+              </div>
+
+              <button
+                type="button"
+                onClick={closeAnagramDrawer}
+                className="w-7 h-7 rounded-full bg-white/10 dark:bg-white/5 border border-white/10 flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer tactile-active"
+                aria-label="Tutup"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
 
           {/* Clue Text Definition */}
           <div className="w-full text-left p-3 rounded-2xl bg-white/5 border border-white/10 mb-4">
@@ -265,6 +289,7 @@ export const AnagramWheelDrawer: React.FC = () => {
           </div>
         </motion.div>
       </div>
-    </AnimatePresence>
-  );
+    )}
+  </AnimatePresence>
+);
 };

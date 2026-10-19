@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import { X, CheckCircle2 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 
@@ -10,8 +11,7 @@ interface ClueListDrawerProps {
 export const ClueListDrawer: React.FC<ClueListDrawerProps> = ({ isOpen, onClose }) => {
   const { level, currentLevelIndex, activeClueId, solvedClues, selectClue } = useGameStore();
   const [selectedDirection, setSelectedDirection] = useState<'across' | 'down'>('across');
-
-  if (!isOpen) return null;
+  const dragControls = useDragControls();
 
   const currentClues = selectedDirection === 'across' ? level.clues.across : level.clues.down;
   const totalClues = level.clues.across.length + level.clues.down.length;
@@ -23,51 +23,81 @@ export const ClueListDrawer: React.FC<ClueListDrawerProps> = ({ isOpen, onClose 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col justify-end">
-      {/* Backdrop */}
-      <div
-        onClick={onClose}
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
-      />
-
-      {/* Slide-up Glass Sheet Container */}
-      <div
-        className="relative w-full max-w-[430px] mx-auto max-h-[72vh] rounded-t-[32px] p-4.5 flex flex-col gap-3 shadow-2xl border-t border-black/5 dark:border-white/15 z-10 overflow-hidden liquid-glass-card"
-      >
-        {/* Specular Top Sheen */}
-        <div className="absolute top-0 inset-x-0 h-px bg-white/25 pointer-events-none" />
-
-        {/* Top Handle Pill */}
-        <div
-          onClick={onClose}
-          className="w-10 h-1.5 rounded-full bg-black/15 dark:bg-white/20 mx-auto cursor-pointer hover:bg-white/40 transition-colors shrink-0"
-        />
-
-        {/* Header */}
-        <div className="flex items-center justify-between pb-1 shrink-0">
-          <div>
-            <div className="flex items-center gap-2">
-              <h3 className="text-[15px] font-black tracking-tight leading-tight">
-                Daftar Semua Petunjuk
-              </h3>
-              <span className="text-[9.5px] font-bold px-2 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/20 text-[var(--accent-main)]">
-                {solvedCount}/{totalClues} Selesai
-              </span>
-            </div>
-            <p className="text-[10px] text-[var(--text-secondary)] mt-0.5 font-medium">
-              Bab {currentLevelIndex + 1} • {level.title}
-            </p>
-          </div>
-
-          <button
-            type="button"
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex flex-col justify-end select-none">
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             onClick={onClose}
-            aria-label="Tutup"
-            className="w-8 h-8 rounded-full flex items-center justify-center bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 text-[var(--text-primary)] cursor-pointer tactile-active"
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+          />
+
+          {/* Slide-up Glass Sheet Container with Native Drag-to-Dismiss */}
+          <motion.div
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 28, stiffness: 320 }}
+            drag="y"
+            dragListener={false}
+            dragControls={dragControls}
+            dragConstraints={{ top: 0 }}
+            dragElastic={{ top: 0, bottom: 0.5 }}
+            onDragEnd={(_, info) => {
+              if (info.offset.y > 80 || info.velocity.y > 350) {
+                onClose();
+              }
+            }}
+            className="relative w-full max-w-[430px] mx-auto max-h-[74vh] rounded-t-[32px] p-4.5 flex flex-col gap-3 shadow-2xl border-t border-black/5 dark:border-white/15 z-10 overflow-hidden liquid-glass-card"
           >
-            <X className="w-4 h-4 stroke-[2.2]" />
-          </button>
-        </div>
+            {/* Specular Top Sheen */}
+            <div className="absolute top-0 inset-x-0 h-px bg-white/25 pointer-events-none" />
+
+            {/* Top Handle Pill - Draggable */}
+            <div
+              onPointerDown={(e) => dragControls.start(e)}
+              className="w-full flex flex-col items-center pt-0 pb-1 cursor-grab active:cursor-grabbing touch-none select-none shrink-0"
+            >
+              <div
+                onClick={onClose}
+                className="w-12 h-1.5 rounded-full bg-black/20 dark:bg-white/25 mx-auto hover:bg-black/30 dark:hover:bg-white/40 transition-colors"
+              />
+            </div>
+
+            {/* Header - Also draggable */}
+            <div
+              onPointerDown={(e) => {
+                if ((e.target as HTMLElement).closest('button')) return;
+                dragControls.start(e);
+              }}
+              className="flex items-center justify-between pb-1 shrink-0 cursor-grab active:cursor-grabbing select-none"
+            >
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-[15px] font-black tracking-tight leading-tight">
+                    Daftar Semua Petunjuk
+                  </h3>
+                  <span className="text-[9.5px] font-bold px-2 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/20 text-[var(--accent-main)]">
+                    {solvedCount}/{totalClues} Selesai
+                  </span>
+                </div>
+                <p className="text-[10px] text-[var(--text-secondary)] mt-0.5 font-medium">
+                  Bab {currentLevelIndex + 1} • {level.title}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Tutup"
+                className="w-8 h-8 rounded-full flex items-center justify-center bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 text-[var(--text-primary)] cursor-pointer tactile-active"
+              >
+                <X className="w-4 h-4 stroke-[2.2]" />
+              </button>
+            </div>
 
         {/* Direction Segmented Switcher */}
         <div className="flex bg-black/5 dark:bg-white/10 rounded-full p-1 shrink-0">
@@ -153,9 +183,11 @@ export const ClueListDrawer: React.FC<ClueListDrawerProps> = ({ isOpen, onClose 
             );
           })}
         </div>
+        </motion.div>
       </div>
-    </div>
-  );
+    )}
+  </AnimatePresence>
+);
 };
 
 export default ClueListDrawer;
