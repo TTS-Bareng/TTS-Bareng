@@ -423,11 +423,18 @@ export const REALMS: RealmDefinition[] = [
     categories: ['Misteri Populer'],
   },
   {
-    id: 'theme_60_asahotak',
-    name: 'Teka-Teki Logika, Sandi & Asah Otak',
-    tag: 'Logika & Sandi',
-    subtitle: 'Sandi Morse ketukan rahasia, semaphore pramuka, strategi catur skakmat, labirin, sudoku, dan mahakarya teka-teki',
-    categories: ['Logika & Asah Otak'],
+    id: 'theme_60_farmakologi',
+    name: 'Ilmu Farmasi, Obat & Terapi Medis',
+    tag: 'Farmasi & Farmakologi',
+    subtitle: 'Resep apoteker racikan puyer, antibiotik pereda nyeri, jamu herbal farmakope, dan vaksin antibodi perlindungan',
+    categories: ['Farmasi & Farmakologi'],
+  },
+  {
+    id: 'theme_61_ilmukomputer',
+    name: 'Ilmu Komputer & Rekayasa Komputasi',
+    tag: 'Ilmu Komputer',
+    subtitle: 'Logika pemrograman algoritma, arsitektur jaringan protokol server, dan puncak mahakarya kecerdasan buatan',
+    categories: ['Ilmu Komputer'],
   },
 ];
 

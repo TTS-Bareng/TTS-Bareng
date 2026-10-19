@@ -70,7 +70,8 @@ import {
   ShieldAlert,
   Train,
   HelpCircle,
-  Puzzle,
+  Pill,
+  Cpu,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
@@ -139,7 +140,8 @@ const REALM_ICONS: Record<string, React.ElementType> = {
   theme_57_kerajaannusantara: ShieldAlert,
   theme_58_transportasikereta: Train,
   theme_59_misterienigma: HelpCircle,
-  theme_60_asahotak: Puzzle,
+  theme_60_farmakologi: Pill,
+  theme_61_ilmukomputer: Cpu,
 };
 
 /** Crossword Grid Pattern Overlay (Oversized Graphic Watermark Texture) */

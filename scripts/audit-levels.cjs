@@ -68,7 +68,8 @@ const categoryToRealm = {
   'Kerajaan Nusantara': 'Kerajaan Kuno & Hikayat Nusantara',
   'Transportasi Kereta': 'Transportasi Kereta & Jalur Rel Relasi',
   'Misteri Populer': 'Misteri Populer & Enigma Legendaris Dunia',
-  'Logika & Asah Otak': 'Teka-Teki Logika, Sandi & Asah Otak',
+  'Farmasi & Farmakologi': 'Ilmu Farmasi, Obat & Terapi Medis',
+  'Ilmu Komputer': 'Ilmu Komputer & Rekayasa Komputasi',
 };
 
 levels.forEach((lvl, idx) => {
