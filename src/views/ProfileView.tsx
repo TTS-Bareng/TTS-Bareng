@@ -415,11 +415,11 @@ export const ProfileView: React.FC = () => {
           )}
         </div>
 
-        {/* Mascot Artistic Overlay in Background (Enlarged) */}
+        {/* Mascot Artistic Overlay in Background (Enlarged, Right-Center) */}
         <img
           src={MASCOTS.crosswordBoard}
           alt="Mascot Papan Teka-Teki"
-          className="absolute -right-6 sm:-right-8 -bottom-7 sm:-bottom-10 w-56 sm:w-68 h-56 sm:h-68 object-contain object-bottom-right pointer-events-none select-none z-0 opacity-30 dark:opacity-35 filter drop-shadow-lg group-hover:scale-105 transition-transform duration-500"
+          className="absolute -right-4 sm:-right-6 top-1/2 -translate-y-1/2 w-56 sm:w-68 h-56 sm:h-68 object-contain object-right pointer-events-none select-none z-0 opacity-30 dark:opacity-35 filter drop-shadow-lg group-hover:scale-105 transition-transform duration-500"
         />
       </div>
 
