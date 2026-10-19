@@ -5,7 +5,6 @@ import {
   BookOpen,
   Zap,
   Play,
-  Sparkles,
   Map,
   ChevronDown,
   Users,
@@ -194,7 +193,6 @@ export const HomeView: React.FC = () => {
     solvedClues,
     setCurrentTab,
     addStars,
-    openAuth,
     openLexicon,
     dailyRushRecord,
     openDailyRushBriefing,
@@ -354,18 +352,6 @@ export const HomeView: React.FC = () => {
               </span>
             </button>
           </div>
-
-          {/* Action: Masuk if Guest */}
-          {user.isGuest && (
-            <button
-              type="button"
-              onClick={openAuth}
-              className="h-8.5 px-3 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[10.5px] font-black shadow-xs cursor-pointer tactile-active hover:opacity-95 flex items-center gap-1"
-            >
-              <Sparkles className="w-3 h-3" />
-              <span>Masuk</span>
-            </button>
-          )}
         </div>
       </header>
 

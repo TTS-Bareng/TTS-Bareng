@@ -12,8 +12,8 @@ export const NavigationBottomBar: React.FC = () => {
 
   const items: { id: TabType; label: string; icon: React.FC<{ className?: string }> }[] = [
     { id: 'home', label: 'Beranda', icon: Home },
-    { id: 'quests', label: 'Misi', icon: Sparkles },
     { id: 'arena', label: 'Arena', icon: Gamepad2 },
+    { id: 'quests', label: 'Misi', icon: Sparkles },
     { id: 'profile', label: 'Profil', icon: User },
   ];
 
