@@ -303,6 +303,7 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' | 'tournament'
     user,
     arenaSubTab,
     setArenaSubTab,
+    activeTournament,
   } = useGameStore();
 
   useEffect(() => {
@@ -349,7 +350,7 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' | 'tournament'
   return (
     <div
       className={`w-full flex-1 flex flex-col gap-3 px-3.5 pt-[max(18px,env(safe-area-inset-top))] ${
-        hubMode === 'tournament'
+        activeTournament
           ? 'pb-[max(24px,calc(16px+env(safe-area-inset-bottom)))]'
           : 'pb-[max(90px,calc(75px+env(safe-area-inset-bottom)))]'
       } select-none overflow-y-auto relative`}

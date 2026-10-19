@@ -216,6 +216,9 @@ interface GameState {
   isJoinTournamentOpen: boolean;
   openJoinTournament: () => void;
   closeJoinTournament: () => void;
+  isTournamentQrModalOpen: boolean;
+  openTournamentQrModal: () => void;
+  closeTournamentQrModal: () => void;
   activeTournament: CommunityTournament | null;
   publicTournaments: CommunityTournament[];
   activeCommunityMatchId: string | null;
@@ -1475,6 +1478,9 @@ export const useGameStore = create<GameState>((set, get) => ({
   isJoinTournamentOpen: false,
   openJoinTournament: () => set({ isJoinTournamentOpen: true }),
   closeJoinTournament: () => set({ isJoinTournamentOpen: false }),
+  isTournamentQrModalOpen: false,
+  openTournamentQrModal: () => set({ isTournamentQrModalOpen: true }),
+  closeTournamentQrModal: () => set({ isTournamentQrModalOpen: false }),
   activeTournament: loadActiveCommunityTournament(),
   publicTournaments: loadPublicTournaments(),
   activeCommunityMatchId: null,

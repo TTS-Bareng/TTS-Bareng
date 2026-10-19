@@ -37,11 +37,14 @@ export const TournamentHubView: React.FC = () => {
     leaveTournament,
     startTournamentLobby,
     startCommunityMatch,
+    isTournamentQrModalOpen,
+    openTournamentQrModal,
+    closeTournamentQrModal,
+    isScannerOpen,
+    closeScanner,
   } = useGameStore();
 
   const [copiedCode, setCopiedCode] = useState(false);
-  const [showQrModal, setShowQrModal] = useState(false);
-  const [isScannerOpen, setIsScannerOpen] = useState(false);
 
   const isHost = activeTournament?.hostId === (user.id || 'player_local');
 
@@ -70,7 +73,7 @@ export const TournamentHubView: React.FC = () => {
   };
 
   const handleScanSuccess = (scannedText: string) => {
-    setIsScannerOpen(false);
+    closeScanner();
     const resolvedCode =
       extractTournamentCodeFromText(scannedText) ||
       extractRoomCodeFromText(scannedText) ||
@@ -151,7 +154,7 @@ export const TournamentHubView: React.FC = () => {
 
               <button
                 type="button"
-                onClick={() => setShowQrModal(true)}
+                onClick={openTournamentQrModal}
                 className="p-1.5 rounded-xl bg-white/20 hover:bg-white/30 text-white cursor-pointer tactile-active transition-colors"
                 title="Lihat Tiket QR Turnamen"
               >
@@ -264,8 +267,8 @@ export const TournamentHubView: React.FC = () => {
 
         {/* Dedicated VIP Ticket Sleeve QR Modal */}
         <TournamentQrModal
-          isOpen={showQrModal}
-          onClose={() => setShowQrModal(false)}
+          isOpen={isTournamentQrModalOpen}
+          onClose={closeTournamentQrModal}
           tournament={activeTournament}
         />
       </div>
@@ -501,7 +504,7 @@ export const TournamentHubView: React.FC = () => {
           </div>
 
           {/* 1. FOTO MASKOT (100% Solid & Vivid, non-transparan) */}
-          <div className="relative w-full flex items-center justify-center -my-1 z-10">
+          <div className="relative w-full flex items-center justify-center pt-1 z-10">
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="w-52 h-28 rounded-full bg-white/15 blur-2xl" />
             </div>
@@ -514,7 +517,7 @@ export const TournamentHubView: React.FC = () => {
           </div>
 
           {/* 2. BAR KOLOM TROPI (Menempel pas di bawah maskot sebagai dudukan podium) */}
-          <div className="grid grid-cols-3 gap-2 p-2.5 rounded-2xl bg-black/30 dark:bg-black/40 backdrop-blur-md border border-white/15 relative z-10 shadow-inner -mt-1">
+          <div className="grid grid-cols-3 gap-2 p-2.5 rounded-2xl bg-black/30 dark:bg-black/40 backdrop-blur-md border border-white/15 relative z-20 shadow-md -mt-3.5 sm:-mt-4">
             <div className="flex items-center gap-2 px-1.5 py-0.5">
               <div className="w-7 h-7 rounded-xl bg-white/20 border border-white/20 flex items-center justify-center text-white shrink-0 shadow-xs">
                 <Trophy className="w-3.5 h-3.5 fill-current" />
@@ -724,7 +727,7 @@ export const TournamentHubView: React.FC = () => {
       {/* QR Scanner Camera Modal for Tournament QR Codes */}
       <QrScannerModal
         isOpen={isScannerOpen}
-        onClose={() => setIsScannerOpen(false)}
+        onClose={closeScanner}
         onScanSuccess={handleScanSuccess}
       />
     </>

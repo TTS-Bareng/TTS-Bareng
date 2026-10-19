@@ -17,10 +17,12 @@ export const JoinTournamentModal: React.FC = () => {
     closeJoinTournament,
     joinTournament,
     showGlobalToast,
+    isScannerOpen,
+    openScanner,
+    closeScanner,
   } = useGameStore();
 
   const [code, setCode] = useState('');
-  const [isScannerOpen, setIsScannerOpen] = useState(false);
 
   if (!isJoinTournamentOpen) return null;
 
@@ -53,7 +55,7 @@ export const JoinTournamentModal: React.FC = () => {
   };
 
   const handleScanSuccess = (scannedText: string) => {
-    setIsScannerOpen(false);
+    closeScanner();
     const resolvedCode =
       extractTournamentCodeFromText(scannedText) ||
       extractRoomCodeFromText(scannedText) ||
@@ -124,7 +126,7 @@ export const JoinTournamentModal: React.FC = () => {
             {/* Quick Action: Pindai QR Turnamen Banner */}
             <button
               type="button"
-              onClick={() => setIsScannerOpen(true)}
+              onClick={openScanner}
               className="w-full p-3 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)] flex items-center justify-between cursor-pointer tactile-active hover:opacity-95 transition-opacity shadow-xs"
             >
               <div className="flex items-center gap-2.5">
@@ -198,7 +200,7 @@ export const JoinTournamentModal: React.FC = () => {
       {/* QR Scanner Camera Modal */}
       <QrScannerModal
         isOpen={isScannerOpen}
-        onClose={() => setIsScannerOpen(false)}
+        onClose={closeScanner}
         onScanSuccess={handleScanSuccess}
       />
     </>
