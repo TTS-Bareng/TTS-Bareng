@@ -59,6 +59,9 @@ import {
   Brush,
   Medal,
   Palmtree,
+  HeartPulse,
+  Apple,
+  Share2,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
@@ -116,6 +119,9 @@ const REALM_ICONS: Record<string, React.ElementType> = {
   theme_46_senirupa: Brush,
   theme_47_olahraga: Medal,
   theme_48_wisatanusantara: Palmtree,
+  theme_49_anatomi: HeartPulse,
+  theme_50_kesehatangizi: Apple,
+  theme_51_duniadigital: Share2,
 };
 
 /** Crossword Grid Pattern Overlay (Oversized Graphic Watermark Texture) */

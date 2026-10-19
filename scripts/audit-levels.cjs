@@ -57,6 +57,9 @@ const categoryToRealm = {
   'Seni & Arsitektur': 'Seni Rupa, Desain & Arsitektur Nusantara',
   'Olahraga Dunia': 'Olahraga Dunia & Pesta Prestasi',
   'Wisata Nusantara': 'Wisata, Pelancongan & Pesona Nusantara',
+  'Anatomi Manusia': 'Anatomi Manusia & Rahasia Tubuh',
+  'Kesehatan & Gizi': 'Kesehatan, Gizi & Pola Hidup Sehat',
+  'Dunia Digital': 'Dunia Digital, Internet & Media Sosial',
 };
 
 levels.forEach((lvl, idx) => {

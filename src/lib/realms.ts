@@ -345,6 +345,27 @@ export const REALMS: RealmDefinition[] = [
     subtitle: 'Raja Ampat, Danau Toba, kaldera Bromo, desa adat asri, geopark UNESCO, dan pantai tropis nusantara',
     categories: ['Wisata Nusantara'],
   },
+  {
+    id: 'theme_49_anatomi',
+    name: 'Anatomi Manusia & Rahasia Tubuh',
+    tag: 'Anatomi Tubuh',
+    subtitle: 'Detak jantung, peredaran darah, paru-paru, panca indra, otak, jaringan saraf, dan rangka tulang',
+    categories: ['Anatomi Manusia'],
+  },
+  {
+    id: 'theme_50_kesehatangizi',
+    name: 'Kesehatan, Gizi & Pola Hidup Sehat',
+    tag: 'Kesehatan & Gizi',
+    subtitle: 'Khazanah vitamin, piring gizi seimbang, hidrasi air mineral, senam kebugaran, dan tidur berkualitas',
+    categories: ['Kesehatan & Gizi'],
+  },
+  {
+    id: 'theme_51_duniadigital',
+    name: 'Dunia Digital, Internet & Media Sosial',
+    tag: 'Dunia Digital',
+    subtitle: 'Jagat media sosial viral, belanja online dompet digital, keamanan siber, kreator konten, dan cloud',
+    categories: ['Dunia Digital'],
+  },
 ];
 
 export function getRealmForCategory(category?: string): RealmDefinition {
