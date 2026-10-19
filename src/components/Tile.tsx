@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowDown } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
@@ -12,6 +12,7 @@ interface TileProps {
 }
 
 export const Tile: React.FC<TileProps> = ({ r, c, style }) => {
+  const tileRef = useRef<HTMLButtonElement>(null);
   const {
     level,
     activeClueId,
@@ -29,6 +30,19 @@ export const Tile: React.FC<TileProps> = ({ r, c, style }) => {
   } = useGameStore();
 
   const tileData = level.tiles.find((t) => t.r === r && t.c === c);
+
+  const isFocused = focusedCell?.[0] === r && focusedCell?.[1] === c;
+
+  // Auto-scroll active focused cell into view on mobile so it never hides behind keyboard or clue ribbon
+  useEffect(() => {
+    if (isFocused && tileRef.current) {
+      tileRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'nearest',
+      });
+    }
+  }, [isFocused]);
 
   if (!tileData) {
     return null;
@@ -54,9 +68,6 @@ export const Tile: React.FC<TileProps> = ({ r, c, style }) => {
   const activeClue = findClueById(level, activeClueId);
   const isInActiveWord = activeClue?.cells.some(([cr, cc]) => cr === r && cc === c) ?? false;
 
-  // Check if this tile is the specifically focused cell
-  const isFocused = focusedCell?.[0] === r && focusedCell?.[1] === c;
-
   // Animation variants
   const animationProps = isPopping
     ? {
@@ -79,6 +90,7 @@ export const Tile: React.FC<TileProps> = ({ r, c, style }) => {
 
   return (
     <motion.button
+      ref={tileRef}
       type="button"
       animate={animationProps}
       onClick={() => selectCell(r, c)}

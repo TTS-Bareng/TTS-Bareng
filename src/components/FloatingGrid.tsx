@@ -28,7 +28,7 @@ export const FloatingGrid: React.FC = () => {
   // Responsive tile size based on BOTH available width and height
   const gapSize = 4;
   const paddingH = 20; // 10px safe horizontal padding
-  const paddingV = 24; // 12px safe vertical padding to protect top and bottom from clipping
+  const paddingV = 28; // 14px safe vertical padding to protect top and bottom from clipping
   const maxTileByWidth = Math.floor((containerSize.width - paddingH - (cols - 1) * gapSize) / cols);
   const maxTileByHeight = Math.floor((containerSize.height - paddingV - (rows - 1) * gapSize) / rows);
 
@@ -44,7 +44,7 @@ export const FloatingGrid: React.FC = () => {
           closeKeyboard();
         }
       }}
-      className="w-full flex-1 flex overflow-auto p-3 select-none relative z-10 touch-manipulation min-h-0"
+      className="w-full flex-1 flex overflow-auto py-3 px-3.5 select-none relative z-10 touch-manipulation min-h-0 overscroll-contain scroll-smooth"
     >
       <motion.div
         key={level.id}

@@ -811,3 +811,19 @@ body,
   box-shadow: 0 1px 0 #CBD5E1, 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* ============================================================
+   MOBILE ERGONOMICS & ZERO-DELAY TOUCH RULES
+   ============================================================ */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.overscroll-contain {
+  overscroll-behavior-y: contain;
+}
+

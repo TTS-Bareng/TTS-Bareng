@@ -1832,7 +1832,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
     if (soundEnabled) soundManager.playKeyClick();
     if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate(8);
+      navigator.vibrate(6);
     }
 
     const allClues = [...level.clues.across, ...level.clues.down];
@@ -2099,7 +2099,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     if (soundEnabled) soundManager.playKeyClick();
     if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate(8);
+      navigator.vibrate(10);
     }
 
     if (newInputs[key] && !lockedCells[key]) {

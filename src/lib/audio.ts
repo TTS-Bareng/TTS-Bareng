@@ -22,6 +22,19 @@ class SoundManager {
 
     window.addEventListener('pointerdown', unlock, { once: true, passive: true });
     window.addEventListener('keydown', unlock, { once: true, passive: true });
+
+    // Auto-resume AudioContext on mobile when returning from background or unlocking phone
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && this.ctx && this.ctx.state === 'suspended') {
+        this.ctx.resume().catch(() => {});
+      }
+    });
+
+    window.addEventListener('focus', () => {
+      if (this.ctx && this.ctx.state === 'suspended') {
+        this.ctx.resume().catch(() => {});
+      }
+    });
   }
 
   private getContext(): AudioContext | null {
