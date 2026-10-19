@@ -15,8 +15,6 @@ export const TournamentResultModal: React.FC = () => {
     isTournamentResultOpen,
     closeTournamentResult,
     tournamentResultData,
-    openTournament,
-    resetTournament,
     setCurrentTab,
     user,
   } = useGameStore();
@@ -36,7 +34,7 @@ export const TournamentResultModal: React.FC = () => {
 
   const handleOpenBracket = () => {
     closeTournamentResult();
-    openTournament();
+    setCurrentTab('arena');
   };
 
   const handleReturnHome = () => {
@@ -45,9 +43,8 @@ export const TournamentResultModal: React.FC = () => {
   };
 
   const handleRetry = () => {
-    resetTournament();
     closeTournamentResult();
-    openTournament();
+    setCurrentTab('arena');
   };
 
   return (
@@ -85,7 +82,7 @@ export const TournamentResultModal: React.FC = () => {
               animate={{ y: [0, -6, 0], scale: 1 }}
               transition={{ repeat: Infinity, duration: 2.6, ease: 'easeInOut' }}
               src={won ? MASCOTS.crosswordChampion : MASCOTS.crosswordDuel}
-              alt="Hasil Piala Nusantara"
+              alt="Hasil Piala Turnamen"
               className="w-full h-full object-contain filter drop-shadow-xl"
             />
           </div>
@@ -93,12 +90,12 @@ export const TournamentResultModal: React.FC = () => {
           {/* Title & Stage Badge */}
           <div className="flex flex-col items-center">
             <span className="text-[8.5px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/20 border border-white/30 text-white backdrop-blur-sm">
-              PIALA NUSANTARA • {roundTitle.toUpperCase()}
+              TURNAMEN RESMI • {roundTitle.toUpperCase()}
             </span>
 
             <h3 className="text-[20px] font-black tracking-tight leading-tight mt-1 text-white">
               {isChampion
-                ? '🏆 JUARA PIALA NUSANTARA!'
+                ? '🏆 JUARA TURNAMEN!'
                 : won
                 ? 'LOLOS KE BABAK BERIKUTNYA!'
                 : 'TERELIMINASI'}
@@ -108,35 +105,35 @@ export const TournamentResultModal: React.FC = () => {
               {isChampion
                 ? 'Luar biasa! Kamu berhasil menaklukkan seluruh lawan dan merebut Trofi Emas!'
                 : won
-                ? `Selamat! Kamu menaklukkan ${opponent.name} (${opponent.origin}).`
+                ? `Selamat! Kamu berhasil menaklukkan ${opponent.name}.`
                 : `Pertandingan sengit melawan ${opponent.name}. Jangan patah arang!`}
             </p>
           </div>
 
           {/* Trophy Awarded Banner (If Gold / Silver / Bronze) */}
           {trophyAwarded && (
-            <div className="w-full p-2.5 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center gap-2 backdrop-blur-sm animate-pulse">
+            <div className="w-full p-2.5 rounded-2xl bg-white/20 border border-white/30 flex items-center justify-center gap-2 backdrop-blur-sm animate-pulse">
               {trophyAwarded === 'gold' && (
                 <>
-                  <Trophy className="w-5 h-5 fill-amber-300 text-amber-300 shrink-0" />
-                  <span className="text-[11.5px] font-black text-amber-200">
-                    +1 Trofi Emas Piala Nusantara Diraih!
+                  <Trophy className="w-5 h-5 fill-current text-white shrink-0" />
+                  <span className="text-[11.5px] font-black text-white">
+                    +1 Trofi Emas & 200★ Berhasil Diraih!
                   </span>
                 </>
               )}
               {trophyAwarded === 'silver' && (
                 <>
-                  <Medal className="w-5 h-5 text-slate-200 shrink-0" />
-                  <span className="text-[11.5px] font-black text-slate-100">
-                    +1 Trofi Perak (Runner Up) Diraih!
+                  <Medal className="w-5 h-5 fill-current text-white shrink-0" />
+                  <span className="text-[11.5px] font-black text-white">
+                    +1 Trofi Perak & 100★ Diraih!
                   </span>
                 </>
               )}
               {trophyAwarded === 'bronze' && (
                 <>
-                  <Shield className="w-5 h-5 text-amber-200 shrink-0" />
-                  <span className="text-[11.5px] font-black text-amber-100">
-                    +1 Trofi Perunggu (Top 4) Diraih!
+                  <Shield className="w-5 h-5 fill-current text-white shrink-0" />
+                  <span className="text-[11.5px] font-black text-white">
+                    +1 Trofi Perunggu & 50★ Diraih!
                   </span>
                 </>
               )}

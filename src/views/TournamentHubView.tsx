@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Trophy,
   Swords,
@@ -10,63 +10,481 @@ import {
   Shield,
   Sparkles,
   Users,
+  Copy,
+  Share2,
+  Play,
+  LogOut,
+  CheckCircle2,
+  Crown,
 } from 'lucide-react';
+import QRCode from 'qrcode';
 import { useGameStore } from '../store/useGameStore';
+import { type CommunityTournamentMatch } from '../lib/tournament';
 
-export interface PublicTournamentItem {
-  id: string;
-  code: string;
-  name: string;
-  hostName: string;
-  format: 'knockout_4' | 'knockout_8' | 'sprint';
-  formatLabel: string;
-  themeCategory: string;
-  currentPlayers: number;
-  maxPlayers: number;
-  status: 'waiting' | 'in_progress';
-  createdAt: string;
-}
+export const TournamentHubView: React.FC = () => {
+  const {
+    trophies,
+    user,
+    showGlobalToast,
+    activeTournament,
+    publicTournaments,
+    openCreateTournament,
+    openJoinTournament,
+    joinTournament,
+    leaveTournament,
+    startTournamentLobby,
+    startCommunityMatch,
+  } = useGameStore();
 
-export const TournamentHubView: React.FC<{
-  onOpenCreate?: () => void;
-  onOpenJoin?: () => void;
-}> = ({ onOpenCreate, onOpenJoin }) => {
-  const { trophies, user, showGlobalToast } = useGameStore();
+  const [copiedCode, setCopiedCode] = useState(false);
+  const [showQrModal, setShowQrModal] = useState(false);
+  const [qrDataUrl, setQrDataUrl] = useState<string>('');
 
-  // Active public tournaments list (in-memory / mockable for community exploration)
-  const [activeTournaments] = useState<PublicTournamentItem[]>([
-    {
-      id: 'tourney_demo_1',
-      code: 'CUP-7721',
-      name: 'Piala Jawara Nusantara',
-      hostName: 'Budi Santoso',
-      format: 'knockout_4',
-      formatLabel: 'Sistem Gugur (4 Besar)',
-      themeCategory: 'Olahraga & Wisata',
-      currentPlayers: 2,
-      maxPlayers: 4,
-      status: 'waiting',
-      createdAt: 'Baru saja',
-    },
-    {
-      id: 'tourney_demo_2',
-      code: 'CUP-5510',
-      name: 'Duel Kosakata Cepat',
-      hostName: 'Siti Rahma',
-      format: 'sprint',
-      formatLabel: 'Time Attack (60s)',
-      themeCategory: 'Bahasa Inggris & Sains',
-      currentPlayers: 1,
-      maxPlayers: 4,
-      status: 'waiting',
-      createdAt: '5m lalu',
-    },
-  ]);
+  const isHost = activeTournament?.hostId === (user.id || 'player_local');
 
-  const handleJoinByItem = (item: PublicTournamentItem) => {
-    showGlobalToast(`Bergabung ke turnamen ${item.name} (${item.code})...`, 2500);
+  // Generate QR code data URL whenever activeTournament changes
+  useEffect(() => {
+    if (activeTournament) {
+      const inviteUrl = `${window.location.origin}?tourney=${activeTournament.code}`;
+      QRCode.toDataURL(inviteUrl, {
+        width: 220,
+        margin: 1,
+        color: { dark: '#111827', light: '#ffffff' },
+      })
+        .then((url) => setQrDataUrl(url))
+        .catch(() => setQrDataUrl(''));
+    }
+  }, [activeTournament]);
+
+  const handleCopyCode = () => {
+    if (!activeTournament) return;
+    navigator.clipboard.writeText(activeTournament.code);
+    setCopiedCode(true);
+    showGlobalToast(`Kode kamar ${activeTournament.code} berhasil disalin!`, 2000);
+    setTimeout(() => setCopiedCode(false), 2000);
   };
 
+  const handleShareWhatsApp = () => {
+    if (!activeTournament) return;
+    const text = encodeURIComponent(
+      `🏆 Ayo tanding di Turnamen TTS Bareng!\nKamar: *${activeTournament.name}*\nKode: *${activeTournament.code}*\nFormat: ${
+        activeTournament.format === 'knockout_8' ? '8 Besar' : '4 Besar'
+      }\nGabung sekarang di: ${window.location.origin}?tourney=${activeTournament.code}`
+    );
+    window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+  };
+
+  const handleJoinPublicItem = (code: string) => {
+    const res = joinTournament(code);
+    showGlobalToast(res.message, 2500);
+  };
+
+  // =========================================================================
+  // VIEW 1: ACTIVE TOURNAMENT - LOBBY STATE
+  // =========================================================================
+  if (activeTournament && activeTournament.status === 'lobby') {
+    const emptySlotsCount = Math.max(0, activeTournament.maxPlayers - activeTournament.players.length);
+
+    return (
+      <div className="w-full flex flex-col gap-3.5 relative z-10 pb-8">
+        {/* Lobby Header Card */}
+        <div
+          className="w-full rounded-[26px] p-4 relative z-10 overflow-hidden border border-white/10 dark:border-white/15 shadow-sm"
+          style={{
+            background: 'var(--hero-grad, var(--accent-grad))',
+            color: '#ffffff',
+          }}
+        >
+          <div className="absolute top-0 inset-x-0 h-px bg-white/30 pointer-events-none" />
+          <div className="flex items-center justify-between mb-2 relative z-10">
+            <span className="text-[8.5px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/20 text-white backdrop-blur-md border border-white/25 inline-flex items-center gap-1.5">
+              <Trophy className="w-3 h-3 stroke-[2.2]" />
+              <span>LOBI TURNAMEN RESMI</span>
+            </span>
+            <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-black/25 text-white">
+              {activeTournament.players.length}/{activeTournament.maxPlayers} PEMAIN
+            </span>
+          </div>
+
+          <h3 className="text-[20px] font-black text-white tracking-tight leading-tight mb-0.5">
+            {activeTournament.name}
+          </h3>
+          <p className="text-[11px] text-white/85 leading-snug">
+            Format: {activeTournament.format === 'knockout_8' ? 'Sistem Gugur 8 Besar' : 'Sistem Gugur 4 Besar'} • Durasi: {activeTournament.roundDurationSeconds}s/babak
+          </p>
+
+          {/* Room Code Showcase with Actions */}
+          <div className="mt-3.5 p-3 rounded-2xl bg-black/25 backdrop-blur-md border border-white/15 flex items-center justify-between gap-2">
+            <div className="flex flex-col">
+              <span className="text-[8px] font-bold text-white/70 uppercase tracking-wider">
+                KODE KAMAR TURNAMEN
+              </span>
+              <span className="text-[18px] font-black tracking-widest text-white leading-none mt-0.5">
+                {activeTournament.code}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={handleCopyCode}
+                className="py-1.5 px-3 rounded-xl bg-white/20 hover:bg-white/30 text-white text-[10.5px] font-bold flex items-center gap-1 cursor-pointer tactile-active transition-colors"
+              >
+                <Copy className="w-3.5 h-3.5" />
+                <span>{copiedCode ? 'Disalin' : 'Salin'}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleShareWhatsApp}
+                className="py-1.5 px-3 rounded-xl bg-white text-[10.5px] font-bold flex items-center gap-1 cursor-pointer tactile-active shadow-xs hover:opacity-95 transition-opacity"
+                style={{ color: 'var(--hero-btn-text, #111113)' }}
+              >
+                <Share2 className="w-3.5 h-3.5" />
+                <span>Ajak WA</span>
+              </button>
+
+              {qrDataUrl && (
+                <button
+                  type="button"
+                  onClick={() => setShowQrModal(true)}
+                  className="p-1.5 rounded-xl bg-white/20 hover:bg-white/30 text-white cursor-pointer tactile-active transition-colors"
+                  title="Lihat QR Code"
+                >
+                  <QrCode className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Players List in Lobby */}
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between px-1">
+            <span className="text-[11px] font-black uppercase tracking-wider text-[var(--text-primary)] flex items-center gap-1.5">
+              <Users className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2]" />
+              <span>PESERTA TERGABUNG ({activeTournament.players.length}/{activeTournament.maxPlayers})</span>
+            </span>
+            <span className="text-[10px] text-[var(--text-secondary)] font-semibold">
+              {activeTournament.players.length >= 2 ? 'Siap Dimulai' : 'Menunggu 1 Pemain Lagi'}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2">
+            {activeTournament.players.map((p, idx) => (
+              <div
+                key={p.id || idx}
+                className="p-3 rounded-2xl liquid-glass-card border border-[var(--border-card)] flex items-center gap-2.5 shadow-xs"
+              >
+                <div className="w-9 h-9 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/30 flex items-center justify-center overflow-hidden shrink-0">
+                  {p.avatar ? (
+                    <img src={p.avatar} alt={p.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-[12px] font-black text-[var(--accent-main)]">
+                      {p.name.charAt(0)}
+                    </span>
+                  )}
+                </div>
+                <div className="flex flex-col min-w-0">
+                  <div className="flex items-center gap-1">
+                    <span className="text-[12px] font-black text-[var(--text-primary)] truncate">
+                      {p.name}
+                    </span>
+                    {p.isHost && (
+                      <Crown className="w-3 h-3 text-[var(--accent-main)] shrink-0 fill-current" />
+                    )}
+                  </div>
+                  <span className="text-[9px] font-bold text-[var(--accent-main)]">
+                    {p.isHost ? 'Host Turnamen' : 'Peserta Siap'}
+                  </span>
+                </div>
+              </div>
+            ))}
+
+            {Array.from({ length: emptySlotsCount }).map((_, idx) => (
+              <div
+                key={`empty_${idx}`}
+                onClick={handleShareWhatsApp}
+                className="p-3 rounded-2xl border border-dashed border-[var(--border-card)] bg-black/5 dark:bg-white/5 flex items-center gap-2.5 cursor-pointer tactile-active hover:border-[var(--accent-main)]/40 transition-colors"
+              >
+                <div className="w-9 h-9 rounded-full border border-dashed border-[var(--text-secondary)]/30 flex items-center justify-center text-[var(--text-secondary)] shrink-0">
+                  <Plus className="w-4 h-4" />
+                </div>
+                <div className="flex flex-col min-w-0">
+                  <span className="text-[11.5px] font-bold text-[var(--text-secondary)] truncate">
+                    Slot Kosong
+                  </span>
+                  <span className="text-[9px] text-[var(--accent-main)] font-bold">
+                    + Undangan Teman
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Lobby Action Controls */}
+        <div className="flex flex-col gap-2 mt-1">
+          {isHost ? (
+            <button
+              type="button"
+              onClick={startTournamentLobby}
+              disabled={activeTournament.players.length < 2}
+              className={`w-full py-3 rounded-2xl text-[13px] font-black flex items-center justify-center gap-2 shadow-md cursor-pointer tactile-active transition-all ${
+                activeTournament.players.length >= 2
+                  ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] hover:opacity-95'
+                  : 'bg-black/10 dark:bg-white/10 text-[var(--text-secondary)] opacity-50 cursor-not-allowed'
+              }`}
+            >
+              <Play className="w-4 h-4 fill-current" />
+              <span>
+                {activeTournament.players.length >= 2
+                  ? 'Mulai Turnamen (Undi Bagan)'
+                  : 'Menunggu Minimal 2 Pemain'}
+              </span>
+            </button>
+          ) : (
+            <div className="p-3 rounded-2xl liquid-glass-card border border-[var(--border-card)] text-center text-[11px] font-bold text-[var(--text-secondary)]">
+              ⏳ Menunggu Host ({activeTournament.hostName}) memulai turnamen...
+            </div>
+          )}
+
+          <button
+            type="button"
+            onClick={leaveTournament}
+            className="w-full py-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-[var(--border-card)] text-[var(--text-secondary)] hover:text-red-500 hover:border-red-500/30 text-[11.5px] font-bold flex items-center justify-center gap-1.5 cursor-pointer tactile-active transition-colors"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+            <span>{isHost ? 'Batalkan Turnamen' : 'Tinggalkan Kamar'}</span>
+          </button>
+        </div>
+
+        {/* QR Code Modal Popup */}
+        {showQrModal && qrDataUrl && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md select-none">
+            <div className="relative w-full max-w-[300px] p-5 rounded-[28px] liquid-glass-card border border-[var(--border-card)] shadow-2xl flex flex-col items-center gap-3">
+              <h4 className="text-[15px] font-black text-[var(--text-primary)]">
+                Scan QR Turnamen
+              </h4>
+              <div className="p-3 bg-white rounded-2xl shadow-inner">
+                <img src={qrDataUrl} alt="QR Kamar Turnamen" className="w-44 h-44 object-contain" />
+              </div>
+              <span className="text-[13px] font-black text-[var(--accent-main)] tracking-wider">
+                {activeTournament.code}
+              </span>
+              <button
+                type="button"
+                onClick={() => setShowQrModal(false)}
+                className="w-full py-2 rounded-xl bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[11px] font-black cursor-pointer tactile-active"
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // VIEW 2: ACTIVE TOURNAMENT - IN PROGRESS (INTERACTIVE BRACKET)
+  // =========================================================================
+  if (activeTournament && activeTournament.status === 'in_progress') {
+    const myId = user.id || 'player_local';
+
+    return (
+      <div className="w-full flex flex-col gap-3.5 relative z-10 pb-8">
+        {/* Header Bagan */}
+        <div
+          className="w-full rounded-[26px] p-4 relative z-10 overflow-hidden border border-white/10 dark:border-white/15 shadow-sm"
+          style={{
+            background: 'var(--hero-grad, var(--accent-grad))',
+            color: '#ffffff',
+          }}
+        >
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-[8.5px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/20 text-white backdrop-blur-md border border-white/25 inline-flex items-center gap-1.5">
+              <Swords className="w-3 h-3 stroke-[2.2]" />
+              <span>BAGAN SISTEM GUGUR</span>
+            </span>
+            <span className="text-[10px] font-bold text-white/90">
+              {activeTournament.name}
+            </span>
+          </div>
+
+          <h3 className="text-[19px] font-black text-white tracking-tight leading-tight">
+            Babak Eliminasi Sedang Berlangsung
+          </h3>
+          <p className="text-[11px] text-white/85 leading-snug">
+            Kalahkan lawanmu untuk melaju ke babak berikutnya hingga Grand Final!
+          </p>
+        </div>
+
+        {/* Bagan Pertandingan Visual */}
+        <div className="flex flex-col gap-3">
+          {activeTournament.matches.map((match: CommunityTournamentMatch) => {
+            const isMyMatch = Boolean(match.player1?.id === myId || match.player2?.id === myId);
+            const isCompleted = match.status === 'completed';
+            const canPlay = isMyMatch && !isCompleted;
+
+            return (
+              <div
+                key={match.id}
+                className={`w-full p-3.5 rounded-[22px] liquid-glass-card border shadow-xs transition-all ${
+                  canPlay
+                    ? 'border-[var(--accent-main)] shadow-md ring-1 ring-[var(--accent-main)]/30'
+                    : 'border-[var(--border-card)]'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-[var(--accent-main)]">
+                    {match.roundName}
+                  </span>
+                  <span className="text-[9.5px] font-bold text-[var(--text-secondary)]">
+                    {isCompleted ? 'Selesai' : `${match.durationSeconds} Detik`}
+                  </span>
+                </div>
+
+                {/* Match Contestants */}
+                <div className="grid grid-cols-2 gap-2 items-center">
+                  {/* Player 1 */}
+                  <div
+                    className={`p-2.5 rounded-xl border flex items-center justify-between ${
+                      match.winner?.id === match.player1?.id
+                        ? 'bg-[var(--accent-light)] border-[var(--accent-main)] font-black text-[var(--accent-main)]'
+                        : 'bg-black/5 dark:bg-white/5 border-[var(--border-card)]'
+                    }`}
+                  >
+                    <span className="text-[11.5px] font-bold text-[var(--text-primary)] truncate">
+                      {match.player1?.name || 'TBD'}
+                    </span>
+                    {isCompleted && (
+                      <span className="text-[11px] font-black ml-1">
+                        {match.player1Score}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Player 2 */}
+                  <div
+                    className={`p-2.5 rounded-xl border flex items-center justify-between ${
+                      match.winner?.id === match.player2?.id
+                        ? 'bg-[var(--accent-light)] border-[var(--accent-main)] font-black text-[var(--accent-main)]'
+                        : 'bg-black/5 dark:bg-white/5 border-[var(--border-card)]'
+                    }`}
+                  >
+                    <span className="text-[11.5px] font-bold text-[var(--text-primary)] truncate">
+                      {match.player2?.name || 'TBD'}
+                    </span>
+                    {isCompleted && (
+                      <span className="text-[11px] font-black ml-1">
+                        {match.player2Score}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* If this is the user's active match, show play button */}
+                {canPlay && (
+                  <button
+                    type="button"
+                    onClick={() => startCommunityMatch(match.id)}
+                    className="w-full mt-2.5 py-2.5 rounded-xl bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[12px] font-black flex items-center justify-center gap-1.5 cursor-pointer tactile-active shadow-md hover:opacity-95 transition-opacity"
+                  >
+                    <Swords className="w-3.5 h-3.5" />
+                    <span>Tanding Sekarang ({match.roundName})</span>
+                    <ArrowRight className="w-3.5 h-3.5 stroke-[2.4]" />
+                  </button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Exit Button */}
+        <button
+          type="button"
+          onClick={leaveTournament}
+          className="w-full py-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-[var(--border-card)] text-[var(--text-secondary)] hover:text-red-500 text-[11.5px] font-bold flex items-center justify-center gap-1.5 cursor-pointer tactile-active transition-colors mt-1"
+        >
+          <LogOut className="w-3.5 h-3.5" />
+          <span>Tinggalkan Turnamen</span>
+        </button>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // VIEW 3: ACTIVE TOURNAMENT - COMPLETED STATE (PODIUM)
+  // =========================================================================
+  if (activeTournament && activeTournament.status === 'completed') {
+    return (
+      <div className="w-full flex flex-col items-center gap-4 relative z-10 pb-8 text-center">
+        {/* Victory Card */}
+        <div
+          className="w-full rounded-[28px] p-5 relative z-10 overflow-hidden border border-white/15 shadow-2xl flex flex-col items-center gap-3"
+          style={{
+            background: 'var(--hero-grad, var(--accent-grad))',
+            color: '#ffffff',
+          }}
+        >
+          <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center text-white border border-white/30 shadow-lg">
+            <Trophy className="w-8 h-8 fill-current stroke-none" />
+          </div>
+
+          <div>
+            <span className="text-[9px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/20 text-white backdrop-blur-md">
+              TURNAMEN SELESAI
+            </span>
+            <h3 className="text-[22px] font-black text-white tracking-tight leading-tight mt-1">
+              Podium Juara {activeTournament.name}
+            </h3>
+          </div>
+
+          {/* Podium Winner Cards */}
+          <div className="w-full grid grid-cols-2 gap-2 mt-2">
+            {/* 1st Place */}
+            <div className="p-3 rounded-2xl bg-white/15 border border-white/25 flex flex-col items-center text-center">
+              <span className="text-[18px] mb-1">🥇</span>
+              <span className="text-[9px] font-bold text-white/80 uppercase">JUARA 1</span>
+              <span className="text-[13px] font-black text-white truncate max-w-full">
+                {activeTournament.champion?.name || 'Pemenang'}
+              </span>
+              <span className="text-[10px] font-bold text-white/90 mt-1">
+                +200 ★ & Trofi Emas
+              </span>
+            </div>
+
+            {/* 2nd Place */}
+            <div className="p-3 rounded-2xl bg-white/10 border border-white/20 flex flex-col items-center text-center">
+              <span className="text-[18px] mb-1">🥈</span>
+              <span className="text-[9px] font-bold text-white/80 uppercase">RUNNER UP</span>
+              <span className="text-[13px] font-black text-white truncate max-w-full">
+                {activeTournament.runnerUp?.name || 'Runner Up'}
+              </span>
+              <span className="text-[10px] font-bold text-white/90 mt-1">
+                +100 ★ & Trofi Perak
+              </span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={leaveTournament}
+            className="w-full py-3 rounded-2xl bg-white text-[12.5px] font-black flex items-center justify-center gap-1.5 cursor-pointer tactile-active shadow-md hover:opacity-95 transition-opacity mt-2"
+            style={{ color: 'var(--hero-btn-text, #111113)' }}
+          >
+            <CheckCircle2 className="w-4 h-4 stroke-[2.4]" />
+            <span>Klaim Hadiah & Selesai</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // VIEW 4: DEFAULT TOURNAMENT HUB (NO ACTIVE TOURNAMENT)
+  // =========================================================================
   return (
     <div className="w-full flex flex-col gap-3.5 relative z-10 pb-6">
       {/* 1. Header Trophy Showcase (Themed Glass Card) */}
@@ -149,7 +567,7 @@ export const TournamentHubView: React.FC<{
       <div className="grid grid-cols-2 gap-2.5">
         {/* Card A: Buat Turnamen */}
         <div
-          onClick={onOpenCreate}
+          onClick={openCreateTournament}
           className="p-4 rounded-[24px] liquid-glass-card border border-[var(--border-card)] flex flex-col justify-between gap-3 cursor-pointer tactile-active group hover:border-[var(--accent-main)]/40 transition-all shadow-xs"
         >
           <div className="w-9 h-9 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)] shadow-2xs group-hover:scale-105 transition-transform">
@@ -171,7 +589,7 @@ export const TournamentHubView: React.FC<{
 
         {/* Card B: Ikut Turnamen */}
         <div
-          onClick={onOpenJoin}
+          onClick={openJoinTournament}
           className="p-4 rounded-[24px] liquid-glass-card border border-[var(--border-card)] flex flex-col justify-between gap-3 cursor-pointer tactile-active group hover:border-[var(--accent-main)]/40 transition-all shadow-xs"
         >
           <div className="w-9 h-9 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)] shadow-2xs group-hover:scale-105 transition-transform">
@@ -200,12 +618,12 @@ export const TournamentHubView: React.FC<{
             <span>TURNAMEN TERBUKA</span>
           </span>
           <span className="text-[10px] text-[var(--text-secondary)] font-semibold">
-            {activeTournaments.length} Lobi Menunggu
+            {publicTournaments.length} Lobi Menunggu
           </span>
         </div>
 
         <div className="flex flex-col gap-2">
-          {activeTournaments.map((item) => (
+          {publicTournaments.map((item) => (
             <div
               key={item.id}
               className="w-full p-3.5 rounded-[22px] liquid-glass-card border border-[var(--border-card)] flex items-center justify-between gap-3 shadow-xs hover:border-[var(--accent-main)]/30 transition-all"
@@ -227,10 +645,10 @@ export const TournamentHubView: React.FC<{
                     {item.name}
                   </h4>
                   <div className="flex items-center gap-2 text-[9.5px] text-[var(--text-secondary)] font-semibold mt-0.5">
-                    <span>{item.formatLabel}</span>
+                    <span>{item.format === 'knockout_8' ? '8 Besar' : '4 Besar'}</span>
                     <span>•</span>
                     <span className="text-[var(--accent-main)] font-bold">
-                      {item.currentPlayers}/{item.maxPlayers} Pemain
+                      {item.players.length}/{item.maxPlayers} Pemain
                     </span>
                   </div>
                 </div>
@@ -238,7 +656,7 @@ export const TournamentHubView: React.FC<{
 
               <button
                 type="button"
-                onClick={() => handleJoinByItem(item)}
+                onClick={() => handleJoinPublicItem(item.code)}
                 className="py-1.5 px-3.5 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[10.5px] font-black flex items-center gap-1 shrink-0 cursor-pointer tactile-active hover:opacity-95 shadow-xs transition-opacity"
               >
                 <span>Ikut</span>
@@ -267,7 +685,7 @@ export const TournamentHubView: React.FC<{
           <div className="p-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 flex flex-col items-center text-center">
             <Users className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2] mb-1" />
             <span className="text-[11px] font-black text-[var(--text-primary)]">
-              4-16 Slot
+              4-8 Slot
             </span>
             <span className="text-[8px] text-[var(--text-secondary)] mt-0.5">
               Sistem Gugur
@@ -298,3 +716,5 @@ export const TournamentHubView: React.FC<{
     </div>
   );
 };
+
+export default TournamentHubView;

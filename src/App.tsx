@@ -24,7 +24,8 @@ const LexiconModal = lazy(() => import('./components/LexiconModal').then((m) => 
 const AvatarPickerModal = lazy(() => import('./components/AvatarPickerModal').then((m) => ({ default: m.AvatarPickerModal })));
 const LegalModal = lazy(() => import('./components/LegalModal').then((m) => ({ default: m.LegalModal })));
 const PlayerIdModal = lazy(() => import('./components/PlayerIdModal').then((m) => ({ default: m.PlayerIdModal })));
-const TournamentCupModal = lazy(() => import('./components/TournamentCupModal').then((m) => ({ default: m.TournamentCupModal })));
+const CreateTournamentModal = lazy(() => import('./components/CreateTournamentModal').then((m) => ({ default: m.CreateTournamentModal })));
+const JoinTournamentModal = lazy(() => import('./components/JoinTournamentModal').then((m) => ({ default: m.JoinTournamentModal })));
 const TournamentResultModal = lazy(() => import('./components/TournamentResultModal').then((m) => ({ default: m.TournamentResultModal })));
 const InitialAuthView = lazy(() => import('./views/InitialAuthView').then((m) => ({ default: m.InitialAuthView })));
 const OnboardingView = lazy(() => import('./views/OnboardingView').then((m) => ({ default: m.OnboardingView })));
@@ -232,7 +233,8 @@ export const App: React.FC = () => {
         />
         <LegalModal />
         <PlayerIdModal />
-        <TournamentCupModal />
+        <CreateTournamentModal />
+        <JoinTournamentModal />
         <TournamentResultModal />
       </Suspense>
     </div>

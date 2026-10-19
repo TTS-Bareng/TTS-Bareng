@@ -1,41 +1,47 @@
 import { MASCOTS } from '../assets/maskots';
 
-export type TournamentRoundKey = 'round_of_16' | 'quarter_final' | 'semi_final' | 'final';
+export type TournamentFormat = 'knockout_4' | 'knockout_8' | 'sprint';
 
-export interface TournamentDuelist {
+export interface CommunityTournamentPlayer {
   id: string;
   name: string;
-  origin: string;
-  avatar: string;
-  title: string;
-  speedRating: number; // 60 - 95 (detik per kata relatif)
-  accuracyRating: number; // 70 - 98
-  isPlayer?: boolean;
+  avatar?: string;
+  isHost?: boolean;
+  isReady?: boolean;
+  score?: number;
 }
 
-export interface TournamentMatch {
+export interface CommunityTournamentMatch {
   id: string;
-  round: TournamentRoundKey;
-  roundTitle: string;
-  player1: TournamentDuelist;
-  player2: TournamentDuelist;
-  winner?: TournamentDuelist;
-  player1Score?: number;
-  player2Score?: number;
+  roundIndex: number;
+  roundName: string;
+  player1: CommunityTournamentPlayer | null;
+  player2: CommunityTournamentPlayer | null;
+  winner: CommunityTournamentPlayer | null;
+  player1Score: number;
+  player2Score: number;
   durationSeconds: number;
-  wordCount: 'short' | 'medium' | 'long';
-  isPlayerMatch: boolean;
   status: 'pending' | 'active' | 'completed';
+  isPlayerMatch: boolean;
 }
 
-export interface TournamentCupState {
+export interface CommunityTournament {
   id: string;
-  seasonName: string;
-  currentRound: TournamentRoundKey;
-  matches: Record<TournamentRoundKey, TournamentMatch[]>;
-  playerStatus: 'in_progress' | 'champion' | 'eliminated';
-  eliminatedAtRound?: TournamentRoundKey;
-  activeMatchId?: string;
+  code: string;
+  name: string;
+  hostId: string;
+  hostName: string;
+  format: TournamentFormat;
+  roundDurationSeconds: number;
+  themeCategory: string;
+  status: 'lobby' | 'in_progress' | 'completed';
+  players: CommunityTournamentPlayer[];
+  maxPlayers: number;
+  matches: CommunityTournamentMatch[];
+  currentMatchId?: string;
+  champion?: CommunityTournamentPlayer;
+  runnerUp?: CommunityTournamentPlayer;
+  createdAt: string;
   completedAt?: string;
 }
 
@@ -47,384 +53,354 @@ export interface TrophyRecord {
   lastChampionDate?: string;
 }
 
-const STORAGE_KEY_TOURNAMENT = 'tts_tournament_cup_state_v1';
+const STORAGE_KEY_ACTIVE_TOURNAMENT = 'tts_active_tournament_v2';
+const STORAGE_KEY_PUBLIC_TOURNAMENTS = 'tts_public_tournaments_v2';
 const STORAGE_KEY_TROPHIES = 'tts_tournament_trophies_v1';
 
-export const ROUND_NAMES: Record<TournamentRoundKey, { title: string; short: string; duration: number }> = {
-  round_of_16: { title: 'Babak 16 Besar', short: '16 Besar', duration: 45 },
-  quarter_final: { title: 'Perempat Final', short: '8 Besar', duration: 60 },
-  semi_final: { title: 'Semifinal', short: '4 Besar', duration: 75 },
-  final: { title: 'Grand Final Piala Nusantara', short: 'Grand Final', duration: 90 },
-};
+/** Generate random 4-digit tournament code: CUP-XXXX */
+export function generateTournamentCode(): string {
+  const digits = Math.floor(1000 + Math.random() * 9000);
+  return `CUP-${digits}`;
+}
 
-/** 15 AI Duelists with authentic Indonesian regional identities & unique personas */
-export const AI_DUELISTS_POOL: TournamentDuelist[] = [
+/** Initial public tournaments when fresh */
+export const DEFAULT_PUBLIC_TOURNAMENTS: CommunityTournament[] = [
   {
-    id: 'ai_budi_kilat',
-    name: 'Budi Kilat',
-    origin: 'Surabaya',
-    avatar: MASCOTS.crosswordChampion,
-    title: 'Sprint Master Jatim',
-    speedRating: 92,
-    accuracyRating: 88,
+    id: 'tourney_pub_1',
+    code: 'CUP-7721',
+    name: 'Piala Jawara Nusantara',
+    hostId: 'host_budi',
+    hostName: 'Budi Santoso',
+    format: 'knockout_4',
+    roundDurationSeconds: 60,
+    themeCategory: 'Olahraga & Wisata',
+    status: 'lobby',
+    maxPlayers: 4,
+    players: [
+      { id: 'host_budi', name: 'Budi Santoso', avatar: MASCOTS.crosswordChampion, isHost: true, isReady: true },
+      { id: 'player_siti', name: 'Siti Rahma', avatar: MASCOTS.crosswordGirl, isHost: false, isReady: true },
+    ],
+    matches: [],
+    createdAt: 'Baru saja',
   },
   {
-    id: 'ai_prof_raden',
-    name: 'Prof. Raden',
-    origin: 'Yogyakarta',
-    avatar: MASCOTS.puzzleScholar,
-    title: 'Kamus Berjalan Kraton',
-    speedRating: 78,
-    accuracyRating: 98,
-  },
-  {
-    id: 'ai_siti_medan',
-    name: 'Siti Horas',
-    origin: 'Medan',
-    avatar: MASCOTS.crosswordGirl,
-    title: 'Pakar Pantun Deli',
-    speedRating: 86,
-    accuracyRating: 91,
-  },
-  {
-    id: 'ai_dian_dewata',
-    name: 'Dian Dewata',
-    origin: 'Denpasar',
-    avatar: MASCOTS.puzzleGamer,
-    title: 'Seniman Kata Bali',
-    speedRating: 81,
-    accuracyRating: 93,
-  },
-  {
-    id: 'ai_agus_jakarta',
-    name: 'Agus Senopati',
-    origin: 'Jakarta',
-    avatar: MASCOTS.techSavvyWalker,
-    title: 'Taktisi Duel Cepat',
-    speedRating: 89,
-    accuracyRating: 87,
-  },
-  {
-    id: 'ai_tari_minang',
-    name: 'Tari Minang',
-    origin: 'Padang',
-    avatar: MASCOTS.crosswordGirlSticker,
-    title: 'Pemecah Sandi Ranah',
-    speedRating: 83,
-    accuracyRating: 94,
-  },
-  {
-    id: 'ai_wayan_lombok',
-    name: 'Wayan Rinjani',
-    origin: 'Mataram',
-    avatar: MASCOTS.puzzleExplorer,
-    title: 'Penjelajah Puncak',
-    speedRating: 80,
-    accuracyRating: 92,
-  },
-  {
-    id: 'ai_eko_semarang',
-    name: 'Eko Lawang',
-    origin: 'Semarang',
-    avatar: MASCOTS.cheerfulBookBoy,
-    title: 'Pena Emas Jawa',
-    speedRating: 82,
-    accuracyRating: 90,
-  },
-  {
-    id: 'ai_maya_bandung',
-    name: 'Maya Parahyangan',
-    origin: 'Bandung',
-    avatar: MASCOTS.indonesianPuzzleKid,
-    title: 'Pujangga Pasundan',
-    speedRating: 87,
-    accuracyRating: 95,
-  },
-  {
-    id: 'ai_rizky_phinisi',
-    name: 'Rizky Phinisi',
-    origin: 'Makassar',
-    avatar: MASCOTS.crosswordThinker,
-    title: 'Nakhoda Silang Bahari',
-    speedRating: 88,
-    accuracyRating: 89,
-  },
-  {
-    id: 'ai_intan_bogor',
-    name: 'Intan Hujan',
-    origin: 'Bogor',
-    avatar: MASCOTS.boySolvingPuzzle,
-    title: 'Pemerhati Biota Raya',
-    speedRating: 80,
-    accuracyRating: 93,
-  },
-  {
-    id: 'ai_fajar_maluku',
-    name: 'Fajar Banda',
-    origin: 'Ambon',
-    avatar: MASCOTS.indonesianPuzzlePals,
-    title: 'Mutiara Kata Timur',
-    speedRating: 84,
-    accuracyRating: 92,
-  },
-  {
-    id: 'ai_gita_solo',
-    name: 'Gita Keraton',
-    origin: 'Surakarta',
-    avatar: MASCOTS.batikWordsmith,
-    title: 'Batik Wordsmith Klasik',
-    speedRating: 79,
-    accuracyRating: 97,
-  },
-  {
-    id: 'ai_rendy_borneo',
-    name: 'Rendy Khatulistiwa',
-    origin: 'Pontianak',
-    avatar: MASCOTS.puzzleMoment,
-    title: 'Penjaga Rimba Borneo',
-    speedRating: 85,
-    accuracyRating: 89,
-  },
-  {
-    id: 'ai_tiara_aceh',
-    name: 'Tiara Serambi',
-    origin: 'Banda Aceh',
-    avatar: MASCOTS.friendsPlaying,
-    title: 'Srikandi Kata Rencong',
-    speedRating: 83,
-    accuracyRating: 96,
+    id: 'tourney_pub_2',
+    code: 'CUP-5510',
+    name: 'Duel Kosakata Cepat',
+    hostId: 'host_eko',
+    hostName: 'Eko Lawang',
+    format: 'sprint',
+    roundDurationSeconds: 60,
+    themeCategory: 'Bahasa & Sastra',
+    status: 'lobby',
+    maxPlayers: 4,
+    players: [
+      { id: 'host_eko', name: 'Eko Lawang', avatar: MASCOTS.cheerfulBookBoy, isHost: true, isReady: true },
+    ],
+    matches: [],
+    createdAt: '5m lalu',
   },
 ];
 
-/** Shuffle utility */
-function shuffleArray<T>(arr: T[]): T[] {
-  const result = [...arr];
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [result[i], result[j]] = [result[j], result[i]];
+/** Create a new community tournament instance */
+export function createCommunityTournament(
+  hostPlayer: { id: string; name: string; avatar?: string },
+  options: {
+    name: string;
+    format: TournamentFormat;
+    roundDurationSeconds: number;
+    themeCategory: string;
   }
-  return result;
-}
-
-/** Generate a brand-new 16-player tournament bracket */
-export function createInitialTournamentState(
-  playerName: string,
-  playerAvatar?: string
-): TournamentCupState {
-  const playerDuelist: TournamentDuelist = {
-    id: 'player_local',
-    name: playerName || 'Kamu',
-    origin: 'Indonesia',
-    avatar: playerAvatar || MASCOTS.crosswordChampion,
-    title: 'Challenger Piala',
-    speedRating: 90,
-    accuracyRating: 92,
-    isPlayer: true,
+): CommunityTournament {
+  const maxPlayers = options.format === 'knockout_8' ? 8 : 4;
+  const newTourney: CommunityTournament = {
+    id: `tourney_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+    code: generateTournamentCode(),
+    name: options.name.trim() || `Piala ${hostPlayer.name}`,
+    hostId: hostPlayer.id,
+    hostName: hostPlayer.name,
+    format: options.format,
+    roundDurationSeconds: options.roundDurationSeconds || 60,
+    themeCategory: options.themeCategory || 'Semua Kategori (Acak)',
+    status: 'lobby',
+    maxPlayers,
+    players: [
+      {
+        id: hostPlayer.id,
+        name: hostPlayer.name,
+        avatar: hostPlayer.avatar || MASCOTS.crosswordChampion,
+        isHost: true,
+        isReady: true,
+      },
+    ],
+    matches: [],
+    createdAt: 'Baru saja',
   };
 
-  const pool = shuffleArray(AI_DUELISTS_POOL);
-  const contestants: TournamentDuelist[] = [playerDuelist, ...pool.slice(0, 15)];
-  const seeded = shuffleArray(contestants);
+  saveActiveCommunityTournament(newTourney);
+  return newTourney;
+}
 
-  // Build 8 matches for Round of 16
-  const roundOf16Matches: TournamentMatch[] = [];
-  for (let i = 0; i < 8; i++) {
-    const p1 = seeded[i * 2];
-    const p2 = seeded[i * 2 + 1];
-    const isPlayerMatch = Boolean(p1.isPlayer || p2.isPlayer);
+/** Generate a realistic knockout bracket from real joined players */
+export function generateKnockoutBracket(
+  players: CommunityTournamentPlayer[],
+  format: TournamentFormat,
+  durationSeconds: number,
+  currentUserId: string
+): CommunityTournamentMatch[] {
+  const matches: CommunityTournamentMatch[] = [];
 
-    roundOf16Matches.push({
-      id: `r16_m${i + 1}`,
-      round: 'round_of_16',
-      roundTitle: ROUND_NAMES.round_of_16.title,
+  if (format === 'knockout_4' || format === 'sprint') {
+    // 4 Players -> 2 Semifinals + 1 Grand Final
+    const p1 = players[0] || null;
+    const p2 = players[1] || null;
+    const p3 = players[2] || null;
+    const p4 = players[3] || null;
+
+    const sf1: CommunityTournamentMatch = {
+      id: 'match_sf1',
+      roundIndex: 0,
+      roundName: 'Semifinal 1',
       player1: p1,
       player2: p2,
-      durationSeconds: ROUND_NAMES.round_of_16.duration,
-      wordCount: 'short',
-      isPlayerMatch,
+      winner: null,
+      player1Score: 0,
+      player2Score: 0,
+      durationSeconds,
+      status: 'active',
+      isPlayerMatch: Boolean(p1?.id === currentUserId || p2?.id === currentUserId),
+    };
+
+    const sf2: CommunityTournamentMatch = {
+      id: 'match_sf2',
+      roundIndex: 0,
+      roundName: 'Semifinal 2',
+      player1: p3,
+      player2: p4,
+      winner: null,
+      player1Score: 0,
+      player2Score: 0,
+      durationSeconds,
+      status: 'active',
+      isPlayerMatch: Boolean(p3?.id === currentUserId || p4?.id === currentUserId),
+    };
+
+    const finalMatch: CommunityTournamentMatch = {
+      id: 'match_final',
+      roundIndex: 1,
+      roundName: 'Grand Final',
+      player1: null,
+      player2: null,
+      winner: null,
+      player1Score: 0,
+      player2Score: 0,
+      durationSeconds: Math.round(durationSeconds * 1.2),
       status: 'pending',
-    });
-  }
-
-  // Pre-generate placeholder matches for subsequent rounds
-  const quarterFinalMatches: TournamentMatch[] = Array.from({ length: 4 }).map((_, idx) => ({
-    id: `qf_m${idx + 1}`,
-    round: 'quarter_final',
-    roundTitle: ROUND_NAMES.quarter_final.title,
-    player1: { id: `qf_tbd_1_${idx}`, name: 'TBD', origin: '-', avatar: '', title: '-', speedRating: 80, accuracyRating: 85 },
-    player2: { id: `qf_tbd_2_${idx}`, name: 'TBD', origin: '-', avatar: '', title: '-', speedRating: 80, accuracyRating: 85 },
-    durationSeconds: ROUND_NAMES.quarter_final.duration,
-    wordCount: 'medium',
-    isPlayerMatch: false,
-    status: 'pending',
-  }));
-
-  const semiFinalMatches: TournamentMatch[] = Array.from({ length: 2 }).map((_, idx) => ({
-    id: `sf_m${idx + 1}`,
-    round: 'semi_final',
-    roundTitle: ROUND_NAMES.semi_final.title,
-    player1: { id: `sf_tbd_1_${idx}`, name: 'TBD', origin: '-', avatar: '', title: '-', speedRating: 80, accuracyRating: 85 },
-    player2: { id: `sf_tbd_2_${idx}`, name: 'TBD', origin: '-', avatar: '', title: '-', speedRating: 80, accuracyRating: 85 },
-    durationSeconds: ROUND_NAMES.semi_final.duration,
-    wordCount: 'medium',
-    isPlayerMatch: false,
-    status: 'pending',
-  }));
-
-  const finalMatches: TournamentMatch[] = [
-    {
-      id: 'f_m1',
-      round: 'final',
-      roundTitle: ROUND_NAMES.final.title,
-      player1: { id: 'f_tbd_1', name: 'TBD', origin: '-', avatar: '', title: '-', speedRating: 80, accuracyRating: 85 },
-      player2: { id: 'f_tbd_2', name: 'TBD', origin: '-', avatar: '', title: '-', speedRating: 80, accuracyRating: 85 },
-      durationSeconds: ROUND_NAMES.final.duration,
-      wordCount: 'long',
       isPlayerMatch: false,
-      status: 'pending',
-    },
-  ];
+    };
 
-  const state: TournamentCupState = {
-    id: `cup_${Date.now()}`,
-    seasonName: 'Piala Nusantara • Musim 1',
-    currentRound: 'round_of_16',
-    matches: {
-      round_of_16: roundOf16Matches,
-      quarter_final: quarterFinalMatches,
-      semi_final: semiFinalMatches,
-      final: finalMatches,
-    },
-    playerStatus: 'in_progress',
-  };
+    matches.push(sf1, sf2, finalMatch);
+  } else {
+    // 8 Players -> 4 Quarterfinals + 2 Semifinals + 1 Grand Final
+    for (let i = 0; i < 4; i++) {
+      const p1 = players[i * 2] || null;
+      const p2 = players[i * 2 + 1] || null;
+      matches.push({
+        id: `match_qf${i + 1}`,
+        roundIndex: 0,
+        roundName: `Perempat Final ${i + 1}`,
+        player1: p1,
+        player2: p2,
+        winner: null,
+        player1Score: 0,
+        player2Score: 0,
+        durationSeconds,
+        status: 'active',
+        isPlayerMatch: Boolean(p1?.id === currentUserId || p2?.id === currentUserId),
+      });
+    }
 
-  saveTournamentState(state);
-  return state;
-}
-
-/** Simulate an AI-vs-AI match to determine plausible winner */
-export function simulateAiMatch(match: TournamentMatch): TournamentMatch {
-  if (match.isPlayerMatch || match.status === 'completed') return match;
-
-  const score1 = Math.round(match.player1.speedRating * 0.6 + match.player1.accuracyRating * 0.4 + (Math.random() * 20 - 10));
-  const score2 = Math.round(match.player2.speedRating * 0.6 + match.player2.accuracyRating * 0.4 + (Math.random() * 20 - 10));
-
-  const winner = score1 >= score2 ? match.player1 : match.player2;
-  return {
-    ...match,
-    winner,
-    player1Score: Math.max(3, Math.min(8, Math.round(score1 / 15))),
-    player2Score: Math.max(2, Math.min(8, Math.round(score2 / 15))),
-    status: 'completed',
-  };
-}
-
-/** Advance tournament after player match completes */
-export function advanceTournament(
-  state: TournamentCupState,
-  playerWon: boolean,
-  playerScore = 5,
-  opponentScore = 3
-): { nextState: TournamentCupState; trophyAwarded?: 'gold' | 'silver' | 'bronze' } {
-  const currentRoundKey = state.currentRound;
-  const currentMatches = state.matches[currentRoundKey];
-  const playerMatchIdx = currentMatches.findIndex((m) => m.isPlayerMatch);
-
-  if (playerMatchIdx === -1) {
-    return { nextState: state };
+    matches.push(
+      {
+        id: 'match_sf1',
+        roundIndex: 1,
+        roundName: 'Semifinal 1',
+        player1: null,
+        player2: null,
+        winner: null,
+        player1Score: 0,
+        player2Score: 0,
+        durationSeconds,
+        status: 'pending',
+        isPlayerMatch: false,
+      },
+      {
+        id: 'match_sf2',
+        roundIndex: 1,
+        roundName: 'Semifinal 2',
+        player1: null,
+        player2: null,
+        winner: null,
+        player1Score: 0,
+        player2Score: 0,
+        durationSeconds,
+        status: 'pending',
+        isPlayerMatch: false,
+      },
+      {
+        id: 'match_final',
+        roundIndex: 2,
+        roundName: 'Grand Final',
+        player1: null,
+        player2: null,
+        winner: null,
+        player1Score: 0,
+        player2Score: 0,
+        durationSeconds: Math.round(durationSeconds * 1.2),
+        status: 'pending',
+        isPlayerMatch: false,
+      }
+    );
   }
 
-  const pMatch = currentMatches[playerMatchIdx];
-  const player = pMatch.player1.isPlayer ? pMatch.player1 : pMatch.player2;
-  const opponent = pMatch.player1.isPlayer ? pMatch.player2 : pMatch.player1;
+  return matches;
+}
 
-  // Complete player match
-  const updatedPlayerMatch: TournamentMatch = {
-    ...pMatch,
-    winner: playerWon ? player : opponent,
-    player1Score: pMatch.player1.isPlayer ? playerScore : opponentScore,
-    player2Score: pMatch.player1.isPlayer ? opponentScore : playerScore,
+/** Advance match result and update bracket */
+export function advanceTournamentMatch(
+  tournament: CommunityTournament,
+  matchId: string,
+  winnerId: string,
+  p1Score: number,
+  p2Score: number,
+  currentUserId: string
+): {
+  updatedTournament: CommunityTournament;
+  trophyAwarded?: 'gold' | 'silver' | 'bronze';
+  starsAwarded: number;
+} {
+  const matches = [...tournament.matches];
+  const targetIdx = matches.findIndex((m) => m.id === matchId);
+  if (targetIdx === -1) {
+    return { updatedTournament: tournament, starsAwarded: 0 };
+  }
+
+  const target = matches[targetIdx];
+  const winner = target.player1?.id === winnerId ? target.player1 : target.player2;
+  const loser = target.player1?.id === winnerId ? target.player2 : target.player1;
+
+  matches[targetIdx] = {
+    ...target,
+    winner,
+    player1Score: p1Score,
+    player2Score: p2Score,
     status: 'completed',
   };
 
-  // Simulate all remaining non-player matches in this round
-  const simulatedMatches = currentMatches.map((m, idx) => {
-    if (idx === playerMatchIdx) return updatedPlayerMatch;
-    return simulateAiMatch(m);
-  });
+  let trophyAwarded: 'gold' | 'silver' | 'bronze' | undefined;
+  let starsAwarded = 0;
+  let newStatus = tournament.status;
+  let champion = tournament.champion;
+  let runnerUp = tournament.runnerUp;
 
-  const updatedMatches = {
-    ...state.matches,
-    [currentRoundKey]: simulatedMatches,
-  };
+  // Check if target was the Grand Final
+  if (target.roundName === 'Grand Final') {
+    newStatus = 'completed';
+    champion = winner || undefined;
+    runnerUp = loser || undefined;
 
-  // If player lost: Player is eliminated
-  if (!playerWon) {
-    let trophyAwarded: 'gold' | 'silver' | 'bronze' | undefined;
-    if (currentRoundKey === 'final') {
+    if (winner?.id === currentUserId) {
+      trophyAwarded = 'gold';
+      starsAwarded = 200;
+      addTrophy('gold');
+    } else if (loser?.id === currentUserId) {
       trophyAwarded = 'silver';
+      starsAwarded = 100;
       addTrophy('silver');
-    } else if (currentRoundKey === 'semi_final') {
+    }
+  } else {
+    // If user lost in Semifinal, they get Bronze
+    if (target.roundName.startsWith('Semifinal') && loser?.id === currentUserId) {
       trophyAwarded = 'bronze';
+      starsAwarded = 50;
       addTrophy('bronze');
     }
 
-    const eliminatedState: TournamentCupState = {
-      ...state,
-      matches: updatedMatches,
-      playerStatus: 'eliminated',
-      eliminatedAtRound: currentRoundKey,
-      completedAt: new Date().toISOString(),
-    };
-    saveTournamentState(eliminatedState);
-    return { nextState: eliminatedState, trophyAwarded };
+    // Advance winner to next round match (e.g. SF -> Final)
+    if (tournament.format === 'knockout_4' || tournament.format === 'sprint') {
+      const finalIdx = matches.findIndex((m) => m.id === 'match_final');
+      if (finalIdx !== -1) {
+        const finalMatch = matches[finalIdx];
+        if (target.id === 'match_sf1') {
+          matches[finalIdx] = {
+            ...finalMatch,
+            player1: winner,
+            isPlayerMatch: Boolean(winner?.id === currentUserId || finalMatch.player2?.id === currentUserId),
+            status: finalMatch.player2 ? 'active' : 'pending',
+          };
+        } else if (target.id === 'match_sf2') {
+          matches[finalIdx] = {
+            ...finalMatch,
+            player2: winner,
+            isPlayerMatch: Boolean(winner?.id === currentUserId || finalMatch.player1?.id === currentUserId),
+            status: finalMatch.player1 ? 'active' : 'pending',
+          };
+        }
+      }
+    } else {
+      // 8-player bracket propagation
+      if (target.id.startsWith('match_qf')) {
+        const qfNum = parseInt(target.id.replace('match_qf', ''), 10);
+        const sfIdx = qfNum <= 2 ? matches.findIndex((m) => m.id === 'match_sf1') : matches.findIndex((m) => m.id === 'match_sf2');
+        if (sfIdx !== -1) {
+          const sf = matches[sfIdx];
+          const isSlot1 = qfNum % 2 === 1;
+          matches[sfIdx] = {
+            ...sf,
+            player1: isSlot1 ? winner : sf.player1,
+            player2: !isSlot1 ? winner : sf.player2,
+            isPlayerMatch: Boolean(
+              (isSlot1 ? winner?.id : sf.player1?.id) === currentUserId ||
+              (!isSlot1 ? winner?.id : sf.player2?.id) === currentUserId
+            ),
+            status: (isSlot1 ? sf.player2 : sf.player1) ? 'active' : 'pending',
+          };
+        }
+      } else if (target.id.startsWith('match_sf')) {
+        const finalIdx = matches.findIndex((m) => m.id === 'match_final');
+        if (finalIdx !== -1) {
+          const finalMatch = matches[finalIdx];
+          if (target.id === 'match_sf1') {
+            matches[finalIdx] = {
+              ...finalMatch,
+              player1: winner,
+              isPlayerMatch: Boolean(winner?.id === currentUserId || finalMatch.player2?.id === currentUserId),
+              status: finalMatch.player2 ? 'active' : 'pending',
+            };
+          } else {
+            matches[finalIdx] = {
+              ...finalMatch,
+              player2: winner,
+              isPlayerMatch: Boolean(winner?.id === currentUserId || finalMatch.player1?.id === currentUserId),
+              status: finalMatch.player1 ? 'active' : 'pending',
+            };
+          }
+        }
+      }
+    }
   }
 
-  // If player won the GRAND FINAL -> CHAMPION!
-  if (currentRoundKey === 'final') {
-    addTrophy('gold');
-    const championState: TournamentCupState = {
-      ...state,
-      matches: updatedMatches,
-      playerStatus: 'champion',
-      completedAt: new Date().toISOString(),
-    };
-    saveTournamentState(championState);
-    return { nextState: championState, trophyAwarded: 'gold' };
-  }
-
-  // Player advances to next round!
-  let nextRoundKey: TournamentRoundKey = 'quarter_final';
-  if (currentRoundKey === 'round_of_16') nextRoundKey = 'quarter_final';
-  else if (currentRoundKey === 'quarter_final') nextRoundKey = 'semi_final';
-  else if (currentRoundKey === 'semi_final') nextRoundKey = 'final';
-
-  // Seed winners into the next round matches
-  const roundWinners = simulatedMatches.map((m) => m.winner || m.player1);
-  const nextRoundMatches = state.matches[nextRoundKey].map((m, idx) => {
-    const w1 = roundWinners[idx * 2] || m.player1;
-    const w2 = roundWinners[idx * 2 + 1] || m.player2;
-    const isPlayerMatch = Boolean(w1.isPlayer || w2.isPlayer);
-    return {
-      ...m,
-      player1: w1,
-      player2: w2,
-      isPlayerMatch,
-      status: 'pending' as const,
-    };
-  });
-
-  const advancedState: TournamentCupState = {
-    ...state,
-    currentRound: nextRoundKey,
-    matches: {
-      ...updatedMatches,
-      [nextRoundKey]: nextRoundMatches,
-    },
+  const updatedTournament: CommunityTournament = {
+    ...tournament,
+    status: newStatus,
+    matches,
+    champion,
+    runnerUp,
+    completedAt: newStatus === 'completed' ? new Date().toISOString() : undefined,
   };
 
-  saveTournamentState(advancedState);
-  return { nextState: advancedState };
+  saveActiveCommunityTournament(updatedTournament);
+  return { updatedTournament, trophyAwarded, starsAwarded };
 }
 
 /** Trophies Storage Management */
@@ -458,10 +434,10 @@ export function addTrophy(type: 'gold' | 'silver' | 'bronze'): TrophyRecord {
   return next;
 }
 
-/** Tournament Cup State Storage */
-export function loadTournamentState(): TournamentCupState | null {
+/** Storage for Active Community Tournament */
+export function loadActiveCommunityTournament(): CommunityTournament | null {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY_TOURNAMENT);
+    const raw = localStorage.getItem(STORAGE_KEY_ACTIVE_TOURNAMENT);
     if (raw) return JSON.parse(raw);
   } catch {
     // ignore
@@ -469,10 +445,96 @@ export function loadTournamentState(): TournamentCupState | null {
   return null;
 }
 
-export function saveTournamentState(state: TournamentCupState): void {
+export function saveActiveCommunityTournament(tournament: CommunityTournament | null): void {
   try {
-    localStorage.setItem(STORAGE_KEY_TOURNAMENT, JSON.stringify(state));
+    if (tournament) {
+      localStorage.setItem(STORAGE_KEY_ACTIVE_TOURNAMENT, JSON.stringify(tournament));
+    } else {
+      localStorage.removeItem(STORAGE_KEY_ACTIVE_TOURNAMENT);
+    }
   } catch {
     // ignore
   }
+}
+
+/** Storage for Public Tournaments List */
+export function loadPublicTournaments(): CommunityTournament[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_PUBLIC_TOURNAMENTS);
+    if (raw) return JSON.parse(raw);
+  } catch {
+    // ignore
+  }
+  return DEFAULT_PUBLIC_TOURNAMENTS;
+}
+
+export function savePublicTournaments(list: CommunityTournament[]): void {
+  try {
+    localStorage.setItem(STORAGE_KEY_PUBLIC_TOURNAMENTS, JSON.stringify(list));
+  } catch {
+    // ignore
+  }
+}
+
+/** Backward-compatibility aliases for legacy imports if needed */
+export type TournamentRoundKey = 'round_of_16' | 'quarter_final' | 'semi_final' | 'final';
+export interface TournamentDuelist {
+  id: string;
+  name: string;
+  origin: string;
+  avatar: string;
+  title: string;
+  speedRating: number;
+  accuracyRating: number;
+  isPlayer?: boolean;
+}
+export interface TournamentMatch {
+  id: string;
+  round: TournamentRoundKey;
+  roundTitle: string;
+  player1: TournamentDuelist;
+  player2: TournamentDuelist;
+  winner?: TournamentDuelist;
+  player1Score?: number;
+  player2Score?: number;
+  durationSeconds: number;
+  wordCount: 'short' | 'medium' | 'long';
+  isPlayerMatch: boolean;
+  status: 'pending' | 'active' | 'completed';
+}
+export interface TournamentCupState {
+  id: string;
+  seasonName: string;
+  currentRound: TournamentRoundKey;
+  matches: Record<TournamentRoundKey, TournamentMatch[]>;
+  playerStatus: 'in_progress' | 'champion' | 'eliminated';
+  eliminatedAtRound?: TournamentRoundKey;
+  activeMatchId?: string;
+  completedAt?: string;
+}
+export function createInitialTournamentState(_playerName?: string, _playerAvatar?: string): TournamentCupState {
+  return {
+    id: `cup_${Date.now()}`,
+    seasonName: 'Piala Nusantara',
+    currentRound: 'final',
+    matches: {
+      round_of_16: [],
+      quarter_final: [],
+      semi_final: [],
+      final: [],
+    },
+    playerStatus: 'in_progress',
+  };
+}
+export function loadTournamentState(): TournamentCupState | null {
+  return null;
+}
+export function saveTournamentState(_state: TournamentCupState): void {}
+export function advanceTournament(
+  state: TournamentCupState,
+  _playerWon: boolean,
+  _pScore?: number,
+  _oppScore?: number
+): { nextState: TournamentCupState; trophyAwarded?: 'gold' | 'silver' | 'bronze' } {
+  return { nextState: state };
 }

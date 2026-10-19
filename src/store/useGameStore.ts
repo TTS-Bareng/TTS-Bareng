@@ -11,10 +11,19 @@ import {
   loadTournamentState,
   advanceTournament,
   loadTrophies,
+  createCommunityTournament,
+  generateKnockoutBracket,
+  advanceTournamentMatch,
+  loadActiveCommunityTournament,
+  saveActiveCommunityTournament,
+  loadPublicTournaments,
+  savePublicTournaments,
   type TournamentCupState,
   type TournamentMatch,
   type TournamentDuelist,
   type TrophyRecord,
+  type CommunityTournament,
+  type TournamentFormat,
 } from '../lib/tournament';
 
 export type TabType = 'home' | 'social' | 'game' | 'quests' | 'profile' | 'stats' | 'settings' | 'arena';
@@ -169,7 +178,7 @@ interface GameState {
   startNextBattleRound: () => void;
   rematchBattle: () => void;
 
-  // Tournament Cup
+  // Tournament Cup & Community Tournaments
   isTournamentOpen: boolean;
   openTournament: () => void;
   closeTournament: () => void;
@@ -197,6 +206,22 @@ interface GameState {
   buyTournamentTicketWithStars: () => boolean;
   setAvatarFrame: (frame: AvatarFrameKey) => void;
   setSoundPack: (pack: SoundPackKey) => void;
+
+  // Community Tournaments
+  isCreateTournamentOpen: boolean;
+  openCreateTournament: () => void;
+  closeCreateTournament: () => void;
+  isJoinTournamentOpen: boolean;
+  openJoinTournament: () => void;
+  closeJoinTournament: () => void;
+  activeTournament: CommunityTournament | null;
+  publicTournaments: CommunityTournament[];
+  activeCommunityMatchId: string | null;
+  createTournament: (name: string, format: TournamentFormat, roundDuration: number, themeCategory: string) => CommunityTournament;
+  joinTournament: (code: string) => { success: boolean; message: string };
+  leaveTournament: () => void;
+  startTournamentLobby: () => void;
+  startCommunityMatch: (matchId: string) => void;
 
   // User Profile
   user: UserProfile;
@@ -1433,6 +1458,182 @@ export const useGameStore = create<GameState>((set, get) => ({
     return true;
   },
 
+  // Community Tournaments Implementation
+  isCreateTournamentOpen: false,
+  openCreateTournament: () => set({ isCreateTournamentOpen: true }),
+  closeCreateTournament: () => set({ isCreateTournamentOpen: false }),
+  isJoinTournamentOpen: false,
+  openJoinTournament: () => set({ isJoinTournamentOpen: true }),
+  closeJoinTournament: () => set({ isJoinTournamentOpen: false }),
+  activeTournament: loadActiveCommunityTournament(),
+  publicTournaments: loadPublicTournaments(),
+  activeCommunityMatchId: null,
+
+  createTournament: (name: string, format: TournamentFormat, roundDuration: number, themeCategory: string) => {
+    const { user, publicTournaments } = get();
+    const newTourney = createCommunityTournament(
+      { id: user.id || 'player_local', name: user.name, avatar: user.avatar },
+      { name, format, roundDurationSeconds: roundDuration, themeCategory }
+    );
+    const updatedPublic = [newTourney, ...publicTournaments.filter((t) => t.id !== newTourney.id)];
+    savePublicTournaments(updatedPublic);
+    set({
+      activeTournament: newTourney,
+      publicTournaments: updatedPublic,
+    });
+    return newTourney;
+  },
+
+  joinTournament: (code: string) => {
+    const { user, activeTournament, publicTournaments } = get();
+    const cleanCode = code.trim().toUpperCase();
+
+    // If player is already inside this tournament
+    if (activeTournament && activeTournament.code === cleanCode) {
+      return { success: true, message: `Kembali ke turnamen ${activeTournament.name}` };
+    }
+
+    let target = publicTournaments.find((t) => t.code === cleanCode);
+    if (!target) {
+      target = {
+        id: `tourney_${cleanCode}`,
+        code: cleanCode,
+        name: `Turnamen ${cleanCode}`,
+        hostId: 'host_peer',
+        hostName: 'Kawan Mabar',
+        format: 'knockout_4',
+        roundDurationSeconds: 60,
+        themeCategory: 'Semua Kategori (Acak)',
+        status: 'lobby',
+        maxPlayers: 4,
+        players: [
+          { id: 'host_peer', name: 'Kawan Mabar', isHost: true, isReady: true },
+        ],
+        matches: [],
+        createdAt: 'Baru saja',
+      };
+    }
+
+    if (target.players.length >= target.maxPlayers) {
+      return { success: false, message: 'Turnamen ini sudah penuh!' };
+    }
+
+    const myId = user.id || 'player_local';
+    const existingIdx = target.players.findIndex((p) => p.id === myId);
+    const updatedPlayers = [...target.players];
+    if (existingIdx === -1) {
+      updatedPlayers.push({
+        id: myId,
+        name: user.name,
+        avatar: user.avatar,
+        isHost: false,
+        isReady: true,
+      });
+    }
+
+    const updatedTourney: CommunityTournament = {
+      ...target,
+      players: updatedPlayers,
+    };
+
+    saveActiveCommunityTournament(updatedTourney);
+    const updatedPublic = publicTournaments.map((t) => (t.id === target?.id ? updatedTourney : t));
+    savePublicTournaments(updatedPublic);
+
+    set({
+      activeTournament: updatedTourney,
+      publicTournaments: updatedPublic,
+    });
+
+    return { success: true, message: `Berhasil bergabung ke ${target.name}!` };
+  },
+
+  leaveTournament: () => {
+    saveActiveCommunityTournament(null);
+    set({ activeTournament: null, activeCommunityMatchId: null });
+    get().showGlobalToast('Keluar dari turnamen.');
+  },
+
+  startTournamentLobby: () => {
+    const { activeTournament, user, showGlobalToast } = get();
+    if (!activeTournament) return;
+
+    if (activeTournament.players.length < 2) {
+      showGlobalToast('Butuh minimal 2 pemain untuk memulai turnamen!', 2500);
+      return;
+    }
+
+    const matches = generateKnockoutBracket(
+      activeTournament.players,
+      activeTournament.format,
+      activeTournament.roundDurationSeconds,
+      user.id || 'player_local'
+    );
+
+    const startedTourney: CommunityTournament = {
+      ...activeTournament,
+      status: 'in_progress',
+      matches,
+    };
+
+    saveActiveCommunityTournament(startedTourney);
+    set({ activeTournament: startedTourney });
+    showGlobalToast('Bagan telah diundi! Pertandingan dimulai!', 3000);
+  },
+
+  startCommunityMatch: (matchId: string) => {
+    const { activeTournament, levels, user, soundEnabled, hapticEnabled } = get();
+    if (!activeTournament) return;
+
+    const targetMatch = activeTournament.matches.find((m) => m.id === matchId);
+    if (!targetMatch) return;
+
+    const myId = user.id || 'player_local';
+    const isSlot1 = targetMatch.player1?.id === myId;
+    const opponent = isSlot1 ? targetMatch.player2 : targetMatch.player1;
+    const opponentName = opponent?.name || 'Lawan';
+
+    const randomLevelIdx = Math.floor(Math.random() * levels.length);
+    const targetLevel = levels[randomLevelIdx];
+
+    if (soundEnabled) soundManager.playReward();
+    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate([20, 50, 30]);
+    }
+
+    set({
+      gameMode: '1v1_battle',
+      battleConfig: {
+        rounds: 1,
+        durationSeconds: targetMatch.durationSeconds,
+        wordCount: 'medium',
+        mode: 'speed_race',
+      },
+      battleCurrentRound: 1,
+      battleRoundWins: { local: 0, partner: 0 },
+      battleScores: { local: 0, partner: 0 },
+      battleClueOwners: {},
+      battleTimeLeft: targetMatch.durationSeconds,
+      battleWinner: null,
+      currentLevelIndex: randomLevelIdx,
+      level: targetLevel,
+      userInputs: {},
+      lockedCells: {},
+      solvedClues: [],
+      cellAuthors: {},
+      clueAuthors: {},
+      wordStreak: 0,
+      comboMessage: null,
+      validationMessage: null,
+      activeClueId: null,
+      focusedCell: null,
+      currentTab: 'game',
+      activeCommunityMatchId: matchId,
+    });
+
+    get().showGlobalToast(`Pertandingan ${targetMatch.roundName}: Kamu vs ${opponentName}!`, 3200);
+  },
+
   setAvatarFrame: (frame: AvatarFrameKey) => {
     const { user, setUser } = get();
     setUser({ ...user, avatarFrame: frame });
@@ -1756,6 +1957,8 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   finishBattleRound: () => {
     const {
+      activeCommunityMatchId,
+      activeTournament,
       activeTournamentMatch,
       tournamentState,
       battleScores,
@@ -1765,7 +1968,72 @@ export const useGameStore = create<GameState>((set, get) => ({
       soundEnabled,
       addStars,
       showGlobalToast,
+      user,
     } = get();
+
+    if (activeCommunityMatchId && activeTournament) {
+      const myId = user.id || 'player_local';
+      const playerWon = battleScores.local > battleScores.partner;
+      const targetMatch = activeTournament.matches.find((m) => m.id === activeCommunityMatchId);
+      const opponent = targetMatch?.player1?.id === myId ? targetMatch?.player2 : targetMatch?.player1;
+      const opponentName = opponent?.name || 'Lawan';
+
+      const winnerId = playerWon ? myId : (opponent?.id || 'opponent');
+      const { updatedTournament, trophyAwarded, starsAwarded } = advanceTournamentMatch(
+        activeTournament,
+        activeCommunityMatchId,
+        winnerId,
+        battleScores.local,
+        battleScores.partner,
+        myId
+      );
+
+      if (starsAwarded > 0) {
+        addStars(starsAwarded);
+      }
+
+      const nextTrophies = loadTrophies();
+
+      if (playerWon) {
+        if (soundEnabled) {
+          if (updatedTournament.status === 'completed' && trophyAwarded === 'gold') {
+            soundManager.playCrystalChime();
+          } else {
+            soundManager.playGamelanBell();
+          }
+        }
+        confetti({ particleCount: 160, spread: 80, origin: { y: 0.6 } });
+        showGlobalToast(`Kemenangan Gemilang! Kamu mengalahkan ${opponentName}!`, 3500);
+      } else {
+        if (soundEnabled) soundManager.playWordWrong();
+        showGlobalToast(`Pertandingan selesai! ${opponentName} memenangkan duel.`, 3500);
+      }
+
+      set({
+        activeTournament: updatedTournament,
+        trophies: nextTrophies,
+        isTournamentResultOpen: true,
+        tournamentResultData: {
+          won: playerWon,
+          roundTitle: targetMatch?.roundName || 'Turnamen',
+          trophyAwarded,
+          opponent: {
+            id: opponent?.id || 'opp',
+            name: opponentName,
+            origin: 'Indonesia',
+            avatar: opponent?.avatar || '',
+            title: 'Kontestan Turnamen',
+            speedRating: 85,
+            accuracyRating: 90,
+          },
+          playerScore: battleScores.local,
+          opponentScore: battleScores.partner,
+        },
+        battleWinner: playerWon ? 'local' : 'partner',
+        activeCommunityMatchId: null,
+      });
+      return;
+    }
 
     if (activeTournamentMatch) {
       const playerWon = battleScores.local > battleScores.partner;

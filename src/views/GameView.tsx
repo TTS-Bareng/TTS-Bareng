@@ -11,7 +11,6 @@ import { LevelCompleteModal } from '../components/LevelCompleteModal';
 import { LevelSelectModal } from '../components/LevelSelectModal';
 import { MabarReactionTray } from '../components/MabarReactionTray';
 import { BattleResultModal } from '../components/BattleResultModal';
-import { DailyRushResultModal } from '../components/DailyRushResultModal';
 import { AnagramWheelDrawer } from '../components/AnagramWheelDrawer';
 import { TabletClueCompanion } from '../components/TabletClueCompanion';
 
@@ -25,21 +24,10 @@ export const GameView: React.FC = () => {
     validationMessage,
     comboMessage,
     gameMode,
-    tickDailyRush,
     tickBattleTimer,
-    isLevelCompleteOpen,
     isBattleResultOpen,
     partnerReconnecting,
   } = useGameStore();
-
-  // Daily Rush 90s countdown interval
-  useEffect(() => {
-    if (gameMode !== 'daily_rush' || isLevelCompleteOpen) return;
-    const timer = setInterval(() => {
-      tickDailyRush();
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [gameMode, isLevelCompleteOpen, tickDailyRush]);
 
   // 1v1 Battle countdown interval
   useEffect(() => {
@@ -141,7 +129,6 @@ export const GameView: React.FC = () => {
       <LevelCompleteModal />
       <LevelSelectModal />
       <BattleResultModal />
-      <DailyRushResultModal />
       <AnagramWheelDrawer />
     </div>
   );
