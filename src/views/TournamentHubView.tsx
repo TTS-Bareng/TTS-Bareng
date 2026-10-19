@@ -16,7 +16,6 @@ import {
   LogOut,
   CheckCircle2,
   Crown,
-  ScanLine,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { type CommunityTournamentMatch } from '../lib/tournament';
@@ -477,7 +476,7 @@ export const TournamentHubView: React.FC = () => {
       <div className="w-full flex flex-col gap-3.5 relative z-10 pb-6">
         {/* 1. Header Trophy Showcase (Themed Hero Stage Card) */}
         <div
-          className="w-full rounded-[28px] p-4 sm:p-5 relative z-10 overflow-hidden border border-white/15 dark:border-white/20 shadow-xl"
+          className="w-full rounded-[28px] p-4 sm:p-5 relative z-10 overflow-hidden border border-white/15 dark:border-white/20 shadow-xl flex flex-col gap-2.5"
           style={{
             background: 'var(--hero-grad, var(--accent-grad))',
             color: '#ffffff',
@@ -488,8 +487,8 @@ export const TournamentHubView: React.FC = () => {
           <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-80 h-44 rounded-full bg-white/20 blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 inset-x-0 h-28 bg-gradient-to-t from-black/25 via-black/10 to-transparent pointer-events-none" />
 
-          {/* Header Row: Badge & Status Pill (Nama user di pojok kanan dihapus sesuai permintaan) */}
-          <div className="flex items-center justify-between relative z-10 mb-1">
+          {/* Header Row: Badge & Status Pill */}
+          <div className="flex items-center justify-between relative z-10 mb-0.5">
             <span className="text-[8.5px] font-black uppercase tracking-wider px-3 py-1 rounded-full bg-white/20 text-white backdrop-blur-md border border-white/25 inline-flex items-center gap-1.5 shadow-xs">
               <Trophy className="w-3 h-3 stroke-[2.4]" />
               <span>ARENA KOMPETISI RESMI</span>
@@ -501,31 +500,21 @@ export const TournamentHubView: React.FC = () => {
             </span>
           </div>
 
-          {/* 3D Mascot Squad Overlay - 100% Solid & Vivid, Non-Transparent */}
-          <div className="relative w-full flex items-center justify-center -my-1 py-1">
+          {/* 1. FOTO MASKOT (100% Solid & Vivid, non-transparan) */}
+          <div className="relative w-full flex items-center justify-center -my-1 z-10">
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="w-52 h-28 rounded-full bg-white/15 blur-2xl" />
             </div>
             <img
               src={MASCOTS.tournamentChampions}
               alt="TTS Crossword Champions Tournament"
-              className="w-full max-w-[320px] sm:max-w-[360px] h-auto object-contain relative z-10 select-none pointer-events-none drop-shadow-[0_16px_28px_rgba(0,0,0,0.4)] transition-transform hover:scale-[1.02] duration-300"
+              className="w-full max-w-[310px] sm:max-w-[350px] h-auto object-contain relative z-10 select-none pointer-events-none drop-shadow-[0_12px_22px_rgba(0,0,0,0.35)] transition-transform hover:scale-[1.01] duration-300"
               loading="eager"
             />
           </div>
 
-          {/* Title & Description Section */}
-          <div className="relative z-10 text-center sm:text-left mt-1 mb-3">
-            <h3 className="text-[21px] sm:text-[23px] font-black text-white tracking-tight leading-tight">
-              Turnamen Komunitas
-            </h3>
-            <p className="text-[11.5px] text-white/85 leading-snug mt-1 max-w-[95%] mx-auto sm:mx-0">
-              Buat turnamen sistem gugur bersama kawan, atau bergabung ke turnamen terbuka untuk memperebutkan trofi kejuaraan.
-            </p>
-          </div>
-
-          {/* Player Trophies Bar (Themed Frosted Glass Inset) */}
-          <div className="grid grid-cols-3 gap-2 p-2.5 rounded-2xl bg-black/25 dark:bg-black/35 backdrop-blur-md border border-white/15 relative z-10 shadow-inner">
+          {/* 2. BAR KOLOM TROPI (Menempel pas di bawah maskot sebagai dudukan podium) */}
+          <div className="grid grid-cols-3 gap-2 p-2.5 rounded-2xl bg-black/30 dark:bg-black/40 backdrop-blur-md border border-white/15 relative z-10 shadow-inner -mt-1">
             <div className="flex items-center gap-2 px-1.5 py-0.5">
               <div className="w-7 h-7 rounded-xl bg-white/20 border border-white/20 flex items-center justify-center text-white shrink-0 shadow-xs">
                 <Trophy className="w-3.5 h-3.5 fill-current" />
@@ -568,73 +557,61 @@ export const TournamentHubView: React.FC = () => {
               </div>
             </div>
           </div>
+
+          {/* 3. TEKS (Judul & Deskripsi Maksimal 2 Baris) */}
+          <div className="relative z-10 text-center sm:text-left mt-0.5">
+            <h3 className="text-[20px] sm:text-[22px] font-black text-white tracking-tight leading-tight">
+              Turnamen Komunitas
+            </h3>
+            <p className="text-[11px] text-white/85 leading-snug mt-1 max-w-[95%] mx-auto sm:mx-0 line-clamp-2">
+              Buat turnamen sistem gugur bersama kawan, atau bergabung ke turnamen terbuka untuk memperebutkan trofi kejuaraan.
+            </p>
+          </div>
         </div>
 
-        {/* 2. Quick Action Cards: Buat Turnamen, Gabung Kode, & Pindai QR (3 Segments) */}
-        <div className="grid grid-cols-3 gap-2">
+        {/* 2. Quick Action Cards: Buat Turnamen & Gabung/Pindai QR (2 Kolom Terpadu) */}
+        <div className="grid grid-cols-2 gap-2.5">
           {/* Card A: Buat Turnamen */}
           <div
             onClick={openCreateTournament}
-            className="p-3 rounded-[22px] liquid-glass-card border border-[var(--border-card)] flex flex-col justify-between gap-2.5 cursor-pointer tactile-active group hover:border-[var(--accent-main)]/40 transition-all shadow-xs"
+            className="p-3.5 rounded-[24px] tournament-surface-card flex flex-col justify-between gap-3 cursor-pointer tactile-active group hover:border-[var(--accent-main)]/40 transition-all"
           >
-            <div className="w-8 h-8 rounded-xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)] shadow-2xs group-hover:scale-105 transition-transform">
-              <Plus className="w-4 h-4 stroke-[2.4]" />
+            <div className="w-9 h-9 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)] shadow-2xs group-hover:scale-105 transition-transform">
+              <Plus className="w-4.5 h-4.5 stroke-[2.4]" />
             </div>
             <div>
-              <h4 className="text-[12px] font-black text-[var(--text-primary)] leading-tight mb-0.5">
-                Buat
+              <h4 className="text-[13px] font-black text-[var(--text-primary)] leading-tight mb-0.5">
+                Buat Turnamen
               </h4>
-              <p className="text-[8.5px] font-semibold text-[var(--text-secondary)] leading-tight">
-                Host turnamen
+              <p className="text-[9.5px] font-medium text-[var(--text-secondary)] leading-tight">
+                Host kamar sistem gugur
               </p>
             </div>
-            <div className="flex items-center gap-1 text-[9.5px] font-black text-[var(--accent-main)]">
+            <div className="flex items-center gap-1 text-[10px] font-black text-[var(--accent-main)]">
               <span>Mulai</span>
-              <ArrowRight className="w-2.5 h-2.5 stroke-[2.4] group-hover:translate-x-0.5 transition-transform" />
+              <ArrowRight className="w-3 h-3 stroke-[2.4] group-hover:translate-x-0.5 transition-transform" />
             </div>
           </div>
 
-          {/* Card B: Gabung Turnamen */}
+          {/* Card B: Gabung & Pindai QR */}
           <div
             onClick={openJoinTournament}
-            className="p-3 rounded-[22px] liquid-glass-card border border-[var(--border-card)] flex flex-col justify-between gap-2.5 cursor-pointer tactile-active group hover:border-[var(--accent-main)]/40 transition-all shadow-xs"
+            className="p-3.5 rounded-[24px] tournament-surface-card flex flex-col justify-between gap-3 cursor-pointer tactile-active group hover:border-[var(--accent-main)]/40 transition-all"
           >
-            <div className="w-8 h-8 rounded-xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)] shadow-2xs group-hover:scale-105 transition-transform">
-              <QrCode className="w-4 h-4 stroke-[2.2]" />
+            <div className="w-9 h-9 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)] shadow-2xs group-hover:scale-105 transition-transform">
+              <QrCode className="w-4.5 h-4.5 stroke-[2.2]" />
             </div>
             <div>
-              <h4 className="text-[12px] font-black text-[var(--text-primary)] leading-tight mb-0.5">
-                Gabung
+              <h4 className="text-[13px] font-black text-[var(--text-primary)] leading-tight mb-0.5">
+                Gabung & Pindai
               </h4>
-              <p className="text-[8.5px] font-semibold text-[var(--text-secondary)] leading-tight">
-                Ketik kode kamar
+              <p className="text-[9.5px] font-medium text-[var(--text-secondary)] leading-tight">
+                Ketik PIN atau scan QR
               </p>
             </div>
-            <div className="flex items-center gap-1 text-[9.5px] font-black text-[var(--accent-main)]">
-              <span>Ketik</span>
-              <ArrowRight className="w-2.5 h-2.5 stroke-[2.4] group-hover:translate-x-0.5 transition-transform" />
-            </div>
-          </div>
-
-          {/* Card C: Pindai QR Turnamen */}
-          <div
-            onClick={() => setIsScannerOpen(true)}
-            className="p-3 rounded-[22px] liquid-glass-card border border-[var(--border-card)] flex flex-col justify-between gap-2.5 cursor-pointer tactile-active group hover:border-[var(--accent-main)]/40 transition-all shadow-xs"
-          >
-            <div className="w-8 h-8 rounded-xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)] shadow-2xs group-hover:scale-105 transition-transform">
-              <ScanLine className="w-4 h-4 stroke-[2.2]" />
-            </div>
-            <div>
-              <h4 className="text-[12px] font-black text-[var(--text-primary)] leading-tight mb-0.5">
-                Pindai QR
-              </h4>
-              <p className="text-[8.5px] font-semibold text-[var(--text-secondary)] leading-tight">
-                Scan tiket kawan
-              </p>
-            </div>
-            <div className="flex items-center gap-1 text-[9.5px] font-black text-[var(--accent-main)]">
-              <span>Scan</span>
-              <ArrowRight className="w-2.5 h-2.5 stroke-[2.4] group-hover:translate-x-0.5 transition-transform" />
+            <div className="flex items-center gap-1 text-[10px] font-black text-[var(--accent-main)]">
+              <span>Masuk</span>
+              <ArrowRight className="w-3 h-3 stroke-[2.4] group-hover:translate-x-0.5 transition-transform" />
             </div>
           </div>
         </div>
@@ -655,7 +632,7 @@ export const TournamentHubView: React.FC = () => {
             {publicTournaments.map((item) => (
               <div
                 key={item.id}
-                className="w-full p-3.5 rounded-[22px] liquid-glass-card border border-[var(--border-card)] flex items-center justify-between gap-3 shadow-xs hover:border-[var(--accent-main)]/30 transition-all"
+                className="w-full p-3.5 rounded-[22px] tournament-surface-card flex items-center justify-between gap-3 hover:border-[var(--accent-main)]/30 transition-all"
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="w-9 h-9 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/20 flex items-center justify-center text-[var(--accent-main)] shrink-0">
@@ -697,7 +674,7 @@ export const TournamentHubView: React.FC = () => {
         </div>
 
         {/* 4. Format Regulasi & Hadiah Turnamen (Themed Bento) */}
-        <div className="w-full rounded-[24px] p-3.5 sm:p-4 liquid-glass-card border border-[var(--border-card)] flex flex-col gap-2.5 shadow-xs">
+        <div className="w-full rounded-[24px] p-3.5 sm:p-4 tournament-surface-card flex flex-col gap-2.5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Shield className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2]" />
@@ -711,7 +688,7 @@ export const TournamentHubView: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-3 gap-2">
-            <div className="p-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 flex flex-col items-center text-center">
+            <div className="p-2.5 rounded-2xl tournament-sub-card flex flex-col items-center text-center">
               <Users className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2] mb-1" />
               <span className="text-[11px] font-black text-[var(--text-primary)]">
                 4-16 Slot
@@ -721,7 +698,7 @@ export const TournamentHubView: React.FC = () => {
               </span>
             </div>
 
-            <div className="p-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 flex flex-col items-center text-center">
+            <div className="p-2.5 rounded-2xl tournament-sub-card flex flex-col items-center text-center">
               <Clock className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2] mb-1" />
               <span className="text-[11px] font-black text-[var(--text-primary)]">
                 60-90s
@@ -731,7 +708,7 @@ export const TournamentHubView: React.FC = () => {
               </span>
             </div>
 
-            <div className="p-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 flex flex-col items-center text-center">
+            <div className="p-2.5 rounded-2xl tournament-sub-card flex flex-col items-center text-center">
               <Sparkles className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2] mb-1" />
               <span className="text-[11px] font-black text-[var(--text-primary)]">
                 +200 ★

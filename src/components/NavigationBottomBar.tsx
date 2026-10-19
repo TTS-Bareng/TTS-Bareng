@@ -6,6 +6,7 @@ export const NavigationBottomBar: React.FC = () => {
   const {
     currentTab,
     setCurrentTab,
+    arenaSubTab,
     isQrModalOpen,
     isShareModalOpen,
     isScannerOpen,
@@ -13,18 +14,23 @@ export const NavigationBottomBar: React.FC = () => {
     isLevelCompleteOpen,
     isTournamentOpen,
     isTournamentResultOpen,
+    isCreateTournamentOpen,
+    isJoinTournamentOpen,
   } = useGameStore();
 
-  // Hide bottom navigation bar when in game mode or full-screen modals are open
+  // Hide bottom navigation bar when in game mode, full-screen modals, or tournament full-page mode
   if (
     currentTab === 'game' ||
+    (currentTab === 'arena' && arenaSubTab === 'tournament') ||
     isQrModalOpen ||
     isShareModalOpen ||
     isScannerOpen ||
     isBattleLobbyOpen ||
     isLevelCompleteOpen ||
     isTournamentOpen ||
-    isTournamentResultOpen
+    isTournamentResultOpen ||
+    isCreateTournamentOpen ||
+    isJoinTournamentOpen
   ) {
     return null;
   }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   Compass,
@@ -301,10 +301,19 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' | 'tournament'
     solvedClues,
     currentTab,
     user,
+    arenaSubTab,
+    setArenaSubTab,
   } = useGameStore();
 
-  const [selectedHubMode, setSelectedHubMode] = useState<'solo' | 'mabar' | 'tournament' | null>(null);
-  const hubMode = selectedHubMode ?? (currentTab === 'social' ? 'mabar' : initialMode);
+  useEffect(() => {
+    if (currentTab === 'social' && arenaSubTab !== 'mabar') {
+      setArenaSubTab('mabar');
+    } else if (initialMode && initialMode !== 'solo' && arenaSubTab !== initialMode) {
+      setArenaSubTab(initialMode);
+    }
+  }, [currentTab, initialMode, arenaSubTab, setArenaSubTab]);
+
+  const hubMode = arenaSubTab;
 
   const currentLevel = levels[currentLevelIndex] || levels[0];
   const activeRealm = getRealmForLevel(currentLevel);
@@ -338,7 +347,13 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' | 'tournament'
   };
 
   return (
-    <div className="w-full flex-1 flex flex-col gap-3 px-3.5 pt-[max(18px,env(safe-area-inset-top))] pb-[max(90px,calc(75px+env(safe-area-inset-bottom)))] select-none overflow-y-auto relative">
+    <div
+      className={`w-full flex-1 flex flex-col gap-3 px-3.5 pt-[max(18px,env(safe-area-inset-top))] ${
+        hubMode === 'tournament'
+          ? 'pb-[max(24px,calc(16px+env(safe-area-inset-bottom)))]'
+          : 'pb-[max(90px,calc(75px+env(safe-area-inset-bottom)))]'
+      } select-none overflow-y-auto relative`}
+    >
       {/* 1. Header: Typographic Title + Live Streak & Stars Pill */}
       <header className="flex items-center justify-between px-0.5 relative z-10 shrink-0">
         <div>
@@ -372,7 +387,7 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' | 'tournament'
       <div className="w-full h-11 p-1 rounded-full liquid-glass-card flex items-center z-10 relative shrink-0 gap-1">
         <button
           type="button"
-          onClick={() => setSelectedHubMode('solo')}
+          onClick={() => setArenaSubTab('solo')}
           className={`flex-1 h-full rounded-full text-[11px] font-black transition-all flex items-center justify-center gap-1.5 cursor-pointer tactile-active ${
             hubMode === 'solo'
               ? 'liquid-glass-tile-active shadow-xs'
@@ -385,7 +400,7 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' | 'tournament'
 
         <button
           type="button"
-          onClick={() => setSelectedHubMode('mabar')}
+          onClick={() => setArenaSubTab('mabar')}
           className={`flex-1 h-full rounded-full text-[11px] font-black transition-all flex items-center justify-center gap-1.5 cursor-pointer tactile-active ${
             hubMode === 'mabar'
               ? 'liquid-glass-tile-active shadow-xs'
@@ -398,7 +413,7 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' | 'tournament'
 
         <button
           type="button"
-          onClick={() => setSelectedHubMode('tournament')}
+          onClick={() => setArenaSubTab('tournament')}
           className={`flex-1 h-full rounded-full text-[11px] font-black transition-all flex items-center justify-center gap-1.5 cursor-pointer tactile-active ${
             hubMode === 'tournament'
               ? 'liquid-glass-tile-active shadow-xs'

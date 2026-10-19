@@ -139,6 +139,8 @@ interface GameState {
   currentTab: TabType;
   previousTab: TabType;
   setCurrentTab: (tab: TabType) => void;
+  arenaSubTab: 'solo' | 'mabar' | 'tournament';
+  setArenaSubTab: (subTab: 'solo' | 'mabar' | 'tournament') => void;
 
   // Game Modes (Classic, Daily Rush, 1v1 Battle)
   gameMode: 'classic' | 'daily_rush' | '1v1_battle';
@@ -691,6 +693,8 @@ export const useGameStore = create<GameState>((set, get) => ({
   currentTab: 'home',
   previousTab: 'home',
   setCurrentTab: (tab) => set((state) => ({ previousTab: state.currentTab, currentTab: tab })),
+  arenaSubTab: 'solo',
+  setArenaSubTab: (subTab) => set({ arenaSubTab: subTab }),
 
   user: getInitialUser(),
   setUser: (user) => {
