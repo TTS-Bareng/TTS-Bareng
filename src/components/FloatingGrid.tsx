@@ -32,8 +32,9 @@ export const FloatingGrid: React.FC = () => {
   const maxTileByWidth = Math.floor((containerSize.width - paddingH - (cols - 1) * gapSize) / cols);
   const maxTileByHeight = Math.floor((containerSize.height - paddingV - (rows - 1) * gapSize) / rows);
 
-  // Constrain tile size gracefully between 20px and 44px
-  const tileSize = Math.max(22, Math.min(44, Math.min(maxTileByWidth, maxTileByHeight)));
+  // Constrain tile size gracefully: up to 52px on tablet, 44px on mobile
+  const maxTileCap = containerSize.width >= 500 ? 52 : 44;
+  const tileSize = Math.max(22, Math.min(maxTileCap, Math.min(maxTileByWidth, maxTileByHeight)));
 
   return (
     <div

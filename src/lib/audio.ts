@@ -322,6 +322,112 @@ class SoundManager {
       // Ignore
     }
   }
+
+  /**
+   * Procedural Gamelan Micro-Chime for Indonesian cultural moments & tournament round wins
+   */
+  playGamelanBell() {
+    try {
+      const ctx = this.getContext();
+      if (!ctx) return;
+
+      // Authentic Slendro-inspired harmonic partials
+      const partials = [
+        { freq: 587.33, gain: 0.11, decay: 0.65 }, // Fundamental D5
+        { freq: 880.0, gain: 0.06, decay: 0.45 },  // Perfect 5th partial
+        { freq: 1260.0, gain: 0.035, decay: 0.28 }, // Metallic overtone
+      ];
+
+      partials.forEach(({ freq, gain: targetGain, decay }) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+        gain.gain.setValueAtTime(0.001, ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(targetGain, ctx.currentTime + 0.012);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + decay);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + decay + 0.05);
+      });
+    } catch {
+      // Ignore
+    }
+  }
+
+  /**
+   * Pure soft crystal chord chime for Tournament Championship & Gold Trophy celebration
+   */
+  playCrystalChime() {
+    try {
+      const ctx = this.getContext();
+      if (!ctx) return;
+
+      const chord = [1046.5, 1318.5, 1567.98, 1975.53, 2093.0]; // C6, E6, G6, B6, C7
+      const stagger = 0.045;
+
+      chord.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * stagger);
+
+        gain.gain.setValueAtTime(0.001, ctx.currentTime + idx * stagger);
+        gain.gain.linearRampToValueAtTime(0.08, ctx.currentTime + idx * stagger + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * stagger + 0.55);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(ctx.currentTime + idx * stagger);
+        osc.stop(ctx.currentTime + idx * stagger + 0.6);
+      });
+    } catch {
+      // Ignore
+    }
+  }
+
+  /**
+   * Soft nylon acoustic strum for reflective lexicon study & quest completion
+   */
+  playAcousticStrum() {
+    try {
+      const ctx = this.getContext();
+      if (!ctx) return;
+
+      const notes = [329.63, 440.0, 523.25, 659.25, 783.99]; // E4, A4, C5, E5, G5
+      notes.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const filter = ctx.createBiquadFilter();
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(1600, ctx.currentTime + idx * 0.025);
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.025);
+
+        gain.gain.setValueAtTime(0.001, ctx.currentTime + idx * 0.025);
+        gain.gain.linearRampToValueAtTime(0.07, ctx.currentTime + idx * 0.025 + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.025 + 0.35);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(ctx.currentTime + idx * 0.025);
+        osc.stop(ctx.currentTime + idx * 0.025 + 0.4);
+      });
+    } catch {
+      // Ignore
+    }
+  }
 }
 
 export const soundManager = new SoundManager();

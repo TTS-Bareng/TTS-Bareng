@@ -1277,7 +1277,10 @@ export const useGameStore = create<GameState>((set, get) => ({
   closeLevelComplete: () => set({ isLevelCompleteOpen: false }),
   openLevelSelect: () => set({ isLevelSelectOpen: true }),
   closeLevelSelect: () => set({ isLevelSelectOpen: false }),
-  openLexicon: () => set({ isLexiconOpen: true }),
+  openLexicon: () => {
+    if (get().soundEnabled) soundManager.playAcousticStrum();
+    set({ isLexiconOpen: true });
+  },
   closeLexicon: () => set({ isLexiconOpen: false }),
 
   isLegalModalOpen: false,
@@ -1690,7 +1693,13 @@ export const useGameStore = create<GameState>((set, get) => ({
 
       if (playerWon) {
         addStars(50);
-        if (soundEnabled) soundManager.playVictory();
+        if (soundEnabled) {
+          if (nextState.playerStatus === 'champion') {
+            soundManager.playCrystalChime();
+          } else {
+            soundManager.playGamelanBell();
+          }
+        }
         confetti({ particleCount: 160, spread: 80, origin: { y: 0.6 } });
         showGlobalToast(`Kemenangan Gemilang! Kamu mengalahkan ${opponent.name}!`, 3500);
       } else {

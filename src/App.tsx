@@ -160,7 +160,11 @@ export const App: React.FC = () => {
 
   return (
     <div
-      className="w-full h-[100dvh] max-w-[430px] mx-auto flex flex-col justify-between relative overflow-hidden select-none transition-colors duration-300"
+      className={`w-full h-[100dvh] mx-auto flex flex-col justify-between relative overflow-hidden select-none transition-all duration-300 ${
+        currentTab === 'game'
+          ? 'max-w-[430px] md:max-w-4xl lg:max-w-5xl'
+          : 'max-w-[430px] md:max-w-xl lg:max-w-2xl'
+      }`}
       style={{
         background: 'var(--bg-gradient)',
       }}
