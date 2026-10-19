@@ -25,6 +25,7 @@ import confetti from 'canvas-confetti';
 import { MASCOTS } from '../assets/maskots';
 import { createDeepLink, shareOrCopy } from '../lib/deeplink';
 import { QrScannerModal } from '../components/QrScannerModal';
+import { mabarRealtime } from '../lib/mabarRealtime';
 
 export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = false }) => {
   const {
@@ -143,6 +144,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
   const handleLaunchGame = () => {
     setActiveRoomCode(roomCode);
     selectLevel(currentLevelIndex);
+    mabarRealtime.broadcastGameStart(currentLevelIndex);
     setCurrentTab('game');
   };
 

@@ -95,7 +95,7 @@ interface GameState {
   levels: LevelData[];
   currentLevelIndex: number;
   level: LevelData;
-  selectLevel: (index: number) => void;
+  selectLevel: (index: number, broadcastMabar?: boolean) => void;
   goToNextLevel: () => void;
   playRandomLevel: () => void;
   levelRecords: Record<string, LevelProgressRecord>;
@@ -138,6 +138,7 @@ interface GameState {
   applyRemoteInput: (key: string, letter: string, partnerName: string) => void;
   applyRemoteDelete: (key: string) => void;
   applyRemoteClueSolved: (clueId: string, newlySolved: string[], partnerName: string) => void;
+  leaveMabarSession: () => void;
 
   // Modals
   isSettingsOpen: boolean;
@@ -468,17 +469,44 @@ export const useGameStore = create<GameState>((set, get) => ({
     });
 
     if (soundEnabled) soundManager.playWordCorrect(1);
+
+    const totalClues = (level.clues.across?.length || 0) + (level.clues.down?.length || 0);
+    const isLevelComplete = totalClues > 0 && updatedSolved.length >= totalClues;
+
     set({
       solvedClues: updatedSolved,
       lockedCells: newLocked,
       userInputs: newInputs,
-      validationMessage: `${partnerName} memecahkan kata!`,
+      validationMessage: isLevelComplete ? 'Papan Berhasil Dipecahkan Bersama!' : `${partnerName} memecahkan kata!`,
     });
+
+    if (isLevelComplete) {
+      if (soundEnabled) soundManager.playVictory();
+      confetti({
+        particleCount: 140,
+        spread: 80,
+        origin: { y: 0.6 },
+      });
+      setTimeout(() => {
+        set({ isLevelCompleteOpen: true });
+      }, 600);
+    }
+
     setTimeout(() => {
       if (get().validationMessage?.includes(partnerName)) {
         set({ validationMessage: null });
       }
     }, 2500);
+  },
+
+  leaveMabarSession: () => {
+    mabarRealtime.leaveRoom();
+    set({
+      activeRoomCode: null,
+      mabarPeers: [],
+      partnerCursor: null,
+    });
+    get().showGlobalToast('Keluar dari sesi mabar');
   },
 
   isSettingsOpen: false,
@@ -542,10 +570,13 @@ export const useGameStore = create<GameState>((set, get) => ({
   openScanner: () => set({ isScannerOpen: true }),
   closeScanner: () => set({ isScannerOpen: false }),
 
-  selectLevel: (index: number) => {
-    const { levels, levelRecords } = get();
+  selectLevel: (index: number, broadcastMabar = false) => {
+    const { levels, levelRecords, activeRoomCode } = get();
     const safeIdx = Math.max(0, Math.min(index, levels.length - 1));
     const targetLevel = levels[safeIdx];
+    if (broadcastMabar && activeRoomCode) {
+      mabarRealtime.broadcastLevelChange(safeIdx, targetLevel?.title);
+    }
     const rec = levelRecords[targetLevel.id] || {
       inputs: {},
       locked: {},
@@ -581,7 +612,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   goToNextLevel: () => {
     const { currentLevelIndex, levels, selectLevel } = get();
     const nextIdx = (currentLevelIndex + 1) % levels.length;
-    selectLevel(nextIdx);
+    selectLevel(nextIdx, true);
   },
 
   playRandomLevel: () => {

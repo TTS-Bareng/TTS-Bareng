@@ -159,7 +159,7 @@ export const LevelSelectModal: React.FC = () => {
                 <div
                   key={lvl.id}
                   onClick={() => {
-                    selectLevel(index);
+                    selectLevel(index, true);
                     closeLevelSelect();
                   }}
                   style={

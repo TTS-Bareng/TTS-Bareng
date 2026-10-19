@@ -58,6 +58,9 @@ export const mabarRealtime = {
         const joined = (newPresences as unknown as MabarPeer[])?.[0];
         if (joined?.name && joined.name !== user.name) {
           useGameStore.getState().showGlobalToast(`${joined.name} bergabung ke kamar!`);
+          // Automatically sync current level state to newcomer
+          const currentLvl = useGameStore.getState().currentLevelIndex;
+          mabarRealtime.broadcastRoomState(currentLvl);
         }
       })
       .on('presence', { event: 'leave' }, ({ leftPresences }) => {
@@ -89,6 +92,34 @@ export const mabarRealtime = {
           useGameStore.getState().applyRemoteClueSolved(payload.clueId, payload.newlySolved || [], payload.senderName || 'Teman');
         }
       })
+      .on('broadcast', { event: 'game_start' }, ({ payload }) => {
+        if (typeof payload?.levelIndex === 'number') {
+          const store = useGameStore.getState();
+          if (currentRoomCode) {
+            store.setActiveRoomCode(currentRoomCode);
+          }
+          store.selectLevel(payload.levelIndex);
+          store.setCurrentTab('game');
+          store.showGlobalToast(`${payload.senderName || 'Host'} memulai mabar Bab ${payload.levelIndex + 1}!`, 3500);
+        }
+      })
+      .on('broadcast', { event: 'level_change' }, ({ payload }) => {
+        if (typeof payload?.levelIndex === 'number') {
+          const store = useGameStore.getState();
+          store.selectLevel(payload.levelIndex);
+          store.showGlobalToast(`Pindah ke Bab ${payload.levelIndex + 1}`);
+        }
+      })
+      .on('broadcast', { event: 'room_state' }, ({ payload }) => {
+        if (typeof payload?.levelIndex === 'number') {
+          const store = useGameStore.getState();
+          store.selectLevel(payload.levelIndex);
+        }
+      })
+      .on('broadcast', { event: 'leave_session' }, ({ payload }) => {
+        const store = useGameStore.getState();
+        store.showGlobalToast(`${payload.senderName || 'Teman'} keluar dari sesi mabar.`);
+      })
       .subscribe(async (status) => {
         if (status === 'SUBSCRIBED') {
           await channel.track({
@@ -109,6 +140,7 @@ export const mabarRealtime = {
   leaveRoom() {
     if (activeChannel) {
       try {
+        this.broadcastLeaveSession();
         supabase.removeChannel(activeChannel);
       } catch {
         // ignore
@@ -116,6 +148,7 @@ export const mabarRealtime = {
       activeChannel = null;
       currentRoomCode = null;
     }
+    useGameStore.getState().setActiveRoomCode(null);
     useGameStore.getState().setMabarPeers([]);
     useGameStore.getState().setPartnerCursor(null);
   },
@@ -184,6 +217,68 @@ export const mabarRealtime = {
       payload: {
         clueId,
         newlySolved,
+        senderName: user.name,
+      },
+    });
+  },
+
+  /**
+   * Broadcast game start event (brings guest into game on the specified level)
+   */
+  broadcastGameStart(levelIndex: number) {
+    if (!activeChannel) return;
+    const { user } = useGameStore.getState();
+    activeChannel.send({
+      type: 'broadcast',
+      event: 'game_start',
+      payload: {
+        levelIndex,
+        senderName: user.name,
+      },
+    });
+  },
+
+  /**
+   * Broadcast manual level change
+   */
+  broadcastLevelChange(levelIndex: number, title?: string) {
+    if (!activeChannel) return;
+    const { user } = useGameStore.getState();
+    activeChannel.send({
+      type: 'broadcast',
+      event: 'level_change',
+      payload: {
+        levelIndex,
+        title,
+        senderName: user.name,
+      },
+    });
+  },
+
+  /**
+   * Broadcast current room state / level
+   */
+  broadcastRoomState(levelIndex: number) {
+    if (!activeChannel) return;
+    activeChannel.send({
+      type: 'broadcast',
+      event: 'room_state',
+      payload: {
+        levelIndex,
+      },
+    });
+  },
+
+  /**
+   * Broadcast leave session event
+   */
+  broadcastLeaveSession() {
+    if (!activeChannel) return;
+    const { user } = useGameStore.getState();
+    activeChannel.send({
+      type: 'broadcast',
+      event: 'leave_session',
+      payload: {
         senderName: user.name,
       },
     });

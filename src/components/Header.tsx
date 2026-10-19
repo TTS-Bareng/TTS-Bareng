@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Settings, Star, Clock, ChevronDown, Zap } from 'lucide-react';
+import { ArrowLeft, Settings, Star, Clock, ChevronDown, Zap, LogOut } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 
 export const Header: React.FC = () => {
   const {
+    user,
     stars,
     openSettings,
     setCurrentTab,
@@ -19,6 +20,7 @@ export const Header: React.FC = () => {
     dailyRushTimeLeft,
     activeRoomCode,
     mabarPeers,
+    leaveMabarSession,
   } = useGameStore();
 
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
@@ -74,16 +76,52 @@ export const Header: React.FC = () => {
             </h2>
           </div>
         ) : activeRoomCode ? (
-          <div className="flex flex-col items-center text-center px-2 py-0.5">
-            <div className="flex items-center gap-1.5 leading-none mb-0.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-main)] animate-pulse" />
-              <span className="text-[8.5px] font-black uppercase tracking-wider text-[var(--accent-main)]">
-                MABAR LIVE • {activeRoomCode} ({Math.max(1, mabarPeers.length)}/2)
-              </span>
+          <div className="flex items-center gap-2 px-1.5 py-0.5 max-w-[55%] sm:max-w-[60%]">
+            {/* Overlapping player avatars pill with connectivity dot */}
+            <div className="flex items-center -space-x-1.5 shrink-0 relative">
+              <div className="w-6 h-6 rounded-full overflow-hidden bg-white/20 border border-white/40 flex items-center justify-center shrink-0">
+                {user.avatar ? (
+                  <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-[10px] font-black">{user.name?.charAt(0) || 'K'}</span>
+                )}
+              </div>
+              {mabarPeers.length > 1 ? (
+                <div className="w-6 h-6 rounded-full overflow-hidden bg-white/20 border border-white/40 flex items-center justify-center shrink-0">
+                  {mabarPeers.find((p) => p.name !== user.name)?.avatar ? (
+                    <img
+                      src={mabarPeers.find((p) => p.name !== user.name)?.avatar}
+                      alt="Partner"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-[10px] font-black">
+                      {mabarPeers.find((p) => p.name !== user.name)?.name?.charAt(0) || 'T'}
+                    </span>
+                  )}
+                </div>
+              ) : (
+                <div className="w-6 h-6 rounded-full bg-black/10 dark:bg-white/10 border border-dashed border-black/20 dark:border-white/20 flex items-center justify-center text-[10px] font-bold text-[var(--text-secondary)] shrink-0">
+                  +
+                </div>
+              )}
             </div>
-            <h2 className="text-[14.5px] font-black tracking-tight leading-tight text-[var(--text-primary)]">
-              {level.title}
-            </h2>
+
+            <div className="flex flex-col text-left overflow-hidden">
+              <div className="flex items-center gap-1 leading-none mb-0.5">
+                <span
+                  className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                    mabarPeers.length >= 2 ? 'bg-emerald-500 animate-pulse' : 'bg-amber-400'
+                  }`}
+                />
+                <span className="text-[8px] font-black uppercase tracking-wider text-[var(--accent-main)] truncate">
+                  {mabarPeers.length >= 2 ? `MABAR • ${activeRoomCode}` : `MENUNGGU • ${activeRoomCode}`}
+                </span>
+              </div>
+              <h2 className="text-[13.5px] font-black tracking-tight leading-tight text-[var(--text-primary)] truncate">
+                {level.title}
+              </h2>
+            </div>
           </div>
         ) : (
           <motion.button
@@ -109,8 +147,25 @@ export const Header: React.FC = () => {
           </motion.button>
         )}
 
-        {/* Right: Star Capsule & Settings */}
+        {/* Right: Exit Mabar / Star Capsule / Settings */}
         <div className="flex items-center gap-1.5">
+          {activeRoomCode && (
+            <button
+              type="button"
+              onClick={() => {
+                if (window.confirm(`Keluar dari sesi mabar Kamar ${activeRoomCode}?`)) {
+                  leaveMabarSession();
+                  setCurrentTab('arena');
+                }
+              }}
+              aria-label="Keluar Sesi Mabar"
+              className="w-8 h-8 rounded-full flex items-center justify-center liquid-glass-card border border-rose-500/25 text-rose-500 hover:bg-rose-500/10 cursor-pointer tactile-active shadow-xs"
+              title="Keluar Sesi Mabar"
+            >
+              <LogOut className="w-3.5 h-3.5 stroke-[2.2]" />
+            </button>
+          )}
+
           <div className="h-8 px-2.5 rounded-full flex items-center gap-1.5 liquid-glass-card border border-black/5 dark:border-white/10 shadow-xs">
             <Star className="w-3.5 h-3.5 fill-[var(--accent-main)] text-[var(--accent-main)] drop-shadow-2xs" />
             <span className="text-[11.5px] font-black text-[var(--text-primary)]">
