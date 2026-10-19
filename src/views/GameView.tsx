@@ -14,6 +14,7 @@ import { AdModal } from '../components/AdModal';
 import { MabarReactionTray } from '../components/MabarReactionTray';
 import { BattleResultModal } from '../components/BattleResultModal';
 import { DailyRushResultModal } from '../components/DailyRushResultModal';
+import { AnagramWheelDrawer } from '../components/AnagramWheelDrawer';
 
 export const GameView: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -131,13 +132,14 @@ export const GameView: React.FC = () => {
         onClose={() => setIsDrawerOpen(false)}
       />
 
-      {/* 5. Modals */}
+      {/* 5. Modals & Drawers */}
       <LevelCompleteModal />
       <LevelSelectModal />
       <LexiconModal />
       <AdModal />
       <BattleResultModal />
       <DailyRushResultModal />
+      <AnagramWheelDrawer />
     </div>
   );
 };

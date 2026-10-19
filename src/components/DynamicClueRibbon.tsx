@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { ChevronLeft, ChevronRight, ListOrdered, ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ListOrdered, ChevronDown, ChevronUp, Shuffle } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { findClueById } from '../lib/crossword';
 
@@ -8,7 +8,15 @@ interface DynamicClueRibbonProps {
 }
 
 export const DynamicClueRibbon: React.FC<DynamicClueRibbonProps> = ({ onOpenDrawer }) => {
-  const { level, activeClueId, nextClue, prevClue, selectClue, solvedClues } = useGameStore();
+  const {
+    level,
+    activeClueId,
+    nextClue,
+    prevClue,
+    selectClue,
+    solvedClues,
+    openAnagramDrawer,
+  } = useGameStore();
   const [isExpanded, setIsExpanded] = useState(false);
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
@@ -121,6 +129,20 @@ export const DynamicClueRibbon: React.FC<DynamicClueRibbonProps> = ({ onOpenDraw
               className="w-8 h-8 rounded-full flex items-center justify-center border border-black/5 dark:border-white/10 shadow-xs cursor-pointer tactile-active bg-[var(--accent-light)] text-[var(--accent-main)]"
             >
               <ChevronRight className="w-4 h-4 stroke-[2.5]" />
+            </button>
+
+            <button
+              type="button"
+              disabled={solvedClues.includes(activeClue.id)}
+              onClick={(e) => {
+                e.stopPropagation();
+                openAnagramDrawer();
+              }}
+              title="Bantuan Putar Huruf (Anagram Wheel)"
+              aria-label="Bantuan Putar Huruf"
+              className="w-8 h-8 rounded-full flex items-center justify-center border border-black/5 dark:border-white/10 shadow-xs cursor-pointer tactile-active bg-black/5 dark:bg-white/10 text-[var(--accent-main)] hover:bg-[var(--accent-light)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              <Shuffle className="w-3.5 h-3.5 stroke-[2.2]" />
             </button>
 
             {onOpenDrawer && (

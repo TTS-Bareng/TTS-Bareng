@@ -38,6 +38,10 @@ export const SettingsView: React.FC = () => {
     stars,
     streak,
     levelRecords,
+    autoAdvanceEnabled,
+    toggleAutoAdvance,
+    errorFeedbackMode,
+    setErrorFeedbackMode,
   } = useGameStore();
 
   const [showResetConfirm, setShowResetConfirm] = useState(false);
@@ -61,10 +65,6 @@ export const SettingsView: React.FC = () => {
       showToast('Aplikasi siap dimainkan 100% offline.');
     }
   };
-
-  const [autoAdvance, setAutoAdvance] = useState<boolean>(() => {
-    return localStorage.getItem('tts_auto_advance') !== 'false';
-  });
 
   const [confirmHint, setConfirmHint] = useState<boolean>(() => {
     return localStorage.getItem('tts_confirm_hint') === 'true';
@@ -98,12 +98,6 @@ export const SettingsView: React.FC = () => {
 
   const handleToggleHaptics = () => {
     toggleHaptic();
-  };
-
-  const handleToggleAutoAdvance = () => {
-    const next = !autoAdvance;
-    setAutoAdvance(next);
-    localStorage.setItem('tts_auto_advance', String(next));
   };
 
   const handleToggleConfirmHint = () => {
@@ -478,7 +472,7 @@ export const SettingsView: React.FC = () => {
         {/* Tile 3: Lompat Kotak Otomatis */}
         <button
           type="button"
-          onClick={handleToggleAutoAdvance}
+          onClick={toggleAutoAdvance}
           className="rounded-[22px] p-3 flex flex-col justify-between text-left cursor-pointer tactile-active relative overflow-hidden border border-[var(--accent-main)]/20 shadow-xs"
           style={{
             background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
@@ -493,12 +487,12 @@ export const SettingsView: React.FC = () => {
             {/* Apple Style Switch */}
             <div
               className={`w-9 h-5 rounded-full p-0.5 transition-colors ${
-                autoAdvance ? 'bg-[var(--accent-main)]' : 'bg-black/20 dark:bg-white/20'
+                autoAdvanceEnabled ? 'bg-[var(--accent-main)]' : 'bg-black/20 dark:bg-white/20'
               }`}
             >
               <div
                 className={`w-4 h-4 rounded-full bg-white shadow-xs transform transition-transform ${
-                  autoAdvance ? 'translate-x-4' : 'translate-x-0'
+                  autoAdvanceEnabled ? 'translate-x-4' : 'translate-x-0'
                 }`}
               />
             </div>
@@ -509,7 +503,7 @@ export const SettingsView: React.FC = () => {
               Lompat Kotak
             </span>
             <span className="text-[8.5px] text-[var(--text-secondary)] font-medium block truncate mt-0.5">
-              {autoAdvance ? 'Maju Otomatis' : 'Manual'}
+              {autoAdvanceEnabled ? 'Maju Otomatis' : 'Manual'}
             </span>
           </div>
         </button>
@@ -554,7 +548,62 @@ export const SettingsView: React.FC = () => {
         </button>
       </div>
 
-      {/* 5. Bento Card 4: Manajemen Data & Cadangan Offline */}
+      {/* 5. Mode Umpan Balik Kesalahan (Gentle vs Purist) */}
+      <div
+        className="w-full rounded-[24px] p-3.5 relative z-10 overflow-hidden border border-[var(--accent-main)]/20 shadow-xs"
+        style={{
+          background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
+        }}
+      >
+        <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
+        <div className="flex items-center justify-between mb-1 px-0.5 relative z-10">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-3.5 h-3.5 text-[var(--accent-main)]" />
+            <span className="text-[12.5px] font-black text-[var(--text-primary)] tracking-tight">
+              Umpan Balik Kesalahan
+            </span>
+          </div>
+          <span className="text-[8.5px] text-[var(--accent-main)] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[var(--accent-main)]/10 border border-[var(--accent-main)]/20">
+            {errorFeedbackMode === 'gentle' ? 'Lembut' : 'Purist'}
+          </span>
+        </div>
+
+        <p className="text-[9.5px] text-[var(--text-secondary)] leading-tight mb-2.5 px-0.5 relative z-10">
+          {errorFeedbackMode === 'gentle'
+            ? 'Kotak bergetar dan bergoyang lembut seketika kata selesai diisi jika ada huruf yang belum pas.'
+            : 'Mode klasik tanpa indikasi salah di tengah bermain. Evaluasi murni saat teka-teki rampung.'}
+        </p>
+
+        {/* Apple-style Segmented Control */}
+        <div className="flex items-center p-1 rounded-full bg-black/5 dark:bg-white/10 border border-black/5 dark:border-white/10 relative z-10 gap-1">
+          <button
+            type="button"
+            onClick={() => setErrorFeedbackMode('gentle')}
+            className={`flex-1 py-1.5 px-3 rounded-full text-[10.5px] font-bold transition-all tactile-active cursor-pointer flex items-center justify-center gap-1.5 ${
+              errorFeedbackMode === 'gentle'
+                ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-xs'
+                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+            }`}
+          >
+            <Sparkles className="w-3 h-3 stroke-[2.2]" />
+            <span>Lembut (Gentle)</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setErrorFeedbackMode('purist')}
+            className={`flex-1 py-1.5 px-3 rounded-full text-[10.5px] font-bold transition-all tactile-active cursor-pointer flex items-center justify-center gap-1.5 ${
+              errorFeedbackMode === 'purist'
+                ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-xs'
+                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+            }`}
+          >
+            <ShieldCheck className="w-3 h-3 stroke-[2.2]" />
+            <span>Purist (Klasik)</span>
+          </button>
+        </div>
+      </div>
+
+      {/* 6. Bento Card 4: Manajemen Data & Cadangan Offline */}
       <div
         className="w-full rounded-[24px] p-3.5 relative z-10 overflow-hidden border border-[var(--accent-main)]/20 shadow-xs"
         style={{
@@ -611,7 +660,7 @@ export const SettingsView: React.FC = () => {
         </div>
       </div>
 
-      {/* 6. Bento Card 5: Zona Keamanan & Reset Data */}
+      {/* 7. Bento Card 5: Zona Keamanan & Reset Data */}
       <div
         className="w-full rounded-[24px] p-3.5 relative z-10 overflow-hidden border border-[var(--accent-main)]/20 shadow-xs"
         style={{

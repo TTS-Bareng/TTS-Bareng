@@ -308,6 +308,16 @@ interface GameState {
   rewardAdWatch: () => void;
   restartLevel: () => void;
   resetAllProgress: () => void;
+
+  // Smart Solving & Assisting Engine (Opsi 1)
+  errorFeedbackMode: 'gentle' | 'purist';
+  setErrorFeedbackMode: (mode: 'gentle' | 'purist') => void;
+  autoAdvanceEnabled: boolean;
+  toggleAutoAdvance: () => void;
+  isAnagramDrawerOpen: boolean;
+  openAnagramDrawer: () => void;
+  closeAnagramDrawer: () => void;
+  applyAnagramWord: (word: string) => void;
 }
 
 const STORAGE_KEY_THEME = 'tts_quest_theme';
@@ -326,6 +336,19 @@ const STORAGE_KEY_WEEKLY_LEAGUE_XP = 'tts_quest_weekly_league_xp';
 const STORAGE_KEY_WEEKLY_LEAGUE_WEEK = 'tts_quest_weekly_league_week';
 const STORAGE_KEY_CLAIMED_ACHIEVEMENTS = 'tts_quest_claimed_achievements';
 const STORAGE_KEY_LAST_COMPLETED_DAY = 'tts_quest_last_completed_day';
+const STORAGE_KEY_ERROR_FEEDBACK = 'tts_quest_error_feedback_mode';
+const STORAGE_KEY_AUTO_ADVANCE = 'tts_auto_advance';
+
+function getInitialErrorFeedbackMode(): 'gentle' | 'purist' {
+  if (typeof window === 'undefined') return 'gentle';
+  const saved = localStorage.getItem(STORAGE_KEY_ERROR_FEEDBACK);
+  return saved === 'purist' ? 'purist' : 'gentle';
+}
+
+function getInitialAutoAdvance(): boolean {
+  if (typeof window === 'undefined') return true;
+  return localStorage.getItem(STORAGE_KEY_AUTO_ADVANCE) !== 'false';
+}
 
 export function getIsoWeekKey(d: Date = new Date()): string {
   const target = new Date(d.valueOf());
@@ -776,6 +799,45 @@ export const useGameStore = create<GameState>((set, get) => ({
       origin: { y: 0.7 },
     });
     get().showGlobalToast('Hadiah Lencana Diklaim (+25★)!', 2800);
+  },
+
+  // Smart Solving & Assisting Engine State & Actions
+  errorFeedbackMode: getInitialErrorFeedbackMode(),
+  setErrorFeedbackMode: (mode: 'gentle' | 'purist') => {
+    localStorage.setItem(STORAGE_KEY_ERROR_FEEDBACK, mode);
+    set({ errorFeedbackMode: mode });
+  },
+
+  autoAdvanceEnabled: getInitialAutoAdvance(),
+  toggleAutoAdvance: () => {
+    const next = !get().autoAdvanceEnabled;
+    localStorage.setItem(STORAGE_KEY_AUTO_ADVANCE, String(next));
+    set({ autoAdvanceEnabled: next });
+  },
+
+  isAnagramDrawerOpen: false,
+  openAnagramDrawer: () => set({ isAnagramDrawerOpen: true }),
+  closeAnagramDrawer: () => set({ isAnagramDrawerOpen: false }),
+
+  applyAnagramWord: (word: string) => {
+    const { level, activeClueId, userInputs, lockedCells } = get();
+    if (!activeClueId) return;
+    const clue = findClueById(level, activeClueId);
+    if (!clue) return;
+
+    const letters = word.toUpperCase().split('');
+    const newInputs = { ...userInputs };
+    clue.cells.forEach(([r, c], i) => {
+      const key = `${r},${c}`;
+      if (!lockedCells[key] && letters[i]) {
+        newInputs[key] = letters[i];
+      }
+    });
+
+    set({ userInputs: newInputs, isAnagramDrawerOpen: false });
+    setTimeout(() => {
+      get().checkAnswers();
+    }, 50);
   },
 
   stars: getInitialStars(),
@@ -1894,14 +1956,16 @@ export const useGameStore = create<GameState>((set, get) => ({
           nextMistakes += 1;
           nextWordStreak = 0;
           nextComboMessage = null;
-          shaking = wordWrongCells;
-          if (soundEnabled) soundManager.playWordWrong();
-          if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-            navigator.vibrate([35, 45]);
+          if (get().errorFeedbackMode === 'gentle') {
+            shaking = wordWrongCells;
+            if (soundEnabled) soundManager.playWordWrong();
+            if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
+              navigator.vibrate([35, 45]);
+            }
+            setTimeout(() => {
+              set({ shakingCells: [] });
+            }, 600);
           }
-          setTimeout(() => {
-            set({ shakingCells: [] });
-          }, 600);
         }
       }
 
@@ -1922,15 +1986,17 @@ export const useGameStore = create<GameState>((set, get) => ({
           nextMistakes += 1;
           nextWordStreak = 0;
           nextComboMessage = null;
-          shaking = allWrongCells;
-          validationMsg = 'Ada kata yang belum tepat, coba periksa kembali!';
-          if (soundEnabled) soundManager.playWordWrong();
-          if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-            navigator.vibrate([35, 45]);
+          if (get().errorFeedbackMode === 'gentle') {
+            shaking = allWrongCells;
+            validationMsg = 'Ada kata yang belum tepat, coba periksa kembali!';
+            if (soundEnabled) soundManager.playWordWrong();
+            if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
+              navigator.vibrate([35, 45]);
+            }
+            setTimeout(() => {
+              set({ shakingCells: [], validationMessage: null });
+            }, 2500);
           }
-          setTimeout(() => {
-            set({ shakingCells: [], validationMessage: null });
-          }, 2500);
         }
       } else {
         // Normal cell navigation inside the current clue (skip already locked cells)
@@ -1946,6 +2012,26 @@ export const useGameStore = create<GameState>((set, get) => ({
             }
             if (nextIdx < currentClue.cells.length) {
               nextCell = currentClue.cells[nextIdx];
+            } else if (get().autoAdvanceEnabled) {
+              // Reached end of unfilled cells in current clue -> Smart Jump to next clue
+              const nextUnsolved = allClues.find(
+                (cl) => cl.id !== currentClue.id && !updatedSolved.includes(cl.id) && cl.cells.some(([nr, nc]) => !newInputs[`${nr},${nc}`])
+              );
+              if (nextUnsolved) {
+                nextClueId = nextUnsolved.id;
+                const firstEmpty = nextUnsolved.cells.find(([nr, nc]) => !newInputs[`${nr},${nc}`]);
+                if (firstEmpty) nextCell = firstEmpty;
+              }
+            }
+          } else if (idx === currentClue.cells.length - 1 && get().autoAdvanceEnabled) {
+            // Last letter typed in current clue -> Smart Jump to next incomplete clue
+            const nextUnsolved = allClues.find(
+              (cl) => cl.id !== currentClue.id && !updatedSolved.includes(cl.id) && cl.cells.some(([nr, nc]) => !newInputs[`${nr},${nc}`])
+            );
+            if (nextUnsolved) {
+              nextClueId = nextUnsolved.id;
+              const firstEmpty = nextUnsolved.cells.find(([nr, nc]) => !newInputs[`${nr},${nc}`]);
+              if (firstEmpty) nextCell = firstEmpty;
             }
           }
         }
