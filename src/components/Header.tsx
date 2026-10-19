@@ -21,6 +21,7 @@ export const Header: React.FC = () => {
     activeRoomCode,
     mabarPeers,
     leaveMabarSession,
+    partnerReconnecting,
   } = useGameStore();
 
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
@@ -111,11 +112,19 @@ export const Header: React.FC = () => {
               <div className="flex items-center gap-1 leading-none mb-0.5">
                 <span
                   className={`w-1.5 h-1.5 rounded-full shrink-0 ${
-                    mabarPeers.length >= 2 ? 'bg-emerald-500 animate-pulse' : 'bg-amber-400'
+                    partnerReconnecting
+                      ? 'bg-amber-400 animate-ping'
+                      : mabarPeers.length >= 2
+                      ? 'bg-emerald-500 animate-pulse'
+                      : 'bg-amber-400'
                   }`}
                 />
                 <span className="text-[8px] font-black uppercase tracking-wider text-[var(--accent-main)] truncate">
-                  {mabarPeers.length >= 2 ? `MABAR • ${activeRoomCode}` : `MENUNGGU • ${activeRoomCode}`}
+                  {partnerReconnecting
+                    ? `MENYAMBUNG • ${activeRoomCode}`
+                    : mabarPeers.length >= 2
+                    ? `MABAR • ${activeRoomCode}`
+                    : `MENUNGGU • ${activeRoomCode}`}
                 </span>
               </div>
               <h2 className="text-[13.5px] font-black tracking-tight leading-tight text-[var(--text-primary)] truncate">

@@ -25,6 +25,16 @@ export interface MabarReaction {
   clueDirection?: 'across' | 'down';
 }
 
+export interface BoardSnapshotPayload {
+  levelIndex: number;
+  userInputs: Record<string, string>;
+  lockedCells: Record<string, boolean>;
+  solvedClues: string[];
+  clueAuthors: Record<string, 'local' | 'partner'>;
+  cellAuthors: Record<string, 'local' | 'partner'>;
+  senderName: string;
+}
+
 export interface UserProfile {
   name: string;
   email?: string;
@@ -162,6 +172,9 @@ interface GameState {
   acceptNextLevelProposal: () => void;
   confirmNextLevelTogether: (targetLevelIndex: number) => void;
   cancelNextLevelProposal: (broadcast?: boolean) => void;
+  partnerReconnecting: string | null;
+  setPartnerReconnecting: (name: string | null) => void;
+  applyBoardSnapshot: (snapshot: BoardSnapshotPayload) => void;
 
   // Modals
   isSettingsOpen: boolean;
@@ -220,6 +233,12 @@ const STORAGE_KEY_SOUND = 'tts_quest_sound';
 const STORAGE_KEY_HAPTIC = 'tts_haptics';
 const STORAGE_KEY_LEVEL_IDX = 'tts_quest_level_idx';
 const STORAGE_KEY_DAILY_RUSH = 'tts_quest_daily_rush_record';
+const STORAGE_KEY_ACTIVE_ROOM = 'tts_quest_active_room';
+
+function getInitialActiveRoomCode(): string | null {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem(STORAGE_KEY_ACTIVE_ROOM);
+}
 
 export function getTodayDateString(): string {
   const d = new Date();
@@ -439,8 +458,13 @@ export const useGameStore = create<GameState>((set, get) => ({
     }, durationMs);
   },
   clearGlobalToast: () => set({ globalToast: null }),
-  activeRoomCode: null,
+  activeRoomCode: getInitialActiveRoomCode(),
   setActiveRoomCode: (code: string | null) => {
+    if (code) {
+      localStorage.setItem(STORAGE_KEY_ACTIVE_ROOM, code);
+    } else {
+      localStorage.removeItem(STORAGE_KEY_ACTIVE_ROOM);
+    }
     set({ activeRoomCode: code });
     if (code) {
       const { user } = get();
@@ -450,6 +474,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
   },
 
+  partnerReconnecting: null,
+  setPartnerReconnecting: (name: string | null) => set({ partnerReconnecting: name }),
   mabarPeers: [],
   partnerCursor: null,
   cellAuthors: {},
@@ -540,11 +566,13 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   leaveMabarSession: () => {
+    localStorage.removeItem(STORAGE_KEY_ACTIVE_ROOM);
     mabarRealtime.leaveRoom();
     set({
       activeRoomCode: null,
       mabarPeers: [],
       partnerCursor: null,
+      partnerReconnecting: null,
       cellAuthors: {},
       clueAuthors: {},
       activeReaction: null,
@@ -643,6 +671,40 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({ nextLevelProposal: null, isWaitingForPartnerNextLevel: false });
   },
 
+  applyBoardSnapshot: (snapshot: BoardSnapshotPayload) => {
+    const { currentLevelIndex, selectLevel, level } = get();
+    if (currentLevelIndex !== snapshot.levelIndex) {
+      selectLevel(snapshot.levelIndex);
+    }
+
+    const invertedClueAuthors: Record<string, 'local' | 'partner'> = {};
+    if (snapshot.clueAuthors) {
+      Object.entries(snapshot.clueAuthors).forEach(([cId, author]) => {
+        invertedClueAuthors[cId] = author === 'local' ? 'partner' : 'local';
+      });
+    }
+
+    const invertedCellAuthors: Record<string, 'local' | 'partner'> = {};
+    if (snapshot.cellAuthors) {
+      Object.entries(snapshot.cellAuthors).forEach(([key, author]) => {
+        invertedCellAuthors[key] = author === 'local' ? 'partner' : 'local';
+      });
+    }
+
+    const totalClues = (level.clues?.across?.length || 0) + (level.clues?.down?.length || 0);
+    const isLevelComplete = totalClues > 0 && snapshot.solvedClues.length >= totalClues;
+
+    set({
+      userInputs: { ...snapshot.userInputs },
+      lockedCells: { ...snapshot.lockedCells },
+      solvedClues: [...snapshot.solvedClues],
+      clueAuthors: invertedClueAuthors,
+      cellAuthors: invertedCellAuthors,
+      isLevelCompleteOpen: isLevelComplete,
+    });
+    get().showGlobalToast(`Papan tersinkronisasi dengan ${snapshot.senderName}!`, 2500);
+  },
+
   isSettingsOpen: false,
   isLevelCompleteOpen: false,
   isAdModalOpen: false,
@@ -730,6 +792,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       activeReaction: null,
       nextLevelProposal: null,
       isWaitingForPartnerNextLevel: false,
+      partnerReconnecting: null,
       lockedCells: rec.locked,
       solvedClues: rec.solved,
       activeClueId: null,
@@ -1672,6 +1735,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       activeReaction: null,
       nextLevelProposal: null,
       isWaitingForPartnerNextLevel: false,
+      partnerReconnecting: null,
       lockedCells: {},
       solvedClues: [],
       poppingCells: [],

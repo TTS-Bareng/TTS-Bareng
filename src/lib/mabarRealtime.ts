@@ -5,6 +5,7 @@ import type { RealtimeChannel } from '@supabase/supabase-js';
 let activeChannel: RealtimeChannel | null = null;
 let currentRoomCode: string | null = null;
 let cursorDebounceTimer: ReturnType<typeof setTimeout> | null = null;
+let disconnectGraceTimer: ReturnType<typeof setTimeout> | null = null;
 
 export interface MabarPeer {
   id: string;
@@ -57,16 +58,32 @@ export const mabarRealtime = {
       .on('presence', { event: 'join' }, ({ newPresences }) => {
         const joined = (newPresences as unknown as MabarPeer[])?.[0];
         if (joined?.name && joined.name !== user.name) {
-          useGameStore.getState().showGlobalToast(`${joined.name} bergabung ke kamar!`);
-          // Automatically sync current level state to newcomer
-          const currentLvl = useGameStore.getState().currentLevelIndex;
-          mabarRealtime.broadcastRoomState(currentLvl);
+          if (disconnectGraceTimer) {
+            clearTimeout(disconnectGraceTimer);
+            disconnectGraceTimer = null;
+          }
+          const wasReconnecting = useGameStore.getState().partnerReconnecting === joined.name;
+          useGameStore.getState().setPartnerReconnecting(null);
+          useGameStore.getState().showGlobalToast(
+            wasReconnecting ? `${joined.name} tersambung kembali!` : `${joined.name} bergabung ke kamar!`,
+            2600
+          );
+          // Catch up newcomer/reconnector with full board state
+          mabarRealtime.broadcastBoardSnapshot();
         }
       })
       .on('presence', { event: 'leave' }, ({ leftPresences }) => {
         const left = (leftPresences as unknown as MabarPeer[])?.[0];
         if (left?.name && left.name !== user.name) {
-          useGameStore.getState().showGlobalToast(`${left.name} keluar kamar.`);
+          useGameStore.getState().setPartnerReconnecting(left.name);
+          if (disconnectGraceTimer) clearTimeout(disconnectGraceTimer);
+          disconnectGraceTimer = setTimeout(() => {
+            const current = useGameStore.getState().partnerReconnecting;
+            if (current === left.name) {
+              useGameStore.getState().setPartnerReconnecting(null);
+              useGameStore.getState().showGlobalToast(`${left.name} telah meninggalkan sesi.`);
+            }
+          }, 12000);
         }
       })
       .on('broadcast', { event: 'cell_input' }, ({ payload }) => {
@@ -142,6 +159,14 @@ export const mabarRealtime = {
       .on('broadcast', { event: 'next_level_cancel' }, () => {
         useGameStore.getState().cancelNextLevelProposal(false);
       })
+      .on('broadcast', { event: 'board_sync_request' }, () => {
+        mabarRealtime.broadcastBoardSnapshot();
+      })
+      .on('broadcast', { event: 'board_snapshot' }, ({ payload }) => {
+        if (payload && typeof payload.levelIndex === 'number') {
+          useGameStore.getState().applyBoardSnapshot(payload);
+        }
+      })
       .on('broadcast', { event: 'leave_session' }, ({ payload }) => {
         const store = useGameStore.getState();
         store.showGlobalToast(`${payload.senderName || 'Teman'} keluar dari sesi mabar.`);
@@ -154,6 +179,8 @@ export const mabarRealtime = {
             avatar: user.avatar,
             joinedAt: Date.now(),
           });
+          // Immediately request latest board sync if connecting to an ongoing session
+          mabarRealtime.requestBoardSync();
         }
       });
 
@@ -164,6 +191,10 @@ export const mabarRealtime = {
    * Leave the active channel
    */
   leaveRoom() {
+    if (disconnectGraceTimer) {
+      clearTimeout(disconnectGraceTimer);
+      disconnectGraceTimer = null;
+    }
     if (activeChannel) {
       try {
         this.broadcastLeaveSession();
@@ -370,4 +401,53 @@ export const mabarRealtime = {
       payload: {},
     });
   },
+
+  /**
+   * Request live board sync from partner
+   */
+  requestBoardSync() {
+    if (!activeChannel) return;
+    activeChannel.send({
+      type: 'broadcast',
+      event: 'board_sync_request',
+      payload: {},
+    });
+  },
+
+  /**
+   * Broadcast full board snapshot to partner
+   */
+  broadcastBoardSnapshot() {
+    if (!activeChannel) return;
+    const { user, currentLevelIndex, userInputs, lockedCells, solvedClues, clueAuthors, cellAuthors } = useGameStore.getState();
+    activeChannel.send({
+      type: 'broadcast',
+      event: 'board_snapshot',
+      payload: {
+        levelIndex: currentLevelIndex,
+        userInputs,
+        lockedCells,
+        solvedClues,
+        clueAuthors,
+        cellAuthors,
+        senderName: user.name,
+      },
+    });
+  },
 };
+
+// Global network connectivity listeners
+if (typeof window !== 'undefined') {
+  window.addEventListener('online', () => {
+    if (currentRoomCode && activeChannel) {
+      useGameStore.getState().showGlobalToast('Koneksi internet pulih, menyinkronkan...', 2500);
+      mabarRealtime.requestBoardSync();
+    }
+  });
+
+  window.addEventListener('offline', () => {
+    if (currentRoomCode) {
+      useGameStore.getState().showGlobalToast('Koneksi internet terputus', 3000);
+    }
+  });
+}

@@ -68,6 +68,13 @@ export const App: React.FC = () => {
       setCurrentTab('game');
       showGlobalToast(`Membuka Bab ${levelIndex + 1} dari Tautan Teman`, 3200);
       clearUrlParams();
+    } else {
+      // Check saved active room for automatic session restoration
+      const savedRoom = localStorage.getItem('tts_quest_active_room');
+      if (savedRoom) {
+        setActiveRoomCode(savedRoom);
+        showGlobalToast(`Menyambung kembali ke kamar: ${savedRoom}`, 2800);
+      }
     }
   }, [levels.length, selectLevel, setActiveRoomCode, setCurrentTab, showGlobalToast]);
 

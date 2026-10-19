@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Info, Flame } from 'lucide-react';
+import { Info, Flame, Loader2 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { Header } from '../components/Header';
 import { FloatingGrid } from '../components/FloatingGrid';
@@ -25,6 +25,7 @@ export const GameView: React.FC = () => {
     gameMode,
     tickDailyRush,
     isLevelCompleteOpen,
+    partnerReconnecting,
   } = useGameStore();
 
   // Daily Rush 90s countdown interval
@@ -84,6 +85,19 @@ export const GameView: React.FC = () => {
             >
               <Info className="w-3.5 h-3.5 stroke-[2.5]" />
               <span>{validationMessage}</span>
+            </motion.div>
+          )}
+
+          {partnerReconnecting && (
+            <motion.div
+              key="reconnecting-badge"
+              initial={{ opacity: 0, y: 10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 10, scale: 0.95 }}
+              className="mx-auto mb-1.5 px-3.5 py-1 rounded-full border border-amber-500/35 bg-amber-500/15 text-amber-600 dark:text-amber-400 text-[10.5px] font-bold shadow-lg flex items-center gap-1.5 pointer-events-none backdrop-blur-md"
+            >
+              <Loader2 className="w-3 h-3 animate-spin stroke-[2.5]" />
+              <span>{partnerReconnecting} terputus... Menunggu tersambung kembali</span>
             </motion.div>
           )}
         </AnimatePresence>
