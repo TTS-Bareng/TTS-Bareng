@@ -17,12 +17,14 @@ import {
   QrCode,
   Share2,
   X,
+  ScanLine,
 } from 'lucide-react';
 import QRCode from 'qrcode';
 import { useGameStore, getTodayDateString } from '../store/useGameStore';
 import confetti from 'canvas-confetti';
 import { MASCOTS } from '../assets/maskots';
 import { createDeepLink, shareOrCopy } from '../lib/deeplink';
+import { QrScannerModal } from '../components/QrScannerModal';
 
 export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = false }) => {
   const {
@@ -42,6 +44,9 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
     isQrModalOpen,
     openQrModal,
     closeQrModal,
+    isScannerOpen,
+    openScanner,
+    closeScanner,
   } = useGameStore();
 
   const [todayStr] = useState(getTodayDateString);
@@ -118,8 +123,9 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
     showGlobalToast(`Kamar ${nextCode} siap`);
   };
 
-  const handleJoinRoom = () => {
-    const clean = inputCode.trim().toUpperCase();
+  const handleJoinRoom = (targetCode?: string) => {
+    const raw = targetCode || inputCode;
+    const clean = raw.trim().toUpperCase();
     if (!clean) {
       showGlobalToast('Masukkan kode kamar');
       return;
@@ -128,6 +134,10 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
     setLocalRoomCode(clean);
     setActiveRoomCode(clean);
     setInputCode('');
+  };
+
+  const handleScanSuccess = (scannedCode: string) => {
+    handleJoinRoom(scannedCode);
   };
 
   const handleLaunchGame = () => {
@@ -379,23 +389,38 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
               <span className="text-[12px] font-black text-[var(--text-primary)]">
                 Punya Kode Kamar Teman?
               </span>
-              <span className="text-[9px] text-[var(--text-secondary)] font-medium">
-                Masukkan kode 4 digit
-              </span>
+              <button
+                type="button"
+                onClick={openScanner}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)] text-[9.5px] font-black cursor-pointer tactile-active hover:opacity-90 transition-opacity"
+              >
+                <ScanLine className="w-3 h-3 stroke-[2.2]" />
+                <span>Pindai QR</span>
+              </button>
             </div>
 
             <div className="flex items-center gap-2 pt-0.5 relative z-10">
-              <input
-                type="text"
-                value={inputCode}
-                onChange={(e) => setInputCode(e.target.value.toUpperCase())}
-                onKeyDown={(e) => e.key === 'Enter' && handleJoinRoom()}
-                placeholder="Misal: TTS-8821"
-                className="flex-1 h-9.5 px-3.5 rounded-xl bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/15 text-[12.5px] font-bold text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]/50 focus:outline-none focus:border-[var(--accent-main)]"
-              />
+              <div className="relative flex-1">
+                <input
+                  type="text"
+                  value={inputCode}
+                  onChange={(e) => setInputCode(e.target.value.toUpperCase())}
+                  onKeyDown={(e) => e.key === 'Enter' && handleJoinRoom()}
+                  placeholder="Misal: TTS-8821"
+                  className="w-full h-9.5 pl-3.5 pr-10 rounded-xl bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/15 text-[12.5px] font-bold text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]/50 focus:outline-none focus:border-[var(--accent-main)]"
+                />
+                <button
+                  type="button"
+                  onClick={openScanner}
+                  title="Pindai QR Kode Kamar"
+                  className="absolute right-1.5 top-1/2 -translate-y-1/2 p-1.5 rounded-lg text-[var(--accent-main)] hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer tactile-active transition-colors"
+                >
+                  <ScanLine className="w-4 h-4 stroke-[2.2]" />
+                </button>
+              </div>
               <button
                 type="button"
-                onClick={handleJoinRoom}
+                onClick={() => handleJoinRoom()}
                 className="h-9.5 px-4.5 rounded-xl bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[11px] font-black flex items-center gap-1.5 cursor-pointer tactile-active shrink-0 hover:opacity-95 shadow-2xs"
               >
                 <span>Gabung</span>
@@ -793,24 +818,30 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
         >
           {/* Top Brand Header & Close */}
           <div className="w-full max-w-[360px] flex items-center justify-between shrink-0 pt-1 px-1">
-            {/* User Profile Pill */}
-            <div className="h-9 px-3 rounded-full bg-black/10 dark:bg-white/10 text-[var(--text-primary)] font-bold text-xs tracking-tight flex items-center gap-2 shadow-xs border border-black/5 dark:border-white/10 backdrop-blur-md">
-              <div className="w-5.5 h-5.5 rounded-full overflow-hidden bg-white/20 border border-white/25 shrink-0 flex items-center justify-center">
+            {/* User Profile Pill with Theme Accent Gradient */}
+            <div
+              style={{ background: 'var(--accent-grad)' }}
+              className="h-9 px-3.5 rounded-full text-white font-bold text-xs tracking-tight flex items-center gap-2 shadow-md border border-white/20 backdrop-blur-md"
+            >
+              <div className="w-5.5 h-5.5 rounded-full overflow-hidden bg-white/25 border border-white/30 shrink-0 flex items-center justify-center">
                 <img
                   src={user.avatar || MASCOTS.crosswordChampion}
                   alt="Avatar Profil"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <span className="truncate max-w-[130px] font-black">{user.name || 'Jawara TTS'}</span>
+              <span className="truncate max-w-[130px] font-black text-white">{user.name || 'Jawara TTS'}</span>
             </div>
+
+            {/* Close Button (X) with Theme Accent Gradient */}
             <button
               type="button"
               onClick={closeQrModal}
-              className="w-8 h-8 rounded-full bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer tactile-active transition-all"
+              style={{ background: 'var(--accent-grad)' }}
+              className="w-9 h-9 rounded-full flex items-center justify-center text-white cursor-pointer tactile-active shadow-md border border-white/20 hover:opacity-95 transition-all"
               title="Tutup"
             >
-              <X className="w-4 h-4 stroke-[2.2]" />
+              <X className="w-4 h-4 stroke-[2.4] text-white" />
             </button>
           </div>
 
@@ -960,6 +991,13 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
           </div>
         </div>
       )}
+
+      {/* --- QR CODE CAMERA & GALLERY SCANNER MODAL --- */}
+      <QrScannerModal
+        isOpen={isScannerOpen}
+        onClose={closeScanner}
+        onScanSuccess={handleScanSuccess}
+      />
     </div>
   );
 };

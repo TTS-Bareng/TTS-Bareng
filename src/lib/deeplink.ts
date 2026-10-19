@@ -113,3 +113,50 @@ export async function shareOrCopy(options: {
 
   return 'cancelled';
 }
+
+/**
+ * Extracts a room code from scanned QR text, deep link URLs, or raw codes.
+ * Supports:
+ * - Full URLs: https://domain.com/?room=TTS-3314
+ * - Param queries: room=TTS-3314
+ * - Standard codes: TTS-3314 or TTS3314
+ * - 4-character alphanumerics: 3314 or 8821
+ */
+export function extractRoomCodeFromText(rawText: string): string | null {
+  if (!rawText || typeof rawText !== 'string') return null;
+  const text = rawText.trim();
+
+  // 1. Try URL parsing
+  try {
+    const url = new URL(text);
+    const room =
+      url.searchParams.get('room') ||
+      url.searchParams.get('join') ||
+      url.searchParams.get('kamar');
+    if (room && room.trim()) {
+      return room.trim().toUpperCase();
+    }
+  } catch {
+    // Not a valid URL, continue to regex patterns
+  }
+
+  // 2. Query parameter fragment match: room=TTS-XXXX
+  const queryMatch = text.match(/(?:room|join|kamar)=([a-zA-Z0-9_-]+)/i);
+  if (queryMatch && queryMatch[1]) {
+    return queryMatch[1].trim().toUpperCase();
+  }
+
+  // 3. Match standard TTS-XXXX or TTSXXXX
+  const ttsMatch = text.match(/TTS-?([0-9A-Z]{4})/i);
+  if (ttsMatch && ttsMatch[1]) {
+    return `TTS-${ttsMatch[1].toUpperCase()}`;
+  }
+
+  // 4. Match 4-character code directly (digits or alphanumeric)
+  const codeMatch = text.match(/^[0-9A-Z]{4}$/i);
+  if (codeMatch) {
+    return `TTS-${codeMatch[0].toUpperCase()}`;
+  }
+
+  return null;
+}

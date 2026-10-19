@@ -167,6 +167,9 @@ interface GameState {
   isQrModalOpen: boolean;
   openQrModal: () => void;
   closeQrModal: () => void;
+  isScannerOpen: boolean;
+  openScanner: () => void;
+  closeScanner: () => void;
 
   // Gameplay actions
   selectClue: (clueId: string, cellToFocus?: [number, number]) => void;
@@ -534,6 +537,10 @@ export const useGameStore = create<GameState>((set, get) => ({
   isQrModalOpen: false,
   openQrModal: () => set({ isQrModalOpen: true }),
   closeQrModal: () => set({ isQrModalOpen: false }),
+
+  isScannerOpen: false,
+  openScanner: () => set({ isScannerOpen: true }),
+  closeScanner: () => set({ isScannerOpen: false }),
 
   selectLevel: (index: number) => {
     const { levels, levelRecords } = get();
