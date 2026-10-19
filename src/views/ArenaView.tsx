@@ -68,6 +68,9 @@ import {
   Waves,
   CloudLightning,
   ShieldAlert,
+  Train,
+  HelpCircle,
+  Puzzle,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
@@ -134,6 +137,9 @@ const REALM_ICONS: Record<string, React.ElementType> = {
   theme_55_kelautan: Waves,
   theme_56_cuacaiklim: CloudLightning,
   theme_57_kerajaannusantara: ShieldAlert,
+  theme_58_transportasikereta: Train,
+  theme_59_misterienigma: HelpCircle,
+  theme_60_asahotak: Puzzle,
 };
 
 /** Crossword Grid Pattern Overlay (Oversized Graphic Watermark Texture) */

@@ -66,6 +66,9 @@ const categoryToRealm = {
   'Kelautan & Samudra': 'Kelautan, Oseanografi & Misteri Samudra',
   'Cuaca & Iklim': 'Cuaca, Iklim & Dinamika Semesta',
   'Kerajaan Nusantara': 'Kerajaan Kuno & Hikayat Nusantara',
+  'Transportasi Kereta': 'Transportasi Kereta & Jalur Rel Relasi',
+  'Misteri Populer': 'Misteri Populer & Enigma Legendaris Dunia',
+  'Logika & Asah Otak': 'Teka-Teki Logika, Sandi & Asah Otak',
 };
 
 levels.forEach((lvl, idx) => {

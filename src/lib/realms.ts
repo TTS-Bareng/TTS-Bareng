@@ -408,6 +408,27 @@ export const REALMS: RealmDefinition[] = [
     subtitle: 'Kejayaan Majapahit Sumpah Palapa, armada Sriwijaya, Singasari Ken Arok, Mataram Kuno, dan prasasti lontar',
     categories: ['Kerajaan Nusantara'],
   },
+  {
+    id: 'theme_58_transportasikereta',
+    name: 'Transportasi Kereta & Jalur Rel Relasi',
+    tag: 'Jalur Rel Kereta',
+    subtitle: 'Kereta cepat Whoosh Shinkansen, MRT LRT metropolitan, lokomotif uap antik, stasiun megah, dan perlintasan rel',
+    categories: ['Transportasi Kereta'],
+  },
+  {
+    id: 'theme_59_misterienigma',
+    name: 'Misteri Populer & Enigma Legendaris Dunia',
+    tag: 'Misteri & Enigma',
+    subtitle: 'Misteri Segitiga Bermuda, piring terbang Area 51, benua hilang Atlantis, monster Nessie, dan garis Nazca',
+    categories: ['Misteri Populer'],
+  },
+  {
+    id: 'theme_60_asahotak',
+    name: 'Teka-Teki Logika, Sandi & Asah Otak',
+    tag: 'Logika & Sandi',
+    subtitle: 'Sandi Morse ketukan rahasia, semaphore pramuka, strategi catur skakmat, labirin, sudoku, dan mahakarya teka-teki',
+    categories: ['Logika & Asah Otak'],
+  },
 ];
 
 export function getRealmForCategory(category?: string): RealmDefinition {
