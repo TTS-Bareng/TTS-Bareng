@@ -51,6 +51,8 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
     openScanner,
     closeScanner,
     openBattleLobby,
+    openTournament,
+    trophies,
   } = useGameStore();
 
   const [todayStr] = useState(getTodayDateString);
@@ -474,6 +476,65 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
       {/* --- SEGMENT 2: 1V1 ARENA BATTLE --- */}
       {activeSegment === 'battle' && (
         <>
+          {/* Card 0: Piala Nusantara (Tournament Cup 16-Bracket System) */}
+          <div
+            className="w-full shrink-0 rounded-[26px] p-4 relative z-10 overflow-hidden border border-amber-500/30 shadow-sm group flex flex-col gap-3"
+            style={{
+              background: 'linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%)',
+              color: '#ffffff',
+            }}
+          >
+            {/* Top Sheen */}
+            <div className="absolute top-0 inset-x-0 h-px bg-white/40 pointer-events-none" />
+            <div className="absolute -top-10 -right-10 w-44 h-44 rounded-full bg-white/20 blur-2xl pointer-events-none" />
+            <div className="absolute -bottom-10 -left-10 w-44 h-44 rounded-full bg-black/25 blur-2xl pointer-events-none" />
+
+            {/* Top Meta */}
+            <div className="flex items-center justify-between relative z-10">
+              <span className="text-[8.5px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/25 text-white backdrop-blur-md border border-white/30 flex items-center gap-1">
+                <Trophy className="w-2.5 h-2.5 fill-white" />
+                <span>KEJUARAAN NASIONAL • SISTEM GUGUR</span>
+              </span>
+              <span className="text-[10px] font-bold text-white/95">
+                {trophies.gold} Emas • {trophies.silver} Perak
+              </span>
+            </div>
+
+            {/* Content */}
+            <div className="relative z-10 max-w-[62%] sm:max-w-[65%] mb-1">
+              <h3 className="text-[19px] sm:text-[20px] font-black text-white tracking-tight leading-tight mb-1">
+                Piala Nusantara Cup
+              </h3>
+              <p className="text-[10.5px] text-white/90 leading-tight mb-2">
+                16 Peserta bertarung dalam bagan turnamen sistem gugur: 16 Besar, Perempat Final, Semifinal, hingga Grand Final!
+              </p>
+
+              <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/25 text-white text-[9.5px] font-bold">
+                <Trophy className="w-3 h-3 fill-amber-200 text-amber-200 stroke-none" />
+                <span>Rebut Trofi Emas Musim 1</span>
+              </div>
+            </div>
+
+            {/* Action Button */}
+            <div className="flex items-center gap-2 justify-start relative z-10">
+              <button
+                type="button"
+                onClick={openTournament}
+                className="py-1.5 px-3.5 rounded-full bg-white text-amber-950 text-[10.5px] font-black inline-flex items-center gap-1.5 cursor-pointer tactile-active shadow-sm group-hover:scale-105 transition-transform"
+              >
+                <Trophy className="w-3.5 h-3.5 fill-amber-700 text-amber-700 stroke-none" />
+                <span>Buka Bagan Turnamen</span>
+              </button>
+            </div>
+
+            {/* Mascot */}
+            <img
+              src={MASCOTS.crosswordChampion}
+              alt="Mascot Piala Nusantara Champion"
+              className="absolute -bottom-2 -right-1 w-44 sm:w-52 h-40 sm:h-48 object-contain object-bottom pointer-events-none select-none z-0 filter drop-shadow-lg group-hover:scale-105 transition-transform"
+            />
+          </div>
+
           {/* Card 1: Tug of War (Hero Themed Gradient Card + Mascot Scholar) */}
           <div
             className="w-full shrink-0 rounded-[26px] p-4 relative z-10 overflow-hidden border border-white/10 dark:border-white/15 shadow-sm group flex flex-col gap-3"

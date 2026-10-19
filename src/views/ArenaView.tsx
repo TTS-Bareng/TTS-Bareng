@@ -193,6 +193,8 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' }> = ({
     openLexicon,
     solvedClues,
     currentTab,
+    openTournament,
+    trophies,
   } = useGameStore();
 
   const [selectedHubMode, setSelectedHubMode] = useState<'solo' | 'mabar' | null>(null);
@@ -407,6 +409,39 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' }> = ({
                 <BookOpen className="w-3.5 h-3.5 stroke-[2.2]" />
                 <span className="hidden sm:inline">Glosarium</span>
               </button>
+            </div>
+          </div>
+
+          {/* Banner: Piala Nusantara Cup Knockout Entry */}
+          <div
+            onClick={openTournament}
+            className="w-full p-3.5 rounded-[24px] relative z-10 flex items-center justify-between gap-3 border border-amber-500/30 shadow-xs cursor-pointer tactile-active group overflow-hidden"
+            style={{
+              background: 'linear-gradient(135deg, rgba(245,158,11,0.12) 0%, var(--bg-card) 60%, rgba(245,158,11,0.18) 100%)',
+            }}
+          >
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-9 h-9 rounded-2xl bg-amber-500/20 border border-amber-500/35 flex items-center justify-center text-amber-500 shrink-0 shadow-2xs">
+                <Trophy className="w-5 h-5 fill-amber-500 stroke-none" />
+              </div>
+              <div className="flex flex-col min-w-0">
+                <div className="flex items-center gap-1.5 mb-0.5">
+                  <span className="text-[8px] font-black uppercase tracking-wider px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold">
+                    TURNAMEN NASIONAL
+                  </span>
+                  <span className="text-[9px] font-bold text-[var(--text-secondary)]">
+                    {trophies.gold} 🏆 Emas
+                  </span>
+                </div>
+                <h4 className="text-[13px] font-black text-[var(--text-primary)] tracking-tight leading-tight truncate">
+                  Piala Nusantara (16 Besar)
+                </h4>
+              </div>
+            </div>
+
+            <div className="py-1.5 px-3 rounded-full bg-amber-500 text-white text-[10px] font-black flex items-center gap-1 shrink-0 group-hover:scale-105 transition-transform shadow-xs">
+              <span>Buka Bagan</span>
+              <Trophy className="w-3 h-3 fill-white stroke-none" />
             </div>
           </div>
 

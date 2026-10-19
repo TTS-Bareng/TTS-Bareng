@@ -3,10 +3,29 @@ import { Home, Sparkles, Gamepad2, User } from 'lucide-react';
 import { useGameStore, type TabType } from '../store/useGameStore';
 
 export const NavigationBottomBar: React.FC = () => {
-  const { currentTab, setCurrentTab, isQrModalOpen, isShareModalOpen, isScannerOpen, isBattleLobbyOpen, isLevelCompleteOpen } = useGameStore();
+  const {
+    currentTab,
+    setCurrentTab,
+    isQrModalOpen,
+    isShareModalOpen,
+    isScannerOpen,
+    isBattleLobbyOpen,
+    isLevelCompleteOpen,
+    isTournamentOpen,
+    isTournamentResultOpen,
+  } = useGameStore();
 
   // Hide bottom navigation bar when in game mode or full-screen modals are open
-  if (currentTab === 'game' || isQrModalOpen || isShareModalOpen || isScannerOpen || isBattleLobbyOpen || isLevelCompleteOpen) {
+  if (
+    currentTab === 'game' ||
+    isQrModalOpen ||
+    isShareModalOpen ||
+    isScannerOpen ||
+    isBattleLobbyOpen ||
+    isLevelCompleteOpen ||
+    isTournamentOpen ||
+    isTournamentResultOpen
+  ) {
     return null;
   }
 

@@ -88,6 +88,8 @@ export const ProfileView: React.FC = () => {
     setCurrentTab,
     openAvatarPicker,
     openPlayerIdModal,
+    trophies,
+    openTournament,
   } = useGameStore();
 
   const [toastMessage] = useState<string | null>(null);
@@ -755,6 +757,76 @@ export const ProfileView: React.FC = () => {
             >
               <span>Lihat Tangga Liga</span>
             </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Card: Lemari Trofi Turnamen Piala Nusantara */}
+      <div
+        onClick={openTournament}
+        className="w-full shrink-0 rounded-[24px] p-4 relative z-10 flex flex-col gap-2.5 border border-amber-500/25 shadow-xs overflow-hidden cursor-pointer tactile-active group"
+        style={{
+          background: 'linear-gradient(135deg, rgba(245,158,11,0.08) 0%, var(--bg-card) 60%, rgba(245,158,11,0.12) 100%)',
+        }}
+      >
+        <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
+
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-500 shadow-2xs">
+              <Trophy className="w-4 h-4 fill-amber-500 stroke-none" />
+            </div>
+            <div>
+              <h4 className="text-[13px] font-black text-[var(--text-primary)] leading-tight flex items-center gap-1.5">
+                <span>Lemari Trofi Piala Nusantara</span>
+                <span className="text-[8px] font-black px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400">
+                  TURNAMEN
+                </span>
+              </h4>
+              <span className="text-[9px] text-[var(--text-secondary)]">
+                {trophies.totalTournaments} Musim Diikuti {trophies.lastChampionDate ? '• Pernah Juara' : ''}
+              </span>
+            </div>
+          </div>
+
+          <div className="w-6 h-6 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">
+            <ChevronRight className="w-3.5 h-3.5" />
+          </div>
+        </div>
+
+        {/* 3 Trofi Pods */}
+        <div className="grid grid-cols-3 gap-2">
+          {/* Trofi Emas */}
+          <div className="p-2 rounded-2xl bg-amber-500/10 dark:bg-amber-500/15 border border-amber-500/25 flex flex-col items-center text-center">
+            <Trophy className="w-4 h-4 fill-amber-500 text-amber-500 stroke-none mb-1 drop-shadow-xs" />
+            <span className="text-[14px] font-black text-amber-600 dark:text-amber-400 leading-none">
+              {trophies.gold}
+            </span>
+            <span className="text-[8px] font-bold text-[var(--text-secondary)] uppercase mt-0.5">
+              Juara Emas
+            </span>
+          </div>
+
+          {/* Trofi Perak */}
+          <div className="p-2 rounded-2xl bg-slate-500/10 dark:bg-slate-400/10 border border-slate-400/25 flex flex-col items-center text-center">
+            <Medal className="w-4 h-4 text-slate-400 stroke-[2] mb-1" />
+            <span className="text-[14px] font-black text-slate-400 leading-none">
+              {trophies.silver}
+            </span>
+            <span className="text-[8px] font-bold text-[var(--text-secondary)] uppercase mt-0.5">
+              Perak (Final)
+            </span>
+          </div>
+
+          {/* Trofi Perunggu */}
+          <div className="p-2 rounded-2xl bg-amber-700/10 dark:bg-amber-700/15 border border-amber-700/25 flex flex-col items-center text-center">
+            <Shield className="w-4 h-4 text-amber-700 dark:text-amber-500 stroke-[2] mb-1" />
+            <span className="text-[14px] font-black text-amber-700 dark:text-amber-500 leading-none">
+              {trophies.bronze}
+            </span>
+            <span className="text-[8px] font-bold text-[var(--text-secondary)] uppercase mt-0.5">
+              Perunggu (Top 4)
+            </span>
           </div>
         </div>
       </div>

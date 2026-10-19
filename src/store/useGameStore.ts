@@ -6,6 +6,16 @@ import { soundManager } from '../lib/audio';
 import confetti from 'canvas-confetti';
 import { mabarRealtime } from '../lib/mabarRealtime';
 import { submitDailyRushScore, fetchDailyRushLeaderboard, type DbDailyRushRecord } from '../lib/supabase';
+import {
+  createInitialTournamentState,
+  loadTournamentState,
+  advanceTournament,
+  loadTrophies,
+  type TournamentCupState,
+  type TournamentMatch,
+  type TournamentDuelist,
+  type TrophyRecord,
+} from '../lib/tournament';
 
 export type TabType = 'home' | 'social' | 'game' | 'quests' | 'profile' | 'stats' | 'settings' | 'arena';
 
@@ -81,7 +91,7 @@ export interface ShareModalData {
 export interface BattleConfig {
   mode?: 'tug_of_war' | 'speed_race';
   rounds: 1 | 3 | 5;
-  durationSeconds: 60 | 90 | 120;
+  durationSeconds: number;
   wordCount: 'short' | 'medium' | 'long';
 }
 
@@ -153,6 +163,29 @@ interface GameState {
   finishBattleRound: () => void;
   startNextBattleRound: () => void;
   rematchBattle: () => void;
+
+  // Tournament Cup
+  isTournamentOpen: boolean;
+  openTournament: () => void;
+  closeTournament: () => void;
+  tournamentState: TournamentCupState;
+  resetTournament: () => void;
+  trophies: TrophyRecord;
+  activeTournamentMatch: TournamentMatch | null;
+  isTournamentResultOpen: boolean;
+  tournamentResultData: {
+    won: boolean;
+    roundTitle: string;
+    trophyAwarded?: 'gold' | 'silver' | 'bronze';
+    opponent: TournamentDuelist;
+    playerScore: number;
+    opponentScore: number;
+  } | null;
+  openTournamentResult: () => void;
+  closeTournamentResult: () => void;
+  startTournamentMatch: () => void;
+  tickTournamentAi: () => void;
+  tournamentAiCooldown: number;
 
   // User Profile
   user: UserProfile;
@@ -1307,6 +1340,124 @@ export const useGameStore = create<GameState>((set, get) => ({
   isBattleLobbyOpen: false,
   isBattleResultOpen: false,
   battleWinner: null,
+
+  // Tournament Cup State & Methods
+  isTournamentOpen: false,
+  openTournament: () => set({ isTournamentOpen: true }),
+  closeTournament: () => set({ isTournamentOpen: false }),
+  tournamentState: loadTournamentState() || createInitialTournamentState(getInitialUser().name, getInitialUser().avatar),
+  resetTournament: () => {
+    const fresh = createInitialTournamentState(get().user?.name || 'Kamu', get().user?.avatar);
+    set({
+      tournamentState: fresh,
+      activeTournamentMatch: null,
+      isTournamentResultOpen: false,
+      tournamentResultData: null,
+    });
+    get().showGlobalToast('Turnamen Musim Baru Dimulai!', 2500);
+  },
+  trophies: loadTrophies(),
+  activeTournamentMatch: null,
+  isTournamentResultOpen: false,
+  tournamentResultData: null,
+  openTournamentResult: () => set({ isTournamentResultOpen: true }),
+  closeTournamentResult: () => set({ isTournamentResultOpen: false }),
+  tournamentAiCooldown: 8,
+
+  startTournamentMatch: () => {
+    const { tournamentState, levels, soundEnabled, hapticEnabled } = get();
+    const currentRoundKey = tournamentState.currentRound;
+    const currentMatches = tournamentState.matches[currentRoundKey];
+    const playerMatch = currentMatches.find((m) => m.isPlayerMatch);
+
+    if (!playerMatch) {
+      get().showGlobalToast('Tidak ada pertandingan aktif untukmu.');
+      return;
+    }
+
+    const opponent = playerMatch.player1.isPlayer ? playerMatch.player2 : playerMatch.player1;
+    const targetLevelIdx = findLevelForWordCount(levels, playerMatch.wordCount);
+    const targetLevel = levels[targetLevelIdx];
+
+    if (soundEnabled) soundManager.playReward();
+    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate([20, 50, 30]);
+    }
+
+    const initialAiCooldown = Math.max(5, Math.floor(13 - (opponent.speedRating - 70) * 0.25));
+
+    set({
+      gameMode: '1v1_battle',
+      activeTournamentMatch: playerMatch,
+      battleConfig: {
+        rounds: 1,
+        durationSeconds: playerMatch.durationSeconds,
+        wordCount: playerMatch.wordCount,
+        mode: 'speed_race',
+      },
+      battleCurrentRound: 1,
+      battleRoundWins: { local: 0, partner: 0 },
+      battleScores: { local: 0, partner: 0 },
+      battleClueOwners: {},
+      battleTimeLeft: playerMatch.durationSeconds,
+      battleWinner: null,
+      isTournamentOpen: false,
+      isTournamentResultOpen: false,
+      currentLevelIndex: targetLevelIdx,
+      level: targetLevel,
+      userInputs: {},
+      lockedCells: {},
+      solvedClues: [],
+      cellAuthors: {},
+      clueAuthors: {},
+      wordStreak: 0,
+      comboMessage: null,
+      validationMessage: null,
+      activeClueId: null,
+      focusedCell: null,
+      currentTab: 'game',
+      tournamentAiCooldown: initialAiCooldown,
+    });
+
+    get().showGlobalToast(`Piala Nusantara: Kamu vs ${opponent.name} (${opponent.origin})!`, 3200);
+  },
+
+  tickTournamentAi: () => {
+    const {
+      activeTournamentMatch,
+      level,
+      solvedClues,
+      tournamentAiCooldown,
+      claimBattleClue,
+      isBattleResultOpen,
+      isTournamentResultOpen,
+    } = get();
+
+    if (!activeTournamentMatch || isBattleResultOpen || isTournamentResultOpen) return;
+
+    if (tournamentAiCooldown > 1) {
+      set({ tournamentAiCooldown: tournamentAiCooldown - 1 });
+      return;
+    }
+
+    const opponent = activeTournamentMatch.player1.isPlayer
+      ? activeTournamentMatch.player2
+      : activeTournamentMatch.player1;
+
+    const allClues = [...(level.clues?.across || []), ...(level.clues?.down || [])];
+    const unsolved = allClues.filter((c) => !solvedClues.includes(c.id));
+
+    if (unsolved.length > 0) {
+      const chosen = unsolved[Math.floor(Math.random() * unsolved.length)];
+      claimBattleClue(chosen.id, [chosen.id], 'partner', opponent.name);
+    }
+
+    const nextCooldown = Math.max(
+      5,
+      Math.floor(13 - (opponent.speedRating - 70) * 0.25) + Math.floor(Math.random() * 3 - 1)
+    );
+    set({ tournamentAiCooldown: nextCooldown });
+  },
   openBattleLobby: (mode) => {
     const battleMode = mode || 'tug_of_war';
     set((state) => ({
@@ -1404,8 +1555,21 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   tickBattleTimer: () => {
-    const { gameMode, battleTimeLeft, isBattleResultOpen, finishBattleRound, soundEnabled } = get();
-    if (gameMode !== '1v1_battle' || isBattleResultOpen) return;
+    const {
+      gameMode,
+      battleTimeLeft,
+      isBattleResultOpen,
+      isTournamentResultOpen,
+      activeTournamentMatch,
+      tickTournamentAi,
+      finishBattleRound,
+      soundEnabled,
+    } = get();
+    if (gameMode !== '1v1_battle' || isBattleResultOpen || isTournamentResultOpen) return;
+
+    if (activeTournamentMatch) {
+      tickTournamentAi();
+    }
 
     if (battleTimeLeft <= 1) {
       finishBattleRound();
@@ -1501,6 +1665,8 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   finishBattleRound: () => {
     const {
+      activeTournamentMatch,
+      tournamentState,
       battleScores,
       battleRoundWins,
       battleCurrentRound,
@@ -1509,6 +1675,45 @@ export const useGameStore = create<GameState>((set, get) => ({
       addStars,
       showGlobalToast,
     } = get();
+
+    if (activeTournamentMatch) {
+      const playerWon = battleScores.local > battleScores.partner;
+      const opponent = activeTournamentMatch.player1.isPlayer ? activeTournamentMatch.player2 : activeTournamentMatch.player1;
+      const { nextState, trophyAwarded } = advanceTournament(
+        tournamentState,
+        playerWon,
+        battleScores.local,
+        battleScores.partner
+      );
+
+      const nextTrophies = loadTrophies();
+
+      if (playerWon) {
+        addStars(50);
+        if (soundEnabled) soundManager.playVictory();
+        confetti({ particleCount: 160, spread: 80, origin: { y: 0.6 } });
+        showGlobalToast(`Kemenangan Gemilang! Kamu mengalahkan ${opponent.name}!`, 3500);
+      } else {
+        if (soundEnabled) soundManager.playWordWrong();
+        showGlobalToast(`Pertandingan sengit! ${opponent.name} lolos ke babak berikutnya.`, 3500);
+      }
+
+      set({
+        tournamentState: nextState,
+        trophies: nextTrophies,
+        isTournamentResultOpen: true,
+        tournamentResultData: {
+          won: playerWon,
+          roundTitle: activeTournamentMatch.roundTitle,
+          trophyAwarded,
+          opponent,
+          playerScore: battleScores.local,
+          opponentScore: battleScores.partner,
+        },
+        battleWinner: playerWon ? 'local' : 'partner',
+      });
+      return;
+    }
 
     let roundWinner: 'local' | 'partner' | 'draw' = 'draw';
     const nextRoundWins = { ...battleRoundWins };

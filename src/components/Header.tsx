@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Settings, Star, Clock, ChevronDown, Zap, LogOut, Swords, Shield } from 'lucide-react';
+import { ArrowLeft, Settings, Star, Clock, ChevronDown, Zap, LogOut, Swords, Shield, Trophy } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { getBattlePalette } from '../lib/battlePalette';
 
@@ -28,6 +28,7 @@ export const Header: React.FC = () => {
     battleCurrentRound,
     battleScores,
     battleTimeLeft,
+    activeTournamentMatch,
     theme,
   } = useGameStore();
 
@@ -58,8 +59,11 @@ export const Header: React.FC = () => {
   const isDailyRush = gameMode === 'daily_rush';
   const isBattle = gameMode === '1v1_battle';
   const palette = getBattlePalette(theme);
+  const tournamentOpponent = activeTournamentMatch
+    ? (activeTournamentMatch.player1.isPlayer ? activeTournamentMatch.player2 : activeTournamentMatch.player1)
+    : null;
   const partnerPeer = mabarPeers.find((p) => p.name !== user.name);
-  const partnerName = partnerPeer?.name || 'Lawan';
+  const partnerName = tournamentOpponent?.name || partnerPeer?.name || 'Lawan';
 
   return (
     <header className="w-full px-3.5 pt-[max(12px,env(safe-area-inset-top))] pb-1.5 flex flex-col gap-1.5 select-none shrink-0 z-20">
@@ -68,6 +72,12 @@ export const Header: React.FC = () => {
         <button
           type="button"
           onClick={() => {
+            if (activeTournamentMatch) {
+              if (window.confirm('Tinggalkan babak Piala Nusantara? Pertandingan ini akan dibatalkan.')) {
+                setCurrentTab('arena');
+              }
+              return;
+            }
             if (isBattle) {
               if (window.confirm('Tinggalkan duel 1v1 yang sedang berjalan?')) {
                 setCurrentTab('arena');
@@ -90,7 +100,19 @@ export const Header: React.FC = () => {
         </button>
 
         {/* Center: Stage Bab & Level or Daily Rush Mode or 1v1 Battle or Mabar Mode */}
-        {isBattle ? (
+        {activeTournamentMatch ? (
+          <div className="flex flex-col items-center text-center px-2 py-0.5">
+            <div className="flex items-center gap-1 leading-none mb-0.5">
+              <Trophy className="w-2.5 h-2.5 text-amber-500 fill-amber-500 stroke-[2]" />
+              <span className="text-[8.5px] font-black uppercase tracking-wider text-amber-500">
+                PIALA NUSANTARA • {activeTournamentMatch.roundTitle.toUpperCase()}
+              </span>
+            </div>
+            <h2 className="text-[13.5px] font-black tracking-tight leading-tight text-[var(--text-primary)]">
+              vs {tournamentOpponent?.name} ({tournamentOpponent?.origin})
+            </h2>
+          </div>
+        ) : isBattle ? (
           <div className="flex flex-col items-center text-center px-2 py-0.5">
             <div className="flex items-center gap-1 leading-none mb-0.5">
               <Swords className="w-2.5 h-2.5 text-[var(--accent-main)] stroke-[3]" />
