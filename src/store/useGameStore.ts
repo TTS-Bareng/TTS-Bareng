@@ -4,8 +4,15 @@ import { type LevelData, findClueById } from '../lib/crossword';
 import { THEMES, type ThemeKey, applyTheme } from '../lib/themes';
 import { soundManager } from '../lib/audio';
 import confetti from 'canvas-confetti';
+import { mabarRealtime } from '../lib/mabarRealtime';
 
 export type TabType = 'home' | 'social' | 'game' | 'quests' | 'profile' | 'stats' | 'settings' | 'arena';
+
+export interface MabarPeerInfo {
+  id: string;
+  name: string;
+  avatar: string;
+}
 
 export interface UserProfile {
   name: string;
@@ -106,6 +113,15 @@ interface GameState {
   clearGlobalToast: () => void;
   activeRoomCode: string | null;
   setActiveRoomCode: (code: string | null) => void;
+
+  // Mabar Realtime Peer-to-Peer & Supabase live sync
+  mabarPeers: MabarPeerInfo[];
+  partnerCursor: { key: string; name: string } | null;
+  setMabarPeers: (peers: MabarPeerInfo[]) => void;
+  setPartnerCursor: (cursor: { key: string; name: string } | null) => void;
+  applyRemoteInput: (key: string, letter: string, partnerName: string) => void;
+  applyRemoteDelete: (key: string) => void;
+  applyRemoteClueSolved: (clueId: string, newlySolved: string[], partnerName: string) => void;
 
   // Modals
   isSettingsOpen: boolean;
@@ -368,7 +384,70 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
   clearGlobalToast: () => set({ globalToast: null }),
   activeRoomCode: null,
-  setActiveRoomCode: (code: string | null) => set({ activeRoomCode: code }),
+  setActiveRoomCode: (code: string | null) => {
+    set({ activeRoomCode: code });
+    if (code) {
+      const { user } = get();
+      mabarRealtime.joinRoom(code, { name: user.name, avatar: user.avatar });
+    } else {
+      mabarRealtime.leaveRoom();
+    }
+  },
+
+  mabarPeers: [],
+  partnerCursor: null,
+  setMabarPeers: (peers) => set({ mabarPeers: peers }),
+  setPartnerCursor: (cursor) => set({ partnerCursor: cursor }),
+
+  applyRemoteInput: (key, letter, partnerName) => {
+    const { userInputs, soundEnabled, lockedCells } = get();
+    if (lockedCells[key]) return;
+    const newInputs = { ...userInputs, [key]: letter };
+    if (soundEnabled) soundManager.playKeyClick();
+    set({
+      userInputs: newInputs,
+      partnerCursor: { key, name: partnerName },
+    });
+  },
+
+  applyRemoteDelete: (key) => {
+    const { userInputs, lockedCells } = get();
+    if (lockedCells[key]) return;
+    const newInputs = { ...userInputs };
+    delete newInputs[key];
+    set({ userInputs: newInputs });
+  },
+
+  applyRemoteClueSolved: (clueId, newlySolved, partnerName) => {
+    const { solvedClues, level, lockedCells, soundEnabled, userInputs } = get();
+    const updatedSolved = Array.from(new Set([...solvedClues, ...newlySolved, clueId]));
+    const newLocked = { ...lockedCells };
+    const newInputs = { ...userInputs };
+
+    updatedSolved.forEach((cId) => {
+      const clue = findClueById(level, cId);
+      if (clue) {
+        clue.cells.forEach(([r, c], idx) => {
+          const k = `${r},${c}`;
+          newLocked[k] = true;
+          newInputs[k] = clue.answer[idx];
+        });
+      }
+    });
+
+    if (soundEnabled) soundManager.playWordCorrect(1);
+    set({
+      solvedClues: updatedSolved,
+      lockedCells: newLocked,
+      userInputs: newInputs,
+      validationMessage: `${partnerName} memecahkan kata!`,
+    });
+    setTimeout(() => {
+      if (get().validationMessage?.includes(partnerName)) {
+        set({ validationMessage: null });
+      }
+    }, 2500);
+  },
 
   isSettingsOpen: false,
   isLevelCompleteOpen: false,
@@ -614,6 +693,10 @@ export const useGameStore = create<GameState>((set, get) => ({
       focusedCell: [r, c],
       shakingCells: [],
     });
+
+    if (get().activeRoomCode) {
+      mabarRealtime.broadcastCursor(`${r},${c}`);
+    }
   },
 
   inputLetter: (letter: string) => {
@@ -641,6 +724,9 @@ export const useGameStore = create<GameState>((set, get) => ({
     if (lockedCells[key]) return;
 
     const newInputs = { ...userInputs, [key]: letter.toUpperCase() };
+    if (get().activeRoomCode) {
+      mabarRealtime.broadcastInput(key, letter.toUpperCase());
+    }
     if (soundEnabled) soundManager.playKeyClick();
     if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
       navigator.vibrate(8);
@@ -687,6 +773,9 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     if (newlySolvedClues.length > 0) {
       // Word(s) solved!
+      if (get().activeRoomCode) {
+        mabarRealtime.broadcastClueSolved(activeClueId || newlySolvedClues[0], newlySolvedClues);
+      }
       nextWordStreak = wordStreak + newlySolvedClues.length;
       if (soundEnabled) soundManager.playWordCorrect(nextWordStreak);
       if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
@@ -872,6 +961,9 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     if (newInputs[key] && !lockedCells[key]) {
       delete newInputs[key];
+      if (get().activeRoomCode) {
+        mabarRealtime.broadcastDelete(key);
+      }
     } else {
       if (clue && idx > 0) {
         let prevIdx = idx - 1;
@@ -882,6 +974,9 @@ export const useGameStore = create<GameState>((set, get) => ({
           const prevCell = clue.cells[prevIdx];
           const prevKey = `${prevCell[0]},${prevCell[1]}`;
           delete newInputs[prevKey];
+          if (get().activeRoomCode) {
+            mabarRealtime.broadcastDelete(prevKey);
+          }
           set({
             userInputs: newInputs,
             focusedCell: prevCell,

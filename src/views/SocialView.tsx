@@ -37,6 +37,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
     showGlobalToast,
     startDailyRush,
     dailyRushRecord,
+    mabarPeers,
   } = useGameStore();
 
   const [todayStr] = useState(getTodayDateString);
@@ -127,6 +128,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
   };
 
   const handleLaunchGame = () => {
+    setActiveRoomCode(roomCode);
     selectLevel(currentLevelIndex);
     setCurrentTab('game');
   };
@@ -308,12 +310,26 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
                     <span>{user.name?.charAt(0) || 'P'}</span>
                   )}
                 </div>
-                <div className="inline-block h-6 w-6 rounded-full ring-2 ring-white/40 bg-white/15 flex items-center justify-center text-[10px] font-black text-white/80 shrink-0">
-                  +
-                </div>
+                {mabarPeers.length > 1 ? (
+                  <div className="inline-block h-6 w-6 rounded-full ring-2 ring-white/40 bg-white/25 overflow-hidden flex items-center justify-center text-[10px] font-black text-white shrink-0">
+                    {mabarPeers.find((p) => p.name !== user.name)?.avatar ? (
+                      <img
+                        src={mabarPeers.find((p) => p.name !== user.name)?.avatar}
+                        alt="Teman Mabar"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span>{mabarPeers.find((p) => p.name !== user.name)?.name?.charAt(0) || 'T'}</span>
+                    )}
+                  </div>
+                ) : (
+                  <div className="inline-block h-6 w-6 rounded-full ring-2 ring-white/40 bg-white/15 flex items-center justify-center text-[10px] font-black text-white/80 shrink-0">
+                    +
+                  </div>
+                )}
               </div>
               <span className="text-[9.5px] font-bold text-white/90">
-                1/2 Pemain Terhubung
+                {mabarPeers.length >= 2 ? '2/2 Terhubung (Papan Siap Live!)' : '1/2 Menunggu Teman...'}
               </span>
             </div>
 

@@ -20,6 +20,7 @@ export const Tile: React.FC<TileProps> = ({ r, c, style }) => {
     poppingCells,
     shakingCells,
     selectCell,
+    partnerCursor,
   } = useGameStore();
 
   const tileData = level.tiles.find((t) => t.r === r && t.c === c);
@@ -129,6 +130,15 @@ export const Tile: React.FC<TileProps> = ({ r, c, style }) => {
           transition={{ duration: 0.38, ease: 'easeOut' }}
           className="absolute inset-0 rounded-[9px] sm:rounded-[11px] ring-2 ring-[var(--accent-main)] pointer-events-none"
         />
+      )}
+
+      {/* Partner active cursor indicator (Mabar live sync) */}
+      {partnerCursor?.key === key && (
+        <div className="absolute inset-0 rounded-[9px] sm:rounded-[11px] ring-2 ring-[var(--accent-main)] pointer-events-none z-30 animate-pulse">
+          <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-1.5 py-0.2 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[7px] font-black uppercase tracking-wider shadow-xs whitespace-nowrap">
+            {partnerCursor.name.split(' ')[0]}
+          </span>
+        </div>
       )}
     </motion.button>
   );

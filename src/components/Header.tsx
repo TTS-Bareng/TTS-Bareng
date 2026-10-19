@@ -17,6 +17,8 @@ export const Header: React.FC = () => {
     isLevelCompleteOpen,
     gameMode,
     dailyRushTimeLeft,
+    activeRoomCode,
+    mabarPeers,
   } = useGameStore();
 
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
@@ -58,13 +60,25 @@ export const Header: React.FC = () => {
           <ArrowLeft className="w-4 h-4 stroke-[2.2]" />
         </button>
 
-        {/* Center: Stage Bab & Level or Daily Rush Mode */}
+        {/* Center: Stage Bab & Level or Daily Rush Mode or Mabar Mode */}
         {isDailyRush ? (
           <div className="flex flex-col items-center text-center px-2 py-0.5">
             <div className="flex items-center gap-1 leading-none mb-0.5">
               <Zap className="w-2.5 h-2.5 text-[var(--accent-main)] stroke-[3]" />
               <span className="text-[8.5px] font-black uppercase tracking-wider text-[var(--accent-main)]">
                 DAILY RUSH • 90S KILAT
+              </span>
+            </div>
+            <h2 className="text-[14.5px] font-black tracking-tight leading-tight text-[var(--text-primary)]">
+              {level.title}
+            </h2>
+          </div>
+        ) : activeRoomCode ? (
+          <div className="flex flex-col items-center text-center px-2 py-0.5">
+            <div className="flex items-center gap-1.5 leading-none mb-0.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-main)] animate-pulse" />
+              <span className="text-[8.5px] font-black uppercase tracking-wider text-[var(--accent-main)]">
+                MABAR LIVE • {activeRoomCode} ({Math.max(1, mabarPeers.length)}/2)
               </span>
             </div>
             <h2 className="text-[14.5px] font-black tracking-tight leading-tight text-[var(--text-primary)]">
