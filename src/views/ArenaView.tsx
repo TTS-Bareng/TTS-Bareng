@@ -355,76 +355,80 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' | 'tournament'
           : 'pb-[max(90px,calc(75px+env(safe-area-inset-bottom)))]'
       } select-none overflow-y-auto relative`}
     >
-      {/* 1. Header: Typographic Title + Live Streak & Stars Pill */}
-      <header className="flex items-center justify-between px-0.5 relative z-10 shrink-0">
-        <div>
-          <span className="text-[9.5px] font-black uppercase tracking-wider text-[var(--accent-main)] block leading-none mb-0.5">
-            PUSAT PERMAINAN
-          </span>
-          <h2 className="text-[18px] font-black text-[var(--text-primary)] tracking-tight leading-tight">
-            Arena & Petualangan
-          </h2>
-        </div>
+      {/* 1. Header & Primary Segmented Switcher (Hidden when inside a tournament room) */}
+      {!activeTournament && (
+        <>
+          <header className="flex items-center justify-between px-0.5 relative z-10 shrink-0">
+            <div>
+              <span className="text-[9.5px] font-black uppercase tracking-wider text-[var(--accent-main)] block leading-none mb-0.5">
+                PUSAT PERMAINAN
+              </span>
+              <h2 className="text-[18px] font-black text-[var(--text-primary)] tracking-tight leading-tight">
+                Arena & Petualangan
+              </h2>
+            </div>
 
-        {/* Live Streak & Stars Pill */}
-        <div className="h-8.5 px-3 rounded-full flex items-center gap-2.5 liquid-glass-card">
-          <div className="flex items-center gap-1 text-[var(--accent-main)]">
-            <Flame className="w-3.5 h-3.5 fill-current text-[var(--accent-main)]" />
-            <span className="text-[11.5px] font-black text-[var(--text-primary)]">
-              {streak}
-            </span>
+            {/* Live Streak & Stars Pill */}
+            <div className="h-8.5 px-3 rounded-full flex items-center gap-2.5 liquid-glass-card">
+              <div className="flex items-center gap-1 text-[var(--accent-main)]">
+                <Flame className="w-3.5 h-3.5 fill-current text-[var(--accent-main)]" />
+                <span className="text-[11.5px] font-black text-[var(--text-primary)]">
+                  {streak}
+                </span>
+              </div>
+              <span className="w-0.5 h-3 bg-black/10 dark:bg-white/15 rounded-full" />
+              <div className="flex items-center gap-1 text-[var(--accent-main)]">
+                <Star className="w-3.5 h-3.5 fill-current text-[var(--accent-main)]" />
+                <span className="text-[11.5px] font-black text-[var(--text-primary)]">
+                  {stars}
+                </span>
+              </div>
+            </div>
+          </header>
+
+          {/* 2. Primary Segmented Switch: Solo vs Mabar vs Turnamen */}
+          <div className="w-full h-11 p-1 rounded-full liquid-glass-card flex items-center z-10 relative shrink-0 gap-1">
+            <button
+              type="button"
+              onClick={() => setArenaSubTab('solo')}
+              className={`flex-1 h-full rounded-full text-[11px] font-black transition-all flex items-center justify-center gap-1.5 cursor-pointer tactile-active ${
+                hubMode === 'solo'
+                  ? 'liquid-glass-tile-active shadow-xs'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+              }`}
+            >
+              <Compass className="w-3.5 h-3.5 stroke-[2.2]" />
+              <span>Solo</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setArenaSubTab('mabar')}
+              className={`flex-1 h-full rounded-full text-[11px] font-black transition-all flex items-center justify-center gap-1.5 cursor-pointer tactile-active ${
+                hubMode === 'mabar'
+                  ? 'liquid-glass-tile-active shadow-xs'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+              }`}
+            >
+              <Users className="w-3.5 h-3.5 stroke-[2.2]" />
+              <span>Mabar</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setArenaSubTab('tournament')}
+              className={`flex-1 h-full rounded-full text-[11px] font-black transition-all flex items-center justify-center gap-1.5 cursor-pointer tactile-active ${
+                hubMode === 'tournament'
+                  ? 'liquid-glass-tile-active shadow-xs'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+              }`}
+            >
+              <Trophy className="w-3.5 h-3.5 stroke-[2.2]" />
+              <span>Turnamen</span>
+            </button>
           </div>
-          <span className="w-0.5 h-3 bg-black/10 dark:bg-white/15 rounded-full" />
-          <div className="flex items-center gap-1 text-[var(--accent-main)]">
-            <Star className="w-3.5 h-3.5 fill-current text-[var(--accent-main)]" />
-            <span className="text-[11.5px] font-black text-[var(--text-primary)]">
-              {stars}
-            </span>
-          </div>
-        </div>
-      </header>
-
-      {/* 2. Primary Segmented Switch: Solo vs Mabar vs Turnamen */}
-      <div className="w-full h-11 p-1 rounded-full liquid-glass-card flex items-center z-10 relative shrink-0 gap-1">
-        <button
-          type="button"
-          onClick={() => setArenaSubTab('solo')}
-          className={`flex-1 h-full rounded-full text-[11px] font-black transition-all flex items-center justify-center gap-1.5 cursor-pointer tactile-active ${
-            hubMode === 'solo'
-              ? 'liquid-glass-tile-active shadow-xs'
-              : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-          }`}
-        >
-          <Compass className="w-3.5 h-3.5 stroke-[2.2]" />
-          <span>Solo</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setArenaSubTab('mabar')}
-          className={`flex-1 h-full rounded-full text-[11px] font-black transition-all flex items-center justify-center gap-1.5 cursor-pointer tactile-active ${
-            hubMode === 'mabar'
-              ? 'liquid-glass-tile-active shadow-xs'
-              : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-          }`}
-        >
-          <Users className="w-3.5 h-3.5 stroke-[2.2]" />
-          <span>Mabar</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setArenaSubTab('tournament')}
-          className={`flex-1 h-full rounded-full text-[11px] font-black transition-all flex items-center justify-center gap-1.5 cursor-pointer tactile-active ${
-            hubMode === 'tournament'
-              ? 'liquid-glass-tile-active shadow-xs'
-              : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-          }`}
-        >
-          <Trophy className="w-3.5 h-3.5 stroke-[2.2]" />
-          <span>Turnamen</span>
-        </button>
-      </div>
+        </>
+      )}
 
       {/* ============================================================
           MODE 1: PETUALANGAN SOLO

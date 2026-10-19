@@ -21,6 +21,7 @@ import { useGameStore } from '../store/useGameStore';
 import { type CommunityTournamentMatch } from '../lib/tournament';
 import { TournamentQrModal } from '../components/TournamentQrModal';
 import { QrScannerModal } from '../components/QrScannerModal';
+import { TournamentBracketDrawingOverlay } from '../components/TournamentBracketDrawingOverlay';
 import { extractTournamentCodeFromText, extractRoomCodeFromText, createTournamentDeepLink } from '../lib/deeplink';
 import { MASCOTS } from '../assets/maskots';
 
@@ -45,8 +46,14 @@ export const TournamentHubView: React.FC = () => {
   } = useGameStore();
 
   const [copiedCode, setCopiedCode] = useState(false);
+  const [isDrawingBracket, setIsDrawingBracket] = useState(false);
 
   const isHost = activeTournament?.hostId === (user.id || 'player_local');
+
+  const handleStartLobbyWithAnimation = () => {
+    setIsDrawingBracket(true);
+    startTournamentLobby();
+  };
 
   const handleCopyCode = () => {
     if (!activeTournament) return;
@@ -180,9 +187,13 @@ export const TournamentHubView: React.FC = () => {
             {activeTournament.players.map((p, idx) => (
               <div
                 key={p.id || idx}
-                className="p-3 rounded-2xl liquid-glass-card border border-[var(--border-card)] flex items-center gap-2.5 shadow-xs"
+                className="p-3 rounded-[22px] border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden flex items-center gap-2.5 transition-all"
+                style={{
+                  background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
+                }}
               >
-                <div className="w-9 h-9 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/30 flex items-center justify-center overflow-hidden shrink-0">
+                <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
+                <div className="w-9 h-9 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/30 flex items-center justify-center overflow-hidden shrink-0 relative z-10 shadow-2xs">
                   {p.avatar ? (
                     <img src={p.avatar} alt={p.name} className="w-full h-full object-cover" />
                   ) : (
@@ -191,7 +202,7 @@ export const TournamentHubView: React.FC = () => {
                     </span>
                   )}
                 </div>
-                <div className="flex flex-col min-w-0">
+                <div className="flex flex-col min-w-0 relative z-10">
                   <div className="flex items-center gap-1">
                     <span className="text-[12px] font-black text-[var(--text-primary)] truncate">
                       {p.name}
@@ -211,7 +222,7 @@ export const TournamentHubView: React.FC = () => {
               <div
                 key={`empty_${idx}`}
                 onClick={handleShareWhatsApp}
-                className="p-3 rounded-2xl border border-dashed border-[var(--border-card)] bg-black/5 dark:bg-white/5 flex items-center gap-2.5 cursor-pointer tactile-active hover:border-[var(--accent-main)]/40 transition-colors"
+                className="p-3 rounded-[22px] border border-dashed border-[var(--border-card)] bg-black/5 dark:bg-white/5 flex items-center gap-2.5 cursor-pointer tactile-active hover:border-[var(--accent-main)]/40 transition-colors"
               >
                 <div className="w-9 h-9 rounded-full border border-dashed border-[var(--text-secondary)]/30 flex items-center justify-center text-[var(--text-secondary)] shrink-0">
                   <Plus className="w-4 h-4" />
@@ -234,9 +245,9 @@ export const TournamentHubView: React.FC = () => {
           {isHost ? (
             <button
               type="button"
-              onClick={startTournamentLobby}
+              onClick={handleStartLobbyWithAnimation}
               disabled={activeTournament.players.length < 2}
-              className={`w-full py-3 rounded-2xl text-[13px] font-black flex items-center justify-center gap-2 shadow-md cursor-pointer tactile-active transition-all ${
+              className={`w-full py-3.5 rounded-2xl text-[13px] font-black flex items-center justify-center gap-2 shadow-md cursor-pointer tactile-active transition-all ${
                 activeTournament.players.length >= 2
                   ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] hover:opacity-95'
                   : 'bg-black/10 dark:bg-white/10 text-[var(--text-secondary)] opacity-50 cursor-not-allowed'
@@ -250,7 +261,7 @@ export const TournamentHubView: React.FC = () => {
               </span>
             </button>
           ) : (
-            <div className="p-3 rounded-2xl liquid-glass-card border border-[var(--border-card)] text-center text-[11px] font-bold text-[var(--text-secondary)]">
+            <div className="p-3.5 rounded-2xl liquid-glass-card border border-[var(--border-card)] text-center text-[11px] font-bold text-[var(--text-secondary)]">
               ⏳ Menunggu Host ({activeTournament.hostName}) memulai turnamen...
             </div>
           )}
@@ -280,6 +291,16 @@ export const TournamentHubView: React.FC = () => {
   // =========================================================================
   if (activeTournament && activeTournament.status === 'in_progress') {
     const myId = user.id || 'player_local';
+
+    if (isDrawingBracket) {
+      return (
+        <TournamentBracketDrawingOverlay
+          tournament={activeTournament}
+          myId={myId}
+          onComplete={() => setIsDrawingBracket(false)}
+        />
+      );
+    }
 
     return (
       <div className="w-full flex flex-col gap-3.5 relative z-10 pb-8">
@@ -572,17 +593,26 @@ export const TournamentHubView: React.FC = () => {
           </div>
         </div>
 
-        {/* 2. Quick Action Cards: Buat Turnamen & Gabung/Pindai QR (2 Kolom Terpadu) */}
+        {/* 2. Quick Action Cards: Buat Turnamen & Gabung/Pindai QR (Style Foto Kedua Bento) */}
         <div className="grid grid-cols-2 gap-2.5">
           {/* Card A: Buat Turnamen */}
           <div
             onClick={openCreateTournament}
-            className="p-3.5 rounded-[24px] tournament-surface-card flex flex-col justify-between gap-3 cursor-pointer tactile-active group hover:border-[var(--accent-main)]/40 transition-all"
+            className="p-3.5 sm:p-4 rounded-[24px] border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden flex flex-col justify-between gap-3 cursor-pointer tactile-active group transition-all hover:border-[var(--accent-main)]/40"
+            style={{
+              background: 'linear-gradient(145deg, var(--accent-light) 0%, var(--bg-card) 65%, var(--accent-light) 100%)',
+            }}
           >
-            <div className="w-9 h-9 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)] shadow-2xs group-hover:scale-105 transition-transform">
-              <Plus className="w-4.5 h-4.5 stroke-[2.4]" />
+            <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
+            <div className="flex items-center justify-between relative z-10">
+              <span className="text-[8.5px] font-black px-2 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)]">
+                HOST
+              </span>
+              <div className="w-8 h-8 rounded-xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)] shadow-2xs group-hover:scale-105 transition-transform">
+                <Plus className="w-4 h-4 stroke-[2.4]" />
+              </div>
             </div>
-            <div>
+            <div className="relative z-10">
               <h4 className="text-[13px] font-black text-[var(--text-primary)] leading-tight mb-0.5">
                 Buat Turnamen
               </h4>
@@ -590,7 +620,7 @@ export const TournamentHubView: React.FC = () => {
                 Host kamar sistem gugur
               </p>
             </div>
-            <div className="flex items-center gap-1 text-[10px] font-black text-[var(--accent-main)]">
+            <div className="flex items-center gap-1 text-[10px] font-black text-[var(--accent-main)] relative z-10">
               <span>Mulai</span>
               <ArrowRight className="w-3 h-3 stroke-[2.4] group-hover:translate-x-0.5 transition-transform" />
             </div>
@@ -599,12 +629,21 @@ export const TournamentHubView: React.FC = () => {
           {/* Card B: Gabung & Pindai QR */}
           <div
             onClick={openJoinTournament}
-            className="p-3.5 rounded-[24px] tournament-surface-card flex flex-col justify-between gap-3 cursor-pointer tactile-active group hover:border-[var(--accent-main)]/40 transition-all"
+            className="p-3.5 sm:p-4 rounded-[24px] border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden flex flex-col justify-between gap-3 cursor-pointer tactile-active group transition-all hover:border-[var(--accent-main)]/40"
+            style={{
+              background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+            }}
           >
-            <div className="w-9 h-9 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)] shadow-2xs group-hover:scale-105 transition-transform">
-              <QrCode className="w-4.5 h-4.5 stroke-[2.2]" />
+            <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
+            <div className="flex items-center justify-between relative z-10">
+              <span className="text-[8.5px] font-black px-2 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)]">
+                JOIN
+              </span>
+              <div className="w-8 h-8 rounded-xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)] shadow-2xs group-hover:scale-105 transition-transform">
+                <QrCode className="w-4 h-4 stroke-[2.2]" />
+              </div>
             </div>
-            <div>
+            <div className="relative z-10">
               <h4 className="text-[13px] font-black text-[var(--text-primary)] leading-tight mb-0.5">
                 Gabung & Pindai
               </h4>
@@ -612,7 +651,7 @@ export const TournamentHubView: React.FC = () => {
                 Ketik PIN atau scan QR
               </p>
             </div>
-            <div className="flex items-center gap-1 text-[10px] font-black text-[var(--accent-main)]">
+            <div className="flex items-center gap-1 text-[10px] font-black text-[var(--accent-main)] relative z-10">
               <span>Masuk</span>
               <ArrowRight className="w-3 h-3 stroke-[2.4] group-hover:translate-x-0.5 transition-transform" />
             </div>
@@ -635,9 +674,13 @@ export const TournamentHubView: React.FC = () => {
             {publicTournaments.map((item) => (
               <div
                 key={item.id}
-                className="w-full p-3.5 rounded-[22px] tournament-surface-card flex items-center justify-between gap-3 hover:border-[var(--accent-main)]/30 transition-all"
+                className="w-full p-3.5 rounded-[22px] border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden flex items-center justify-between gap-3 hover:border-[var(--accent-main)]/35 transition-all"
+                style={{
+                  background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+                }}
               >
-                <div className="flex items-center gap-3 min-w-0">
+                <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
+                <div className="flex items-center gap-3 min-w-0 relative z-10">
                   <div className="w-9 h-9 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/20 flex items-center justify-center text-[var(--accent-main)] shrink-0">
                     <Trophy className="w-4 h-4 fill-current stroke-none" />
                   </div>
@@ -666,7 +709,7 @@ export const TournamentHubView: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => handleJoinPublicItem(item.code)}
-                  className="py-1.5 px-3.5 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[10.5px] font-black flex items-center gap-1 shrink-0 cursor-pointer tactile-active hover:opacity-95 shadow-xs transition-opacity"
+                  className="py-1.5 px-3.5 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[10.5px] font-black flex items-center gap-1 shrink-0 cursor-pointer tactile-active hover:opacity-95 shadow-xs transition-opacity relative z-10"
                 >
                   <span>Ikut</span>
                   <ArrowRight className="w-3 h-3 stroke-[2.4]" />
@@ -677,8 +720,14 @@ export const TournamentHubView: React.FC = () => {
         </div>
 
         {/* 4. Format Regulasi & Hadiah Turnamen (Themed Bento) */}
-        <div className="w-full rounded-[24px] p-3.5 sm:p-4 tournament-surface-card flex flex-col gap-2.5">
-          <div className="flex items-center justify-between">
+        <div
+          className="w-full rounded-[24px] p-3.5 sm:p-4 border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden flex flex-col gap-2.5"
+          style={{
+            background: 'linear-gradient(145deg, var(--accent-light) 0%, var(--bg-card) 65%, var(--accent-light) 100%)',
+          }}
+        >
+          <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
+          <div className="flex items-center justify-between relative z-10">
             <div className="flex items-center gap-2">
               <Shield className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2]" />
               <span className="text-[12px] font-black text-[var(--text-primary)]">
@@ -690,8 +739,8 @@ export const TournamentHubView: React.FC = () => {
             </span>
           </div>
 
-          <div className="grid grid-cols-3 gap-2">
-            <div className="p-2.5 rounded-2xl tournament-sub-card flex flex-col items-center text-center">
+          <div className="grid grid-cols-3 gap-2 relative z-10">
+            <div className="p-2.5 rounded-2xl bg-[var(--accent-light)]/40 border border-[var(--accent-main)]/20 flex flex-col items-center text-center">
               <Users className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2] mb-1" />
               <span className="text-[11px] font-black text-[var(--text-primary)]">
                 4-16 Slot
@@ -701,7 +750,7 @@ export const TournamentHubView: React.FC = () => {
               </span>
             </div>
 
-            <div className="p-2.5 rounded-2xl tournament-sub-card flex flex-col items-center text-center">
+            <div className="p-2.5 rounded-2xl bg-[var(--accent-light)]/40 border border-[var(--accent-main)]/20 flex flex-col items-center text-center">
               <Clock className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2] mb-1" />
               <span className="text-[11px] font-black text-[var(--text-primary)]">
                 60-90s
@@ -711,7 +760,7 @@ export const TournamentHubView: React.FC = () => {
               </span>
             </div>
 
-            <div className="p-2.5 rounded-2xl tournament-sub-card flex flex-col items-center text-center">
+            <div className="p-2.5 rounded-2xl bg-[var(--accent-light)]/40 border border-[var(--accent-main)]/20 flex flex-col items-center text-center">
               <Sparkles className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2] mb-1" />
               <span className="text-[11px] font-black text-[var(--text-primary)]">
                 +200 ★

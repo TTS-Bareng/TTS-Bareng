@@ -68,57 +68,42 @@ export const CreateTournamentModal: React.FC = () => {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3.5 sm:p-4 select-none overflow-y-auto">
-        {/* Backdrop */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.65 }}
-          exit={{ opacity: 0 }}
-          onClick={closeCreateTournament}
-          className="absolute inset-0 bg-black/60 backdrop-blur-md"
-        />
-
-        {/* Modal Window Container (Apple Liquid Glass - matching PlayerIdModal) */}
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0, y: 20 }}
-          animate={{ scale: 1, opacity: 1, y: 0 }}
-          exit={{ scale: 0.9, opacity: 0, y: 20 }}
-          transition={{ type: 'spring', damping: 25, stiffness: 320 }}
-          className="relative w-full max-w-[390px] max-h-[92vh] overflow-y-auto no-scrollbar rounded-[28px] p-4 sm:p-5 flex flex-col gap-3.5 shadow-2xl z-10 border border-black/10 dark:border-white/15 liquid-glass-card my-auto"
-        >
-          {/* Top Specular Sheen (Apple Style) */}
-          <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
-
-          {/* Modal Header */}
-          <div className="flex items-center justify-between relative z-10">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)] shadow-2xs">
-                <Trophy className="w-4 h-4 fill-current stroke-none" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-[8.5px] font-black uppercase tracking-wider text-[var(--accent-main)]">
-                  HOST TURNAMEN KOMUNITAS
-                </span>
-                <h3 className="text-[16px] font-black text-[var(--text-primary)] leading-tight">
-                  Buat Turnamen Baru
-                </h3>
-              </div>
+      <div
+        style={{ background: 'var(--bg-gradient, var(--bg-app))' }}
+        className="fixed inset-0 z-50 flex flex-col select-none overflow-hidden transition-colors duration-300"
+      >
+        {/* Sticky Header Top */}
+        <div className="w-full max-w-md mx-auto px-4 pt-[max(14px,env(safe-area-inset-top))] pb-3 flex items-center justify-between shrink-0 border-b border-black/5 dark:border-white/10 relative z-20">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)] shadow-2xs">
+              <Trophy className="w-4.5 h-4.5 fill-current stroke-none" />
             </div>
-
-            <button
-              type="button"
-              onClick={closeCreateTournament}
-              aria-label="Tutup"
-              className="w-7 h-7 rounded-full flex items-center justify-center bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 active:scale-95 transition-all text-[var(--text-primary)] border border-black/5 dark:border-white/10 cursor-pointer"
-            >
-              <X className="w-3.5 h-3.5 stroke-[2.2]" />
-            </button>
+            <div className="flex flex-col">
+              <span className="text-[9px] font-black uppercase tracking-wider text-[var(--accent-main)]">
+                HOST TURNAMEN KOMUNITAS
+              </span>
+              <h3 className="text-[17px] font-black text-[var(--text-primary)] leading-tight">
+                Buat Turnamen Baru
+              </h3>
+            </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-3.5 relative z-10">
+          <button
+            type="button"
+            onClick={closeCreateTournament}
+            aria-label="Tutup"
+            className="w-8.5 h-8.5 rounded-full flex items-center justify-center bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 active:scale-95 transition-all text-[var(--text-primary)] border border-black/5 dark:border-white/10 cursor-pointer"
+          >
+            <X className="w-4 h-4 stroke-[2.2]" />
+          </button>
+        </div>
+
+        {/* Scrollable Form Content */}
+        <div className="w-full max-w-md mx-auto flex-1 overflow-y-auto no-scrollbar px-4 py-4 flex flex-col gap-4">
+          <form id="create-tourney-form" onSubmit={handleSubmit} className="flex flex-col gap-4">
             {/* Input Nama Turnamen */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-black uppercase tracking-wider text-[var(--text-secondary)]">
+              <label className="text-[10.5px] font-black uppercase tracking-wider text-[var(--text-secondary)]">
                 Nama Turnamen
               </label>
               <input
@@ -127,18 +112,18 @@ export const CreateTournamentModal: React.FC = () => {
                 onChange={(e) => setTourneyName(e.target.value)}
                 maxLength={32}
                 placeholder="Contoh: Piala Jawara Malam"
-                className="w-full px-3.5 py-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-[var(--border-card)] text-[13px] font-bold text-[var(--text-primary)] focus:outline-hidden focus:border-[var(--accent-main)] transition-colors"
+                className="w-full px-4 py-3 rounded-2xl bg-black/5 dark:bg-white/5 border border-[var(--border-card)] text-[13.5px] font-bold text-[var(--text-primary)] focus:outline-hidden focus:border-[var(--accent-main)] transition-colors"
               />
             </div>
 
             {/* Jumlah Peserta Turnamen (4, 6, 8, 10, 12, 14, 16) */}
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center justify-between">
-                <label className="text-[10px] font-black uppercase tracking-wider text-[var(--text-secondary)] flex items-center gap-1.5">
+                <label className="text-[10.5px] font-black uppercase tracking-wider text-[var(--text-secondary)] flex items-center gap-1.5">
                   <Users className="w-3.5 h-3.5 text-[var(--accent-main)]" />
                   <span>Jumlah Peserta</span>
                 </label>
-                <span className="text-[10.5px] font-black text-[var(--accent-main)]">
+                <span className="text-[11px] font-black text-[var(--accent-main)]">
                   {maxPlayers} Pemain
                 </span>
               </div>
@@ -152,7 +137,7 @@ export const CreateTournamentModal: React.FC = () => {
                       key={count}
                       type="button"
                       onClick={() => handleSelectMaxPlayers(count)}
-                      className={`py-1.5 rounded-xl text-[11px] font-black transition-all cursor-pointer tactile-active flex flex-col items-center justify-center ${
+                      className={`py-2 rounded-xl text-[11px] font-black transition-all cursor-pointer tactile-active flex flex-col items-center justify-center ${
                         isSelected
                           ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-xs scale-[1.02]'
                           : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -164,7 +149,7 @@ export const CreateTournamentModal: React.FC = () => {
                 })}
               </div>
 
-              <div className="text-[9px] text-[var(--text-secondary)] font-medium px-1">
+              <div className="text-[9.5px] text-[var(--text-secondary)] font-medium px-1">
                 {maxPlayers <= 4 && '⚡ 4 Pemain: Babak Semifinal & Grand Final.'}
                 {maxPlayers === 6 && '🏆 6 Pemain: 2 Peserta Unggulan (Bye) + Semifinal + Final.'}
                 {maxPlayers === 8 && '🏆 8 Pemain: Perempat Final, Semifinal, dan Grand Final.'}
@@ -174,7 +159,7 @@ export const CreateTournamentModal: React.FC = () => {
 
             {/* Modern Apple-Style Glass Dropdown: Kategori Soal */}
             <div className="flex flex-col gap-1.5 relative">
-              <label className="text-[10px] font-black uppercase tracking-wider text-[var(--text-secondary)] flex items-center gap-1.5">
+              <label className="text-[10.5px] font-black uppercase tracking-wider text-[var(--text-secondary)] flex items-center gap-1.5">
                 <Layers className="w-3.5 h-3.5 text-[var(--accent-main)]" />
                 <span>Kategori Soal Babak</span>
               </label>
@@ -183,13 +168,13 @@ export const CreateTournamentModal: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setIsThemeDropdownOpen(!isThemeDropdownOpen)}
-                className="w-full px-3.5 py-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-[var(--border-card)] flex items-center justify-between text-left cursor-pointer tactile-active hover:border-[var(--accent-main)]/50 transition-all shadow-xs"
+                className="w-full px-4 py-3 rounded-2xl bg-black/5 dark:bg-white/5 border border-[var(--border-card)] flex items-center justify-between text-left cursor-pointer tactile-active hover:border-[var(--accent-main)]/50 transition-all shadow-xs"
               >
                 <div className="flex items-center gap-2 min-w-0">
-                  <span className="text-[14px]">
+                  <span className="text-[15px]">
                     {selectedTheme === 'Semua Kategori (Acak)' ? '🎲' : '📚'}
                   </span>
-                  <span className="text-[12px] font-bold text-[var(--text-primary)] truncate">
+                  <span className="text-[12.5px] font-bold text-[var(--text-primary)] truncate">
                     {selectedTheme}
                   </span>
                 </div>
@@ -204,26 +189,26 @@ export const CreateTournamentModal: React.FC = () => {
               <AnimatePresence>
                 {isThemeDropdownOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: -6, scale: 0.97 }}
+                    initial={{ opacity: 0, y: -6, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -6, scale: 0.97 }}
+                    exit={{ opacity: 0, y: -6, scale: 0.98 }}
                     transition={{ duration: 0.16, ease: 'easeOut' }}
-                    className="absolute top-full left-0 right-0 mt-1.5 p-2 rounded-2xl backdrop-blur-2xl bg-white/95 dark:bg-[#1c1c1e]/95 border border-black/10 dark:border-white/15 shadow-2xl z-50 flex flex-col gap-2 max-h-[260px]"
+                    className="absolute top-full left-0 right-0 mt-1.5 p-2.5 rounded-2xl backdrop-blur-2xl bg-white/95 dark:bg-[#1c1c1e]/95 border border-black/10 dark:border-white/15 shadow-2xl z-50 flex flex-col gap-2 max-h-[320px]"
                   >
                     {/* Search Input Filter */}
-                    <div className="relative flex items-center px-2 py-1.5 rounded-xl bg-black/5 dark:bg-white/10 border border-black/5 dark:border-white/10">
-                      <Search className="w-3.5 h-3.5 text-[var(--text-secondary)] mr-1.5 shrink-0" />
+                    <div className="relative flex items-center px-2.5 py-2 rounded-xl bg-black/5 dark:bg-white/10 border border-black/5 dark:border-white/10">
+                      <Search className="w-3.5 h-3.5 text-[var(--text-secondary)] mr-2 shrink-0" />
                       <input
                         type="text"
                         value={themeSearchQuery}
                         onChange={(e) => setThemeSearchQuery(e.target.value)}
-                        placeholder="Cari tema soal..."
-                        className="w-full bg-transparent text-[11px] font-bold text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-hidden"
+                        placeholder="Cari dari 61 tema soal..."
+                        className="w-full bg-transparent text-[11.5px] font-bold text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-hidden"
                       />
                     </div>
 
                     {/* Scrollable Categories List */}
-                    <div className="overflow-y-auto no-scrollbar flex flex-col gap-0.5 max-h-[190px] pr-0.5">
+                    <div className="overflow-y-auto no-scrollbar flex flex-col gap-0.5 max-h-[250px] pr-0.5">
                       {/* Option 1: Semua Kategori (Acak) */}
                       <div
                         onClick={() => {
@@ -231,7 +216,7 @@ export const CreateTournamentModal: React.FC = () => {
                           setIsThemeDropdownOpen(false);
                           setThemeSearchQuery('');
                         }}
-                        className={`w-full px-3 py-2 rounded-xl flex items-center justify-between text-left cursor-pointer transition-colors ${
+                        className={`w-full px-3 py-2.5 rounded-xl flex items-center justify-between text-left cursor-pointer transition-colors ${
                           selectedTheme === 'Semua Kategori (Acak)'
                             ? 'bg-[var(--accent-light)] text-[var(--accent-main)] font-black'
                             : 'hover:bg-black/5 dark:hover:bg-white/5 text-[var(--text-primary)]'
@@ -239,7 +224,7 @@ export const CreateTournamentModal: React.FC = () => {
                       >
                         <div className="flex items-center gap-2 min-w-0">
                           <Dice5 className="w-3.5 h-3.5 text-[var(--accent-main)] shrink-0" />
-                          <span className="text-[11.5px] truncate font-bold">
+                          <span className="text-[12px] truncate font-bold">
                             Semua Kategori (Acak 61 Tema)
                           </span>
                         </div>
@@ -259,13 +244,13 @@ export const CreateTournamentModal: React.FC = () => {
                               setIsThemeDropdownOpen(false);
                               setThemeSearchQuery('');
                             }}
-                            className={`w-full px-3 py-2 rounded-xl flex items-center justify-between text-left cursor-pointer transition-colors ${
+                            className={`w-full px-3 py-2.5 rounded-xl flex items-center justify-between text-left cursor-pointer transition-colors ${
                               isChosen
                                 ? 'bg-[var(--accent-light)] text-[var(--accent-main)] font-black'
                                 : 'hover:bg-black/5 dark:hover:bg-white/5 text-[var(--text-primary)]'
                             }`}
                           >
-                            <span className="text-[11.5px] truncate font-bold">
+                            <span className="text-[12px] truncate font-bold">
                               {r.name}
                             </span>
                             {isChosen && (
@@ -276,7 +261,7 @@ export const CreateTournamentModal: React.FC = () => {
                       })}
 
                       {filteredThemes.length === 0 && (
-                        <div className="p-3 text-center text-[10.5px] text-[var(--text-secondary)] font-bold">
+                        <div className="p-4 text-center text-[11px] text-[var(--text-secondary)] font-bold">
                           Tema tidak ditemukan
                         </div>
                       )}
@@ -288,7 +273,7 @@ export const CreateTournamentModal: React.FC = () => {
 
             {/* Pilihan Durasi Ronde */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-black uppercase tracking-wider text-[var(--text-secondary)] flex items-center gap-1.5">
+              <label className="text-[10.5px] font-black uppercase tracking-wider text-[var(--text-secondary)] flex items-center gap-1.5">
                 <Clock className="w-3.5 h-3.5 text-[var(--accent-main)]" />
                 <span>Durasi Ronde Duel</span>
               </label>
@@ -299,7 +284,7 @@ export const CreateTournamentModal: React.FC = () => {
                     key={dur}
                     type="button"
                     onClick={() => setRoundDuration(dur)}
-                    className={`py-2 px-3 rounded-2xl border text-[11.5px] font-black cursor-pointer tactile-active transition-all ${
+                    className={`py-2.5 px-3 rounded-2xl border text-[12px] font-black cursor-pointer tactile-active transition-all ${
                       roundDuration === dur
                         ? 'bg-[var(--accent-light)] border-[var(--accent-main)] text-[var(--accent-main)]'
                         : 'bg-black/5 dark:bg-white/5 border-[var(--border-card)] text-[var(--text-secondary)]'
@@ -312,28 +297,37 @@ export const CreateTournamentModal: React.FC = () => {
             </div>
 
             {/* Hadiah Pemenang */}
-            <div className="p-3 rounded-2xl bg-black/5 dark:bg-white/5 border border-[var(--border-card)] flex items-center justify-between">
-              <div className="flex items-center gap-2">
+            <div
+              className="p-3.5 rounded-[22px] border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden flex items-center justify-between"
+              style={{
+                background: 'linear-gradient(145deg, var(--accent-light) 0%, var(--bg-card) 65%, var(--accent-light) 100%)',
+              }}
+            >
+              <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
+              <div className="flex items-center gap-2 relative z-10">
                 <Sparkles className="w-4 h-4 text-[var(--accent-main)]" />
-                <span className="text-[10.5px] font-black text-[var(--text-primary)]">
+                <span className="text-[11px] font-black text-[var(--text-primary)]">
                   Total Hadiah Juara
                 </span>
               </div>
-              <span className="text-[11px] font-black text-[var(--accent-main)]">
+              <span className="text-[11.5px] font-black text-[var(--accent-main)] relative z-10">
                 🏆 Emas + 200 ★ Bintang
               </span>
             </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full py-3 rounded-2xl bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[12.5px] font-black flex items-center justify-center gap-2 shadow-md cursor-pointer tactile-active hover:opacity-95 transition-opacity mt-1"
-            >
-              <span>Buat Turnamen & Buka Lobi</span>
-              <ArrowRight className="w-4 h-4 stroke-[2.4]" />
-            </button>
           </form>
-        </motion.div>
+        </div>
+
+        {/* Sticky Bottom Action Bar */}
+        <div className="w-full max-w-md mx-auto px-4 pt-3 pb-[max(16px,calc(10px+env(safe-area-inset-bottom)))] shrink-0 border-t border-black/5 dark:border-white/10 bg-inherit/90 backdrop-blur-md relative z-20">
+          <button
+            type="submit"
+            form="create-tourney-form"
+            className="w-full py-3.5 rounded-2xl bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[13px] font-black flex items-center justify-center gap-2 shadow-md cursor-pointer tactile-active hover:opacity-95 transition-opacity"
+          >
+            <span>Buat Turnamen & Buka Lobi</span>
+            <ArrowRight className="w-4 h-4 stroke-[2.4]" />
+          </button>
+        </div>
       </div>
     </AnimatePresence>
   );
