@@ -15,6 +15,16 @@ export interface MabarPeerInfo {
   avatar: string;
 }
 
+export interface MabarReaction {
+  id: string;
+  text: string;
+  senderName: string;
+  avatar?: string;
+  clueId?: string;
+  clueNumber?: number;
+  clueDirection?: 'across' | 'down';
+}
+
 export interface UserProfile {
   name: string;
   email?: string;
@@ -139,6 +149,11 @@ interface GameState {
   applyRemoteDelete: (key: string) => void;
   applyRemoteClueSolved: (clueId: string, newlySolved: string[], partnerName: string) => void;
   leaveMabarSession: () => void;
+  cellAuthors: Record<string, 'local' | 'partner'>;
+  activeReaction: MabarReaction | null;
+  sendReaction: (text: string, clueId?: string) => void;
+  receiveReaction: (reaction: { text: string; senderName: string; avatar?: string; clueId?: string }) => void;
+  clearReaction: () => void;
 
   // Modals
   isSettingsOpen: boolean;
@@ -429,33 +444,40 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   mabarPeers: [],
   partnerCursor: null,
+  cellAuthors: {},
+  activeReaction: null,
   setMabarPeers: (peers) => set({ mabarPeers: peers }),
   setPartnerCursor: (cursor) => set({ partnerCursor: cursor }),
 
   applyRemoteInput: (key, letter, partnerName) => {
-    const { userInputs, soundEnabled, lockedCells } = get();
+    const { userInputs, soundEnabled, lockedCells, cellAuthors } = get();
     if (lockedCells[key]) return;
     const newInputs = { ...userInputs, [key]: letter };
+    const newAuthors = { ...cellAuthors, [key]: 'partner' as const };
     if (soundEnabled) soundManager.playKeyClick();
     set({
       userInputs: newInputs,
+      cellAuthors: newAuthors,
       partnerCursor: { key, name: partnerName },
     });
   },
 
   applyRemoteDelete: (key) => {
-    const { userInputs, lockedCells } = get();
+    const { userInputs, lockedCells, cellAuthors } = get();
     if (lockedCells[key]) return;
     const newInputs = { ...userInputs };
+    const newAuthors = { ...cellAuthors };
     delete newInputs[key];
-    set({ userInputs: newInputs });
+    delete newAuthors[key];
+    set({ userInputs: newInputs, cellAuthors: newAuthors });
   },
 
   applyRemoteClueSolved: (clueId, newlySolved, partnerName) => {
-    const { solvedClues, level, lockedCells, soundEnabled, userInputs } = get();
+    const { solvedClues, level, lockedCells, soundEnabled, userInputs, cellAuthors } = get();
     const updatedSolved = Array.from(new Set([...solvedClues, ...newlySolved, clueId]));
     const newLocked = { ...lockedCells };
     const newInputs = { ...userInputs };
+    const newAuthors = { ...cellAuthors };
 
     updatedSolved.forEach((cId) => {
       const clue = findClueById(level, cId);
@@ -464,6 +486,7 @@ export const useGameStore = create<GameState>((set, get) => ({
           const k = `${r},${c}`;
           newLocked[k] = true;
           newInputs[k] = clue.answer[idx];
+          newAuthors[k] = 'partner';
         });
       }
     });
@@ -477,6 +500,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       solvedClues: updatedSolved,
       lockedCells: newLocked,
       userInputs: newInputs,
+      cellAuthors: newAuthors,
       validationMessage: isLevelComplete ? 'Papan Berhasil Dipecahkan Bersama!' : `${partnerName} memecahkan kata!`,
     });
 
@@ -505,9 +529,55 @@ export const useGameStore = create<GameState>((set, get) => ({
       activeRoomCode: null,
       mabarPeers: [],
       partnerCursor: null,
+      cellAuthors: {},
+      activeReaction: null,
     });
     get().showGlobalToast('Keluar dari sesi mabar');
   },
+
+  sendReaction: (text: string, clueId?: string) => {
+    const { user, level } = get();
+    const clue = clueId ? findClueById(level, clueId) : undefined;
+    const reaction: MabarReaction = {
+      id: `${Date.now()}-${Math.random()}`,
+      text,
+      senderName: user.name || 'Kamu',
+      avatar: user.avatar,
+      clueId,
+      clueNumber: clue?.number,
+      clueDirection: clue?.direction,
+    };
+    mabarRealtime.broadcastReaction({ text, clueId });
+    set({ activeReaction: reaction });
+    setTimeout(() => {
+      if (get().activeReaction?.id === reaction.id) {
+        set({ activeReaction: null });
+      }
+    }, 3800);
+  },
+
+  receiveReaction: (data) => {
+    const { level, soundEnabled } = get();
+    const clue = data.clueId ? findClueById(level, data.clueId) : undefined;
+    const reaction: MabarReaction = {
+      id: `${Date.now()}-${Math.random()}`,
+      text: data.text,
+      senderName: data.senderName,
+      avatar: data.avatar,
+      clueId: data.clueId,
+      clueNumber: clue?.number,
+      clueDirection: clue?.direction,
+    };
+    if (soundEnabled) soundManager.playKeyClick();
+    set({ activeReaction: reaction });
+    setTimeout(() => {
+      if (get().activeReaction?.id === reaction.id) {
+        set({ activeReaction: null });
+      }
+    }, 3800);
+  },
+
+  clearReaction: () => set({ activeReaction: null }),
 
   isSettingsOpen: false,
   isLevelCompleteOpen: false,
@@ -591,6 +661,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       currentLevelIndex: safeIdx,
       level: targetLevel,
       userInputs: rec.inputs,
+      cellAuthors: {},
+      activeReaction: null,
       lockedCells: rec.locked,
       solvedClues: rec.solved,
       activeClueId: null,
@@ -835,6 +907,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     if (lockedCells[key]) return;
 
     const newInputs = { ...userInputs, [key]: letter.toUpperCase() };
+    const newAuthors = { ...get().cellAuthors, [key]: 'local' as const };
     if (get().activeRoomCode) {
       mabarRealtime.broadcastInput(key, letter.toUpperCase());
     }
@@ -862,6 +935,7 @@ export const useGameStore = create<GameState>((set, get) => ({
           for (const [cr, cc] of clue.cells) {
             const ck = `${cr},${cc}`;
             newLockedCells[ck] = true;
+            if (!newAuthors[ck]) newAuthors[ck] = 'local';
             if (!popping.includes(ck)) popping.push(ck);
           }
         }
@@ -1040,6 +1114,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     set({
       userInputs: newInputs,
+      cellAuthors: newAuthors,
       lockedCells: newLockedCells,
       solvedClues: updatedSolved,
       stars: updatedStars,
@@ -1056,12 +1131,13 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   deleteLetter: () => {
-    const { focusedCell, activeClueId, level, lockedCells, userInputs, soundEnabled, hapticEnabled, levelRecords } = get();
+    const { focusedCell, activeClueId, level, lockedCells, userInputs, cellAuthors, soundEnabled, hapticEnabled, levelRecords } = get();
     if (!focusedCell || !activeClueId) return;
 
     const [r, c] = focusedCell;
     const key = `${r},${c}`;
     const newInputs = { ...userInputs };
+    const newAuthors = { ...cellAuthors };
     const clue = findClueById(level, activeClueId);
     const idx = clue ? clue.cells.findIndex(([cr, cc]) => cr === r && cc === c) : -1;
 
@@ -1072,6 +1148,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     if (newInputs[key] && !lockedCells[key]) {
       delete newInputs[key];
+      delete newAuthors[key];
       if (get().activeRoomCode) {
         mabarRealtime.broadcastDelete(key);
       }
@@ -1085,11 +1162,13 @@ export const useGameStore = create<GameState>((set, get) => ({
           const prevCell = clue.cells[prevIdx];
           const prevKey = `${prevCell[0]},${prevCell[1]}`;
           delete newInputs[prevKey];
+          delete newAuthors[prevKey];
           if (get().activeRoomCode) {
             mabarRealtime.broadcastDelete(prevKey);
           }
           set({
             userInputs: newInputs,
+            cellAuthors: newAuthors,
             focusedCell: prevCell,
           });
           return;
@@ -1518,6 +1597,8 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     set({
       userInputs: {},
+      cellAuthors: {},
+      activeReaction: null,
       lockedCells: {},
       solvedClues: [],
       poppingCells: [],

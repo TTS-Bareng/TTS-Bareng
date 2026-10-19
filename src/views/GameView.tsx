@@ -11,6 +11,7 @@ import { LevelCompleteModal } from '../components/LevelCompleteModal';
 import { LevelSelectModal } from '../components/LevelSelectModal';
 import { LexiconModal } from '../components/LexiconModal';
 import { AdModal } from '../components/AdModal';
+import { MabarReactionTray } from '../components/MabarReactionTray';
 
 export const GameView: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -86,6 +87,9 @@ export const GameView: React.FC = () => {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Live Mabar Quick Reaction & Ping Balloon Tray */}
+        <MabarReactionTray />
 
         {/* Modern 2-Row Dynamic Island Clue Capsule */}
         <DynamicClueRibbon onOpenDrawer={() => setIsDrawerOpen(true)} />

@@ -92,6 +92,16 @@ export const mabarRealtime = {
           useGameStore.getState().applyRemoteClueSolved(payload.clueId, payload.newlySolved || [], payload.senderName || 'Teman');
         }
       })
+      .on('broadcast', { event: 'reaction' }, ({ payload }) => {
+        if (payload?.text) {
+          useGameStore.getState().receiveReaction({
+            text: payload.text,
+            senderName: payload.senderName || 'Teman',
+            avatar: payload.avatar,
+            clueId: payload.clueId,
+          });
+        }
+      })
       .on('broadcast', { event: 'game_start' }, ({ payload }) => {
         if (typeof payload?.levelIndex === 'number') {
           const store = useGameStore.getState();
@@ -280,6 +290,23 @@ export const mabarRealtime = {
       event: 'leave_session',
       payload: {
         senderName: user.name,
+      },
+    });
+  },
+
+  /**
+   * Broadcast quick reaction or clue help ping
+   */
+  broadcastReaction(reaction: { text: string; clueId?: string }) {
+    if (!activeChannel) return;
+    const { user } = useGameStore.getState();
+    activeChannel.send({
+      type: 'broadcast',
+      event: 'reaction',
+      payload: {
+        ...reaction,
+        senderName: user.name,
+        avatar: user.avatar,
       },
     });
   },

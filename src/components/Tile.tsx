@@ -21,6 +21,8 @@ export const Tile: React.FC<TileProps> = ({ r, c, style }) => {
     shakingCells,
     selectCell,
     partnerCursor,
+    cellAuthors,
+    activeRoomCode,
   } = useGameStore();
 
   const tileData = level.tiles.find((t) => t.r === r && t.c === c);
@@ -34,6 +36,7 @@ export const Tile: React.FC<TileProps> = ({ r, c, style }) => {
   const isLocked = !!lockedCells[key];
   const isPopping = poppingCells.includes(key);
   const isShaking = shakingCells.includes(key);
+  const isPartnerCell = !!activeRoomCode && !!letter && cellAuthors[key] === 'partner';
 
   // Check if this tile is part of the active clue
   const activeClue = findClueById(level, activeClueId);
@@ -98,6 +101,14 @@ export const Tile: React.FC<TileProps> = ({ r, c, style }) => {
         >
           {tileData.number}
         </span>
+      )}
+
+      {/* Partner cell ownership indicator dot (Mabar) */}
+      {isPartnerCell && (
+        <span
+          title="Diisi oleh rekan"
+          className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-[var(--accent-main)] shadow-2xs pointer-events-none ring-1 ring-white/50"
+        />
       )}
 
       {/* Letter in center (scales with tile size) */}
