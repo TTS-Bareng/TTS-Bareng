@@ -17,6 +17,10 @@ import {
   ShieldCheck,
   Sparkles,
   ChevronLeft,
+  Scale,
+  BookOpen,
+  Trash2,
+  ExternalLink,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { THEMES, type ThemeKey } from '../lib/themes';
@@ -35,6 +39,7 @@ export const SettingsView: React.FC = () => {
     openAuth,
     logout,
     resetAllProgress,
+    deleteAccountAndData,
     stars,
     streak,
     levelRecords,
@@ -44,9 +49,11 @@ export const SettingsView: React.FC = () => {
     setErrorFeedbackMode,
     openAvatarPicker,
     setCurrentTab,
+    openLegalModal,
   } = useGameStore();
 
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [showDeleteAccountConfirm, setShowDeleteAccountConfirm] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isInstallable, setIsInstallable] = useState(false);
 
@@ -672,7 +679,7 @@ export const SettingsView: React.FC = () => {
         </div>
       </div>
 
-      {/* 7. Bento Card 5: Zona Keamanan & Reset Data */}
+      {/* 7. Bento Card: Informasi & Kepatuhan Legal (Store & Legal Compliance) */}
       <div
         className="w-full rounded-[24px] p-3.5 relative z-10 overflow-hidden border border-[var(--accent-main)]/20 shadow-xs"
         style={{
@@ -680,76 +687,238 @@ export const SettingsView: React.FC = () => {
         }}
       >
         <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
-        {showResetConfirm ? (
-          <div className="flex flex-col gap-2.5 relative z-10">
-            <div className="flex items-center gap-2">
-              <RotateCcw className="w-4 h-4 text-[var(--accent-main)]" />
-              <span className="text-[12px] font-black text-[var(--text-primary)]">
-                Konfirmasi Hapus Seluruh Data?
-              </span>
-            </div>
-            <p className="text-[9.5px] text-[var(--text-secondary)] leading-tight">
-              Tindakan ini akan mengembalikan seluruh kemajuan bab, bintang, dan streak ke kondisi awal.
-            </p>
-            <div className="flex gap-2 mt-1">
-              <button
-                type="button"
-                onClick={() => {
-                  resetAllProgress();
-                  setShowResetConfirm(false);
-                  showToast('Semua kemajuan berhasil direset.');
-                }}
-                className="flex-1 py-2 rounded-xl bg-black/10 dark:bg-white/15 border border-black/10 dark:border-white/20 text-[var(--text-primary)] font-bold text-[11px] cursor-pointer tactile-active"
-              >
-                Ya, Reset Progres
-              </button>
-              <button
-                type="button"
-                onClick={() => setShowResetConfirm(false)}
-                className="flex-1 py-2 rounded-xl bg-black/5 dark:bg-white/5 text-[var(--text-secondary)] font-bold text-[11px] cursor-pointer tactile-active"
-              >
-                Batal
-              </button>
-            </div>
-          </div>
-        ) : (
+        <div className="flex items-center gap-2 mb-2 px-0.5 relative z-10">
+          <ShieldCheck className="w-3.5 h-3.5 text-[var(--accent-main)]" />
+          <span className="text-[12.5px] font-black text-[var(--text-primary)] tracking-tight">
+            Informasi & Legalitas
+          </span>
+        </div>
+
+        <div className="flex flex-col gap-1.5 relative z-10">
+          {/* Kebijakan Privasi */}
           <button
             type="button"
-            onClick={() => setShowResetConfirm(true)}
-            className="w-full flex items-center justify-between text-left cursor-pointer tactile-active group relative z-10"
+            onClick={() => openLegalModal('privacy')}
+            className="w-full flex items-center justify-between p-2.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 hover:border-[var(--accent-main)]/30 transition-all cursor-pointer tactile-active group text-left"
           >
             <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 flex items-center justify-center text-[var(--text-secondary)]">
-                <RotateCcw className="w-3.5 h-3.5 stroke-[2]" />
+              <div className="w-7 h-7 rounded-lg bg-black/5 dark:bg-white/5 flex items-center justify-center text-[var(--text-secondary)]">
+                <ShieldCheck className="w-3.5 h-3.5 stroke-[2]" />
               </div>
               <div>
-                <span className="text-[11.5px] font-bold text-[var(--text-primary)] block leading-tight">
-                  Atur Ulang Progres
+                <span className="text-[11px] font-bold text-[var(--text-primary)] block leading-tight">
+                  Kebijakan Privasi
                 </span>
                 <span className="text-[8.5px] text-[var(--text-secondary)] block">
-                  Hapus bab & kemajuan lokal
+                  Bebas pelacak & 100% data lokal
                 </span>
               </div>
             </div>
-
-            <span className="text-[8.5px] font-bold px-2 py-1 rounded-full bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">
-              Reset
-            </span>
+            <ExternalLink className="w-3.5 h-3.5 text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors" />
           </button>
-        )}
+
+          {/* Syarat Ketentuan */}
+          <button
+            type="button"
+            onClick={() => openLegalModal('terms')}
+            className="w-full flex items-center justify-between p-2.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 hover:border-[var(--accent-main)]/30 transition-all cursor-pointer tactile-active group text-left"
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-lg bg-black/5 dark:bg-white/5 flex items-center justify-center text-[var(--text-secondary)]">
+                <Scale className="w-3.5 h-3.5 stroke-[2]" />
+              </div>
+              <div>
+                <span className="text-[11px] font-bold text-[var(--text-primary)] block leading-tight">
+                  Ketentuan Layanan
+                </span>
+                <span className="text-[8.5px] text-[var(--text-secondary)] block">
+                  Penggunaan wajar & sportivitas mabar
+                </span>
+              </div>
+            </div>
+            <ExternalLink className="w-3.5 h-3.5 text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors" />
+          </button>
+
+          {/* Atribusi KBBI */}
+          <button
+            type="button"
+            onClick={() => openLegalModal('kbbi')}
+            className="w-full flex items-center justify-between p-2.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 hover:border-[var(--accent-main)]/30 transition-all cursor-pointer tactile-active group text-left"
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-lg bg-black/5 dark:bg-white/5 flex items-center justify-center text-[var(--text-secondary)]">
+                <BookOpen className="w-3.5 h-3.5 stroke-[2]" />
+              </div>
+              <div>
+                <span className="text-[11px] font-bold text-[var(--text-primary)] block leading-tight">
+                  Atribusi Resmi Bahasa (KBBI)
+                </span>
+                <span className="text-[8.5px] text-[var(--text-secondary)] block">
+                  Badan Pengembangan & Pembinaan Bahasa
+                </span>
+              </div>
+            </div>
+            <ExternalLink className="w-3.5 h-3.5 text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors" />
+          </button>
+        </div>
       </div>
 
-      {/* 7. Footer Info (No Forced Pill - Natural End) */}
+      {/* 8. Bento Card: Pengelolaan Data & Akun (Apple Guideline 5.1.1v Compliant) */}
+      <div
+        className="w-full rounded-[24px] p-3.5 relative z-10 overflow-hidden border border-[var(--accent-main)]/20 shadow-xs"
+        style={{
+          background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
+        }}
+      >
+        <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
+
+        <div className="flex items-center gap-2 mb-2 px-0.5 relative z-10">
+          <RotateCcw className="w-3.5 h-3.5 text-[var(--accent-main)]" />
+          <span className="text-[12.5px] font-black text-[var(--text-primary)] tracking-tight">
+            Pengelolaan Data & Akun
+          </span>
+        </div>
+
+        <div className="flex flex-col gap-2 relative z-10">
+          {/* Action 1: Atur Ulang Progres Bab */}
+          {showResetConfirm ? (
+            <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/15 flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <RotateCcw className="w-3.5 h-3.5 text-[var(--accent-main)]" />
+                <span className="text-[11.5px] font-black text-[var(--text-primary)]">
+                  Atur Ulang Semua Bab?
+                </span>
+              </div>
+              <p className="text-[9.5px] text-[var(--text-secondary)] leading-tight">
+                Kemajuan bab dan jawaban kata akan direset ke awal. Profil pemain Anda tetap tersimpan.
+              </p>
+              <div className="flex gap-2 mt-0.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    resetAllProgress();
+                    setShowResetConfirm(false);
+                    showToast('Semua kemajuan bab direset.');
+                  }}
+                  className="flex-1 py-1.5 rounded-lg bg-black/10 dark:bg-white/15 border border-black/10 dark:border-white/20 text-[var(--text-primary)] font-bold text-[10.5px] cursor-pointer tactile-active"
+                >
+                  Ya, Reset Bab
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowResetConfirm(false)}
+                  className="flex-1 py-1.5 rounded-lg bg-black/5 dark:bg-white/5 text-[var(--text-secondary)] font-bold text-[10.5px] cursor-pointer tactile-active"
+                >
+                  Batal
+                </button>
+              </div>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                setShowResetConfirm(true);
+                setShowDeleteAccountConfirm(false);
+              }}
+              className="w-full flex items-center justify-between p-2.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 hover:border-[var(--accent-main)]/30 transition-all cursor-pointer tactile-active group text-left"
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded-lg bg-black/5 dark:bg-white/5 flex items-center justify-center text-[var(--text-secondary)]">
+                  <RotateCcw className="w-3.5 h-3.5 stroke-[2]" />
+                </div>
+                <div>
+                  <span className="text-[11px] font-bold text-[var(--text-primary)] block leading-tight">
+                    Atur Ulang Progres Bab
+                  </span>
+                  <span className="text-[8.5px] text-[var(--text-secondary)] block">
+                    Kembalikan status bab ke kondisi belum dipecahkan
+                  </span>
+                </div>
+              </div>
+              <span className="text-[8.5px] font-bold px-2 py-1 rounded-full bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">
+                Reset
+              </span>
+            </button>
+          )}
+
+          {/* Action 2: Hapus Akun & Data (Apple 5.1.1v Requirement) */}
+          {showDeleteAccountConfirm ? (
+            <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 flex flex-col gap-2">
+              <div className="flex items-center gap-2 text-red-500 dark:text-red-400">
+                <Trash2 className="w-3.5 h-3.5 stroke-[2.5]" />
+                <span className="text-[11.5px] font-black">
+                  Hapus Permanen Akun & Semua Data?
+                </span>
+              </div>
+              <p className="text-[9.5px] text-[var(--text-secondary)] leading-tight">
+                Sesuai Apple App Store Guideline 5.1.1(v), tindakan ini akan <strong>menghapus total identitas pemain</strong>, nama, foto avatar kustom, bintang, streak, dan seluruh data lokal dari perangkat Anda tanpa dapat dipulihkan.
+              </p>
+              <div className="flex gap-2 mt-0.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    deleteAccountAndData();
+                    setShowDeleteAccountConfirm(false);
+                    showToast('Akun & seluruh data berhasil dihapus.');
+                  }}
+                  className="flex-1 py-1.5 rounded-lg bg-red-500 text-white font-bold text-[10.5px] cursor-pointer tactile-active shadow-sm"
+                >
+                  Ya, Hapus Permanen
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowDeleteAccountConfirm(false)}
+                  className="flex-1 py-1.5 rounded-lg bg-black/5 dark:bg-white/5 text-[var(--text-secondary)] font-bold text-[10.5px] cursor-pointer tactile-active"
+                >
+                  Batal
+                </button>
+              </div>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                setShowDeleteAccountConfirm(true);
+                setShowResetConfirm(false);
+              }}
+              className="w-full flex items-center justify-between p-2.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 hover:border-red-500/30 transition-all cursor-pointer tactile-active group text-left"
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded-lg bg-red-500/10 text-red-500 dark:text-red-400 flex items-center justify-center">
+                  <Trash2 className="w-3.5 h-3.5 stroke-[2]" />
+                </div>
+                <div>
+                  <span className="text-[11px] font-bold text-red-600 dark:text-red-400 block leading-tight">
+                    Hapus Akun & Data (Apple 5.1.1v)
+                  </span>
+                  <span className="text-[8.5px] text-[var(--text-secondary)] block">
+                    Purge total identitas & penyimpanan lokal
+                  </span>
+                </div>
+              </div>
+              <span className="text-[8.5px] font-bold px-2 py-1 rounded-full bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20 group-hover:bg-red-500/20 transition-colors">
+                Hapus
+              </span>
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* 9. Footer Info with Quick Legal Link */}
       <footer className="flex flex-col items-center justify-center gap-1.5 text-[9px] text-[var(--text-secondary)] z-10 relative pt-2 pb-1">
         <div className="flex items-center gap-2">
           <img src="/logo-dark.webp" alt="TTS Bareng" className="w-5 h-5 rounded-md object-contain hidden dark:block" />
           <img src="/logo-light.webp" alt="TTS Bareng" className="w-5 h-5 rounded-md object-contain block dark:hidden" />
           <span className="font-black text-[11px] text-[var(--text-primary)] tracking-tight">TTS Bareng</span>
         </div>
-        <div className="flex items-center gap-1.5">
+        <button
+          type="button"
+          onClick={() => openLegalModal('privacy')}
+          className="flex items-center gap-1.5 text-[9.5px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
+        >
           <ShieldCheck className="w-3.5 h-3.5 text-[var(--accent-main)]" />
-          <span>v1.0 • Mabar Teka Teki Silang • Standar KBBI</span>
-        </div>
+          <span>v1.2.0 • Standar KBBI • Kebijakan Privasi & Ketentuan</span>
+        </button>
       </footer>
     </div>
   );

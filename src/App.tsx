@@ -6,6 +6,7 @@ import { applyTheme } from './lib/themes';
 import { parseDeepLink, clearUrlParams } from './lib/deeplink';
 import { HomeView } from './views/HomeView';
 import { NavigationBottomBar } from './components/NavigationBottomBar';
+import { NetworkStatusBar } from './components/NetworkStatusBar';
 
 // Lazy-loaded views & modals for instant initial launch (< 200ms)
 const ArenaView = lazy(() => import('./views/ArenaView').then((m) => ({ default: m.ArenaView })));
@@ -21,6 +22,7 @@ const LeagueModal = lazy(() => import('./components/LeagueModal').then((m) => ({
 const AchievementDetailModal = lazy(() => import('./components/AchievementDetailModal').then((m) => ({ default: m.AchievementDetailModal })));
 const LexiconModal = lazy(() => import('./components/LexiconModal').then((m) => ({ default: m.LexiconModal })));
 const AvatarPickerModal = lazy(() => import('./components/AvatarPickerModal').then((m) => ({ default: m.AvatarPickerModal })));
+const LegalModal = lazy(() => import('./components/LegalModal').then((m) => ({ default: m.LegalModal })));
 
 const ViewLoadingFallback: React.FC = () => (
   <div className="w-full flex-1 flex flex-col items-center justify-center p-8 select-none">
@@ -157,6 +159,9 @@ export const App: React.FC = () => {
         background: 'var(--bg-gradient)',
       }}
     >
+      {/* 0. Network Offline/Online Status Bar */}
+      <NetworkStatusBar />
+
       {/* 0. Floating Global Toast Alert Notification */}
       <AnimatePresence>
         {globalToast && (
@@ -189,7 +194,7 @@ export const App: React.FC = () => {
       {/* 2. Sleek Bottom Tab Navigation */}
       <NavigationBottomBar />
 
-      {/* 3. Global Modals (Auth, Leaderboard, Share, Retention, League, Lexicon, AvatarPicker) with Suspense */}
+      {/* 3. Global Modals (Auth, Leaderboard, Share, Retention, League, Lexicon, AvatarPicker, Legal) with Suspense */}
       <Suspense fallback={null}>
         <AuthModal />
         <LeaderboardModal />
@@ -202,6 +207,7 @@ export const App: React.FC = () => {
           isOpen={isAvatarPickerOpen}
           onClose={closeAvatarPicker}
         />
+        <LegalModal />
       </Suspense>
     </div>
   );

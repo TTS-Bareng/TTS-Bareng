@@ -276,6 +276,12 @@ interface GameState {
   closeLevelSelect: () => void;
   openLexicon: () => void;
   closeLexicon: () => void;
+  isLegalModalOpen: boolean;
+  legalModalTab: 'privacy' | 'terms' | 'kbbi';
+  openLegalModal: (tab?: 'privacy' | 'terms' | 'kbbi') => void;
+  closeLegalModal: () => void;
+  setLegalModalTab: (tab: 'privacy' | 'terms' | 'kbbi') => void;
+  deleteAccountAndData: () => void;
   isLeaderboardOpen: boolean;
   openLeaderboard: () => void;
   closeLeaderboard: () => void;
@@ -1143,6 +1149,12 @@ export const useGameStore = create<GameState>((set, get) => ({
   closeLevelSelect: () => set({ isLevelSelectOpen: false }),
   openLexicon: () => set({ isLexiconOpen: true }),
   closeLexicon: () => set({ isLexiconOpen: false }),
+
+  isLegalModalOpen: false,
+  legalModalTab: 'privacy',
+  openLegalModal: (tab = 'privacy') => set({ isLegalModalOpen: true, legalModalTab: tab }),
+  closeLegalModal: () => set({ isLegalModalOpen: false }),
+  setLegalModalTab: (tab) => set({ legalModalTab: tab }),
 
   isLeaderboardOpen: false,
   nationalLeaderboard: [],
@@ -2584,6 +2596,52 @@ export const useGameStore = create<GameState>((set, get) => ({
       currentLevelIndex: 0,
       level: typedLevels[0],
       isLevelCompleteOpen: false,
+    });
+  },
+
+  deleteAccountAndData: () => {
+    try {
+      const keysToRemove: string[] = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && (key.startsWith('tts_') || key.startsWith('crossword_') || key.startsWith('mabar_'))) {
+          keysToRemove.push(key);
+        }
+      }
+      keysToRemove.forEach((k) => localStorage.removeItem(k));
+    } catch {
+      // safe fallback if storage access restricted
+    }
+
+    const defaultUser: UserProfile = {
+      name: 'Tamu',
+      isGuest: true,
+      avatar: '/maskot/Fierce Plush Crossword Champion.webp',
+      joinedAt: 'Mode Tamu',
+    };
+
+    set({
+      user: defaultUser,
+      stars: 120,
+      streak: 0,
+      streakShields: 1,
+      levelRecords: {},
+      claimedAchievementRewards: {},
+      userInputs: {},
+      lockedCells: {},
+      solvedClues: [],
+      poppingCells: [],
+      shakingCells: [],
+      wordStreak: 0,
+      comboMessage: null,
+      validationMessage: null,
+      activeClueId: null,
+      focusedCell: null,
+      currentLevelIndex: 0,
+      level: typedLevels[0],
+      isLevelCompleteOpen: false,
+      activeRoomCode: null,
+      mabarPeers: [],
     });
   },
 }));
