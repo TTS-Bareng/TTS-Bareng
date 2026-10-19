@@ -16,6 +16,7 @@ import {
   Star,
   ShieldCheck,
   Sparkles,
+  ChevronLeft,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { THEMES, type ThemeKey } from '../lib/themes';
@@ -42,6 +43,7 @@ export const SettingsView: React.FC = () => {
     errorFeedbackMode,
     setErrorFeedbackMode,
     openAvatarPicker,
+    setCurrentTab,
   } = useGameStore();
 
   const [showResetConfirm, setShowResetConfirm] = useState(false);
@@ -178,7 +180,7 @@ export const SettingsView: React.FC = () => {
   const currentThemeObj = THEMES[theme] || THEMES.obsidian;
 
   return (
-    <div className="w-full flex-1 flex flex-col gap-3 px-3.5 pt-[20px] pb-[90px] select-none overflow-y-auto relative">
+    <div className="w-full flex-1 flex flex-col gap-3 px-3.5 pt-[max(18px,env(safe-area-inset-top))] pb-[max(90px,calc(75px+env(safe-area-inset-bottom)))] select-none overflow-y-auto relative">
       {/* Toast Notification Floating Pill */}
       {toastMessage && (
         <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-full liquid-glass-card shadow-lg flex items-center gap-2 border border-[var(--accent-main)]/30 animate-in fade-in slide-in-from-top-3">
@@ -189,15 +191,26 @@ export const SettingsView: React.FC = () => {
         </div>
       )}
 
-      {/* 1. Header: Typographic Title + Live PWA Status Pill */}
+      {/* 1. Header: Back Button + Typographic Title + Live PWA Status Pill */}
       <header className="flex items-center justify-between px-0.5 relative z-10 shrink-0">
-        <div>
-          <span className="text-[9.5px] font-black uppercase tracking-wider text-[var(--accent-main)] block leading-none mb-0.5">
-            SISTEM & PREFERENSI
-          </span>
-          <h2 className="text-[18px] font-black text-[var(--text-primary)] tracking-tight leading-tight">
-            Pengaturan
-          </h2>
+        <div className="flex items-center gap-2.5">
+          <button
+            type="button"
+            onClick={() => setCurrentTab('profile')}
+            title="Kembali ke Profil"
+            aria-label="Kembali ke Profil"
+            className="w-8.5 h-8.5 rounded-full liquid-glass-tile border border-black/5 dark:border-white/10 flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer tactile-active shadow-xs"
+          >
+            <ChevronLeft className="w-4.5 h-4.5 stroke-[2.2]" />
+          </button>
+          <div>
+            <span className="text-[9.5px] font-black uppercase tracking-wider text-[var(--accent-main)] block leading-none mb-0.5">
+              SISTEM & PREFERENSI
+            </span>
+            <h2 className="text-[18px] font-black text-[var(--text-primary)] tracking-tight leading-tight">
+              Pengaturan
+            </h2>
+          </div>
         </div>
 
         {/* Live PWA Status / Install Pill */}

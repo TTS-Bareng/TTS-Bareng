@@ -269,7 +269,7 @@ export const ProfileView: React.FC = () => {
   const unlockedAchievementsCount = achievements.filter((a) => a.unlocked).length;
 
   return (
-    <div className="w-full flex-1 flex flex-col gap-3 px-3.5 pt-[18px] pb-[90px] select-none overflow-y-auto relative">
+    <div className="w-full flex-1 flex flex-col gap-3 px-3.5 pt-[max(18px,env(safe-area-inset-top))] pb-[max(90px,calc(75px+env(safe-area-inset-bottom)))] select-none overflow-y-auto relative">
       {/* Toast Alert Notification */}
       {toastMessage && (
         <div className="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 px-4 py-2 rounded-full liquid-glass-card border border-[var(--accent-main)]/40 shadow-xl flex items-center gap-2 animate-bounce">
@@ -280,7 +280,7 @@ export const ProfileView: React.FC = () => {
         </div>
       )}
 
-      {/* 1. Header: Typographic Title + Live Stars Pill */}
+      {/* 1. Header: Typographic Title + Live Stars Pill + Settings Button */}
       <header className="flex items-center justify-between px-0.5 relative z-10 shrink-0">
         <div>
           <span className="text-[9.5px] font-black uppercase tracking-wider text-[var(--accent-main)] block leading-none mb-0.5">
@@ -291,21 +291,33 @@ export const ProfileView: React.FC = () => {
           </h2>
         </div>
 
-        {/* Live Streak & Stars Pill */}
-        <div className="h-8.5 px-3 rounded-full flex items-center gap-2.5 liquid-glass-card border border-black/5 dark:border-white/10 shadow-xs">
-          <div className="flex items-center gap-1 text-[var(--accent-main)]">
-            <Flame className="w-3.5 h-3.5 fill-current text-[var(--accent-main)]" />
-            <span className="text-[11.5px] font-black text-[var(--text-primary)]">
-              {streak}
-            </span>
+        {/* Right Actions: Live Streak & Stars Pill + Settings Icon Button */}
+        <div className="flex items-center gap-2">
+          <div className="h-8.5 px-3 rounded-full flex items-center gap-2.5 liquid-glass-card border border-black/5 dark:border-white/10 shadow-xs">
+            <div className="flex items-center gap-1 text-[var(--accent-main)]">
+              <Flame className="w-3.5 h-3.5 fill-current text-[var(--accent-main)]" />
+              <span className="text-[11.5px] font-black text-[var(--text-primary)]">
+                {streak}
+              </span>
+            </div>
+            <span className="w-0.5 h-3 bg-black/10 dark:bg-white/15 rounded-full" />
+            <div className="flex items-center gap-1 text-[var(--accent-main)]">
+              <Star className="w-3.5 h-3.5 fill-current text-[var(--accent-main)]" />
+              <span className="text-[11.5px] font-black text-[var(--text-primary)]">
+                {stars}
+              </span>
+            </div>
           </div>
-          <span className="w-0.5 h-3 bg-black/10 dark:bg-white/15 rounded-full" />
-          <div className="flex items-center gap-1 text-[var(--accent-main)]">
-            <Star className="w-3.5 h-3.5 fill-current text-[var(--accent-main)]" />
-            <span className="text-[11.5px] font-black text-[var(--text-primary)]">
-              {stars}
-            </span>
-          </div>
+
+          <button
+            type="button"
+            onClick={() => setCurrentTab('settings')}
+            title="Pengaturan"
+            aria-label="Buka Pengaturan"
+            className="w-8.5 h-8.5 rounded-full liquid-glass-tile border border-black/5 dark:border-white/10 flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer tactile-active shadow-xs"
+          >
+            <Settings className="w-4 h-4 stroke-[2]" />
+          </button>
         </div>
       </header>
 

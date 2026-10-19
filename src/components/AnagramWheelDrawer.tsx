@@ -126,7 +126,7 @@ export const AnagramWheelDrawer: React.FC = () => {
                 closeAnagramDrawer();
               }
             }}
-            className="relative w-full max-w-[430px] rounded-t-[32px] p-5 liquid-glass-card border-t border-[var(--accent-main)]/30 shadow-2xl flex flex-col items-center overflow-hidden z-10"
+            className="relative w-full max-w-[430px] rounded-t-[32px] px-5 pt-5 pb-[max(1.25rem,calc(0.75rem+env(safe-area-inset-bottom)))] liquid-glass-card border-t border-[var(--accent-main)]/30 shadow-2xl flex flex-col items-center overflow-hidden z-10"
             style={{
               background: 'linear-gradient(180deg, var(--bg-card) 0%, var(--bg-surface) 100%)',
             }}

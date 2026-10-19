@@ -266,7 +266,7 @@ export const HomeView: React.FC = () => {
   const cleanCategory = (currentLevel.category || 'Eksplorasi').toUpperCase();
 
   return (
-    <div className="w-full flex-1 flex flex-col gap-3 px-3.5 pt-[20px] pb-[90px] select-none overflow-y-auto relative">
+    <div className="w-full flex-1 flex flex-col gap-3 px-3.5 pt-[max(18px,env(safe-area-inset-top))] pb-[max(90px,calc(75px+env(safe-area-inset-bottom)))] select-none overflow-y-auto relative">
       {/* 1. Fluid Modern Profile Header (Unboxed & Dynamic Island Capsule) */}
       <header className="w-full shrink-0 flex items-center justify-between gap-2.5 px-1 pt-0.5 pb-0.5 relative z-10 select-none">
         {/* Left: Avatar + Identity with Greeting */}

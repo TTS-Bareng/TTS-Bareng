@@ -62,7 +62,7 @@ export const Header: React.FC = () => {
   const partnerName = partnerPeer?.name || 'Lawan';
 
   return (
-    <header className="w-full px-3.5 pt-3 pb-1.5 flex flex-col gap-1.5 select-none shrink-0 z-20">
+    <header className="w-full px-3.5 pt-[max(12px,env(safe-area-inset-top))] pb-1.5 flex flex-col gap-1.5 select-none shrink-0 z-20">
       <div className="flex items-center justify-between">
         {/* Back Button Bulat Kaca */}
         <button

@@ -64,7 +64,7 @@ export const LevelSelectModal: React.FC = () => {
               closeLevelSelect();
             }
           }}
-          className="relative w-full max-w-[430px] mx-auto max-h-[84vh] rounded-t-[32px] p-4.5 flex flex-col gap-2.5 shadow-2xl border-t border-black/5 dark:border-white/15 z-10 overflow-hidden liquid-glass-card"
+          className="relative w-full max-w-[430px] mx-auto max-h-[84vh] rounded-t-[32px] px-4.5 pt-4.5 pb-[max(1.125rem,calc(0.75rem+env(safe-area-inset-bottom)))] flex flex-col gap-2.5 shadow-2xl border-t border-black/5 dark:border-white/15 z-10 overflow-hidden liquid-glass-card"
         >
           {/* Top Specular Sheen Highlight */}
           <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />

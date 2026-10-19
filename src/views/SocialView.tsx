@@ -156,7 +156,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
       className={
         isEmbedded
           ? 'w-full flex flex-col gap-3 relative'
-          : 'w-full flex-1 flex flex-col gap-3 px-3.5 pt-[18px] pb-[90px] select-none overflow-y-auto relative'
+          : 'w-full flex-1 flex flex-col gap-3 px-3.5 pt-[max(18px,env(safe-area-inset-top))] pb-[max(90px,calc(75px+env(safe-area-inset-bottom)))] select-none overflow-y-auto relative'
       }
     >
       {/* 1. Header: Typographic Title + Live Pill (Skipped when embedded in ArenaView) */}

@@ -166,7 +166,7 @@ export const App: React.FC = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.92 }}
             transition={{ type: 'spring', damping: 22, stiffness: 340 }}
-            className="fixed top-3 inset-x-4 max-w-[380px] mx-auto z-50 px-4 py-2 rounded-full liquid-glass-card border border-[var(--accent-main)]/35 shadow-2xl flex items-center justify-center gap-2 text-[12px] font-bold text-[var(--text-primary)] backdrop-blur-xl pointer-events-none"
+            className="fixed top-[max(12px,env(safe-area-inset-top))] inset-x-4 max-w-[380px] mx-auto z-50 px-4 py-2 rounded-full liquid-glass-card border border-[var(--accent-main)]/35 shadow-2xl flex items-center justify-center gap-2 text-[12px] font-bold text-[var(--text-primary)] backdrop-blur-xl pointer-events-none"
           >
             <Sparkles className="w-4 h-4 text-[var(--accent-main)] stroke-[2.2] shrink-0" />
             <span className="truncate">{globalToast}</span>
