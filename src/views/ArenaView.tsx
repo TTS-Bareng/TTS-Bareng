@@ -41,6 +41,12 @@ import {
   History,
   Leaf,
   Radio,
+  Lightbulb,
+  Orbit,
+  FlaskConical,
+  Castle,
+  Dna,
+  Binary,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
@@ -80,6 +86,12 @@ const REALM_ICONS: Record<string, React.ElementType> = {
   theme_28_sejarah: History,
   theme_29_ekologi: Leaf,
   theme_30_media: Radio,
+  theme_31_filosofi: Lightbulb,
+  theme_32_fisika: Orbit,
+  theme_33_kimia: FlaskConical,
+  theme_34_sejarahdunia: Castle,
+  theme_35_biologimolekuler: Dna,
+  theme_36_matematika: Binary,
 };
 
 /** Crossword Grid Pattern Overlay (Oversized Graphic Watermark Texture) */

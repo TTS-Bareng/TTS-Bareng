@@ -219,6 +219,48 @@ export const REALMS: RealmDefinition[] = [
     subtitle: 'Kantor pos, telepon rumah, radio siaran, televisi keluarga, jurnalisme, dan internet global',
     categories: ['Media'],
   },
+  {
+    id: 'theme_31_filosofi',
+    name: 'Filsafat & Logika',
+    tag: 'Filsafat & Berpikir',
+    subtitle: 'Epistemologi hakikat ilmu, etika moral, logika silogisme, dialektika, dan filsuf agung',
+    categories: ['Filosofi'],
+  },
+  {
+    id: 'theme_32_fisika',
+    name: 'Fisika Semesta & Energi',
+    tag: 'Fisika & Semesta',
+    subtitle: 'Gravitasi semesta, termodinamika kalor, relativitas waktu, mekanika kuantum, dan foton',
+    categories: ['Fisika'],
+  },
+  {
+    id: 'theme_33_kimia',
+    name: 'Kimia & Materi Alam',
+    tag: 'Kimia & Molekul',
+    subtitle: 'Tabel periodik unsur, ikatan kovalen, reaksi redoks, polimer organik, larutan, dan katalis',
+    categories: ['Kimia'],
+  },
+  {
+    id: 'theme_34_sejarahdunia',
+    name: 'Sejarah Peradaban Dunia',
+    tag: 'Sejarah & Bangsa',
+    subtitle: 'Lembah Mesopotamia, piramida Mesir kuno, polis Yunani, jalur sutra, dan revolusi industri',
+    categories: ['Sejarah Dunia'],
+  },
+  {
+    id: 'theme_35_biologimolekuler',
+    name: 'Biologi Molekuler & Sel',
+    tag: 'Genetika & Kehidupan',
+    subtitle: 'Heliks ganda DNA, sintesis protein ribosom, mitosis sel, kode kodon, dan metabolisme enzim',
+    categories: ['Biologi Molekuler'],
+  },
+  {
+    id: 'theme_36_matematika',
+    name: 'Matematika & Geometri',
+    tag: 'Matematika & Angka',
+    subtitle: 'Teorema Pythagoras, aljabar persamaan, kalkulus limit, fraktal, topologi, dan bilangan prima',
+    categories: ['Matematika'],
+  },
 ];
 
 export function getRealmForCategory(category?: string): RealmDefinition {

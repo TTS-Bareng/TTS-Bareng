@@ -39,6 +39,12 @@ const categoryToRealm = {
   'Sejarah': 'Sejarah & Jejak Peradaban',
   'Ekologi': 'Ekologi & Kelestarian Bumi',
   'Media': 'Komunikasi & Media Informasi',
+  'Filosofi': 'Filsafat & Logika',
+  'Fisika': 'Fisika Semesta & Energi',
+  'Kimia': 'Kimia & Materi Alam',
+  'Sejarah Dunia': 'Sejarah Peradaban Dunia',
+  'Biologi Molekuler': 'Biologi Molekuler & Sel',
+  'Matematika': 'Matematika & Geometri',
 };
 
 levels.forEach((lvl, idx) => {
