@@ -3,10 +3,10 @@ import { Home, Sparkles, Gamepad2, User, Settings } from 'lucide-react';
 import { useGameStore, type TabType } from '../store/useGameStore';
 
 export const NavigationBottomBar: React.FC = () => {
-  const { currentTab, setCurrentTab } = useGameStore();
+  const { currentTab, setCurrentTab, isQrModalOpen, isShareModalOpen } = useGameStore();
 
-  // In Game tab (core crossword arena), hide bottom navigation bar so clue ribbon and keyboard have full breathing space
-  if (currentTab === 'game') {
+  // Hide bottom navigation bar when in game mode or full-screen modals are open
+  if (currentTab === 'game' || isQrModalOpen || isShareModalOpen) {
     return null;
   }
 

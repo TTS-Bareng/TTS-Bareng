@@ -164,6 +164,9 @@ interface GameState {
   shareModalData: ShareModalData | null;
   openShareModal: (data: ShareModalData) => void;
   closeShareModal: () => void;
+  isQrModalOpen: boolean;
+  openQrModal: () => void;
+  closeQrModal: () => void;
 
   // Gameplay actions
   selectClue: (clueId: string, cellToFocus?: [number, number]) => void;
@@ -527,6 +530,10 @@ export const useGameStore = create<GameState>((set, get) => ({
   shareModalData: null,
   openShareModal: (data: ShareModalData) => set({ isShareModalOpen: true, shareModalData: data }),
   closeShareModal: () => set({ isShareModalOpen: false, shareModalData: null }),
+
+  isQrModalOpen: false,
+  openQrModal: () => set({ isQrModalOpen: true }),
+  closeQrModal: () => set({ isQrModalOpen: false }),
 
   selectLevel: (index: number) => {
     const { levels, levelRecords } = get();

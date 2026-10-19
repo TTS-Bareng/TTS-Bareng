@@ -39,6 +39,9 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
     dailyRushRecord,
     mabarPeers,
     openLeaderboard,
+    isQrModalOpen,
+    openQrModal,
+    closeQrModal,
   } = useGameStore();
 
   const [todayStr] = useState(getTodayDateString);
@@ -51,7 +54,6 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
   const roomCode = activeRoomCode || localRoomCode;
   const isRoomActive = Boolean(activeRoomCode);
   const [inputCode, setInputCode] = useState('');
-  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
 
   const isCustomImageAvatar = Boolean(
@@ -281,7 +283,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
               </button>
               <button
                 type="button"
-                onClick={() => setIsQrModalOpen(true)}
+                onClick={openQrModal}
                 title="Kode QR"
                 className="p-1.5 rounded-full bg-white/20 hover:bg-white/30 text-white cursor-pointer tactile-active transition-colors shrink-0"
               >
@@ -783,28 +785,33 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
 
       {/* --- FULL SCREEN TICKET MABAR MODAL (Foto Keempat Plan & Go) --- */}
       {isQrModalOpen && (
-        <div className="fixed inset-0 z-50 bg-[#F7F5F0] dark:bg-[#111113] flex flex-col justify-between items-center p-4 sm:p-6 overflow-y-auto select-none transition-colors duration-300">
+        <div
+          style={{
+            background: 'var(--bg-gradient, var(--bg-app))',
+          }}
+          className="fixed inset-0 z-50 flex flex-col justify-between items-center p-4 sm:p-6 overflow-y-auto select-none transition-colors duration-300"
+        >
           {/* Top Brand Header & Close */}
           <div className="w-full max-w-[360px] flex items-center justify-between shrink-0 pt-1 px-1">
-            <div className="px-3.5 py-1.5 rounded-full bg-[#111113] dark:bg-white/10 text-white font-black text-[11px] tracking-tight flex items-center gap-1.5 shadow-xs border border-white/10">
+            <div className="px-3.5 py-1.5 rounded-full bg-black/10 dark:bg-white/10 text-[var(--text-primary)] font-black text-[11px] tracking-tight flex items-center gap-1.5 shadow-xs border border-black/5 dark:border-white/10 backdrop-blur-md">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
               <span>TTS Bareng</span>
             </div>
             <button
               type="button"
-              onClick={() => setIsQrModalOpen(false)}
-              className="w-8 h-8 rounded-full bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white cursor-pointer tactile-active transition-all"
+              onClick={closeQrModal}
+              className="w-8 h-8 rounded-full bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer tactile-active transition-all"
               title="Tutup"
             >
               <X className="w-4 h-4 stroke-[2.2]" />
             </button>
           </div>
 
-          {/* THE PHYSICAL TICKET SLEEVE */}
-          <div className="relative w-full max-w-[340px] rounded-[30px] shadow-2xl overflow-visible my-auto py-2">
+          {/* THE PHYSICAL TICKET SLEEVE (DIPANJANGIN SESUAI FOTO KEEMPAT) */}
+          <div className="relative w-full max-w-[340px] rounded-[34px] shadow-2xl overflow-visible my-auto py-2">
             {/* Floating Avatar Sticker 1: Top Right */}
-            <div className="absolute -top-2.5 -right-2 z-30 flex items-center gap-1.5 pointer-events-none">
-              <div className="px-2.5 py-0.5 rounded-full bg-white text-slate-900 font-bold text-[9px] shadow-md border border-slate-200/80">
+            <div className="absolute -top-3.5 -right-2 z-30 flex items-center gap-1.5 pointer-events-none">
+              <div className="px-2.5 py-1 rounded-full bg-white text-slate-900 font-bold text-[9px] shadow-md border border-slate-200/80">
                 Ayo mabar!
               </div>
               <div className="w-9 h-9 rounded-full bg-white p-0.5 shadow-md shrink-0 border border-slate-100">
@@ -816,32 +823,37 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
               </div>
             </div>
 
-            {/* Sleeve with Theme Accent Gradient */}
+            {/* Sleeve with Theme Accent Gradient (Elongated Height) */}
             <div
               style={{
                 background: 'var(--hero-grad, var(--accent-grad))',
                 color: '#ffffff',
               }}
-              className="w-full ticket-sleeve-notch pt-8 pb-5 px-5 text-white flex flex-col items-center text-center relative overflow-hidden shadow-xs"
+              className="w-full ticket-sleeve-notch pt-12 pb-9 px-6 text-white flex flex-col items-center text-center relative overflow-hidden shadow-xs"
             >
-              <h2 className="text-[25px] font-black tracking-tight leading-[1.08] text-white drop-shadow-xs">
+              <h2 className="text-[28px] font-black tracking-tight leading-[1.08] text-white drop-shadow-xs">
                 Kamu Diajak<br />Mabar TTS!
               </h2>
 
-              <p className="text-[8.5px] font-extrabold uppercase tracking-widest text-white/80 mt-2">
+              <p className="text-[9px] font-extrabold uppercase tracking-widest text-white/85 mt-3 mb-1">
                 SATU PAPAN • ADU KATA • TAKLUKKAN BERSAMA
               </p>
 
-              <div className="absolute bottom-2.5 right-3 border border-dashed border-white/30 rounded-lg px-2 py-0.5 rotate-6 text-[8px] font-mono text-white/80 pointer-events-none">
+              <div className="absolute bottom-3 right-4 border border-dashed border-white/30 rounded-lg px-2.5 py-0.5 rotate-6 text-[8px] font-mono text-white/80 pointer-events-none">
                 ROOM #{roomCode}
               </div>
             </div>
 
             {/* Perforated Tear Line (Zig-zag) */}
-            <div className="w-full h-3.5 perforation-edge bg-[#F7F5F0] dark:bg-[#111113]" />
+            <div
+              style={{
+                backgroundColor: 'var(--bg-app)',
+              }}
+              className="w-full h-4 perforation-edge"
+            />
 
-            {/* Floating Avatar Sticker 2: Bottom Left (positioned beside ticket stub) */}
-            <div className="absolute bottom-6 -left-2.5 z-30 flex items-center gap-1.5 pointer-events-none">
+            {/* Floating Avatar Sticker 2: Bottom Left (positioned nicely beside ticket stub) */}
+            <div className="absolute bottom-7 -left-3 z-30 flex items-center gap-1.5 pointer-events-none">
               <div className="w-9 h-9 rounded-full bg-white p-0.5 shadow-md shrink-0 border border-slate-100">
                 <img
                   src={MASCOTS.crosswordGirl}
@@ -849,44 +861,44 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
                   className="w-full h-full rounded-full object-cover bg-rose-50"
                 />
               </div>
-              <div className="px-2.5 py-0.5 rounded-full bg-white text-slate-900 font-bold text-[9px] shadow-md border border-slate-200/80">
+              <div className="px-2.5 py-1 rounded-full bg-white text-slate-900 font-bold text-[9px] shadow-md border border-slate-200/80">
                 Nungguin kamu nih
               </div>
             </div>
 
-            {/* White Ticket Base / QR Stub Sliding Out */}
-            <div className="w-full bg-white rounded-b-[30px] p-4.5 pt-2.5 flex flex-col items-center text-center shadow-md border-t border-slate-100">
+            {/* White Ticket Base / QR Stub Sliding Out (Elongated Height) */}
+            <div className="w-full bg-white rounded-b-[34px] p-6 pt-4 pb-8 flex flex-col items-center text-center shadow-lg border-t border-slate-100">
               {/* Real Scannable QR Code Frame */}
-              <div className="p-2.5 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 shadow-xs flex flex-col items-center my-1">
+              <div className="p-3 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 shadow-xs flex flex-col items-center my-1.5">
                 {qrCodeDataUrl ? (
                   <img
                     src={qrCodeDataUrl}
                     alt="QR Code Kamar Mabar"
-                    className="w-32 h-32 rounded-xl object-contain"
+                    className="w-36 h-36 rounded-xl object-contain"
                   />
                 ) : (
-                  <div className="w-32 h-32 flex items-center justify-center text-xs text-slate-400">
+                  <div className="w-36 h-36 flex items-center justify-center text-xs text-slate-400">
                     Membuat QR...
                   </div>
                 )}
-                <span className="text-[13px] font-black tracking-widest text-slate-900 mt-1 font-mono">
+                <span className="text-[14px] font-black tracking-widest text-slate-900 mt-2 font-mono">
                   PIN: {roomCode.split('').join(' ')}
                 </span>
               </div>
 
               {/* Host Subtitle */}
-              <div className="text-[9px] font-bold uppercase tracking-wider text-slate-400 mt-1.5">
+              <div className="text-[9.5px] font-bold uppercase tracking-wider text-slate-400 mt-3">
                 MABAR DENGAN
               </div>
-              <div className="text-xs font-black text-slate-900 mt-0.5 tracking-tight truncate max-w-[220px]">
+              <div className="text-sm font-black text-slate-900 mt-0.5 tracking-tight truncate max-w-[240px]">
                 {user?.name ? `${user.name.toUpperCase()} & TEMAN-TEMAN` : 'JAWARA & TEMAN-TEMAN'}
               </div>
             </div>
           </div>
 
           {/* Bottom Instructions & Action Buttons (No Chevron, WA Button with Accent Gradient) */}
-          <div className="w-full max-w-[340px] flex flex-col items-center shrink-0 pb-2">
-            <span className="text-[9.5px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2.5">
+          <div className="w-full max-w-[340px] flex flex-col items-center shrink-0 pb-3">
+            <span className="text-[9.5px] font-bold uppercase tracking-wider text-[var(--text-secondary)] mb-2.5">
               PINDAI QR ATAU KLIK UNTUK BERGABUNG
             </span>
 
@@ -906,14 +918,14 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
               <button
                 type="button"
                 onClick={handleCopyLink}
-                className="py-3 rounded-2xl bg-white dark:bg-white/10 hover:bg-slate-50 dark:hover:bg-white/15 border border-slate-200 dark:border-white/15 text-slate-900 dark:text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-xs cursor-pointer tactile-active transition-all"
+                className="py-3 rounded-2xl bg-white/90 dark:bg-white/10 hover:bg-white dark:hover:bg-white/15 border border-black/10 dark:border-white/15 text-[var(--text-primary)] font-black text-xs flex items-center justify-center gap-1.5 shadow-xs cursor-pointer tactile-active transition-all"
               >
                 <Copy className="w-4 h-4 stroke-[2.2]" />
                 <span>Salin Link</span>
               </button>
             </div>
 
-            <span className="text-[9.5px] text-slate-400 font-bold tracking-wide uppercase mt-3">
+            <span className="text-[9.5px] text-[var(--text-secondary)] font-bold tracking-wide uppercase mt-3">
               TTS Bareng - Mabar Teka Teki Silang
             </span>
           </div>
