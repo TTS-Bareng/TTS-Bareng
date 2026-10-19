@@ -345,7 +345,7 @@ export const ProfileView: React.FC = () => {
         </div>
 
         {/* Middle Section: Avatar & User Info on Left */}
-        <div className="relative z-10 max-w-[62%] sm:max-w-[65%] mb-2">
+        <div className="relative z-10 w-full max-w-full pr-14 sm:pr-20 mb-2">
           <div className="flex items-center gap-3 mb-2">
             <button
               type="button"
@@ -370,7 +370,7 @@ export const ProfileView: React.FC = () => {
                 </div>
               </div>
 
-              <div className="absolute -bottom-0.5 -right-0.5 w-4.5 h-4.5 rounded-full bg-white text-[var(--hero-btn-text, #111113)] flex items-center justify-center shadow-xs">
+              <div className="absolute -bottom-0.5 -right-0.5 w-4.5 h-4.5 rounded-full bg-white text-zinc-900 flex items-center justify-center shadow-xs">
                 <Camera className="w-2.5 h-2.5 stroke-[2.5]" />
               </div>
             </button>
@@ -415,11 +415,11 @@ export const ProfileView: React.FC = () => {
           )}
         </div>
 
-        {/* Large Solid Mascot Overlay - Playful Plush Crossword Board (Centered Middle-Right) */}
+        {/* Mascot Artistic Overlay in Background */}
         <img
           src={MASCOTS.crosswordBoard}
           alt="Mascot Papan Teka-Teki"
-          className="absolute right-2 sm:right-5 top-1/2 -translate-y-1/2 w-44 sm:w-54 h-44 sm:h-54 object-contain pointer-events-none select-none z-0 filter drop-shadow-xl group-hover:scale-105 transition-transform"
+          className="absolute -right-3 -bottom-3 w-40 sm:w-48 h-40 sm:h-48 object-contain object-bottom-right pointer-events-none select-none z-0 opacity-25 dark:opacity-30 filter drop-shadow-md group-hover:scale-105 transition-all duration-300"
         />
       </div>
 
