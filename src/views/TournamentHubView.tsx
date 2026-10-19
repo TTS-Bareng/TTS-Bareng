@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Trophy,
   Swords,
@@ -16,7 +16,9 @@ import {
   LogOut,
   CheckCircle2,
   Crown,
+  Zap,
 } from 'lucide-react';
+import confetti from 'canvas-confetti';
 import { useGameStore } from '../store/useGameStore';
 import { type CommunityTournamentMatch } from '../lib/tournament';
 import { TournamentQrModal } from '../components/TournamentQrModal';
@@ -36,6 +38,7 @@ export const TournamentHubView: React.FC = () => {
     openJoinTournament,
     joinTournament,
     leaveTournament,
+    fillTournamentSlotsWithBots,
     startTournamentLobby,
     startCommunityMatch,
     isTournamentQrModalOpen,
@@ -47,8 +50,24 @@ export const TournamentHubView: React.FC = () => {
 
   const [copiedCode, setCopiedCode] = useState(false);
   const [isDrawingBracket, setIsDrawingBracket] = useState(false);
+  const [selectedRoundFilter, setSelectedRoundFilter] = useState<string>('all');
 
   const isHost = activeTournament?.hostId === (user.id || 'player_local');
+
+  // Trigger celebration confetti when podium is reached
+  useEffect(() => {
+    if (activeTournament && activeTournament.status === 'completed') {
+      const myId = user.id || 'player_local';
+      const isWinner = activeTournament.champion?.id === myId || activeTournament.runnerUp?.id === myId;
+      if (isWinner) {
+        confetti({
+          particleCount: 140,
+          spread: 75,
+          origin: { y: 0.6 },
+        });
+      }
+    }
+  }, [activeTournament, user.id]);
 
   const handleStartLobbyWithAnimation = () => {
     setIsDrawingBracket(true);
@@ -242,6 +261,17 @@ export const TournamentHubView: React.FC = () => {
 
         {/* Lobby Action Controls */}
         <div className="flex flex-col gap-2 mt-1">
+          {isHost && activeTournament.players.length < activeTournament.maxPlayers && (
+            <button
+              type="button"
+              onClick={fillTournamentSlotsWithBots}
+              className="w-full py-2.5 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)] text-[11.5px] font-black flex items-center justify-center gap-1.5 cursor-pointer tactile-active hover:opacity-90 transition-opacity"
+            >
+              <Zap className="w-3.5 h-3.5 fill-current" />
+              <span>⚡ Lengkapi Slot dengan Jawara TTS (Mulai Cepat)</span>
+            </button>
+          )}
+
           {isHost ? (
             <button
               type="button"
@@ -302,6 +332,29 @@ export const TournamentHubView: React.FC = () => {
       );
     }
 
+    // Identify user's upcoming/active match
+    const myActiveMatch = activeTournament.matches.find(
+      (m: CommunityTournamentMatch) =>
+        (m.player1?.id === myId || m.player2?.id === myId) && m.status !== 'completed'
+    );
+
+    // Extract unique round names preserving order
+    const availableRounds: string[] = [];
+    activeTournament.matches.forEach((m) => {
+      if (!availableRounds.includes(m.roundName)) {
+        availableRounds.push(m.roundName);
+      }
+    });
+
+    const displayedMatches =
+      selectedRoundFilter === 'all'
+        ? activeTournament.matches
+        : activeTournament.matches.filter((m) => m.roundName === selectedRoundFilter);
+
+    const opponent = myActiveMatch
+      ? (myActiveMatch.player1?.id === myId ? myActiveMatch.player2 : myActiveMatch.player1)
+      : null;
+
     return (
       <div className="w-full flex flex-col gap-3.5 relative z-10 pb-8">
         {/* Header Bagan */}
@@ -330,9 +383,113 @@ export const TournamentHubView: React.FC = () => {
           </p>
         </div>
 
-        {/* Bagan Pertandingan Visual */}
-        <div className="flex flex-col gap-3">
-          {activeTournament.matches.map((match: CommunityTournamentMatch) => {
+        {/* Spotlight Card: User's Active Match (if available) */}
+        {myActiveMatch && (
+          <div
+            className="w-full rounded-[24px] p-4 relative z-10 overflow-hidden border border-[var(--accent-main)]/35 shadow-md flex flex-col gap-3"
+            style={{
+              background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
+            }}
+          >
+            <div className="absolute top-0 inset-x-0 h-px bg-white/30 pointer-events-none" />
+            <div className="flex items-center justify-between relative z-10">
+              <span className="text-[9px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-2xs inline-flex items-center gap-1.5 animate-pulse">
+                <Swords className="w-3 h-3 stroke-[2.4]" />
+                <span>GILIRAN ANDA BERTANDING</span>
+              </span>
+              <span className="text-[10px] font-bold text-[var(--accent-main)]">
+                {myActiveMatch.roundName} • {myActiveMatch.durationSeconds}s
+              </span>
+            </div>
+
+            {/* Contestants Preview */}
+            <div className="grid grid-cols-2 gap-2 items-center relative z-10">
+              <div className="p-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-[var(--accent-main)]/30 flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full overflow-hidden bg-[var(--accent-light)] border border-[var(--accent-main)]/30 shrink-0 flex items-center justify-center font-black text-[12px] text-[var(--accent-main)]">
+                  {user.avatar ? (
+                    <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                  ) : (
+                    user.name?.charAt(0) || 'K'
+                  )}
+                </div>
+                <div className="flex flex-col min-w-0">
+                  <span className="text-[11.5px] font-black text-[var(--text-primary)] truncate">
+                    {user.name || 'Kamu'}
+                  </span>
+                  <span className="text-[8.5px] font-bold text-[var(--accent-main)] uppercase">
+                    Anda
+                  </span>
+                </div>
+              </div>
+
+              <div className="p-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-[var(--border-card)] flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full overflow-hidden bg-black/10 dark:bg-white/10 border border-[var(--border-card)] shrink-0 flex items-center justify-center font-black text-[12px] text-[var(--text-secondary)]">
+                  {opponent?.avatar ? (
+                    <img src={opponent.avatar} alt={opponent.name} className="w-full h-full object-cover" />
+                  ) : (
+                    opponent?.name?.charAt(0) || '?'
+                  )}
+                </div>
+                <div className="flex flex-col min-w-0">
+                  <span className="text-[11.5px] font-black text-[var(--text-primary)] truncate">
+                    {opponent?.name || 'Menunggu Lawan'}
+                  </span>
+                  <span className="text-[8.5px] font-bold text-[var(--text-secondary)] uppercase">
+                    Lawan
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => startCommunityMatch(myActiveMatch.id)}
+              className="w-full py-3 rounded-2xl bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[12.5px] font-black flex items-center justify-center gap-2 cursor-pointer tactile-active shadow-md hover:opacity-95 transition-all relative z-10"
+            >
+              <Swords className="w-4 h-4" />
+              <span>Mulai Duel ({myActiveMatch.roundName})</span>
+              <ArrowRight className="w-4 h-4 stroke-[2.4]" />
+            </button>
+          </div>
+        )}
+
+        {/* Round Filter Tabs */}
+        {availableRounds.length > 1 && (
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+            <button
+              type="button"
+              onClick={() => setSelectedRoundFilter('all')}
+              className={`px-3 py-1.5 rounded-full text-[10.5px] font-black shrink-0 transition-all cursor-pointer tactile-active ${
+                selectedRoundFilter === 'all'
+                  ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-xs'
+                  : 'bg-black/5 dark:bg-white/5 border border-[var(--border-card)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+              }`}
+            >
+              Semua ({activeTournament.matches.length})
+            </button>
+            {availableRounds.map((rName) => {
+              const count = activeTournament.matches.filter((m) => m.roundName === rName).length;
+              return (
+                <button
+                  key={rName}
+                  type="button"
+                  onClick={() => setSelectedRoundFilter(rName)}
+                  className={`px-3 py-1.5 rounded-full text-[10.5px] font-black shrink-0 transition-all cursor-pointer tactile-active ${
+                    selectedRoundFilter === rName
+                      ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-xs'
+                      : 'bg-black/5 dark:bg-white/5 border border-[var(--border-card)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                  }`}
+                >
+                  {rName} ({count})
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Bagan Pertandingan Visual (Foto Kedua Card Style) */}
+        <div className="flex flex-col gap-2.5">
+          {displayedMatches.map((match: CommunityTournamentMatch) => {
             const isMyMatch = Boolean(match.player1?.id === myId || match.player2?.id === myId);
             const isCompleted = match.status === 'completed';
             const canPlay = isMyMatch && !isCompleted;
@@ -340,28 +497,41 @@ export const TournamentHubView: React.FC = () => {
             return (
               <div
                 key={match.id}
-                className={`w-full p-3.5 rounded-[22px] liquid-glass-card border shadow-xs transition-all ${
+                className={`w-full p-3.5 rounded-[22px] border shadow-xs relative overflow-hidden transition-all ${
                   canPlay
-                    ? 'border-[var(--accent-main)] shadow-md ring-1 ring-[var(--accent-main)]/30'
-                    : 'border-[var(--border-card)]'
+                    ? 'border-[var(--accent-main)] ring-1 ring-[var(--accent-main)]/35 shadow-md'
+                    : 'border-[var(--accent-main)]/20 hover:border-[var(--accent-main)]/35'
                 }`}
+                style={{
+                  background: canPlay
+                    ? 'linear-gradient(145deg, var(--accent-light) 0%, var(--bg-card) 65%, var(--accent-light) 100%)'
+                    : 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+                }}
               >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-[10px] font-black uppercase tracking-wider text-[var(--accent-main)]">
-                    {match.roundName}
-                  </span>
+                <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
+                <div className="flex items-center justify-between mb-2 relative z-10">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-[var(--accent-main)]">
+                      {match.roundName}
+                    </span>
+                    {isMyMatch && (
+                      <span className="text-[8px] font-black px-1.5 py-0.2 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)]">
+                        Laga Kamu
+                      </span>
+                    )}
+                  </div>
                   <span className="text-[9.5px] font-bold text-[var(--text-secondary)]">
-                    {isCompleted ? 'Selesai' : `${match.durationSeconds} Detik`}
+                    {isCompleted ? '✓ Selesai' : `${match.durationSeconds} Detik`}
                   </span>
                 </div>
 
                 {/* Match Contestants */}
-                <div className="grid grid-cols-2 gap-2 items-center">
+                <div className="grid grid-cols-2 gap-2 items-center relative z-10">
                   {/* Player 1 */}
                   <div
                     className={`p-2.5 rounded-xl border flex items-center justify-between ${
                       match.winner?.id === match.player1?.id
-                        ? 'bg-[var(--accent-light)] border-[var(--accent-main)] font-black text-[var(--accent-main)]'
+                        ? 'bg-[var(--accent-light)] border-[var(--accent-main)] font-black text-[var(--accent-main)] shadow-2xs'
                         : 'bg-black/5 dark:bg-white/5 border-[var(--border-card)]'
                     }`}
                   >
@@ -379,7 +549,7 @@ export const TournamentHubView: React.FC = () => {
                   <div
                     className={`p-2.5 rounded-xl border flex items-center justify-between ${
                       match.winner?.id === match.player2?.id
-                        ? 'bg-[var(--accent-light)] border-[var(--accent-main)] font-black text-[var(--accent-main)]'
+                        ? 'bg-[var(--accent-light)] border-[var(--accent-main)] font-black text-[var(--accent-main)] shadow-2xs'
                         : 'bg-black/5 dark:bg-white/5 border-[var(--border-card)]'
                     }`}
                   >
@@ -399,7 +569,7 @@ export const TournamentHubView: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => startCommunityMatch(match.id)}
-                    className="w-full mt-2.5 py-2.5 rounded-xl bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[12px] font-black flex items-center justify-center gap-1.5 cursor-pointer tactile-active shadow-md hover:opacity-95 transition-opacity"
+                    className="w-full mt-2.5 py-2.5 rounded-xl bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[12px] font-black flex items-center justify-center gap-1.5 cursor-pointer tactile-active shadow-md hover:opacity-95 transition-opacity relative z-10"
                   >
                     <Swords className="w-3.5 h-3.5" />
                     <span>Tanding Sekarang ({match.roundName})</span>

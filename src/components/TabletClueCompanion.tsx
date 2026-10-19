@@ -12,6 +12,8 @@ export const TabletClueCompanion: React.FC = () => {
     solvedClues,
     gameMode,
     activeTournamentMatch,
+    activeTournament,
+    activeCommunityMatchId,
     battleScores,
     user,
     mabarPeers,
@@ -33,13 +35,25 @@ export const TabletClueCompanion: React.FC = () => {
       : [...acrossClues, ...downClues].sort((a, b) => a.number - b.number);
 
   const isBattle = gameMode === '1v1_battle';
+  const myId = user.id || 'player_local';
+  const activeCommunityMatch =
+    activeTournament && activeCommunityMatchId
+      ? activeTournament.matches.find((m) => m.id === activeCommunityMatchId)
+      : null;
+
+  const communityOpponent = activeCommunityMatch
+    ? (activeCommunityMatch.player1?.id === myId
+        ? activeCommunityMatch.player2
+        : activeCommunityMatch.player1)
+    : null;
+
   const tournamentOpponent = activeTournamentMatch
     ? activeTournamentMatch.player1.isPlayer
       ? activeTournamentMatch.player2
       : activeTournamentMatch.player1
     : null;
   const partnerPeer = mabarPeers.find((p) => p.name !== user.name);
-  const opponentName = tournamentOpponent?.name || partnerPeer?.name || 'Lawan';
+  const opponentName = communityOpponent?.name || tournamentOpponent?.name || partnerPeer?.name || 'Lawan';
 
   return (
     <aside
@@ -194,17 +208,17 @@ export const TabletClueCompanion: React.FC = () => {
           <div className="p-3 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/30 flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-xl bg-[var(--accent-main)] text-[var(--accent-contrast)] flex items-center justify-center shrink-0 shadow-2xs">
-                {activeTournamentMatch ? (
+                {activeTournamentMatch || activeCommunityMatch ? (
                   <Trophy className="w-4 h-4 fill-current stroke-none" />
                 ) : (
                   <Swords className="w-4 h-4 stroke-[2.2]" />
                 )}
               </div>
               <div>
-                <span className="text-[8.5px] font-black uppercase tracking-wider text-[var(--accent-main)] block">
-                  {activeTournamentMatch ? 'PIALA NUSANTARA' : 'DUEL 1V1'}
+                <span className="text-[8.5px] font-black uppercase tracking-wider text-[var(--accent-main)] block truncate max-w-[150px]">
+                  {activeTournament ? activeTournament.name : activeTournamentMatch ? 'TURNAMEN' : 'DUEL 1V1'}
                 </span>
-                <span className="text-[11.5px] font-black text-[var(--text-primary)] leading-tight">
+                <span className="text-[11.5px] font-black text-[var(--text-primary)] leading-tight truncate max-w-[160px] block">
                   vs {opponentName}
                 </span>
               </div>

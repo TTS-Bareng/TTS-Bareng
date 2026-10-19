@@ -87,10 +87,10 @@ export const ProfileView: React.FC = () => {
     levelRecords,
     openLexicon,
     setCurrentTab,
+    setArenaSubTab,
     openAvatarPicker,
     openPlayerIdModal,
     trophies,
-    openTournament,
   } = useGameStore();
 
   const [toastMessage] = useState<string | null>(null);
@@ -764,25 +764,28 @@ export const ProfileView: React.FC = () => {
         </div>
       </div>
 
-      {/* Card: Lemari Trofi Turnamen Piala Nusantara */}
+      {/* Card: Lemari Trofi Turnamen */}
       <div
-        onClick={openTournament}
-        className="w-full shrink-0 rounded-[24px] p-4 relative z-10 flex flex-col gap-2.5 border border-amber-500/25 shadow-xs overflow-hidden cursor-pointer tactile-active group"
+        onClick={() => {
+          setCurrentTab('arena');
+          setArenaSubTab('tournament');
+        }}
+        className="w-full shrink-0 rounded-[24px] p-4 relative z-10 flex flex-col gap-2.5 border border-[var(--accent-main)]/20 shadow-xs overflow-hidden cursor-pointer tactile-active group transition-all hover:border-[var(--accent-main)]/40"
         style={{
-          background: 'linear-gradient(135deg, rgba(245,158,11,0.08) 0%, var(--bg-card) 60%, rgba(245,158,11,0.12) 100%)',
+          background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
         }}
       >
         <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between relative z-10">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-500 shadow-2xs">
-              <Trophy className="w-4 h-4 fill-amber-500 stroke-none" />
+            <div className="w-8 h-8 rounded-xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)] shadow-2xs group-hover:scale-105 transition-transform">
+              <Trophy className="w-4 h-4 fill-current stroke-none" />
             </div>
             <div>
               <h4 className="text-[13px] font-black text-[var(--text-primary)] leading-tight flex items-center gap-1.5">
-                <span>Lemari Trofi Piala Nusantara</span>
-                <span className="text-[8px] font-black px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400">
+                <span>Lemari Trofi Turnamen</span>
+                <span className="text-[8px] font-black px-1.5 py-0.2 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/20 text-[var(--accent-main)]">
                   TURNAMEN
                 </span>
               </h4>
@@ -798,11 +801,11 @@ export const ProfileView: React.FC = () => {
         </div>
 
         {/* 3 Trofi Pods */}
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-3 gap-2 relative z-10">
           {/* Trofi Emas */}
-          <div className="p-2 rounded-2xl bg-amber-500/10 dark:bg-amber-500/15 border border-amber-500/25 flex flex-col items-center text-center">
-            <Trophy className="w-4 h-4 fill-amber-500 text-amber-500 stroke-none mb-1 drop-shadow-xs" />
-            <span className="text-[14px] font-black text-amber-600 dark:text-amber-400 leading-none">
+          <div className="p-2 rounded-2xl bg-[var(--accent-light)]/40 border border-[var(--accent-main)]/25 flex flex-col items-center text-center">
+            <Trophy className="w-4 h-4 fill-current text-[var(--accent-main)] stroke-none mb-1 drop-shadow-xs" />
+            <span className="text-[14px] font-black text-[var(--accent-main)] leading-none">
               {trophies.gold}
             </span>
             <span className="text-[8px] font-bold text-[var(--text-secondary)] uppercase mt-0.5">
@@ -811,9 +814,9 @@ export const ProfileView: React.FC = () => {
           </div>
 
           {/* Trofi Perak */}
-          <div className="p-2 rounded-2xl bg-slate-500/10 dark:bg-slate-400/10 border border-slate-400/25 flex flex-col items-center text-center">
+          <div className="p-2 rounded-2xl bg-black/5 dark:bg-white/5 border border-[var(--border-card)] flex flex-col items-center text-center">
             <Medal className="w-4 h-4 text-slate-400 stroke-[2] mb-1" />
-            <span className="text-[14px] font-black text-slate-400 leading-none">
+            <span className="text-[14px] font-black text-[var(--text-primary)] leading-none">
               {trophies.silver}
             </span>
             <span className="text-[8px] font-bold text-[var(--text-secondary)] uppercase mt-0.5">
@@ -822,9 +825,9 @@ export const ProfileView: React.FC = () => {
           </div>
 
           {/* Trofi Perunggu */}
-          <div className="p-2 rounded-2xl bg-amber-700/10 dark:bg-amber-700/15 border border-amber-700/25 flex flex-col items-center text-center">
-            <Shield className="w-4 h-4 text-amber-700 dark:text-amber-500 stroke-[2] mb-1" />
-            <span className="text-[14px] font-black text-amber-700 dark:text-amber-500 leading-none">
+          <div className="p-2 rounded-2xl bg-black/5 dark:bg-white/5 border border-[var(--border-card)] flex flex-col items-center text-center">
+            <Shield className="w-4 h-4 text-[var(--accent-main)] stroke-[2] mb-1" />
+            <span className="text-[14px] font-black text-[var(--text-primary)] leading-none">
               {trophies.bronze}
             </span>
             <span className="text-[8px] font-bold text-[var(--text-secondary)] uppercase mt-0.5">

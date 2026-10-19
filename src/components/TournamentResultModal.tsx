@@ -16,6 +16,8 @@ export const TournamentResultModal: React.FC = () => {
     closeTournamentResult,
     tournamentResultData,
     setCurrentTab,
+    setArenaSubTab,
+    leaveTournament,
     user,
   } = useGameStore();
 
@@ -35,16 +37,20 @@ export const TournamentResultModal: React.FC = () => {
   const handleOpenBracket = () => {
     closeTournamentResult();
     setCurrentTab('arena');
+    setArenaSubTab('tournament');
   };
 
   const handleReturnHome = () => {
     closeTournamentResult();
     setCurrentTab('arena');
+    setArenaSubTab('tournament');
   };
 
   const handleRetry = () => {
     closeTournamentResult();
+    leaveTournament();
     setCurrentTab('arena');
+    setArenaSubTab('tournament');
   };
 
   return (

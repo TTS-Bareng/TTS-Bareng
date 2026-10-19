@@ -14,6 +14,8 @@ import {
   createCommunityTournament,
   generateKnockoutBracket,
   advanceTournamentMatch,
+  fillRemainingSlotsWithBots,
+  simulateConcurrentMatches,
   loadActiveCommunityTournament,
   saveActiveCommunityTournament,
   loadPublicTournaments,
@@ -231,6 +233,7 @@ interface GameState {
   ) => CommunityTournament;
   joinTournament: (code: string) => { success: boolean; message: string };
   leaveTournament: () => void;
+  fillTournamentSlotsWithBots: () => void;
   startTournamentLobby: () => void;
   startCommunityMatch: (matchId: string) => void;
 
@@ -1576,6 +1579,14 @@ export const useGameStore = create<GameState>((set, get) => ({
     get().showGlobalToast('Keluar dari turnamen.');
   },
 
+  fillTournamentSlotsWithBots: () => {
+    const { activeTournament, showGlobalToast } = get();
+    if (!activeTournament) return;
+    const updated = fillRemainingSlotsWithBots(activeTournament);
+    set({ activeTournament: updated });
+    showGlobalToast(`Slot berhasil dilengkapi dengan Jawara TTS! Siap tanding!`, 2500);
+  },
+
   startTournamentLobby: () => {
     const { activeTournament, user, showGlobalToast } = get();
     if (!activeTournament) return;
@@ -2014,11 +2025,19 @@ export const useGameStore = create<GameState>((set, get) => ({
         addStars(starsAwarded);
       }
 
+      // Automatically simulate other concurrent matches in this round so next round has opponents ready
+      const currentRoundIdx = targetMatch?.roundIndex ?? 0;
+      const fullyUpdatedTourney = simulateConcurrentMatches(
+        updatedTournament,
+        currentRoundIdx,
+        myId
+      );
+
       const nextTrophies = loadTrophies();
 
       if (playerWon) {
         if (soundEnabled) {
-          if (updatedTournament.status === 'completed' && trophyAwarded === 'gold') {
+          if (fullyUpdatedTourney.status === 'completed' && trophyAwarded === 'gold') {
             soundManager.playCrystalChime();
           } else {
             soundManager.playGamelanBell();
@@ -2032,7 +2051,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       }
 
       set({
-        activeTournament: updatedTournament,
+        activeTournament: fullyUpdatedTourney,
         trophies: nextTrophies,
         isTournamentResultOpen: true,
         tournamentResultData: {

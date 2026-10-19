@@ -53,6 +53,48 @@ export interface TrophyRecord {
   lastChampionDate?: string;
 }
 
+/** Predefined pool of smart bots with Indonesian names & colorful mascot avatars */
+export const TOURNAMENT_BOT_CANDIDATES: CommunityTournamentPlayer[] = [
+  { id: 'bot_aris', name: 'Aris Pratama', avatar: MASCOTS.crosswordDuel, isHost: false, isReady: true },
+  { id: 'bot_siti', name: 'Siti Rahma', avatar: MASCOTS.crosswordGirl, isHost: false, isReady: true },
+  { id: 'bot_bagus', name: 'Bagus Wijaya', avatar: MASCOTS.cheerfulBookBoy, isHost: false, isReady: true },
+  { id: 'bot_rina', name: 'Rina Melati', avatar: MASCOTS.crosswordGirlSticker, isHost: false, isReady: true },
+  { id: 'bot_fajar', name: 'Fajar Hidayat', avatar: MASCOTS.puzzleScholar, isHost: false, isReady: true },
+  { id: 'bot_dewi', name: 'Dewi Kartika', avatar: MASCOTS.puzzleExplorer, isHost: false, isReady: true },
+  { id: 'bot_hendra', name: 'Hendra Saputra', avatar: MASCOTS.puzzleGamer, isHost: false, isReady: true },
+  { id: 'bot_maya', name: 'Maya Kusuma', avatar: MASCOTS.crosswordThinker, isHost: false, isReady: true },
+  { id: 'bot_bambang', name: 'Bambang Pamungkas', avatar: MASCOTS.batikWordsmith, isHost: false, isReady: true },
+  { id: 'bot_anita', name: 'Anita Putri', avatar: MASCOTS.indonesianPuzzleKid, isHost: false, isReady: true },
+  { id: 'bot_dimas', name: 'Dimas Setiawan', avatar: MASCOTS.techSavvyWalker, isHost: false, isReady: true },
+  { id: 'bot_clarissa', name: 'Clarissa Tania', avatar: MASCOTS.puzzleMoment, isHost: false, isReady: true },
+  { id: 'bot_reza', name: 'Reza Rahardian', avatar: MASCOTS.boySolvingPuzzle, isHost: false, isReady: true },
+  { id: 'bot_zahra', name: 'Zahra Amelia', avatar: MASCOTS.indonesianPuzzlePals, isHost: false, isReady: true },
+  { id: 'bot_kevin', name: 'Kevin Sanjaya', avatar: MASCOTS.crosswordChampion, isHost: false, isReady: true },
+];
+
+/** Fill remaining open slots in a tournament lobby with bots */
+export function fillRemainingSlotsWithBots(tournament: CommunityTournament): CommunityTournament {
+  const emptyCount = Math.max(0, tournament.maxPlayers - tournament.players.length);
+  if (emptyCount === 0) return tournament;
+
+  const existingIds = new Set(tournament.players.map((p) => p.id));
+  const availableBots = TOURNAMENT_BOT_CANDIDATES.filter((b) => !existingIds.has(b.id));
+
+  const newBots = availableBots.slice(0, emptyCount).map((b) => ({
+    ...b,
+    isHost: false,
+    isReady: true,
+  }));
+
+  const updatedTourney: CommunityTournament = {
+    ...tournament,
+    players: [...tournament.players, ...newBots],
+  };
+
+  saveActiveCommunityTournament(updatedTourney);
+  return updatedTourney;
+}
+
 const STORAGE_KEY_ACTIVE_TOURNAMENT = 'tts_active_tournament_v2';
 const STORAGE_KEY_PUBLIC_TOURNAMENTS = 'tts_public_tournaments_v2';
 const STORAGE_KEY_TROPHIES = 'tts_tournament_trophies_v1';
@@ -420,6 +462,142 @@ export function generateKnockoutBracket(
   return matches;
 }
 
+/** Propagate winner of a match into the corresponding slot in next round */
+export function propagateWinnerToNextRound(
+  matches: CommunityTournamentMatch[],
+  target: CommunityTournamentMatch,
+  winner: CommunityTournamentPlayer | null,
+  currentUserId: string
+): void {
+  if (!winner) return;
+
+  // 1. match_r1_X (Round 1 / 16 Besar) -> match_qfX (Quarterfinals)
+  if (target.id.startsWith('match_r1_')) {
+    const r1Num = parseInt(target.id.replace('match_r1_', ''), 10);
+    const qfIdx = matches.findIndex((m) => m.id === `match_qf${r1Num}`);
+    if (qfIdx !== -1) {
+      const qf = matches[qfIdx];
+      matches[qfIdx] = {
+        ...qf,
+        player2: winner,
+        isPlayerMatch: Boolean(qf.player1?.id === currentUserId || winner.id === currentUserId),
+        status: qf.player1 ? 'active' : 'pending',
+      };
+    }
+    return;
+  }
+
+  // 2. match_qfX (Quarterfinals) -> match_sf1 or match_sf2
+  if (target.id.startsWith('match_qf')) {
+    const qfNum = parseInt(target.id.replace('match_qf', ''), 10);
+    const totalQFs = matches.filter((m) => m.id.startsWith('match_qf')).length;
+    let sfIdx = -1;
+    let isSlot1 = true;
+
+    if (totalQFs <= 2) {
+      // 6-player format with 2 byes pre-seeded in SF
+      if (qfNum === 1) {
+        sfIdx = matches.findIndex((m) => m.id === 'match_sf1');
+        isSlot1 = false;
+      } else {
+        sfIdx = matches.findIndex((m) => m.id === 'match_sf2');
+        isSlot1 = false;
+      }
+    } else {
+      // 4 QFs: QF1 & QF2 feed SF1; QF3 & QF4 feed SF2
+      if (qfNum <= 2) {
+        sfIdx = matches.findIndex((m) => m.id === 'match_sf1');
+        isSlot1 = qfNum === 1;
+      } else {
+        sfIdx = matches.findIndex((m) => m.id === 'match_sf2');
+        isSlot1 = qfNum === 3;
+      }
+    }
+
+    if (sfIdx !== -1) {
+      const sf = matches[sfIdx];
+      const nextP1 = isSlot1 ? winner : sf.player1;
+      const nextP2 = !isSlot1 ? winner : sf.player2;
+      matches[sfIdx] = {
+        ...sf,
+        player1: nextP1,
+        player2: nextP2,
+        isPlayerMatch: Boolean(nextP1?.id === currentUserId || nextP2?.id === currentUserId),
+        status: nextP1 && nextP2 ? 'active' : 'pending',
+      };
+    }
+    return;
+  }
+
+  // 3. match_sf1 or match_sf2 -> match_final
+  if (target.id === 'match_sf1' || target.id === 'match_sf2') {
+    const finalIdx = matches.findIndex((m) => m.id === 'match_final');
+    if (finalIdx !== -1) {
+      const finalMatch = matches[finalIdx];
+      const isSlot1 = target.id === 'match_sf1';
+      const nextP1 = isSlot1 ? winner : finalMatch.player1;
+      const nextP2 = !isSlot1 ? winner : finalMatch.player2;
+      matches[finalIdx] = {
+        ...finalMatch,
+        player1: nextP1,
+        player2: nextP2,
+        isPlayerMatch: Boolean(nextP1?.id === currentUserId || nextP2?.id === currentUserId),
+        status: nextP1 && nextP2 ? 'active' : 'pending',
+      };
+    }
+    return;
+  }
+}
+
+/** Simulate concurrent AI vs AI matches in the same round */
+export function simulateConcurrentMatches(
+  tournament: CommunityTournament,
+  currentRoundIndex: number,
+  currentUserId: string
+): CommunityTournament {
+  const matches = [...tournament.matches];
+  let changed = false;
+
+  for (let i = 0; i < matches.length; i++) {
+    const m = matches[i];
+    // Find active non-player match in the current round with both contestants present
+    if (
+      m.roundIndex === currentRoundIndex &&
+      m.status === 'active' &&
+      !m.isPlayerMatch &&
+      m.player1 &&
+      m.player2
+    ) {
+      const p1Wins = Math.random() > 0.48;
+      const scoreWinner = Math.floor(65 + Math.random() * 30);
+      const scoreLoser = Math.floor(25 + Math.random() * 35);
+      const p1Score = p1Wins ? scoreWinner : scoreLoser;
+      const p2Score = p1Wins ? scoreLoser : scoreWinner;
+      const winner = p1Wins ? m.player1 : m.player2;
+
+      matches[i] = {
+        ...m,
+        status: 'completed',
+        winner,
+        player1Score: p1Score,
+        player2Score: p2Score,
+      };
+
+      propagateWinnerToNextRound(matches, matches[i], winner, currentUserId);
+      changed = true;
+    }
+  }
+
+  if (!changed) return tournament;
+
+  const updatedTournament: CommunityTournament = {
+    ...tournament,
+    matches,
+  };
+  saveActiveCommunityTournament(updatedTournament);
+  return updatedTournament;
+}
+
 /** Advance match result and update bracket */
 export function advanceTournamentMatch(
   tournament: CommunityTournament,
@@ -480,81 +658,8 @@ export function advanceTournamentMatch(
       addTrophy('bronze');
     }
 
-    // Advance winner to next round match (e.g. SF -> Final)
-    if (tournament.format === 'knockout_4' || tournament.format === 'sprint') {
-      const finalIdx = matches.findIndex((m) => m.id === 'match_final');
-      if (finalIdx !== -1) {
-        const finalMatch = matches[finalIdx];
-        if (target.id === 'match_sf1') {
-          matches[finalIdx] = {
-            ...finalMatch,
-            player1: winner,
-            isPlayerMatch: Boolean(winner?.id === currentUserId || finalMatch.player2?.id === currentUserId),
-            status: finalMatch.player2 ? 'active' : 'pending',
-          };
-        } else if (target.id === 'match_sf2') {
-          matches[finalIdx] = {
-            ...finalMatch,
-            player2: winner,
-            isPlayerMatch: Boolean(winner?.id === currentUserId || finalMatch.player1?.id === currentUserId),
-            status: finalMatch.player1 ? 'active' : 'pending',
-          };
-        }
-      }
-      // Round 1 propagation to Quarterfinals
-      if (target.id.startsWith('match_r1_')) {
-        const r1Num = parseInt(target.id.replace('match_r1_', ''), 10);
-        const qfIdx = matches.findIndex((m) => m.id === `match_qf${r1Num}`);
-        if (qfIdx !== -1) {
-          const qf = matches[qfIdx];
-          matches[qfIdx] = {
-            ...qf,
-            player2: winner,
-            isPlayerMatch: Boolean(
-              qf.player1?.id === currentUserId || winner?.id === currentUserId
-            ),
-            status: qf.player1 ? 'active' : 'pending',
-          };
-        }
-      } else if (target.id.startsWith('match_qf')) {
-        const qfNum = parseInt(target.id.replace('match_qf', ''), 10);
-        const sfIdx = qfNum <= 2 ? matches.findIndex((m) => m.id === 'match_sf1') : matches.findIndex((m) => m.id === 'match_sf2');
-        if (sfIdx !== -1) {
-          const sf = matches[sfIdx];
-          const isSlot1 = qfNum % 2 === 1;
-          matches[sfIdx] = {
-            ...sf,
-            player1: isSlot1 ? winner : sf.player1,
-            player2: !isSlot1 ? winner : sf.player2,
-            isPlayerMatch: Boolean(
-              (isSlot1 ? winner?.id : sf.player1?.id) === currentUserId ||
-              (!isSlot1 ? winner?.id : sf.player2?.id) === currentUserId
-            ),
-            status: (isSlot1 ? sf.player2 : sf.player1) ? 'active' : 'pending',
-          };
-        }
-      } else if (target.id.startsWith('match_sf')) {
-        const finalIdx = matches.findIndex((m) => m.id === 'match_final');
-        if (finalIdx !== -1) {
-          const finalMatch = matches[finalIdx];
-          if (target.id === 'match_sf1') {
-            matches[finalIdx] = {
-              ...finalMatch,
-              player1: winner,
-              isPlayerMatch: Boolean(winner?.id === currentUserId || finalMatch.player2?.id === currentUserId),
-              status: finalMatch.player2 ? 'active' : 'pending',
-            };
-          } else {
-            matches[finalIdx] = {
-              ...finalMatch,
-              player2: winner,
-              isPlayerMatch: Boolean(winner?.id === currentUserId || finalMatch.player1?.id === currentUserId),
-              status: finalMatch.player1 ? 'active' : 'pending',
-            };
-          }
-        }
-      }
-    }
+    // Universal winner advancement across all tournament formats
+    propagateWinnerToNextRound(matches, target, winner, currentUserId);
   }
 
   const updatedTournament: CommunityTournament = {

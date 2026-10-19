@@ -29,6 +29,8 @@ export const Header: React.FC = () => {
     battleScores,
     battleTimeLeft,
     activeTournamentMatch,
+    activeTournament,
+    activeCommunityMatchId,
     theme,
   } = useGameStore();
 
@@ -59,11 +61,23 @@ export const Header: React.FC = () => {
   const isDailyRush = gameMode === 'daily_rush';
   const isBattle = gameMode === '1v1_battle';
   const palette = getBattlePalette(theme);
+  const myId = user.id || 'player_local';
+  const activeCommunityMatch =
+    activeTournament && activeCommunityMatchId
+      ? activeTournament.matches.find((m) => m.id === activeCommunityMatchId)
+      : null;
+
+  const communityOpponent = activeCommunityMatch
+    ? (activeCommunityMatch.player1?.id === myId
+        ? activeCommunityMatch.player2
+        : activeCommunityMatch.player1)
+    : null;
+
   const tournamentOpponent = activeTournamentMatch
     ? (activeTournamentMatch.player1.isPlayer ? activeTournamentMatch.player2 : activeTournamentMatch.player1)
     : null;
   const partnerPeer = mabarPeers.find((p) => p.name !== user.name);
-  const partnerName = tournamentOpponent?.name || partnerPeer?.name || 'Lawan';
+  const partnerName = communityOpponent?.name || tournamentOpponent?.name || partnerPeer?.name || 'Lawan';
 
   return (
     <header className="w-full px-3.5 pt-[max(12px,env(safe-area-inset-top))] pb-1.5 flex flex-col gap-1.5 select-none shrink-0 z-20">
@@ -72,8 +86,14 @@ export const Header: React.FC = () => {
         <button
           type="button"
           onClick={() => {
+            if (activeCommunityMatch) {
+              if (window.confirm('Tinggalkan pertandingan turnamen? Skor ronde ini tidak akan tersimpan.')) {
+                setCurrentTab('arena');
+              }
+              return;
+            }
             if (activeTournamentMatch) {
-              if (window.confirm('Tinggalkan babak Piala Nusantara? Pertandingan ini akan dibatalkan.')) {
+              if (window.confirm('Tinggalkan babak turnamen? Pertandingan ini akan dibatalkan.')) {
                 setCurrentTab('arena');
               }
               return;
@@ -100,12 +120,24 @@ export const Header: React.FC = () => {
         </button>
 
         {/* Center: Stage Bab & Level or Daily Rush Mode or 1v1 Battle or Mabar Mode */}
-        {activeTournamentMatch ? (
+        {activeCommunityMatch ? (
           <div className="flex flex-col items-center text-center px-2 py-0.5">
             <div className="flex items-center gap-1 leading-none mb-0.5">
-              <Trophy className="w-2.5 h-2.5 text-amber-500 fill-amber-500 stroke-[2]" />
-              <span className="text-[8.5px] font-black uppercase tracking-wider text-amber-500">
-                PIALA NUSANTARA • {activeTournamentMatch.roundTitle.toUpperCase()}
+              <Trophy className="w-2.5 h-2.5 text-[var(--accent-main)] fill-current stroke-none" />
+              <span className="text-[8.5px] font-black uppercase tracking-wider text-[var(--accent-main)] truncate max-w-[200px]">
+                {activeTournament?.name} • {activeCommunityMatch.roundName.toUpperCase()}
+              </span>
+            </div>
+            <h2 className="text-[13.5px] font-black tracking-tight leading-tight text-[var(--text-primary)] truncate max-w-[220px]">
+              vs {communityOpponent?.name || 'Lawan'}
+            </h2>
+          </div>
+        ) : activeTournamentMatch ? (
+          <div className="flex flex-col items-center text-center px-2 py-0.5">
+            <div className="flex items-center gap-1 leading-none mb-0.5">
+              <Trophy className="w-2.5 h-2.5 text-[var(--accent-main)] fill-current stroke-none" />
+              <span className="text-[8.5px] font-black uppercase tracking-wider text-[var(--accent-main)]">
+                TURNAMEN • {activeTournamentMatch.roundTitle.toUpperCase()}
               </span>
             </div>
             <h2 className="text-[13.5px] font-black tracking-tight leading-tight text-[var(--text-primary)]">
