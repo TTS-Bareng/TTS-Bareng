@@ -23,6 +23,7 @@ import { type CommunityTournamentMatch } from '../lib/tournament';
 import { TournamentQrModal } from '../components/TournamentQrModal';
 import { QrScannerModal } from '../components/QrScannerModal';
 import { extractTournamentCodeFromText, extractRoomCodeFromText, createTournamentDeepLink } from '../lib/deeplink';
+import { MASCOTS } from '../assets/maskots';
 
 export const TournamentHubView: React.FC = () => {
   const {
@@ -474,75 +475,94 @@ export const TournamentHubView: React.FC = () => {
   return (
     <>
       <div className="w-full flex flex-col gap-3.5 relative z-10 pb-6">
-        {/* 1. Header Trophy Showcase (Themed Glass Card) */}
+        {/* 1. Header Trophy Showcase (Themed Hero Stage Card) */}
         <div
-          className="w-full rounded-[26px] p-4 relative z-10 overflow-hidden border border-white/10 dark:border-white/15 shadow-sm"
+          className="w-full rounded-[28px] p-4 sm:p-5 relative z-10 overflow-hidden border border-white/15 dark:border-white/20 shadow-xl"
           style={{
             background: 'var(--hero-grad, var(--accent-grad))',
             color: '#ffffff',
           }}
         >
-          <div className="absolute top-0 inset-x-0 h-px bg-white/30 pointer-events-none" />
-          <div className="absolute -top-10 -right-10 w-44 h-44 rounded-full bg-white/15 blur-2xl pointer-events-none" />
+          {/* Ambient Top Glow & Specular Sheen */}
+          <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
+          <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-80 h-44 rounded-full bg-white/20 blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 inset-x-0 h-28 bg-gradient-to-t from-black/25 via-black/10 to-transparent pointer-events-none" />
 
-          <div className="flex items-center justify-between mb-2 relative z-10">
-            <span className="text-[8.5px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/20 text-white backdrop-blur-md border border-white/25 inline-flex items-center gap-1.5">
-              <Trophy className="w-3 h-3 stroke-[2.2]" />
+          {/* Header Row: Badge & Status Pill (Nama user di pojok kanan dihapus sesuai permintaan) */}
+          <div className="flex items-center justify-between relative z-10 mb-1">
+            <span className="text-[8.5px] font-black uppercase tracking-wider px-3 py-1 rounded-full bg-white/20 text-white backdrop-blur-md border border-white/25 inline-flex items-center gap-1.5 shadow-xs">
+              <Trophy className="w-3 h-3 stroke-[2.4]" />
               <span>ARENA KOMPETISI RESMI</span>
             </span>
-            <span className="text-[10px] font-bold text-white/90">
-              {user.name}
+
+            <span className="text-[8.5px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/30 text-white/90 backdrop-blur-md border border-white/15 inline-flex items-center gap-1.5 shadow-2xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>SISTEM GUGUR</span>
             </span>
           </div>
 
-          <div className="relative z-10 mb-3">
-            <h3 className="text-[20px] font-black text-white tracking-tight leading-tight mb-1">
+          {/* 3D Mascot Squad Overlay - 100% Solid & Vivid, Non-Transparent */}
+          <div className="relative w-full flex items-center justify-center -my-1 py-1">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-52 h-28 rounded-full bg-white/15 blur-2xl" />
+            </div>
+            <img
+              src={MASCOTS.tournamentChampions}
+              alt="TTS Crossword Champions Tournament"
+              className="w-full max-w-[320px] sm:max-w-[360px] h-auto object-contain relative z-10 select-none pointer-events-none drop-shadow-[0_16px_28px_rgba(0,0,0,0.4)] transition-transform hover:scale-[1.02] duration-300"
+              loading="eager"
+            />
+          </div>
+
+          {/* Title & Description Section */}
+          <div className="relative z-10 text-center sm:text-left mt-1 mb-3">
+            <h3 className="text-[21px] sm:text-[23px] font-black text-white tracking-tight leading-tight">
               Turnamen Komunitas
             </h3>
-            <p className="text-[11px] text-white/85 leading-snug max-w-[85%]">
+            <p className="text-[11.5px] text-white/85 leading-snug mt-1 max-w-[95%] mx-auto sm:mx-0">
               Buat turnamen sistem gugur bersama kawan, atau bergabung ke turnamen terbuka untuk memperebutkan trofi kejuaraan.
             </p>
           </div>
 
-          {/* Player Trophies Bar (Themed Glass Inset) */}
-          <div className="grid grid-cols-3 gap-2 p-2.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 relative z-10">
-            <div className="flex items-center gap-2 px-1">
-              <div className="w-7 h-7 rounded-xl bg-white/20 flex items-center justify-center text-white shrink-0">
+          {/* Player Trophies Bar (Themed Frosted Glass Inset) */}
+          <div className="grid grid-cols-3 gap-2 p-2.5 rounded-2xl bg-black/25 dark:bg-black/35 backdrop-blur-md border border-white/15 relative z-10 shadow-inner">
+            <div className="flex items-center gap-2 px-1.5 py-0.5">
+              <div className="w-7 h-7 rounded-xl bg-white/20 border border-white/20 flex items-center justify-center text-white shrink-0 shadow-xs">
                 <Trophy className="w-3.5 h-3.5 fill-current" />
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="text-[7.5px] font-bold text-white/75 uppercase tracking-wider truncate">
+                <span className="text-[7.5px] font-extrabold text-white/75 uppercase tracking-wider truncate">
                   Emas
                 </span>
-                <span className="text-[12px] font-black text-white leading-none">
+                <span className="text-[12.5px] font-black text-white leading-none">
                   {trophies.gold} 🏆
                 </span>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 px-1 border-x border-white/15">
-              <div className="w-7 h-7 rounded-xl bg-white/20 flex items-center justify-center text-white shrink-0">
+            <div className="flex items-center gap-2 px-1.5 py-0.5 border-x border-white/15">
+              <div className="w-7 h-7 rounded-xl bg-white/20 border border-white/20 flex items-center justify-center text-white shrink-0 shadow-xs">
                 <Medal className="w-3.5 h-3.5 fill-current" />
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="text-[7.5px] font-bold text-white/75 uppercase tracking-wider truncate">
+                <span className="text-[7.5px] font-extrabold text-white/75 uppercase tracking-wider truncate">
                   Perak
                 </span>
-                <span className="text-[12px] font-black text-white leading-none">
+                <span className="text-[12.5px] font-black text-white leading-none">
                   {trophies.silver} 🥈
                 </span>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 px-1">
-              <div className="w-7 h-7 rounded-xl bg-white/20 flex items-center justify-center text-white shrink-0">
+            <div className="flex items-center gap-2 px-1.5 py-0.5">
+              <div className="w-7 h-7 rounded-xl bg-white/20 border border-white/20 flex items-center justify-center text-white shrink-0 shadow-xs">
                 <Medal className="w-3.5 h-3.5 fill-current" />
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="text-[7.5px] font-bold text-white/75 uppercase tracking-wider truncate">
+                <span className="text-[7.5px] font-extrabold text-white/75 uppercase tracking-wider truncate">
                   Perunggu
                 </span>
-                <span className="text-[12px] font-black text-white leading-none">
+                <span className="text-[12.5px] font-black text-white leading-none">
                   {trophies.bronze} 🥉
                 </span>
               </div>

@@ -29,6 +29,7 @@ export const MASCOTS = {
   crosswordBoard: '/maskot/Playful Plush Crossword Board.webp',
   puzzleExplorer: '/maskot/Cheerful Plush Puzzle Explorer.webp',
   crosswordGirlSticker: '/maskot/Cute Plush Crossword Girl Sticker.webp',
+  tournamentChampions: '/maskot/TTS Crossword Champions Tournament.webp',
 } as const;
 
 export type MascotKey = keyof typeof MASCOTS;
