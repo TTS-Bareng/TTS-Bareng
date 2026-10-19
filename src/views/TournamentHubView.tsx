@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Trophy,
   Swords,
@@ -16,10 +16,13 @@ import {
   LogOut,
   CheckCircle2,
   Crown,
+  ScanLine,
 } from 'lucide-react';
-import QRCode from 'qrcode';
 import { useGameStore } from '../store/useGameStore';
 import { type CommunityTournamentMatch } from '../lib/tournament';
+import { TournamentQrModal } from '../components/TournamentQrModal';
+import { QrScannerModal } from '../components/QrScannerModal';
+import { extractTournamentCodeFromText, extractRoomCodeFromText, createTournamentDeepLink } from '../lib/deeplink';
 
 export const TournamentHubView: React.FC = () => {
   const {
@@ -38,23 +41,9 @@ export const TournamentHubView: React.FC = () => {
 
   const [copiedCode, setCopiedCode] = useState(false);
   const [showQrModal, setShowQrModal] = useState(false);
-  const [qrDataUrl, setQrDataUrl] = useState<string>('');
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
 
   const isHost = activeTournament?.hostId === (user.id || 'player_local');
-
-  // Generate QR code data URL whenever activeTournament changes
-  useEffect(() => {
-    if (activeTournament) {
-      const inviteUrl = `${window.location.origin}?tourney=${activeTournament.code}`;
-      QRCode.toDataURL(inviteUrl, {
-        width: 220,
-        margin: 1,
-        color: { dark: '#111827', light: '#ffffff' },
-      })
-        .then((url) => setQrDataUrl(url))
-        .catch(() => setQrDataUrl(''));
-    }
-  }, [activeTournament]);
 
   const handleCopyCode = () => {
     if (!activeTournament) return;
@@ -66,10 +55,11 @@ export const TournamentHubView: React.FC = () => {
 
   const handleShareWhatsApp = () => {
     if (!activeTournament) return;
+    const inviteLink = createTournamentDeepLink(activeTournament.code);
     const text = encodeURIComponent(
-      `🏆 Ayo tanding di Turnamen TTS Bareng!\nKamar: *${activeTournament.name}*\nKode: *${activeTournament.code}*\nFormat: ${
-        activeTournament.format === 'knockout_8' ? '8 Besar' : '4 Besar'
-      }\nGabung sekarang di: ${window.location.origin}?tourney=${activeTournament.code}`
+      `🏆 Ayo tanding di Turnamen TTS Bareng!\n\nKamar: *${activeTournament.name}*\nKode: *${activeTournament.code}*\nFormat: *${
+        activeTournament.maxPlayers
+      } Pemain (Sistem Gugur)*\n\nGabung sekarang di:\n${inviteLink}`
     );
     window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
   };
@@ -77,6 +67,21 @@ export const TournamentHubView: React.FC = () => {
   const handleJoinPublicItem = (code: string) => {
     const res = joinTournament(code);
     showGlobalToast(res.message, 2500);
+  };
+
+  const handleScanSuccess = (scannedText: string) => {
+    setIsScannerOpen(false);
+    const resolvedCode =
+      extractTournamentCodeFromText(scannedText) ||
+      extractRoomCodeFromText(scannedText) ||
+      scannedText.trim().toUpperCase();
+
+    if (resolvedCode) {
+      const res = joinTournament(resolvedCode);
+      showGlobalToast(res.message, 2500);
+    } else {
+      showGlobalToast('Format QR turnamen tidak dikenali', 2500);
+    }
   };
 
   // =========================================================================
@@ -110,7 +115,7 @@ export const TournamentHubView: React.FC = () => {
             {activeTournament.name}
           </h3>
           <p className="text-[11px] text-white/85 leading-snug">
-            Format: {activeTournament.format === 'knockout_8' ? 'Sistem Gugur 8 Besar' : 'Sistem Gugur 4 Besar'} • Durasi: {activeTournament.roundDurationSeconds}s/babak
+            Format: {activeTournament.maxPlayers} Pemain (Sistem Gugur) • Durasi: {activeTournament.roundDurationSeconds}s/babak
           </p>
 
           {/* Room Code Showcase with Actions */}
@@ -119,7 +124,7 @@ export const TournamentHubView: React.FC = () => {
               <span className="text-[8px] font-bold text-white/70 uppercase tracking-wider">
                 KODE KAMAR TURNAMEN
               </span>
-              <span className="text-[18px] font-black tracking-widest text-white leading-none mt-0.5">
+              <span className="text-[18px] font-black tracking-widest text-white leading-none mt-0.5 font-mono">
                 {activeTournament.code}
               </span>
             </div>
@@ -144,16 +149,14 @@ export const TournamentHubView: React.FC = () => {
                 <span>Ajak WA</span>
               </button>
 
-              {qrDataUrl && (
-                <button
-                  type="button"
-                  onClick={() => setShowQrModal(true)}
-                  className="p-1.5 rounded-xl bg-white/20 hover:bg-white/30 text-white cursor-pointer tactile-active transition-colors"
-                  title="Lihat QR Code"
-                >
-                  <QrCode className="w-4 h-4" />
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={() => setShowQrModal(true)}
+                className="p-1.5 rounded-xl bg-white/20 hover:bg-white/30 text-white cursor-pointer tactile-active transition-colors"
+                title="Lihat Tiket QR Turnamen"
+              >
+                <QrCode className="w-4 h-4" />
+              </button>
             </div>
           </div>
         </div>
@@ -166,7 +169,7 @@ export const TournamentHubView: React.FC = () => {
               <span>PESERTA TERGABUNG ({activeTournament.players.length}/{activeTournament.maxPlayers})</span>
             </span>
             <span className="text-[10px] text-[var(--text-secondary)] font-semibold">
-              {activeTournament.players.length >= 2 ? 'Siap Dimulai' : 'Menunggu 1 Pemain Lagi'}
+              {activeTournament.players.length >= 2 ? 'Siap Dimulai' : 'Menunggu Minimal 2 Pemain'}
             </span>
           </div>
 
@@ -212,7 +215,7 @@ export const TournamentHubView: React.FC = () => {
                 </div>
                 <div className="flex flex-col min-w-0">
                   <span className="text-[11.5px] font-bold text-[var(--text-secondary)] truncate">
-                    Slot Kosong
+                    Slot {activeTournament.players.length + idx + 1}
                   </span>
                   <span className="text-[9px] text-[var(--accent-main)] font-bold">
                     + Undangan Teman
@@ -259,29 +262,12 @@ export const TournamentHubView: React.FC = () => {
           </button>
         </div>
 
-        {/* QR Code Modal Popup */}
-        {showQrModal && qrDataUrl && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md select-none">
-            <div className="relative w-full max-w-[300px] p-5 rounded-[28px] liquid-glass-card border border-[var(--border-card)] shadow-2xl flex flex-col items-center gap-3">
-              <h4 className="text-[15px] font-black text-[var(--text-primary)]">
-                Scan QR Turnamen
-              </h4>
-              <div className="p-3 bg-white rounded-2xl shadow-inner">
-                <img src={qrDataUrl} alt="QR Kamar Turnamen" className="w-44 h-44 object-contain" />
-              </div>
-              <span className="text-[13px] font-black text-[var(--accent-main)] tracking-wider">
-                {activeTournament.code}
-              </span>
-              <button
-                type="button"
-                onClick={() => setShowQrModal(false)}
-                className="w-full py-2 rounded-xl bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[11px] font-black cursor-pointer tactile-active"
-              >
-                Tutup
-              </button>
-            </div>
-          </div>
-        )}
+        {/* Dedicated VIP Ticket Sleeve QR Modal */}
+        <TournamentQrModal
+          isOpen={showQrModal}
+          onClose={() => setShowQrModal(false)}
+          tournament={activeTournament}
+        />
       </div>
     );
   }
@@ -486,234 +472,265 @@ export const TournamentHubView: React.FC = () => {
   // VIEW 4: DEFAULT TOURNAMENT HUB (NO ACTIVE TOURNAMENT)
   // =========================================================================
   return (
-    <div className="w-full flex flex-col gap-3.5 relative z-10 pb-6">
-      {/* 1. Header Trophy Showcase (Themed Glass Card) */}
-      <div
-        className="w-full rounded-[26px] p-4 relative z-10 overflow-hidden border border-white/10 dark:border-white/15 shadow-sm"
-        style={{
-          background: 'var(--hero-grad, var(--accent-grad))',
-          color: '#ffffff',
-        }}
-      >
-        <div className="absolute top-0 inset-x-0 h-px bg-white/30 pointer-events-none" />
-        <div className="absolute -top-10 -right-10 w-44 h-44 rounded-full bg-white/15 blur-2xl pointer-events-none" />
-
-        <div className="flex items-center justify-between mb-2 relative z-10">
-          <span className="text-[8.5px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/20 text-white backdrop-blur-md border border-white/25 inline-flex items-center gap-1.5">
-            <Trophy className="w-3 h-3 stroke-[2.2]" />
-            <span>ARENA KOMPETISI RESMI</span>
-          </span>
-          <span className="text-[10px] font-bold text-white/90">
-            {user.name}
-          </span>
-        </div>
-
-        <div className="relative z-10 mb-3">
-          <h3 className="text-[20px] font-black text-white tracking-tight leading-tight mb-1">
-            Turnamen Komunitas
-          </h3>
-          <p className="text-[11px] text-white/85 leading-snug max-w-[85%]">
-            Buat turnamen sistem gugur bersama kawan, atau bergabung ke turnamen terbuka untuk memperebutkan trofi kejuaraan.
-          </p>
-        </div>
-
-        {/* Player Trophies Bar (Themed Glass Inset) */}
-        <div className="grid grid-cols-3 gap-2 p-2.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 relative z-10">
-          <div className="flex items-center gap-2 px-1">
-            <div className="w-7 h-7 rounded-xl bg-white/20 flex items-center justify-center text-white shrink-0">
-              <Trophy className="w-3.5 h-3.5 fill-current" />
-            </div>
-            <div className="flex flex-col min-w-0">
-              <span className="text-[7.5px] font-bold text-white/75 uppercase tracking-wider truncate">
-                Emas
-              </span>
-              <span className="text-[12px] font-black text-white leading-none">
-                {trophies.gold} 🏆
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 px-1 border-x border-white/15">
-            <div className="w-7 h-7 rounded-xl bg-white/20 flex items-center justify-center text-white shrink-0">
-              <Medal className="w-3.5 h-3.5 fill-current" />
-            </div>
-            <div className="flex flex-col min-w-0">
-              <span className="text-[7.5px] font-bold text-white/75 uppercase tracking-wider truncate">
-                Perak
-              </span>
-              <span className="text-[12px] font-black text-white leading-none">
-                {trophies.silver} 🥈
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 px-1">
-            <div className="w-7 h-7 rounded-xl bg-white/20 flex items-center justify-center text-white shrink-0">
-              <Medal className="w-3.5 h-3.5 fill-current" />
-            </div>
-            <div className="flex flex-col min-w-0">
-              <span className="text-[7.5px] font-bold text-white/75 uppercase tracking-wider truncate">
-                Perunggu
-              </span>
-              <span className="text-[12px] font-black text-white leading-none">
-                {trophies.bronze} 🥉
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. Quick Action Cards: Buat Turnamen & Ikut Turnamen */}
-      <div className="grid grid-cols-2 gap-2.5">
-        {/* Card A: Buat Turnamen */}
+    <>
+      <div className="w-full flex flex-col gap-3.5 relative z-10 pb-6">
+        {/* 1. Header Trophy Showcase (Themed Glass Card) */}
         <div
-          onClick={openCreateTournament}
-          className="p-4 rounded-[24px] liquid-glass-card border border-[var(--border-card)] flex flex-col justify-between gap-3 cursor-pointer tactile-active group hover:border-[var(--accent-main)]/40 transition-all shadow-xs"
+          className="w-full rounded-[26px] p-4 relative z-10 overflow-hidden border border-white/10 dark:border-white/15 shadow-sm"
+          style={{
+            background: 'var(--hero-grad, var(--accent-grad))',
+            color: '#ffffff',
+          }}
         >
-          <div className="w-9 h-9 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)] shadow-2xs group-hover:scale-105 transition-transform">
-            <Plus className="w-5 h-5 stroke-[2.4]" />
+          <div className="absolute top-0 inset-x-0 h-px bg-white/30 pointer-events-none" />
+          <div className="absolute -top-10 -right-10 w-44 h-44 rounded-full bg-white/15 blur-2xl pointer-events-none" />
+
+          <div className="flex items-center justify-between mb-2 relative z-10">
+            <span className="text-[8.5px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/20 text-white backdrop-blur-md border border-white/25 inline-flex items-center gap-1.5">
+              <Trophy className="w-3 h-3 stroke-[2.2]" />
+              <span>ARENA KOMPETISI RESMI</span>
+            </span>
+            <span className="text-[10px] font-bold text-white/90">
+              {user.name}
+            </span>
           </div>
-          <div>
-            <h4 className="text-[13.5px] font-black text-[var(--text-primary)] leading-tight mb-0.5">
-              Buat Turnamen
-            </h4>
-            <p className="text-[9.5px] font-semibold text-[var(--text-secondary)] leading-tight">
-              Host turnamen kustom, atur babak & undang teman
+
+          <div className="relative z-10 mb-3">
+            <h3 className="text-[20px] font-black text-white tracking-tight leading-tight mb-1">
+              Turnamen Komunitas
+            </h3>
+            <p className="text-[11px] text-white/85 leading-snug max-w-[85%]">
+              Buat turnamen sistem gugur bersama kawan, atau bergabung ke turnamen terbuka untuk memperebutkan trofi kejuaraan.
             </p>
           </div>
-          <div className="flex items-center gap-1 text-[10px] font-black text-[var(--accent-main)]">
-            <span>Mulai Host</span>
-            <ArrowRight className="w-3 h-3 stroke-[2.4] group-hover:translate-x-0.5 transition-transform" />
-          </div>
-        </div>
 
-        {/* Card B: Ikut Turnamen */}
-        <div
-          onClick={openJoinTournament}
-          className="p-4 rounded-[24px] liquid-glass-card border border-[var(--border-card)] flex flex-col justify-between gap-3 cursor-pointer tactile-active group hover:border-[var(--accent-main)]/40 transition-all shadow-xs"
-        >
-          <div className="w-9 h-9 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)] shadow-2xs group-hover:scale-105 transition-transform">
-            <QrCode className="w-5 h-5 stroke-[2.2]" />
-          </div>
-          <div>
-            <h4 className="text-[13.5px] font-black text-[var(--text-primary)] leading-tight mb-0.5">
-              Gabung Turnamen
-            </h4>
-            <p className="text-[9.5px] font-semibold text-[var(--text-secondary)] leading-tight">
-              Masukkan kode kamar turnamen atau scan QR
-            </p>
-          </div>
-          <div className="flex items-center gap-1 text-[10px] font-black text-[var(--accent-main)]">
-            <span>Input Kode</span>
-            <ArrowRight className="w-3 h-3 stroke-[2.4] group-hover:translate-x-0.5 transition-transform" />
-          </div>
-        </div>
-      </div>
-
-      {/* 3. Daftar Turnamen Terbuka (Public Waiting Rooms) */}
-      <div className="flex flex-col gap-2 pt-1">
-        <div className="flex items-center justify-between px-1">
-          <span className="text-[11px] font-black uppercase tracking-wider text-[var(--text-primary)] flex items-center gap-1.5">
-            <Swords className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2]" />
-            <span>TURNAMEN TERBUKA</span>
-          </span>
-          <span className="text-[10px] text-[var(--text-secondary)] font-semibold">
-            {publicTournaments.length} Lobi Menunggu
-          </span>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          {publicTournaments.map((item) => (
-            <div
-              key={item.id}
-              className="w-full p-3.5 rounded-[22px] liquid-glass-card border border-[var(--border-card)] flex items-center justify-between gap-3 shadow-xs hover:border-[var(--accent-main)]/30 transition-all"
-            >
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="w-9 h-9 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/20 flex items-center justify-center text-[var(--accent-main)] shrink-0">
-                  <Trophy className="w-4 h-4 fill-current stroke-none" />
-                </div>
-                <div className="flex flex-col min-w-0">
-                  <div className="flex items-center gap-1.5 mb-0.5">
-                    <span className="text-[8.5px] font-black uppercase tracking-wider px-1.5 py-0.2 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)]">
-                      {item.code}
-                    </span>
-                    <span className="text-[9px] font-bold text-[var(--text-secondary)] truncate">
-                      Host: {item.hostName}
-                    </span>
-                  </div>
-                  <h4 className="text-[13px] font-black text-[var(--text-primary)] leading-tight truncate">
-                    {item.name}
-                  </h4>
-                  <div className="flex items-center gap-2 text-[9.5px] text-[var(--text-secondary)] font-semibold mt-0.5">
-                    <span>{item.format === 'knockout_8' ? '8 Besar' : '4 Besar'}</span>
-                    <span>•</span>
-                    <span className="text-[var(--accent-main)] font-bold">
-                      {item.players.length}/{item.maxPlayers} Pemain
-                    </span>
-                  </div>
-                </div>
+          {/* Player Trophies Bar (Themed Glass Inset) */}
+          <div className="grid grid-cols-3 gap-2 p-2.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 relative z-10">
+            <div className="flex items-center gap-2 px-1">
+              <div className="w-7 h-7 rounded-xl bg-white/20 flex items-center justify-center text-white shrink-0">
+                <Trophy className="w-3.5 h-3.5 fill-current" />
               </div>
-
-              <button
-                type="button"
-                onClick={() => handleJoinPublicItem(item.code)}
-                className="py-1.5 px-3.5 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[10.5px] font-black flex items-center gap-1 shrink-0 cursor-pointer tactile-active hover:opacity-95 shadow-xs transition-opacity"
-              >
-                <span>Ikut</span>
-                <ArrowRight className="w-3 h-3 stroke-[2.4]" />
-              </button>
+              <div className="flex flex-col min-w-0">
+                <span className="text-[7.5px] font-bold text-white/75 uppercase tracking-wider truncate">
+                  Emas
+                </span>
+                <span className="text-[12px] font-black text-white leading-none">
+                  {trophies.gold} 🏆
+                </span>
+              </div>
             </div>
-          ))}
-        </div>
-      </div>
 
-      {/* 4. Format Regulasi & Hadiah Turnamen (Themed Bento) */}
-      <div className="w-full rounded-[24px] p-3.5 sm:p-4 liquid-glass-card border border-[var(--border-card)] flex flex-col gap-2.5 shadow-xs">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Shield className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2]" />
-            <span className="text-[12px] font-black text-[var(--text-primary)]">
-              Format & Regulasi Turnamen
-            </span>
+            <div className="flex items-center gap-2 px-1 border-x border-white/15">
+              <div className="w-7 h-7 rounded-xl bg-white/20 flex items-center justify-center text-white shrink-0">
+                <Medal className="w-3.5 h-3.5 fill-current" />
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="text-[7.5px] font-bold text-white/75 uppercase tracking-wider truncate">
+                  Perak
+                </span>
+                <span className="text-[12px] font-black text-white leading-none">
+                  {trophies.silver} 🥈
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 px-1">
+              <div className="w-7 h-7 rounded-xl bg-white/20 flex items-center justify-center text-white shrink-0">
+                <Medal className="w-3.5 h-3.5 fill-current" />
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="text-[7.5px] font-bold text-white/75 uppercase tracking-wider truncate">
+                  Perunggu
+                </span>
+                <span className="text-[12px] font-black text-white leading-none">
+                  {trophies.bronze} 🥉
+                </span>
+              </div>
+            </div>
           </div>
-          <span className="text-[8.5px] text-[var(--accent-main)] font-bold">
-            Pemain Asli 100%
-          </span>
         </div>
 
+        {/* 2. Quick Action Cards: Buat Turnamen, Gabung Kode, & Pindai QR (3 Segments) */}
         <div className="grid grid-cols-3 gap-2">
-          <div className="p-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 flex flex-col items-center text-center">
-            <Users className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2] mb-1" />
-            <span className="text-[11px] font-black text-[var(--text-primary)]">
-              4-8 Slot
+          {/* Card A: Buat Turnamen */}
+          <div
+            onClick={openCreateTournament}
+            className="p-3 rounded-[22px] liquid-glass-card border border-[var(--border-card)] flex flex-col justify-between gap-2.5 cursor-pointer tactile-active group hover:border-[var(--accent-main)]/40 transition-all shadow-xs"
+          >
+            <div className="w-8 h-8 rounded-xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)] shadow-2xs group-hover:scale-105 transition-transform">
+              <Plus className="w-4 h-4 stroke-[2.4]" />
+            </div>
+            <div>
+              <h4 className="text-[12px] font-black text-[var(--text-primary)] leading-tight mb-0.5">
+                Buat
+              </h4>
+              <p className="text-[8.5px] font-semibold text-[var(--text-secondary)] leading-tight">
+                Host turnamen
+              </p>
+            </div>
+            <div className="flex items-center gap-1 text-[9.5px] font-black text-[var(--accent-main)]">
+              <span>Mulai</span>
+              <ArrowRight className="w-2.5 h-2.5 stroke-[2.4] group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </div>
+
+          {/* Card B: Gabung Turnamen */}
+          <div
+            onClick={openJoinTournament}
+            className="p-3 rounded-[22px] liquid-glass-card border border-[var(--border-card)] flex flex-col justify-between gap-2.5 cursor-pointer tactile-active group hover:border-[var(--accent-main)]/40 transition-all shadow-xs"
+          >
+            <div className="w-8 h-8 rounded-xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)] shadow-2xs group-hover:scale-105 transition-transform">
+              <QrCode className="w-4 h-4 stroke-[2.2]" />
+            </div>
+            <div>
+              <h4 className="text-[12px] font-black text-[var(--text-primary)] leading-tight mb-0.5">
+                Gabung
+              </h4>
+              <p className="text-[8.5px] font-semibold text-[var(--text-secondary)] leading-tight">
+                Ketik kode kamar
+              </p>
+            </div>
+            <div className="flex items-center gap-1 text-[9.5px] font-black text-[var(--accent-main)]">
+              <span>Ketik</span>
+              <ArrowRight className="w-2.5 h-2.5 stroke-[2.4] group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </div>
+
+          {/* Card C: Pindai QR Turnamen */}
+          <div
+            onClick={() => setIsScannerOpen(true)}
+            className="p-3 rounded-[22px] liquid-glass-card border border-[var(--border-card)] flex flex-col justify-between gap-2.5 cursor-pointer tactile-active group hover:border-[var(--accent-main)]/40 transition-all shadow-xs"
+          >
+            <div className="w-8 h-8 rounded-xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)] shadow-2xs group-hover:scale-105 transition-transform">
+              <ScanLine className="w-4 h-4 stroke-[2.2]" />
+            </div>
+            <div>
+              <h4 className="text-[12px] font-black text-[var(--text-primary)] leading-tight mb-0.5">
+                Pindai QR
+              </h4>
+              <p className="text-[8.5px] font-semibold text-[var(--text-secondary)] leading-tight">
+                Scan tiket kawan
+              </p>
+            </div>
+            <div className="flex items-center gap-1 text-[9.5px] font-black text-[var(--accent-main)]">
+              <span>Scan</span>
+              <ArrowRight className="w-2.5 h-2.5 stroke-[2.4] group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </div>
+        </div>
+
+        {/* 3. Daftar Turnamen Terbuka (Public Waiting Rooms) */}
+        <div className="flex flex-col gap-2 pt-1">
+          <div className="flex items-center justify-between px-1">
+            <span className="text-[11px] font-black uppercase tracking-wider text-[var(--text-primary)] flex items-center gap-1.5">
+              <Swords className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2]" />
+              <span>TURNAMEN TERBUKA</span>
             </span>
-            <span className="text-[8px] text-[var(--text-secondary)] mt-0.5">
-              Sistem Gugur
+            <span className="text-[10px] text-[var(--text-secondary)] font-semibold">
+              {publicTournaments.length} Lobi Menunggu
             </span>
           </div>
 
-          <div className="p-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 flex flex-col items-center text-center">
-            <Clock className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2] mb-1" />
-            <span className="text-[11px] font-black text-[var(--text-primary)]">
-              60-90s
-            </span>
-            <span className="text-[8px] text-[var(--text-secondary)] mt-0.5">
-              Waktu Ronde
+          <div className="flex flex-col gap-2">
+            {publicTournaments.map((item) => (
+              <div
+                key={item.id}
+                className="w-full p-3.5 rounded-[22px] liquid-glass-card border border-[var(--border-card)] flex items-center justify-between gap-3 shadow-xs hover:border-[var(--accent-main)]/30 transition-all"
+              >
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-9 h-9 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/20 flex items-center justify-center text-[var(--accent-main)] shrink-0">
+                    <Trophy className="w-4 h-4 fill-current stroke-none" />
+                  </div>
+                  <div className="flex flex-col min-w-0">
+                    <div className="flex items-center gap-1.5 mb-0.5">
+                      <span className="text-[8.5px] font-black uppercase tracking-wider px-1.5 py-0.2 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)]">
+                        {item.code}
+                      </span>
+                      <span className="text-[9px] font-bold text-[var(--text-secondary)] truncate">
+                        Host: {item.hostName}
+                      </span>
+                    </div>
+                    <h4 className="text-[13px] font-black text-[var(--text-primary)] leading-tight truncate">
+                      {item.name}
+                    </h4>
+                    <div className="flex items-center gap-2 text-[9.5px] text-[var(--text-secondary)] font-semibold mt-0.5">
+                      <span>{item.maxPlayers} Pemain</span>
+                      <span>•</span>
+                      <span className="text-[var(--accent-main)] font-bold">
+                        {item.players.length}/{item.maxPlayers} Masuk
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => handleJoinPublicItem(item.code)}
+                  className="py-1.5 px-3.5 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[10.5px] font-black flex items-center gap-1 shrink-0 cursor-pointer tactile-active hover:opacity-95 shadow-xs transition-opacity"
+                >
+                  <span>Ikut</span>
+                  <ArrowRight className="w-3 h-3 stroke-[2.4]" />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 4. Format Regulasi & Hadiah Turnamen (Themed Bento) */}
+        <div className="w-full rounded-[24px] p-3.5 sm:p-4 liquid-glass-card border border-[var(--border-card)] flex flex-col gap-2.5 shadow-xs">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Shield className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2]" />
+              <span className="text-[12px] font-black text-[var(--text-primary)]">
+                Format & Regulasi Turnamen
+              </span>
+            </div>
+            <span className="text-[8.5px] text-[var(--accent-main)] font-bold">
+              Pemain Asli 100%
             </span>
           </div>
 
-          <div className="p-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 flex flex-col items-center text-center">
-            <Sparkles className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2] mb-1" />
-            <span className="text-[11px] font-black text-[var(--text-primary)]">
-              +200 ★
-            </span>
-            <span className="text-[8px] text-[var(--text-secondary)] mt-0.5">
-              Hadiah Juara
-            </span>
+          <div className="grid grid-cols-3 gap-2">
+            <div className="p-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 flex flex-col items-center text-center">
+              <Users className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2] mb-1" />
+              <span className="text-[11px] font-black text-[var(--text-primary)]">
+                4-16 Slot
+              </span>
+              <span className="text-[8px] text-[var(--text-secondary)] mt-0.5">
+                Sistem Gugur
+              </span>
+            </div>
+
+            <div className="p-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 flex flex-col items-center text-center">
+              <Clock className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2] mb-1" />
+              <span className="text-[11px] font-black text-[var(--text-primary)]">
+                60-90s
+              </span>
+              <span className="text-[8px] text-[var(--text-secondary)] mt-0.5">
+                Waktu Ronde
+              </span>
+            </div>
+
+            <div className="p-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 flex flex-col items-center text-center">
+              <Sparkles className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2] mb-1" />
+              <span className="text-[11px] font-black text-[var(--text-primary)]">
+                +200 ★
+              </span>
+              <span className="text-[8px] text-[var(--text-secondary)] mt-0.5">
+                Hadiah Juara
+              </span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* QR Scanner Camera Modal for Tournament QR Codes */}
+      <QrScannerModal
+        isOpen={isScannerOpen}
+        onClose={() => setIsScannerOpen(false)}
+        onScanSuccess={handleScanSuccess}
+      />
+    </>
   );
 };
 

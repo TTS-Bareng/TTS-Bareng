@@ -5,6 +5,7 @@
 
 export interface ParsedDeepLink {
   roomCode?: string;
+  tournamentCode?: string;
   levelIndex?: number;
 }
 
@@ -21,11 +22,13 @@ export function getBaseOrigin(): string {
 /**
  * Generates an absolute shareable link with query parameters
  */
-export function createDeepLink(params: { room?: string; level?: number }): string {
+export function createDeepLink(params: { room?: string; level?: number; tourney?: string }): string {
   const origin = getBaseOrigin();
   const url = new URL(origin);
 
-  if (params.room) {
+  if (params.tourney) {
+    url.searchParams.set('tourney', params.tourney.trim().toUpperCase());
+  } else if (params.room) {
     url.searchParams.set('room', params.room.trim().toUpperCase());
   } else if (typeof params.level === 'number' && !isNaN(params.level)) {
     url.searchParams.set('level', String(params.level));
@@ -35,17 +38,29 @@ export function createDeepLink(params: { room?: string; level?: number }): strin
 }
 
 /**
- * Parses current URL search parameters for room codes or level numbers
+ * Generates an absolute shareable link for a tournament room
  */
-export function parseDeepLink(totalLevels: number = 220): ParsedDeepLink {
+export function createTournamentDeepLink(code: string): string {
+  return createDeepLink({ tourney: code });
+}
+
+/**
+ * Parses current URL search parameters for room codes, tournament codes, or level numbers
+ */
+export function parseDeepLink(totalLevels: number = 500): ParsedDeepLink {
   if (typeof window === 'undefined') return {};
 
   try {
     const params = new URLSearchParams(window.location.search);
     const roomParam = params.get('room') || params.get('join') || params.get('kamar');
+    const tourneyParam = params.get('tourney') || params.get('cup');
     const levelParam = params.get('level') || params.get('bab') || params.get('lvl');
 
     const result: ParsedDeepLink = {};
+
+    if (tourneyParam && tourneyParam.trim()) {
+      result.tournamentCode = tourneyParam.trim().toUpperCase();
+    }
 
     if (roomParam && roomParam.trim()) {
       result.roomCode = roomParam.trim().toUpperCase();
@@ -129,6 +144,10 @@ export function extractRoomCodeFromText(rawText: string): string | null {
   // 1. Try URL parsing
   try {
     const url = new URL(text);
+    const tourney = url.searchParams.get('tourney') || url.searchParams.get('cup');
+    if (tourney && tourney.trim()) {
+      return tourney.trim().toUpperCase();
+    }
     const room =
       url.searchParams.get('room') ||
       url.searchParams.get('join') ||
@@ -140,23 +159,40 @@ export function extractRoomCodeFromText(rawText: string): string | null {
     // Not a valid URL, continue to regex patterns
   }
 
-  // 2. Query parameter fragment match: room=TTS-XXXX
-  const queryMatch = text.match(/(?:room|join|kamar)=([a-zA-Z0-9_-]+)/i);
+  // 2. Query parameter fragment match: room=TTS-XXXX or tourney=CUP-XXXX
+  const queryMatch = text.match(/(?:room|join|kamar|tourney|cup)=([a-zA-Z0-9_-]+)/i);
   if (queryMatch && queryMatch[1]) {
     return queryMatch[1].trim().toUpperCase();
   }
 
-  // 3. Match standard TTS-XXXX or TTSXXXX
+  // 3. Match tournament CUP-XXXX or CUPXXXX
+  const cupMatch = text.match(/CUP-?([0-9A-Z]{4})/i);
+  if (cupMatch && cupMatch[1]) {
+    return `CUP-${cupMatch[1].toUpperCase()}`;
+  }
+
+  // 4. Match standard TTS-XXXX or TTSXXXX
   const ttsMatch = text.match(/TTS-?([0-9A-Z]{4})/i);
   if (ttsMatch && ttsMatch[1]) {
     return `TTS-${ttsMatch[1].toUpperCase()}`;
   }
 
-  // 4. Match 4-character code directly (digits or alphanumeric)
+  // 5. Match 4-character code directly (digits or alphanumeric)
   const codeMatch = text.match(/^[0-9A-Z]{4}$/i);
   if (codeMatch) {
     return `TTS-${codeMatch[0].toUpperCase()}`;
   }
 
+  return null;
+}
+
+/**
+ * Extracts specifically a tournament code (CUP-XXXX)
+ */
+export function extractTournamentCodeFromText(rawText: string): string | null {
+  const code = extractRoomCodeFromText(rawText);
+  if (code && code.startsWith('CUP-')) {
+    return code;
+  }
   return null;
 }

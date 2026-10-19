@@ -217,7 +217,13 @@ interface GameState {
   activeTournament: CommunityTournament | null;
   publicTournaments: CommunityTournament[];
   activeCommunityMatchId: string | null;
-  createTournament: (name: string, format: TournamentFormat, roundDuration: number, themeCategory: string) => CommunityTournament;
+  createTournament: (
+    name: string,
+    format: TournamentFormat,
+    roundDuration: number,
+    themeCategory: string,
+    maxPlayers?: number
+  ) => CommunityTournament;
   joinTournament: (code: string) => { success: boolean; message: string };
   leaveTournament: () => void;
   startTournamentLobby: () => void;
@@ -1469,11 +1475,17 @@ export const useGameStore = create<GameState>((set, get) => ({
   publicTournaments: loadPublicTournaments(),
   activeCommunityMatchId: null,
 
-  createTournament: (name: string, format: TournamentFormat, roundDuration: number, themeCategory: string) => {
+  createTournament: (
+    name: string,
+    format: TournamentFormat,
+    roundDuration: number,
+    themeCategory: string,
+    maxPlayers?: number
+  ) => {
     const { user, publicTournaments } = get();
     const newTourney = createCommunityTournament(
       { id: user.id || 'player_local', name: user.name, avatar: user.avatar },
-      { name, format, roundDurationSeconds: roundDuration, themeCategory }
+      { name, format, roundDurationSeconds: roundDuration, themeCategory, maxPlayers }
     );
     const updatedPublic = [newTourney, ...publicTournaments.filter((t) => t.id !== newTourney.id)];
     savePublicTournaments(updatedPublic);

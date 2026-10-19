@@ -110,9 +110,10 @@ export function createCommunityTournament(
     format: TournamentFormat;
     roundDurationSeconds: number;
     themeCategory: string;
+    maxPlayers?: number;
   }
 ): CommunityTournament {
-  const maxPlayers = options.format === 'knockout_8' ? 8 : 4;
+  const maxPlayers = options.maxPlayers || (options.format === 'knockout_8' ? 8 : 4);
   const newTourney: CommunityTournament = {
     id: `tourney_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
     code: generateTournamentCode(),
@@ -141,74 +142,208 @@ export function createCommunityTournament(
   return newTourney;
 }
 
-/** Generate a realistic knockout bracket from real joined players */
+/** Generate a realistic knockout bracket from real joined players (4 to 16 players) */
 export function generateKnockoutBracket(
   players: CommunityTournamentPlayer[],
-  format: TournamentFormat,
+  _format: TournamentFormat,
   durationSeconds: number,
   currentUserId: string
 ): CommunityTournamentMatch[] {
   const matches: CommunityTournamentMatch[] = [];
+  const count = players.length;
 
-  if (format === 'knockout_4' || format === 'sprint') {
+  if (count <= 4) {
     // 4 Players -> 2 Semifinals + 1 Grand Final
     const p1 = players[0] || null;
     const p2 = players[1] || null;
     const p3 = players[2] || null;
     const p4 = players[3] || null;
 
-    const sf1: CommunityTournamentMatch = {
-      id: 'match_sf1',
-      roundIndex: 0,
-      roundName: 'Semifinal 1',
-      player1: p1,
-      player2: p2,
-      winner: null,
-      player1Score: 0,
-      player2Score: 0,
-      durationSeconds,
-      status: 'active',
-      isPlayerMatch: Boolean(p1?.id === currentUserId || p2?.id === currentUserId),
-    };
-
-    const sf2: CommunityTournamentMatch = {
-      id: 'match_sf2',
-      roundIndex: 0,
-      roundName: 'Semifinal 2',
-      player1: p3,
-      player2: p4,
-      winner: null,
-      player1Score: 0,
-      player2Score: 0,
-      durationSeconds,
-      status: 'active',
-      isPlayerMatch: Boolean(p3?.id === currentUserId || p4?.id === currentUserId),
-    };
-
-    const finalMatch: CommunityTournamentMatch = {
-      id: 'match_final',
-      roundIndex: 1,
-      roundName: 'Grand Final',
-      player1: null,
-      player2: null,
-      winner: null,
-      player1Score: 0,
-      player2Score: 0,
-      durationSeconds: Math.round(durationSeconds * 1.2),
-      status: 'pending',
-      isPlayerMatch: false,
-    };
-
-    matches.push(sf1, sf2, finalMatch);
-  } else {
-    // 8 Players -> 4 Quarterfinals + 2 Semifinals + 1 Grand Final
-    for (let i = 0; i < 4; i++) {
-      const p1 = players[i * 2] || null;
-      const p2 = players[i * 2 + 1] || null;
-      matches.push({
-        id: `match_qf${i + 1}`,
+    matches.push(
+      {
+        id: 'match_sf1',
         roundIndex: 0,
-        roundName: `Perempat Final ${i + 1}`,
+        roundName: 'Semifinal 1',
+        player1: p1,
+        player2: p2,
+        winner: null,
+        player1Score: 0,
+        player2Score: 0,
+        durationSeconds,
+        status: 'active',
+        isPlayerMatch: Boolean(p1?.id === currentUserId || p2?.id === currentUserId),
+      },
+      {
+        id: 'match_sf2',
+        roundIndex: 0,
+        roundName: 'Semifinal 2',
+        player1: p3,
+        player2: p4,
+        winner: null,
+        player1Score: 0,
+        player2Score: 0,
+        durationSeconds,
+        status: 'active',
+        isPlayerMatch: Boolean(p3?.id === currentUserId || p4?.id === currentUserId),
+      },
+      {
+        id: 'match_final',
+        roundIndex: 1,
+        roundName: 'Grand Final',
+        player1: null,
+        player2: null,
+        winner: null,
+        player1Score: 0,
+        player2Score: 0,
+        durationSeconds: Math.round(durationSeconds * 1.2),
+        status: 'pending',
+        isPlayerMatch: false,
+      }
+    );
+  } else if (count <= 8) {
+    // 6 or 8 Players -> Bracket 8 Besar
+    if (count < 8) {
+      // 5, 6, 7 players: top seeds get BYE to Semifinals
+      const byeCount = 8 - count;
+      const byePlayers = players.slice(0, byeCount);
+      const activeContestants = players.slice(byeCount);
+
+      const qfCount = Math.floor(activeContestants.length / 2);
+      for (let i = 0; i < qfCount; i++) {
+        const p1 = activeContestants[i * 2] || null;
+        const p2 = activeContestants[i * 2 + 1] || null;
+        matches.push({
+          id: `match_qf${i + 1}`,
+          roundIndex: 0,
+          roundName: `Perempat Final ${i + 1}`,
+          player1: p1,
+          player2: p2,
+          winner: null,
+          player1Score: 0,
+          player2Score: 0,
+          durationSeconds,
+          status: 'active',
+          isPlayerMatch: Boolean(p1?.id === currentUserId || p2?.id === currentUserId),
+        });
+      }
+
+      matches.push(
+        {
+          id: 'match_sf1',
+          roundIndex: 1,
+          roundName: 'Semifinal 1',
+          player1: byePlayers[0] || null,
+          player2: null,
+          winner: null,
+          player1Score: 0,
+          player2Score: 0,
+          durationSeconds,
+          status: 'pending',
+          isPlayerMatch: Boolean(byePlayers[0]?.id === currentUserId),
+        },
+        {
+          id: 'match_sf2',
+          roundIndex: 1,
+          roundName: 'Semifinal 2',
+          player1: byePlayers[1] || null,
+          player2: null,
+          winner: null,
+          player1Score: 0,
+          player2Score: 0,
+          durationSeconds,
+          status: 'pending',
+          isPlayerMatch: Boolean(byePlayers[1]?.id === currentUserId),
+        },
+        {
+          id: 'match_final',
+          roundIndex: 2,
+          roundName: 'Grand Final',
+          player1: null,
+          player2: null,
+          winner: null,
+          player1Score: 0,
+          player2Score: 0,
+          durationSeconds: Math.round(durationSeconds * 1.2),
+          status: 'pending',
+          isPlayerMatch: false,
+        }
+      );
+    } else {
+      // Exactly 8 players -> 4 QF + 2 SF + 1 Final
+      for (let i = 0; i < 4; i++) {
+        const p1 = players[i * 2] || null;
+        const p2 = players[i * 2 + 1] || null;
+        matches.push({
+          id: `match_qf${i + 1}`,
+          roundIndex: 0,
+          roundName: `Perempat Final ${i + 1}`,
+          player1: p1,
+          player2: p2,
+          winner: null,
+          player1Score: 0,
+          player2Score: 0,
+          durationSeconds,
+          status: 'active',
+          isPlayerMatch: Boolean(p1?.id === currentUserId || p2?.id === currentUserId),
+        });
+      }
+
+      matches.push(
+        {
+          id: 'match_sf1',
+          roundIndex: 1,
+          roundName: 'Semifinal 1',
+          player1: null,
+          player2: null,
+          winner: null,
+          player1Score: 0,
+          player2Score: 0,
+          durationSeconds,
+          status: 'pending',
+          isPlayerMatch: false,
+        },
+        {
+          id: 'match_sf2',
+          roundIndex: 1,
+          roundName: 'Semifinal 2',
+          player1: null,
+          player2: null,
+          winner: null,
+          player1Score: 0,
+          player2Score: 0,
+          durationSeconds,
+          status: 'pending',
+          isPlayerMatch: false,
+        },
+        {
+          id: 'match_final',
+          roundIndex: 2,
+          roundName: 'Grand Final',
+          player1: null,
+          player2: null,
+          winner: null,
+          player1Score: 0,
+          player2Score: 0,
+          durationSeconds: Math.round(durationSeconds * 1.2),
+          status: 'pending',
+          isPlayerMatch: false,
+        }
+      );
+    }
+  } else {
+    // 9 to 16 players (10, 12, 14, 16)
+    const byeCount = 16 - count;
+    const byePlayers = players.slice(0, byeCount);
+    const activeContestants = players.slice(byeCount);
+
+    const r1Count = Math.floor(activeContestants.length / 2);
+    for (let i = 0; i < r1Count; i++) {
+      const p1 = activeContestants[i * 2] || null;
+      const p2 = activeContestants[i * 2 + 1] || null;
+      matches.push({
+        id: `match_r1_${i + 1}`,
+        roundIndex: 0,
+        roundName: `Babak 16 Besar ${i + 1}`,
         player1: p1,
         player2: p2,
         winner: null,
@@ -220,10 +355,29 @@ export function generateKnockoutBracket(
       });
     }
 
+    // 4 Quarterfinals (pre-seeded with BYEs)
+    for (let i = 0; i < 4; i++) {
+      const seededBye = byePlayers[i] || null;
+      matches.push({
+        id: `match_qf${i + 1}`,
+        roundIndex: 1,
+        roundName: `Perempat Final ${i + 1}`,
+        player1: seededBye,
+        player2: null,
+        winner: null,
+        player1Score: 0,
+        player2Score: 0,
+        durationSeconds,
+        status: 'pending',
+        isPlayerMatch: Boolean(seededBye?.id === currentUserId),
+      });
+    }
+
+    // 2 Semifinals and 1 Grand Final
     matches.push(
       {
         id: 'match_sf1',
-        roundIndex: 1,
+        roundIndex: 2,
         roundName: 'Semifinal 1',
         player1: null,
         player2: null,
@@ -236,7 +390,7 @@ export function generateKnockoutBracket(
       },
       {
         id: 'match_sf2',
-        roundIndex: 1,
+        roundIndex: 2,
         roundName: 'Semifinal 2',
         player1: null,
         player2: null,
@@ -249,7 +403,7 @@ export function generateKnockoutBracket(
       },
       {
         id: 'match_final',
-        roundIndex: 2,
+        roundIndex: 3,
         roundName: 'Grand Final',
         player1: null,
         player2: null,
@@ -347,9 +501,22 @@ export function advanceTournamentMatch(
           };
         }
       }
-    } else {
-      // 8-player bracket propagation
-      if (target.id.startsWith('match_qf')) {
+      // Round 1 propagation to Quarterfinals
+      if (target.id.startsWith('match_r1_')) {
+        const r1Num = parseInt(target.id.replace('match_r1_', ''), 10);
+        const qfIdx = matches.findIndex((m) => m.id === `match_qf${r1Num}`);
+        if (qfIdx !== -1) {
+          const qf = matches[qfIdx];
+          matches[qfIdx] = {
+            ...qf,
+            player2: winner,
+            isPlayerMatch: Boolean(
+              qf.player1?.id === currentUserId || winner?.id === currentUserId
+            ),
+            status: qf.player1 ? 'active' : 'pending',
+          };
+        }
+      } else if (target.id.startsWith('match_qf')) {
         const qfNum = parseInt(target.id.replace('match_qf', ''), 10);
         const sfIdx = qfNum <= 2 ? matches.findIndex((m) => m.id === 'match_sf1') : matches.findIndex((m) => m.id === 'match_sf2');
         if (sfIdx !== -1) {

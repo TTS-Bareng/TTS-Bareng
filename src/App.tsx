@@ -64,6 +64,7 @@ export const App: React.FC = () => {
     showGlobalToast,
     checkDailyStreakOnMount,
     initialAuthStage,
+    joinTournament,
   } = useGameStore();
 
   // Apply theme tokens on initial mount and when theme changes
@@ -76,10 +77,15 @@ export const App: React.FC = () => {
     checkDailyStreakOnMount();
   }, [checkDailyStreakOnMount]);
 
-  // Deep Link & URL Query Sync Engine (?room=TTS-XXXX or ?level=N)
+  // Deep Link & URL Query Sync Engine (?room=TTS-XXXX, ?tourney=CUP-XXXX, or ?level=N)
   useEffect(() => {
-    const { roomCode, levelIndex } = parseDeepLink(levels.length);
-    if (roomCode) {
+    const { roomCode, tournamentCode, levelIndex } = parseDeepLink(levels.length);
+    if (tournamentCode) {
+      joinTournament(tournamentCode);
+      setCurrentTab('arena');
+      showGlobalToast(`Membuka Turnamen: ${tournamentCode}`, 3200);
+      clearUrlParams();
+    } else if (roomCode) {
       setActiveRoomCode(roomCode);
       setCurrentTab('social');
       showGlobalToast(`Bergabung ke Kamar Teman: ${roomCode}`, 3200);
@@ -97,7 +103,7 @@ export const App: React.FC = () => {
         showGlobalToast(`Menyambung kembali ke kamar: ${savedRoom}`, 2800);
       }
     }
-  }, [levels.length, selectLevel, setActiveRoomCode, setCurrentTab, showGlobalToast]);
+  }, [joinTournament, levels.length, selectLevel, setActiveRoomCode, setCurrentTab, showGlobalToast]);
 
   // Physical keyboard support for desktop/laptop testing when in Game view
   useEffect(() => {
