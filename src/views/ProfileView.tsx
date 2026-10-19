@@ -16,9 +16,9 @@ import {
   Crown,
   Medal,
   Shield,
+  ChevronRight,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
-import { MASCOTS } from '../assets/maskots';
 
 interface CircularProgressProps {
   percent: number;
@@ -87,6 +87,7 @@ export const ProfileView: React.FC = () => {
     openLexicon,
     setCurrentTab,
     openAvatarPicker,
+    openPlayerIdModal,
   } = useGameStore();
 
   const [toastMessage] = useState<string | null>(null);
@@ -268,6 +269,14 @@ export const ProfileView: React.FC = () => {
 
   const unlockedAchievementsCount = achievements.filter((a) => a.unlocked).length;
 
+  const playerTitle = useMemo(() => {
+    if (totalCompletedLevels >= 50 || totalSolvedWords >= 200) return 'Begawan Kosakata';
+    if (totalCompletedLevels >= 25 || totalSolvedWords >= 100) return 'Ahli Leksikon';
+    if (totalCompletedLevels >= 10 || totalSolvedWords >= 50) return 'Pujangga Muda';
+    if (totalCompletedLevels >= 3 || totalSolvedWords >= 15) return 'Penjelajah Kata';
+    return 'Perintis Bahasa';
+  }, [totalCompletedLevels, totalSolvedWords]);
+
   return (
     <div className="w-full flex-1 flex flex-col gap-3 px-3.5 pt-[max(18px,env(safe-area-inset-top))] pb-[max(90px,calc(75px+env(safe-area-inset-bottom)))] select-none overflow-y-auto relative">
       {/* Toast Alert Notification */}
@@ -321,106 +330,144 @@ export const ProfileView: React.FC = () => {
         </div>
       </header>
 
-      {/* Card 1: Hero Identity Card (Themed Gradient + Big Mascot Thinker) */}
+      {/* Card 1: Apple VIP Digital Passport */}
       <div
-        className="w-full shrink-0 rounded-[26px] p-4 relative z-10 overflow-hidden border border-white/10 dark:border-white/15 shadow-sm group flex flex-col gap-3"
+        onClick={openPlayerIdModal}
+        title="Buka Kartu Identitas Resmi"
+        className="w-full shrink-0 rounded-[24px] p-4 relative z-10 overflow-hidden border border-white/15 dark:border-white/20 shadow-md flex flex-col gap-3.5 group cursor-pointer tactile-active hover:border-white/35 transition-all"
         style={{
           background: 'var(--hero-grad, var(--accent-grad))',
           color: '#ffffff',
         }}
       >
-        {/* Ambient Lighting & Top Specular Sheen */}
-        <div className="absolute top-0 inset-x-0 h-px bg-white/30 pointer-events-none" />
-        <div className="absolute -top-10 -right-10 w-44 h-44 rounded-full bg-white/20 blur-2xl pointer-events-none" />
+        {/* Specular Top Sheen & Subtle Ambient Reflections */}
+        <div className="absolute top-0 inset-x-0 h-px bg-white/40 pointer-events-none" />
+        <div className="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-white/20 blur-3xl pointer-events-none" />
         <div className="absolute -bottom-10 -left-10 w-44 h-44 rounded-full bg-black/25 blur-2xl pointer-events-none" />
 
-        {/* Top Meta Row */}
-        <div className="flex items-center justify-between relative z-10">
-          <span className="text-[8.5px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/20 text-white backdrop-blur-md border border-white/25">
-            ID PEMAIN • {user.isGuest ? 'TAMU' : 'TERVERIFIKASI'}
-          </span>
-          <span className="text-[10px] font-bold text-white/90">
-            @{user.name.toLowerCase().replace(/\s+/g, '_')}
-          </span>
+        {/* Subtle Guilloche / Holographic Passport Watermark (Vector Shield) */}
+        <div className="absolute -right-3 -bottom-4 w-36 h-36 opacity-[0.08] pointer-events-none select-none text-white flex items-center justify-center">
+          <Shield className="w-full h-full stroke-[1.2]" />
         </div>
 
-        {/* Middle Section: Avatar & User Info on Left */}
-        <div className="relative z-10 w-full max-w-full pr-14 sm:pr-20 mb-2">
-          <div className="flex items-center gap-3 mb-2">
-            <button
-              type="button"
-              onClick={openAvatarPicker}
-              title="Ganti Foto Profil"
-              aria-label="Ganti Foto Profil"
-              className="relative group cursor-pointer tactile-active shrink-0"
-            >
-              <div className="w-13 h-13 rounded-full border-2 border-white/40 p-0.5 bg-white/20 flex items-center justify-center overflow-hidden shadow-sm">
-                <div className="w-full h-full rounded-full overflow-hidden bg-black/20 flex items-center justify-center">
-                  {isCustomImageAvatar ? (
-                    <img
-                      src={user.avatar}
-                      alt={user.name}
-                      className="w-full h-full object-cover rounded-full"
-                    />
-                  ) : (
-                    <span className="text-[18px] font-black text-white uppercase">
-                      {user.name?.charAt(0) || 'P'}
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              <div className="absolute -bottom-0.5 -right-0.5 w-4.5 h-4.5 rounded-full bg-white text-zinc-900 flex items-center justify-center shadow-xs">
-                <Camera className="w-2.5 h-2.5 stroke-[2.5]" />
-              </div>
-            </button>
-
-            <div className="min-w-0">
-              <h3 className="text-[18px] sm:text-[20px] font-black text-white tracking-tight leading-tight truncate">
-                {user.name}
-              </h3>
-              <span className="text-[9px] text-white/80 block mt-0.5">
-                {user.email || 'Pemain TTS Quest'}
-              </span>
-            </div>
+        {/* Top Header Row: Status Chip on Left, Fast Action Pill on Right */}
+        <div className="flex items-center justify-between relative z-10">
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/20 dark:bg-black/30 backdrop-blur-md border border-white/20 text-white shadow-xs">
+            <span
+              className={`w-1.5 h-1.5 rounded-full ${user.isGuest ? 'bg-amber-300' : 'bg-emerald-300'} animate-pulse`}
+            />
+            <span className="text-[9px] font-black uppercase tracking-wider">
+              PASPOR • {user.isGuest ? 'TAMU' : 'TERVERIFIKASI'}
+            </span>
+            <ChevronRight className="w-3 h-3 text-white/70 ml-0.5 group-hover:translate-x-0.5 transition-transform" />
           </div>
 
-          <p className="text-[10.5px] text-white/85 leading-tight">
-            Penjelajah kosakata bahasa Indonesia & peraih lencana nusantara.
-          </p>
-        </div>
-
-        {/* Action Button on the left */}
-        <div className="flex items-center gap-2 justify-start relative z-10 mt-1">
           {user.isGuest ? (
             <button
               type="button"
-              onClick={openAuth}
-              className="py-1.5 px-3.5 rounded-full bg-white text-[10.5px] font-black inline-flex items-center gap-1.5 cursor-pointer tactile-active shadow-sm group-hover:scale-105 transition-transform"
+              onClick={(e) => {
+                e.stopPropagation();
+                openAuth();
+              }}
+              className="px-3 py-1 rounded-full bg-white text-[10.5px] font-black inline-flex items-center gap-1.5 cursor-pointer tactile-active shadow-xs hover:bg-white/95 transition-all"
               style={{ color: 'var(--hero-btn-text, #111113)' }}
             >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Masuk / Sinkron Akun</span>
+              <Sparkles className="w-3 h-3" />
+              <span>Masuk / Sinkron</span>
             </button>
           ) : (
             <button
               type="button"
-              onClick={openAvatarPicker}
-              className="py-1.5 px-3.5 rounded-full bg-white text-[10.5px] font-black inline-flex items-center gap-1.5 cursor-pointer tactile-active shadow-sm group-hover:scale-105 transition-transform"
-              style={{ color: 'var(--hero-btn-text, #111113)' }}
+              onClick={(e) => {
+                e.stopPropagation();
+                openAvatarPicker();
+              }}
+              className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/25 text-white text-[10px] font-bold inline-flex items-center gap-1.5 cursor-pointer tactile-active hover:bg-white/30 transition-all shadow-xs"
             >
               <Camera className="w-3 h-3 stroke-[2.2]" />
-              <span>Ubah Foto Profil</span>
+              <span>Ubah Foto</span>
             </button>
           )}
         </div>
 
-        {/* Mascot Artistic Overlay in Background (Enlarged, Right-Center) */}
-        <img
-          src={MASCOTS.crosswordBoard}
-          alt="Mascot Papan Teka-Teki"
-          className="absolute -right-4 sm:-right-6 top-1/2 -translate-y-1/2 w-56 sm:w-68 h-56 sm:h-68 object-contain object-right pointer-events-none select-none z-0 opacity-30 dark:opacity-35 filter drop-shadow-lg group-hover:scale-105 transition-transform duration-500"
-        />
+        {/* Middle Section: Hero Avatar & Player Identity */}
+        <div className="flex items-center gap-3.5 relative z-10">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              openAvatarPicker();
+            }}
+            title="Ganti Foto Profil"
+            aria-label="Ganti Foto Profil"
+            className="relative group cursor-pointer tactile-active shrink-0"
+          >
+            <div className="w-14 h-14 rounded-full p-0.5 bg-white/25 border-2 border-white/50 flex items-center justify-center overflow-hidden shadow-sm">
+              <div className="w-full h-full rounded-full overflow-hidden bg-black/25 flex items-center justify-center">
+                {isCustomImageAvatar ? (
+                  <img
+                    src={user.avatar}
+                    alt={user.name}
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                ) : (
+                  <span className="text-[20px] font-black text-white uppercase">
+                    {user.name?.charAt(0) || 'P'}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div className="absolute -bottom-0.5 -right-0.5 w-4.5 h-4.5 rounded-full bg-white text-zinc-900 flex items-center justify-center shadow-xs">
+              <Camera className="w-2.5 h-2.5 stroke-[2.5]" />
+            </div>
+          </button>
+
+          <div className="min-w-0 flex-1">
+            <div className="flex items-baseline gap-2">
+              <h3 className="text-[19px] sm:text-[21px] font-black text-white tracking-tight leading-tight truncate">
+                {user.name}
+              </h3>
+              <span className="text-[10px] font-bold text-white/80 shrink-0">
+                @{user.name.toLowerCase().replace(/\s+/g, '_')}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+              <span className="inline-flex items-center gap-1 text-[9.5px] font-black uppercase tracking-wider text-white/95 px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-xs border border-white/20">
+                <Medal className="w-2.5 h-2.5 stroke-[2.5]" />
+                {playerTitle}
+              </span>
+              <span className="text-[10px] text-white/80 truncate">
+                {user.email || 'Pemain TTS Bareng'}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Section: 3 VIP Micro-Pills (Real Passport Metrics) */}
+        <div className="grid grid-cols-3 gap-2 relative z-10 pt-1 border-t border-white/15">
+          <div className="py-1.5 px-2 rounded-xl bg-black/15 dark:bg-black/25 backdrop-blur-md border border-white/15 flex items-center justify-center gap-1.5">
+            <Trophy className="w-3.5 h-3.5 text-white/90 stroke-[2.2]" />
+            <span className="text-[11px] font-black text-white leading-none">
+              {totalCompletedLevels} <span className="text-[9px] font-semibold text-white/75">Bab</span>
+            </span>
+          </div>
+
+          <div className="py-1.5 px-2 rounded-xl bg-black/15 dark:bg-black/25 backdrop-blur-md border border-white/15 flex items-center justify-center gap-1.5">
+            <Star className="w-3.5 h-3.5 fill-current text-white/90" />
+            <span className="text-[11px] font-black text-white leading-none">
+              {stars} <span className="text-[9px] font-semibold text-white/75">★</span>
+            </span>
+          </div>
+
+          <div className="py-1.5 px-2 rounded-xl bg-black/15 dark:bg-black/25 backdrop-blur-md border border-white/15 flex items-center justify-center gap-1.5">
+            <Flame className="w-3.5 h-3.5 fill-current text-white/90" />
+            <span className="text-[11px] font-black text-white leading-none">
+              {streak} <span className="text-[9px] font-semibold text-white/75">Hari</span>
+            </span>
+          </div>
+        </div>
       </div>
 
       {/* Card 2: Penguasaan Kata & Akurasi (Word Mastery Bento) */}

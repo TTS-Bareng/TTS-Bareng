@@ -132,7 +132,7 @@ export const StatsView: React.FC = () => {
       },
       {
         id: 'grandmaster',
-        title: 'Master TTS Quest',
+        title: 'Master TTS Bareng',
         desc: 'Tuntaskan seluruh bab yang tersedia',
         icon: Award,
         unlocked: totalCompletedLevels >= levels.length && levels.length > 0,
@@ -150,7 +150,7 @@ export const StatsView: React.FC = () => {
       <header className="flex items-center justify-between px-0.5 relative z-10">
         <div>
           <span className="text-[9.5px] font-black uppercase tracking-wider text-[var(--accent-main)] block leading-none mb-0.5">
-            TTS Quest
+            TTS Bareng
           </span>
           <h2 className="text-[17px] font-black text-[var(--text-primary)] tracking-tight leading-tight">
             Statistik & Rekor

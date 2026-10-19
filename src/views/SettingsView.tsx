@@ -18,6 +18,8 @@ import {
   Trash2,
   ExternalLink,
   Palette,
+  Shield,
+  ChevronRight,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { THEMES, type ThemeKey } from '../lib/themes';
@@ -38,6 +40,9 @@ export const SettingsView: React.FC = () => {
     setErrorFeedbackMode,
     setCurrentTab,
     openLegalModal,
+    openPlayerIdModal,
+    user,
+    restartOnboarding,
   } = useGameStore();
 
   const [showResetConfirm, setShowResetConfirm] = useState(false);
@@ -607,6 +612,56 @@ export const SettingsView: React.FC = () => {
           }}
         >
           <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
+
+          {/* Kartu Identitas Pemain */}
+          <button
+            type="button"
+            onClick={openPlayerIdModal}
+            className="w-full flex items-center justify-between p-3 hover:bg-black/3 dark:hover:bg-white/5 transition-colors cursor-pointer text-left tactile-active group relative z-10"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-7.5 h-7.5 rounded-xl bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/20 flex items-center justify-center shrink-0">
+                <Shield className="w-4 h-4 stroke-[2.2]" />
+              </div>
+              <div>
+                <span className="text-[12px] font-bold text-[var(--text-primary)] block leading-tight">
+                  Kartu Identitas Pemain
+                </span>
+                <span className="text-[9px] text-[var(--text-secondary)] block">
+                  Rincian ID ({user.id || 'TTS-8842'}), surel, dan profil
+                </span>
+              </div>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[10px] font-mono font-black text-[var(--accent-main)] px-2 py-0.5 rounded-md bg-[var(--accent-light)] border border-[var(--accent-main)]/20">
+                {user.id || 'TTS-8842'}
+              </span>
+              <ChevronRight className="w-3.5 h-3.5 text-[var(--text-secondary)] group-hover:text-[var(--text-primary)]" />
+            </div>
+          </button>
+
+          {/* Putar Ulang Sambutan & Onboarding */}
+          <button
+            type="button"
+            onClick={restartOnboarding}
+            className="w-full flex items-center justify-between p-3 hover:bg-black/3 dark:hover:bg-white/5 transition-colors cursor-pointer text-left tactile-active group relative z-10"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-7.5 h-7.5 rounded-xl bg-black/5 dark:bg-white/5 text-[var(--accent-main)] flex items-center justify-center shrink-0">
+                <Sparkles className="w-4 h-4 stroke-[2]" />
+              </div>
+              <div>
+                <span className="text-[12px] font-bold text-[var(--text-primary)] block leading-tight">
+                  Putar Ulang Sambutan & Onboarding
+                </span>
+                <span className="text-[9px] text-[var(--text-secondary)] block">
+                  Tinjau alur pendaftaran awal & tutorial
+                </span>
+              </div>
+            </div>
+            <ChevronRight className="w-3.5 h-3.5 text-[var(--text-secondary)] group-hover:text-[var(--text-primary)]" />
+          </button>
+
           {/* Reset Progres Bab */}
           <div className="p-3">
             {showResetConfirm ? (

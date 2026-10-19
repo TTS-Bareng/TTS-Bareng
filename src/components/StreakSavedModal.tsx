@@ -26,13 +26,13 @@ export const StreakSavedModal: React.FC = () => {
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-3.5 select-none">
-        {/* Dark Backdrop */}
+        {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={closeStreakSavedModal}
-          className="absolute inset-0 bg-black/75 backdrop-blur-md"
+          className="absolute inset-0 bg-black/60 backdrop-blur-md"
         />
 
         {/* Modal Window */}
@@ -41,22 +41,19 @@ export const StreakSavedModal: React.FC = () => {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.94, y: 12 }}
           transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-          className="relative w-full max-w-[390px] rounded-[30px] p-5 liquid-glass-card border border-[var(--accent-main)]/30 shadow-2xl flex flex-col items-center text-center overflow-hidden z-10"
-          style={{
-            background: 'linear-gradient(180deg, var(--bg-card) 0%, var(--bg-surface) 100%)',
-          }}
+          className="relative w-full max-w-[370px] rounded-[30px] p-5.5 liquid-glass-card border border-black/10 dark:border-white/15 shadow-2xl flex flex-col items-center text-center overflow-hidden z-10"
         >
           {/* Top edge specular highlight */}
-          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
+          <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
 
           {/* Close button */}
           <button
             type="button"
             onClick={closeStreakSavedModal}
-            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 dark:bg-white/5 border border-white/10 flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/20 transition-all cursor-pointer tactile-active z-20"
+            className="absolute top-4 right-4 w-7.5 h-7.5 rounded-full bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 active:scale-95 transition-all flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-black/5 dark:border-white/10 cursor-pointer tactile-active z-20"
             aria-label="Tutup"
           >
-            <X className="w-4 h-4" />
+            <X className="w-3.5 h-3.5 stroke-[2.2]" />
           </button>
 
           {/* Mascot / Shield Visual Presentation */}
@@ -89,9 +86,9 @@ export const StreakSavedModal: React.FC = () => {
           </p>
 
           {/* Bento Status Card */}
-          <div className="w-full rounded-[20px] p-3.5 my-4 bg-white/5 border border-white/10 flex items-center justify-around">
+          <div className="w-full rounded-[22px] p-3.5 my-3.5 bg-black/[0.03] dark:bg-white/[0.05] border border-black/5 dark:border-white/10 flex items-center justify-around">
             <div className="flex flex-col items-center">
-              <span className="text-[9px] font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-0.5">
+              <span className="text-[9.5px] font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-0.5">
                 Streak Terjaga
               </span>
               <div className="flex items-center gap-1 text-[var(--accent-main)] font-black text-sm">
@@ -100,10 +97,10 @@ export const StreakSavedModal: React.FC = () => {
               </div>
             </div>
 
-            <div className="h-7 w-px bg-white/10" />
+            <div className="h-7 w-px bg-black/10 dark:bg-white/10" />
 
             <div className="flex flex-col items-center">
-              <span className="text-[9px] font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-0.5">
+              <span className="text-[9.5px] font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-0.5">
                 Sisa Perisai
               </span>
               <div className="flex items-center gap-1 text-[var(--text-primary)] font-black text-sm">
@@ -134,7 +131,7 @@ export const StreakSavedModal: React.FC = () => {
             <button
               type="button"
               onClick={closeStreakSavedModal}
-              className="w-full py-2.5 px-4 rounded-full bg-white/10 hover:bg-white/15 border border-white/15 text-[var(--text-primary)] font-black text-xs transition-all tactile-active cursor-pointer"
+              className="w-full py-2.5 px-4 rounded-full bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 border border-black/10 dark:border-white/10 text-[var(--text-primary)] font-black text-xs transition-all tactile-active cursor-pointer"
             >
               Lanjut Bermain
             </button>

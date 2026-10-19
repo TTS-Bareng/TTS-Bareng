@@ -118,13 +118,13 @@ export const LeagueModal: React.FC = () => {
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-3.5 select-none">
-        {/* Dark Backdrop */}
+        {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={closeLeagueModal}
-          className="absolute inset-0 bg-black/75 backdrop-blur-md"
+          className="absolute inset-0 bg-black/60 backdrop-blur-md"
         />
 
         {/* Modal Window */}
@@ -133,13 +133,10 @@ export const LeagueModal: React.FC = () => {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.94, y: 12 }}
           transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-          className="relative w-full max-w-[400px] max-h-[90vh] rounded-[30px] p-5 liquid-glass-card border border-[var(--accent-main)]/30 shadow-2xl flex flex-col overflow-hidden z-10"
-          style={{
-            background: 'linear-gradient(180deg, var(--bg-card) 0%, var(--bg-surface) 100%)',
-          }}
+          className="relative w-full max-w-[400px] max-h-[90vh] rounded-[30px] p-5 liquid-glass-card border border-black/10 dark:border-white/15 shadow-2xl flex flex-col overflow-hidden z-10"
         >
           {/* Top specular highlight */}
-          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
+          <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
 
           {/* Header Bar */}
           <div className="flex items-center justify-between pb-3 border-b border-black/5 dark:border-white/10 shrink-0">
@@ -163,10 +160,10 @@ export const LeagueModal: React.FC = () => {
             <button
               type="button"
               onClick={closeLeagueModal}
-              className="w-8 h-8 rounded-full bg-white/10 dark:bg-white/5 border border-white/10 flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/20 transition-all cursor-pointer tactile-active"
+              className="w-7.5 h-7.5 rounded-full bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 active:scale-95 transition-all flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-black/5 dark:border-white/10 cursor-pointer tactile-active"
               aria-label="Tutup"
             >
-              <X className="w-4 h-4" />
+              <X className="w-3.5 h-3.5 stroke-[2.2]" />
             </button>
           </div>
 
@@ -282,22 +279,22 @@ export const LeagueModal: React.FC = () => {
             </div>
 
             {/* How to Earn League Points Bento */}
-            <div className="rounded-[20px] p-3.5 bg-white/5 border border-white/10 space-y-2">
+            <div className="rounded-[20px] p-3.5 bg-black/[0.03] dark:bg-white/[0.05] border border-black/5 dark:border-white/10 space-y-2">
               <span className="text-[10px] font-black text-[var(--text-primary)] uppercase tracking-wider block">
                 Cara Mengumpulkan Poin Liga:
               </span>
               <div className="grid grid-cols-3 gap-2 text-center">
-                <div className="p-2 rounded-xl bg-white/5 border border-white/5">
+                <div className="p-2 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10">
                   <Flame className="w-3.5 h-3.5 text-[var(--accent-main)] mx-auto mb-1" />
                   <span className="text-[9px] font-bold text-[var(--text-secondary)] block">Daily Rush</span>
                   <span className="text-[10.5px] font-black text-[var(--text-primary)]">+Skor Pts</span>
                 </div>
-                <div className="p-2 rounded-xl bg-white/5 border border-white/5">
+                <div className="p-2 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10">
                   <Check className="w-3.5 h-3.5 text-[var(--accent-main)] mx-auto mb-1" />
                   <span className="text-[9px] font-bold text-[var(--text-secondary)] block">Bab Solo</span>
                   <span className="text-[10.5px] font-black text-[var(--text-primary)]">+50 Pts</span>
                 </div>
-                <div className="p-2 rounded-xl bg-white/5 border border-white/5">
+                <div className="p-2 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10">
                   <Trophy className="w-3.5 h-3.5 text-[var(--accent-main)] mx-auto mb-1" />
                   <span className="text-[9px] font-bold text-[var(--text-secondary)] block">Mabar & 1v1</span>
                   <span className="text-[10.5px] font-black text-[var(--text-primary)]">+100 Pts</span>

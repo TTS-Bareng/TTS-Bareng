@@ -93,8 +93,8 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
   const handleShareRoom = async () => {
     const inviteLink = createDeepLink({ room: roomCode });
     const result = await shareOrCopy({
-      title: 'Mabar TTS Quest',
-      text: `Ayo main bareng teka-teki silang di TTS Quest! Masuk ke Kamar ${roomCode}:`,
+      title: 'Mabar TTS Bareng',
+      text: `Ayo main bareng teka-teki silang di TTS Bareng! Masuk ke Kamar ${roomCode}:`,
       url: inviteLink,
     });
 
@@ -517,7 +517,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
             <div className="flex items-center gap-2 justify-start relative z-10">
               <button
                 type="button"
-                onClick={openBattleLobby}
+                onClick={() => openBattleLobby('tug_of_war')}
                 className="py-1.5 px-3.5 rounded-full bg-white text-[10.5px] font-black inline-flex items-center gap-1.5 cursor-pointer tactile-active shadow-sm group-hover:scale-105 transition-transform"
                 style={{ color: 'var(--hero-btn-text, #111113)' }}
               >
@@ -566,7 +566,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
 
             <button
               type="button"
-              onClick={handleCreateRoom}
+              onClick={() => openBattleLobby('speed_race')}
               className="w-full py-2.5 rounded-2xl bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[11px] font-black flex items-center justify-center gap-1.5 cursor-pointer tactile-active shadow-2xs hover:opacity-95 transition-opacity"
             >
               <Zap className="w-3.5 h-3.5 stroke-[2.2]" />

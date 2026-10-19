@@ -58,9 +58,9 @@ export const AuthModal: React.FC = () => {
                 />
               </div>
               <div className="flex items-center gap-1.5 mb-0.5">
-                <img src="/logo-dark.webp" alt="TTS Quest" className="w-5 h-5 rounded-md object-contain hidden dark:block" />
-                <img src="/logo-light.webp" alt="TTS Quest" className="w-5 h-5 rounded-md object-contain block dark:hidden" />
-                <span className="text-[10px] font-black uppercase tracking-wider text-[var(--accent-main)]">TTS Quest</span>
+                <img src="/logo-dark.webp" alt="TTS Bareng" className="w-5 h-5 rounded-md object-contain hidden dark:block" />
+                <img src="/logo-light.webp" alt="TTS Bareng" className="w-5 h-5 rounded-md object-contain block dark:hidden" />
+                <span className="text-[10px] font-black uppercase tracking-wider text-[var(--accent-main)]">TTS Bareng</span>
               </div>
               <h2 className="text-[18px] font-black tracking-tight text-[var(--text-primary)] leading-tight">
                 Identitas Pemain

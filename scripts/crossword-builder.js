@@ -1,5 +1,5 @@
 /**
- * Crossword Builder & Validator Utility for TTS Quest
+ * Crossword Builder & Validator Utility for TTS Bareng
  * Generates LevelData JSON with exact tiles, clue numbers, coordinates, and cell mappings.
  * Supports both auto-layout (backtracking solver) and explicit coordinate placement.
  */

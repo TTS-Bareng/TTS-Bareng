@@ -53,7 +53,7 @@ export const DailyRushResultModal: React.FC = () => {
     openShareModal({
       badge: nationalRank ? `DAILY RUSH #${nationalRank}` : 'DAILY RUSH 90S',
       title: isFullSolved ? 'Top Jawara Daily Rush!' : 'Skor Daily Rush Nasional',
-      subtitle: `${score} poin berhasil dicapai dalam ${timeSpent} detik pada Papan Peringkat Nasional TTS Quest.`,
+      subtitle: `${score} poin berhasil dicapai dalam ${timeSpent} detik pada Papan Peringkat Nasional TTS Bareng.`,
       mascot: isFullSolved ? MASCOTS.crosswordChampion : MASCOTS.indonesianPuzzleKid,
       stats: [
         { label: 'SKOR', value: `${score}` },
@@ -61,7 +61,7 @@ export const DailyRushResultModal: React.FC = () => {
         { label: 'AKURASI', value: `${accuracy}%` },
       ],
       shareUrl: window.location.origin,
-      shareText: `Saya mencetak skor ${score} poin di Daily Rush TTS Quest hari ini! Bisakah kamu mengalahkan peringkatku?`,
+      shareText: `Saya mencetak skor ${score} poin di Daily Rush TTS Bareng hari ini! Bisakah kamu mengalahkan peringkatku?`,
     });
   };
 

@@ -23,6 +23,9 @@ const AchievementDetailModal = lazy(() => import('./components/AchievementDetail
 const LexiconModal = lazy(() => import('./components/LexiconModal').then((m) => ({ default: m.LexiconModal })));
 const AvatarPickerModal = lazy(() => import('./components/AvatarPickerModal').then((m) => ({ default: m.AvatarPickerModal })));
 const LegalModal = lazy(() => import('./components/LegalModal').then((m) => ({ default: m.LegalModal })));
+const PlayerIdModal = lazy(() => import('./components/PlayerIdModal').then((m) => ({ default: m.PlayerIdModal })));
+const InitialAuthView = lazy(() => import('./views/InitialAuthView').then((m) => ({ default: m.InitialAuthView })));
+const OnboardingView = lazy(() => import('./views/OnboardingView').then((m) => ({ default: m.OnboardingView })));
 
 const ViewLoadingFallback: React.FC = () => (
   <div className="w-full flex-1 flex flex-col items-center justify-center p-8 select-none">
@@ -57,6 +60,7 @@ export const App: React.FC = () => {
     globalToast,
     showGlobalToast,
     checkDailyStreakOnMount,
+    initialAuthStage,
   } = useGameStore();
 
   // Apply theme tokens on initial mount and when theme changes
@@ -179,20 +183,33 @@ export const App: React.FC = () => {
         )}
       </AnimatePresence>
 
-      {/* 1. Main View Container with Suspense Boundary */}
-      <div className="flex-1 flex flex-col min-h-0 relative overflow-hidden">
-        {currentTab === 'home' && <HomeView />}
+      {/* Conditional Flow: 1. Initial Login -> 2. Onboarding -> 3. Main Game Views */}
+      {initialAuthStage === 'auth' ? (
         <Suspense fallback={<ViewLoadingFallback />}>
-          {(currentTab === 'arena' || currentTab === 'social') && <ArenaView />}
-          {currentTab === 'game' && <GameView />}
-          {currentTab === 'quests' && <QuestsView />}
-          {(currentTab === 'profile' || currentTab === 'stats') && <ProfileView />}
-          {currentTab === 'settings' && <SettingsView />}
+          <InitialAuthView />
         </Suspense>
-      </div>
+      ) : initialAuthStage === 'onboarding' ? (
+        <Suspense fallback={<ViewLoadingFallback />}>
+          <OnboardingView />
+        </Suspense>
+      ) : (
+        <>
+          {/* 1. Main View Container with Suspense Boundary */}
+          <div className="flex-1 flex flex-col min-h-0 relative overflow-hidden">
+            {currentTab === 'home' && <HomeView />}
+            <Suspense fallback={<ViewLoadingFallback />}>
+              {(currentTab === 'arena' || currentTab === 'social') && <ArenaView />}
+              {currentTab === 'game' && <GameView />}
+              {currentTab === 'quests' && <QuestsView />}
+              {(currentTab === 'profile' || currentTab === 'stats') && <ProfileView />}
+              {currentTab === 'settings' && <SettingsView />}
+            </Suspense>
+          </div>
 
-      {/* 2. Sleek Bottom Tab Navigation */}
-      <NavigationBottomBar />
+          {/* 2. Sleek Bottom Tab Navigation */}
+          <NavigationBottomBar />
+        </>
+      )}
 
       {/* 3. Global Modals (Auth, Leaderboard, Share, Retention, League, Lexicon, AvatarPicker, Legal) with Suspense */}
       <Suspense fallback={null}>
@@ -208,6 +225,7 @@ export const App: React.FC = () => {
           onClose={closeAvatarPicker}
         />
         <LegalModal />
+        <PlayerIdModal />
       </Suspense>
     </div>
   );

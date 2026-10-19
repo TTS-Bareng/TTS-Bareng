@@ -12,6 +12,7 @@ import {
   Users,
   Flame,
   Loader2,
+  X,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
@@ -110,32 +111,36 @@ export const LevelCompleteModal: React.FC = () => {
   return (
     <AnimatePresence>
       {isLevelCompleteOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 select-none">
-          {/* Backdrop Blur */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.65 }}
-            exit={{ opacity: 0 }}
-            onClick={closeLevelComplete}
-            className="absolute inset-0 bg-black/60 backdrop-blur-md"
-          />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          style={{
+            background: 'var(--hero-grad, var(--accent-grad))',
+            color: '#ffffff',
+          }}
+          className="fixed inset-0 z-50 flex flex-col items-center select-none overflow-y-auto no-scrollbar text-white"
+        >
+          {/* Top Specular Sheen Highlight & Ambient Glows */}
+          <div className="fixed top-0 inset-x-0 h-px bg-white/40 pointer-events-none z-10" />
+          <div className="fixed -top-14 -right-14 w-52 h-52 rounded-full bg-white/15 blur-3xl pointer-events-none" />
+          <div className="fixed -bottom-14 -left-14 w-52 h-52 rounded-full bg-black/25 blur-3xl pointer-events-none" />
 
-          {/* Modal Card Content (Vibrant Hero Gradient) */}
-          <motion.div
-            initial={{ scale: 0.88, opacity: 0, y: 25 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.88, opacity: 0, y: 25 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 320 }}
-            style={{
-              background: 'var(--hero-grad, var(--accent-grad))',
-              color: '#ffffff',
-            }}
-            className="relative w-full max-w-[340px] max-h-[92vh] overflow-y-auto rounded-[32px] p-5 text-center flex flex-col items-center gap-3 shadow-2xl z-10 border border-white/20 text-white"
-          >
-            {/* Top Specular Sheen Highlight & Ambient Glow */}
-            <div className="absolute top-0 inset-x-0 h-px bg-white/40 pointer-events-none" />
-            <div className="absolute -top-10 -right-10 w-36 h-36 rounded-full bg-white/15 blur-2xl pointer-events-none" />
-            <div className="absolute -bottom-10 -left-10 w-36 h-36 rounded-full bg-black/20 blur-2xl pointer-events-none" />
+          {/* Top Dismiss Button Bar */}
+          <div className="w-full max-w-[420px] flex justify-end px-4 pt-3 shrink-0 relative z-20">
+            <button
+              type="button"
+              onClick={closeLevelComplete}
+              aria-label="Tutup"
+              className="w-8 h-8 rounded-full flex items-center justify-center bg-white/15 hover:bg-white/25 border border-white/20 text-white tactile-active transition-colors cursor-pointer"
+            >
+              <X className="w-4 h-4 stroke-[2.2]" />
+            </button>
+          </div>
+
+          {/* Centered Main Victory Content */}
+          <div className="w-full max-w-[360px] flex-1 flex flex-col items-center justify-between p-4 pb-8 pt-1 text-center relative z-10 gap-3 my-auto">
 
             {/* Celebratory Mascot (Fierce Plush Crossword Champion) */}
             <div className="relative w-28 h-28 my-0.5 flex items-center justify-center shrink-0">
@@ -406,8 +411,8 @@ export const LevelCompleteModal: React.FC = () => {
                 <span>Kembali ke Arena</span>
               </button>
             </div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );

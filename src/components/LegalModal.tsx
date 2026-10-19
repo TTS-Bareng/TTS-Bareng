@@ -135,7 +135,7 @@ export const LegalModal: React.FC = () => {
                     </h3>
                   </div>
                   <p className="text-[10.5px]">
-                    Kami menghormati privasi Anda secara penuh. TTS Quest dirancang dengan arsitektur <strong>Privacy-First & Local-First</strong> yang tidak menjual, melacak, atau menyalahgunakan data pribadi pemain.
+                    Kami menghormati privasi Anda secara penuh. TTS Bareng dirancang dengan arsitektur <strong>Privacy-First & Local-First</strong> yang tidak menjual, melacak, atau menyalahgunakan data pribadi pemain.
                   </p>
                 </div>
 
@@ -189,7 +189,7 @@ export const LegalModal: React.FC = () => {
                     </h3>
                   </div>
                   <p className="text-[10.5px]">
-                    Dengan menggunakan aplikasi TTS Quest, Anda menyetujui ketentuan penggunaan wajar berikut ini demi menjaga ekosistem bermain yang edukatif dan sportif.
+                    Dengan menggunakan aplikasi TTS Bareng, Anda menyetujui ketentuan penggunaan wajar berikut ini demi menjaga ekosistem bermain yang edukatif dan sportif.
                   </p>
                 </div>
 
@@ -234,7 +234,7 @@ export const LegalModal: React.FC = () => {
                     </h3>
                   </div>
                   <p className="text-[10.5px]">
-                    Seluruh perbendaharaan kata, definisi, dan petunjuk silang dalam TTS Quest disusun berpedoman pada kaidah linguistik baku dan rujukan leksikal resmi Republik Indonesia.
+                    Seluruh perbendaharaan kata, definisi, dan petunjuk silang dalam TTS Bareng disusun berpedoman pada kaidah linguistik baku dan rujukan leksikal resmi Republik Indonesia.
                   </p>
                 </div>
 
@@ -253,7 +253,7 @@ export const LegalModal: React.FC = () => {
 
                   <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10">
                     <h4 className="font-black text-[11.5px] text-[var(--text-primary)] mb-1">
-                      Pelestarian Kosakata & Budaya Nusantara
+                       Pelestarian Kosakata & Budaya Nusantara
                     </h4>
                     <p className="text-[10px]">
                       Kategori tematik mencakup kekayaan alam, arsitektur nusantara, fauna endemik, flora khatulistiwa, seni kuliner daerah, hingga istilah serapan modern guna memajukan literasi bahasa dan kebanggaan berbangsa.
@@ -265,7 +265,7 @@ export const LegalModal: React.FC = () => {
                       Aset Visual & Desain
                     </h4>
                     <p className="text-[10px]">
-                      Karakter maskot 3D Plush, sistem tata suara tactile, dan antarmuka Apple Liquid Glass dibuat orisinal untuk TTS Quest / TTS Bareng. Seluruh hak cipta visual dilindungi undang-undang.
+                      Karakter maskot 3D Plush, sistem tata suara tactile, dan antarmuka Apple Liquid Glass dibuat orisinal untuk TTS Bareng. Seluruh hak cipta visual dilindungi undang-undang.
                     </p>
                   </div>
                 </div>

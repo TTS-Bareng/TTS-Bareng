@@ -41,7 +41,7 @@ export function registerServiceWorker(): void {
   window.addEventListener('appinstalled', () => {
     deferredPrompt = null;
     installListeners.forEach((cb) => cb(false));
-    console.log('[PWA] TTS Quest has been installed successfully');
+    console.log('[PWA] TTS Bareng has been installed successfully');
   });
 }
 

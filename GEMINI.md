@@ -1,6 +1,6 @@
-# GEMINI.md — TTS Quest Core Rules & Design System Blueprint
+# GEMINI.md — TTS Bareng Core Rules & Design System Blueprint
 
-Dokumen ini adalah **sumber kebenaran tunggal (single source of truth)** untuk seluruh proses perancangan ulang (*restyle*), pembaruan struktural (*reform*), dan implementasi kode pada proyek **TTS Quest**.
+Dokumen ini adalah **sumber kebenaran tunggal (single source of truth)** untuk seluruh proses perancangan ulang (*restyle*), pembaruan struktural (*reform*), dan implementasi kode pada proyek **TTS Bareng**.
 
 Halaman **Beranda (HomeView)** yang telah disempurnakan dijadikan sebagai **Design System Blueprint (Based Model)** acuan untuk seluruh halaman lain (`GameView`, `StatsView`, `SettingsView`, dan modal-modal aplikasi).
 
@@ -115,7 +115,7 @@ Gunakan blueprint di atas saat merombak halaman-halaman berikut:
 
 | Halaman / Komponen | Target Reformasi Berdasarkan Home | Status |
 | :--- | :--- | :--- |
-| **`HomeView.tsx`** | Clean Solo Lobby: Hero Quest Map, Hub Mabar & Daily Rush, Kata Hari Ini KBBI, Trivia Wawasan, eliminasi bloat. | Selesai (Blueprint) |
+| **`HomeView.tsx`** | Clean Solo Lobby: Hero Peta Petualangan, Hub Mabar & Daily Rush, Kata Hari Ini KBBI, Trivia Wawasan, eliminasi bloat. | Selesai (Blueprint) |
 | **`ArenaView.tsx`** | **12 Alam Tematik Nusantara**: Bento Accordion 12 Alam, Micro Progress Bar real-time, Mode Main Acak (*Dices*), Glosarium Kata, 220 Bab (2.652 kata, 0 tabrakan paralel). | Selesai |
 | **`SocialView.tsx`** | **The Origin Moat**: Mabar Co-op (1 Papan live via link WA), 1v1 Arena (Tug-of-War & Speed Race), Daily Rush nasional 90s. | Selesai |
 | **`QuestsView.tsx`** | Bento misi harian, reward chest 50★, kalkulasi kata riil, anti-mepet navbar. | Selesai |

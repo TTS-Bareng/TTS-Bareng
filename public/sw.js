@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tts-quest-cache-v2';
+const CACHE_NAME = 'tts-bareng-cache-v2';
 
 const PRECACHE_ASSETS = [
   '/',

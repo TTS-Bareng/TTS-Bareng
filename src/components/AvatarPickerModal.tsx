@@ -192,7 +192,7 @@ export const AvatarPickerModal: React.FC<AvatarPickerModalProps> = ({ isOpen, on
             <div className="mb-4">
               <div className="flex items-center justify-between mb-1.5">
                 <label className="text-[9.5px] font-bold uppercase tracking-wider text-[var(--text-secondary)] block">
-                  Karakter TTS Quest
+                  Karakter TTS Bareng
                 </label>
                 <span className="text-[8.5px] font-bold text-[var(--accent-main)]">
                   {MASCOT_AVATARS.length} Karakter

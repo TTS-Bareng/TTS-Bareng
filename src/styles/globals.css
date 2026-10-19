@@ -31,6 +31,7 @@
   --bg-elevated: #18181c;
   --bg-elevated-2: #222228;
   --bg-card: #18181c;
+  --bg-surface: #18181c;
   --bg-paper: #111113;
   --bg-bookshelf-luminance: radial-gradient(
       ellipse 85% 55% at 50% -6%,
@@ -311,6 +312,10 @@
    ============================================================ */
 :root[data-theme="clean_white"],
 :root[data-theme="nube"],
+:root[data-theme="bordo"],
+:root[data-theme="racing"],
+:root[data-theme="electric"],
+:root[data-theme="blossom"],
 :root[data-theme="light"],
 .light,
 .theme-clean_white {
@@ -337,6 +342,7 @@
   --bg-elevated-2: rgba(248, 248, 252, 0.68);
 
   --bg-card: #ffffff;
+  --bg-surface: #f4f4f6;
   --glass-fill: rgba(255, 255, 255, 0.78);
   --glass-fill-strong: rgba(255, 255, 255, 0.9);
   --glass-border: rgba(15, 23, 42, 0.075);
@@ -528,7 +534,7 @@ body,
 }
 
 /* ============================================================
-   TTS QUEST SPECIFIC INTERACTION & TILE UTILITIES
+   TTS BARENG SPECIFIC INTERACTION & TILE UTILITIES
    ============================================================ */
 .tactile-active:active {
   transform: translateY(1.5px) scale(0.98);
@@ -611,6 +617,15 @@ body,
   border: 1px solid rgba(15, 23, 42, 0.08);
   box-shadow: inset 0 1.5px 0 #FFFFFF, 0 8px 24px -4px rgba(15, 23, 42, 0.04);
   color: #18181b;
+}
+
+:where([data-theme="nube"], [data-theme="bordo"], [data-theme="racing"], [data-theme="electric"], [data-theme="blossom"], [data-theme="clean_white"], .light) .liquid-glass-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 248, 252, 0.88) 100%);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 12px 32px -4px rgba(15, 23, 42, 0.06), inset 0 1.5px 0 #ffffff;
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  color: var(--text-primary);
 }
 
 

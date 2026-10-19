@@ -1,5 +1,5 @@
 /**
- * Deep Link & Native Web Share Engine for TTS Quest
+ * Deep Link & Native Web Share Engine for TTS Bareng
  * Handles URL query parameters parsing, link generation, and native share sheets.
  */
 
@@ -15,7 +15,7 @@ export function getBaseOrigin(): string {
   if (typeof window !== 'undefined' && window.location.origin) {
     return window.location.origin;
   }
-  return 'https://tts-quest.web.app';
+  return 'https://ttsbareng.web.app';
 }
 
 /**

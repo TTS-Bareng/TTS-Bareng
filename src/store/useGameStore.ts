@@ -36,6 +36,7 @@ export interface BoardSnapshotPayload {
 }
 
 export interface UserProfile {
+  id?: string;
   name: string;
   email?: string;
   isGuest: boolean;
@@ -78,6 +79,7 @@ export interface ShareModalData {
 }
 
 export interface BattleConfig {
+  mode?: 'tug_of_war' | 'speed_race';
   rounds: 1 | 3 | 5;
   durationSeconds: 60 | 90 | 120;
   wordCount: 'short' | 'medium' | 'long';
@@ -140,7 +142,7 @@ interface GameState {
   isBattleLobbyOpen: boolean;
   isBattleResultOpen: boolean;
   battleWinner: 'local' | 'partner' | 'draw' | null;
-  openBattleLobby: () => void;
+  openBattleLobby: (mode?: 'tug_of_war' | 'speed_race') => void;
   closeBattleLobby: () => void;
   openBattleResult: () => void;
   closeBattleResult: () => void;
@@ -155,12 +157,23 @@ interface GameState {
   // User Profile
   user: UserProfile;
   setUser: (user: UserProfile) => void;
+  updateUserName: (name: string) => void;
   isAuthOpen: boolean;
   openAuth: () => void;
   closeAuth: () => void;
   loginAsGuest: () => void;
   loginWithEmail: (email: string, name: string) => void;
   logout: () => void;
+  isPlayerIdModalOpen: boolean;
+  openPlayerIdModal: () => void;
+  closePlayerIdModal: () => void;
+
+  // Initial Auth & Onboarding Flow
+  initialAuthStage: 'auth' | 'onboarding' | 'completed';
+  setInitialAuthStage: (stage: 'auth' | 'onboarding' | 'completed') => void;
+  proceedToOnboarding: (userData?: { name?: string; email?: string; isGuest?: boolean }) => void;
+  completeOnboarding: (customName: string, avatarSrc: string) => void;
+  restartOnboarding: () => void;
 
   // Theme
   theme: ThemeKey;
@@ -343,6 +356,12 @@ const STORAGE_KEY_CLAIMED_ACHIEVEMENTS = 'tts_quest_claimed_achievements';
 const STORAGE_KEY_LAST_COMPLETED_DAY = 'tts_quest_last_completed_day';
 const STORAGE_KEY_ERROR_FEEDBACK = 'tts_quest_error_feedback_mode';
 const STORAGE_KEY_AUTO_ADVANCE = 'tts_auto_advance';
+const STORAGE_KEY_ONBOARDED = 'tts_quest_onboarded';
+
+function getInitialAuthStage(): 'auth' | 'onboarding' | 'completed' {
+  if (typeof window === 'undefined') return 'completed';
+  return localStorage.getItem(STORAGE_KEY_ONBOARDED) === 'true' ? 'completed' : 'auth';
+}
 
 function getInitialErrorFeedbackMode(): 'gentle' | 'purist' {
   if (typeof window === 'undefined') return 'gentle';
@@ -454,16 +473,29 @@ function getInitialDailyRushRecord(): DailyRushRecord | null {
 
 const typedLevels: LevelData[] = (levelsData as unknown as RawLevelData[]).map(inflateLevel);
 
+function generatePlayerId(): string {
+  const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+  let code = '';
+  for (let i = 0; i < 4; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return `TTS-${code}`;
+}
+
 function getInitialUser(): UserProfile {
   const defaultAvatar = '/maskot/Fierce Plush Crossword Champion.webp';
   if (typeof window === 'undefined') {
-    return { name: 'Pemain TTS', isGuest: true, avatar: defaultAvatar, joinedAt: 'Hari ini' };
+    return { id: 'TTS-8842', name: 'Pemain TTS', isGuest: true, avatar: defaultAvatar, joinedAt: 'Hari ini' };
   }
   const saved = localStorage.getItem(STORAGE_KEY_USER);
   if (saved) {
     try {
       const parsed = JSON.parse(saved);
       if (parsed.name === 'Penjelajah') parsed.name = 'Pemain TTS';
+      if (!parsed.id) {
+        parsed.id = generatePlayerId();
+        localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(parsed));
+      }
       if (
         !parsed.avatar ||
         (!parsed.avatar.startsWith('/') &&
@@ -477,7 +509,15 @@ function getInitialUser(): UserProfile {
       // fallback
     }
   }
-  return { name: 'Pemain TTS', isGuest: true, avatar: defaultAvatar, joinedAt: 'Hari ini' };
+  const newUser: UserProfile = {
+    id: generatePlayerId(),
+    name: 'Pemain TTS',
+    isGuest: true,
+    avatar: defaultAvatar,
+    joinedAt: 'Hari ini',
+  };
+  localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(newUser));
+  return newUser;
 }
 
 function getInitialTheme(): ThemeKey {
@@ -565,12 +605,62 @@ export const useGameStore = create<GameState>((set, get) => ({
     localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(user));
     set({ user });
   },
+  updateUserName: (name) => {
+    const trimmed = name.trim();
+    if (!trimmed) return;
+    const current = get().user;
+    const updated: UserProfile = { ...current, name: trimmed };
+    localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(updated));
+    set({ user: updated });
+  },
   isAuthOpen: false,
   openAuth: () => set({ isAuthOpen: true }),
   closeAuth: () => set({ isAuthOpen: false }),
 
+  isPlayerIdModalOpen: false,
+  openPlayerIdModal: () => set({ isPlayerIdModalOpen: true }),
+  closePlayerIdModal: () => set({ isPlayerIdModalOpen: false }),
+
+  initialAuthStage: getInitialAuthStage(),
+  setInitialAuthStage: (stage) => set({ initialAuthStage: stage }),
+  proceedToOnboarding: (userData) => {
+    if (userData) {
+      const currentId = get().user?.id || generatePlayerId();
+      const isGuestMode = userData.isGuest ?? (userData.email ? false : true);
+      const updated: UserProfile = {
+        id: currentId,
+        name: userData.name?.trim() || get().user?.name || 'Pemain TTS',
+        email: userData.email?.trim() || get().user?.email,
+        isGuest: isGuestMode,
+        avatar: get().user?.avatar || '/maskot/Fierce Plush Crossword Champion.webp',
+        joinedAt: isGuestMode ? 'Mode Tamu' : 'Oktober 2026',
+      };
+      localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(updated));
+      set({ user: updated, initialAuthStage: 'onboarding' });
+    } else {
+      set({ initialAuthStage: 'onboarding' });
+    }
+  },
+  completeOnboarding: (customName, avatarSrc) => {
+    const current = get().user;
+    const updated: UserProfile = {
+      ...current,
+      name: customName.trim() || current.name || 'Pemain TTS',
+      avatar: avatarSrc || current.avatar,
+    };
+    localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(updated));
+    localStorage.setItem(STORAGE_KEY_ONBOARDED, 'true');
+    set({ user: updated, initialAuthStage: 'completed', currentTab: 'home' });
+  },
+  restartOnboarding: () => {
+    localStorage.removeItem(STORAGE_KEY_ONBOARDED);
+    set({ initialAuthStage: 'auth' });
+  },
+
   loginAsGuest: () => {
+    const currentId = get().user?.id || generatePlayerId();
     const guestUser: UserProfile = {
+      id: currentId,
       name: 'Tamu Lokal',
       isGuest: true,
       avatar: '/maskot/Fierce Plush Crossword Champion.webp',
@@ -581,19 +671,26 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   loginWithEmail: (email: string, name: string) => {
+    const currentId = get().user?.id || generatePlayerId();
     const emailUser: UserProfile = {
+      id: currentId,
       name: name.trim() || 'Pemain TTS',
       email: email.trim(),
       isGuest: false,
       avatar: '/maskot/Playful Plush Crossword Board.webp',
-      joinedAt: 'Oktober 2026',
+      joinedAt:
+        get().user?.joinedAt && get().user.joinedAt !== 'Mode Tamu' && get().user.joinedAt !== 'Hari ini'
+          ? get().user.joinedAt
+          : 'Oktober 2026',
     };
     localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(emailUser));
     set({ user: emailUser, isAuthOpen: false });
   },
 
   logout: () => {
+    const currentId = get().user?.id || generatePlayerId();
     const defaultUser: UserProfile = {
+      id: currentId,
       name: 'Tamu',
       isGuest: true,
       avatar: '/maskot/Fierce Plush Crossword Champion.webp',
@@ -1188,8 +1285,9 @@ export const useGameStore = create<GameState>((set, get) => ({
   openScanner: () => set({ isScannerOpen: true }),
   closeScanner: () => set({ isScannerOpen: false }),
 
-  // 1v1 Tug-of-War Battle State & Methods
+  // 1v1 Tug-of-War & Speed Race Battle State & Methods
   battleConfig: {
+    mode: 'tug_of_war',
     rounds: 3,
     durationSeconds: 90,
     wordCount: 'medium',
@@ -1209,7 +1307,18 @@ export const useGameStore = create<GameState>((set, get) => ({
   isBattleLobbyOpen: false,
   isBattleResultOpen: false,
   battleWinner: null,
-  openBattleLobby: () => set({ isBattleLobbyOpen: true }),
+  openBattleLobby: (mode) => {
+    const battleMode = mode || 'tug_of_war';
+    set((state) => ({
+      isBattleLobbyOpen: true,
+      battleConfig: {
+        ...state.battleConfig,
+        mode: battleMode,
+        durationSeconds: battleMode === 'speed_race' ? 60 : state.battleConfig.durationSeconds,
+        wordCount: battleMode === 'speed_race' ? 'short' : state.battleConfig.wordCount,
+      },
+    }));
+  },
   closeBattleLobby: () => set({ isBattleLobbyOpen: false }),
   openBattleResult: () => set({ isBattleResultOpen: true }),
   closeBattleResult: () => set({ isBattleResultOpen: false }),

@@ -1,4 +1,4 @@
-# Behavioral Guidelines & Project Rules (Prinsip Karpathy)
+# TTS Bareng — Behavioral Guidelines & Project Rules (Prinsip Karpathy)
 
 Behavioral guidelines to reduce common LLM coding mistakes and enforce strict UI/UX excellence.
 
