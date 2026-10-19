@@ -185,8 +185,14 @@ export const SettingsView: React.FC = () => {
         <span className="text-[10px] font-black uppercase tracking-wider text-[var(--text-secondary)] px-1">
           TAMPILAN & WARNA
         </span>
-        <div className="w-full rounded-[20px] p-3 liquid-glass-neutral-card relative overflow-hidden">
-          <div className="flex items-center justify-between mb-2 px-0.5">
+        <div
+          className="w-full rounded-[22px] p-3.5 border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden"
+          style={{
+            background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
+          }}
+        >
+          <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
+          <div className="flex items-center justify-between mb-2 px-0.5 relative z-10">
             <div className="flex items-center gap-1.5 text-[var(--text-primary)]">
               <Palette className="w-3.5 h-3.5 text-[var(--accent-main)]" />
               <span className="text-[12px] font-bold">Tema Aplikasi</span>
@@ -197,7 +203,7 @@ export const SettingsView: React.FC = () => {
           </div>
 
           {/* Horizontal Swatch Strip - Kotak Rounded Miniature Previews */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar px-0.5">
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar px-0.5 relative z-10">
             {themeList.map((t) => {
               const isSelected = theme === t.id;
               return (
@@ -274,7 +280,13 @@ export const SettingsView: React.FC = () => {
         <span className="text-[10px] font-black uppercase tracking-wider text-[var(--text-secondary)] px-1">
           PENGALAMAN BERMAIN
         </span>
-        <div className="w-full rounded-[20px] overflow-hidden liquid-glass-neutral-card divide-y divide-black/5 dark:divide-white/10">
+        <div
+          className="w-full rounded-[22px] overflow-hidden border border-[var(--accent-main)]/20 shadow-xs relative divide-y divide-black/5 dark:divide-white/10"
+          style={{
+            background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
+          }}
+        >
+          <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
           {/* Row 1: Efek Suara */}
           <div className="flex items-center justify-between p-3">
             <div className="flex items-center gap-3 min-w-0 pr-2">
@@ -450,8 +462,14 @@ export const SettingsView: React.FC = () => {
         <span className="text-[10px] font-black uppercase tracking-wider text-[var(--text-secondary)] px-1">
           PENYIMPANAN & CADANGAN
         </span>
-        <div className="w-full rounded-[20px] p-3 liquid-glass-neutral-card flex flex-col gap-2.5">
-          <div className="flex items-center justify-between">
+        <div
+          className="w-full rounded-[22px] p-3.5 border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden flex flex-col gap-2.5"
+          style={{
+            background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
+          }}
+        >
+          <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
+          <div className="flex items-center justify-between relative z-10">
             <div className="flex items-center gap-3">
               <div className="w-7.5 h-7.5 rounded-xl bg-[var(--accent-light)] text-[var(--accent-main)] flex items-center justify-center shrink-0">
                 <HardDrive className="w-4 h-4 stroke-[2.2]" />
@@ -470,7 +488,7 @@ export const SettingsView: React.FC = () => {
             </span>
           </div>
 
-          <div className="grid grid-cols-2 gap-2 pt-1">
+          <div className="grid grid-cols-2 gap-2 pt-1 relative z-10">
             <button
               type="button"
               onClick={handleExportBackup}
@@ -505,11 +523,17 @@ export const SettingsView: React.FC = () => {
         <span className="text-[10px] font-black uppercase tracking-wider text-[var(--text-secondary)] px-1">
           INFORMASI & LEGALITAS
         </span>
-        <div className="w-full rounded-[20px] overflow-hidden liquid-glass-neutral-card divide-y divide-black/5 dark:divide-white/10">
+        <div
+          className="w-full rounded-[22px] overflow-hidden border border-[var(--accent-main)]/20 shadow-xs relative divide-y divide-black/5 dark:divide-white/10"
+          style={{
+            background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
+          }}
+        >
+          <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
           <button
             type="button"
             onClick={() => openLegalModal('privacy')}
-            className="w-full flex items-center justify-between p-3 hover:bg-black/3 dark:hover:bg-white/5 transition-colors cursor-pointer text-left tactile-active group"
+            className="w-full flex items-center justify-between p-3 hover:bg-black/3 dark:hover:bg-white/5 transition-colors cursor-pointer text-left tactile-active group relative z-10"
           >
             <div className="flex items-center gap-3">
               <div className="w-7.5 h-7.5 rounded-xl bg-black/5 dark:bg-white/5 text-[var(--text-secondary)] flex items-center justify-center shrink-0">
@@ -530,7 +554,7 @@ export const SettingsView: React.FC = () => {
           <button
             type="button"
             onClick={() => openLegalModal('terms')}
-            className="w-full flex items-center justify-between p-3 hover:bg-black/3 dark:hover:bg-white/5 transition-colors cursor-pointer text-left tactile-active group"
+            className="w-full flex items-center justify-between p-3 hover:bg-black/3 dark:hover:bg-white/5 transition-colors cursor-pointer text-left tactile-active group relative z-10"
           >
             <div className="flex items-center gap-3">
               <div className="w-7.5 h-7.5 rounded-xl bg-black/5 dark:bg-white/5 text-[var(--text-secondary)] flex items-center justify-center shrink-0">
@@ -551,7 +575,7 @@ export const SettingsView: React.FC = () => {
           <button
             type="button"
             onClick={() => openLegalModal('kbbi')}
-            className="w-full flex items-center justify-between p-3 hover:bg-black/3 dark:hover:bg-white/5 transition-colors cursor-pointer text-left tactile-active group"
+            className="w-full flex items-center justify-between p-3 hover:bg-black/3 dark:hover:bg-white/5 transition-colors cursor-pointer text-left tactile-active group relative z-10"
           >
             <div className="flex items-center gap-3">
               <div className="w-7.5 h-7.5 rounded-xl bg-black/5 dark:bg-white/5 text-[var(--text-secondary)] flex items-center justify-center shrink-0">
@@ -576,7 +600,13 @@ export const SettingsView: React.FC = () => {
         <span className="text-[10px] font-black uppercase tracking-wider text-red-500/80 px-1">
           PENGELOLAAN DATA & AKUN
         </span>
-        <div className="w-full rounded-[20px] overflow-hidden liquid-glass-neutral-card border-red-500/25 divide-y divide-black/5 dark:divide-white/10">
+        <div
+          className="w-full rounded-[22px] overflow-hidden border border-red-500/20 shadow-xs relative divide-y divide-black/5 dark:divide-white/10"
+          style={{
+            background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
+          }}
+        >
+          <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
           {/* Reset Progres Bab */}
           <div className="p-3">
             {showResetConfirm ? (
