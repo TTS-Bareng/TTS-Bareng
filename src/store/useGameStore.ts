@@ -150,10 +150,18 @@ interface GameState {
   applyRemoteClueSolved: (clueId: string, newlySolved: string[], partnerName: string) => void;
   leaveMabarSession: () => void;
   cellAuthors: Record<string, 'local' | 'partner'>;
+  clueAuthors: Record<string, 'local' | 'partner'>;
   activeReaction: MabarReaction | null;
   sendReaction: (text: string, clueId?: string) => void;
   receiveReaction: (reaction: { text: string; senderName: string; avatar?: string; clueId?: string }) => void;
   clearReaction: () => void;
+  nextLevelProposal: { targetLevelIndex: number; senderName: string } | null;
+  isWaitingForPartnerNextLevel: boolean;
+  proposeNextLevel: (targetLevelIndex: number) => void;
+  receiveNextLevelProposal: (data: { targetLevelIndex: number; senderName: string }) => void;
+  acceptNextLevelProposal: () => void;
+  confirmNextLevelTogether: (targetLevelIndex: number) => void;
+  cancelNextLevelProposal: (broadcast?: boolean) => void;
 
   // Modals
   isSettingsOpen: boolean;
@@ -445,7 +453,10 @@ export const useGameStore = create<GameState>((set, get) => ({
   mabarPeers: [],
   partnerCursor: null,
   cellAuthors: {},
+  clueAuthors: {},
   activeReaction: null,
+  nextLevelProposal: null,
+  isWaitingForPartnerNextLevel: false,
   setMabarPeers: (peers) => set({ mabarPeers: peers }),
   setPartnerCursor: (cursor) => set({ partnerCursor: cursor }),
 
@@ -473,13 +484,17 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   applyRemoteClueSolved: (clueId, newlySolved, partnerName) => {
-    const { solvedClues, level, lockedCells, soundEnabled, userInputs, cellAuthors } = get();
+    const { solvedClues, level, lockedCells, soundEnabled, userInputs, cellAuthors, clueAuthors } = get();
     const updatedSolved = Array.from(new Set([...solvedClues, ...newlySolved, clueId]));
     const newLocked = { ...lockedCells };
     const newInputs = { ...userInputs };
     const newAuthors = { ...cellAuthors };
+    const newClueAuthors = { ...clueAuthors };
 
     updatedSolved.forEach((cId) => {
+      if (cId && !newClueAuthors[cId]) {
+        newClueAuthors[cId] = 'partner';
+      }
       const clue = findClueById(level, cId);
       if (clue) {
         clue.cells.forEach(([r, c], idx) => {
@@ -501,6 +516,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       lockedCells: newLocked,
       userInputs: newInputs,
       cellAuthors: newAuthors,
+      clueAuthors: newClueAuthors,
       validationMessage: isLevelComplete ? 'Papan Berhasil Dipecahkan Bersama!' : `${partnerName} memecahkan kata!`,
     });
 
@@ -530,7 +546,10 @@ export const useGameStore = create<GameState>((set, get) => ({
       mabarPeers: [],
       partnerCursor: null,
       cellAuthors: {},
+      clueAuthors: {},
       activeReaction: null,
+      nextLevelProposal: null,
+      isWaitingForPartnerNextLevel: false,
     });
     get().showGlobalToast('Keluar dari sesi mabar');
   },
@@ -578,6 +597,51 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   clearReaction: () => set({ activeReaction: null }),
+
+  proposeNextLevel: (targetLevelIndex: number) => {
+    const { mabarPeers, selectLevel, closeLevelComplete } = get();
+    // If no other peer in the room, advance immediately
+    if (mabarPeers.length <= 1) {
+      selectLevel(targetLevelIndex, true);
+      closeLevelComplete();
+      return;
+    }
+    mabarRealtime.broadcastNextLevelProposal(targetLevelIndex);
+    set({ isWaitingForPartnerNextLevel: true });
+    get().showGlobalToast('Mengajak teman lanjut ke bab berikutnya...');
+  },
+
+  receiveNextLevelProposal: (data: { targetLevelIndex: number; senderName: string }) => {
+    const { soundEnabled } = get();
+    if (soundEnabled) soundManager.playKeyClick();
+    set({ nextLevelProposal: data });
+  },
+
+  acceptNextLevelProposal: () => {
+    const { nextLevelProposal, selectLevel, closeLevelComplete } = get();
+    if (!nextLevelProposal) return;
+    const targetIdx = nextLevelProposal.targetLevelIndex;
+    mabarRealtime.broadcastNextLevelAccept(targetIdx);
+    selectLevel(targetIdx, true);
+    closeLevelComplete();
+    set({ nextLevelProposal: null, isWaitingForPartnerNextLevel: false });
+    get().showGlobalToast(`Maju ke Bab ${targetIdx + 1} Bersama!`, 3000);
+  },
+
+  confirmNextLevelTogether: (targetLevelIndex: number) => {
+    const { selectLevel, closeLevelComplete } = get();
+    selectLevel(targetLevelIndex, true);
+    closeLevelComplete();
+    set({ nextLevelProposal: null, isWaitingForPartnerNextLevel: false });
+    get().showGlobalToast(`Maju ke Bab ${targetLevelIndex + 1} Bersama!`, 3000);
+  },
+
+  cancelNextLevelProposal: (broadcast = true) => {
+    if (broadcast) {
+      mabarRealtime.broadcastNextLevelCancel();
+    }
+    set({ nextLevelProposal: null, isWaitingForPartnerNextLevel: false });
+  },
 
   isSettingsOpen: false,
   isLevelCompleteOpen: false,
@@ -662,7 +726,10 @@ export const useGameStore = create<GameState>((set, get) => ({
       level: targetLevel,
       userInputs: rec.inputs,
       cellAuthors: {},
+      clueAuthors: {},
       activeReaction: null,
+      nextLevelProposal: null,
+      isWaitingForPartnerNextLevel: false,
       lockedCells: rec.locked,
       solvedClues: rec.solved,
       activeClueId: null,
@@ -920,6 +987,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     const newlySolvedClues: string[] = [];
     const newLockedCells = { ...lockedCells };
     const popping: string[] = [];
+    const newClueAuthors = { ...get().clueAuthors };
 
     // Check all clues to see if any clue is now completed and correct
     for (const clue of allClues) {
@@ -932,6 +1000,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         );
         if (isCorrect) {
           newlySolvedClues.push(clue.id);
+          newClueAuthors[clue.id] = 'local';
           for (const [cr, cc] of clue.cells) {
             const ck = `${cr},${cc}`;
             newLockedCells[ck] = true;
@@ -1115,6 +1184,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({
       userInputs: newInputs,
       cellAuthors: newAuthors,
+      clueAuthors: newClueAuthors,
       lockedCells: newLockedCells,
       solvedClues: updatedSolved,
       stars: updatedStars,
@@ -1598,7 +1668,10 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({
       userInputs: {},
       cellAuthors: {},
+      clueAuthors: {},
       activeReaction: null,
+      nextLevelProposal: null,
+      isWaitingForPartnerNextLevel: false,
       lockedCells: {},
       solvedClues: [],
       poppingCells: [],

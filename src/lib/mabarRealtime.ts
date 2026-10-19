@@ -126,6 +126,22 @@ export const mabarRealtime = {
           store.selectLevel(payload.levelIndex);
         }
       })
+      .on('broadcast', { event: 'next_level_propose' }, ({ payload }) => {
+        if (typeof payload?.targetLevelIndex === 'number') {
+          useGameStore.getState().receiveNextLevelProposal({
+            targetLevelIndex: payload.targetLevelIndex,
+            senderName: payload.senderName || 'Teman',
+          });
+        }
+      })
+      .on('broadcast', { event: 'next_level_accept' }, ({ payload }) => {
+        if (typeof payload?.targetLevelIndex === 'number') {
+          useGameStore.getState().confirmNextLevelTogether(payload.targetLevelIndex);
+        }
+      })
+      .on('broadcast', { event: 'next_level_cancel' }, () => {
+        useGameStore.getState().cancelNextLevelProposal(false);
+      })
       .on('broadcast', { event: 'leave_session' }, ({ payload }) => {
         const store = useGameStore.getState();
         store.showGlobalToast(`${payload.senderName || 'Teman'} keluar dari sesi mabar.`);
@@ -308,6 +324,50 @@ export const mabarRealtime = {
         senderName: user.name,
         avatar: user.avatar,
       },
+    });
+  },
+
+  /**
+   * Propose advancing to next level together
+   */
+  broadcastNextLevelProposal(targetLevelIndex: number) {
+    if (!activeChannel) return;
+    const { user } = useGameStore.getState();
+    activeChannel.send({
+      type: 'broadcast',
+      event: 'next_level_propose',
+      payload: {
+        targetLevelIndex,
+        senderName: user.name,
+      },
+    });
+  },
+
+  /**
+   * Accept partner's proposal to advance to next level together
+   */
+  broadcastNextLevelAccept(targetLevelIndex: number) {
+    if (!activeChannel) return;
+    const { user } = useGameStore.getState();
+    activeChannel.send({
+      type: 'broadcast',
+      event: 'next_level_accept',
+      payload: {
+        targetLevelIndex,
+        senderName: user.name,
+      },
+    });
+  },
+
+  /**
+   * Cancel proposal to advance
+   */
+  broadcastNextLevelCancel() {
+    if (!activeChannel) return;
+    activeChannel.send({
+      type: 'broadcast',
+      event: 'next_level_cancel',
+      payload: {},
     });
   },
 };
