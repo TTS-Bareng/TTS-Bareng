@@ -275,6 +275,20 @@ export const REALMS: RealmDefinition[] = [
     subtitle: 'Film box office, komik manga, panggung konser musik akbar, dan tren gaya hidup',
     categories: ['Pop Culture'],
   },
+  {
+    id: 'theme_39_ensiklopedia',
+    name: 'Fakta Unik & Ensiklopedia Dunia',
+    tag: 'Dunia & Rekor',
+    subtitle: 'Ibukota negara dunia, rekor alam terdalam, penemuan tak sengaja, dan 7 keajaiban dunia',
+    categories: ['Ensiklopedia Dunia'],
+  },
+  {
+    id: 'theme_40_faktanusantara',
+    name: 'Fakta Unik Nusantara & Tokoh',
+    tag: 'Nusantara & Tokoh',
+    subtitle: 'Rekor kepulauan khatulistiwa, bapak bangsa pahlawan, satwa endemik, candi, dan rempah langka',
+    categories: ['Fakta Nusantara'],
+  },
 ];
 
 export function getRealmForCategory(category?: string): RealmDefinition {

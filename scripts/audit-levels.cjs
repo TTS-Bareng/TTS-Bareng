@@ -47,6 +47,8 @@ const categoryToRealm = {
   'Matematika': 'Matematika & Geometri',
   'Nostalgia': 'Nostalgia Generasi 90 & 2000an',
   'Pop Culture': 'Pop Culture & Hiburan Dunia',
+  'Ensiklopedia Dunia': 'Fakta Unik & Ensiklopedia Dunia',
+  'Fakta Nusantara': 'Fakta Unik Nusantara & Tokoh',
 };
 
 levels.forEach((lvl, idx) => {

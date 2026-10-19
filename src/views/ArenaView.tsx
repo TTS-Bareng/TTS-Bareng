@@ -49,6 +49,8 @@ import {
   Binary,
   Tv,
   Popcorn,
+  Globe2,
+  Flag,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
@@ -96,6 +98,8 @@ const REALM_ICONS: Record<string, React.ElementType> = {
   theme_36_matematika: Binary,
   theme_37_nostalgia: Tv,
   theme_38_popculture: Popcorn,
+  theme_39_ensiklopedia: Globe2,
+  theme_40_faktanusantara: Flag,
 };
 
 /** Crossword Grid Pattern Overlay (Oversized Graphic Watermark Texture) */
