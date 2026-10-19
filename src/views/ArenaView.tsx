@@ -72,12 +72,57 @@ import {
   HelpCircle,
   Pill,
   Cpu,
+  ArrowRight,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
 import { SocialView } from './SocialView';
+import { TournamentHubView } from './TournamentHubView';
 import { type LevelData } from '../lib/crossword';
 import { REALMS, getRealmForLevel, getLevelsByRealm, type RealmDefinition } from '../lib/realms';
+
+/** Auth Gate Component for Guest Users */
+const AuthGateCard: React.FC<{
+  title: string;
+  description: string;
+  badge: string;
+  icon: React.ElementType;
+}> = ({ title, description, badge, icon: Icon }) => {
+  const { openAuth } = useGameStore();
+
+  return (
+    <div className="w-full rounded-[28px] p-6 liquid-glass-card flex flex-col items-center text-center gap-4 relative overflow-hidden border border-[var(--border-card)] shadow-xs">
+      <div className="w-14 h-14 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)] shadow-sm">
+        <Icon className="w-7 h-7 stroke-[2.2]" />
+      </div>
+
+      <div className="flex flex-col items-center gap-1.5 max-w-[290px]">
+        <span className="text-[9px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/20">
+          {badge}
+        </span>
+        <h3 className="text-[17px] font-black text-[var(--text-primary)] leading-tight tracking-tight">
+          {title}
+        </h3>
+        <p className="text-[11.5px] font-semibold text-[var(--text-secondary)] leading-relaxed">
+          {description}
+        </p>
+      </div>
+
+      <button
+        type="button"
+        onClick={openAuth}
+        className="w-full max-w-[260px] py-3 px-5 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[12px] font-black flex items-center justify-center gap-2 cursor-pointer tactile-active shadow-sm hover:opacity-95 transition-all"
+      >
+        <span>Masuk atau Daftar Akun</span>
+        <ArrowRight className="w-4 h-4 stroke-[2.4]" />
+      </button>
+
+      <span className="text-[10px] text-[var(--text-secondary)] font-medium">
+        Gratis & cepat dengan Akun Google
+      </span>
+    </div>
+  );
+};
 
 /** Map of Realm IDs to themed Lucide icons */
 const REALM_ICONS: Record<string, React.ElementType> = {
@@ -240,7 +285,7 @@ const CrosswordPatternOverlay: React.FC<{ level: LevelData }> = ({ level }) => {
   );
 };
 
-export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' }> = ({
+export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' | 'tournament' }> = ({
   initialMode = 'solo',
 }) => {
   const {
@@ -255,11 +300,10 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' }> = ({
     openLexicon,
     solvedClues,
     currentTab,
-    openTournament,
-    trophies,
+    user,
   } = useGameStore();
 
-  const [selectedHubMode, setSelectedHubMode] = useState<'solo' | 'mabar' | null>(null);
+  const [selectedHubMode, setSelectedHubMode] = useState<'solo' | 'mabar' | 'tournament' | null>(null);
   const hubMode = selectedHubMode ?? (currentTab === 'social' ? 'mabar' : initialMode);
 
   const currentLevel = levels[currentLevelIndex] || levels[0];
@@ -324,8 +368,8 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' }> = ({
         </div>
       </header>
 
-      {/* 2. Primary Segmented Switch: Petualangan Solo vs Mabar & Arena */}
-      <div className="w-full h-11 p-1 rounded-full liquid-glass-card flex items-center z-10 relative shrink-0">
+      {/* 2. Primary Segmented Switch: Solo vs Mabar vs Turnamen */}
+      <div className="w-full h-11 p-1 rounded-full liquid-glass-card flex items-center z-10 relative shrink-0 gap-1">
         <button
           type="button"
           onClick={() => setSelectedHubMode('solo')}
@@ -336,7 +380,7 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' }> = ({
           }`}
         >
           <Compass className="w-3.5 h-3.5 stroke-[2.2]" />
-          <span>Petualangan Solo</span>
+          <span>Solo</span>
         </button>
 
         <button
@@ -349,7 +393,20 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' }> = ({
           }`}
         >
           <Users className="w-3.5 h-3.5 stroke-[2.2]" />
-          <span>Mabar & Komunitas</span>
+          <span>Mabar</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setSelectedHubMode('tournament')}
+          className={`flex-1 h-full rounded-full text-[11px] font-black transition-all flex items-center justify-center gap-1.5 cursor-pointer tactile-active ${
+            hubMode === 'tournament'
+              ? 'liquid-glass-tile-active shadow-xs'
+              : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+          }`}
+        >
+          <Trophy className="w-3.5 h-3.5 stroke-[2.2]" />
+          <span>Turnamen</span>
         </button>
       </div>
 
@@ -474,45 +531,12 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' }> = ({
             </div>
           </div>
 
-          {/* Banner: Piala Nusantara Cup Knockout Entry */}
-          <div
-            onClick={openTournament}
-            className="w-full p-3.5 rounded-[24px] relative z-10 flex items-center justify-between gap-3 border border-amber-500/30 shadow-xs cursor-pointer tactile-active group overflow-hidden"
-            style={{
-              background: 'linear-gradient(135deg, rgba(245,158,11,0.12) 0%, var(--bg-card) 60%, rgba(245,158,11,0.18) 100%)',
-            }}
-          >
-            <div className="flex items-center gap-2.5 min-w-0">
-              <div className="w-9 h-9 rounded-2xl bg-amber-500/20 border border-amber-500/35 flex items-center justify-center text-amber-500 shrink-0 shadow-2xs">
-                <Trophy className="w-5 h-5 fill-amber-500 stroke-none" />
-              </div>
-              <div className="flex flex-col min-w-0">
-                <div className="flex items-center gap-1.5 mb-0.5">
-                  <span className="text-[8px] font-black uppercase tracking-wider px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold">
-                    TURNAMEN NASIONAL
-                  </span>
-                  <span className="text-[9px] font-bold text-[var(--text-secondary)]">
-                    {trophies.gold} 🏆 Emas
-                  </span>
-                </div>
-                <h4 className="text-[13px] font-black text-[var(--text-primary)] tracking-tight leading-tight truncate">
-                  Piala Nusantara (16 Besar)
-                </h4>
-              </div>
-            </div>
-
-            <div className="py-1.5 px-3 rounded-full bg-amber-500 text-white text-[10px] font-black flex items-center gap-1 shrink-0 group-hover:scale-105 transition-transform shadow-xs">
-              <span>Buka Bagan</span>
-              <Trophy className="w-3 h-3 fill-white stroke-none" />
-            </div>
-          </div>
-
-          {/* 30 Kategori Tematik (Accordion Bento Architecture) */}
+          {/* Kategori Tematik (Accordion Bento Architecture) */}
           <div className="flex flex-col gap-2.5 pt-1">
             <div className="flex items-center justify-between px-1">
               <span className="text-[11px] font-black uppercase tracking-wider text-[var(--text-primary)] flex items-center gap-1.5">
                 <Compass className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2]" />
-                <span>30 KATEGORI TEMATIK</span>
+                <span>{REALMS.length} KATEGORI TEMATIK</span>
               </span>
               <span className="text-[10px] text-[var(--text-secondary)] font-semibold">
                 {levels.length} Bab Terstruktur
@@ -857,11 +881,38 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' }> = ({
       )}
 
       {/* ============================================================
-          MODE 2: MABAR & KOMUNITAS (SocialView Engine)
+          MODE 2: MABAR (Auth Gated for Guests)
           ============================================================ */}
       {hubMode === 'mabar' && (
         <div className="relative z-10">
-          <SocialView isEmbedded />
+          {user.isGuest ? (
+            <AuthGateCard
+              badge="KHUSUS AKUN TERDAFTAR"
+              title="Mabar Butuh Akun"
+              description="Masuk atau buat akun gratis untuk bermain bersama teman lewat tautan WhatsApp atau kode QR!"
+              icon={Users}
+            />
+          ) : (
+            <SocialView isEmbedded />
+          )}
+        </div>
+      )}
+
+      {/* ============================================================
+          MODE 3: TURNAMEN (Full Page Hub / Auth Gated for Guests)
+          ============================================================ */}
+      {hubMode === 'tournament' && (
+        <div className="relative z-10">
+          {user.isGuest ? (
+            <AuthGateCard
+              badge="KHUSUS AKUN TERDAFTAR"
+              title="Turnamen Butuh Akun"
+              description="Masuk atau buat akun gratis untuk bergabung ke turnamen, menyusun bagan sistem gugur, dan memperebutkan trofi kejuaraan!"
+              icon={Trophy}
+            />
+          ) : (
+            <TournamentHubView />
+          )}
         </div>
       )}
     </div>

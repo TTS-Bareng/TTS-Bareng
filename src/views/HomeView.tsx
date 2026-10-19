@@ -3,7 +3,6 @@ import {
   Star,
   Flame,
   BookOpen,
-  Zap,
   Play,
   Map,
   ChevronDown,
@@ -11,8 +10,7 @@ import {
   Trophy,
   Shield,
 } from 'lucide-react';
-import { useGameStore, getTodayDateString } from '../store/useGameStore';
-import { DailyRushBriefingModal } from '../components/DailyRushBriefingModal';
+import { useGameStore } from '../store/useGameStore';
 import confetti from 'canvas-confetti';
 import { type LevelData } from '../lib/crossword';
 import { MASCOTS } from '../assets/maskots';
@@ -195,14 +193,8 @@ export const HomeView: React.FC = () => {
     setCurrentTab,
     addStars,
     openLexicon,
-    dailyRushRecord,
-    openDailyRushBriefing,
-    openLeaderboard,
     openAvatarPicker,
   } = useGameStore();
-
-  const [todayStr] = useState(getTodayDateString);
-  const todayRushPlayed = dailyRushRecord?.date === todayStr;
 
   const currentLevel = levels[currentLevelIndex] || levels[0];
   const totalWords =
@@ -454,11 +446,11 @@ export const HomeView: React.FC = () => {
         />
       </div>
 
-      {/* 3. Two-Column Grid: Daily Rush (Half, Left) + Streak Card (Half, Right) */}
+      {/* 3. Two-Column Grid: Turnamen Komunitas (Half, Left) + Streak Card (Half, Right) */}
       <div className="w-full grid grid-cols-2 gap-3 shrink-0">
-        {/* Left: Daily Rush (Half Card, Mascot: Plush Puzzle Gamer - Enlarged) */}
+        {/* Left: Turnamen Komunitas (Half Card) */}
         <div
-          onClick={openDailyRushBriefing}
+          onClick={() => setCurrentTab('arena')}
           className="rounded-[24px] p-3.5 relative z-10 cursor-pointer tactile-active group transition-all overflow-hidden border border-[var(--accent-main)]/20 shadow-xs flex flex-col justify-between min-h-[175px]"
           style={{
             background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
@@ -468,55 +460,39 @@ export const HomeView: React.FC = () => {
           <div className="flex items-center justify-between gap-1 mb-2 relative z-10">
             <div className="flex items-center gap-1 min-w-0">
               <div className="w-5 h-5 rounded-lg bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)] flex items-center justify-center shrink-0">
-                <Zap className="w-3 h-3 stroke-[2.5]" />
+                <Trophy className="w-3 h-3 stroke-[2.2]" />
               </div>
               <span className="text-[8px] font-black uppercase tracking-wider text-[var(--text-primary)] truncate">
-                90s KILAT
+                KOMPETISI
               </span>
             </div>
-            <div className="flex items-center gap-1 shrink-0">
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  openLeaderboard();
-                }}
-                title="Papan Peringkat Nasional"
-                aria-label="Peringkat Nasional"
-                className="w-5 h-5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all cursor-pointer"
-              >
-                <Trophy className="w-2.5 h-2.5 stroke-[2.2]" />
-              </button>
-              <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)]">
-                {todayRushPlayed
-                  ? (dailyRushRecord.completed ? 'SELESAI' : `${dailyRushRecord.score} PTS`)
-                  : '+50 ★'}
-              </span>
-            </div>
+            <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)]">
+              🏆 PIALA
+            </span>
           </div>
 
           {/* Title & Desc */}
           <div className="relative z-10 mb-1">
             <h4 className="text-[14.5px] font-black text-[var(--text-primary)] tracking-tight leading-tight mb-0.5">
-              Daily Rush
+              Turnamen
             </h4>
             <p className="text-[9.5px] text-[var(--text-secondary)] leading-tight line-clamp-2">
-              Tantangan 90 detik nasional.
+              Sistem gugur & piala kejuaraan komunitas.
             </p>
           </div>
 
           {/* Bottom Action */}
           <div className="relative z-10 flex items-end justify-between mt-auto pt-1">
             <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[9.5px] font-black shadow-2xs group-hover:scale-105 transition-transform shrink-0">
-              <Play className="w-2.5 h-2.5 fill-current stroke-[0]" />
-              <span>{todayRushPlayed ? 'Ulang' : 'Main'}</span>
+              <Trophy className="w-2.5 h-2.5 fill-current stroke-[0]" />
+              <span>Buka</span>
             </div>
           </div>
 
-          {/* Large Solid Mascot Overlay - Plush Indonesian Puzzle Kid */}
+          {/* Large Solid Mascot Overlay */}
           <img
-            src={MASCOTS.indonesianPuzzleKid}
-            alt="Mascot Indonesian Puzzle Kid Daily Rush"
+            src={MASCOTS.crosswordChampion}
+            alt="Mascot Juara Turnamen"
             className="absolute -bottom-2 -right-1 w-28 sm:w-34 h-30 sm:h-36 object-contain object-bottom pointer-events-none select-none z-0 filter drop-shadow-md group-hover:scale-105 transition-transform"
           />
         </div>
@@ -676,9 +652,6 @@ export const HomeView: React.FC = () => {
           className="absolute -bottom-2 -right-1 w-36 sm:w-44 h-40 sm:h-48 object-contain object-bottom pointer-events-none select-none z-0 filter drop-shadow-md group-hover:scale-105 transition-transform"
         />
       </div>
-
-      {/* Daily Rush Briefing Preparation Modal */}
-      <DailyRushBriefingModal />
     </div>
   );
 };

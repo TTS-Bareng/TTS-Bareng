@@ -20,13 +20,12 @@ import {
   ScanLine,
 } from 'lucide-react';
 import QRCode from 'qrcode';
-import { useGameStore, getTodayDateString } from '../store/useGameStore';
+import { useGameStore } from '../store/useGameStore';
 import confetti from 'canvas-confetti';
 import { MASCOTS } from '../assets/maskots';
 import { createDeepLink, shareOrCopy } from '../lib/deeplink';
 import { QrScannerModal } from '../components/QrScannerModal';
 import { BattleLobbyModal } from '../components/BattleLobbyModal';
-import { DailyRushBriefingModal } from '../components/DailyRushBriefingModal';
 import { mabarRealtime } from '../lib/mabarRealtime';
 
 export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = false }) => {
@@ -40,10 +39,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
     activeRoomCode,
     setActiveRoomCode,
     showGlobalToast,
-    dailyRushRecord,
-    openDailyRushBriefing,
     mabarPeers,
-    openLeaderboard,
     isQrModalOpen,
     openQrModal,
     closeQrModal,
@@ -55,10 +51,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
     trophies,
   } = useGameStore();
 
-  const [todayStr] = useState(getTodayDateString);
-  const todayRushPlayed = dailyRushRecord?.date === todayStr;
-
-  const [activeSegment, setActiveSegment] = useState<'coop' | 'battle' | 'daily'>('coop');
+  const [activeSegment, setActiveSegment] = useState<'coop' | 'battle'>('coop');
   const [localRoomCode, setLocalRoomCode] = useState<string>(() => {
     return `TTS-${Math.floor(1000 + Math.random() * 9000)}`;
   });
@@ -218,19 +211,6 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
         >
           <Swords className="w-3.5 h-3.5 stroke-[2.2]" />
           <span>1v1 Arena</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActiveSegment('daily')}
-          className={`flex-1 h-full rounded-full text-[10.5px] font-black transition-all flex items-center justify-center gap-1.5 cursor-pointer tactile-active ${
-            activeSegment === 'daily'
-              ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-xs'
-              : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-          }`}
-        >
-          <Zap className="w-3.5 h-3.5 stroke-[2.2]" />
-          <span>Daily Rush</span>
         </button>
       </div>
 
@@ -691,189 +671,6 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
         </>
       )}
 
-      {/* --- SEGMENT 3: DAILY RUSH (TANTANGAN NASIONAL 00:00 WIB) --- */}
-      {activeSegment === 'daily' && (
-        <>
-          {/* Card 1: Daily Rush Hero (Themed Gradient + Big Mascot Gamer) */}
-          <div
-            className="w-full shrink-0 rounded-[26px] p-4 relative z-10 overflow-hidden border border-white/10 dark:border-white/15 shadow-sm group flex flex-col gap-3"
-            style={{
-              background: 'var(--hero-grad, var(--accent-grad))',
-              color: '#ffffff',
-            }}
-          >
-            {/* Ambient Lighting & Top Specular Sheen */}
-            <div className="absolute top-0 inset-x-0 h-px bg-white/30 pointer-events-none" />
-            <div className="absolute -top-10 -right-10 w-44 h-44 rounded-full bg-white/20 blur-2xl pointer-events-none" />
-            <div className="absolute -bottom-10 -left-10 w-44 h-44 rounded-full bg-black/25 blur-2xl pointer-events-none" />
-
-            {/* Top Meta */}
-            <div className="flex items-center justify-between relative z-10">
-              <span className="text-[8.5px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/20 text-white backdrop-blur-md border border-white/25">
-                TANTANGAN NASIONAL • 00:00 WIB
-              </span>
-              <span className="text-[10.5px] font-bold text-white/90">
-                Edisi Hari Ini
-              </span>
-            </div>
-
-            {/* Content & Mascot Overlay */}
-            <div className="relative z-10 max-w-[62%] sm:max-w-[65%] mb-1">
-              <h3 className="text-[19px] sm:text-[20px] font-black text-white tracking-tight leading-tight mb-1">
-                Daily Rush Nasional
-              </h3>
-              <p className="text-[10.5px] text-white/85 leading-tight mb-2">
-                Satu kisi kata seragam untuk seluruh pemain di Indonesia. Refresh otomatis setiap tengah malam.
-              </p>
-
-              {/* Target Chip inside Hero */}
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-white text-[9.5px] font-bold mb-1">
-                <Zap className="w-3 h-3 stroke-[2.2]" />
-                <span>Kisi 6 Kata Kilat • +50 ★ Bintang</span>
-              </div>
-            </div>
-
-            {/* CTA Button (Left Aligned) */}
-            <div className="flex items-center gap-2 justify-start relative z-10">
-              <button
-                type="button"
-                onClick={openDailyRushBriefing}
-                className="py-1.5 px-3.5 rounded-full bg-white text-[10.5px] font-black inline-flex items-center gap-1.5 cursor-pointer tactile-active shadow-sm group-hover:scale-105 transition-transform"
-                style={{ color: 'var(--hero-btn-text, #111113)' }}
-              >
-                <Play className="w-3 h-3 fill-current stroke-[0]" />
-                <span>{todayRushPlayed ? 'Mainkan Lagi' : 'Mainkan Sekarang'}</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={openLeaderboard}
-                className="py-1.5 px-3 rounded-full bg-white/20 hover:bg-white/30 text-white border border-white/25 text-[10.5px] font-black inline-flex items-center gap-1.5 cursor-pointer tactile-active transition-colors"
-              >
-                <Trophy className="w-3 h-3 stroke-[2.2]" />
-                <span>Peringkat</span>
-              </button>
-            </div>
-
-            {/* Large Solid Mascot Overlay - Plush Indonesian Puzzle Kid */}
-            <img
-              src={MASCOTS.indonesianPuzzleKid}
-              alt="Mascot Indonesian Puzzle Kid Daily Rush"
-              className="absolute -bottom-2 -right-1 w-36 sm:w-44 h-40 sm:h-48 object-contain object-bottom pointer-events-none select-none z-0 filter drop-shadow-lg group-hover:scale-105 transition-transform"
-            />
-          </div>
-
-          {/* Card 2: Catatan Harian Pemain (Real Store Data, Zero Dummy Data) */}
-          <div
-            className="w-full shrink-0 rounded-[24px] p-3.5 sm:p-4 relative z-10 border border-black/5 dark:border-white/10 shadow-xs flex flex-col gap-2.5"
-            style={{
-              background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
-            }}
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Clock className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2]" />
-                <span className="text-[12px] font-black text-[var(--text-primary)]">
-                  Catatan Harian Anda
-                </span>
-              </div>
-              <button
-                type="button"
-                onClick={openLeaderboard}
-                className="text-[8px] font-bold px-2 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/20 text-[var(--accent-main)] hover:scale-105 active:scale-95 transition-all inline-flex items-center gap-1 cursor-pointer"
-              >
-                <Trophy className="w-2.5 h-2.5 stroke-[2.2]" />
-                <span>{todayRushPlayed ? (dailyRushRecord?.completed ? '✓ Selesai' : 'Tercatat') : 'Peringkat'}</span>
-              </button>
-            </div>
-
-            <div className="grid grid-cols-3 divide-x divide-black/6 dark:divide-white/10 text-center py-1">
-              <div>
-                <span className="text-[12px] font-black text-[var(--text-primary)] block">
-                  {todayRushPlayed && dailyRushRecord ? `${dailyRushRecord.score} Pts` : '-'}
-                </span>
-                <span className="text-[7.5px] uppercase tracking-wider text-[var(--text-secondary)] font-bold">
-                  Skor Terbaik
-                </span>
-              </div>
-
-              <div>
-                <span className="text-[12px] font-black text-[var(--accent-main)] block">
-                  {todayRushPlayed && dailyRushRecord ? `${dailyRushRecord.timeSpent}s` : '90s'}
-                </span>
-                <span className="text-[7.5px] uppercase tracking-wider text-[var(--text-secondary)] font-bold">
-                  {todayRushPlayed ? 'Durasi' : 'Batas Waktu'}
-                </span>
-              </div>
-
-              <div>
-                <span className="text-[12px] font-black text-[var(--accent-main)] block">
-                  {todayRushPlayed && dailyRushRecord ? `${dailyRushRecord.accuracy}%` : '+50 ★'}
-                </span>
-                <span className="text-[7.5px] uppercase tracking-wider text-[var(--text-secondary)] font-bold">
-                  {todayRushPlayed ? 'Akurasi' : 'Hadiah'}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 3: Kartu Rekor Media Sosial (9:16 Story) */}
-          <div
-            className="w-full shrink-0 rounded-[24px] p-3.5 sm:p-4 relative z-10 flex flex-col gap-2 border border-[var(--accent-main)]/20 shadow-xs overflow-hidden"
-            style={{
-              background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
-            }}
-          >
-            <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
-
-            <div className="flex items-center justify-between relative z-10">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-3.5 h-3.5 text-[var(--accent-main)]" />
-                <span className="text-[12px] font-black text-[var(--text-primary)]">
-                  Kartu Rekor Media Sosial
-                </span>
-              </div>
-              <span className="text-[8px] font-black px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/20 text-[var(--accent-main)]">
-                9:16 Story
-              </span>
-            </div>
-
-            <p className="text-[9.5px] text-[var(--text-secondary)] leading-tight relative z-10">
-              Selesaikan tanpa bantuan petunjuk untuk membuka kartu rekor estetik siap dibagikan ke media sosial.
-            </p>
-
-            <div className="p-2.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 flex items-center justify-around text-center relative z-10">
-              <div>
-                <span className="text-[10px] font-black text-[var(--text-primary)] block">
-                  &lt; 90s
-                </span>
-                <span className="text-[7px] text-[var(--text-secondary)] uppercase">
-                  Waktu Standar
-                </span>
-              </div>
-              <span className="w-px h-5 bg-black/10 dark:bg-white/10" />
-              <div>
-                <span className="text-[10px] font-black text-[var(--text-primary)] block">
-                  100%
-                </span>
-                <span className="text-[7px] text-[var(--text-secondary)] uppercase">
-                  Tanpa Hint
-                </span>
-              </div>
-              <span className="w-px h-5 bg-black/10 dark:bg-white/10" />
-              <div>
-                <span className="text-[10px] font-black text-[var(--accent-main)] block">
-                  Estetik
-                </span>
-                <span className="text-[7px] text-[var(--text-secondary)] uppercase">
-                  Tema Aktif
-                </span>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
-
       {/* --- FULL SCREEN TICKET MABAR MODAL (Foto Keempat Plan & Go) --- */}
       {isQrModalOpen && (
         <div
@@ -1062,7 +859,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
       <BattleLobbyModal />
 
       {/* --- DAILY RUSH BRIEFING MODAL --- */}
-      <DailyRushBriefingModal />
+      
 
       {/* --- QR CODE CAMERA & GALLERY SCANNER MODAL --- */}
       <QrScannerModal
