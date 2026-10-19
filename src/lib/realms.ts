@@ -303,6 +303,20 @@ export const REALMS: RealmDefinition[] = [
     subtitle: 'Profesi DKV kreatif, budaya kantor, pasar modal saham investor, wirausaha startup, dan etos kerja',
     categories: ['Karir & Finansial'],
   },
+  {
+    id: 'theme_43_agrariapangan',
+    name: 'Agraria, Hayati & Pangan Nusantara',
+    tag: 'Agraria & Hayati',
+    subtitle: 'Lumbung padi sawah, peternakan rakyat, rimba hutan hujan, maritim nelayan, dan kebun kopi',
+    categories: ['Agraria & Pangan'],
+  },
+  {
+    id: 'theme_44_kriminologi',
+    name: 'Kriminologi & Penegakan Keadilan',
+    tag: 'Misteri & Hukum',
+    subtitle: 'Kaca pembesar detektif, penyelidikan bukti sidik jari, ruang sidang hakim, dan ketertiban hukum',
+    categories: ['Kriminologi'],
+  },
 ];
 
 export function getRealmForCategory(category?: string): RealmDefinition {

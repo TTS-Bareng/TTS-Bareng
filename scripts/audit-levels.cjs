@@ -51,6 +51,8 @@ const categoryToRealm = {
   'Fakta Nusantara': 'Fakta Unik Nusantara & Tokoh',
   'Sastra & Bahasa': 'Sastra, Bahasa & Khazanah Kata',
   'Karir & Finansial': 'Karir, Dunia Kerja & Finansial Modern',
+  'Agraria & Pangan': 'Agraria, Hayati & Pangan Nusantara',
+  'Kriminologi': 'Kriminologi & Penegakan Keadilan',
 };
 
 levels.forEach((lvl, idx) => {

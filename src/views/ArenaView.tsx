@@ -53,6 +53,8 @@ import {
   Flag,
   Feather,
   TrendingUp,
+  Wheat,
+  Fingerprint,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
@@ -104,6 +106,8 @@ const REALM_ICONS: Record<string, React.ElementType> = {
   theme_40_faktanusantara: Flag,
   theme_41_sastrabahasa: Feather,
   theme_42_karirfinansial: TrendingUp,
+  theme_43_agrariapangan: Wheat,
+  theme_44_kriminologi: Fingerprint,
 };
 
 /** Crossword Grid Pattern Overlay (Oversized Graphic Watermark Texture) */
