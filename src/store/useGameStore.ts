@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import levelsData from '../data/levels.json';
-import { type LevelData, findClueById } from '../lib/crossword';
+import { type LevelData, type RawLevelData, inflateLevel, findClueById } from '../lib/crossword';
 import { THEMES, type ThemeKey, applyTheme } from '../lib/themes';
 import { soundManager } from '../lib/audio';
 import confetti from 'canvas-confetti';
@@ -446,7 +446,7 @@ function getInitialDailyRushRecord(): DailyRushRecord | null {
   }
 }
 
-const typedLevels = levelsData as unknown as LevelData[];
+const typedLevels: LevelData[] = (levelsData as unknown as RawLevelData[]).map(inflateLevel);
 
 function getInitialUser(): UserProfile {
   const defaultAvatar = '/maskot/Fierce Plush Crossword Champion.webp';

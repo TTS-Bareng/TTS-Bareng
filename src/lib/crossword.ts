@@ -17,6 +17,21 @@ export interface ClueItem {
   length: number;
 }
 
+export interface RawLevelData {
+  id: string;
+  title: string;
+  category?: string;
+  size: {
+    rows: number;
+    cols: number;
+  };
+  tiles?: TileData[];
+  clues: {
+    across: ClueItem[];
+    down: ClueItem[];
+  };
+}
+
 export interface LevelData {
   id: string;
   title: string;
@@ -29,6 +44,71 @@ export interface LevelData {
   clues: {
     across: ClueItem[];
     down: ClueItem[];
+  };
+}
+
+/**
+ * Derives normalized tile grid items dynamically from clue coordinates.
+ * Eliminates >60% data redundancy from stored level JSON.
+ */
+export function deriveTiles(clues: { across: ClueItem[]; down: ClueItem[] }): TileData[] {
+  const map = new Map<string, TileData>();
+
+  for (const clue of clues.across) {
+    for (let idx = 0; idx < clue.cells.length; idx++) {
+      const [r, col] = clue.cells[idx];
+      const key = `${r},${col}`;
+      const existing = map.get(key);
+      if (!existing) {
+        map.set(key, {
+          r,
+          c: col,
+          answer: clue.answer[idx] || '',
+          number: idx === 0 ? clue.number : null,
+          across: clue.id,
+          down: null,
+        });
+      } else {
+        existing.across = clue.id;
+        if (idx === 0) existing.number = clue.number;
+      }
+    }
+  }
+
+  for (const clue of clues.down) {
+    for (let idx = 0; idx < clue.cells.length; idx++) {
+      const [r, col] = clue.cells[idx];
+      const key = `${r},${col}`;
+      const existing = map.get(key);
+      if (!existing) {
+        map.set(key, {
+          r,
+          c: col,
+          answer: clue.answer[idx] || '',
+          number: idx === 0 ? clue.number : null,
+          across: null,
+          down: clue.id,
+        });
+      } else {
+        existing.down = clue.id;
+        if (idx === 0) existing.number = clue.number;
+      }
+    }
+  }
+
+  return Array.from(map.values()).sort((a, b) => a.r - b.r || a.c - b.c);
+}
+
+/**
+ * Inflates a raw level object by deriving its complete tiles grid if missing.
+ */
+export function inflateLevel(raw: RawLevelData): LevelData {
+  if (raw.tiles && raw.tiles.length > 0) {
+    return raw as LevelData;
+  }
+  return {
+    ...raw,
+    tiles: deriveTiles(raw.clues),
   };
 }
 
