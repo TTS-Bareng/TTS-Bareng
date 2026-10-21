@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.ttsbareng.app',
+  appId: 'com.syntheticae.ttsbareng',
   appName: 'TTS Bareng',
   webDir: 'dist',
   server: {

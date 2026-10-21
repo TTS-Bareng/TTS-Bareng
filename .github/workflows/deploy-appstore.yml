@@ -1,0 +1,234 @@
+name: Deploy to Apple TestFlight / App Store Connect
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_note:
+        description: 'Catatan Rilis / Release Note'
+        required: false
+        default: 'Pembaruan otomatis dari GitHub Actions'
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  deploy-ios:
+    name: Build & Upload to TestFlight
+    runs-on: macos-15
+    timeout-minutes: 45
+
+    steps:
+      # 1. Checkout Repository
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Setup Node.js Runtime
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      # 3. Install Dependencies
+      - name: Install Dependencies
+        run: npm install
+
+      # 4. Build Web App & Sync Capacitor iOS
+      - name: Build Web & Sync Capacitor iOS
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          npm run build
+          npx cap sync ios
+
+      # 5. Setup Temporary Keychain & Import Certificate (with OpenSSL legacy fallback)
+      - name: Setup Keychain & Apple Distribution Certificate
+        env:
+          P12_BASE64: ${{ secrets.APPLE_CERTIFICATE_P12_BASE64 }}
+          P12_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+        run: |
+          KEYCHAIN_PATH=$RUNNER_TEMP/build.keychain
+          KEYCHAIN_PASSWORD=$(openssl rand -base64 24)
+
+          # Buat temporary keychain baru
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+
+          # Tulis file sertifikat p12
+          P12_FILE=$RUNNER_TEMP/cert.p12
+          echo "$P12_BASE64" | base64 --decode > "$P12_FILE"
+
+          # Impor sertifikat (dengan fallback OpenSSL -legacy untuk kompatibilitas macOS 15)
+          if ! security import "$P12_FILE" -k "$KEYCHAIN_PATH" -P "$P12_PASSWORD" -T /usr/bin/codesign -T /usr/bin/security 2>/dev/null; then
+            echo "Direct import failed. Converting p12 using OpenSSL legacy mode..."
+            openssl pkcs12 -in "$P12_FILE" -nodes -passin pass:"$P12_PASSWORD" -legacy > $RUNNER_TEMP/cert.pem 2>/dev/null || \
+            openssl pkcs12 -in "$P12_FILE" -nodes -passin pass:"$P12_PASSWORD" > $RUNNER_TEMP/cert.pem
+            
+            openssl pkcs12 -export -in $RUNNER_TEMP/cert.pem -out $RUNNER_TEMP/cert_modern.p12 -passout pass:"$P12_PASSWORD"
+            security import $RUNNER_TEMP/cert_modern.p12 -k "$KEYCHAIN_PATH" -P "$P12_PASSWORD" -T /usr/bin/codesign -T /usr/bin/security
+          fi
+
+          # Izinkan codesign mengakses keychain tanpa prompt UI interaktif
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security list-keychains -d user -s "$KEYCHAIN_PATH" $(security list-keychains -d user | tr -d '"')
+
+          echo "KEYCHAIN_PATH=$KEYCHAIN_PATH" >> $GITHUB_ENV
+          echo "KEYCHAIN_PASSWORD=$KEYCHAIN_PASSWORD" >> $GITHUB_ENV
+
+      # 6. Install Provisioning Profile from Secret
+      - name: Install Provisioning Profile
+        env:
+          PROFILE_BASE64: ${{ secrets.APPLE_PROVISION_PROFILE_BASE64 }}
+        run: |
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          PROFILE_FILE=$RUNNER_TEMP/appstore.mobileprovision
+          echo "$PROFILE_BASE64" | base64 --decode > "$PROFILE_FILE"
+
+          # Ekstrak UUID dan Nama resmi profil langsung dari data Apple
+          PLIST_DATA=$(security cms -D -i "$PROFILE_FILE")
+          PROFILE_UUID=$(/usr/libexec/PlistBuddy -c 'Print :UUID' /dev/stdin <<< "$PLIST_DATA")
+          PROFILE_NAME=$(/usr/libexec/PlistBuddy -c 'Print :Name' /dev/stdin <<< "$PLIST_DATA")
+          TEAM_ID=$(/usr/libexec/PlistBuddy -c 'Print :TeamIdentifier:0' /dev/stdin <<< "$PLIST_DATA")
+
+          echo "Installed Profile: '$PROFILE_NAME' (UUID: $PROFILE_UUID, Team: $TEAM_ID)"
+          cp "$PROFILE_FILE" ~/Library/MobileDevice/Provisioning\ Profiles/"$PROFILE_UUID".mobileprovision
+
+          echo "APPLE_PROFILE_UUID=$PROFILE_UUID" >> $GITHUB_ENV
+          echo "APPLE_PROFILE_NAME=$PROFILE_NAME" >> $GITHUB_ENV
+
+      # 7. Configure Xcode Manual Signing ONLY for the main App target (Protects SPM dependencies)
+      - name: Configure App Target Signing Settings
+        env:
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          PBXPROJ="ios/App/App.xcodeproj/project.pbxproj"
+
+          # Ubah Release buildSettings target App agar menggunakan profil spesifik secara manual
+          # SPM / Pods / Extensions tidak akan terdampak
+          node -e '
+            const fs = require("fs");
+            let content = fs.readFileSync(process.env.PBXPROJ, "utf8");
+            
+            // Tambahkan konfigurasi manual signing khusus Release target
+            content = content.replace(
+              /504EC3181FED79650016851F \/\* Release \*\/ = \{[\s\S]*?buildSettings = \{([\s\S]*?)\};/m,
+              (match, settings) => {
+                let updated = settings
+                  .replace(/CODE_SIGN_STYLE = Automatic;/g, "CODE_SIGN_STYLE = Manual;")
+                  .replace(/DEVELOPMENT_TEAM = .*?;/g, "");
+                
+                updated += `\n\t\t\t\tDEVELOPMENT_TEAM = "${process.env.TEAM_ID}";`;
+                updated += `\n\t\t\t\tCODE_SIGN_IDENTITY = "Apple Distribution";`;
+                updated += `\n\t\t\t\tPROVISIONING_PROFILE_SPECIFIER = "${process.env.APPLE_PROFILE_NAME}";`;
+                return match.replace(settings, updated);
+              }
+            );
+
+            fs.writeFileSync(process.env.PBXPROJ, content, "utf8");
+            console.log("Updated App target signing in project.pbxproj successfully.");
+          '
+
+      # 8. Setup App Store Connect API Key for altool via Node.js Buffer
+      - name: Setup App Store Connect Private Key
+        env:
+          KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
+          KEY_BASE64: ${{ secrets.APPSTORE_PRIVATE_KEY_BASE64 }}
+        run: |
+          mkdir -p ~/.appstoreconnect/private_keys
+          node -e '
+            const fs = require("fs");
+            const path = require("path");
+            const keyPath = path.join(process.env.HOME, ".appstoreconnect", "private_keys", `AuthKey_${process.env.KEY_ID}.p8`);
+            const buf = Buffer.from(process.env.KEY_BASE64, "base64");
+            fs.writeFileSync(keyPath, buf, { mode: 0o600 });
+            console.log("Written App Store Connect API Key to:", keyPath);
+          '
+
+      # 9. Create ExportOptions.plist
+      - name: Generate ExportOptions.plist
+        env:
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          BUNDLE_ID: com.syntheticae.ttsbareng
+        run: |
+          mkdir -p build
+          cat <<EOF > build/ExportOptions.plist
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>method</key>
+              <string>app-store</string>
+              <key>teamID</key>
+              <string>${TEAM_ID}</string>
+              <key>signingStyle</key>
+              <string>manual</string>
+              <key>signingCertificate</key>
+              <string>Apple Distribution</string>
+              <key>provisioningProfiles</key>
+              <dict>
+                  <key>${BUNDLE_ID}</key>
+                  <string>${APPLE_PROFILE_NAME}</string>
+              </dict>
+              <key>destination</key>
+              <string>export</string>
+              <key>uploadSymbols</key>
+              <true/>
+          </dict>
+          </plist>
+          EOF
+
+      # 10. Archive App with xcodebuild
+      - name: Archive iOS App
+        run: |
+          xcodebuild archive \
+            -project ios/App/App.xcodeproj \
+            -scheme App \
+            -configuration Release \
+            -destination "generic/platform=iOS" \
+            -archivePath build/App.xcarchive \
+            -allowProvisioningUpdates
+
+      # 11. Export IPA from Archive
+      - name: Export IPA
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath build/App.xcarchive \
+            -exportOptionsPlist build/ExportOptions.plist \
+            -exportPath build \
+            -allowProvisioningUpdates
+          
+          # Verifikasi file App.ipa
+          ls -lh build/App.ipa
+
+      # 12. Upload IPA to TestFlight / App Store Connect via xcrun altool
+      - name: Upload IPA to TestFlight / App Store Connect
+        env:
+          KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
+          ISSUER_ID: ${{ secrets.APPSTORE_ISSUER_ID }}
+        run: |
+          echo "Uploading build/App.ipa to App Store Connect..."
+          xcrun altool --upload-package build/App.ipa \
+            --type ios \
+            --apiKey "$KEY_ID" \
+            --apiIssuer "$ISSUER_ID" \
+            --show-progress
+
+      # 13. Backup IPA as GitHub Artifact
+      - name: Upload IPA as GitHub Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tts-bareng-appstore-ipa
+          path: build/App.ipa
+          retention-days: 14
+
+      # 14. Clean Up Keychain
+      - name: Clean Up Keychain
+        if: always()
+        run: |
+          if [ -n "$KEYCHAIN_PATH" ] && [ -f "$KEYCHAIN_PATH" ]; then
+            security delete-keychain "$KEYCHAIN_PATH" || true
+          fi
+          rm -f ~/.appstoreconnect/private_keys/AuthKey_*.p8 || true
