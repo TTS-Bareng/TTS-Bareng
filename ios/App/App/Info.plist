@@ -49,6 +49,10 @@
 	<string>Main</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Kamera digunakan untuk memindai kode QR ruangan mabar teka-teki silang bersama teman.</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>whatsapp</string>
+	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

@@ -4,6 +4,7 @@ import { X, Share2, Copy } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
 import { shareOrCopy } from '../lib/deeplink';
+import { copyToClipboard } from '../lib/clipboard';
 
 export const ShareModal: React.FC = () => {
   const { isShareModalOpen, shareModalData, closeShareModal, showGlobalToast } = useGameStore();
@@ -31,10 +32,10 @@ export const ShareModal: React.FC = () => {
   const handleCopy = async () => {
     const url = shareModalData.shareUrl || window.location.origin;
     const text = shareModalData.shareText || `${shareModalData.title}\n${shareModalData.subtitle}\nMain di: ${url}`;
-    try {
-      await navigator.clipboard.writeText(text);
+    const success = await copyToClipboard(text);
+    if (success) {
       showGlobalToast('Teks & tautan disalin ke clipboard!');
-    } catch {
+    } else {
       showGlobalToast('Gagal menyalin tautan');
     }
   };

@@ -8,11 +8,15 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
+    "generate:assets": "node scripts/generate-app-assets.cjs",
     "cap:sync": "cap sync",
     "cap:build": "npm run build && cap sync"
   },
   "dependencies": {
+    "@capacitor/clipboard": "^8.0.1",
     "@capacitor/core": "^8.5.3",
+    "@capacitor/haptics": "^8.0.2",
+    "@capacitor/share": "^8.0.3",
     "@supabase/supabase-js": "^2.118.0",
     "@types/qrcode": "^1.5.6",
     "canvas-confetti": "^1.9.4",

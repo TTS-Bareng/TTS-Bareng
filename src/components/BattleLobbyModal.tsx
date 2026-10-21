@@ -22,6 +22,7 @@ import { useGameStore, type BattleConfig } from '../store/useGameStore';
 import { getBattlePalette } from '../lib/battlePalette';
 import { MASCOTS } from '../assets/maskots';
 import { createDeepLink, shareOrCopy } from '../lib/deeplink';
+import { copyToClipboard } from '../lib/clipboard';
 
 export const BattleLobbyModal: React.FC = () => {
   const {
@@ -106,11 +107,13 @@ export const BattleLobbyModal: React.FC = () => {
   const handleCopyLink = async () => {
     const code = handleEnsureRoom();
     const inviteLink = createDeepLink({ room: code });
-    if (navigator.clipboard) {
-      await navigator.clipboard.writeText(inviteLink);
+    const success = await copyToClipboard(inviteLink);
+    if (success) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
       showGlobalToast('Tautan duel disalin!');
+    } else {
+      showGlobalToast(`Kode kamar: ${code}`);
     }
   };
 

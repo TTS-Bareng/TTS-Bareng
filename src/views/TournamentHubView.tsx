@@ -25,6 +25,8 @@ import { TournamentQrModal } from '../components/TournamentQrModal';
 import { QrScannerModal } from '../components/QrScannerModal';
 import { TournamentBracketDrawingOverlay } from '../components/TournamentBracketDrawingOverlay';
 import { extractTournamentCodeFromText, extractRoomCodeFromText, createTournamentDeepLink } from '../lib/deeplink';
+import { copyToClipboard } from '../lib/clipboard';
+import { shareToWhatsApp } from '../lib/nativeShare';
 import { MASCOTS } from '../assets/maskots';
 
 export const TournamentHubView: React.FC = () => {
@@ -74,23 +76,32 @@ export const TournamentHubView: React.FC = () => {
     startTournamentLobby();
   };
 
-  const handleCopyCode = () => {
+  const handleCopyCode = async () => {
     if (!activeTournament) return;
-    navigator.clipboard.writeText(activeTournament.code);
-    setCopiedCode(true);
-    showGlobalToast(`Kode kamar ${activeTournament.code} berhasil disalin!`, 2000);
-    setTimeout(() => setCopiedCode(false), 2000);
+    const success = await copyToClipboard(activeTournament.code);
+    if (success) {
+      setCopiedCode(true);
+      showGlobalToast(`Kode kamar ${activeTournament.code} berhasil disalin!`, 2000);
+      setTimeout(() => setCopiedCode(false), 2000);
+    } else {
+      showGlobalToast(`Kode kamar: ${activeTournament.code}`, 2500);
+    }
   };
 
-  const handleShareWhatsApp = () => {
+  const handleShareWhatsApp = async () => {
     if (!activeTournament) return;
     const inviteLink = createTournamentDeepLink(activeTournament.code);
-    const text = encodeURIComponent(
-      `🏆 Ayo tanding di Turnamen TTS Bareng!\n\nKamar: *${activeTournament.name}*\nKode: *${activeTournament.code}*\nFormat: *${
-        activeTournament.maxPlayers
-      } Pemain (Sistem Gugur)*\n\nGabung sekarang di:\n${inviteLink}`
-    );
-    window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+    const text =
+      `🏆 Ayo tanding di Turnamen TTS Bareng!\n\n` +
+      `Kamar: *${activeTournament.name}*\n` +
+      `Kode PIN: *${activeTournament.code}*\n` +
+      `Format: *${activeTournament.maxPlayers} Pemain (Sistem Gugur)*\n\n` +
+      `Gabung sekarang di:\n${inviteLink}`;
+
+    const res = await shareToWhatsApp({ text, url: inviteLink });
+    if (res === 'copied') {
+      showGlobalToast('Tautan undangan disalin ke clipboard!');
+    }
   };
 
   const handleJoinPublicItem = (code: string) => {

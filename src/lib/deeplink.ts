@@ -93,6 +93,8 @@ export function clearUrlParams(): void {
   }
 }
 
+import { shareNative } from './nativeShare';
+
 /**
  * Triggers native OS share sheet (WhatsApp, Telegram, etc.) with clipboard fallback
  */
@@ -101,32 +103,7 @@ export async function shareOrCopy(options: {
   text: string;
   url: string;
 }): Promise<'shared' | 'copied' | 'cancelled'> {
-  if (typeof navigator !== 'undefined' && navigator.share) {
-    try {
-      await navigator.share({
-        title: options.title,
-        text: options.text,
-        url: options.url,
-      });
-      return 'shared';
-    } catch (err: unknown) {
-      if (err instanceof Error && err.name === 'AbortError') {
-        return 'cancelled';
-      }
-    }
-  }
-
-  // Fallback to clipboard copy
-  if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
-    try {
-      await navigator.clipboard.writeText(`${options.text} ${options.url}`.trim());
-      return 'copied';
-    } catch {
-      // Fall through
-    }
-  }
-
-  return 'cancelled';
+  return shareNative(options);
 }
 
 /**

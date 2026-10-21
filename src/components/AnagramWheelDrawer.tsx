@@ -4,6 +4,7 @@ import { Shuffle, RotateCcw, Check, X, Sparkles } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { findClueById } from '../lib/crossword';
 import { soundManager } from '../lib/audio';
+import { haptic } from '../lib/haptics';
 
 function scrambleLetters(word: string, _seed = 0): string[] {
   const letters = word.toUpperCase().split('');
@@ -62,8 +63,8 @@ export const AnagramWheelDrawer: React.FC = () => {
     setShuffleKey((prev) => prev + 1);
     setSelectedIndices([]);
     if (soundEnabled) soundManager.playKeyClick();
-    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate(15);
+    if (hapticEnabled) {
+      haptic.medium(15);
     }
   }, [targetAnswer, soundEnabled, hapticEnabled]);
 
@@ -73,8 +74,8 @@ export const AnagramWheelDrawer: React.FC = () => {
 
     setSelectedIndices((prev) => [...prev, bankIdx]);
     if (soundEnabled) soundManager.playKeyClick();
-    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate(8);
+    if (hapticEnabled) {
+      haptic.light(8);
     }
   };
 

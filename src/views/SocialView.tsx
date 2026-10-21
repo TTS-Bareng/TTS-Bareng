@@ -24,6 +24,7 @@ import { useGameStore } from '../store/useGameStore';
 import confetti from 'canvas-confetti';
 import { MASCOTS } from '../assets/maskots';
 import { createDeepLink, shareOrCopy } from '../lib/deeplink';
+import { copyToClipboard } from '../lib/clipboard';
 import { QrScannerModal } from '../components/QrScannerModal';
 import { BattleLobbyModal } from '../components/BattleLobbyModal';
 import { mabarRealtime } from '../lib/mabarRealtime';
@@ -100,8 +101,8 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
 
   const handleCopyLink = async () => {
     const inviteLink = createDeepLink({ room: roomCode });
-    if (navigator.clipboard) {
-      await navigator.clipboard.writeText(inviteLink);
+    const success = await copyToClipboard(inviteLink);
+    if (success) {
       showGlobalToast('Tautan kamar disalin!');
     } else {
       showGlobalToast(`Kode kamar: ${roomCode}`);

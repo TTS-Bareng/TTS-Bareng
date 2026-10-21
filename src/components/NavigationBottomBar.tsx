@@ -45,11 +45,16 @@ export const NavigationBottomBar: React.FC = () => {
   ];
 
   return (
-    <nav
-      className="absolute bottom-[max(12px,calc(6px+env(safe-area-inset-bottom)))] left-3 right-3 z-30 select-none"
-      aria-label="Navigasi Utama"
-    >
-      <div className="w-full h-[62px] rounded-full liquid-glass-nav flex items-center justify-around px-1.5 shadow-2xl relative overflow-hidden">
+    <>
+      {/* 1. Apple Ambient Bottom Shield & Vignette Dissolve (z-40, pointer-events-none) */}
+      <div className="apple-bottom-ambient-shield" aria-hidden="true" />
+
+      {/* 2. Floating Liquid Glass Navbar Capsule (z-50) */}
+      <nav
+        className="absolute bottom-[max(12px,calc(6px+env(safe-area-inset-bottom)))] left-3 right-3 z-50 select-none"
+        aria-label="Navigasi Utama"
+      >
+        <div className="w-full h-[62px] rounded-full liquid-glass-nav flex items-center justify-around px-1.5 shadow-2xl relative overflow-hidden">
         {/* Specular gloss sheen reflection on top edge */}
         <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
 
@@ -90,7 +95,8 @@ export const NavigationBottomBar: React.FC = () => {
         })}
       </div>
     </nav>
-  );
+  </>
+);
 };
 
 export default NavigationBottomBar;

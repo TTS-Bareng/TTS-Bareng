@@ -738,6 +738,31 @@ body,
 }
 
 /* ============================================================
+   APPLE AMBIENT BOTTOM SHIELD & VIGNETTE DISSOLVE
+   Layer z-40 pelindung celah bawah navbar tanpa merusak frosted glass
+   ============================================================ */
+.apple-bottom-ambient-shield {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: calc(115px + env(safe-area-inset-bottom, 0px));
+  pointer-events: none;
+  user-select: none;
+  z-index: 40;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    color-mix(in srgb, var(--bg-app, var(--bg-base, #111113)) 20%, transparent) 25%,
+    color-mix(in srgb, var(--bg-app, var(--bg-base, #111113)) 65%, transparent) 55%,
+    var(--bg-app, var(--bg-base, #111113)) 78%,
+    var(--bg-app, var(--bg-base, #111113)) 100%
+  );
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 100%);
+  mask-image: linear-gradient(to bottom, black 0%, black 100%);
+}
+
+/* ============================================================
    TILES & BUTTONS (Crossword Virtual Keyboard & Interactive Tiles)
    ============================================================ */
 .liquid-glass-tile {

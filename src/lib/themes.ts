@@ -369,4 +369,7 @@ export function applyTheme(themeKey: ThemeKey) {
   for (const [prop, val] of Object.entries(theme.vars)) {
     root.style.setProperty(prop, val);
   }
+  if (theme.vars['--bg-app']) {
+    root.style.setProperty('--bg-base', theme.vars['--bg-app']);
+  }
 }

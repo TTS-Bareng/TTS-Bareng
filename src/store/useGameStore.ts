@@ -27,6 +27,7 @@ import {
   type CommunityTournament,
   type TournamentFormat,
 } from '../lib/tournament';
+import { haptic } from '../lib/haptics';
 
 export type TabType = 'home' | 'social' | 'game' | 'quests' | 'profile' | 'stats' | 'settings' | 'arena';
 
@@ -820,8 +821,8 @@ export const useGameStore = create<GameState>((set, get) => ({
   toggleHaptic: () => {
     const next = !get().hapticEnabled;
     localStorage.setItem(STORAGE_KEY_HAPTIC, String(next));
-    if (next && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate(25);
+    if (next) {
+      haptic.medium(25);
     }
     set({ hapticEnabled: next });
   },
@@ -1630,8 +1631,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     const targetLevel = levels[randomLevelIdx];
 
     if (soundEnabled) soundManager.playReward();
-    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate([20, 50, 30]);
+    if (hapticEnabled) {
+      haptic.success([20, 50, 30]);
     }
 
     set({
@@ -1704,8 +1705,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     const targetLevel = levels[targetLevelIdx];
 
     if (soundEnabled) soundManager.playReward();
-    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate([20, 50, 30]);
+    if (hapticEnabled) {
+      haptic.success([20, 50, 30]);
     }
 
     const initialAiCooldown = Math.max(5, Math.floor(13 - (opponent.speedRating - 70) * 0.25));
@@ -1805,8 +1806,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     const targetLevel = levels[targetLevelIdx];
 
     if (soundEnabled) soundManager.playReward();
-    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate([20, 50, 30]);
+    if (hapticEnabled) {
+      haptic.success([20, 50, 30]);
     }
 
     if (get().activeRoomCode) {
@@ -1846,8 +1847,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     const targetLevel = levels[payload.levelIndex] || levels[0];
 
     if (soundEnabled) soundManager.playReward();
-    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate([20, 50, 30]);
+    if (hapticEnabled) {
+      haptic.success([20, 50, 30]);
     }
 
     set({
@@ -1904,9 +1905,9 @@ export const useGameStore = create<GameState>((set, get) => ({
     const nextTime = battleTimeLeft - 1;
     if (nextTime <= 10 && nextTime > 0) {
       if (soundEnabled) soundManager.playHeartbeat();
-      if (typeof navigator !== 'undefined' && navigator.vibrate) {
-        navigator.vibrate(10);
-      }
+      if (get().hapticEnabled) {
+      haptic.light(10);
+    }
     }
 
     set({ battleTimeLeft: nextTime });
@@ -1960,9 +1961,9 @@ export const useGameStore = create<GameState>((set, get) => ({
         mabarRealtime.broadcastBattleClue(clueId, newlySolved);
       }
       if (soundEnabled) soundManager.playWordCorrect(1);
-      if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-        navigator.vibrate([15, 30, 20]);
-      }
+      if (hapticEnabled) {
+      haptic.success([15, 30, 20]);
+    }
     } else {
       if (soundEnabled) soundManager.playWordCorrect(1);
       get().showGlobalToast(`${partnerName || 'Lawan'} merebut ${clue.answer} (+${pointsGained} Pts)!`, 2200);
@@ -2177,8 +2178,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     const targetLevel = levels[targetLevelIdx];
 
     if (soundEnabled) soundManager.playReward();
-    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate([20, 50, 30]);
+    if (hapticEnabled) {
+      haptic.success([20, 50, 30]);
     }
 
     if (get().activeRoomCode) {
@@ -2214,8 +2215,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     const targetLevel = levels[targetLevelIdx];
 
     if (soundEnabled) soundManager.playReward();
-    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate([20, 50, 30]);
+    if (hapticEnabled) {
+      haptic.success([20, 50, 30]);
     }
 
     if (get().activeRoomCode) {
@@ -2312,8 +2313,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     const randomIdx = pool[Math.floor(Math.random() * pool.length)];
 
     if (soundEnabled) soundManager.playKeyClick();
-    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate(20);
+    if (hapticEnabled) {
+      haptic.medium(20);
     }
 
     selectLevel(randomIdx);
@@ -2324,8 +2325,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     const dailyIdx = getDailyRushLevelIndex(levels.length);
     selectLevel(dailyIdx);
     if (soundEnabled) soundManager.playReward();
-    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate(20);
+    if (hapticEnabled) {
+      haptic.medium(20);
     }
     set({
       gameMode: 'daily_rush',
@@ -2360,9 +2361,9 @@ export const useGameStore = create<GameState>((set, get) => ({
     const nextTime = dailyRushTimeLeft - 1;
     if (nextTime <= 10 && nextTime > 0) {
       if (soundEnabled) soundManager.playHeartbeat();
-      if (typeof navigator !== 'undefined' && navigator.vibrate) {
-        navigator.vibrate(12);
-      }
+      if (get().hapticEnabled) {
+      haptic.light(12);
+    }
     }
     set({ dailyRushTimeLeft: nextTime });
   },
@@ -2488,8 +2489,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     if (!tile) return;
 
     if (soundEnabled) soundManager.playFocusTick();
-    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate(4);
+    if (hapticEnabled) {
+      haptic.light(4);
     }
 
     const acrossClue = tile.across ? findClueById(level, tile.across) : null;
@@ -2571,8 +2572,8 @@ export const useGameStore = create<GameState>((set, get) => ({
         soundManager.playKeyClick();
       }
     }
-    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate(6);
+    if (hapticEnabled) {
+      haptic.light(6);
     }
 
     const allClues = [...level.clues.across, ...level.clues.down];
@@ -2628,9 +2629,9 @@ export const useGameStore = create<GameState>((set, get) => ({
       }
       nextWordStreak = wordStreak + newlySolvedClues.length;
       if (soundEnabled) soundManager.playWordCorrect(nextWordStreak);
-      if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-        navigator.vibrate([15, 30, 20]);
-      }
+      if (hapticEnabled) {
+      haptic.success([15, 30, 20]);
+    }
 
       if (nextWordStreak >= 2) {
         const titles = ['Menyala!', 'Hebat!', 'Luar Biasa!', 'Brilian!', 'Jenius!'];
@@ -2699,9 +2700,9 @@ export const useGameStore = create<GameState>((set, get) => ({
           if (get().errorFeedbackMode === 'gentle') {
             shaking = wordWrongCells;
             if (soundEnabled) soundManager.playWordWrong();
-            if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-              navigator.vibrate([35, 45]);
-            }
+            if (hapticEnabled) {
+      haptic.error([35, 45]);
+    }
             setTimeout(() => {
               set({ shakingCells: [] });
             }, 600);
@@ -2730,9 +2731,9 @@ export const useGameStore = create<GameState>((set, get) => ({
             shaking = allWrongCells;
             validationMsg = 'Ada kata yang belum tepat, coba periksa kembali!';
             if (soundEnabled) soundManager.playWordWrong();
-            if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-              navigator.vibrate([35, 45]);
-            }
+            if (hapticEnabled) {
+      haptic.error([35, 45]);
+    }
             setTimeout(() => {
               set({ shakingCells: [], validationMessage: null });
             }, 2500);
@@ -2838,8 +2839,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     const idx = clue ? clue.cells.findIndex(([cr, cc]) => cr === r && cc === c) : -1;
 
     if (soundEnabled) soundManager.playKeyClick();
-    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate(10);
+    if (hapticEnabled) {
+      haptic.light(10);
     }
 
     if (newInputs[key] && !lockedCells[key]) {
@@ -2904,8 +2905,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     const currIdx = allClues.findIndex((c) => c.id === activeClueId);
     const nextIdx = (currIdx + 1) % allClues.length;
     if (soundEnabled) soundManager.playFocusTick();
-    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate(6);
+    if (hapticEnabled) {
+      haptic.light(6);
     }
     selectClue(allClues[nextIdx].id);
   },
@@ -2917,8 +2918,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     const currIdx = allClues.findIndex((c) => c.id === activeClueId);
     const prevIdx = (currIdx - 1 + allClues.length) % allClues.length;
     if (soundEnabled) soundManager.playFocusTick();
-    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate(6);
+    if (hapticEnabled) {
+      haptic.light(6);
     }
     selectClue(allClues[prevIdx].id);
   },
@@ -3020,9 +3021,9 @@ export const useGameStore = create<GameState>((set, get) => ({
       localStorage.setItem(STORAGE_KEY_RECORDS, JSON.stringify(updatedRecords));
 
       if (soundEnabled) soundManager.playWordCorrect(nextWordStreak);
-      if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-        navigator.vibrate([15, 30, 20]);
-      }
+      if (hapticEnabled) {
+      haptic.success([15, 30, 20]);
+    }
 
       if (nextWordStreak >= 2) {
         const titles = ['Menyala!', 'Hebat!', 'Luar Biasa!', 'Brilian!', 'Jenius!'];
@@ -3067,9 +3068,9 @@ export const useGameStore = create<GameState>((set, get) => ({
       }
     } else if (shaking.length > 0) {
       if (soundEnabled) soundManager.playWordWrong();
-      if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-        navigator.vibrate([35, 45]);
-      }
+      if (hapticEnabled) {
+      haptic.error([35, 45]);
+    }
       set({
         shakingCells: shaking,
         poppingCells: [],
@@ -3148,8 +3149,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     const nextHintsUsed = levelHintsUsed + 1;
 
     if (soundEnabled) soundManager.playHint();
-    if (hapticEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate([12, 24]);
+    if (hapticEnabled) {
+      haptic.medium(20);
     }
 
     const newlySolvedClues: string[] = [];
@@ -3269,8 +3270,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     const newStars = Math.max(0, stars + amount);
     localStorage.setItem(STORAGE_KEY_STARS, newStars.toString());
     if (soundEnabled && amount > 0) soundManager.playReward();
-    if (hapticEnabled && amount > 0 && typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate([15, 30]);
+    if (hapticEnabled && amount > 0) {
+      haptic.medium(25);
     }
     set({ stars: newStars });
   },

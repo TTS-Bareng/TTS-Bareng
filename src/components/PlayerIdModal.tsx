@@ -19,6 +19,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
+import { copyToClipboard } from '../lib/clipboard';
 
 export const PlayerIdModal: React.FC = () => {
   const {
@@ -73,13 +74,13 @@ export const PlayerIdModal: React.FC = () => {
   const playerId = user.id || 'TTS-8842';
 
   const handleCopyId = async () => {
-    try {
-      await navigator.clipboard.writeText(playerId);
+    const success = await copyToClipboard(playerId);
+    if (success) {
       setCopied(true);
       showGlobalToast(`ID Pemain ${playerId} berhasil disalin!`);
       setTimeout(() => setCopied(false), 2200);
-    } catch {
-      showGlobalToast('Gagal menyalin ID pemain.');
+    } else {
+      showGlobalToast(`ID Pemain: ${playerId}`);
     }
   };
 

@@ -5,6 +5,8 @@ import QRCode from 'qrcode';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
 import { createTournamentDeepLink } from '../lib/deeplink';
+import { copyToClipboard } from '../lib/clipboard';
+import { shareToWhatsApp } from '../lib/nativeShare';
 import { type CommunityTournament } from '../lib/tournament';
 
 interface TournamentQrModalProps {
@@ -42,21 +44,26 @@ export const TournamentQrModal: React.FC<TournamentQrModalProps> = ({
   const inviteLink = createTournamentDeepLink(tournament.code);
 
   const handleCopyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(inviteLink);
+    const success = await copyToClipboard(inviteLink);
+    if (success) {
       showGlobalToast(`Tautan turnamen ${tournament.code} berhasil disalin!`, 2500);
-    } catch {
+    } else {
       showGlobalToast(`Kode kamar turnamen: ${tournament.code}`, 2500);
     }
   };
 
-  const handleShareWhatsApp = () => {
-    const text = encodeURIComponent(
-      `🏆 Ayo bergabung ke Turnamen TTS Bareng!\n\nKamar: *${tournament.name}*\nKode: *${tournament.code}*\nFormat: *${
-        tournament.maxPlayers
-      } Pemain (Sistem Gugur)*\n\nKlik tautan ini untuk langsung bertanding:\n${inviteLink}`
-    );
-    window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+  const handleShareWhatsApp = async () => {
+    const text =
+      `🏆 Ayo bergabung ke Turnamen TTS Bareng!\n\n` +
+      `Kamar: *${tournament.name}*\n` +
+      `Kode PIN: *${tournament.code}*\n` +
+      `Format: *${tournament.maxPlayers} Pemain (Sistem Gugur)*\n\n` +
+      `Klik tautan ini untuk langsung bertanding:\n${inviteLink}`;
+
+    const res = await shareToWhatsApp({ text, url: inviteLink });
+    if (res === 'copied') {
+      showGlobalToast('Tautan turnamen disalin ke clipboard!');
+    }
   };
 
   return (
