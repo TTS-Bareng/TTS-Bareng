@@ -40,6 +40,7 @@ import {
   type TournamentFormat,
 } from '../lib/tournament';
 import { haptic } from '../lib/haptics';
+import { notificationService } from '../lib/notificationService';
 
 export type TabType = 'home' | 'social' | 'game' | 'quests' | 'profile' | 'stats' | 'settings' | 'arena';
 
@@ -294,6 +295,13 @@ interface GameState {
   hapticEnabled: boolean;
   toggleHaptic: () => void;
 
+  // Smart Retention Notifications
+  notificationsEnabled: boolean;
+  setNotificationsEnabled: (enabled: boolean) => void;
+  isNotificationPromptOpen: boolean;
+  openNotificationPrompt: () => void;
+  closeNotificationPrompt: () => void;
+
   // Levels & Progress
   levels: LevelData[];
   currentLevelIndex: number;
@@ -468,6 +476,13 @@ const STORAGE_KEY_AUTO_ADVANCE = 'tts_auto_advance';
 const STORAGE_KEY_ONBOARDED = 'tts_quest_onboarded';
 const STORAGE_KEY_TICKETS = 'tts_tournament_tickets_v1';
 const STORAGE_KEY_TICKET_DATE = 'tts_last_ticket_claim_v1';
+const STORAGE_KEY_NOTIFICATIONS = 'tts_notifications_enabled_v1';
+const STORAGE_KEY_NOTIFICATION_PROMPT_SHOWN = 'tts_notification_prompt_shown_v1';
+
+function getInitialNotificationsEnabled(): boolean {
+  if (typeof window === 'undefined') return true;
+  return localStorage.getItem(STORAGE_KEY_NOTIFICATIONS) !== 'false';
+}
 
 function getInitialTickets(): number {
   if (typeof window === 'undefined') return 3;
@@ -852,6 +867,28 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({ hapticEnabled: next });
   },
 
+  notificationsEnabled: getInitialNotificationsEnabled(),
+  setNotificationsEnabled: (enabled: boolean) => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY_NOTIFICATIONS, String(enabled));
+      localStorage.setItem(STORAGE_KEY_NOTIFICATION_PROMPT_SHOWN, 'true');
+    }
+    set({ notificationsEnabled: enabled });
+    if (enabled) {
+      notificationService.scheduleDailyRetention(get().streak);
+    } else {
+      notificationService.cancelAll();
+    }
+  },
+  isNotificationPromptOpen: false,
+  openNotificationPrompt: () => set({ isNotificationPromptOpen: true }),
+  closeNotificationPrompt: () => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY_NOTIFICATION_PROMPT_SHOWN, 'true');
+    }
+    set({ isNotificationPromptOpen: false });
+  },
+
   levels: typedLevels,
   currentLevelIndex: initialLevelIdx,
   level: currentInitialLevel,
@@ -865,7 +902,17 @@ export const useGameStore = create<GameState>((set, get) => ({
   closeDailyRushBriefing: () => set({ isDailyRushBriefingOpen: false }),
   isDailyRushResultOpen: false,
   openDailyRushResult: () => set({ isDailyRushResultOpen: true }),
-  closeDailyRushResult: () => set({ isDailyRushResultOpen: false }),
+  closeDailyRushResult: () => {
+    set({ isDailyRushResultOpen: false });
+    if (typeof window !== 'undefined') {
+      const promptShown = localStorage.getItem(STORAGE_KEY_NOTIFICATION_PROMPT_SHOWN);
+      if (promptShown !== 'true' && notificationService.isSupported()) {
+        setTimeout(() => {
+          set({ isNotificationPromptOpen: true });
+        }, 400);
+      }
+    }
+  },
   streak: getInitialStreak(),
   streakShields: getInitialStreakShields(),
   lastActiveDate: getInitialLastActiveDate(),
@@ -928,6 +975,15 @@ export const useGameStore = create<GameState>((set, get) => ({
       });
       get().showGlobalToast('Streak terputus karena absen beberapa hari.', 3500);
     }
+
+    // Ensure daily smart retention notifications are scheduled if enabled
+    if (get().notificationsEnabled) {
+      notificationService.scheduleDailyRetention(get().streak);
+      const lastCompleted = localStorage.getItem(STORAGE_KEY_LAST_COMPLETED_DAY);
+      if (lastCompleted === todayStr) {
+        notificationService.cancelTodayStreakWarning();
+      }
+    }
   },
 
   incrementStreakIfNewDay: () => {
@@ -943,6 +999,10 @@ export const useGameStore = create<GameState>((set, get) => ({
       streak: nextStreak,
       lastActiveDate: today,
     });
+
+    // Cancel tonight's 21:00 urgent streak warning since streak has been extended today!
+    notificationService.cancelTodayStreakWarning();
+
     get().showGlobalToast(`Api Streak Membara! 🔥 ${nextStreak} Hari Berturut-turut!`, 3200);
   },
 
@@ -1369,7 +1429,17 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
   openAvatarPicker: () => set({ isAvatarPickerOpen: true }),
   closeAvatarPicker: () => set({ isAvatarPickerOpen: false }),
-  closeLevelComplete: () => set({ isLevelCompleteOpen: false }),
+  closeLevelComplete: () => {
+    set({ isLevelCompleteOpen: false });
+    if (typeof window !== 'undefined') {
+      const promptShown = localStorage.getItem(STORAGE_KEY_NOTIFICATION_PROMPT_SHOWN);
+      if (promptShown !== 'true' && notificationService.isSupported()) {
+        setTimeout(() => {
+          set({ isNotificationPromptOpen: true });
+        }, 400);
+      }
+    }
+  },
   openLevelSelect: () => set({ isLevelSelectOpen: true }),
   closeLevelSelect: () => set({ isLevelSelectOpen: false }),
   openLexicon: () => {
@@ -2715,6 +2785,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
     if (isFullSolved) {
       get().incrementStreakIfNewDay();
+      notificationService.cancelTodayStreakWarning();
     }
 
     // Auto-submit score to Supabase National Leaderboard
@@ -2925,6 +2996,7 @@ export const useGameStore = create<GameState>((set, get) => ({
           if (soundEnabled) soundManager.playVictory();
           get().addWeeklyLeagueXp(50);
           get().incrementStreakIfNewDay();
+          notificationService.cancelTodayStreakWarning();
           confetti({
             particleCount: 140,
             spread: 80,

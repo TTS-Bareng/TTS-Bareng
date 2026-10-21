@@ -21,10 +21,12 @@ import {
   Shield,
   ChevronRight,
   Music,
+  Bell,
 } from 'lucide-react';
 import { useGameStore, type SoundPackKey } from '../store/useGameStore';
 import { THEMES, type ThemeKey } from '../lib/themes';
 import { soundManager } from '../lib/audio';
+import { notificationService } from '../lib/notificationService';
 
 export const SettingsView: React.FC = () => {
   const {
@@ -46,6 +48,10 @@ export const SettingsView: React.FC = () => {
     user,
     setSoundPack,
     restartOnboarding,
+    notificationsEnabled,
+    setNotificationsEnabled,
+    streak,
+    showGlobalToast,
   } = useGameStore();
 
   const [showResetConfirm, setShowResetConfirm] = useState(false);
@@ -90,6 +96,24 @@ export const SettingsView: React.FC = () => {
     const next = !confirmHint;
     setConfirmHint(next);
     localStorage.setItem('tts_confirm_hint', String(next));
+  };
+
+  const handleToggleNotifications = async () => {
+    if (soundEnabled) soundManager.playFocusTick();
+    if (hapticEnabled) toggleHaptic();
+    if (!notificationsEnabled) {
+      const granted = await notificationService.requestPermission();
+      if (granted) {
+        setNotificationsEnabled(true);
+        await notificationService.scheduleDailyRetention(streak);
+        showGlobalToast('🔔 Pengingat aktif! Streak dan Daily Rush kamu aman.', 3000);
+      } else {
+        showGlobalToast('Izin notifikasi belum diaktifkan di sistem perangkat.', 2800);
+      }
+    } else {
+      setNotificationsEnabled(false);
+      showGlobalToast('Pengingat notifikasi dinonaktifkan.', 2500);
+    }
   };
 
   const handleExportBackup = () => {
@@ -479,6 +503,36 @@ export const SettingsView: React.FC = () => {
               <div
                 className={`w-4 h-4 rounded-full bg-white shadow-xs transform transition-transform ${
                   confirmHint ? 'translate-x-4' : 'translate-x-0'
+                }`}
+              />
+            </button>
+          </div>
+
+          {/* Row 5: Pengingat Notifikasi & Streak */}
+          <div className="flex items-center justify-between p-3">
+            <div className="flex items-center gap-3 min-w-0 pr-2">
+              <div className="w-7.5 h-7.5 rounded-xl bg-[var(--accent-light)] text-[var(--accent-main)] flex items-center justify-center shrink-0">
+                <Bell className="w-4 h-4 stroke-[2.2]" />
+              </div>
+              <div className="min-w-0">
+                <span className="text-[12px] font-bold text-[var(--text-primary)] block leading-tight">
+                  Pengingat Notifikasi & Streak
+                </span>
+                <span className="text-[9px] text-[var(--text-secondary)] block truncate">
+                  Teka-teki harian 10:00 & darurat streak 21:00
+                </span>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={handleToggleNotifications}
+              className={`w-9 h-5 rounded-full p-0.5 transition-colors cursor-pointer shrink-0 ${
+                notificationsEnabled ? 'bg-[var(--accent-main)]' : 'bg-black/20 dark:bg-white/20'
+              }`}
+            >
+              <div
+                className={`w-4 h-4 rounded-full bg-white shadow-xs transform transition-transform ${
+                  notificationsEnabled ? 'translate-x-4' : 'translate-x-0'
                 }`}
               />
             </button>

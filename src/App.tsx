@@ -7,6 +7,7 @@ import { parseDeepLink, clearUrlParams } from './lib/deeplink';
 import { HomeView } from './views/HomeView';
 import { NavigationBottomBar } from './components/NavigationBottomBar';
 import { NetworkStatusBar } from './components/NetworkStatusBar';
+import { notificationService } from './lib/notificationService';
 
 // Lazy-loaded views & modals for instant initial launch (< 200ms)
 const ArenaView = lazy(() => import('./views/ArenaView').then((m) => ({ default: m.ArenaView })));
@@ -27,6 +28,7 @@ const PlayerIdModal = lazy(() => import('./components/PlayerIdModal').then((m) =
 const CreateTournamentModal = lazy(() => import('./components/CreateTournamentModal').then((m) => ({ default: m.CreateTournamentModal })));
 const JoinTournamentModal = lazy(() => import('./components/JoinTournamentModal').then((m) => ({ default: m.JoinTournamentModal })));
 const TournamentResultModal = lazy(() => import('./components/TournamentResultModal').then((m) => ({ default: m.TournamentResultModal })));
+const NotificationPromptModal = lazy(() => import('./components/NotificationPromptModal').then((m) => ({ default: m.NotificationPromptModal })));
 const InitialAuthView = lazy(() => import('./views/InitialAuthView').then((m) => ({ default: m.InitialAuthView })));
 const OnboardingView = lazy(() => import('./views/OnboardingView').then((m) => ({ default: m.OnboardingView })));
 
@@ -65,7 +67,22 @@ export const App: React.FC = () => {
     checkDailyStreakOnMount,
     initialAuthStage,
     joinTournament,
+    openDailyRushBriefing,
   } = useGameStore();
+
+  // Listen for local notification tap actions (Daily Rush, Game, Arena)
+  useEffect(() => {
+    notificationService.initActionListener((route) => {
+      if (route === 'daily_rush') {
+        setCurrentTab('home');
+        openDailyRushBriefing();
+      } else if (route === 'game') {
+        setCurrentTab('game');
+      } else if (route === 'arena') {
+        setCurrentTab('arena');
+      }
+    });
+  }, [openDailyRushBriefing, setCurrentTab]);
 
   // Apply theme tokens on initial mount and when theme changes
   useEffect(() => {
@@ -242,6 +259,7 @@ export const App: React.FC = () => {
         <CreateTournamentModal />
         <JoinTournamentModal />
         <TournamentResultModal />
+        <NotificationPromptModal />
       </Suspense>
     </div>
   );
