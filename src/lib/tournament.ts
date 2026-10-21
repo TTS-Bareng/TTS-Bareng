@@ -23,6 +23,7 @@ export interface CommunityTournamentMatch {
   durationSeconds: number;
   status: 'pending' | 'active' | 'completed';
   isPlayerMatch: boolean;
+  levelIndex?: number;
 }
 
 export interface CommunityTournament {
@@ -459,7 +460,10 @@ export function generateKnockoutBracket(
     );
   }
 
-  return matches;
+  return matches.map((m, idx) => ({
+    ...m,
+    levelIndex: m.levelIndex ?? (idx * 3 + 1) % 20,
+  }));
 }
 
 /** Propagate winner of a match into the corresponding slot in next round */

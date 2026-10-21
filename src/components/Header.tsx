@@ -128,9 +128,14 @@ export const Header: React.FC = () => {
                 {activeTournament?.name} • {activeCommunityMatch.roundName.toUpperCase()}
               </span>
             </div>
-            <h2 className="text-[13.5px] font-black tracking-tight leading-tight text-[var(--text-primary)] truncate max-w-[220px]">
-              vs {communityOpponent?.name || 'Lawan'}
-            </h2>
+            <div className="flex items-center justify-center gap-1.5">
+              <h2 className="text-[13.5px] font-black tracking-tight leading-tight text-[var(--text-primary)] truncate max-w-[200px]">
+                vs {communityOpponent?.name || 'Lawan'}
+              </h2>
+              {communityOpponent?.id && !communityOpponent.id.startsWith('bot_') && (
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" title="Lawan Terhubung Live" />
+              )}
+            </div>
           </div>
         ) : activeTournamentMatch ? (
           <div className="flex flex-col items-center text-center px-2 py-0.5">

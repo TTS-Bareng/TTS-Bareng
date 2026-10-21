@@ -5,6 +5,12 @@ import { THEMES, type ThemeKey, applyTheme } from '../lib/themes';
 import { soundManager } from '../lib/audio';
 import confetti from 'canvas-confetti';
 import { mabarRealtime } from '../lib/mabarRealtime';
+import {
+  tournamentRealtime,
+  type TournamentPeer,
+  type MatchProgressPayload,
+  type MatchCompletedPayload,
+} from '../lib/tournamentRealtime';
 import { submitDailyRushScore, fetchDailyRushLeaderboard, type DbDailyRushRecord } from '../lib/supabase';
 import {
   createInitialTournamentState,
@@ -236,7 +242,19 @@ interface GameState {
   leaveTournament: () => void;
   fillTournamentSlotsWithBots: () => void;
   startTournamentLobby: () => void;
-  startCommunityMatch: (matchId: string) => void;
+  startCommunityMatch: (matchId: string, forcedLevelIdx?: number) => void;
+
+  // Tournament Realtime Sync
+  tournamentPeers: TournamentPeer[];
+  setTournamentPeers: (peers: TournamentPeer[]) => void;
+  updateActiveTournamentLocally: (tournament: CommunityTournament) => void;
+  receiveTournamentSync: (tournament: CommunityTournament) => void;
+  receiveTournamentStart: (tournament: CommunityTournament) => void;
+  receiveMatchInit: (matchId: string, levelIndex: number) => void;
+  receiveTournamentMatchProgress: (payload: MatchProgressPayload) => void;
+  receiveTournamentMatchCompleted: (payload: MatchCompletedPayload) => void;
+  receivePublicTournament: (tournament: CommunityTournament) => void;
+  removePublicTournament: (tournamentId: string) => void;
 
   // User Profile
   user: UserProfile;
@@ -1488,6 +1506,125 @@ export const useGameStore = create<GameState>((set, get) => ({
   activeTournament: loadActiveCommunityTournament(),
   publicTournaments: loadPublicTournaments(),
   activeCommunityMatchId: null,
+  tournamentPeers: [],
+
+  setTournamentPeers: (peers: TournamentPeer[]) => set({ tournamentPeers: peers }),
+
+  updateActiveTournamentLocally: (tournament: CommunityTournament) => {
+    saveActiveCommunityTournament(tournament);
+    set({ activeTournament: tournament });
+  },
+
+  receiveTournamentSync: (tournament: CommunityTournament) => {
+    const myId = get().user.id || 'player_local';
+    const adjustedMatches = (tournament.matches || []).map((m) => ({
+      ...m,
+      isPlayerMatch: Boolean(m.player1?.id === myId || m.player2?.id === myId),
+    }));
+    const syncedTourney: CommunityTournament = {
+      ...tournament,
+      matches: adjustedMatches,
+    };
+    saveActiveCommunityTournament(syncedTourney);
+    set({ activeTournament: syncedTourney });
+  },
+
+  receiveTournamentStart: (tournament: CommunityTournament) => {
+    const myId = get().user.id || 'player_local';
+    const adjustedMatches = (tournament.matches || []).map((m) => ({
+      ...m,
+      isPlayerMatch: Boolean(m.player1?.id === myId || m.player2?.id === myId),
+    }));
+    const startedTourney: CommunityTournament = {
+      ...tournament,
+      status: 'in_progress',
+      matches: adjustedMatches,
+    };
+    saveActiveCommunityTournament(startedTourney);
+    set({ activeTournament: startedTourney });
+
+    if (get().soundEnabled) soundManager.playCrystalChime();
+    if (get().hapticEnabled) haptic.success([20, 40, 20]);
+    get().showGlobalToast('Bagan telah diundi oleh Host! Pertandingan dimulai!', 3500);
+  },
+
+  receiveMatchInit: (matchId: string, levelIndex: number) => {
+    const { activeTournament, user, activeCommunityMatchId, gameMode } = get();
+    if (!activeTournament) return;
+    const targetMatch = activeTournament.matches.find((m) => m.id === matchId);
+    if (!targetMatch) return;
+    const myId = user.id || 'player_local';
+    const isMyMatch = targetMatch.player1?.id === myId || targetMatch.player2?.id === myId;
+
+    if (isMyMatch && (!activeCommunityMatchId || gameMode !== '1v1_battle')) {
+      get().startCommunityMatch(matchId, levelIndex);
+    }
+  },
+
+  receiveTournamentMatchProgress: (payload: MatchProgressPayload) => {
+    const { activeCommunityMatchId, battleScores, soundEnabled, hapticEnabled } = get();
+    if (activeCommunityMatchId !== payload.matchId) return;
+
+    if (payload.score > battleScores.partner) {
+      if (soundEnabled) soundManager.playKeyClick();
+      if (hapticEnabled) haptic.light(8);
+    }
+
+    set({
+      battleScores: {
+        ...battleScores,
+        partner: payload.score,
+      },
+    });
+  },
+
+  receiveTournamentMatchCompleted: (payload: MatchCompletedPayload) => {
+    const { activeTournament, user, activeCommunityMatchId } = get();
+    if (!activeTournament) return;
+
+    const myId = user.id || 'player_local';
+    const targetMatch = activeTournament.matches.find((m) => m.id === payload.matchId);
+    if (!targetMatch || targetMatch.status === 'completed') return;
+
+    const { updatedTournament } = advanceTournamentMatch(
+      activeTournament,
+      payload.matchId,
+      payload.winnerId,
+      payload.player1Score,
+      payload.player2Score,
+      myId
+    );
+
+    const currentRoundIdx = targetMatch.roundIndex ?? 0;
+    const fullyUpdatedTourney = simulateConcurrentMatches(
+      updatedTournament,
+      currentRoundIdx,
+      myId
+    );
+
+    saveActiveCommunityTournament(fullyUpdatedTourney);
+
+    if (activeCommunityMatchId === payload.matchId) {
+      get().finishBattleRound();
+    } else {
+      set({ activeTournament: fullyUpdatedTourney });
+    }
+  },
+
+  receivePublicTournament: (tournament: CommunityTournament) => {
+    const { publicTournaments } = get();
+    if (publicTournaments.some((t) => t.id === tournament.id || t.code === tournament.code)) return;
+    const updated = [tournament, ...publicTournaments];
+    savePublicTournaments(updated);
+    set({ publicTournaments: updated });
+  },
+
+  removePublicTournament: (tournamentId: string) => {
+    const { publicTournaments } = get();
+    const updated = publicTournaments.filter((t) => t.id !== tournamentId);
+    savePublicTournaments(updated);
+    set({ publicTournaments: updated });
+  },
 
   createTournament: (
     name: string,
@@ -1497,12 +1634,25 @@ export const useGameStore = create<GameState>((set, get) => ({
     maxPlayers?: number
   ) => {
     const { user, publicTournaments } = get();
+    const myId = user.id || 'player_local';
     const newTourney = createCommunityTournament(
-      { id: user.id || 'player_local', name: user.name, avatar: user.avatar },
+      { id: myId, name: user.name, avatar: user.avatar },
       { name, format, roundDurationSeconds: roundDuration, themeCategory, maxPlayers }
     );
     const updatedPublic = [newTourney, ...publicTournaments.filter((t) => t.id !== newTourney.id)];
     savePublicTournaments(updatedPublic);
+
+    // Connect to Supabase Realtime channel as host
+    tournamentRealtime.joinTournament(newTourney.code, {
+      id: myId,
+      name: user.name,
+      avatar: user.avatar,
+      isHost: true,
+    });
+
+    // Broadcast new tournament to public channel
+    tournamentRealtime.broadcastPublishTournament(newTourney);
+
     set({
       activeTournament: newTourney,
       publicTournaments: updatedPublic,
@@ -1513,9 +1663,16 @@ export const useGameStore = create<GameState>((set, get) => ({
   joinTournament: (code: string) => {
     const { user, activeTournament, publicTournaments } = get();
     const cleanCode = code.trim().toUpperCase();
+    const myId = user.id || 'player_local';
 
     // If player is already inside this tournament
     if (activeTournament && activeTournament.code === cleanCode) {
+      tournamentRealtime.joinTournament(cleanCode, {
+        id: myId,
+        name: user.name,
+        avatar: user.avatar,
+        isHost: activeTournament.hostId === myId,
+      });
       return { success: true, message: `Kembali ke turnamen ${activeTournament.name}` };
     }
 
@@ -1540,11 +1697,10 @@ export const useGameStore = create<GameState>((set, get) => ({
       };
     }
 
-    if (target.players.length >= target.maxPlayers) {
+    if (target.players.length >= target.maxPlayers && !target.players.some((p) => p.id === myId)) {
       return { success: false, message: 'Turnamen ini sudah penuh!' };
     }
 
-    const myId = user.id || 'player_local';
     const existingIdx = target.players.findIndex((p) => p.id === myId);
     const updatedPlayers = [...target.players];
     if (existingIdx === -1) {
@@ -1566,6 +1722,14 @@ export const useGameStore = create<GameState>((set, get) => ({
     const updatedPublic = publicTournaments.map((t) => (t.id === target?.id ? updatedTourney : t));
     savePublicTournaments(updatedPublic);
 
+    // Connect to Supabase Realtime channel
+    tournamentRealtime.joinTournament(cleanCode, {
+      id: myId,
+      name: user.name,
+      avatar: user.avatar,
+      isHost: updatedTourney.hostId === myId,
+    });
+
     set({
       activeTournament: updatedTourney,
       publicTournaments: updatedPublic,
@@ -1575,8 +1739,9 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   leaveTournament: () => {
+    tournamentRealtime.leaveTournament();
     saveActiveCommunityTournament(null);
-    set({ activeTournament: null, activeCommunityMatchId: null });
+    set({ activeTournament: null, activeCommunityMatchId: null, tournamentPeers: [] });
     get().showGlobalToast('Keluar dari turnamen.');
   },
 
@@ -1584,6 +1749,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     const { activeTournament, showGlobalToast } = get();
     if (!activeTournament) return;
     const updated = fillRemainingSlotsWithBots(activeTournament);
+    tournamentRealtime.broadcastTournamentSync(updated);
     set({ activeTournament: updated });
     showGlobalToast(`Slot berhasil dilengkapi dengan Jawara TTS! Siap tanding!`, 2500);
   },
@@ -1611,11 +1777,12 @@ export const useGameStore = create<GameState>((set, get) => ({
     };
 
     saveActiveCommunityTournament(startedTourney);
+    tournamentRealtime.broadcastTournamentStart(startedTourney);
     set({ activeTournament: startedTourney });
     showGlobalToast('Bagan telah diundi! Pertandingan dimulai!', 3000);
   },
 
-  startCommunityMatch: (matchId: string) => {
+  startCommunityMatch: (matchId: string, forcedLevelIdx?: number) => {
     const { activeTournament, levels, user, soundEnabled, hapticEnabled } = get();
     if (!activeTournament) return;
 
@@ -1627,8 +1794,18 @@ export const useGameStore = create<GameState>((set, get) => ({
     const opponent = isSlot1 ? targetMatch.player2 : targetMatch.player1;
     const opponentName = opponent?.name || 'Lawan';
 
-    const randomLevelIdx = Math.floor(Math.random() * levels.length);
-    const targetLevel = levels[randomLevelIdx];
+    // Synchronized Level Index across both players
+    const chosenLevelIdx =
+      typeof forcedLevelIdx === 'number'
+        ? forcedLevelIdx % levels.length
+        : typeof targetMatch.levelIndex === 'number'
+        ? targetMatch.levelIndex % levels.length
+        : Math.floor(Math.random() * levels.length);
+
+    const targetLevel = levels[chosenLevelIdx];
+
+    // Broadcast match init so opponent device launches into the exact same match!
+    tournamentRealtime.broadcastMatchInit(matchId, chosenLevelIdx);
 
     if (soundEnabled) soundManager.playReward();
     if (hapticEnabled) {
@@ -1649,7 +1826,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       battleClueOwners: {},
       battleTimeLeft: targetMatch.durationSeconds,
       battleWinner: null,
-      currentLevelIndex: randomLevelIdx,
+      currentLevelIndex: chosenLevelIdx,
       level: targetLevel,
       userInputs: {},
       lockedCells: {},
@@ -1751,6 +1928,10 @@ export const useGameStore = create<GameState>((set, get) => ({
   tickTournamentAi: () => {
     const {
       activeTournamentMatch,
+      activeCommunityMatchId,
+      activeTournament,
+      tournamentPeers,
+      user,
       level,
       solvedClues,
       tournamentAiCooldown,
@@ -1759,30 +1940,68 @@ export const useGameStore = create<GameState>((set, get) => ({
       isTournamentResultOpen,
     } = get();
 
-    if (!activeTournamentMatch || isBattleResultOpen || isTournamentResultOpen) return;
+    if (isBattleResultOpen || isTournamentResultOpen) return;
 
-    if (tournamentAiCooldown > 1) {
-      set({ tournamentAiCooldown: tournamentAiCooldown - 1 });
+    // 1. Classic Season Cup AI
+    if (activeTournamentMatch) {
+      if (tournamentAiCooldown > 1) {
+        set({ tournamentAiCooldown: tournamentAiCooldown - 1 });
+        return;
+      }
+
+      const opponent = activeTournamentMatch.player1.isPlayer
+        ? activeTournamentMatch.player2
+        : activeTournamentMatch.player1;
+
+      const allClues = [...(level.clues?.across || []), ...(level.clues?.down || [])];
+      const unsolved = allClues.filter((c) => !solvedClues.includes(c.id));
+
+      if (unsolved.length > 0) {
+        const chosen = unsolved[Math.floor(Math.random() * unsolved.length)];
+        claimBattleClue(chosen.id, [chosen.id], 'partner', opponent.name);
+      }
+
+      const nextCooldown = Math.max(
+        5,
+        Math.floor(13 - (opponent.speedRating - 70) * 0.25) + Math.floor(Math.random() * 3 - 1)
+      );
+      set({ tournamentAiCooldown: nextCooldown });
       return;
     }
 
-    const opponent = activeTournamentMatch.player1.isPlayer
-      ? activeTournamentMatch.player2
-      : activeTournamentMatch.player1;
+    // 2. Community Tournament Match AI (Hybrid Bot Fallback)
+    if (activeCommunityMatchId && activeTournament) {
+      const myId = user.id || 'player_local';
+      const targetMatch = activeTournament.matches.find((m) => m.id === activeCommunityMatchId);
+      if (!targetMatch) return;
 
-    const allClues = [...(level.clues?.across || []), ...(level.clues?.down || [])];
-    const unsolved = allClues.filter((c) => !solvedClues.includes(c.id));
+      const opponent = targetMatch.player1?.id === myId ? targetMatch.player2 : targetMatch.player1;
+      if (!opponent) return;
 
-    if (unsolved.length > 0) {
-      const chosen = unsolved[Math.floor(Math.random() * unsolved.length)];
-      claimBattleClue(chosen.id, [chosen.id], 'partner', opponent.name);
+      // Only simulate if the opponent is a Bot or offline from tournamentPeers
+      const isOpponentOnline = tournamentPeers.some(
+        (p) => p.id === opponent.id || p.name === opponent.name
+      );
+      const isBot = opponent.id.startsWith('bot_') || !isOpponentOnline;
+
+      if (!isBot) return; // Real player is actively connected, do not simulate!
+
+      if (tournamentAiCooldown > 1) {
+        set({ tournamentAiCooldown: tournamentAiCooldown - 1 });
+        return;
+      }
+
+      const allClues = [...(level.clues?.across || []), ...(level.clues?.down || [])];
+      const unsolved = allClues.filter((c) => !solvedClues.includes(c.id));
+
+      if (unsolved.length > 0) {
+        const chosen = unsolved[Math.floor(Math.random() * unsolved.length)];
+        claimBattleClue(chosen.id, [chosen.id], 'partner', opponent.name);
+      }
+
+      const nextCooldown = Math.max(4, 8 + Math.floor(Math.random() * 5));
+      set({ tournamentAiCooldown: nextCooldown });
     }
-
-    const nextCooldown = Math.max(
-      5,
-      Math.floor(13 - (opponent.speedRating - 70) * 0.25) + Math.floor(Math.random() * 3 - 1)
-    );
-    set({ tournamentAiCooldown: nextCooldown });
   },
   openBattleLobby: (mode) => {
     const battleMode = mode || 'tug_of_war';
@@ -1887,13 +2106,14 @@ export const useGameStore = create<GameState>((set, get) => ({
       isBattleResultOpen,
       isTournamentResultOpen,
       activeTournamentMatch,
+      activeCommunityMatchId,
       tickTournamentAi,
       finishBattleRound,
       soundEnabled,
     } = get();
     if (gameMode !== '1v1_battle' || isBattleResultOpen || isTournamentResultOpen) return;
 
-    if (activeTournamentMatch) {
+    if (activeTournamentMatch || activeCommunityMatchId) {
       tickTournamentAi();
     }
 
@@ -1906,8 +2126,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     if (nextTime <= 10 && nextTime > 0) {
       if (soundEnabled) soundManager.playHeartbeat();
       if (get().hapticEnabled) {
-      haptic.light(10);
-    }
+        haptic.light(10);
+      }
     }
 
     set({ battleTimeLeft: nextTime });
@@ -1960,10 +2180,22 @@ export const useGameStore = create<GameState>((set, get) => ({
       if (get().activeRoomCode) {
         mabarRealtime.broadcastBattleClue(clueId, newlySolved);
       }
+      const { activeCommunityMatchId, activeTournament, user } = get();
+      if (activeCommunityMatchId && activeTournament) {
+        const totalClues = (level.clues.across?.length || 0) + (level.clues.down?.length || 0);
+        tournamentRealtime.broadcastMatchProgress({
+          matchId: activeCommunityMatchId,
+          playerId: user.id || 'player_local',
+          playerName: user.name,
+          score: nextScores.local,
+          solvedCount: nextSolved.length,
+          totalClues,
+        });
+      }
       if (soundEnabled) soundManager.playWordCorrect(1);
       if (hapticEnabled) {
-      haptic.success([15, 30, 20]);
-    }
+        haptic.success([15, 30, 20]);
+      }
     } else {
       if (soundEnabled) soundManager.playWordCorrect(1);
       get().showGlobalToast(`${partnerName || 'Lawan'} merebut ${clue.answer} (+${pointsGained} Pts)!`, 2200);
@@ -2025,6 +2257,16 @@ export const useGameStore = create<GameState>((set, get) => ({
       if (starsAwarded > 0) {
         addStars(starsAwarded);
       }
+
+      // Broadcast match completed to Supabase Realtime channel
+      const isSlot1 = targetMatch?.player1?.id === myId;
+      tournamentRealtime.broadcastMatchCompleted({
+        matchId: activeCommunityMatchId,
+        winnerId,
+        player1Score: isSlot1 ? battleScores.local : battleScores.partner,
+        player2Score: !isSlot1 ? battleScores.local : battleScores.partner,
+        completedBy: user.name || 'Pemain',
+      });
 
       // Automatically simulate other concurrent matches in this round so next round has opponents ready
       const currentRoundIdx = targetMatch?.roundIndex ?? 0;

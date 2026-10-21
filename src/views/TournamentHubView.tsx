@@ -27,6 +27,7 @@ import { TournamentBracketDrawingOverlay } from '../components/TournamentBracket
 import { extractTournamentCodeFromText, extractRoomCodeFromText, createTournamentDeepLink } from '../lib/deeplink';
 import { copyToClipboard } from '../lib/clipboard';
 import { shareToWhatsApp } from '../lib/nativeShare';
+import { tournamentRealtime } from '../lib/tournamentRealtime';
 import { MASCOTS } from '../assets/maskots';
 
 export const TournamentHubView: React.FC = () => {
@@ -36,6 +37,7 @@ export const TournamentHubView: React.FC = () => {
     showGlobalToast,
     activeTournament,
     publicTournaments,
+    tournamentPeers,
     openCreateTournament,
     openJoinTournament,
     joinTournament,
@@ -55,6 +57,27 @@ export const TournamentHubView: React.FC = () => {
   const [selectedRoundFilter, setSelectedRoundFilter] = useState<string>('all');
 
   const isHost = activeTournament?.hostId === (user.id || 'player_local');
+
+  // Subscribe to public tournaments broadcast channel
+  useEffect(() => {
+    tournamentRealtime.subscribePublicTournaments();
+    return () => {
+      tournamentRealtime.unsubscribePublicTournaments();
+    };
+  }, []);
+
+  // Ensure active tournament realtime channel is joined
+  useEffect(() => {
+    if (activeTournament?.code) {
+      const myId = user.id || 'player_local';
+      tournamentRealtime.joinTournament(activeTournament.code, {
+        id: myId,
+        name: user.name,
+        avatar: user.avatar,
+        isHost: activeTournament.hostId === myId,
+      });
+    }
+  }, [activeTournament?.code, activeTournament?.hostId, user.id, user.name, user.avatar]);
 
   // Trigger celebration confetti when podium is reached
   useEffect(() => {
@@ -142,10 +165,16 @@ export const TournamentHubView: React.FC = () => {
         >
           <div className="absolute top-0 inset-x-0 h-px bg-white/30 pointer-events-none" />
           <div className="flex items-center justify-between mb-2 relative z-10">
-            <span className="text-[8.5px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/20 text-white backdrop-blur-md border border-white/25 inline-flex items-center gap-1.5">
-              <Trophy className="w-3 h-3 stroke-[2.2]" />
-              <span>LOBI TURNAMEN RESMI</span>
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[8.5px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/20 text-white backdrop-blur-md border border-white/25 inline-flex items-center gap-1.5">
+                <Trophy className="w-3 h-3 stroke-[2.2]" />
+                <span>LOBI TURNAMEN</span>
+              </span>
+              <span className="text-[8.5px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/25 text-emerald-300 border border-emerald-400/30 inline-flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>{tournamentPeers.length > 0 ? `${tournamentPeers.length} ONLINE` : 'LIVE READY'}</span>
+              </span>
+            </div>
             <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-black/25 text-white">
               {activeTournament.players.length}/{activeTournament.maxPlayers} PEMAIN
             </span>
@@ -214,39 +243,56 @@ export const TournamentHubView: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-2">
-            {activeTournament.players.map((p, idx) => (
-              <div
-                key={p.id || idx}
-                className="p-3 rounded-[22px] border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden flex items-center gap-2.5 transition-all"
-                style={{
-                  background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
-                }}
-              >
-                <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
-                <div className="w-9 h-9 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/30 flex items-center justify-center overflow-hidden shrink-0 relative z-10 shadow-2xs">
-                  {p.avatar ? (
-                    <img src={p.avatar} alt={p.name} className="w-full h-full object-cover" />
-                  ) : (
-                    <span className="text-[12px] font-black text-[var(--accent-main)]">
-                      {p.name.charAt(0)}
-                    </span>
-                  )}
-                </div>
-                <div className="flex flex-col min-w-0 relative z-10">
-                  <div className="flex items-center gap-1">
-                    <span className="text-[12px] font-black text-[var(--text-primary)] truncate">
-                      {p.name}
-                    </span>
-                    {p.isHost && (
-                      <Crown className="w-3 h-3 text-[var(--accent-main)] shrink-0 fill-current" />
+            {activeTournament.players.map((p, idx) => {
+              const isOnline = tournamentPeers.some(
+                (peer) => peer.id === p.id || peer.name === p.name
+              );
+              const isBot = p.id.startsWith('bot_');
+
+              return (
+                <div
+                  key={p.id || idx}
+                  className="p-3 rounded-[22px] border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden flex items-center gap-2.5 transition-all"
+                  style={{
+                    background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
+                  }}
+                >
+                  <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
+                  <div className="w-9 h-9 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/30 flex items-center justify-center overflow-hidden shrink-0 relative z-10 shadow-2xs">
+                    {p.avatar ? (
+                      <img src={p.avatar} alt={p.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="text-[12px] font-black text-[var(--accent-main)]">
+                        {p.name.charAt(0)}
+                      </span>
+                    )}
+                    {/* Live Online Presence Dot */}
+                    {isOnline && !isBot && (
+                      <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border border-white shadow-2xs" />
                     )}
                   </div>
-                  <span className="text-[9px] font-bold text-[var(--accent-main)]">
-                    {p.isHost ? 'Host Turnamen' : 'Peserta Siap'}
-                  </span>
+                  <div className="flex flex-col min-w-0 relative z-10">
+                    <div className="flex items-center gap-1">
+                      <span className="text-[12px] font-black text-[var(--text-primary)] truncate">
+                        {p.name}
+                      </span>
+                      {p.isHost && (
+                        <Crown className="w-3 h-3 text-[var(--accent-main)] shrink-0 fill-current" />
+                      )}
+                    </div>
+                    <span className="text-[9px] font-bold text-[var(--accent-main)]">
+                      {p.isHost
+                        ? 'Host Turnamen'
+                        : isBot
+                        ? 'Jawara Bot'
+                        : isOnline
+                        ? '🟢 Online'
+                        : 'Peserta Siap'}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
 
             {Array.from({ length: emptySlotsCount }).map((_, idx) => (
               <div
