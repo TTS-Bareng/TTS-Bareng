@@ -489,11 +489,11 @@ export const HomeView: React.FC = () => {
             </div>
           </div>
 
-          {/* Large Solid Mascot Overlay */}
+          {/* Large Solid Mascot Overlay (Official Tournament Champions with Gold Trophy) */}
           <img
-            src={MASCOTS.crosswordChampion}
-            alt="Mascot Juara Turnamen"
-            className="absolute -bottom-2 -right-1 w-28 sm:w-34 h-30 sm:h-36 object-contain object-bottom pointer-events-none select-none z-0 filter drop-shadow-md group-hover:scale-105 transition-transform"
+            src={MASCOTS.tournamentChampions}
+            alt="Mascot Turnamen TTS Bareng"
+            className="absolute -bottom-1 -right-2 w-32 sm:w-38 h-26 sm:h-30 object-contain object-right-bottom pointer-events-none select-none z-0 filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)] group-hover:scale-105 transition-transform"
           />
         </div>
 
