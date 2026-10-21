@@ -41,6 +41,7 @@ import {
 } from '../lib/tournament';
 import { haptic } from '../lib/haptics';
 import { notificationService } from '../lib/notificationService';
+import { calculateEloDelta, getEloTier } from '../lib/eloSystem';
 
 export type TabType = 'home' | 'social' | 'game' | 'quests' | 'profile' | 'stats' | 'settings' | 'arena';
 
@@ -209,6 +210,24 @@ interface GameState {
     config: BattleConfig;
     roomCode: string;
   }) => void;
+
+  // ELO Rating & Chess-inspired Rank System
+  eloRating: number;
+  battleOpponentElo: number;
+  lastEloDelta: number | null;
+  customTtsTickets: number;
+  isVip: boolean;
+  setIsVip: (vip: boolean) => void;
+  battlesStats: { won: number; lost: number; total: number };
+  isSachetModalOpen: boolean;
+  openSachetModal: () => void;
+  closeSachetModal: () => void;
+  purchaseSachetPack: () => void;
+  isCustomCrosswordModalOpen: boolean;
+  openCustomCrosswordModal: () => void;
+  closeCustomCrosswordModal: () => void;
+  consumeCustomTtsTicket: () => boolean;
+  recordBattleEloOutcome: (opponentElo: number, won: boolean | 'draw') => { delta: number; newElo: number };
 
   // Tournament Cup & Community Tournaments
   isTournamentOpen: boolean;
@@ -498,6 +517,37 @@ const STORAGE_KEY_NOTIFICATIONS = 'tts_notifications_enabled_v1';
 const STORAGE_KEY_NOTIFICATION_PROMPT_SHOWN = 'tts_notification_prompt_shown_v1';
 const STORAGE_KEY_AMBIENT_ENABLED = 'tts_ambient_enabled_v1';
 const STORAGE_KEY_AMBIENT_VOLUME = 'tts_ambient_volume_v1';
+const STORAGE_KEY_ELO = 'tts_elo_rating_v1';
+const STORAGE_KEY_CUSTOM_TTS_TICKETS = 'tts_custom_tickets_v1';
+const STORAGE_KEY_IS_VIP = 'tts_is_vip_v1';
+const STORAGE_KEY_BATTLES_STATS = 'tts_battles_stats_v1';
+
+function getInitialElo(): number {
+  if (typeof window === 'undefined') return 1000;
+  const val = localStorage.getItem(STORAGE_KEY_ELO);
+  return val ? parseInt(val, 10) : 1000;
+}
+
+function getInitialCustomTickets(): number {
+  if (typeof window === 'undefined') return 0;
+  const val = localStorage.getItem(STORAGE_KEY_CUSTOM_TTS_TICKETS);
+  return val ? parseInt(val, 10) : 0;
+}
+
+function getInitialIsVip(): boolean {
+  if (typeof window === 'undefined') return false;
+  return localStorage.getItem(STORAGE_KEY_IS_VIP) === 'true';
+}
+
+function getInitialBattlesStats(): { won: number; lost: number; total: number } {
+  if (typeof window === 'undefined') return { won: 0, lost: 0, total: 0 };
+  try {
+    const val = localStorage.getItem(STORAGE_KEY_BATTLES_STATS);
+    return val ? JSON.parse(val) : { won: 0, lost: 0, total: 0 };
+  } catch {
+    return { won: 0, lost: 0, total: 0 };
+  }
+}
 
 function getInitialAmbientEnabled(): boolean {
   if (typeof window === 'undefined') return false;
@@ -1574,6 +1624,83 @@ export const useGameStore = create<GameState>((set, get) => ({
   quickMatchBotOpponent: null,
   quickMatchAiCooldown: 6,
 
+  // ELO & Sachet State
+  eloRating: getInitialElo(),
+  battleOpponentElo: 1100,
+  lastEloDelta: null,
+  customTtsTickets: getInitialCustomTickets(),
+  isVip: getInitialIsVip(),
+  setIsVip: (vip: boolean) => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY_IS_VIP, String(vip));
+    }
+    set({ isVip: vip });
+  },
+  battlesStats: getInitialBattlesStats(),
+  isSachetModalOpen: false,
+  openSachetModal: () => set({ isSachetModalOpen: true }),
+  closeSachetModal: () => set({ isSachetModalOpen: false }),
+  isCustomCrosswordModalOpen: false,
+  openCustomCrosswordModal: () => set({ isCustomCrosswordModalOpen: true }),
+  closeCustomCrosswordModal: () => set({ isCustomCrosswordModalOpen: false }),
+
+  purchaseSachetPack: () => {
+    const nextTickets = get().customTtsTickets + 1;
+    const nextShields = get().streakShields + 3;
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY_CUSTOM_TTS_TICKETS, String(nextTickets));
+      localStorage.setItem(STORAGE_KEY_STREAK_SHIELDS, String(nextShields));
+    }
+    get().addStars(150);
+    set({
+      customTtsTickets: nextTickets,
+      streakShields: nextShields,
+      isSachetModalOpen: false,
+    });
+    if (get().soundEnabled) soundManager.playReward();
+    if (get().hapticEnabled) haptic.success([30, 60, 40]);
+    get().showGlobalToast('🎉 Paket Pemula Aktif! +150 Bintang, +3 Pelindung Streak & 1x Tiket Bikin TTS!', 3800);
+  },
+
+  consumeCustomTtsTicket: () => {
+    if (get().isVip) return true;
+    const current = get().customTtsTickets;
+    if (current > 0) {
+      const next = current - 1;
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(STORAGE_KEY_CUSTOM_TTS_TICKETS, String(next));
+      }
+      set({ customTtsTickets: next });
+      return true;
+    }
+    return false;
+  },
+
+  recordBattleEloOutcome: (opponentElo, won) => {
+    const currentElo = get().eloRating;
+    const delta = calculateEloDelta(currentElo, opponentElo, won);
+    const newElo = Math.max(400, currentElo + delta);
+    const currentStats = get().battlesStats;
+    const nextStats = {
+      won: won === true ? currentStats.won + 1 : currentStats.won,
+      lost: won === false ? currentStats.lost + 1 : currentStats.lost,
+      total: currentStats.total + 1,
+    };
+
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY_ELO, String(newElo));
+      localStorage.setItem(STORAGE_KEY_BATTLES_STATS, JSON.stringify(nextStats));
+    }
+
+    set({
+      eloRating: newElo,
+      lastEloDelta: delta,
+      battlesStats: nextStats,
+    });
+
+    return { delta, newElo };
+  },
+
   // Tournament Cup State & Methods
   isTournamentOpen: false,
   openTournament: () => set({ isTournamentOpen: true }),
@@ -2221,6 +2348,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       quickMatchBotOpponent: opponent.isBot
         ? { name: opponent.name, avatar: opponent.avatar }
         : null,
+      battleOpponentElo: (opponent as { rating?: number }).rating || 1100,
+      lastEloDelta: null,
       quickMatchAiCooldown: 6,
       mabarPeers: [
         { id: user.id || 'me', name: user.name, avatar: user.avatar },
@@ -2632,19 +2761,26 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     let overallWinner: 'local' | 'partner' | 'draw' | null = null;
     if (isMatchOver) {
+      const oppElo = get().battleOpponentElo || 1100;
+
       if (nextRoundWins.local > nextRoundWins.partner) {
         overallWinner = 'local';
+        const { delta, newElo } = get().recordBattleEloOutcome(oppElo, true);
+        const tier = getEloTier(newElo);
         addStars(30);
         get().addWeeklyLeagueXp(50);
         if (soundEnabled) soundManager.playVictory();
         confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-        showGlobalToast('Selamat! Kamu memenangkan duel 1v1 (+30★, +50 XP)!', 3500);
+        showGlobalToast(`🏆 Menang Duel! +${delta} ELO (${newElo} • ${tier.title}) & +30★!`, 4000);
       } else if (nextRoundWins.partner > nextRoundWins.local) {
         overallWinner = 'partner';
-        showGlobalToast('Lawan memenangkan duel! Tetap semangat!', 3500);
+        const { delta, newElo } = get().recordBattleEloOutcome(oppElo, false);
+        const tier = getEloTier(newElo);
+        showGlobalToast(`Kalah Duel (${delta} ELO -> ${newElo} • ${tier.title}). Tetap semangat!`, 3800);
       } else {
         overallWinner = 'draw';
-        showGlobalToast('Duel Berakhir Seri!', 3000);
+        const { delta, newElo } = get().recordBattleEloOutcome(oppElo, 'draw');
+        showGlobalToast(`Duel Seri! (${delta >= 0 ? '+' : ''}${delta} ELO -> ${newElo})`, 3000);
       }
     } else {
       if (roundWinner === 'local') {
@@ -2722,6 +2858,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       battleClueOwners: {},
       battleTimeLeft: battleConfig.durationSeconds,
       battleWinner: null,
+      lastEloDelta: null,
       isBattleResultOpen: false,
       currentLevelIndex: targetLevelIdx,
       level: targetLevel,

@@ -11,6 +11,7 @@ import {
   quickMatchmaking,
   type MatchFoundResult,
 } from '../lib/quickMatchmaking';
+import { getEloTier } from '../lib/eloSystem';
 import { MASCOTS } from '../assets/maskots';
 import { soundManager } from '../lib/audio';
 import { haptic } from '../lib/haptics';
@@ -26,6 +27,7 @@ export const QuickMatchModal: React.FC = () => {
     soundEnabled,
     hapticEnabled,
     levels,
+    eloRating,
   } = useGameStore();
 
   const [queueState, setQueueState] = useState<'searching' | 'matched'>('searching');
@@ -69,6 +71,7 @@ export const QuickMatchModal: React.FC = () => {
         name: user.name || 'Pemain',
         avatar: user.avatar || MASCOTS.crosswordChampion,
         stars: 100,
+        rating: eloRating,
       },
       mode: battleConfig.mode === 'speed_race' ? 'speed_race' : 'tug_of_war',
       totalLevels: levels.length || 60,
@@ -227,6 +230,10 @@ export const QuickMatchModal: React.FC = () => {
                 <span className="text-[14px] font-black text-[var(--accent-main)] mt-0.5 tracking-wider font-mono">
                   {formatTimer(elapsedSeconds)}
                 </span>
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-[9.5px] font-bold text-[var(--text-secondary)] mt-1">
+                  <span className="text-[12px]">{getEloTier(eloRating).icon}</span>
+                  <span>Rating: <strong className="text-[var(--text-primary)] font-black">{eloRating} ELO</strong> ({getEloTier(eloRating).title})</span>
+                </div>
                 <p className="text-[11px] text-[var(--text-secondary)] font-medium mt-1 leading-snug max-w-[260px]">
                   Memindai pemain online di seluruh Indonesia. Duel akan segera dimulai!
                 </p>
@@ -307,8 +314,8 @@ export const QuickMatchModal: React.FC = () => {
                   <span className="text-[11px] font-black truncate max-w-[95px] text-[var(--text-primary)]">
                     {user.name || 'Kamu'}
                   </span>
-                  <span className="text-[8px] font-black px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-600 dark:text-blue-400">
-                    Penantang
+                  <span className="text-[7.5px] font-black px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-600 dark:text-blue-400">
+                    {eloRating} ELO • {getEloTier(eloRating).title}
                   </span>
                 </div>
 
@@ -338,9 +345,14 @@ export const QuickMatchModal: React.FC = () => {
                   <span className="text-[11px] font-black truncate max-w-[95px] text-[var(--text-primary)]">
                     {matchedData.opponent.name}
                   </span>
-                  <span className="text-[8px] font-black px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400">
-                    {matchedData.opponent.isBot ? 'Master Bot' : 'Pemain Online'}
-                  </span>
+                  {(() => {
+                    const oppElo = (matchedData.opponent as { rating?: number }).rating || 1100;
+                    return (
+                      <span className="text-[7.5px] font-black px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400">
+                        {oppElo} ELO • {getEloTier(oppElo).title}
+                      </span>
+                    );
+                  })()}
                 </div>
               </div>
 

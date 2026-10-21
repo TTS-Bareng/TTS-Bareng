@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Trophy, RotateCcw, Clock, Sparkles, Zap, Award, Share2 } from 'lucide-react';
+import { X, Trophy, RotateCcw, Clock, Sparkles, Zap, Award, Share2, Swords, Crown } from 'lucide-react';
 import { useGameStore, getTodayDateString } from '../store/useGameStore';
+import {
+  NATIONAL_ELO_SEED_LEADERBOARD,
+  getEloTier,
+  type NationalEloLeaderboardEntry,
+} from '../lib/eloSystem';
 import { MASCOTS } from '../assets/maskots';
 
 export const LeaderboardModal: React.FC = () => {
@@ -14,8 +19,12 @@ export const LeaderboardModal: React.FC = () => {
     dailyRushRecord,
     user,
     openShareModal,
+    eloRating,
+    isVip,
+    battlesStats,
   } = useGameStore();
 
+  const [activeTab, setActiveTab] = useState<'daily_rush' | 'elo_rating'>('daily_rush');
   const [todayStr] = useState(getTodayDateString);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -25,11 +34,31 @@ export const LeaderboardModal: React.FC = () => {
     setTimeout(() => setIsRefreshing(false), 500);
   };
 
-  // Find user rank if present in the leaderboard
+  // Find user rank if present in the daily rush leaderboard
   const userRankIndex = nationalLeaderboard.findIndex(
     (r) => r.user_name === user.name && r.rush_date === todayStr
   );
   const userRank = userRankIndex !== -1 ? userRankIndex + 1 : null;
+
+  // Combine seed leaderboard with user's current ELO
+  const userTier = getEloTier(eloRating);
+  const userEntry: NationalEloLeaderboardEntry = {
+    rank: 0,
+    id: 'user_current',
+    name: user.name || 'Kamu',
+    avatar: user.avatar || MASCOTS.crosswordChampion,
+    elo: eloRating,
+    tier: userTier.key,
+    isVip,
+    battlesWon: battlesStats.won,
+    winRate: battlesStats.total > 0 ? Math.round((battlesStats.won / battlesStats.total) * 100) : 0,
+  };
+
+  const combinedEloLeaderboard = [...NATIONAL_ELO_SEED_LEADERBOARD, userEntry]
+    .sort((a, b) => b.elo - a.elo)
+    .map((item, idx) => ({ ...item, rank: idx + 1 }));
+
+  const playerEloRank = combinedEloLeaderboard.find((e) => e.id === 'user_current')?.rank || 11;
 
   const handleShareDailyRush = () => {
     openShareModal({
@@ -44,6 +73,22 @@ export const LeaderboardModal: React.FC = () => {
       ],
       shareUrl: window.location.origin,
       shareText: `Saya mencetak skor ${dailyRushRecord?.score || 0} poin di Daily Rush TTS Bareng! Bisakah kamu mengalahkan peringkatku?`,
+    });
+  };
+
+  const handleShareEloRank = () => {
+    openShareModal({
+      badge: `PERINGKAT #${playerEloRank} ELO NASIONAL`,
+      title: `${userTier.name} di TTS Bareng!`,
+      subtitle: `Saya telah meraih rating ${eloRating} ELO dengan ${battlesStats.won} kemenangan di Papan Peringkat Catur TTS Nasional.`,
+      mascot: MASCOTS.crosswordChampion,
+      stats: [
+        { label: 'RATING ELO', value: `${eloRating}` },
+        { label: 'PERINGKAT', value: `#${playerEloRank}` },
+        { label: 'MENANG 1V1', value: `${battlesStats.won}` },
+      ],
+      shareUrl: window.location.origin,
+      shareText: `Saya bergelar ${userTier.name} (${eloRating} ELO) di Papan Peringkat TTS Bareng! Berani adu kecerdasan kata denganku?`,
     });
   };
 
@@ -79,24 +124,26 @@ export const LeaderboardModal: React.FC = () => {
                 </div>
                 <div>
                   <span className="text-[8.5px] font-black uppercase tracking-wider text-[var(--accent-main)] block leading-none mb-0.5">
-                    DAILY RUSH 90S
+                    {activeTab === 'daily_rush' ? 'DAILY RUSH 90S' : 'LIGA CATUR ELO'}
                   </span>
                   <h3 className="text-[16px] font-black tracking-tight text-[var(--text-primary)] leading-tight">
-                    Peringkat Nasional
+                    {activeTab === 'daily_rush' ? 'Peringkat Nasional' : 'Klasemen Master ELO'}
                   </h3>
                 </div>
               </div>
 
               <div className="flex items-center gap-1.5">
-                <button
-                  type="button"
-                  onClick={handleRefresh}
-                  title="Segarkan Peringkat"
-                  aria-label="Segarkan Peringkat"
-                  className="w-7 h-7 rounded-full flex items-center justify-center bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 active:scale-95 transition-all text-[var(--text-primary)] border border-black/5 dark:border-white/10 cursor-pointer"
-                >
-                  <RotateCcw className={`w-3.5 h-3.5 stroke-[2] ${isRefreshing || isLoadingLeaderboard ? 'animate-spin' : ''}`} />
-                </button>
+                {activeTab === 'daily_rush' && (
+                  <button
+                    type="button"
+                    onClick={handleRefresh}
+                    title="Segarkan Peringkat"
+                    aria-label="Segarkan Peringkat"
+                    className="w-7 h-7 rounded-full flex items-center justify-center bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 active:scale-95 transition-all text-[var(--text-primary)] border border-black/5 dark:border-white/10 cursor-pointer"
+                  >
+                    <RotateCcw className={`w-3.5 h-3.5 stroke-[2] ${isRefreshing || isLoadingLeaderboard ? 'animate-spin' : ''}`} />
+                  </button>
+                )}
 
                 <button
                   type="button"
@@ -109,51 +156,157 @@ export const LeaderboardModal: React.FC = () => {
               </div>
             </div>
 
+            {/* Segmented Tab Switcher */}
+            <div className="w-full grid grid-cols-2 p-1 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 relative z-10 shrink-0">
+              <button
+                type="button"
+                onClick={() => setActiveTab('daily_rush')}
+                className={`py-1.5 px-2 rounded-xl text-[10.5px] font-black cursor-pointer tactile-active flex items-center justify-center gap-1.5 transition-all ${
+                  activeTab === 'daily_rush'
+                    ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-xs'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                }`}
+              >
+                <Zap className="w-3.5 h-3.5 stroke-[2.2]" />
+                <span>Daily Rush 90s</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('elo_rating')}
+                className={`py-1.5 px-2 rounded-xl text-[10.5px] font-black cursor-pointer tactile-active flex items-center justify-center gap-1.5 transition-all ${
+                  activeTab === 'elo_rating'
+                    ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-xs'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                }`}
+              >
+                <Swords className="w-3.5 h-3.5 stroke-[2.2]" />
+                <span>Peringkat ELO</span>
+              </button>
+            </div>
+
             {/* Leaderboard List / Podium Container */}
             <div className="flex-1 overflow-y-auto min-h-[220px] max-h-[360px] flex flex-col gap-2 relative z-10 pr-0.5">
-              {isLoadingLeaderboard && nationalLeaderboard.length === 0 ? (
-                <div className="flex-1 flex flex-col items-center justify-center gap-2 py-8 text-center">
-                  <RotateCcw className="w-6 h-6 text-[var(--accent-main)] animate-spin stroke-[2]" />
-                  <span className="text-[11px] font-bold text-[var(--text-secondary)]">
-                    Memuat Peringkat Nasional...
-                  </span>
-                </div>
-              ) : nationalLeaderboard.length === 0 ? (
-                <div className="flex-1 flex flex-col items-center justify-center gap-2 py-8 text-center">
-                  <Award className="w-8 h-8 text-[var(--accent-main)] stroke-[1.8] opacity-80" />
-                  <span className="text-[12px] font-black text-[var(--text-primary)]">
-                    Belum Ada Rekor Hari Ini
-                  </span>
-                  <p className="text-[10px] text-[var(--text-secondary)] max-w-[200px] leading-tight">
-                    Jadilah yang pertama menyelesaikan tantangan Daily Rush 90 detik dan raih posisi teratas!
-                  </p>
-                </div>
+              {activeTab === 'daily_rush' ? (
+                isLoadingLeaderboard && nationalLeaderboard.length === 0 ? (
+                  <div className="flex-1 flex flex-col items-center justify-center gap-2 py-8 text-center">
+                    <RotateCcw className="w-6 h-6 text-[var(--accent-main)] animate-spin stroke-[2]" />
+                    <span className="text-[11px] font-bold text-[var(--text-secondary)]">
+                      Memuat Peringkat Nasional...
+                    </span>
+                  </div>
+                ) : nationalLeaderboard.length === 0 ? (
+                  <div className="flex-1 flex flex-col items-center justify-center gap-2 py-8 text-center">
+                    <Award className="w-8 h-8 text-[var(--accent-main)] stroke-[1.8] opacity-80" />
+                    <span className="text-[12px] font-black text-[var(--text-primary)]">
+                      Belum Ada Rekor Hari Ini
+                    </span>
+                    <p className="text-[10px] text-[var(--text-secondary)] max-w-[200px] leading-tight">
+                      Jadilah yang pertama menyelesaikan tantangan Daily Rush 90 detik dan raih posisi teratas!
+                    </p>
+                  </div>
+                ) : (
+                  nationalLeaderboard.map((item, index) => {
+                    const rank = index + 1;
+                    const isTop3 = rank <= 3;
+                    const isCurrentUserItem = item.user_name === user.name;
+
+                    return (
+                      <div
+                        key={item.id || `${item.user_name}-${index}`}
+                        className={`w-full p-2.5 rounded-2xl flex items-center justify-between gap-2 border transition-all ${
+                          isCurrentUserItem
+                            ? 'border-[var(--accent-main)] bg-[var(--accent-light)] shadow-xs'
+                            : 'border-black/5 dark:border-white/10 bg-black/5 dark:bg-white/5'
+                        }`}
+                      >
+                        {/* Rank Number + Avatar + Name */}
+                        <div className="flex items-center gap-2 min-w-0">
+                          <div
+                            className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black shrink-0 ${
+                              rank === 1
+                                ? 'bg-amber-400 text-black shadow-xs'
+                                : rank === 2
+                                ? 'bg-zinc-300 dark:bg-zinc-400 text-black shadow-xs'
+                                : rank === 3
+                                ? 'bg-amber-700 text-white shadow-xs'
+                                : 'text-[var(--text-secondary)] font-bold'
+                            }`}
+                          >
+                            {rank}
+                          </div>
+
+                          <div className="w-7 h-7 rounded-full overflow-hidden bg-black/10 dark:bg-white/10 shrink-0 border border-black/10 dark:border-white/15">
+                            {item.user_avatar ? (
+                              <img
+                                src={item.user_avatar}
+                                alt={item.user_name}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center text-[11px] font-black text-[var(--accent-main)]">
+                                {item.user_name.charAt(0)}
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="min-w-0">
+                            <span className="text-[11.5px] font-black text-[var(--text-primary)] truncate block leading-tight">
+                              {item.user_name} {isCurrentUserItem && '(Anda)'}
+                            </span>
+                            <div className="flex items-center gap-1.5 text-[8.5px] text-[var(--text-secondary)] mt-0.5">
+                              <span className="flex items-center gap-0.5">
+                                <Clock className="w-2.5 h-2.5" />
+                                {item.time_spent}s
+                              </span>
+                              <span>•</span>
+                              <span className="flex items-center gap-0.5">
+                                <Sparkles className="w-2.5 h-2.5" />
+                                {item.accuracy}%
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="text-right shrink-0">
+                          <span className={`text-[12.5px] font-black block leading-none ${
+                            isTop3 ? 'text-[var(--accent-main)]' : 'text-[var(--text-primary)]'
+                          }`}>
+                            {item.score}
+                          </span>
+                          <span className="text-[7.5px] font-bold text-[var(--text-secondary)] uppercase">
+                            Pts
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })
+                )
               ) : (
-                nationalLeaderboard.map((item, index) => {
-                  const rank = index + 1;
-                  const isTop3 = rank <= 3;
-                  const isCurrentUserItem = item.user_name === user.name;
+                /* ELO Rating Chess Leaderboard */
+                combinedEloLeaderboard.map((item) => {
+                  const rank = item.rank;
+                  const isCurrentUserItem = item.id === 'user_current';
+                  const tier = getEloTier(item.elo);
 
                   return (
                     <div
-                      key={item.id || `${item.user_name}-${index}`}
+                      key={item.id}
                       className={`w-full p-2.5 rounded-2xl flex items-center justify-between gap-2 border transition-all ${
                         isCurrentUserItem
-                          ? 'border-[var(--accent-main)] bg-[var(--accent-light)] shadow-xs'
+                          ? 'border-[var(--accent-main)] bg-[var(--accent-light)] shadow-xs ring-1 ring-[var(--accent-main)]/50'
                           : 'border-black/5 dark:border-white/10 bg-black/5 dark:bg-white/5'
                       }`}
                     >
-                      {/* Rank Number + Avatar + Name */}
                       <div className="flex items-center gap-2 min-w-0">
                         {/* Rank Badge */}
                         <div
                           className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black shrink-0 ${
                             rank === 1
-                              ? 'bg-amber-400 text-black shadow-xs'
+                              ? 'bg-amber-400 text-black shadow-xs font-black'
                               : rank === 2
-                              ? 'bg-zinc-300 dark:bg-zinc-400 text-black shadow-xs'
+                              ? 'bg-zinc-300 dark:bg-zinc-400 text-black shadow-xs font-black'
                               : rank === 3
-                              ? 'bg-amber-700 text-white shadow-xs'
+                              ? 'bg-amber-700 text-white shadow-xs font-black'
                               : 'text-[var(--text-secondary)] font-bold'
                           }`}
                         >
@@ -161,48 +314,48 @@ export const LeaderboardModal: React.FC = () => {
                         </div>
 
                         {/* Player Avatar */}
-                        <div className="w-7 h-7 rounded-full overflow-hidden bg-black/10 dark:bg-white/10 shrink-0 border border-black/10 dark:border-white/15">
-                          {item.user_avatar ? (
-                            <img
-                              src={item.user_avatar}
-                              alt={item.user_name}
-                              className="w-full h-full object-cover"
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-[11px] font-black text-[var(--accent-main)]">
-                              {item.user_name.charAt(0)}
+                        <div className="w-8 h-8 rounded-full overflow-hidden bg-black/10 dark:bg-white/10 shrink-0 border border-black/10 dark:border-white/15 relative">
+                          <img
+                            src={item.avatar}
+                            alt={item.name}
+                            className="w-full h-full object-cover"
+                          />
+                          {item.tier === 'grandmaster' && (
+                            <div className="absolute -top-1 -right-1 text-[11px] leading-none drop-shadow-sm">
+                              👑
                             </div>
                           )}
                         </div>
 
-                        {/* Player Name & Badge */}
+                        {/* Player Info */}
                         <div className="min-w-0">
-                          <span className="text-[11.5px] font-black text-[var(--text-primary)] truncate block leading-tight">
-                            {item.user_name} {isCurrentUserItem && '(Anda)'}
-                          </span>
+                          <div className="flex items-center gap-1">
+                            <span className="text-[11.5px] font-black text-[var(--text-primary)] truncate block leading-tight">
+                              {item.name}
+                            </span>
+                            {item.isVip && (
+                              <Crown className="w-2.5 h-2.5 text-amber-500 fill-amber-500 shrink-0" />
+                            )}
+                          </div>
                           <div className="flex items-center gap-1.5 text-[8.5px] text-[var(--text-secondary)] mt-0.5">
-                            <span className="flex items-center gap-0.5">
-                              <Clock className="w-2.5 h-2.5" />
-                              {item.time_spent}s
+                            <span className="font-bold" style={{ color: tier.badgeColor }}>
+                              {tier.icon} {tier.name}
                             </span>
                             <span>•</span>
-                            <span className="flex items-center gap-0.5">
-                              <Sparkles className="w-2.5 h-2.5" />
-                              {item.accuracy}%
-                            </span>
+                            <span>{item.winRate}% Menang</span>
                           </div>
                         </div>
                       </div>
 
-                      {/* Score Badge */}
+                      {/* ELO Rating Badge */}
                       <div className="text-right shrink-0">
-                        <span className={`text-[12.5px] font-black block leading-none ${
-                          isTop3 ? 'text-[var(--accent-main)]' : 'text-[var(--text-primary)]'
+                        <span className={`text-[13px] font-black block leading-none font-mono ${
+                          item.tier === 'grandmaster' ? 'text-amber-500' : 'text-[var(--text-primary)]'
                         }`}>
-                          {item.score}
+                          {item.elo}
                         </span>
                         <span className="text-[7.5px] font-bold text-[var(--text-secondary)] uppercase">
-                          Pts
+                          ELO
                         </span>
                       </div>
                     </div>
@@ -212,42 +365,86 @@ export const LeaderboardModal: React.FC = () => {
             </div>
 
             {/* Pinned User Record Footer Card */}
-            <div
-              className="w-full shrink-0 p-2.5 rounded-2xl border border-[var(--accent-main)]/30 bg-[var(--accent-light)] flex items-center justify-between gap-2 relative z-10"
-            >
-              <div className="flex items-center gap-2 min-w-0">
-                <div className="w-6 h-6 rounded-lg bg-[var(--accent-main)] text-[var(--accent-contrast)] flex items-center justify-center text-[10px] font-black shrink-0">
-                  {userRank ? `#${userRank}` : '-'}
+            {activeTab === 'daily_rush' ? (
+              <div
+                className="w-full shrink-0 p-2.5 rounded-2xl border border-[var(--accent-main)]/30 bg-[var(--accent-light)] flex items-center justify-between gap-2 relative z-10"
+              >
+                <div className="flex items-center gap-2 min-w-0">
+                  <div className="w-6 h-6 rounded-lg bg-[var(--accent-main)] text-[var(--accent-contrast)] flex items-center justify-center text-[10px] font-black shrink-0">
+                    {userRank ? `#${userRank}` : '-'}
+                  </div>
+                  <div className="min-w-0">
+                    <span className="text-[10.5px] font-black text-[var(--text-primary)] block leading-tight truncate">
+                      {user.name}
+                    </span>
+                    <span className="text-[8px] text-[var(--text-secondary)]">
+                      {dailyRushRecord?.date === todayStr
+                        ? `Rekor: ${dailyRushRecord.score} Pts • ${dailyRushRecord.timeSpent}s`
+                        : 'Belum ada rekor hari ini'}
+                    </span>
+                  </div>
                 </div>
-                <div className="min-w-0">
-                  <span className="text-[10.5px] font-black text-[var(--text-primary)] block leading-tight truncate">
-                    {user.name}
-                  </span>
-                  <span className="text-[8px] text-[var(--text-secondary)]">
-                    {dailyRushRecord?.date === todayStr
-                      ? `Rekor: ${dailyRushRecord.score} Pts • ${dailyRushRecord.timeSpent}s`
-                      : 'Belum ada rekor hari ini'}
-                  </span>
-                </div>
-              </div>
 
-              <div className="flex items-center gap-1.5 shrink-0">
-                <div className="flex items-center gap-1 text-[var(--accent-main)]">
-                  <Zap className="w-3.5 h-3.5 stroke-[2.5]" />
-                  <span className="text-[11.5px] font-black">
-                    {dailyRushRecord?.date === todayStr ? `${dailyRushRecord.score} Pts` : '+50 ★'}
-                  </span>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <div className="flex items-center gap-1 text-[var(--accent-main)]">
+                    <Zap className="w-3.5 h-3.5 stroke-[2.5]" />
+                    <span className="text-[11.5px] font-black">
+                      {dailyRushRecord?.date === todayStr ? `${dailyRushRecord.score} Pts` : '+50 ★'}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleShareDailyRush}
+                    className="w-7 h-7 rounded-lg bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 text-[var(--text-primary)] flex items-center justify-center cursor-pointer tactile-active transition-all"
+                    title="Bagikan Rekor"
+                  >
+                    <Share2 className="w-3.5 h-3.5 stroke-[2.2]" />
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  onClick={handleShareDailyRush}
-                  className="w-7 h-7 rounded-lg bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 text-[var(--text-primary)] flex items-center justify-center cursor-pointer tactile-active transition-all"
-                  title="Bagikan Rekor"
-                >
-                  <Share2 className="w-3.5 h-3.5 stroke-[2.2]" />
-                </button>
               </div>
-            </div>
+            ) : (
+              <div
+                className="w-full shrink-0 p-2.5 rounded-2xl border border-[var(--accent-main)]/30 bg-[var(--accent-light)] flex items-center justify-between gap-2 relative z-10"
+              >
+                <div className="flex items-center gap-2 min-w-0">
+                  <div className="w-6 h-6 rounded-lg bg-[var(--accent-main)] text-[var(--accent-contrast)] flex items-center justify-center text-[10px] font-black shrink-0">
+                    #{playerEloRank}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1">
+                      <span className="text-[10.5px] font-black text-[var(--text-primary)] block leading-tight truncate">
+                        {user.name}
+                      </span>
+                      {isVip && <Crown className="w-2.5 h-2.5 text-amber-500 fill-amber-500 shrink-0" />}
+                    </div>
+                    <span className="text-[8px] text-[var(--text-secondary)] flex items-center gap-1">
+                      <span>{userTier.icon} {userTier.name}</span>
+                      <span>•</span>
+                      <span>{battlesStats.won}W / {battlesStats.lost}L</span>
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <div className="flex flex-col items-end">
+                    <span className="text-[12px] font-black text-[var(--accent-main)] font-mono leading-none">
+                      {eloRating} ELO
+                    </span>
+                    <span className="text-[7.5px] font-bold text-[var(--text-secondary)] uppercase">
+                      Peringkat #{playerEloRank}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleShareEloRank}
+                    className="w-7 h-7 rounded-lg bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 text-[var(--text-primary)] flex items-center justify-center cursor-pointer tactile-active transition-all"
+                    title="Bagikan Gelar ELO"
+                  >
+                    <Share2 className="w-3.5 h-3.5 stroke-[2.2]" />
+                  </button>
+                </div>
+              </div>
+            )}
           </motion.div>
         </div>
       )}

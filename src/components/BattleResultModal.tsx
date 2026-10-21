@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { getBattlePalette } from '../lib/battlePalette';
+import { getEloTier } from '../lib/eloSystem';
 import { MASCOTS } from '../assets/maskots';
 
 export const BattleResultModal: React.FC = () => {
@@ -28,6 +29,8 @@ export const BattleResultModal: React.FC = () => {
     theme,
     user,
     mabarPeers,
+    eloRating,
+    lastEloDelta,
   } = useGameStore();
 
   if (!isBattleResultOpen) return null;
@@ -207,9 +210,39 @@ export const BattleResultModal: React.FC = () => {
             >
               <Star className="w-4 h-4 fill-amber-300 text-amber-300 drop-shadow-sm" />
               <span className="text-[11px] font-black tracking-wide">
-                Hadiah Juara: +25 Bintang Ditambahkan!
+                Hadiah Juara: +30 Bintang Ditambahkan!
               </span>
             </motion.div>
+          )}
+
+          {/* ELO Rating Update Card */}
+          {isMatchOver && (
+            <div className="w-full py-2.5 px-3 rounded-2xl bg-black/30 border border-white/20 backdrop-blur-md flex items-center justify-between text-white">
+              <div className="flex items-center gap-2">
+                <span className="text-[18px]">{getEloTier(eloRating).icon}</span>
+                <div className="flex flex-col text-left">
+                  <span className="text-[8px] font-bold text-white/70 uppercase tracking-wider">
+                    Peringkat ELO Nasional
+                  </span>
+                  <span className="text-[12px] font-black leading-tight text-white">
+                    {getEloTier(eloRating).title} • {eloRating}
+                  </span>
+                </div>
+              </div>
+              {lastEloDelta !== null && (
+                <div
+                  className={`px-2.5 py-1 rounded-full text-[11px] font-black border ${
+                    lastEloDelta > 0
+                      ? 'bg-emerald-500/30 text-emerald-300 border-emerald-400/40'
+                      : lastEloDelta < 0
+                      ? 'bg-rose-500/30 text-rose-300 border-rose-400/40'
+                      : 'bg-white/20 text-white/80 border-white/30'
+                  }`}
+                >
+                  {lastEloDelta > 0 ? `+${lastEloDelta}` : lastEloDelta} ELO
+                </div>
+              )}
+            </div>
           )}
 
           {/* Action CTAs */}

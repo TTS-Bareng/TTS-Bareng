@@ -42,7 +42,7 @@ export const quickMatchmaking = {
     onStatusChange,
     onMatchFound,
   }: {
-    user: { id?: string; name: string; avatar: string; stars?: number };
+    user: { id?: string; name: string; avatar: string; stars?: number; rating?: number };
     mode: 'speed_race' | 'tug_of_war';
     totalLevels?: number;
     onStatusChange?: (status: 'searching' | 'matched') => void;
@@ -53,12 +53,13 @@ export const quickMatchmaking = {
     isMatched = false;
 
     const ticketId = `TKT-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+    const userRating = user.rating || user.stars || 1100;
     const ticket: MatchmakingTicket = {
       ticketId,
       userId: user.id || ticketId,
       userName: user.name || 'Pemain',
       userAvatar: user.avatar,
-      rating: user.stars || 100,
+      rating: userRating,
       mode,
       queuedAt: Date.now(),
     };
@@ -100,13 +101,15 @@ export const quickMatchmaking = {
               wordCount: 'short',
             };
 
+      const botElo = Math.max(700, Math.round(userRating + (Math.random() - 0.48) * 160));
+
       triggerMatch({
         roomCode,
         opponent: {
           id: randomBot.id,
           name: randomBot.name,
           avatar: randomBot.avatar || '',
-          rating: 120 + Math.floor(Math.random() * 80),
+          rating: botElo,
           isBot: true,
         },
         levelIndex,

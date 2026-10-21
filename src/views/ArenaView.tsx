@@ -75,6 +75,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
+import { getEloTier } from '../lib/eloSystem';
 import { MASCOTS } from '../assets/maskots';
 import { SocialView } from './SocialView';
 import { TournamentHubView } from './TournamentHubView';
@@ -304,6 +305,8 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' | 'tournament'
     arenaSubTab,
     setArenaSubTab,
     activeTournament,
+    eloRating,
+    openLeaderboard,
   } = useGameStore();
 
   useEffect(() => {
@@ -368,20 +371,34 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' | 'tournament'
               </h2>
             </div>
 
-            {/* Live Streak & Stars Pill */}
-            <div className="h-8.5 px-3 rounded-full flex items-center gap-2.5 liquid-glass-card">
-              <div className="flex items-center gap-1 text-[var(--accent-main)]">
-                <Flame className="w-3.5 h-3.5 fill-current text-[var(--accent-main)]" />
-                <span className="text-[11.5px] font-black text-[var(--text-primary)]">
-                  {streak}
+            {/* Live Meta: ELO Pill & Streak/Stars Pill */}
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={openLeaderboard}
+                className="h-8.5 px-2.5 rounded-full flex items-center gap-1.5 liquid-glass-card cursor-pointer tactile-active hover:opacity-90"
+                title="Peringkat ELO Catur"
+              >
+                <span className="text-[12px]">{getEloTier(eloRating).icon}</span>
+                <span className="text-[11px] font-black text-[var(--text-primary)] font-mono">
+                  {eloRating}
                 </span>
-              </div>
-              <span className="w-0.5 h-3 bg-black/10 dark:bg-white/15 rounded-full" />
-              <div className="flex items-center gap-1 text-[var(--accent-main)]">
-                <Star className="w-3.5 h-3.5 fill-current text-[var(--accent-main)]" />
-                <span className="text-[11.5px] font-black text-[var(--text-primary)]">
-                  {stars}
-                </span>
+              </button>
+
+              <div className="h-8.5 px-3 rounded-full flex items-center gap-2.5 liquid-glass-card">
+                <div className="flex items-center gap-1 text-[var(--accent-main)]">
+                  <Flame className="w-3.5 h-3.5 fill-current text-[var(--accent-main)]" />
+                  <span className="text-[11.5px] font-black text-[var(--text-primary)]">
+                    {streak}
+                  </span>
+                </div>
+                <span className="w-0.5 h-3 bg-black/10 dark:bg-white/15 rounded-full" />
+                <div className="flex items-center gap-1 text-[var(--accent-main)]">
+                  <Star className="w-3.5 h-3.5 fill-current text-[var(--accent-main)]" />
+                  <span className="text-[11.5px] font-black text-[var(--text-primary)]">
+                    {stars}
+                  </span>
+                </div>
               </div>
             </div>
           </header>

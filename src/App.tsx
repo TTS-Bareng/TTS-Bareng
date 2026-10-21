@@ -31,6 +31,8 @@ const JoinTournamentModal = lazy(() => import('./components/JoinTournamentModal'
 const TournamentResultModal = lazy(() => import('./components/TournamentResultModal').then((m) => ({ default: m.TournamentResultModal })));
 const NotificationPromptModal = lazy(() => import('./components/NotificationPromptModal').then((m) => ({ default: m.NotificationPromptModal })));
 const QuickMatchModal = lazy(() => import('./components/QuickMatchModal').then((m) => ({ default: m.QuickMatchModal })));
+const SachetOfferModal = lazy(() => import('./components/SachetOfferModal').then((m) => ({ default: m.SachetOfferModal })));
+const CustomCrosswordModal = lazy(() => import('./components/CustomCrosswordModal').then((m) => ({ default: m.CustomCrosswordModal })));
 const InitialAuthView = lazy(() => import('./views/InitialAuthView').then((m) => ({ default: m.InitialAuthView })));
 const OnboardingView = lazy(() => import('./views/OnboardingView').then((m) => ({ default: m.OnboardingView })));
 
@@ -271,6 +273,8 @@ export const App: React.FC = () => {
         <TournamentResultModal />
         <NotificationPromptModal />
         <QuickMatchModal />
+        <SachetOfferModal />
+        <CustomCrosswordModal />
       </Suspense>
     </div>
   );

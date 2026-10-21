@@ -17,8 +17,10 @@ import {
   Medal,
   Shield,
   ChevronRight,
+  PenTool,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
+import { getEloTier } from '../lib/eloSystem';
 import { getAvatarFrame } from '../lib/avatarFrames';
 
 interface CircularProgressProps {
@@ -91,6 +93,11 @@ export const ProfileView: React.FC = () => {
     openAvatarPicker,
     openPlayerIdModal,
     trophies,
+    eloRating,
+    customTtsTickets,
+    isVip,
+    openCustomCrosswordModal,
+    openLeaderboard,
   } = useGameStore();
 
   const [toastMessage] = useState<string | null>(null);
@@ -760,6 +767,74 @@ export const ProfileView: React.FC = () => {
             >
               <span>Lihat Tangga Liga</span>
             </button>
+          </div>
+        </div>
+      </div>
+
+      {/* ELO Rating & Custom Crossword Creator Pass Bento */}
+      <div className="w-full shrink-0 grid grid-cols-2 gap-3 relative z-10">
+        {/* Left: ELO Rating Chess Rank */}
+        <div
+          onClick={openLeaderboard}
+          className="rounded-[22px] p-3.5 flex flex-col justify-between border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden cursor-pointer tactile-active hover:border-[var(--accent-main)]/50 transition-all"
+          style={{
+            background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+          }}
+        >
+          <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
+          <div className="flex items-center justify-between mb-1.5">
+            <div className="w-7 h-7 rounded-xl bg-amber-500/15 text-amber-500 flex items-center justify-center text-[15px]">
+              {getEloTier(eloRating).icon}
+            </div>
+            <span className="text-[8px] font-bold text-[var(--text-secondary)] uppercase tracking-wider">
+              LIGA ELO ↗
+            </span>
+          </div>
+          <div>
+            <div className="flex items-baseline gap-1">
+              <span className="text-[20px] font-black text-[var(--text-primary)] font-mono leading-none">
+                {eloRating}
+              </span>
+              <span className="text-[9px] font-bold text-[var(--accent-main)]">
+                ELO
+              </span>
+            </div>
+            <span className="text-[8.5px] font-medium text-[var(--text-secondary)] mt-0.5 block truncate">
+              {getEloTier(eloRating).name}
+            </span>
+          </div>
+        </div>
+
+        {/* Right: Studio Kreator & Tiket TTS */}
+        <div
+          onClick={openCustomCrosswordModal}
+          className="rounded-[22px] p-3.5 flex flex-col justify-between border border-indigo-500/25 shadow-xs relative overflow-hidden cursor-pointer tactile-active hover:border-indigo-500/50 transition-all"
+          style={{
+            background: 'linear-gradient(135deg, var(--bg-card) 0%, rgba(99, 102, 241, 0.08) 100%)',
+          }}
+        >
+          <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
+          <div className="flex items-center justify-between mb-1.5">
+            <div className="w-7 h-7 rounded-xl bg-indigo-500/15 text-indigo-500 flex items-center justify-center">
+              <PenTool className="w-3.5 h-3.5 stroke-[2.2]" />
+            </div>
+            {isVip ? (
+              <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400">
+                VIP AKTIF
+              </span>
+            ) : (
+              <span className="text-[8px] font-bold text-[var(--text-secondary)] uppercase tracking-wider">
+                KREATOR ↗
+              </span>
+            )}
+          </div>
+          <div>
+            <span className="text-[14px] font-black text-[var(--text-primary)] block leading-tight">
+              {isVip ? 'Bebas Kreasi' : `${customTtsTickets} Tiket TTS`}
+            </span>
+            <span className="text-[8.5px] font-medium text-[var(--text-secondary)] mt-0.5 block">
+              Bikin TTS Custom
+            </span>
           </div>
         </div>
       </div>

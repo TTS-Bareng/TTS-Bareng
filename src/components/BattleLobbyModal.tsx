@@ -23,6 +23,7 @@ import { getBattlePalette } from '../lib/battlePalette';
 import { MASCOTS } from '../assets/maskots';
 import { createDeepLink, shareOrCopy } from '../lib/deeplink';
 import { copyToClipboard } from '../lib/clipboard';
+import { getEloTier } from '../lib/eloSystem';
 
 export const BattleLobbyModal: React.FC = () => {
   const {
@@ -39,6 +40,7 @@ export const BattleLobbyModal: React.FC = () => {
     showGlobalToast,
     openScanner,
     openQuickMatchModal,
+    eloRating,
   } = useGameStore();
 
   const [copied, setCopied] = useState(false);
@@ -236,6 +238,9 @@ export const BattleLobbyModal: React.FC = () => {
                 />
               </div>
               <span className="text-[11px] font-black truncate max-w-[95px]">{user.name || 'Kamu'}</span>
+              <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-black/10 dark:bg-white/10 text-[var(--text-secondary)]">
+                {eloRating} ELO • {getEloTier(eloRating).title}
+              </span>
               <span
                 className="text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shadow-2xs"
                 style={{ background: palette.p1.grad, color: palette.p1.text }}

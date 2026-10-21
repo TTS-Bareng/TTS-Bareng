@@ -18,9 +18,11 @@ import {
   Share2,
   X,
   ScanLine,
+  PenTool,
 } from 'lucide-react';
 import QRCode from 'qrcode';
 import { useGameStore } from '../store/useGameStore';
+import { getEloTier } from '../lib/eloSystem';
 import confetti from 'canvas-confetti';
 import { MASCOTS } from '../assets/maskots';
 import { createDeepLink, shareOrCopy } from '../lib/deeplink';
@@ -49,6 +51,13 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
     closeScanner,
     openBattleLobby,
     openQuickMatchModal,
+    eloRating,
+    battlesStats,
+    customTtsTickets,
+    isVip,
+    openCustomCrosswordModal,
+    openSachetModal,
+    openLeaderboard,
   } = useGameStore();
 
   const [activeSegment, setActiveSegment] = useState<'coop' | 'battle'>('coop');
@@ -456,6 +465,90 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
       {/* --- SEGMENT 2: 1V1 ARENA BATTLE --- */}
       {activeSegment === 'battle' && (
         <>
+          {/* ELO Rank Banner */}
+          <div className="w-full shrink-0 p-3 rounded-2xl liquid-glass-card border border-black/5 dark:border-white/10 flex items-center justify-between gap-3 shadow-xs">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <span className="text-[24px] leading-none">{getEloTier(eloRating).icon}</span>
+              <div className="flex flex-col min-w-0">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[12px] font-black text-[var(--text-primary)] truncate">
+                    {getEloTier(eloRating).name}
+                  </span>
+                  <span className="text-[10.5px] font-mono font-black text-[var(--accent-main)]">
+                    {eloRating} ELO
+                  </span>
+                </div>
+                <span className="text-[9px] text-[var(--text-secondary)]">
+                  Rekor Duel: {battlesStats.won} Menang / {battlesStats.lost} Kalah
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-1.5 shrink-0">
+              <button
+                type="button"
+                onClick={openLeaderboard}
+                className="py-1.5 px-3 rounded-full bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 text-[var(--text-primary)] text-[10px] font-black cursor-pointer tactile-active border border-black/5 dark:border-white/10 flex items-center gap-1"
+              >
+                <Trophy className="w-3 h-3 text-amber-500 stroke-[2.2]" />
+                <span>Klasemen</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Custom Crossword & Sachet Pack Bento */}
+          <div className="w-full grid grid-cols-2 gap-2 shrink-0">
+            {/* Box 1: Bikin TTS Sendiri */}
+            <button
+              type="button"
+              onClick={openCustomCrosswordModal}
+              className="p-3 rounded-2xl liquid-glass-card border border-black/5 dark:border-white/10 flex flex-col text-left gap-1 cursor-pointer tactile-active hover:border-[var(--accent-main)]/30 transition-all group"
+            >
+              <div className="flex items-center justify-between w-full">
+                <div className="w-7 h-7 rounded-lg bg-indigo-500/15 text-indigo-500 flex items-center justify-center">
+                  <PenTool className="w-3.5 h-3.5 stroke-[2.2]" />
+                </div>
+                {isVip ? (
+                  <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400">
+                    VIP Bebas
+                  </span>
+                ) : (
+                  <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-black/5 dark:bg-white/10 text-[var(--text-secondary)]">
+                    {customTtsTickets} Tiket
+                  </span>
+                )}
+              </div>
+              <span className="text-[11.5px] font-black text-[var(--text-primary)] mt-0.5 leading-tight group-hover:text-[var(--accent-main)] transition-colors">
+                Bikin TTS Sendiri
+              </span>
+              <span className="text-[8.5px] text-[var(--text-secondary)] leading-tight">
+                Buat teka-teki unik & tantang temanmu
+              </span>
+            </button>
+
+            {/* Box 2: Paket Pemula Rp 5.000 */}
+            <button
+              type="button"
+              onClick={openSachetModal}
+              className="p-3 rounded-2xl liquid-glass-card border border-amber-500/25 bg-amber-500/[0.04] flex flex-col text-left gap-1 cursor-pointer tactile-active hover:border-amber-500/50 transition-all group"
+            >
+              <div className="flex items-center justify-between w-full">
+                <div className="w-7 h-7 rounded-lg bg-amber-500/15 text-amber-500 flex items-center justify-center">
+                  <Sparkles className="w-3.5 h-3.5 fill-amber-500" />
+                </div>
+                <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-amber-500 text-black">
+                  Rp 5.000
+                </span>
+              </div>
+              <span className="text-[11.5px] font-black text-[var(--text-primary)] mt-0.5 leading-tight group-hover:text-amber-500 transition-colors">
+                Paket Pemula Sachet
+              </span>
+              <span className="text-[8.5px] text-[var(--text-secondary)] leading-tight">
+                150★ + 3 Streak + 1 Tiket TTS
+              </span>
+            </button>
+          </div>
+
           {/* Card 0: Cari Lawan Cepat (Quick Match Hero Card) */}
           <div
             className="w-full shrink-0 rounded-[26px] p-4 relative z-10 overflow-hidden border border-[var(--accent-main)]/30 shadow-md group flex flex-col gap-2.5"
