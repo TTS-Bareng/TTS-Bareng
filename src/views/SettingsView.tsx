@@ -52,6 +52,10 @@ export const SettingsView: React.FC = () => {
     setNotificationsEnabled,
     streak,
     showGlobalToast,
+    ambientEnabled,
+    toggleAmbient,
+    ambientVolume,
+    setAmbientVolume,
   } = useGameStore();
 
   const [showResetConfirm, setShowResetConfirm] = useState(false);
@@ -415,6 +419,54 @@ export const SettingsView: React.FC = () => {
                   );
                 })}
               </div>
+            </div>
+          )}
+
+          {/* Sub-row: Musik Latar Santai (Focus Lo-Fi) */}
+          <div className="flex items-center justify-between p-3 border-t border-black/5 dark:border-white/5">
+            <div className="flex items-center gap-3 min-w-0 pr-2">
+              <div className="w-7.5 h-7.5 rounded-xl bg-[var(--accent-light)] text-[var(--accent-main)] flex items-center justify-center shrink-0">
+                <Music className="w-4 h-4 stroke-[2.2]" />
+              </div>
+              <div className="min-w-0">
+                <span className="text-[12px] font-bold text-[var(--text-primary)] block leading-tight">
+                  Musik Latar Santai (Focus Lo-Fi)
+                </span>
+                <span className="text-[9px] text-[var(--text-secondary)] block truncate">
+                  Dengungan hangat untuk fokus & relaksasi berpikir
+                </span>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={toggleAmbient}
+              className={`w-9 h-5 rounded-full p-0.5 transition-colors cursor-pointer shrink-0 ${
+                ambientEnabled ? 'bg-[var(--accent-main)]' : 'bg-black/20 dark:bg-white/20'
+              }`}
+            >
+              <div
+                className={`w-4 h-4 rounded-full bg-white shadow-xs transform transition-transform ${
+                  ambientEnabled ? 'translate-x-4' : 'translate-x-0'
+                }`}
+              />
+            </button>
+          </div>
+
+          {/* Sub-row: Ambient Volume Slider */}
+          {ambientEnabled && (
+            <div className="px-3 pb-3 pt-1 flex items-center gap-3 bg-black/[0.02] dark:bg-white/[0.02] border-t border-black/5 dark:border-white/5">
+              <span className="text-[9.5px] font-bold text-[var(--text-secondary)] shrink-0">
+                Volume: {Math.round(ambientVolume * 100)}%
+              </span>
+              <input
+                type="range"
+                min="0.05"
+                max="0.8"
+                step="0.05"
+                value={ambientVolume}
+                onChange={(e) => setAmbientVolume(parseFloat(e.target.value))}
+                className="w-full accent-[var(--accent-main)] cursor-pointer h-1.5 rounded-full bg-black/10 dark:bg-white/20"
+              />
             </div>
           )}
 

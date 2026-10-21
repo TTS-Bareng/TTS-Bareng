@@ -308,6 +308,10 @@ interface GameState {
   toggleSound: () => void;
   hapticEnabled: boolean;
   toggleHaptic: () => void;
+  ambientEnabled: boolean;
+  toggleAmbient: () => void;
+  ambientVolume: number;
+  setAmbientVolume: (vol: number) => void;
 
   // Smart Retention Notifications
   notificationsEnabled: boolean;
@@ -492,6 +496,19 @@ const STORAGE_KEY_TICKETS = 'tts_tournament_tickets_v1';
 const STORAGE_KEY_TICKET_DATE = 'tts_last_ticket_claim_v1';
 const STORAGE_KEY_NOTIFICATIONS = 'tts_notifications_enabled_v1';
 const STORAGE_KEY_NOTIFICATION_PROMPT_SHOWN = 'tts_notification_prompt_shown_v1';
+const STORAGE_KEY_AMBIENT_ENABLED = 'tts_ambient_enabled_v1';
+const STORAGE_KEY_AMBIENT_VOLUME = 'tts_ambient_volume_v1';
+
+function getInitialAmbientEnabled(): boolean {
+  if (typeof window === 'undefined') return false;
+  return localStorage.getItem(STORAGE_KEY_AMBIENT_ENABLED) === 'true';
+}
+
+function getInitialAmbientVolume(): number {
+  if (typeof window === 'undefined') return 0.25;
+  const saved = localStorage.getItem(STORAGE_KEY_AMBIENT_VOLUME);
+  return saved ? parseFloat(saved) : 0.25;
+}
 
 function getInitialNotificationsEnabled(): boolean {
   if (typeof window === 'undefined') return true;
@@ -869,6 +886,36 @@ export const useGameStore = create<GameState>((set, get) => ({
     const next = !get().soundEnabled;
     localStorage.setItem(STORAGE_KEY_SOUND, String(next));
     set({ soundEnabled: next });
+    if (!next) {
+      soundManager.stopFocusAmbient();
+    } else if (get().ambientEnabled) {
+      soundManager.startFocusAmbient(get().ambientVolume);
+    }
+  },
+
+  ambientEnabled: getInitialAmbientEnabled(),
+  ambientVolume: getInitialAmbientVolume(),
+  toggleAmbient: () => {
+    const next = !get().ambientEnabled;
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY_AMBIENT_ENABLED, String(next));
+    }
+    set({ ambientEnabled: next });
+    if (next && get().soundEnabled) {
+      soundManager.startFocusAmbient(get().ambientVolume);
+      get().showGlobalToast('Musik Latar Santai Aktif ☕', 2400);
+    } else {
+      soundManager.stopFocusAmbient();
+      get().showGlobalToast('Musik Latar Santai Dimatikan', 2000);
+    }
+  },
+  setAmbientVolume: (vol: number) => {
+    const safeVol = Math.max(0.05, Math.min(1.0, vol));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY_AMBIENT_VOLUME, String(safeVol));
+    }
+    set({ ambientVolume: safeVol });
+    soundManager.setFocusAmbientVolume(safeVol);
   },
 
   hapticEnabled: typeof window !== 'undefined' ? localStorage.getItem(STORAGE_KEY_HAPTIC) !== 'false' : true,
@@ -3285,7 +3332,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     const clue = findClueById(level, activeClueId);
     const idx = clue ? clue.cells.findIndex(([cr, cc]) => cr === r && cc === c) : -1;
 
-    if (soundEnabled) soundManager.playKeyClick();
+    if (soundEnabled) soundManager.playBackspaceClick();
     if (hapticEnabled) {
       haptic.light(10);
     }

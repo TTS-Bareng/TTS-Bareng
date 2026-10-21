@@ -8,6 +8,7 @@ import { HomeView } from './views/HomeView';
 import { NavigationBottomBar } from './components/NavigationBottomBar';
 import { NetworkStatusBar } from './components/NetworkStatusBar';
 import { notificationService } from './lib/notificationService';
+import { soundManager } from './lib/audio';
 
 // Lazy-loaded views & modals for instant initial launch (< 200ms)
 const ArenaView = lazy(() => import('./views/ArenaView').then((m) => ({ default: m.ArenaView })));
@@ -84,6 +85,14 @@ export const App: React.FC = () => {
       }
     });
   }, [openDailyRushBriefing, setCurrentTab]);
+
+  // Sync Lo-Fi Focus Ambient Sound on mount if previously enabled by user
+  useEffect(() => {
+    const { ambientEnabled, soundEnabled, ambientVolume } = useGameStore.getState();
+    if (ambientEnabled && soundEnabled) {
+      soundManager.startFocusAmbient(ambientVolume);
+    }
+  }, []);
 
   // Apply theme tokens on initial mount and when theme changes
   useEffect(() => {

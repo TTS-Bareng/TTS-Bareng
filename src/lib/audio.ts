@@ -4,6 +4,16 @@ class SoundManager {
   private ctx: AudioContext | null = null;
   private isWarmedUp = false;
   private clickNoiseBuffer: AudioBuffer | null = null;
+  private ambientNoiseBuffer: AudioBuffer | null = null;
+
+  // Procedural Focus Ambient Generator State
+  private ambientMasterGain: GainNode | null = null;
+  private ambientNoiseSource: AudioBufferSourceNode | null = null;
+  private ambientDroneOsc1: OscillatorNode | null = null;
+  private ambientDroneOsc2: OscillatorNode | null = null;
+  private ambientLfoOsc: OscillatorNode | null = null;
+  private isAmbientActive = false;
+  private ambientCurrentVolume = 0.25;
 
   constructor() {
     this.setupWarmupListeners();
@@ -72,6 +82,20 @@ class SoundManager {
         output[i] = (b0 + b1 + b2 + white * 0.1) * 0.5;
       }
       this.clickNoiseBuffer = buffer;
+
+      // 2. Generate 3-second warm loopable noise buffer for Lo-Fi Focus Ambient Mode
+      const ambientBufferSize = ctx.sampleRate * 3.0;
+      const ambientBuf = ctx.createBuffer(1, ambientBufferSize, ctx.sampleRate);
+      const ambOut = ambientBuf.getChannelData(0);
+      let ambB0 = 0, ambB1 = 0, ambB2 = 0;
+      for (let i = 0; i < ambientBufferSize; i++) {
+        const white = Math.random() * 2 - 1;
+        ambB0 = 0.997 * ambB0 + white * 0.05;
+        ambB1 = 0.985 * ambB1 + white * 0.07;
+        ambB2 = 0.950 * ambB2 + white * 0.12;
+        ambOut[i] = (ambB0 + ambB1 + ambB2) * 0.25;
+      }
+      this.ambientNoiseBuffer = ambientBuf;
     } catch {
       // Fallback without noise buffer
     }
@@ -140,6 +164,67 @@ class SoundManager {
   }
 
   /**
+   * Damped Acoustic Woodblock Thud for Delete / Backspace action.
+   * Distinct low-mid frequency (180Hz -> 85Hz) with fast decay so player immediately
+   * hears that a letter was erased without mistaking it for a letter input.
+   */
+  playBackspaceClick() {
+    try {
+      const ctx = this.getContext();
+      if (!ctx) return;
+
+      const now = ctx.currentTime;
+      const pitchJitter = 1 + (Math.random() - 0.5) * 0.04;
+
+      // 1. Damped bandpass click transient (soft knock)
+      if (this.clickNoiseBuffer) {
+        const noise = ctx.createBufferSource();
+        noise.buffer = this.clickNoiseBuffer;
+
+        const noiseFilter = ctx.createBiquadFilter();
+        noiseFilter.type = 'bandpass';
+        noiseFilter.frequency.setValueAtTime(1400 * pitchJitter, now);
+        noiseFilter.Q.setValueAtTime(2.0, now);
+
+        const noiseGain = ctx.createGain();
+        noiseGain.gain.setValueAtTime(0.045, now);
+        noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.012);
+
+        noise.connect(noiseFilter);
+        noiseFilter.connect(noiseGain);
+        noiseGain.connect(ctx.destination);
+
+        noise.start(now);
+        noise.stop(now + 0.014);
+      }
+
+      // 2. Resonant low-end acoustic thump (185Hz down to 85Hz)
+      const bodyOsc = ctx.createOscillator();
+      const bodyGain = ctx.createGain();
+      const bodyFilter = ctx.createBiquadFilter();
+
+      bodyFilter.type = 'lowpass';
+      bodyFilter.frequency.setValueAtTime(380, now);
+
+      bodyOsc.type = 'sine';
+      bodyOsc.frequency.setValueAtTime(185 * pitchJitter, now);
+      bodyOsc.frequency.exponentialRampToValueAtTime(85 * pitchJitter, now + 0.022);
+
+      bodyGain.gain.setValueAtTime(0.05, now);
+      bodyGain.gain.exponentialRampToValueAtTime(0.001, now + 0.024);
+
+      bodyOsc.connect(bodyFilter);
+      bodyFilter.connect(bodyGain);
+      bodyGain.connect(ctx.destination);
+
+      bodyOsc.start(now);
+      bodyOsc.stop(now + 0.026);
+    } catch {
+      // Ignore
+    }
+  }
+
+  /**
    * Apple-style micro tick when navigating cells or scrolling items
    */
   playFocusTick() {
@@ -175,8 +260,12 @@ class SoundManager {
   }
 
   /**
-   * Lush Marimba & Celeste harmonic chiming when a word is verified correct.
-   * Escalates with richer multi-harmonic chords on combo streak.
+   * Next-Gen Dynamic Ascending Harmonic Combo Ladder.
+   * Plays escalating chord voicings as player solves clues consecutively:
+   * Tier 1: C-Major Triad (C5 -> C6)
+   * Tier 2: D-Major 7th Sparkle (D5 -> D6)
+   * Tier 3: E-Major 9th Soaring (E5 -> E6)
+   * Tier 4+: Grand Celestial Cascade (F5 -> C7 with shimmering overtone sweep)
    */
   playWordCorrect(comboStreak: number = 1) {
     try {
@@ -185,35 +274,38 @@ class SoundManager {
 
       const now = ctx.currentTime;
 
-      // Chord voicings: C-major9 variations that feel uplifting, warm, and musical
       let notes: number[];
       if (comboStreak >= 4) {
-        notes = [523.25, 659.25, 783.99, 1046.5, 1318.5, 1567.98]; // C5, E5, G5, C6, E6, G6 (Grand Cascade)
+        // Tier 4+: Grand Celestial Cascade (F5, A5, C6, E6, G6, C7)
+        notes = [698.46, 880.0, 1046.5, 1318.51, 1567.98, 2093.0];
       } else if (comboStreak === 3) {
-        notes = [523.25, 783.99, 987.77, 1174.66, 1318.5]; // C5, G5, B5, D6, E6 (Sparkling 9th)
+        // Tier 3: E-Major 9th Soaring (E5, G#5, B5, D#6, E6)
+        notes = [659.25, 830.61, 987.77, 1244.51, 1318.51];
       } else if (comboStreak === 2) {
-        notes = [523.25, 659.25, 783.99, 987.77, 1046.5]; // C5, E5, G5, B5, C6 (Major 7th)
+        // Tier 2: D-Major 7th Sparkle (D5, F#5, A5, C#6, D6)
+        notes = [587.33, 739.99, 880.0, 1108.73, 1174.66];
       } else {
-        notes = [523.25, 783.99, 1046.5]; // C5, G5, C6 (Pure Triad)
+        // Tier 1: Warm C-Major Arpeggio (C5, E5, G5, C6)
+        notes = [523.25, 659.25, 783.99, 1046.5];
       }
 
-      const stagger = 0.045;
-      const decayTime = comboStreak >= 3 ? 0.38 : 0.32;
+      const stagger = comboStreak >= 4 ? 0.04 : 0.046;
+      const decayTime = comboStreak >= 4 ? 0.44 : comboStreak >= 2 ? 0.38 : 0.32;
 
       notes.forEach((freq, idx) => {
         const noteStart = now + idx * stagger;
 
-        // 1. Fundamental tone (warm marimba bell)
+        // 1. Fundamental marimba/celeste bar resonance
         const osc1 = ctx.createOscillator();
         const gain1 = ctx.createGain();
 
         osc1.type = 'sine';
-        // Tiny frequency dip on strike emulates physical marimba bar mallet impact
-        osc1.frequency.setValueAtTime(freq * 1.015, noteStart);
+        osc1.frequency.setValueAtTime(freq * 1.012, noteStart);
         osc1.frequency.exponentialRampToValueAtTime(freq, noteStart + 0.015);
 
+        const targetGain = comboStreak >= 4 ? 0.095 : 0.085;
         gain1.gain.setValueAtTime(0.001, noteStart);
-        gain1.gain.linearRampToValueAtTime(0.085, noteStart + 0.008);
+        gain1.gain.linearRampToValueAtTime(targetGain, noteStart + 0.008);
         gain1.gain.exponentialRampToValueAtTime(0.001, noteStart + decayTime);
 
         osc1.connect(gain1);
@@ -229,13 +321,13 @@ class SoundManager {
         osc2.frequency.setValueAtTime(freq * 2, noteStart);
 
         gain2.gain.setValueAtTime(0.001, noteStart);
-        gain2.gain.linearRampToValueAtTime(0.025, noteStart + 0.006);
-        gain2.gain.exponentialRampToValueAtTime(0.001, noteStart + decayTime * 0.55);
+        gain2.gain.linearRampToValueAtTime(0.03, noteStart + 0.006);
+        gain2.gain.exponentialRampToValueAtTime(0.001, noteStart + decayTime * 0.6);
 
         osc2.connect(gain2);
         gain2.connect(ctx.destination);
         osc2.start(noteStart);
-        osc2.stop(noteStart + decayTime * 0.6);
+        osc2.stop(noteStart + decayTime * 0.65);
       });
     } catch {
       // Ignore
@@ -606,6 +698,169 @@ class SoundManager {
     } catch {
       // Ignore
     }
+  }
+
+  /**
+   * Start Procedural Lo-Fi / Focus Ambient Mode.
+   * Synthesizes an organic, warm acoustic bed (gentle analog tape hiss + deep warm sub-bass drone)
+   * completely offline using Web Audio API nodes with 0 KB file size.
+   */
+  startFocusAmbient(volume: number = 0.25) {
+    try {
+      const ctx = this.getContext();
+      if (!ctx) return;
+
+      this.ambientCurrentVolume = Math.max(0.02, Math.min(1.0, volume));
+
+      // If already playing, smoothly adjust target volume
+      if (this.isAmbientActive && this.ambientMasterGain) {
+        const now = ctx.currentTime;
+        this.ambientMasterGain.gain.cancelScheduledValues(now);
+        this.ambientMasterGain.gain.linearRampToValueAtTime(this.ambientCurrentVolume * 0.16, now + 0.3);
+        return;
+      }
+
+      this.stopFocusAmbient();
+
+      const now = ctx.currentTime;
+
+      // 1. Master Ambient Gain
+      const masterGain = ctx.createGain();
+      masterGain.gain.setValueAtTime(0.0001, now);
+      masterGain.gain.linearRampToValueAtTime(this.ambientCurrentVolume * 0.16, now + 1.2);
+      masterGain.connect(ctx.destination);
+      this.ambientMasterGain = masterGain;
+
+      // 2. Warm Vinyl / Rain Noise Bed (Passed through 340Hz lowpass filter)
+      if (this.ambientNoiseBuffer) {
+        const noise = ctx.createBufferSource();
+        noise.buffer = this.ambientNoiseBuffer;
+        noise.loop = true;
+
+        const noiseFilter = ctx.createBiquadFilter();
+        noiseFilter.type = 'lowpass';
+        noiseFilter.frequency.setValueAtTime(340, now);
+
+        const noiseGain = ctx.createGain();
+        noiseGain.gain.setValueAtTime(0.35, now);
+
+        noise.connect(noiseFilter);
+        noiseFilter.connect(noiseGain);
+        noiseGain.connect(masterGain);
+
+        noise.start(now);
+        this.ambientNoiseSource = noise;
+      }
+
+      // 3. Dual Sub-bass Sine Drones (Warm Eb2 + Bb2 dyad at 77.78Hz and 116.54Hz)
+      const osc1 = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
+      const droneGain = ctx.createGain();
+      const droneFilter = ctx.createBiquadFilter();
+
+      droneFilter.type = 'lowpass';
+      droneFilter.frequency.setValueAtTime(160, now);
+
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(77.78, now); // Eb2 (deep warm grounding)
+
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(116.54, now); // Bb2 (perfect fifth resonance)
+
+      droneGain.gain.setValueAtTime(0.45, now);
+
+      // 4. Subtle Slow LFO Breathing Modulation (0.025Hz)
+      const lfo = ctx.createOscillator();
+      const lfoGain = ctx.createGain();
+      lfo.type = 'sine';
+      lfo.frequency.setValueAtTime(0.025, now);
+      lfoGain.gain.setValueAtTime(0.08, now);
+
+      lfo.connect(lfoGain);
+      lfoGain.connect(droneGain.gain);
+
+      osc1.connect(droneFilter);
+      osc2.connect(droneFilter);
+      droneFilter.connect(droneGain);
+      droneGain.connect(masterGain);
+
+      osc1.start(now);
+      osc2.start(now);
+      lfo.start(now);
+
+      this.ambientDroneOsc1 = osc1;
+      this.ambientDroneOsc2 = osc2;
+      this.ambientLfoOsc = lfo;
+      this.isAmbientActive = true;
+    } catch {
+      // Ignore
+    }
+  }
+
+  /**
+   * Stop Procedural Focus Ambient Mode with smooth 0.8s fade out
+   */
+  stopFocusAmbient() {
+    try {
+      if (!this.isAmbientActive && !this.ambientMasterGain) return;
+      this.isAmbientActive = false;
+
+      const ctx = this.ctx;
+      if (ctx && this.ambientMasterGain) {
+        const now = ctx.currentTime;
+        this.ambientMasterGain.gain.cancelScheduledValues(now);
+        this.ambientMasterGain.gain.linearRampToValueAtTime(0.0001, now + 0.8);
+      }
+
+      const prevNoise = this.ambientNoiseSource;
+      const prevOsc1 = this.ambientDroneOsc1;
+      const prevOsc2 = this.ambientDroneOsc2;
+      const prevLfo = this.ambientLfoOsc;
+      const prevMaster = this.ambientMasterGain;
+
+      setTimeout(() => {
+        try {
+          prevNoise?.stop();
+          prevNoise?.disconnect();
+          prevOsc1?.stop();
+          prevOsc1?.disconnect();
+          prevOsc2?.stop();
+          prevOsc2?.disconnect();
+          prevLfo?.stop();
+          prevLfo?.disconnect();
+          prevMaster?.disconnect();
+        } catch {
+          // ignore
+        }
+      }, 900);
+
+      this.ambientNoiseSource = null;
+      this.ambientDroneOsc1 = null;
+      this.ambientDroneOsc2 = null;
+      this.ambientLfoOsc = null;
+      this.ambientMasterGain = null;
+    } catch {
+      // Ignore
+    }
+  }
+
+  /**
+   * Adjust Focus Ambient Volume smoothly
+   */
+  setFocusAmbientVolume(volume: number) {
+    this.ambientCurrentVolume = Math.max(0.02, Math.min(1.0, volume));
+    if (this.isAmbientActive && this.ambientMasterGain && this.ctx) {
+      const now = this.ctx.currentTime;
+      this.ambientMasterGain.gain.cancelScheduledValues(now);
+      this.ambientMasterGain.gain.linearRampToValueAtTime(this.ambientCurrentVolume * 0.16, now + 0.1);
+    }
+  }
+
+  /**
+   * Check if Focus Ambient is currently playing
+   */
+  isFocusAmbientPlaying(): boolean {
+    return this.isAmbientActive;
   }
 }
 
