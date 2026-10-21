@@ -196,6 +196,20 @@ interface GameState {
   startNextBattleRound: () => void;
   rematchBattle: () => void;
 
+  // 1v1 Quick Matchmaking
+  isQuickMatchModalOpen: boolean;
+  openQuickMatchModal: (mode?: 'speed_race' | 'tug_of_war') => void;
+  closeQuickMatchModal: () => void;
+  isQuickMatchBot: boolean;
+  quickMatchBotOpponent: { name: string; avatar: string } | null;
+  quickMatchAiCooldown: number;
+  startQuickMatchBattle: (params: {
+    opponent: { id: string; name: string; avatar: string; isBot: boolean };
+    levelIndex: number;
+    config: BattleConfig;
+    roomCode: string;
+  }) => void;
+
   // Tournament Cup & Community Tournaments
   isTournamentOpen: boolean;
   openTournament: () => void;
@@ -1508,6 +1522,10 @@ export const useGameStore = create<GameState>((set, get) => ({
   isBattleLobbyOpen: false,
   isBattleResultOpen: false,
   battleWinner: null,
+  isQuickMatchModalOpen: false,
+  isQuickMatchBot: false,
+  quickMatchBotOpponent: null,
+  quickMatchAiCooldown: 6,
 
   // Tournament Cup State & Methods
   isTournamentOpen: false,
@@ -2117,6 +2135,75 @@ export const useGameStore = create<GameState>((set, get) => ({
   openBattleResult: () => set({ isBattleResultOpen: true }),
   closeBattleResult: () => set({ isBattleResultOpen: false }),
 
+  openQuickMatchModal: (mode) => {
+    const battleMode = mode || 'speed_race';
+    set((state) => ({
+      isQuickMatchModalOpen: true,
+      battleConfig: {
+        ...state.battleConfig,
+        mode: battleMode,
+        durationSeconds: battleMode === 'speed_race' ? 60 : 90,
+        wordCount: 'short',
+        rounds: battleMode === 'speed_race' ? 1 : 3,
+      },
+    }));
+  },
+  closeQuickMatchModal: () => set({ isQuickMatchModalOpen: false }),
+
+  startQuickMatchBattle: ({ opponent, levelIndex, config, roomCode }) => {
+    const { levels, user, soundEnabled, hapticEnabled } = get();
+    const safeIdx = Math.max(0, Math.min(levelIndex, levels.length - 1));
+    const targetLevel = levels[safeIdx] || levels[0];
+
+    if (soundEnabled) soundManager.playReward();
+    if (hapticEnabled) {
+      haptic.success([20, 50, 30]);
+    }
+
+    if (!opponent.isBot) {
+      mabarRealtime.joinRoom(roomCode, user);
+    }
+
+    set({
+      gameMode: '1v1_battle',
+      activeRoomCode: roomCode,
+      isQuickMatchModalOpen: false,
+      isBattleLobbyOpen: false,
+      isBattleResultOpen: false,
+      isQuickMatchBot: opponent.isBot,
+      quickMatchBotOpponent: opponent.isBot
+        ? { name: opponent.name, avatar: opponent.avatar }
+        : null,
+      quickMatchAiCooldown: 6,
+      mabarPeers: [
+        { id: user.id || 'me', name: user.name, avatar: user.avatar },
+        { id: opponent.id, name: opponent.name, avatar: opponent.avatar },
+      ],
+      battleConfig: config,
+      battleCurrentRound: 1,
+      battleRoundWins: { local: 0, partner: 0 },
+      battleScores: { local: 0, partner: 0 },
+      battleClueOwners: {},
+      battleTimeLeft: config.durationSeconds,
+      battleWinner: null,
+      currentLevelIndex: safeIdx,
+      level: targetLevel,
+      userInputs: {},
+      lockedCells: {},
+      solvedClues: [],
+      cellAuthors: {},
+      clueAuthors: {},
+      wordStreak: 0,
+      comboMessage: null,
+      validationMessage: null,
+      activeClueId: null,
+      focusedCell: null,
+      currentTab: 'game',
+    });
+
+    get().showGlobalToast(`Duel Dimulai! Lawan: ${opponent.name}`, 3200);
+  },
+
   startBattleMatch: () => {
     const { levels, battleConfig, soundEnabled, hapticEnabled } = get();
     const targetLevelIdx = findLevelForWordCount(levels, battleConfig.wordCount);
@@ -2213,6 +2300,20 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     if (activeTournamentMatch || activeCommunityMatchId) {
       tickTournamentAi();
+    } else if (get().isQuickMatchBot && get().quickMatchBotOpponent) {
+      const { quickMatchAiCooldown, quickMatchBotOpponent, level, solvedClues, claimBattleClue } = get();
+      if (!quickMatchBotOpponent) return;
+      if (quickMatchAiCooldown > 1) {
+        set({ quickMatchAiCooldown: quickMatchAiCooldown - 1 });
+      } else {
+        const allClues = [...(level.clues?.across || []), ...(level.clues?.down || [])];
+        const unsolved = allClues.filter((c) => !solvedClues.includes(c.id));
+        if (unsolved.length > 0) {
+          const chosen = unsolved[Math.floor(Math.random() * unsolved.length)];
+          claimBattleClue(chosen.id, [chosen.id], 'partner', quickMatchBotOpponent.name);
+        }
+        set({ quickMatchAiCooldown: Math.max(4, 5 + Math.floor(Math.random() * 5)) });
+      }
     }
 
     if (battleTimeLeft <= 1) {
@@ -2486,10 +2587,11 @@ export const useGameStore = create<GameState>((set, get) => ({
     if (isMatchOver) {
       if (nextRoundWins.local > nextRoundWins.partner) {
         overallWinner = 'local';
-        addStars(25);
+        addStars(30);
+        get().addWeeklyLeagueXp(50);
         if (soundEnabled) soundManager.playVictory();
         confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-        showGlobalToast('Selamat! Kamu memenangkan duel 1v1 (+25★)!', 3500);
+        showGlobalToast('Selamat! Kamu memenangkan duel 1v1 (+30★, +50 XP)!', 3500);
       } else if (nextRoundWins.partner > nextRoundWins.local) {
         overallWinner = 'partner';
         showGlobalToast('Lawan memenangkan duel! Tetap semangat!', 3500);

@@ -38,6 +38,7 @@ export const BattleLobbyModal: React.FC = () => {
     setActiveRoomCode,
     showGlobalToast,
     openScanner,
+    openQuickMatchModal,
   } = useGameStore();
 
   const [copied, setCopied] = useState(false);
@@ -507,6 +508,20 @@ export const BattleLobbyModal: React.FC = () => {
                   : 'Mulai Duel (Uji Coba Papan)'}
               </span>
             </button>
+
+            {!isOpponentReady && (
+              <button
+                type="button"
+                onClick={() => {
+                  closeBattleLobby();
+                  openQuickMatchModal(battleConfig.mode);
+                }}
+                className="w-full mt-2 py-2.5 rounded-full bg-black/5 dark:bg-white/10 text-[var(--text-primary)] font-bold text-[11.5px] cursor-pointer tactile-active flex items-center justify-center gap-1.5 hover:bg-black/10 dark:hover:bg-white/15 transition-all"
+              >
+                <Zap className="w-3.5 h-3.5 text-[var(--accent-main)]" />
+                <span>Cari Lawan Cepat Online (Acak)</span>
+              </button>
+            )}
           </div>
         </footer>
       </motion.div>

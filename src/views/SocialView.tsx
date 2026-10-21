@@ -48,6 +48,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
     openScanner,
     closeScanner,
     openBattleLobby,
+    openQuickMatchModal,
   } = useGameStore();
 
   const [activeSegment, setActiveSegment] = useState<'coop' | 'battle'>('coop');
@@ -455,6 +456,52 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
       {/* --- SEGMENT 2: 1V1 ARENA BATTLE --- */}
       {activeSegment === 'battle' && (
         <>
+          {/* Card 0: Cari Lawan Cepat (Quick Match Hero Card) */}
+          <div
+            className="w-full shrink-0 rounded-[26px] p-4 relative z-10 overflow-hidden border border-[var(--accent-main)]/30 shadow-md group flex flex-col gap-2.5"
+            style={{
+              background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 55%, var(--accent-light) 100%)',
+            }}
+          >
+            {/* Top Meta */}
+            <div className="flex items-center justify-between relative z-10">
+              <span className="text-[8.5px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-2xs">
+                ONLINE MATCHMAKING
+              </span>
+              <div className="flex items-center gap-1.5 text-[10px] font-black text-[var(--accent-main)]">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                <span>Antrean Aktif</span>
+              </div>
+            </div>
+
+            <div className="relative z-10 max-w-[70%]">
+              <h3 className="text-[17px] sm:text-[18px] font-black text-[var(--text-primary)] tracking-tight leading-tight mb-1">
+                Cari Lawan Cepat 1v1
+              </h3>
+              <p className="text-[10.5px] text-[var(--text-secondary)] leading-snug">
+                Tanding instan tanpa perlu membagikan kode kamar. Temukan penantang setara dalam 5–8 detik!
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 relative z-10 pt-0.5">
+              <button
+                type="button"
+                onClick={() => openQuickMatchModal('speed_race')}
+                className="py-2.5 px-4 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[11px] font-black inline-flex items-center gap-1.5 cursor-pointer tactile-active shadow-sm hover:opacity-95 transition-all"
+              >
+                <Zap className="w-3.5 h-3.5 stroke-[2.4]" />
+                <span>Cari Lawan Sekarang</span>
+              </button>
+            </div>
+
+            {/* Background Accent Mascot */}
+            <img
+              src={MASCOTS.crosswordChampion}
+              alt="Quick Match 1v1"
+              className="absolute -bottom-2 -right-1 w-32 sm:w-36 h-32 sm:h-36 object-contain object-bottom pointer-events-none select-none z-0 filter drop-shadow-md opacity-90 group-hover:scale-105 transition-transform"
+            />
+          </div>
+
           {/* Card 1: Tug of War (Hero Themed Gradient Card + Mascot Scholar) */}
           <div
             className="w-full shrink-0 rounded-[26px] p-4 relative z-10 overflow-hidden border border-white/10 dark:border-white/15 shadow-sm group flex flex-col gap-3"
