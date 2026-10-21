@@ -42,6 +42,7 @@ import {
 import { haptic } from '../lib/haptics';
 import { notificationService } from '../lib/notificationService';
 import { calculateEloDelta, getEloTier } from '../lib/eloSystem';
+import { syncUserProfile, fetchUserProfile } from '../lib/supabase';
 
 export type TabType = 'home' | 'social' | 'game' | 'quests' | 'profile' | 'stats' | 'settings' | 'arena';
 
@@ -894,7 +895,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({ user: guestUser, isAuthOpen: false });
   },
 
-  loginWithEmail: (email: string, name: string) => {
+  loginWithEmail: async (email: string, name: string) => {
     const currentId = get().user?.id || generatePlayerId();
     const emailUser: UserProfile = {
       id: currentId,
@@ -909,6 +910,40 @@ export const useGameStore = create<GameState>((set, get) => ({
     };
     localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(emailUser));
     set({ user: emailUser, isAuthOpen: false });
+
+    // Restore or sync profile to Supabase cloud
+    try {
+      const cloud = await fetchUserProfile(currentId);
+      if (cloud) {
+        if (typeof cloud.elo_rating === 'number') {
+          localStorage.setItem(STORAGE_KEY_ELO, String(cloud.elo_rating));
+          set({ eloRating: cloud.elo_rating });
+        }
+        if (typeof cloud.custom_tickets === 'number') {
+          localStorage.setItem(STORAGE_KEY_CUSTOM_TTS_TICKETS, String(cloud.custom_tickets));
+          set({ customTtsTickets: cloud.custom_tickets });
+        }
+        if (typeof cloud.is_vip === 'boolean') {
+          localStorage.setItem(STORAGE_KEY_IS_VIP, String(cloud.is_vip));
+          set({ isVip: cloud.is_vip });
+        }
+      } else {
+        syncUserProfile({
+          id: emailUser.id,
+          name: emailUser.name,
+          avatar: emailUser.avatar,
+          isGuest: false,
+          stars: get().stars,
+          streak: get().streak,
+          totalWordsSolved: get().solvedClues.length,
+          eloRating: get().eloRating,
+          customTickets: get().customTtsTickets,
+          isVip: get().isVip,
+        }).catch(() => {});
+      }
+    } catch (err) {
+      console.warn('Failed cloud profile sync:', err);
+    }
   },
 
   logout: () => {
@@ -1660,6 +1695,23 @@ export const useGameStore = create<GameState>((set, get) => ({
     if (get().soundEnabled) soundManager.playReward();
     if (get().hapticEnabled) haptic.success([30, 60, 40]);
     get().showGlobalToast('🎉 Paket Pemula Aktif! +150 Bintang, +3 Pelindung Streak & 1x Tiket Bikin TTS!', 3800);
+
+    // Sync updated tickets & stars to Supabase cloud profile in background
+    const user = get().user;
+    if (user?.id) {
+      syncUserProfile({
+        id: user.id,
+        name: user.name,
+        avatar: user.avatar,
+        isGuest: user.isGuest,
+        stars: get().stars,
+        streak: get().streak,
+        totalWordsSolved: get().solvedClues.length,
+        eloRating: get().eloRating,
+        customTickets: nextTickets,
+        isVip: get().isVip,
+      }).catch(() => {});
+    }
   },
 
   consumeCustomTtsTicket: () => {
@@ -1671,6 +1723,22 @@ export const useGameStore = create<GameState>((set, get) => ({
         localStorage.setItem(STORAGE_KEY_CUSTOM_TTS_TICKETS, String(next));
       }
       set({ customTtsTickets: next });
+
+      const user = get().user;
+      if (user?.id) {
+        syncUserProfile({
+          id: user.id,
+          name: user.name,
+          avatar: user.avatar,
+          isGuest: user.isGuest,
+          stars: get().stars,
+          streak: get().streak,
+          totalWordsSolved: get().solvedClues.length,
+          eloRating: get().eloRating,
+          customTickets: next,
+          isVip: get().isVip,
+        }).catch(() => {});
+      }
       return true;
     }
     return false;
@@ -1697,6 +1765,23 @@ export const useGameStore = create<GameState>((set, get) => ({
       lastEloDelta: delta,
       battlesStats: nextStats,
     });
+
+    // Sync updated ELO to Supabase cloud profile in background
+    const user = get().user;
+    if (user?.id) {
+      syncUserProfile({
+        id: user.id,
+        name: user.name,
+        avatar: user.avatar,
+        isGuest: user.isGuest,
+        stars: get().stars,
+        streak: get().streak,
+        totalWordsSolved: get().solvedClues.length,
+        eloRating: newElo,
+        customTickets: get().customTtsTickets,
+        isVip: get().isVip,
+      }).catch(() => {});
+    }
 
     return { delta, newElo };
   },

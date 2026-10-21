@@ -17,6 +17,9 @@ create table if not exists public.profiles (
   stars integer not null default 120 check (stars >= 0),
   streak integer not null default 1 check (streak >= 0),
   total_words_solved integer not null default 0,
+  elo_rating integer not null default 1000 check (elo_rating >= 0),
+  custom_tickets integer not null default 0 check (custom_tickets >= 0),
+  is_vip boolean not null default false,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );

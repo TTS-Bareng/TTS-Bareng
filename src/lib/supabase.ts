@@ -63,7 +63,7 @@ export interface DbMabarRoom {
 }
 
 /**
- * Upsert user profile to Supabase
+ * Upsert user profile to Supabase (including ELO rating, custom tickets, and VIP status)
  */
 export async function syncUserProfile(profile: {
   id?: string;
@@ -73,6 +73,9 @@ export async function syncUserProfile(profile: {
   stars: number;
   streak: number;
   totalWordsSolved: number;
+  eloRating?: number;
+  customTickets?: number;
+  isVip?: boolean;
 }): Promise<boolean> {
   if (!isSupabaseConfigured) return false;
   try {
@@ -85,6 +88,9 @@ export async function syncUserProfile(profile: {
         stars: profile.stars,
         streak: profile.streak,
         total_words_solved: profile.totalWordsSolved,
+        elo_rating: profile.eloRating ?? 1000,
+        custom_tickets: profile.customTickets ?? 0,
+        is_vip: profile.isVip ?? false,
         updated_at: new Date().toISOString(),
       },
       { onConflict: 'id' }
@@ -97,6 +103,32 @@ export async function syncUserProfile(profile: {
   } catch (err) {
     console.warn('Supabase sync failed:', err);
     return false;
+  }
+}
+
+/**
+ * Fetch user profile from Supabase
+ */
+export async function fetchUserProfile(userId: string): Promise<{
+  elo_rating?: number;
+  custom_tickets?: number;
+  is_vip?: boolean;
+  stars?: number;
+  streak?: number;
+} | null> {
+  if (!isSupabaseConfigured || !userId) return null;
+  try {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('elo_rating, custom_tickets, is_vip, stars, streak')
+      .eq('id', userId)
+      .maybeSingle();
+
+    if (error || !data) return null;
+    return data;
+  } catch (err) {
+    console.warn('Failed to fetch user profile:', err);
+    return null;
   }
 }
 
