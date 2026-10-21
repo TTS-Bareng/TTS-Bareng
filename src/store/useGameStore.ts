@@ -11,7 +11,13 @@ import {
   type MatchProgressPayload,
   type MatchCompletedPayload,
 } from '../lib/tournamentRealtime';
-import { submitDailyRushScore, fetchDailyRushLeaderboard, type DbDailyRushRecord } from '../lib/supabase';
+import {
+  submitDailyRushScore,
+  fetchDailyRushLeaderboard,
+  type DbDailyRushRecord,
+  saveTournamentToDb,
+  fetchPublicTournamentsFromDb,
+} from '../lib/supabase';
 import {
   createInitialTournamentState,
   loadTournamentState,
@@ -255,6 +261,7 @@ interface GameState {
   receiveTournamentMatchCompleted: (payload: MatchCompletedPayload) => void;
   receivePublicTournament: (tournament: CommunityTournament) => void;
   removePublicTournament: (tournamentId: string) => void;
+  refreshPublicTournamentsFromDb: () => Promise<void>;
 
   // User Profile
   user: UserProfile;
@@ -1626,6 +1633,19 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({ publicTournaments: updated });
   },
 
+  refreshPublicTournamentsFromDb: async () => {
+    const dbTourneys = await fetchPublicTournamentsFromDb();
+    if (dbTourneys.length > 0) {
+      const { publicTournaments } = get();
+      const map = new Map<string, CommunityTournament>();
+      publicTournaments.forEach((t) => map.set(t.id, t));
+      dbTourneys.forEach((t) => map.set(t.id, t));
+      const merged = Array.from(map.values());
+      savePublicTournaments(merged);
+      set({ publicTournaments: merged });
+    }
+  },
+
   createTournament: (
     name: string,
     format: TournamentFormat,
@@ -1641,6 +1661,9 @@ export const useGameStore = create<GameState>((set, get) => ({
     );
     const updatedPublic = [newTourney, ...publicTournaments.filter((t) => t.id !== newTourney.id)];
     savePublicTournaments(updatedPublic);
+
+    // Save to Supabase Cloud Database (fire-and-forget)
+    saveTournamentToDb(newTourney);
 
     // Connect to Supabase Realtime channel as host
     tournamentRealtime.joinTournament(newTourney.code, {
@@ -1722,6 +1745,9 @@ export const useGameStore = create<GameState>((set, get) => ({
     const updatedPublic = publicTournaments.map((t) => (t.id === target?.id ? updatedTourney : t));
     savePublicTournaments(updatedPublic);
 
+    // Save to Supabase Cloud Database (fire-and-forget)
+    saveTournamentToDb(updatedTourney);
+
     // Connect to Supabase Realtime channel
     tournamentRealtime.joinTournament(cleanCode, {
       id: myId,
@@ -1750,6 +1776,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     if (!activeTournament) return;
     const updated = fillRemainingSlotsWithBots(activeTournament);
     tournamentRealtime.broadcastTournamentSync(updated);
+    saveTournamentToDb(updated);
     set({ activeTournament: updated });
     showGlobalToast(`Slot berhasil dilengkapi dengan Jawara TTS! Siap tanding!`, 2500);
   },
@@ -1778,6 +1805,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     saveActiveCommunityTournament(startedTourney);
     tournamentRealtime.broadcastTournamentStart(startedTourney);
+    saveTournamentToDb(startedTourney);
     set({ activeTournament: startedTourney });
     showGlobalToast('Bagan telah diundi! Pertandingan dimulai!', 3000);
   },
@@ -2275,6 +2303,9 @@ export const useGameStore = create<GameState>((set, get) => ({
         currentRoundIdx,
         myId
       );
+
+      // Save fully updated tournament state to cloud database
+      saveTournamentToDb(fullyUpdatedTourney);
 
       const nextTrophies = loadTrophies();
 

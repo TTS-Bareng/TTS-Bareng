@@ -10,6 +10,7 @@ import {
 import { useGameStore } from '../store/useGameStore';
 import { QrScannerModal } from './QrScannerModal';
 import { extractTournamentCodeFromText, extractRoomCodeFromText } from '../lib/deeplink';
+import { fetchTournamentByCodeFromDb } from '../lib/supabase';
 
 export const JoinTournamentModal: React.FC = () => {
   const {
@@ -38,14 +39,23 @@ export const JoinTournamentModal: React.FC = () => {
     setCode(clean.slice(0, 8));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!code.trim() || code.length < 6) {
       showGlobalToast('Masukkan format kode turnamen yang valid (contoh: CUP-7721)', 2500);
       return;
     }
 
-    const res = joinTournament(code.trim());
+    const cleanCode = code.trim().toUpperCase();
+    const existing = useGameStore.getState().publicTournaments.find((t) => t.code === cleanCode);
+    if (!existing) {
+      const fromDb = await fetchTournamentByCodeFromDb(cleanCode);
+      if (fromDb) {
+        useGameStore.getState().receivePublicTournament(fromDb);
+      }
+    }
+
+    const res = joinTournament(cleanCode);
     if (res.success) {
       showGlobalToast(res.message, 2500);
       closeJoinTournament();
@@ -54,7 +64,7 @@ export const JoinTournamentModal: React.FC = () => {
     }
   };
 
-  const handleScanSuccess = (scannedText: string) => {
+  const handleScanSuccess = async (scannedText: string) => {
     closeScanner();
     const resolvedCode =
       extractTournamentCodeFromText(scannedText) ||
@@ -63,7 +73,17 @@ export const JoinTournamentModal: React.FC = () => {
 
     if (resolvedCode) {
       showGlobalToast(`Kode terdeteksi: ${resolvedCode}`);
-      const res = joinTournament(resolvedCode);
+
+      const cleanCode = resolvedCode.trim().toUpperCase();
+      const existing = useGameStore.getState().publicTournaments.find((t) => t.code === cleanCode);
+      if (!existing) {
+        const fromDb = await fetchTournamentByCodeFromDb(cleanCode);
+        if (fromDb) {
+          useGameStore.getState().receivePublicTournament(fromDb);
+        }
+      }
+
+      const res = joinTournament(cleanCode);
       showGlobalToast(res.message, 2500);
       if (res.success) {
         closeJoinTournament();

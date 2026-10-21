@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import type { CommunityTournament } from './tournament';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
@@ -151,5 +152,125 @@ export async function fetchDailyRushLeaderboard(dateStr: string, limit = 20): Pr
     return data as DbDailyRushRecord[];
   } catch {
     return [];
+  }
+}
+
+// ============================================================================
+// COMMUNITY TOURNAMENTS CLOUD PERSISTENCE
+// ============================================================================
+
+interface DbTournamentRow {
+  id: string;
+  code: string;
+  name: string;
+  host_id: string;
+  host_name: string;
+  format: any;
+  round_duration_seconds: number;
+  theme_category: string;
+  status: any;
+  max_players: number;
+  players: any;
+  matches: any;
+  champion?: any;
+  created_at: string;
+}
+
+function mapDbToTournament(row: DbTournamentRow): CommunityTournament {
+  return {
+    id: row.id,
+    code: row.code,
+    name: row.name,
+    hostId: row.host_id,
+    hostName: row.host_name,
+    format: row.format,
+    roundDurationSeconds: row.round_duration_seconds,
+    themeCategory: row.theme_category,
+    status: row.status,
+    maxPlayers: row.max_players,
+    players: Array.isArray(row.players) ? row.players : [],
+    matches: Array.isArray(row.matches) ? row.matches : [],
+    champion: row.champion || undefined,
+    createdAt: row.created_at || 'Baru saja',
+  };
+}
+
+function mapTournamentToDb(t: CommunityTournament) {
+  return {
+    id: t.id,
+    code: t.code,
+    name: t.name,
+    host_id: t.hostId,
+    host_name: t.hostName,
+    format: t.format,
+    round_duration_seconds: t.roundDurationSeconds,
+    theme_category: t.themeCategory,
+    status: t.status,
+    max_players: t.maxPlayers,
+    players: t.players,
+    matches: t.matches,
+    champion: t.champion || null,
+    updated_at: new Date().toISOString(),
+  };
+}
+
+/**
+ * Save or update community tournament record in Supabase DB
+ */
+export async function saveTournamentToDb(t: CommunityTournament): Promise<boolean> {
+  if (!isSupabaseConfigured) return false;
+  try {
+    const payload = mapTournamentToDb(t);
+    const { error } = await supabase
+      .from('community_tournaments')
+      .upsert(payload, { onConflict: 'id' });
+
+    if (error) {
+      console.warn('Supabase save tournament error:', error.message);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.warn('Supabase save tournament failed:', err);
+    return false;
+  }
+}
+
+/**
+ * Fetch all public community tournaments from Supabase DB
+ */
+export async function fetchPublicTournamentsFromDb(limit = 30): Promise<CommunityTournament[]> {
+  if (!isSupabaseConfigured) return [];
+  try {
+    const { data, error } = await supabase
+      .from('community_tournaments')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(limit);
+
+    if (error || !data) return [];
+    return (data as unknown as DbTournamentRow[]).map(mapDbToTournament);
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Fetch a single tournament by its CUP-XXXX code from Supabase DB
+ */
+export async function fetchTournamentByCodeFromDb(code: string): Promise<CommunityTournament | null> {
+  if (!isSupabaseConfigured || !code) return null;
+  try {
+    const cleanCode = code.trim().toUpperCase();
+    const { data, error } = await supabase
+      .from('community_tournaments')
+      .select('*')
+      .eq('code', cleanCode)
+      .maybeSingle();
+
+    if (error || !data) return null;
+    return mapDbToTournament(data as unknown as DbTournamentRow);
+  } catch {
+    return null;
   }
 }

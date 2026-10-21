@@ -37,6 +37,7 @@ export const TournamentHubView: React.FC = () => {
     showGlobalToast,
     activeTournament,
     publicTournaments,
+    refreshPublicTournamentsFromDb,
     tournamentPeers,
     openCreateTournament,
     openJoinTournament,
@@ -58,13 +59,14 @@ export const TournamentHubView: React.FC = () => {
 
   const isHost = activeTournament?.hostId === (user.id || 'player_local');
 
-  // Subscribe to public tournaments broadcast channel
+  // Subscribe to public tournaments broadcast channel & sync from cloud DB
   useEffect(() => {
+    refreshPublicTournamentsFromDb();
     tournamentRealtime.subscribePublicTournaments();
     return () => {
       tournamentRealtime.unsubscribePublicTournaments();
     };
-  }, []);
+  }, [refreshPublicTournamentsFromDb]);
 
   // Ensure active tournament realtime channel is joined
   useEffect(() => {
