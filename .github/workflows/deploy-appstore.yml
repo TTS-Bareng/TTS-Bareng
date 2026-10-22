@@ -29,11 +29,25 @@ jobs:
           node-version: 22
           cache: 'npm'
 
-      # 3. Install Dependencies
+      # 3. Select Latest Xcode Toolchain (Xcode 26+ / iOS 26+ SDK)
+      - name: Select Xcode Toolchain
+        run: |
+          LATEST_XCODE=$(find /Applications -maxdepth 1 -name "Xcode*.app" | sort -V | tail -n 1)
+          if [ -n "$LATEST_XCODE" ]; then
+            echo "Selecting latest Xcode: $LATEST_XCODE"
+            sudo xcode-select -s "$LATEST_XCODE"
+          elif [ -d "/Applications/Xcode_26.0.app" ]; then
+            sudo xcode-select -s /Applications/Xcode_26.0.app
+          elif [ -d "/Applications/Xcode.app" ]; then
+            sudo xcode-select -s /Applications/Xcode.app
+          fi
+          xcodebuild -version
+
+      # 4. Install Dependencies
       - name: Install Dependencies
         run: npm install
 
-      # 4. Build Web App & Sync Capacitor iOS
+      # 5. Build Web App & Sync Capacitor iOS
       - name: Build Web & Sync Capacitor iOS
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
@@ -43,7 +57,16 @@ jobs:
           npm run build
           npx cap sync ios
 
-      # 5. Setup Temporary Keychain & Import Certificate (with OpenSSL legacy fallback)
+      # 6. Set iOS Build Number
+      - name: Set iOS Build Number
+        run: |
+          BUILD_NUM="${{ github.run_number }}"
+          echo "Setting CFBundleVersion to: $BUILD_NUM"
+          cd ios/App
+          agvtool new-version -all "$BUILD_NUM" || true
+          cd ../..
+
+      # 7. Setup Temporary Keychain & Import Certificate (with OpenSSL legacy fallback)
       - name: Setup Keychain & Apple Distribution Certificate
         env:
           P12_BASE64: ${{ secrets.APPLE_CERTIFICATE_P12_BASE64 }}
