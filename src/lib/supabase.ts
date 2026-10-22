@@ -306,3 +306,26 @@ export async function fetchTournamentByCodeFromDb(code: string): Promise<Communi
     return null;
   }
 }
+
+/**
+ * Sign in with Apple via Supabase OAuth (Apple Guideline 4.8 Compliance)
+ */
+export async function signInWithApple(): Promise<{ user?: any; error?: string }> {
+  if (!isSupabaseConfigured) {
+    return { error: 'Layanan Supabase belum terkonfigurasi' };
+  }
+  try {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'apple',
+      options: {
+        redirectTo: window.location.origin,
+      },
+    });
+    if (error) {
+      return { error: error.message };
+    }
+    return { user: data };
+  } catch (err: any) {
+    return { error: err?.message || 'Gagal memulai Sign in with Apple' };
+  }
+}

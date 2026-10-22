@@ -11,6 +11,7 @@ import {
   Crown,
   Lock,
   CheckCircle2,
+  RefreshCw,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { generateCustomCrossword, type UserWordInput } from '../lib/customCrosswordGenerator';
@@ -19,6 +20,7 @@ import { soundManager } from '../lib/audio';
 import { haptic } from '../lib/haptics';
 import confetti from 'canvas-confetti';
 import { MASCOTS } from '../assets/maskots';
+import { revenueCatService } from '../lib/revenueCatService';
 
 export const CustomCrosswordModal: React.FC = () => {
   const {
@@ -29,11 +31,55 @@ export const CustomCrosswordModal: React.FC = () => {
     setIsVip,
     consumeCustomTtsTicket,
     openSachetModal,
+    openLegalModal,
     showGlobalToast,
     soundEnabled,
     hapticEnabled,
     openShareModal,
   } = useGameStore();
+
+  const [isPurchasingVip, setIsPurchasingVip] = useState(false);
+
+  const handlePurchaseVip = async () => {
+    try {
+      setIsPurchasingVip(true);
+      const res = await revenueCatService.purchaseVipMonthly();
+      if (res.success || res.entitlementUnlocked) {
+        setIsVip(true);
+        if (soundEnabled) soundManager.playVictory();
+        if (hapticEnabled) haptic.success([40, 80, 50]);
+        confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+        showGlobalToast('👑 Selamat! Langganan TTS Pass VIP Berhasil Diaktifkan!', 4500);
+      } else if (res.cancelled) {
+        showGlobalToast('Pembelian dibatalkan.');
+      } else if (res.error) {
+        showGlobalToast(res.error);
+      }
+    } catch (err: any) {
+      showGlobalToast(err?.message || 'Gagal memproses langganan VIP.');
+    } finally {
+      setIsPurchasingVip(false);
+    }
+  };
+
+  const handleRestorePurchases = async () => {
+    try {
+      setIsPurchasingVip(true);
+      const res = await revenueCatService.restorePurchases();
+      if (res.isVip) {
+        setIsVip(true);
+        showGlobalToast('✨ Status VIP Anda berhasil dipulihkan dari Apple ID!', 4000);
+      } else if (res.success) {
+        showGlobalToast('Tidak ada langganan VIP aktif pada akun Apple ini.', 3500);
+      } else {
+        showGlobalToast(res.error || 'Gagal memulihkan pembelian.', 3500);
+      }
+    } catch {
+      showGlobalToast('Gagal memulihkan pembelian.');
+    } finally {
+      setIsPurchasingVip(false);
+    }
+  };
 
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('Kolega & Teman');
@@ -234,15 +280,50 @@ export const CustomCrosswordModal: React.FC = () => {
 
                 <button
                   type="button"
-                  onClick={() => {
-                    setIsVip(true);
-                    showGlobalToast('👑 Selamat! Akses TTS Pass VIP Aktif!', 3000);
-                  }}
-                  className="w-full py-2.5 rounded-2xl bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 text-[var(--text-primary)] font-bold text-[11.5px] cursor-pointer tactile-active border border-black/5 dark:border-white/10 flex items-center justify-center gap-1.5"
+                  disabled={isPurchasingVip}
+                  onClick={handlePurchaseVip}
+                  className="w-full py-2.5 rounded-2xl bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 text-[var(--text-primary)] font-bold text-[11.5px] cursor-pointer tactile-active border border-black/5 dark:border-white/10 flex items-center justify-between px-3 disabled:opacity-50"
                 >
-                  <Crown className="w-3.5 h-3.5 text-amber-500" />
-                  <span>Aktifkan TTS Pass VIP (Unlimited)</span>
+                  <div className="flex items-center gap-1.5">
+                    {isPurchasingVip ? (
+                      <RefreshCw className="w-3.5 h-3.5 animate-spin text-amber-500" />
+                    ) : (
+                      <Crown className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                    )}
+                    <span>{isPurchasingVip ? 'Menghubungkan StoreKit...' : 'Aktifkan TTS Pass VIP (Unlimited)'}</span>
+                  </div>
+                  <span className="font-mono text-[10px] text-[var(--text-secondary)]">
+                    Rp 29.000/bln
+                  </span>
                 </button>
+
+                {/* Apple Guideline 3.1.1 Mandatory Compliance Links */}
+                <div className="flex items-center justify-center gap-2 pt-1 border-t border-black/5 dark:border-white/5 text-[9px] text-[var(--text-secondary)]">
+                  <button
+                    type="button"
+                    onClick={handleRestorePurchases}
+                    disabled={isPurchasingVip}
+                    className="hover:underline hover:text-[var(--text-primary)] cursor-pointer"
+                  >
+                    Pulihkan Pembelian
+                  </button>
+                  <span>•</span>
+                  <button
+                    type="button"
+                    onClick={() => openLegalModal('terms')}
+                    className="hover:underline hover:text-[var(--text-primary)] cursor-pointer"
+                  >
+                    EULA / Ketentuan
+                  </button>
+                  <span>•</span>
+                  <button
+                    type="button"
+                    onClick={() => openLegalModal('privacy')}
+                    className="hover:underline hover:text-[var(--text-primary)] cursor-pointer"
+                  >
+                    Privasi
+                  </button>
+                </div>
               </div>
             </div>
           ) : (

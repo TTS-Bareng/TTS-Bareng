@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Sparkles, Star, PenTool, Check, Crown, Flame } from 'lucide-react';
+import { X, Sparkles, Star, PenTool, Check, Crown, Flame, RefreshCw } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
+import { revenueCatService } from '../lib/revenueCatService';
 
 export const SachetOfferModal: React.FC = () => {
   const {
@@ -10,13 +11,55 @@ export const SachetOfferModal: React.FC = () => {
     closeSachetModal,
     purchaseSachetPack,
     openCustomCrosswordModal,
+    openLegalModal,
+    showGlobalToast,
     isVip,
+    setIsVip,
   } = useGameStore();
+
+  const [isProcessing, setIsProcessing] = useState(false);
 
   if (!isSachetModalOpen) return null;
 
-  const handlePurchase = () => {
-    purchaseSachetPack();
+  const handlePurchase = async () => {
+    try {
+      setIsProcessing(true);
+      const result = await revenueCatService.purchaseSachetStarter();
+
+      if (result.success) {
+        purchaseSachetPack();
+        if (result.entitlementUnlocked) {
+          setIsVip(true);
+        }
+      } else if (result.cancelled) {
+        showGlobalToast('Pembelian dibatalkan.');
+      } else if (result.error) {
+        showGlobalToast(result.error);
+      }
+    } catch (err: any) {
+      showGlobalToast(err?.message || 'Gagal memproses transaksi.');
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleRestore = async () => {
+    try {
+      setIsProcessing(true);
+      const res = await revenueCatService.restorePurchases();
+      if (res.isVip) {
+        setIsVip(true);
+        showGlobalToast('✨ Status VIP Anda berhasil dipulihkan dari Apple ID!', 4000);
+      } else if (res.success) {
+        showGlobalToast('Tidak ada langganan aktif yang ditemukan di Apple ID ini.', 3500);
+      } else {
+        showGlobalToast(res.error || 'Gagal memulihkan pembelian.', 3500);
+      }
+    } catch {
+      showGlobalToast('Gagal memulihkan pembelian.');
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const handleUpgradeVip = () => {
@@ -142,12 +185,17 @@ export const SachetOfferModal: React.FC = () => {
           <div className="w-full flex flex-col gap-2 mt-0.5">
             <button
               type="button"
+              disabled={isProcessing}
               onClick={handlePurchase}
-              className="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-black text-[13px] cursor-pointer tactile-active shadow-lg shadow-amber-500/25 flex items-center justify-between border border-amber-300/40"
+              className="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-black text-[13px] cursor-pointer tactile-active shadow-lg shadow-amber-500/25 flex items-center justify-between border border-amber-300/40 disabled:opacity-50 transition-opacity"
             >
               <div className="flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 fill-black" />
-                <span>Beli Paket Pemula</span>
+                {isProcessing ? (
+                  <RefreshCw className="w-4 h-4 animate-spin text-black" />
+                ) : (
+                  <Sparkles className="w-4 h-4 fill-black" />
+                )}
+                <span>{isProcessing ? 'Memproses Transaksi...' : 'Beli Paket Pemula'}</span>
               </div>
               <div className="px-2 py-0.5 rounded-lg bg-black/20 text-black font-mono font-black text-[12px]">
                 Rp 5.000
@@ -165,6 +213,34 @@ export const SachetOfferModal: React.FC = () => {
                 <span>Ingin bikin TTS sepuasnya tanpa batas? Cek TTS Pass VIP</span>
               </button>
             )}
+
+            {/* Apple Guideline 3.1.1 Mandatory Compliance Links */}
+            <div className="flex items-center justify-center gap-2 pt-1 border-t border-black/5 dark:border-white/5 text-[9px] text-[var(--text-secondary)]">
+              <button
+                type="button"
+                onClick={handleRestore}
+                disabled={isProcessing}
+                className="hover:underline hover:text-[var(--text-primary)] cursor-pointer"
+              >
+                Pulihkan Pembelian
+              </button>
+              <span>•</span>
+              <button
+                type="button"
+                onClick={() => openLegalModal('terms')}
+                className="hover:underline hover:text-[var(--text-primary)] cursor-pointer"
+              >
+                EULA / Ketentuan
+              </button>
+              <span>•</span>
+              <button
+                type="button"
+                onClick={() => openLegalModal('privacy')}
+                className="hover:underline hover:text-[var(--text-primary)] cursor-pointer"
+              >
+                Privasi
+              </button>
+            </div>
           </div>
         </motion.div>
       </div>

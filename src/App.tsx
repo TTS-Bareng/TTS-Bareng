@@ -9,6 +9,7 @@ import { NavigationBottomBar } from './components/NavigationBottomBar';
 import { NetworkStatusBar } from './components/NetworkStatusBar';
 import { notificationService } from './lib/notificationService';
 import { soundManager } from './lib/audio';
+import { revenueCatService } from './lib/revenueCatService';
 
 // Lazy-loaded views & modals for instant initial launch (< 200ms)
 const ArenaView = lazy(() => import('./views/ArenaView').then((m) => ({ default: m.ArenaView })));
@@ -94,6 +95,17 @@ export const App: React.FC = () => {
     if (ambientEnabled && soundEnabled) {
       soundManager.startFocusAmbient(ambientVolume);
     }
+  }, []);
+
+  // Initialize RevenueCat SDK & Verify Apple VIP Entitlements
+  useEffect(() => {
+    const user = useGameStore.getState().user;
+    revenueCatService.initialize(user?.id).then(async () => {
+      const isVipActive = await revenueCatService.checkVipStatus();
+      if (isVipActive && !useGameStore.getState().isVip) {
+        useGameStore.getState().setIsVip(true);
+      }
+    });
   }, []);
 
   // Apply theme tokens on initial mount and when theme changes
