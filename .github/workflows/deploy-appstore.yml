@@ -103,31 +103,33 @@ jobs:
       - name: Configure App Target Signing Settings
         env:
           TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          PBXPROJ: ios/App/App.xcodeproj/project.pbxproj
         run: |
-          PBXPROJ="ios/App/App.xcodeproj/project.pbxproj"
-
-          # Ubah Release buildSettings target App agar menggunakan profil spesifik secara manual
-          # SPM / Pods / Extensions tidak akan terdampak
           node -e '
             const fs = require("fs");
-            let content = fs.readFileSync(process.env.PBXPROJ, "utf8");
+            const pbxPath = process.env.PBXPROJ || "ios/App/App.xcodeproj/project.pbxproj";
+            let content = fs.readFileSync(pbxPath, "utf8");
             
-            // Tambahkan konfigurasi manual signing khusus Release target
-            content = content.replace(
-              /504EC3181FED79650016851F \/\* Release \*\/ = \{[\s\S]*?buildSettings = \{([\s\S]*?)\};/m,
-              (match, settings) => {
-                let updated = settings
-                  .replace(/CODE_SIGN_STYLE = Automatic;/g, "CODE_SIGN_STYLE = Manual;")
-                  .replace(/DEVELOPMENT_TEAM = .*?;/g, "");
-                
-                updated += `\n\t\t\t\tDEVELOPMENT_TEAM = "${process.env.TEAM_ID}";`;
-                updated += `\n\t\t\t\tCODE_SIGN_IDENTITY = "Apple Distribution";`;
-                updated += `\n\t\t\t\tPROVISIONING_PROFILE_SPECIFIER = "${process.env.APPLE_PROFILE_NAME}";`;
-                return match.replace(settings, updated);
-              }
-            );
+            const targetRegex = /504EC3181FED79650016851F \/\* Release \*\/ = \{[\s\S]*?buildSettings = \{([\s\S]*?)\};/m;
+            if (!targetRegex.test(content)) {
+              console.error("ERROR: App target Release buildSettings not found in project.pbxproj!");
+              process.exit(1);
+            }
 
-            fs.writeFileSync(process.env.PBXPROJ, content, "utf8");
+            console.log("Configuring signing with Team ID:", process.env.TEAM_ID, "and Profile:", process.env.APPLE_PROFILE_NAME);
+
+            content = content.replace(targetRegex, (match, settings) => {
+              let updated = settings
+                .replace(/CODE_SIGN_STYLE = Automatic;/g, "CODE_SIGN_STYLE = Manual;")
+                .replace(/DEVELOPMENT_TEAM = .*?;/g, "");
+              
+              updated += `\n\t\t\t\tDEVELOPMENT_TEAM = "${process.env.TEAM_ID}";`;
+              updated += `\n\t\t\t\tCODE_SIGN_IDENTITY = "Apple Distribution";`;
+              updated += `\n\t\t\t\tPROVISIONING_PROFILE_SPECIFIER = "${process.env.APPLE_PROFILE_NAME}";`;
+              return match.replace(settings, updated);
+            });
+
+            fs.writeFileSync(pbxPath, content, "utf8");
             console.log("Updated App target signing in project.pbxproj successfully.");
           '
 
