@@ -103,11 +103,10 @@ jobs:
       - name: Configure App Target Signing Settings
         env:
           TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-          PBXPROJ: ios/App/App.xcodeproj/project.pbxproj
         run: |
           node -e '
             const fs = require("fs");
-            const pbxPath = process.env.PBXPROJ || "ios/App/App.xcodeproj/project.pbxproj";
+            const pbxPath = "ios/App/App.xcodeproj/project.pbxproj";
             let content = fs.readFileSync(pbxPath, "utf8");
             
             const targetRegex = /504EC3181FED79650016851F \/\* Release \*\/ = \{[\s\S]*?buildSettings = \{([\s\S]*?)\};/m;
@@ -116,16 +115,19 @@ jobs:
               process.exit(1);
             }
 
-            console.log("Configuring signing with Team ID:", process.env.TEAM_ID, "and Profile:", process.env.APPLE_PROFILE_NAME);
+            const teamId = process.env.TEAM_ID || "VU4PP3SY5B";
+            const profileName = process.env.APPLE_PROFILE_NAME || "TTS Bareng";
+
+            console.log("Configuring signing with Team ID:", teamId, "and Profile:", profileName);
 
             content = content.replace(targetRegex, (match, settings) => {
               let updated = settings
                 .replace(/CODE_SIGN_STYLE = Automatic;/g, "CODE_SIGN_STYLE = Manual;")
                 .replace(/DEVELOPMENT_TEAM = .*?;/g, "");
               
-              updated += `\n\t\t\t\tDEVELOPMENT_TEAM = "${process.env.TEAM_ID}";`;
+              updated += `\n\t\t\t\tDEVELOPMENT_TEAM = "${teamId}";`;
               updated += `\n\t\t\t\tCODE_SIGN_IDENTITY = "Apple Distribution";`;
-              updated += `\n\t\t\t\tPROVISIONING_PROFILE_SPECIFIER = "${process.env.APPLE_PROFILE_NAME}";`;
+              updated += `\n\t\t\t\tPROVISIONING_PROFILE_SPECIFIER = "${profileName}";`;
               return match.replace(settings, updated);
             });
 
@@ -164,7 +166,7 @@ jobs:
               <key>method</key>
               <string>app-store</string>
               <key>teamID</key>
-              <string>${TEAM_ID}</string>
+              <string>${TEAM_ID:-VU4PP3SY5B}</string>
               <key>signingStyle</key>
               <string>manual</string>
               <key>signingCertificate</key>
@@ -172,7 +174,7 @@ jobs:
               <key>provisioningProfiles</key>
               <dict>
                   <key>${BUNDLE_ID}</key>
-                  <string>${APPLE_PROFILE_NAME}</string>
+                  <string>${APPLE_PROFILE_NAME:-TTS Bareng}</string>
               </dict>
               <key>destination</key>
               <string>export</string>
