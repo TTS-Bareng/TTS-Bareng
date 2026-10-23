@@ -85,11 +85,11 @@ export const SachetOfferModal: React.FC = () => {
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.88, opacity: 0, y: 25 }}
           transition={{ type: 'spring', damping: 25, stiffness: 320 }}
-          className="relative w-full max-w-[340px] max-h-[92vh] rounded-[32px] p-5 flex flex-col items-center gap-3.5 shadow-2xl z-10 border border-amber-500/25 liquid-glass-card overflow-hidden text-center"
+          className="relative w-full max-w-[340px] max-h-[92vh] rounded-[32px] p-5 flex flex-col items-center gap-3.5 shadow-2xl z-10 border border-[var(--accent-main)]/20 liquid-glass-card overflow-hidden text-center"
         >
           {/* Top Specular Sheen Highlight */}
-          <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-amber-300/60 to-transparent pointer-events-none" />
-          <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-amber-400/15 blur-2xl pointer-events-none" />
+          <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
+          <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-[var(--accent-light)] blur-2xl pointer-events-none opacity-60" />
 
           {/* Close Button */}
           <button
@@ -111,15 +111,18 @@ export const SachetOfferModal: React.FC = () => {
               alt="Paket Pemula"
               className="w-full h-full object-contain filter drop-shadow-lg"
             />
-            <div className="absolute -bottom-1 -right-1 bg-amber-500 text-black font-black text-[9px] px-2 py-0.5 rounded-full shadow-md flex items-center gap-0.5">
-              <Sparkles className="w-2.5 h-2.5 fill-black" />
+            <div
+              className="absolute -bottom-1 -right-1 font-black text-[9px] px-2 py-0.5 rounded-full shadow-md flex items-center gap-0.5 border border-white/20"
+              style={{ background: 'var(--accent-grad)', color: 'var(--accent-contrast)' }}
+            >
+              <Sparkles className="w-2.5 h-2.5 fill-current" />
               <span>HEMAT 75%</span>
             </div>
           </div>
 
           {/* Title & Tagline */}
           <div className="flex flex-col items-center">
-            <span className="text-[8.5px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30">
+            <span className="text-[8.5px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/25">
               PAKET SACHET PEMULA
             </span>
             <h3 className="text-[19px] font-black tracking-tight text-[var(--text-primary)] mt-1.5 leading-tight">
@@ -131,11 +134,11 @@ export const SachetOfferModal: React.FC = () => {
           </div>
 
           {/* Benefits Bento Box */}
-          <div className="w-full rounded-2xl border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 p-3 flex flex-col gap-2 text-left">
+          <div className="w-full rounded-2xl border border-[var(--accent-main)]/20 bg-black/5 dark:bg-white/5 p-3 flex flex-col gap-2 text-left">
             {/* Benefit 1: Stars */}
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-amber-400/20 text-amber-500 flex items-center justify-center shrink-0 border border-amber-400/30">
-                <Star className="w-4 h-4 fill-amber-400" />
+              <div className="w-8 h-8 rounded-xl bg-[var(--accent-light)] text-[var(--accent-main)] flex items-center justify-center shrink-0 border border-[var(--accent-main)]/20">
+                <Star className="w-4 h-4 fill-current" />
               </div>
               <div className="flex-1 min-w-0">
                 <span className="text-[11.5px] font-black text-[var(--text-primary)] block leading-tight">
@@ -145,13 +148,13 @@ export const SachetOfferModal: React.FC = () => {
                   Untuk buka bantuan petak & tebak kata darurat
                 </span>
               </div>
-              <Check className="w-4 h-4 text-emerald-500 stroke-[2.5]" />
+              <Check className="w-4 h-4 text-[var(--accent-main)] stroke-[2.5]" />
             </div>
 
             {/* Benefit 2: Streak Shields */}
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-rose-500/20 text-rose-500 flex items-center justify-center shrink-0 border border-rose-500/30">
-                <Flame className="w-4 h-4 fill-rose-500" />
+              <div className="w-8 h-8 rounded-xl bg-[var(--accent-light)] text-[var(--accent-main)] flex items-center justify-center shrink-0 border border-[var(--accent-main)]/20">
+                <Flame className="w-4 h-4 fill-current" />
               </div>
               <div className="flex-1 min-w-0">
                 <span className="text-[11.5px] font-black text-[var(--text-primary)] block leading-tight">
@@ -161,12 +164,12 @@ export const SachetOfferModal: React.FC = () => {
                   Otomatis melindungi rentetan hari bila kamu lupa bermain
                 </span>
               </div>
-              <Check className="w-4 h-4 text-emerald-500 stroke-[2.5]" />
+              <Check className="w-4 h-4 text-[var(--accent-main)] stroke-[2.5]" />
             </div>
 
             {/* Benefit 3: Custom Crossword Ticket */}
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-500 flex items-center justify-center shrink-0 border border-indigo-500/30">
+              <div className="w-8 h-8 rounded-xl bg-[var(--accent-light)] text-[var(--accent-main)] flex items-center justify-center shrink-0 border border-[var(--accent-main)]/20">
                 <PenTool className="w-4 h-4" />
               </div>
               <div className="flex-1 min-w-0">
@@ -177,7 +180,7 @@ export const SachetOfferModal: React.FC = () => {
                   Bikin TTS unik sendiri & tantang teman-temanmu
                 </span>
               </div>
-              <Check className="w-4 h-4 text-emerald-500 stroke-[2.5]" />
+              <Check className="w-4 h-4 text-[var(--accent-main)] stroke-[2.5]" />
             </div>
           </div>
 
@@ -187,17 +190,18 @@ export const SachetOfferModal: React.FC = () => {
               type="button"
               disabled={isProcessing}
               onClick={handlePurchase}
-              className="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-black text-[13px] cursor-pointer tactile-active shadow-lg shadow-amber-500/25 flex items-center justify-between border border-amber-300/40 disabled:opacity-50 transition-opacity"
+              className="w-full py-3 px-4 rounded-2xl font-black text-[13px] cursor-pointer tactile-active shadow-md flex items-center justify-between border border-white/20 disabled:opacity-50 transition-opacity"
+              style={{ background: 'var(--accent-grad)', color: 'var(--accent-contrast)' }}
             >
               <div className="flex items-center gap-1.5">
                 {isProcessing ? (
-                  <RefreshCw className="w-4 h-4 animate-spin text-black" />
+                  <RefreshCw className="w-4 h-4 animate-spin" />
                 ) : (
-                  <Sparkles className="w-4 h-4 fill-black" />
+                  <Sparkles className="w-4 h-4 fill-current stroke-current" />
                 )}
                 <span>{isProcessing ? 'Memproses Transaksi...' : 'Beli Paket Pemula'}</span>
               </div>
-              <div className="px-2 py-0.5 rounded-lg bg-black/20 text-black font-mono font-black text-[12px]">
+              <div className="px-2 py-0.5 rounded-lg bg-black/15 dark:bg-white/20 font-mono font-black text-[12px]">
                 Rp 5.000
               </div>
             </button>
@@ -209,7 +213,7 @@ export const SachetOfferModal: React.FC = () => {
                 onClick={handleUpgradeVip}
                 className="text-[10px] text-[var(--text-secondary)] hover:text-[var(--accent-main)] font-bold transition-colors cursor-pointer flex items-center justify-center gap-1"
               >
-                <Crown className="w-3 h-3 text-amber-500" />
+                <Crown className="w-3 h-3 text-[var(--accent-main)]" />
                 <span>Ingin bikin TTS sepuasnya tanpa batas? Cek TTS Pass VIP</span>
               </button>
             )}

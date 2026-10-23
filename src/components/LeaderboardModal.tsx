@@ -334,7 +334,7 @@ export const LeaderboardModal: React.FC = () => {
                               {item.name}
                             </span>
                             {item.isVip && (
-                              <Crown className="w-2.5 h-2.5 text-amber-500 fill-amber-500 shrink-0" />
+                              <Crown className="w-2.5 h-2.5 text-[var(--accent-main)] fill-current shrink-0" />
                             )}
                           </div>
                           <div className="flex items-center gap-1.5 text-[8.5px] text-[var(--text-secondary)] mt-0.5">
@@ -350,7 +350,7 @@ export const LeaderboardModal: React.FC = () => {
                       {/* ELO Rating Badge */}
                       <div className="text-right shrink-0">
                         <span className={`text-[13px] font-black block leading-none font-mono ${
-                          item.tier === 'grandmaster' ? 'text-amber-500' : 'text-[var(--text-primary)]'
+                          item.tier === 'grandmaster' ? 'text-[var(--accent-main)]' : 'text-[var(--text-primary)]'
                         }`}>
                           {item.elo}
                         </span>
@@ -415,7 +415,7 @@ export const LeaderboardModal: React.FC = () => {
                       <span className="text-[10.5px] font-black text-[var(--text-primary)] block leading-tight truncate">
                         {user.name}
                       </span>
-                      {isVip && <Crown className="w-2.5 h-2.5 text-amber-500 fill-amber-500 shrink-0" />}
+                      {isVip && <Crown className="w-2.5 h-2.5 text-[var(--accent-main)] fill-current shrink-0" />}
                     </div>
                     <span className="text-[8px] text-[var(--text-secondary)] flex items-center gap-1">
                       <span>{userTier.icon} {userTier.name}</span>

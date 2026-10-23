@@ -57,7 +57,7 @@ Seluruh halaman lain wajib mengadopsi anatomi visual, material, dan ritme yang t
 3. **Pill Kapsul (`rounded-full`)**:
    - Seluruh bar ticker/status menggunakan kapsul penuh melengkung (Dynamic Island style).
 
-### B. Strict Max 3-Color Palette Rule
+### B. Strict Max 3-Color Palette & Zero Hardcoded Colors Rule
 Tidak boleh ada lebih dari 3 warna dominan di halaman mana pun:
 1. **Warna 1: Base Canvas / Background**:
    - Tema gelap (`obsidian`, `espresso`, `oxford`): OLED dark (`#111113`, `#191716`, `#101520`).
@@ -67,11 +67,14 @@ Tidak boleh ada lebih dari 3 warna dominan di halaman mana pun:
      - `sage`: Authentic Kyoto Matcha Washi (`#DBE6DB`).
 2. **Warna 2: Monochrome / Context Ink & Surfaces**:
    - Teks primer (`#18181B` di terang, `#F5F5F4` di gelap, `#0F172A` di milky, `#122416` di sage).
-   - Teks sekunder zinc neutral atau turunan tint selaras.
+   - Teks sekunder zinc neutral atau turunan tint selaras (`var(--text-secondary)`).
    - Surface glass semi-transparan dengan specular top sheen 1.5px.
 3. **Warna 3: Theme Accent (Warna Tunggal)**:
-   - Hanya menggunakan token aksen tema aktif (`var(--accent-main)`, `var(--accent-light)`, `var(--accent-grad)`).
-   - **Dilarang keras membocorkan warna lain** (contoh: dilarang ada badge kuning/oranye/hijau hardcoded di tema berry blossom; bintang, api, dan badge wajib menggunakan `var(--accent-main)` atau monochrome).
+   - Hanya menggunakan token aksen tema aktif (`var(--accent-main)`, `var(--accent-light)`, `var(--accent-grad)`, `var(--accent-contrast)`).
+   - **Dilarang keras membocorkan warna lain** (Dilarang ada badge kuning/oranye/hijau/indigo hardcoded seperti `text-amber-*`, `bg-indigo-*`, `text-emerald-*`; bintang, api, dan badge wajib menggunakan `var(--accent-main)` atau monochrome).
+   - **Paritas Light & Dark Mode**: Dilarang memaksakan kartu hitam pekat (`#141418`) di atas tema terang. Semua modal wajib memakai `liquid-glass-card` adaptif.
+   - **Keseragaman Bento Pods**: Semua tile metric (`ProfileView`, `HomeView`) wajib memakai background `linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)`, border `border-[var(--accent-main)]/20`, dan wadah ikon `w-7 h-7 rounded-xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)]`.
+   - **Full-Page Studio Canvas**: Fitur authoring kompleks seperti Studio Kreator TTS Custom dilarang dibuat sebagai modal mengambang sempit; wajib berupa kanvas layar penuh (*Full-Page Canvas*) minimalis.
 
 ### C. Aturan Bayangan: No Over Shadow & No Glowing Shadow
 - **Dilarang efek neon glow**: Jangan menggunakan `box-shadow` tebal berwarna atau ambient orbs fuzzy (`blur-3xl`).

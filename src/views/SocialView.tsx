@@ -490,7 +490,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
                 onClick={openLeaderboard}
                 className="py-1.5 px-3 rounded-full bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 text-[var(--text-primary)] text-[10px] font-black cursor-pointer tactile-active border border-black/5 dark:border-white/10 flex items-center gap-1"
               >
-                <Trophy className="w-3 h-3 text-amber-500 stroke-[2.2]" />
+                <Trophy className="w-3 h-3 text-[var(--accent-main)] stroke-[2.2]" />
                 <span>Klasemen</span>
               </button>
             </div>
@@ -502,14 +502,14 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
             <button
               type="button"
               onClick={openCustomCrosswordModal}
-              className="p-3 rounded-2xl liquid-glass-card border border-black/5 dark:border-white/10 flex flex-col text-left gap-1 cursor-pointer tactile-active hover:border-[var(--accent-main)]/30 transition-all group"
+              className="p-3 rounded-2xl liquid-glass-card border border-[var(--accent-main)]/20 flex flex-col text-left gap-1 cursor-pointer tactile-active hover:border-[var(--accent-main)]/40 transition-all group"
             >
               <div className="flex items-center justify-between w-full">
-                <div className="w-7 h-7 rounded-lg bg-indigo-500/15 text-indigo-500 flex items-center justify-center">
+                <div className="w-7 h-7 rounded-lg bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/20 flex items-center justify-center">
                   <PenTool className="w-3.5 h-3.5 stroke-[2.2]" />
                 </div>
                 {isVip ? (
-                  <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400">
+                  <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/25">
                     VIP Bebas
                   </span>
                 ) : (
@@ -530,17 +530,20 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
             <button
               type="button"
               onClick={openSachetModal}
-              className="p-3 rounded-2xl liquid-glass-card border border-amber-500/25 bg-amber-500/[0.04] flex flex-col text-left gap-1 cursor-pointer tactile-active hover:border-amber-500/50 transition-all group"
+              className="p-3 rounded-2xl liquid-glass-card border border-[var(--accent-main)]/20 bg-[var(--accent-light)]/30 flex flex-col text-left gap-1 cursor-pointer tactile-active hover:border-[var(--accent-main)]/40 transition-all group"
             >
               <div className="flex items-center justify-between w-full">
-                <div className="w-7 h-7 rounded-lg bg-amber-500/15 text-amber-500 flex items-center justify-center">
-                  <Sparkles className="w-3.5 h-3.5 fill-amber-500" />
+                <div className="w-7 h-7 rounded-lg bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/20 flex items-center justify-center">
+                  <Sparkles className="w-3.5 h-3.5 fill-current" />
                 </div>
-                <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-amber-500 text-black">
+                <span
+                  className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full border border-white/20"
+                  style={{ background: 'var(--accent-grad)', color: 'var(--accent-contrast)' }}
+                >
                   Rp 5.000
                 </span>
               </div>
-              <span className="text-[11.5px] font-black text-[var(--text-primary)] mt-0.5 leading-tight group-hover:text-amber-500 transition-colors">
+              <span className="text-[11.5px] font-black text-[var(--text-primary)] mt-0.5 leading-tight group-hover:text-[var(--accent-main)] transition-colors">
                 Paket Pemula Sachet
               </span>
               <span className="text-[8.5px] text-[var(--text-secondary)] leading-tight">

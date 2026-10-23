@@ -101,11 +101,11 @@ export const NotificationPromptModal: React.FC = () => {
           {/* Features Highlights */}
           <div className="flex flex-col gap-2 p-3 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 text-left my-1">
             <div className="flex items-center gap-2 text-[11px] font-bold text-[var(--text-primary)]">
-              <Flame className="w-3.5 h-3.5 text-amber-500 fill-current shrink-0" />
+              <Flame className="w-3.5 h-3.5 text-[var(--accent-main)] fill-current shrink-0" />
               <span>Peringatan darurat jam 21:00 jika belum main</span>
             </div>
             <div className="flex items-center gap-2 text-[11px] font-bold text-[var(--text-primary)]">
-              <Zap className="w-3.5 h-3.5 text-blue-500 stroke-[2.5] shrink-0" />
+              <Zap className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.5] shrink-0" />
               <span>Info tantangan kilat Daily Rush setiap pagi</span>
             </div>
           </div>

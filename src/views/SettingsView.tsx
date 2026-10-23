@@ -229,9 +229,9 @@ export const SettingsView: React.FC = () => {
           KEANGGOTAAN & STORE
         </span>
         <div
-          className="w-full rounded-[22px] overflow-hidden border border-amber-500/25 shadow-xs relative divide-y divide-black/5 dark:divide-white/10"
+          className="w-full rounded-[22px] overflow-hidden border border-[var(--accent-main)]/20 shadow-xs relative divide-y divide-black/5 dark:divide-white/10"
           style={{
-            background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, var(--bg-card) 60%, rgba(245, 158, 11, 0.04) 100%)',
+            background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
           }}
         >
           <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
@@ -242,26 +242,29 @@ export const SettingsView: React.FC = () => {
             className="flex items-center justify-between p-3.5 cursor-pointer tactile-active hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
           >
             <div className="flex items-center gap-3 min-w-0 pr-2">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 text-black flex items-center justify-center shrink-0 shadow-xs">
-                <Crown className="w-4.5 h-4.5 fill-black stroke-black" />
+              <div
+                className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 shadow-xs border border-white/20"
+                style={{ background: 'var(--accent-grad)', color: 'var(--accent-contrast)' }}
+              >
+                <Crown className="w-4.5 h-4.5 fill-current stroke-current" />
               </div>
               <div className="min-w-0 text-left">
                 <div className="flex items-center gap-1.5">
                   <span className="text-[12.5px] font-black text-[var(--text-primary)] block leading-tight">
                     TTS Pass VIP
                   </span>
-                  <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30">
+                  <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/25">
                     {isVip ? 'AKTIF 👑' : 'RP 29.000/BLN'}
                   </span>
                 </div>
                 <span className="text-[9px] text-[var(--text-secondary)] block truncate mt-0.5">
                   {isVip
                     ? 'Status langganan aktif — Bebas bikin TTS sepuasnya'
-                    : 'Buka studio kreasi tanpa batas & mahkota emas'}
+                    : 'Buka studio kreasi tanpa batas & mahkota eksklusif'}
                 </span>
               </div>
             </div>
-            <ChevronRight className="w-4 h-4 text-amber-500 shrink-0" />
+            <ChevronRight className="w-4 h-4 text-[var(--accent-main)] shrink-0" />
           </div>
 
           {/* Row 2: Paket Sachet Pemula */}
@@ -270,8 +273,8 @@ export const SettingsView: React.FC = () => {
             className="flex items-center justify-between p-3 cursor-pointer tactile-active hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
           >
             <div className="flex items-center gap-3 min-w-0 pr-2">
-              <div className="w-8 h-8 rounded-xl bg-amber-500/15 text-amber-500 flex items-center justify-center shrink-0">
-                <Sparkles className="w-4 h-4 fill-amber-500" />
+              <div className="w-8 h-8 rounded-xl bg-[var(--accent-light)] text-[var(--accent-main)] flex items-center justify-center shrink-0 border border-[var(--accent-main)]/20">
+                <Sparkles className="w-4 h-4 fill-current" />
               </div>
               <div className="min-w-0 text-left">
                 <span className="text-[12px] font-bold text-[var(--text-primary)] block leading-tight">

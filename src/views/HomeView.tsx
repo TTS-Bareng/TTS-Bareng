@@ -304,18 +304,19 @@ export const HomeView: React.FC = () => {
                 <button
                   type="button"
                   onClick={openVipModal}
-                  className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-black uppercase leading-none flex items-center gap-0.5 shadow-2xs cursor-pointer hover:scale-105 transition-transform"
+                  className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full uppercase leading-none flex items-center gap-0.5 shadow-2xs cursor-pointer hover:scale-105 transition-transform border border-white/20"
+                  style={{ background: 'var(--accent-grad)', color: 'var(--accent-contrast)' }}
                 >
-                  <Crown className="w-2.5 h-2.5 fill-black stroke-black" />
+                  <Crown className="w-2.5 h-2.5 fill-current stroke-current" />
                   <span>VIP</span>
                 </button>
               ) : (
                 <button
                   type="button"
                   onClick={openVipModal}
-                  className="text-[7.5px] font-bold px-1.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-400 uppercase leading-none flex items-center gap-0.5 cursor-pointer hover:bg-amber-500/25 transition-colors"
+                  className="text-[7.5px] font-bold px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)] uppercase leading-none flex items-center gap-0.5 cursor-pointer hover:opacity-85 transition-opacity"
                 >
-                  <Crown className="w-2.5 h-2.5" />
+                  <Crown className="w-2.5 h-2.5 stroke-[2.2]" />
                   <span>VIP</span>
                 </button>
               )}

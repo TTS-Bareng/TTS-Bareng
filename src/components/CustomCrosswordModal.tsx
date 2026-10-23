@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  X,
+  ArrowLeft,
   PenTool,
   Sparkles,
   Plus,
@@ -11,7 +11,7 @@ import {
   Crown,
   Lock,
   CheckCircle2,
-  RefreshCw,
+  Ticket,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { generateCustomCrossword, type UserWordInput } from '../lib/customCrosswordGenerator';
@@ -21,6 +21,15 @@ import { haptic } from '../lib/haptics';
 import confetti from 'canvas-confetti';
 import { MASCOTS } from '../assets/maskots';
 import { revenueCatService } from '../lib/revenueCatService';
+
+const TOPIC_PRESETS = [
+  'Kolega & Teman',
+  'Pop Culture',
+  'Keluarga',
+  'Nostalgia',
+  'Musik & Seni',
+  'Kisah Cinta',
+];
 
 export const CustomCrosswordModal: React.FC = () => {
   const {
@@ -98,8 +107,8 @@ export const CustomCrosswordModal: React.FC = () => {
   const hasAccess = isVip || customTtsTickets > 0;
 
   const handleAddWord = () => {
-    if (wordsList.length >= 6) {
-      showGlobalToast('Maksimal 6 kata untuk teka-teki silang mini.', 2500);
+    if (wordsList.length >= 8) {
+      showGlobalToast('Maksimal 8 kata untuk teka-teki silang kreasi.', 2500);
       return;
     }
     setWordsList((prev) => [...prev, { word: '', clue: '' }]);
@@ -142,7 +151,7 @@ export const CustomCrosswordModal: React.FC = () => {
   const handlePublishAndShare = () => {
     try {
       const generated = previewLevel || generateCustomCrossword(title || 'TTS Karyaku', category, wordsList);
-      
+
       const consumed = consumeCustomTtsTicket();
       if (!consumed) {
         showGlobalToast('Tiket kreasi tidak mencukupi.', 3000);
@@ -153,7 +162,9 @@ export const CustomCrosswordModal: React.FC = () => {
       if (hapticEnabled) haptic.success([40, 80, 50]);
       confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
 
-      const shareText = `🧩 Ayo mainkan TTS Karyaku: "${generated.title}" (${generated.clues.across.length + generated.clues.down.length} Kata)! Bisakah kamu menyelesaikannya? Buka di: ${window.location.origin}`;
+      const shareText = `🧩 Ayo mainkan TTS Karyaku: "${generated.title}" (${
+        generated.clues.across.length + generated.clues.down.length
+      } Kata)! Bisakah kamu menyelesaikannya? Buka di: ${window.location.origin}`;
 
       if (navigator.clipboard) {
         navigator.clipboard.writeText(shareText);
@@ -184,293 +195,382 @@ export const CustomCrosswordModal: React.FC = () => {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 select-none">
-        {/* Dark Backdrop */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.65 }}
-          exit={{ opacity: 0 }}
-          onClick={closeCustomCrosswordModal}
-          className="absolute inset-0 bg-black/60 backdrop-blur-md"
-        />
-
-        {/* Modal Card Content (Apple Liquid Glass) */}
-        <motion.div
-          initial={{ scale: 0.88, opacity: 0, y: 25 }}
-          animate={{ scale: 1, opacity: 1, y: 0 }}
-          exit={{ scale: 0.88, opacity: 0, y: 25 }}
-          transition={{ type: 'spring', damping: 25, stiffness: 320 }}
-          className="relative w-full max-w-[370px] max-h-[92vh] rounded-[32px] p-4 sm:p-5 flex flex-col gap-3.5 shadow-2xl z-10 border border-black/10 dark:border-white/15 liquid-glass-card overflow-hidden"
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 15 }}
+        transition={{ duration: 0.2, ease: 'easeOut' }}
+        className="fixed inset-0 z-50 text-[var(--text-primary)] flex flex-col select-none overflow-hidden"
+        style={{
+          backgroundColor: 'var(--bg-app)',
+          background: 'var(--bg-gradient)',
+        }}
+      >
+        {/* Minimalist Top App Bar (Opaque & Clean) */}
+        <header
+          className="sticky top-0 z-30 w-full px-4 sm:px-6 py-3.5 border-b border-black/5 dark:border-white/10 flex items-center justify-between shadow-xs backdrop-blur-md"
+          style={{ backgroundColor: 'var(--bg-card)' }}
         >
-          {/* Top Sheen */}
-          <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
-
-          {/* Modal Header */}
-          <div className="flex items-center justify-between shrink-0">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)] flex items-center justify-center shrink-0">
-                <PenTool className="w-4 h-4 stroke-[2.2]" />
-              </div>
-              <div>
-                <span className="text-[8px] font-black uppercase tracking-wider text-[var(--accent-main)] block leading-none mb-0.5">
-                  STUDIO KREATOR
-                </span>
-                <h3 className="text-[16px] font-black tracking-tight text-[var(--text-primary)] leading-tight">
-                  Bikin TTS Sendiri
-                </h3>
-              </div>
-            </div>
-
+          <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={closeCustomCrosswordModal}
-              aria-label="Tutup"
-              className="w-7 h-7 rounded-full flex items-center justify-center bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 active:scale-95 transition-all text-[var(--text-primary)] border border-black/5 dark:border-white/10 cursor-pointer"
+              aria-label="Kembali"
+              className="w-9 h-9 rounded-full flex items-center justify-center bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 active:scale-95 transition-all cursor-pointer text-[var(--text-primary)] border border-black/5 dark:border-white/10"
             >
-              <X className="w-3.5 h-3.5 stroke-[2.2]" />
+              <ArrowLeft className="w-4.5 h-4.5 stroke-[2.2]" />
             </button>
+            <div>
+              <h1 className="text-[16px] font-black tracking-tight text-[var(--text-primary)] leading-tight flex items-center gap-1.5">
+                <PenTool className="w-3.5 h-3.5 text-[var(--accent-main)]" />
+                <span>Studio Kreator</span>
+              </h1>
+              <span className="text-[10px] text-[var(--text-secondary)] font-medium leading-none block mt-0.5">
+                Rancang teka-teki silang karyamu sendiri
+              </span>
+            </div>
           </div>
 
-          {/* ============================================================
-              CASE 1: USER DOES NOT HAVE ACCESS (LOCKED VIEW)
-              ============================================================ */}
-          {!hasAccess ? (
-            <div className="flex-1 overflow-y-auto flex flex-col items-center gap-3.5 text-center py-2">
-              <div className="relative w-20 h-20 flex items-center justify-center">
-                <img
+          {/* Right Status Badge */}
+          <div className="flex items-center gap-2">
+            {isVip ? (
+              <span className="text-[9.5px] font-black px-2.5 py-1 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/25 flex items-center gap-1">
+                <Crown className="w-3 h-3 fill-current" />
+                <span>VIP UNLIMITED</span>
+              </span>
+            ) : (
+              <button
+                type="button"
+                onClick={() => {
+                  closeCustomCrosswordModal();
+                  openSachetModal();
+                }}
+                className="text-[9.5px] font-bold px-2.5 py-1 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/25 hover:opacity-85 transition-opacity flex items-center gap-1 cursor-pointer"
+              >
+                <Ticket className="w-3 h-3 stroke-[2.2]" />
+                <span>{customTtsTickets} Tiket</span>
+                <span className="font-black underline ml-0.5">+ Beli</span>
+              </button>
+            )}
+          </div>
+        </header>
+
+        {/* ============================================================
+            CASE 1: USER DOES NOT HAVE ACCESS (FULL-PAGE MINIMALIST PAYWALL)
+            ============================================================ */}
+        {!hasAccess ? (
+          <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-8 flex flex-col items-center justify-center">
+            <div className="w-full max-w-md mx-auto flex flex-col items-center text-center gap-4">
+              {/* Mascot Hero with Subtle Theme Glow */}
+              <div className="relative w-28 h-28 flex items-center justify-center">
+                <div className="absolute inset-0 rounded-full bg-[var(--accent-light)] blur-2xl opacity-70 pointer-events-none" />
+                <motion.img
+                  initial={{ y: 6, scale: 0.95 }}
+                  animate={{ y: [0, -6, 0], scale: 1 }}
+                  transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
                   src={MASCOTS.crosswordThinker}
-                  alt="Kreator Terkunci"
-                  className="w-full h-full object-contain filter drop-shadow-md"
+                  alt="Studio Kreator"
+                  className="w-full h-full object-contain filter drop-shadow-md relative z-10"
                 />
-                <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-amber-500 text-black flex items-center justify-center shadow-md">
-                  <Lock className="w-3.5 h-3.5 stroke-[2.5]" />
+                <div
+                  className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full flex items-center justify-center shadow-md border border-white/20 z-20"
+                  style={{ background: 'var(--accent-grad)', color: 'var(--accent-contrast)' }}
+                >
+                  <Lock className="w-4 h-4 stroke-[2.4]" />
                 </div>
               </div>
 
-              <div>
-                <span className="text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30">
+              {/* Title & Description */}
+              <div className="flex flex-col items-center">
+                <span className="text-[9.5px] font-black uppercase tracking-wider px-3 py-1 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/25">
                   AKSES EKSKLUSIF KREATOR
                 </span>
-                <h4 className="text-[17px] font-black text-[var(--text-primary)] mt-1.5 leading-snug">
-                  Bebas Tantang Teman dengan TTS Buatanmu!
-                </h4>
-                <p className="text-[11px] text-[var(--text-secondary)] mt-1 leading-relaxed max-w-[280px]">
-                  Pemain gratis bebas memainkan seluruh TTS buatan teman. Untuk menyusun dan menerbitkan TTS karyamu sendiri, gunakan <strong>1 Tiket Kreasi</strong> atau aktifkan <strong>TTS Pass VIP</strong>.
+                <h2 className="text-[22px] font-black text-[var(--text-primary)] tracking-tight mt-2 leading-tight">
+                  Bebas Tantang Teman dengan TTS Buatanmu
+                </h2>
+                <p className="text-[12.5px] text-[var(--text-secondary)] mt-1.5 leading-relaxed max-w-sm">
+                  Pemain bebas memainkan karya siapa pun. Untuk membuat dan membagikan teka-teki silangmu sendiri, gunakan <strong>1 Tiket Kreasi</strong> atau aktifkan <strong>TTS Pass VIP</strong>.
                 </p>
               </div>
 
-              {/* Action Buttons */}
-              <div className="w-full flex flex-col gap-2 mt-1">
-                <button
-                  type="button"
+              {/* Bento Purchase Options */}
+              <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+                {/* Option 1: Sachet Pack */}
+                <div
                   onClick={() => {
                     closeCustomCrosswordModal();
                     openSachetModal();
                   }}
-                  className="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 text-black font-black text-[12.5px] cursor-pointer tactile-active shadow-md flex items-center justify-between"
+                  className="p-4 rounded-2xl border border-[var(--accent-main)]/20 hover:border-[var(--accent-main)]/40 transition-all cursor-pointer tactile-active flex flex-col justify-between text-left shadow-xs"
+                  style={{ backgroundColor: 'var(--bg-card)' }}
                 >
-                  <div className="flex items-center gap-1.5">
-                    <Sparkles className="w-4 h-4 fill-black" />
-                    <span>Beli Paket Pemula (+1 Tiket TTS)</span>
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="w-8 h-8 rounded-xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)] flex items-center justify-center">
+                        <Sparkles className="w-4 h-4 fill-current stroke-current" />
+                      </div>
+                      <span className="text-[8.5px] font-black px-2 py-0.5 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/20">
+                        1X KREASI
+                      </span>
+                    </div>
+                    <h3 className="text-[13px] font-black text-[var(--text-primary)] leading-tight">
+                      Paket Sachet Pemula
+                    </h3>
+                    <p className="text-[10px] text-[var(--text-secondary)] mt-1">
+                      +1 Tiket Kreasi, +150 Bintang & 3x Pelindung Streak
+                    </p>
                   </div>
-                  <span className="font-mono text-[11px] bg-black/20 px-2 py-0.5 rounded-md">
-                    Rp 5.000
-                  </span>
-                </button>
+                  <div className="mt-3 pt-2 border-t border-black/5 dark:border-white/10 flex items-center justify-between">
+                    <span className="font-mono font-black text-[13px] text-[var(--text-primary)]">
+                      Rp 5.000
+                    </span>
+                    <span className="text-[10px] font-bold text-[var(--accent-main)]">
+                      Pilih Paket ↗
+                    </span>
+                  </div>
+                </div>
 
+                {/* Option 2: VIP Pass */}
+                <div
+                  onClick={handlePurchaseVip}
+                  className="p-4 rounded-2xl border border-[var(--accent-main)]/30 hover:border-[var(--accent-main)]/60 transition-all cursor-pointer tactile-active flex flex-col justify-between text-left shadow-sm relative overflow-hidden"
+                  style={{ backgroundColor: 'var(--bg-card)' }}
+                >
+                  <div className="absolute top-0 inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-[var(--accent-main)] to-transparent" />
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <div
+                        className="w-8 h-8 rounded-xl flex items-center justify-center shadow-xs border border-white/20"
+                        style={{ background: 'var(--accent-grad)', color: 'var(--accent-contrast)' }}
+                      >
+                        <Crown className="w-4 h-4 fill-current stroke-current" />
+                      </div>
+                      <span className="text-[8.5px] font-black px-2 py-0.5 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/20">
+                        UNLIMITED
+                      </span>
+                    </div>
+                    <h3 className="text-[13px] font-black text-[var(--text-primary)] leading-tight">
+                      TTS Pass VIP Bulanan
+                    </h3>
+                    <p className="text-[10px] text-[var(--text-secondary)] mt-1">
+                      Bikin TTS sepuasnya tanpa batas tiket & mahkota juara
+                    </p>
+                  </div>
+                  <div className="mt-3 pt-2 border-t border-black/5 dark:border-white/10 flex items-center justify-between">
+                    <span className="font-mono font-black text-[13px] text-[var(--text-primary)]">
+                      Rp 29.000<span className="text-[9px] font-normal text-[var(--text-secondary)]">/bln</span>
+                    </span>
+                    <span className="text-[10px] font-bold text-[var(--accent-main)]">
+                      {isPurchasingVip ? 'Memproses...' : 'Langganan ↗'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Apple StoreKit Legal Footer */}
+              <div className="flex items-center justify-center gap-3 pt-4 border-t border-black/5 dark:border-white/10 text-[10px] text-[var(--text-secondary)]">
                 <button
                   type="button"
+                  onClick={handleRestorePurchases}
                   disabled={isPurchasingVip}
-                  onClick={handlePurchaseVip}
-                  className="w-full py-2.5 rounded-2xl bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 text-[var(--text-primary)] font-bold text-[11.5px] cursor-pointer tactile-active border border-black/5 dark:border-white/10 flex items-center justify-between px-3 disabled:opacity-50"
+                  className="hover:underline hover:text-[var(--text-primary)] cursor-pointer"
                 >
-                  <div className="flex items-center gap-1.5">
-                    {isPurchasingVip ? (
-                      <RefreshCw className="w-3.5 h-3.5 animate-spin text-amber-500" />
-                    ) : (
-                      <Crown className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-                    )}
-                    <span>{isPurchasingVip ? 'Menghubungkan StoreKit...' : 'Aktifkan TTS Pass VIP (Unlimited)'}</span>
-                  </div>
-                  <span className="font-mono text-[10px] text-[var(--text-secondary)]">
-                    Rp 29.000/bln
-                  </span>
+                  Pulihkan Pembelian
                 </button>
-
-                {/* Apple Guideline 3.1.1 Mandatory Compliance Links */}
-                <div className="flex items-center justify-center gap-2 pt-1 border-t border-black/5 dark:border-white/5 text-[9px] text-[var(--text-secondary)]">
-                  <button
-                    type="button"
-                    onClick={handleRestorePurchases}
-                    disabled={isPurchasingVip}
-                    className="hover:underline hover:text-[var(--text-primary)] cursor-pointer"
-                  >
-                    Pulihkan Pembelian
-                  </button>
-                  <span>•</span>
-                  <button
-                    type="button"
-                    onClick={() => openLegalModal('terms')}
-                    className="hover:underline hover:text-[var(--text-primary)] cursor-pointer"
-                  >
-                    EULA / Ketentuan
-                  </button>
-                  <span>•</span>
-                  <button
-                    type="button"
-                    onClick={() => openLegalModal('privacy')}
-                    className="hover:underline hover:text-[var(--text-primary)] cursor-pointer"
-                  >
-                    Privasi
-                  </button>
-                </div>
+                <span>•</span>
+                <button
+                  type="button"
+                  onClick={() => openLegalModal('terms')}
+                  className="hover:underline hover:text-[var(--text-primary)] cursor-pointer"
+                >
+                  EULA / Ketentuan
+                </button>
+                <span>•</span>
+                <button
+                  type="button"
+                  onClick={() => openLegalModal('privacy')}
+                  className="hover:underline hover:text-[var(--text-primary)] cursor-pointer"
+                >
+                  Privasi
+                </button>
               </div>
             </div>
-          ) : (
-            /* ============================================================
-               CASE 2: CREATOR STUDIO (FORM & PREVIEW)
-               ============================================================ */
-            <div className="flex-1 overflow-y-auto flex flex-col gap-3 pr-0.5">
-              {/* Access Status Banner */}
-              <div className="w-full p-2 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 flex items-center justify-between text-[9.5px]">
-                <div className="flex items-center gap-1.5 font-bold text-[var(--text-secondary)]">
-                  {isVip ? (
-                    <>
-                      <Crown className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-                      <span className="text-[var(--text-primary)] font-black">TTS Pass VIP: Bebas Bikin TTS</span>
-                    </>
-                  ) : (
-                    <>
-                      <span className="text-[12px]">🎟️</span>
-                      <span>Sisa Tiket: <strong className="text-[var(--text-primary)] font-black">{customTtsTickets}x</strong></span>
-                    </>
-                  )}
-                </div>
-                {!isVip && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      closeCustomCrosswordModal();
-                      openSachetModal();
-                    }}
-                    className="text-[9px] font-black text-[var(--accent-main)] hover:underline cursor-pointer"
-                  >
-                    + Tambah Tiket
-                  </button>
-                )}
-              </div>
-
-              {/* Title & Category Inputs */}
-              <div className="grid grid-cols-2 gap-2">
-                <div className="flex flex-col gap-1">
-                  <label className="text-[9px] font-black text-[var(--text-secondary)] uppercase tracking-wider">
-                    Judul TTS
+          </div>
+        ) : (
+          /* ============================================================
+             CASE 2: CREATOR STUDIO (FULL-PAGE MINIMALIST CANVAS)
+             ============================================================ */
+          <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-5 pb-28">
+            <div className="w-full max-w-md sm:max-w-xl mx-auto flex flex-col gap-5">
+              {/* Card 1: Identitas & Topik */}
+              <div
+                className="rounded-[24px] p-4.5 border border-black/5 dark:border-white/10 shadow-xs flex flex-col gap-4 relative overflow-hidden"
+                style={{ backgroundColor: 'var(--bg-card)' }}
+              >
+                <div>
+                  <label className="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-wider block mb-1.5">
+                    Judul Teka-Teki Silang
                   </label>
                   <input
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Contoh: Kuis Sahabat"
-                    maxLength={30}
-                    className="w-full px-2.5 py-1.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-[11px] font-bold text-[var(--text-primary)] outline-none focus:border-[var(--accent-main)]"
+                    placeholder="Contoh: Kuis Sahabat Sejati"
+                    maxLength={35}
+                    className="w-full text-[14px] font-bold text-[var(--text-primary)] bg-black/4 dark:bg-white/5 rounded-xl px-3.5 py-2.5 border border-black/5 dark:border-white/10 focus:border-[var(--accent-main)] outline-none transition-colors placeholder:text-[var(--text-secondary)]/50"
                   />
                 </div>
-                <div className="flex flex-col gap-1">
-                  <label className="text-[9px] font-black text-[var(--text-secondary)] uppercase tracking-wider">
-                    Tema / Topik
-                  </label>
+
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-[10px] font-black text-[var(--text-secondary)] uppercase tracking-wider block">
+                      Topik / Kategori
+                    </label>
+                    <span className="text-[10.5px] font-mono text-[var(--accent-main)] font-black truncate max-w-[150px]">
+                      {category || 'Umum'}
+                    </span>
+                  </div>
+
+                  {/* Topic Preset Chips */}
+                  <div className="flex flex-wrap gap-1.5 mb-2.5">
+                    {TOPIC_PRESETS.map((t) => {
+                      const isSelected = category === t;
+                      return (
+                        <button
+                          key={t}
+                          type="button"
+                          onClick={() => setCategory(t)}
+                          className={`px-3 py-1.5 rounded-full text-[11px] font-bold transition-all cursor-pointer border ${
+                            isSelected
+                              ? 'border-transparent shadow-xs'
+                              : 'bg-black/4 dark:bg-white/5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] border-black/5 dark:border-white/10'
+                          }`}
+                          style={
+                            isSelected
+                              ? { background: 'var(--accent-grad)', color: 'var(--accent-contrast)' }
+                              : {}
+                          }
+                        >
+                          {t}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Custom Category Input */}
                   <input
                     type="text"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    placeholder="Contoh: Pop Culture"
-                    maxLength={20}
-                    className="w-full px-2.5 py-1.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-[11px] font-bold text-[var(--text-primary)] outline-none focus:border-[var(--accent-main)]"
+                    placeholder="Atau ketik kategori kustom sendiri... (cth: Sains, Anime, Kantor)"
+                    maxLength={25}
+                    className="w-full text-[12px] font-medium text-[var(--text-primary)] bg-black/4 dark:bg-white/5 rounded-xl px-3 py-2 border border-black/5 dark:border-white/10 focus:border-[var(--accent-main)] outline-none transition-colors placeholder:text-[var(--text-secondary)]/50"
                   />
                 </div>
               </div>
 
-              {/* Words & Clues Editor */}
-              <div className="flex flex-col gap-1.5">
-                <div className="flex items-center justify-between">
-                  <label className="text-[9px] font-black text-[var(--text-secondary)] uppercase tracking-wider">
-                    Daftar Kata & Petunjuk ({wordsList.length}/6)
-                  </label>
-                  {wordsList.length < 6 && (
+              {/* Card 2: Editor Kata & Petunjuk */}
+              <div className="flex flex-col gap-2.5">
+                <div className="flex items-center justify-between px-1">
+                  <div>
+                    <h2 className="text-[13.5px] font-black text-[var(--text-primary)] tracking-tight">
+                      Daftar Kata & Petunjuk
+                    </h2>
+                    <span className="text-[10.5px] text-[var(--text-secondary)]">
+                      {wordsList.length} dari maksimal 8 kata (minimal 3 kata)
+                    </span>
+                  </div>
+
+                  {wordsList.length < 8 && (
                     <button
                       type="button"
                       onClick={handleAddWord}
-                      className="text-[9.5px] font-black text-[var(--accent-main)] flex items-center gap-0.5 hover:underline cursor-pointer"
+                      className="px-3 py-1.5 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/25 font-black text-[10.5px] flex items-center gap-1 hover:opacity-85 transition-opacity cursor-pointer"
                     >
-                      <Plus className="w-3 h-3 stroke-[2.5]" />
+                      <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
                       <span>Tambah Kata</span>
                     </button>
                   )}
                 </div>
 
-                <div className="flex flex-col gap-2 max-h-[190px] overflow-y-auto pr-0.5">
+                {/* Word Entries List */}
+                <div className="flex flex-col gap-2.5">
                   {wordsList.map((item, idx) => (
                     <div
                       key={idx}
-                      className="p-2 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 flex items-center gap-2"
+                      className="p-3.5 rounded-2xl border border-black/5 dark:border-white/10 shadow-xs flex flex-col gap-2.5 transition-colors focus-within:border-[var(--accent-main)]/40"
+                      style={{ backgroundColor: 'var(--bg-card)' }}
                     >
-                      <div className="w-5 h-5 rounded-md bg-[var(--accent-light)] text-[var(--accent-main)] font-black text-[9px] flex items-center justify-center shrink-0">
-                        {idx + 1}
-                      </div>
-
-                      <div className="flex-1 flex flex-col gap-1 min-w-0">
+                      {/* Top Row: Number, Word Input, Delete */}
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded-lg bg-[var(--accent-light)] text-[var(--accent-main)] font-black text-[10.5px] flex items-center justify-center shrink-0">
+                          {idx + 1}
+                        </div>
                         <input
                           type="text"
                           value={item.word}
                           onChange={(e) => handleUpdateWord(idx, 'word', e.target.value.toUpperCase())}
-                          placeholder="KATA (Huruf saja)"
+                          placeholder="KATA KUNCI (HURUF SAJA)"
                           maxLength={10}
-                          className="w-full px-2 py-1 rounded-lg bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 text-[11px] font-black tracking-wider uppercase text-[var(--text-primary)] outline-none focus:border-[var(--accent-main)] font-mono"
+                          className="flex-1 font-mono tracking-widest uppercase font-black text-[13px] text-[var(--text-primary)] bg-black/4 dark:bg-white/5 px-3 py-1.5 rounded-xl border border-black/5 dark:border-white/10 outline-none focus:border-[var(--accent-main)] transition-colors placeholder:text-[var(--text-secondary)]/50 placeholder:font-sans placeholder:tracking-normal placeholder:font-normal placeholder:text-[11px]"
                         />
-                        <input
-                          type="text"
-                          value={item.clue}
-                          onChange={(e) => handleUpdateWord(idx, 'clue', e.target.value)}
-                          placeholder="Pertanyaan / petunjuk kata ini..."
-                          maxLength={80}
-                          className="w-full px-2 py-0.5 rounded-lg bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 text-[10px] text-[var(--text-primary)] outline-none focus:border-[var(--accent-main)]"
-                        />
+                        {wordsList.length > 3 && (
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveWord(idx)}
+                            aria-label="Hapus kata"
+                            className="w-7 h-7 rounded-lg text-[var(--text-secondary)] hover:text-rose-500 hover:bg-rose-500/10 flex items-center justify-center shrink-0 transition-colors cursor-pointer"
+                          >
+                            <Trash2 className="w-3.5 h-3.5 stroke-[2]" />
+                          </button>
+                        )}
                       </div>
 
-                      {wordsList.length > 3 && (
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveWord(idx)}
-                          className="w-6 h-6 rounded-lg text-rose-500 hover:bg-rose-500/10 flex items-center justify-center shrink-0 cursor-pointer"
-                        >
-                          <Trash2 className="w-3.5 h-3.5 stroke-[2]" />
-                        </button>
-                      )}
+                      {/* Bottom Row: Clue Input */}
+                      <input
+                        type="text"
+                        value={item.clue}
+                        onChange={(e) => handleUpdateWord(idx, 'clue', e.target.value)}
+                        placeholder="Tulis pertanyaan / petunjuk untuk kata ini..."
+                        maxLength={90}
+                        className="w-full text-[12px] text-[var(--text-primary)] bg-black/3 dark:bg-white/4 px-3 py-2 rounded-xl border border-black/5 dark:border-white/10 outline-none focus:border-[var(--accent-main)] placeholder:text-[var(--text-secondary)]/50 transition-colors"
+                      />
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Error Message if any */}
+              {/* Error Message */}
               {errorMsg && (
-                <div className="text-[10px] font-bold text-rose-500 bg-rose-500/10 border border-rose-500/20 px-2.5 py-1.5 rounded-xl">
+                <div className="p-3 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-500 text-[11.5px] font-bold">
                   {errorMsg}
                 </div>
               )}
 
-              {/* Mini Board Preview */}
+              {/* Card 3: Pratinjau Papan Interaktif */}
               {previewLevel && (
-                <div className="p-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex flex-col items-center gap-1.5">
-                  <div className="flex items-center justify-between w-full text-[9px] font-black text-[var(--text-secondary)] uppercase">
-                    <span>Pratinjau Papan ({previewLevel.size.rows} x {previewLevel.size.cols})</span>
-                    <span className="text-emerald-500 flex items-center gap-0.5">
-                      <CheckCircle2 className="w-3 h-3 stroke-[2.5]" />
-                      Siap Main
+                <div
+                  className="rounded-[24px] p-4.5 border border-black/5 dark:border-white/10 shadow-xs flex flex-col items-center gap-4 relative overflow-hidden"
+                  style={{ backgroundColor: 'var(--bg-card)' }}
+                >
+                  <div className="flex items-center justify-between w-full">
+                    <div>
+                      <h3 className="text-[13px] font-black text-[var(--text-primary)] tracking-tight">
+                        Pratinjau Papan Teka-Teki
+                      </h3>
+                      <span className="text-[10px] text-[var(--text-secondary)]">
+                        Ukuran matriks {previewLevel.size.rows} x {previewLevel.size.cols} kotak
+                      </span>
+                    </div>
+                    <span className="px-2.5 py-1 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/25 text-[10px] font-bold flex items-center gap-1">
+                      <CheckCircle2 className="w-3.5 h-3.5 stroke-[2.2]" />
+                      <span>Siap Dimainkan</span>
                     </span>
                   </div>
-                  {/* Grid Tiles */}
+
+                  {/* Grid Canvas */}
                   <div
-                    className="grid gap-1 p-2 rounded-xl bg-white/40 dark:bg-black/30 border border-black/5 dark:border-white/10"
+                    className="grid gap-1.5 p-3 rounded-2xl bg-black/4 dark:bg-white/5 border border-black/5 dark:border-white/10 shadow-inner"
                     style={{
                       gridTemplateColumns: `repeat(${previewLevel.size.cols}, minmax(0, 1fr))`,
                     }}
@@ -481,14 +581,19 @@ export const CustomCrosswordModal: React.FC = () => {
                         return (
                           <div
                             key={`${r}-${c}`}
-                            className={`w-6 h-6 rounded-md flex items-center justify-center text-[10px] font-black font-mono relative ${
+                            className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-[11px] font-black font-mono relative transition-transform ${
                               tile
-                                ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-xs'
+                                ? 'shadow-xs border border-white/20'
                                 : 'bg-transparent border border-transparent'
                             }`}
+                            style={
+                              tile
+                                ? { background: 'var(--accent-grad)', color: 'var(--accent-contrast)' }
+                                : {}
+                            }
                           >
                             {tile?.number && (
-                              <span className="absolute top-0.5 left-0.5 text-[6.5px] leading-none opacity-80">
+                              <span className="absolute top-0.5 left-0.5 text-[7px] leading-none opacity-85">
                                 {tile.number}
                               </span>
                             )}
@@ -498,33 +603,71 @@ export const CustomCrosswordModal: React.FC = () => {
                       })
                     )}
                   </div>
+
+                  {/* Clues Summary */}
+                  <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3 text-left pt-2 border-t border-black/5 dark:border-white/10">
+                    <div>
+                      <span className="text-[10px] font-black uppercase text-[var(--accent-main)] tracking-wider block mb-1">
+                        Mendatar ({previewLevel.clues.across.length})
+                      </span>
+                      <ul className="text-[11px] text-[var(--text-secondary)] space-y-1">
+                        {previewLevel.clues.across.map((c) => (
+                          <li key={c.number} className="leading-snug">
+                            <strong className="text-[var(--text-primary)]">{c.number}.</strong> {c.text}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-black uppercase text-[var(--accent-main)] tracking-wider block mb-1">
+                        Menurun ({previewLevel.clues.down.length})
+                      </span>
+                      <ul className="text-[11px] text-[var(--text-secondary)] space-y-1">
+                        {previewLevel.clues.down.map((c) => (
+                          <li key={c.number} className="leading-snug">
+                            <strong className="text-[var(--text-primary)]">{c.number}.</strong> {c.text}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               )}
-
-              {/* Action Buttons */}
-              <div className="grid grid-cols-2 gap-2 mt-1 shrink-0">
-                <button
-                  type="button"
-                  onClick={handleGeneratePreview}
-                  className="py-2.5 px-3 rounded-2xl bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 text-[var(--text-primary)] font-bold text-[11px] cursor-pointer tactile-active flex items-center justify-center gap-1.5 border border-black/5 dark:border-white/10"
-                >
-                  <Eye className="w-3.5 h-3.5 stroke-[2.2]" />
-                  <span>Pratinjau Papan</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handlePublishAndShare}
-                  className="py-2.5 px-3 rounded-2xl bg-[var(--accent-main)] text-[var(--accent-contrast)] font-black text-[11px] cursor-pointer tactile-active shadow-md flex items-center justify-center gap-1.5"
-                >
-                  <Share2 className="w-3.5 h-3.5 stroke-[2.2]" />
-                  <span>Publikasikan</span>
-                </button>
-              </div>
             </div>
-          )}
-        </motion.div>
-      </div>
+          </div>
+        )}
+
+        {/* Sticky Minimalist Bottom Action Bar (Opaque & Elevated) */}
+        {hasAccess && (
+          <div
+            className="sticky bottom-0 inset-x-0 p-3.5 sm:p-4 border-t border-black/5 dark:border-white/10 z-30 shadow-lg"
+            style={{ backgroundColor: 'var(--bg-card)' }}
+          >
+            <div className="w-full max-w-md sm:max-w-xl mx-auto flex items-center gap-2.5">
+              <button
+                type="button"
+                onClick={handleGeneratePreview}
+                className="py-3 px-3.5 sm:px-4 rounded-2xl bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 text-[var(--text-primary)] font-bold text-[12px] cursor-pointer tactile-active flex items-center justify-center gap-1.5 border border-black/5 dark:border-white/10 transition-all shrink-0 whitespace-nowrap"
+              >
+                <Eye className="w-4 h-4 stroke-[2.2]" />
+                <span className="whitespace-nowrap">Pratinjau Papan</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handlePublishAndShare}
+                className="flex-1 py-3 px-4 rounded-2xl font-black text-[12.5px] cursor-pointer tactile-active shadow-md flex items-center justify-center gap-2 border border-white/20 transition-all whitespace-nowrap overflow-hidden"
+                style={{ background: 'var(--accent-grad)', color: 'var(--accent-contrast)' }}
+              >
+                <Share2 className="w-4 h-4 stroke-[2.2] shrink-0" />
+                <span className="whitespace-nowrap">Publikasikan TTS</span>
+              </button>
+            </div>
+          </div>
+        )}
+      </motion.div>
     </AnimatePresence>
   );
 };
+
+export default CustomCrosswordModal;

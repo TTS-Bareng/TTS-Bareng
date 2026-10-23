@@ -348,7 +348,7 @@ export const QuickMatchModal: React.FC = () => {
                   {(() => {
                     const oppElo = (matchedData.opponent as { rating?: number }).rating || 1100;
                     return (
-                      <span className="text-[7.5px] font-black px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400">
+                      <span className="text-[7.5px] font-black px-2 py-0.5 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/20">
                         {oppElo} ELO • {getEloTier(oppElo).title}
                       </span>
                     );

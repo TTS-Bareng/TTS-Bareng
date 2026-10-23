@@ -483,32 +483,38 @@ export const ProfileView: React.FC = () => {
         </div>
       </div>
 
-      {/* Card 1.5: VIP Membership Banner */}
+      {/* Card 1.5: VIP Membership Banner (Theme-Harmonized Bento Tile) */}
       <div
         onClick={openVipModal}
-        className="w-full shrink-0 rounded-[20px] p-3.5 relative z-10 overflow-hidden border border-amber-500/30 shadow-xs flex items-center justify-between gap-3 cursor-pointer tactile-active hover:border-amber-500/50 transition-all bg-gradient-to-r from-amber-500/15 via-amber-500/5 to-transparent backdrop-blur-md"
+        className="w-full shrink-0 rounded-[22px] p-3.5 relative z-10 overflow-hidden border border-[var(--accent-main)]/20 shadow-xs flex items-center justify-between gap-3 cursor-pointer tactile-active hover:border-[var(--accent-main)]/40 transition-all backdrop-blur-md"
+        style={{
+          background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+        }}
       >
         <div className="flex items-center gap-2.5 min-w-0">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-300 via-amber-400 to-amber-600 text-black flex items-center justify-center shrink-0 shadow-xs border border-amber-200/50">
-            <Crown className="w-5 h-5 fill-black stroke-black" />
+          <div
+            className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow-xs border border-white/20"
+            style={{ background: 'var(--accent-grad)', color: 'var(--accent-contrast)' }}
+          >
+            <Crown className="w-4.5 h-4.5 fill-current stroke-current" />
           </div>
           <div className="min-w-0 text-left">
             <div className="flex items-center gap-1.5">
               <span className="text-[12.5px] font-black text-[var(--text-primary)] tracking-tight">
                 {isVip ? 'TTS Pass VIP Aktif' : 'Tingkatkan ke TTS Pass VIP'}
               </span>
-              <span className="text-[8px] font-black px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30">
+              <span className="text-[8px] font-black px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/25">
                 {isVip ? 'UNLIMITED' : 'RP 29.000/BLN'}
               </span>
             </div>
             <p className="text-[9.5px] text-[var(--text-secondary)] truncate mt-0.5">
               {isVip
-                ? 'Nikmati kreasi tanpa batas & mahkota emas juara'
+                ? 'Nikmati kreasi tanpa batas & mahkota juara eksklusif'
                 : 'Bebas bikin TTS kustom, lencana mahkota & pelindung streak'}
             </p>
           </div>
         </div>
-        <ChevronRight className="w-4 h-4 text-amber-500 shrink-0" />
+        <ChevronRight className="w-4 h-4 text-[var(--accent-main)] shrink-0" />
       </div>
 
       {/* Card 2: Penguasaan Kata & Akurasi (Word Mastery Bento) */}
@@ -699,20 +705,20 @@ export const ProfileView: React.FC = () => {
               {/* 2-slot indicator */}
               <div className="flex items-center gap-1">
                 <div
-                  className={`w-5 h-5 rounded-md flex items-center justify-center text-[9px] font-black ${
+                  className={`w-5 h-5 rounded-md flex items-center justify-center text-[9px] font-black transition-all ${
                     streakShields >= 1
-                      ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)]'
-                      : 'border border-dashed border-current/30 text-[var(--text-secondary)]'
+                      ? 'bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)]'
+                      : 'border border-dashed border-[var(--accent-main)]/20 text-[var(--text-secondary)]'
                   }`}
                   title="Slot Perisai 1"
                 >
                   {streakShields >= 1 ? '✓' : '+'}
                 </div>
                 <div
-                  className={`w-5 h-5 rounded-md flex items-center justify-center text-[9px] font-black ${
+                  className={`w-5 h-5 rounded-md flex items-center justify-center text-[9px] font-black transition-all ${
                     streakShields >= 2
-                      ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)]'
-                      : 'border border-dashed border-current/30 text-[var(--text-secondary)]'
+                      ? 'bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)]'
+                      : 'border border-dashed border-[var(--accent-main)]/20 text-[var(--text-secondary)]'
                   }`}
                   title="Slot Perisai 2"
                 >
@@ -746,7 +752,7 @@ export const ProfileView: React.FC = () => {
                 <span>Beli (+100★)</span>
               </button>
             ) : (
-              <span className="text-[9px] font-bold text-emerald-400 block text-center py-1">
+              <span className="text-[9px] font-bold text-[var(--accent-main)] block text-center py-1">
                 Slot Maksimal Aktif ✓
               </span>
             )}
@@ -812,10 +818,10 @@ export const ProfileView: React.FC = () => {
         >
           <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
           <div className="flex items-center justify-between mb-1.5">
-            <div className="w-7 h-7 rounded-xl bg-amber-500/15 text-amber-500 flex items-center justify-center text-[15px]">
+            <div className="w-7 h-7 rounded-xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)] flex items-center justify-center text-[15px]">
               {getEloTier(eloRating).icon}
             </div>
-            <span className="text-[8px] font-bold text-[var(--text-secondary)] uppercase tracking-wider">
+            <span className="text-[8px] font-black text-[var(--accent-main)] uppercase tracking-wider">
               LIGA ELO ↗
             </span>
           </div>
@@ -837,22 +843,22 @@ export const ProfileView: React.FC = () => {
         {/* Right: Studio Kreator & Tiket TTS */}
         <div
           onClick={openCustomCrosswordModal}
-          className="rounded-[22px] p-3.5 flex flex-col justify-between border border-indigo-500/25 shadow-xs relative overflow-hidden cursor-pointer tactile-active hover:border-indigo-500/50 transition-all"
+          className="rounded-[22px] p-3.5 flex flex-col justify-between border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden cursor-pointer tactile-active hover:border-[var(--accent-main)]/50 transition-all"
           style={{
-            background: 'linear-gradient(135deg, var(--bg-card) 0%, rgba(99, 102, 241, 0.08) 100%)',
+            background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
           }}
         >
           <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
           <div className="flex items-center justify-between mb-1.5">
-            <div className="w-7 h-7 rounded-xl bg-indigo-500/15 text-indigo-500 flex items-center justify-center">
+            <div className="w-7 h-7 rounded-xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)] flex items-center justify-center">
               <PenTool className="w-3.5 h-3.5 stroke-[2.2]" />
             </div>
             {isVip ? (
-              <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400">
+              <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/25">
                 VIP AKTIF
               </span>
             ) : (
-              <span className="text-[8px] font-bold text-[var(--text-secondary)] uppercase tracking-wider">
+              <span className="text-[8px] font-black text-[var(--accent-main)] uppercase tracking-wider">
                 KREATOR ↗
               </span>
             )}
