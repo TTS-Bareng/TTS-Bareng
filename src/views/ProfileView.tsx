@@ -96,6 +96,7 @@ export const ProfileView: React.FC = () => {
     eloRating,
     customTtsTickets,
     isVip,
+    openVipModal,
     openCustomCrosswordModal,
     openLeaderboard,
   } = useGameStore();
@@ -480,6 +481,34 @@ export const ProfileView: React.FC = () => {
             </span>
           </div>
         </div>
+      </div>
+
+      {/* Card 1.5: VIP Membership Banner */}
+      <div
+        onClick={openVipModal}
+        className="w-full shrink-0 rounded-[20px] p-3.5 relative z-10 overflow-hidden border border-amber-500/30 shadow-xs flex items-center justify-between gap-3 cursor-pointer tactile-active hover:border-amber-500/50 transition-all bg-gradient-to-r from-amber-500/15 via-amber-500/5 to-transparent backdrop-blur-md"
+      >
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-300 via-amber-400 to-amber-600 text-black flex items-center justify-center shrink-0 shadow-xs border border-amber-200/50">
+            <Crown className="w-5 h-5 fill-black stroke-black" />
+          </div>
+          <div className="min-w-0 text-left">
+            <div className="flex items-center gap-1.5">
+              <span className="text-[12.5px] font-black text-[var(--text-primary)] tracking-tight">
+                {isVip ? 'TTS Pass VIP Aktif' : 'Tingkatkan ke TTS Pass VIP'}
+              </span>
+              <span className="text-[8px] font-black px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30">
+                {isVip ? 'UNLIMITED' : 'RP 29.000/BLN'}
+              </span>
+            </div>
+            <p className="text-[9.5px] text-[var(--text-secondary)] truncate mt-0.5">
+              {isVip
+                ? 'Nikmati kreasi tanpa batas & mahkota emas juara'
+                : 'Bebas bikin TTS kustom, lencana mahkota & pelindung streak'}
+            </p>
+          </div>
+        </div>
+        <ChevronRight className="w-4 h-4 text-amber-500 shrink-0" />
       </div>
 
       {/* Card 2: Penguasaan Kata & Akurasi (Word Mastery Bento) */}

@@ -22,11 +22,14 @@ import {
   ChevronRight,
   Music,
   Bell,
+  Crown,
+  RefreshCw,
 } from 'lucide-react';
 import { useGameStore, type SoundPackKey } from '../store/useGameStore';
 import { THEMES, type ThemeKey } from '../lib/themes';
 import { soundManager } from '../lib/audio';
 import { notificationService } from '../lib/notificationService';
+import { revenueCatService } from '../lib/revenueCatService';
 
 export const SettingsView: React.FC = () => {
   const {
@@ -45,6 +48,10 @@ export const SettingsView: React.FC = () => {
     setCurrentTab,
     openLegalModal,
     openPlayerIdModal,
+    openVipModal,
+    openSachetModal,
+    isVip,
+    setIsVip,
     user,
     setSoundPack,
     restartOnboarding,
@@ -215,6 +222,102 @@ export const SettingsView: React.FC = () => {
           </h1>
         </div>
       </header>
+
+      {/* Group 0: Keanggotaan & Store In-App Purchases */}
+      <section className="w-full shrink-0 flex flex-col gap-1.5">
+        <span className="text-[10px] font-black uppercase tracking-wider text-[var(--text-secondary)] px-1">
+          KEANGGOTAAN & STORE
+        </span>
+        <div
+          className="w-full rounded-[22px] overflow-hidden border border-amber-500/25 shadow-xs relative divide-y divide-black/5 dark:divide-white/10"
+          style={{
+            background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, var(--bg-card) 60%, rgba(245, 158, 11, 0.04) 100%)',
+          }}
+        >
+          <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
+
+          {/* Row 1: VIP Status & Upgrade */}
+          <div
+            onClick={openVipModal}
+            className="flex items-center justify-between p-3.5 cursor-pointer tactile-active hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+          >
+            <div className="flex items-center gap-3 min-w-0 pr-2">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 text-black flex items-center justify-center shrink-0 shadow-xs">
+                <Crown className="w-4.5 h-4.5 fill-black stroke-black" />
+              </div>
+              <div className="min-w-0 text-left">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[12.5px] font-black text-[var(--text-primary)] block leading-tight">
+                    TTS Pass VIP
+                  </span>
+                  <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30">
+                    {isVip ? 'AKTIF 👑' : 'RP 29.000/BLN'}
+                  </span>
+                </div>
+                <span className="text-[9px] text-[var(--text-secondary)] block truncate mt-0.5">
+                  {isVip
+                    ? 'Status langganan aktif — Bebas bikin TTS sepuasnya'
+                    : 'Buka studio kreasi tanpa batas & mahkota emas'}
+                </span>
+              </div>
+            </div>
+            <ChevronRight className="w-4 h-4 text-amber-500 shrink-0" />
+          </div>
+
+          {/* Row 2: Paket Sachet Pemula */}
+          <div
+            onClick={openSachetModal}
+            className="flex items-center justify-between p-3 cursor-pointer tactile-active hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+          >
+            <div className="flex items-center gap-3 min-w-0 pr-2">
+              <div className="w-8 h-8 rounded-xl bg-amber-500/15 text-amber-500 flex items-center justify-center shrink-0">
+                <Sparkles className="w-4 h-4 fill-amber-500" />
+              </div>
+              <div className="min-w-0 text-left">
+                <span className="text-[12px] font-bold text-[var(--text-primary)] block leading-tight">
+                  Paket Sachet Pemula (Rp 5.000)
+                </span>
+                <span className="text-[9px] text-[var(--text-secondary)] block truncate">
+                  +1 Tiket Bikin TTS, +150 Bintang & 3x Pelindung
+                </span>
+              </div>
+            </div>
+            <ChevronRight className="w-4 h-4 text-[var(--text-secondary)] shrink-0" />
+          </div>
+
+          {/* Row 3: Pulihkan Pembelian (Restore Purchases) */}
+          <div
+            onClick={async () => {
+              showToast('Menghubungi server Apple App Store...');
+              const res = await revenueCatService.restorePurchases();
+              if (res.isVip) {
+                setIsVip(true);
+                showToast('✨ Status VIP berhasil dipulihkan!');
+              } else if (res.success) {
+                showToast('Tidak ada pembelian aktif di Apple ID ini.');
+              } else {
+                showToast(res.error || 'Gagal memulihkan pembelian.');
+              }
+            }}
+            className="flex items-center justify-between p-3 cursor-pointer tactile-active hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+          >
+            <div className="flex items-center gap-3 min-w-0 pr-2">
+              <div className="w-8 h-8 rounded-xl bg-black/5 dark:bg-white/10 text-[var(--text-secondary)] flex items-center justify-center shrink-0">
+                <RefreshCw className="w-4 h-4 stroke-[2]" />
+              </div>
+              <div className="min-w-0 text-left">
+                <span className="text-[12px] font-bold text-[var(--text-primary)] block leading-tight">
+                  Pulihkan Pembelian (Restore Purchases)
+                </span>
+                <span className="text-[9px] text-[var(--text-secondary)] block truncate">
+                  Sinkronkan transaksi langganan dari Apple ID iPhone ini
+                </span>
+              </div>
+            </div>
+            <ChevronRight className="w-4 h-4 text-[var(--text-secondary)] shrink-0" />
+          </div>
+        </div>
+      </section>
 
       {/* 2. Group 1: Tema Tampilan (Apple Wallpaper/Theme Picker Style) */}
       <section className="w-full shrink-0 flex flex-col gap-1.5">

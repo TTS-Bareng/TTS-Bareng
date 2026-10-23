@@ -219,6 +219,9 @@ interface GameState {
   customTtsTickets: number;
   isVip: boolean;
   setIsVip: (vip: boolean) => void;
+  isVipModalOpen: boolean;
+  openVipModal: () => void;
+  closeVipModal: () => void;
   battlesStats: { won: number; lost: number; total: number };
   isSachetModalOpen: boolean;
   openSachetModal: () => void;
@@ -1671,6 +1674,9 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
     set({ isVip: vip });
   },
+  isVipModalOpen: false,
+  openVipModal: () => set({ isVipModalOpen: true }),
+  closeVipModal: () => set({ isVipModalOpen: false }),
   battlesStats: getInitialBattlesStats(),
   isSachetModalOpen: false,
   openSachetModal: () => set({ isSachetModalOpen: true }),

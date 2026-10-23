@@ -10,7 +10,7 @@ export const SachetOfferModal: React.FC = () => {
     isSachetModalOpen,
     closeSachetModal,
     purchaseSachetPack,
-    openCustomCrosswordModal,
+    openVipModal,
     openLegalModal,
     showGlobalToast,
     isVip,
@@ -64,7 +64,7 @@ export const SachetOfferModal: React.FC = () => {
 
   const handleUpgradeVip = () => {
     closeSachetModal();
-    openCustomCrosswordModal();
+    openVipModal();
   };
 
   return (

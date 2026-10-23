@@ -9,6 +9,7 @@ import {
   Users,
   Trophy,
   Shield,
+  Crown,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import confetti from 'canvas-confetti';
@@ -193,6 +194,8 @@ export const HomeView: React.FC = () => {
     setCurrentTab,
     addStars,
     openLexicon,
+    isVip,
+    openVipModal,
     openAvatarPicker,
   } = useGameStore();
 
@@ -297,9 +300,25 @@ export const HomeView: React.FC = () => {
               <h2 className="text-[15px] font-black text-[var(--text-primary)] tracking-tight leading-none truncate">
                 {user.name}
               </h2>
-              <span className="text-[7.5px] font-bold px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/20 text-[var(--accent-main)] uppercase leading-none">
-                {user.isGuest ? 'Tamu' : 'Member'}
-              </span>
+              {isVip ? (
+                <button
+                  type="button"
+                  onClick={openVipModal}
+                  className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-black uppercase leading-none flex items-center gap-0.5 shadow-2xs cursor-pointer hover:scale-105 transition-transform"
+                >
+                  <Crown className="w-2.5 h-2.5 fill-black stroke-black" />
+                  <span>VIP</span>
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={openVipModal}
+                  className="text-[7.5px] font-bold px-1.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-400 uppercase leading-none flex items-center gap-0.5 cursor-pointer hover:bg-amber-500/25 transition-colors"
+                >
+                  <Crown className="w-2.5 h-2.5" />
+                  <span>VIP</span>
+                </button>
+              )}
             </div>
           </div>
         </div>
