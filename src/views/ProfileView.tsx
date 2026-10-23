@@ -18,6 +18,7 @@ import {
   Shield,
   ChevronRight,
   PenTool,
+  LogOut,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { getEloTier } from '../lib/eloSystem';
@@ -99,8 +100,10 @@ export const ProfileView: React.FC = () => {
     openVipModal,
     openCustomCrosswordModal,
     openLeaderboard,
+    logout,
   } = useGameStore();
 
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [toastMessage] = useState<string | null>(null);
 
   const isCustomImageAvatar = Boolean(
@@ -1072,6 +1075,45 @@ export const ProfileView: React.FC = () => {
         <div className="w-8 h-8 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform relative z-10">
           <ArrowRight className="w-4 h-4 stroke-[2.5]" />
         </div>
+      </div>
+
+      {/* Quick Logout / Ganti Akun */}
+      <div className="w-full flex justify-center pt-1 pb-4">
+        {showLogoutConfirm ? (
+          <div className="w-full rounded-2xl p-3 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex flex-col items-center gap-2 text-center">
+            <span className="text-[11px] font-bold text-[var(--text-primary)]">
+              {user.isGuest ? 'Keluar dari Sesi Tamu?' : `Keluar dari ${user.email || user.name}?`}
+            </span>
+            <div className="flex gap-2 w-full max-w-xs">
+              <button
+                type="button"
+                onClick={async () => {
+                  setShowLogoutConfirm(false);
+                  await logout();
+                }}
+                className="flex-1 py-1.5 rounded-lg bg-rose-500 text-white text-[10.5px] font-bold cursor-pointer"
+              >
+                Ya, Keluar
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowLogoutConfirm(false)}
+                className="flex-1 py-1.5 rounded-lg bg-black/5 dark:bg-white/10 text-[var(--text-primary)] text-[10.5px] font-bold cursor-pointer"
+              >
+                Batal
+              </button>
+            </div>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setShowLogoutConfirm(true)}
+            className="text-[11px] text-[var(--text-secondary)] hover:text-rose-500 font-bold transition-colors cursor-pointer flex items-center justify-center gap-1.5 py-1 px-3 rounded-full hover:bg-black/5 dark:hover:bg-white/5"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+            <span>{user.isGuest ? 'Keluar dari Sesi Tamu' : 'Keluar dari Akun'}</span>
+          </button>
+        )}
       </div>
 
     </div>

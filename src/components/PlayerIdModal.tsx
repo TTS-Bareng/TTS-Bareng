@@ -436,15 +436,25 @@ export const PlayerIdModal: React.FC = () => {
           {/* Action Buttons Section */}
           <div className="flex flex-col gap-2 mt-0.5">
             {user.isGuest ? (
-              <button
-                type="button"
-                onClick={handleOpenAuth}
-                className="w-full h-10.5 rounded-full font-bold text-[13px] text-[var(--accent-contrast)] flex items-center justify-center gap-2 cursor-pointer tactile-active shadow-sm border border-white/20 transition-transform"
-                style={{ background: 'var(--accent-grad)' }}
-              >
-                <Sparkles className="w-4 h-4" />
-                <span>Masuk / Sinkronkan Akun</span>
-              </button>
+              <div className="flex flex-col gap-2">
+                <button
+                  type="button"
+                  onClick={handleOpenAuth}
+                  className="w-full h-10.5 rounded-full font-bold text-[13px] text-[var(--accent-contrast)] flex items-center justify-center gap-2 cursor-pointer tactile-active shadow-sm border border-white/20 transition-transform"
+                  style={{ background: 'var(--accent-grad)' }}
+                >
+                  <Sparkles className="w-4 h-4" />
+                  <span>Masuk / Sinkronkan Akun</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="w-full h-9 rounded-full border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-rose-500 dark:text-rose-400 flex items-center justify-center gap-1.5 text-[11.5px] font-bold transition-all cursor-pointer tactile-active"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span>Keluar dari Sesi Tamu</span>
+                </button>
+              </div>
             ) : (
               <div>
                 {confirmLogout ? (

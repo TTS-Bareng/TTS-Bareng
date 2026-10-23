@@ -74,6 +74,7 @@ export const App: React.FC = () => {
     initialAuthStage,
     joinTournament,
     openDailyRushBriefing,
+    openVipModal,
   } = useGameStore();
 
   // Listen for local notification tap actions (Daily Rush, Game, Arena)
@@ -119,10 +120,13 @@ export const App: React.FC = () => {
     checkDailyStreakOnMount();
   }, [checkDailyStreakOnMount]);
 
-  // Deep Link & URL Query Sync Engine (?room=TTS-XXXX, ?tourney=CUP-XXXX, or ?level=N)
+  // Deep Link & URL Query Sync Engine (?room=TTS-XXXX, ?tourney=CUP-XXXX, ?level=N, or ?vip=1)
   useEffect(() => {
-    const { roomCode, tournamentCode, levelIndex } = parseDeepLink(levels.length);
-    if (tournamentCode) {
+    const { roomCode, tournamentCode, levelIndex, vip } = parseDeepLink(levels.length);
+    if (vip) {
+      openVipModal();
+      clearUrlParams();
+    } else if (tournamentCode) {
       joinTournament(tournamentCode);
       setCurrentTab('arena');
       showGlobalToast(`Membuka Turnamen: ${tournamentCode}`, 3200);
@@ -145,7 +149,7 @@ export const App: React.FC = () => {
         showGlobalToast(`Menyambung kembali ke kamar: ${savedRoom}`, 2800);
       }
     }
-  }, [joinTournament, levels.length, selectLevel, setActiveRoomCode, setCurrentTab, showGlobalToast]);
+  }, [joinTournament, levels.length, openVipModal, selectLevel, setActiveRoomCode, setCurrentTab, showGlobalToast]);
 
   // Physical keyboard support for desktop/laptop testing when in Game view
   useEffect(() => {

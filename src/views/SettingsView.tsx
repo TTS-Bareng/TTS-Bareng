@@ -24,6 +24,7 @@ import {
   Bell,
   Crown,
   RefreshCw,
+  LogOut,
 } from 'lucide-react';
 import { useGameStore, type SoundPackKey } from '../store/useGameStore';
 import { THEMES, type ThemeKey } from '../lib/themes';
@@ -53,6 +54,7 @@ export const SettingsView: React.FC = () => {
     isVip,
     setIsVip,
     user,
+    logout,
     setSoundPack,
     restartOnboarding,
     notificationsEnabled,
@@ -67,6 +69,7 @@ export const SettingsView: React.FC = () => {
 
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [showDeleteAccountConfirm, setShowDeleteAccountConfirm] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const [confirmHint, setConfirmHint] = useState<boolean>(() => {
@@ -256,6 +259,19 @@ export const SettingsView: React.FC = () => {
                   <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/25">
                     {isVip ? 'AKTIF 👑' : 'RP 29.000/BLN'}
                   </span>
+                  {isVip && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsVip(false);
+                        showToast('Status VIP dinonaktifkan (Reset Simulasi).');
+                      }}
+                      className="text-[7.5px] font-bold px-1.5 py-0.5 rounded-full bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500/20 cursor-pointer ml-1"
+                    >
+                      Reset Uji Coba
+                    </button>
+                  )}
                 </div>
                 <span className="text-[9px] text-[var(--text-secondary)] block truncate mt-0.5">
                   {isVip
@@ -920,6 +936,71 @@ export const SettingsView: React.FC = () => {
             </div>
           </button>
 
+          {/* Keluar dari Akun (Log Out) */}
+          <div className="p-3 relative z-10">
+            {showLogoutConfirm ? (
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2 text-rose-500 dark:text-rose-400">
+                  <LogOut className="w-3.5 h-3.5 stroke-[2.2]" />
+                  <span className="text-[11.5px] font-black">
+                    {user.isGuest ? 'Keluar dari Sesi Tamu?' : 'Keluar dari Akun?'}
+                  </span>
+                </div>
+                <p className="text-[9px] text-[var(--text-secondary)] leading-tight">
+                  {user.isGuest
+                    ? 'Anda akan diarahkan kembali ke halaman awal untuk masuk atau membuat akun baru.'
+                    : `Sesi login untuk ${user.email || user.name} akan diakhiri. Data cloud Anda tetap aman.`}
+                </p>
+                <div className="flex gap-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      setShowLogoutConfirm(false);
+                      await logout();
+                    }}
+                    className="flex-1 py-1.5 rounded-lg bg-rose-500 text-white font-bold text-[10px] cursor-pointer tactile-active shadow-xs"
+                  >
+                    Ya, Keluar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowLogoutConfirm(false)}
+                    className="flex-1 py-1.5 rounded-lg bg-black/5 dark:bg-white/5 text-[var(--text-secondary)] font-bold text-[10px] cursor-pointer tactile-active"
+                  >
+                    Batal
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-7.5 h-7.5 rounded-xl bg-rose-500/10 text-rose-500 dark:text-rose-400 flex items-center justify-center shrink-0">
+                    <LogOut className="w-4 h-4 stroke-[2]" />
+                  </div>
+                  <div>
+                    <span className="text-[12px] font-bold text-[var(--text-primary)] block leading-tight">
+                      {user.isGuest ? 'Ganti Akun / Keluar Sesi' : 'Keluar dari Akun'}
+                    </span>
+                    <span className="text-[9px] text-[var(--text-secondary)] block">
+                      {user.isGuest ? 'Mode Tamu aktif • Masuk untuk simpan data' : `Terhubung sebagai ${user.email || user.name}`}
+                    </span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowLogoutConfirm(true);
+                    setShowDeleteAccountConfirm(false);
+                    setShowResetConfirm(false);
+                  }}
+                  className="px-2.5 py-1 rounded-full text-[9px] font-bold bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/20 transition-colors cursor-pointer tactile-active"
+                >
+                  Keluar
+                </button>
+              </div>
+            )}
+          </div>
+
           {/* Putar Ulang Sambutan & Onboarding */}
           <button
             type="button"
@@ -1017,10 +1098,9 @@ export const SettingsView: React.FC = () => {
                 <div className="flex gap-2 pt-1">
                   <button
                     type="button"
-                    onClick={() => {
-                      deleteAccountAndData();
+                    onClick={async () => {
                       setShowDeleteAccountConfirm(false);
-                      showToast('Akun & seluruh data berhasil dihapus.');
+                      await deleteAccountAndData();
                     }}
                     className="flex-1 py-1.5 rounded-lg bg-red-500 text-white font-bold text-[10px] cursor-pointer tactile-active shadow-xs"
                   >

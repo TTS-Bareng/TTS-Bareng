@@ -18,8 +18,18 @@ export const IAP_PRODUCT_IDS = {
   sachetStarter: 'com.syntheticae.ttsbareng.sachet_starter',
   customTicket1: 'com.syntheticae.ttsbareng.custom_ticket_1',
   customTicket5: 'com.syntheticae.ttsbareng.custom_ticket_5',
-  vipMonthly: 'com.syntheticae.ttsbareng.vip_monthly',
+  vipMonthly: 'com.syntheticae.ttsbareng.vip.monthly',
+  vipAnnual: 'com.syntheticae.ttsbareng.vip.annual',
+  vipLifetime: 'com.syntheticae.ttsbareng.vip.lifetime',
 } as const;
+
+export const REVENUECAT_PACKAGE_IDS = {
+  monthly: '$rc_monthly',
+  annual: '$rc_annual',
+  lifetime: '$rc_lifetime',
+} as const;
+
+export type VipPlan = 'annual' | 'monthly' | 'lifetime';
 
 export type IapProductId = (typeof IAP_PRODUCT_IDS)[keyof typeof IAP_PRODUCT_IDS];
 
@@ -141,11 +151,46 @@ class RevenueCatService {
   public async purchaseProduct(productId: string): Promise<PurchaseResult> {
     // Mode Mock Sandbox jika di web/dev
     if (this.isMockMode || !this.isConfigured) {
-      console.info(`[RevenueCat:Mock] Simulasi pembelian untuk ${productId} sukses.`);
+      console.info(`[RevenueCat:Mock] Menjalankan simulasi Sandbox StoreKit untuk ${productId}...`);
+      
+      const productName =
+        productId === IAP_PRODUCT_IDS.vipAnnual
+          ? 'TTS Bareng VIP (Tahunan - Rp 199.000)'
+          : productId === IAP_PRODUCT_IDS.vipMonthly
+          ? 'TTS Bareng VIP (Bulanan - Rp 29.000)'
+          : productId === IAP_PRODUCT_IDS.vipLifetime
+          ? 'TTS Bareng VIP (Seumur Hidup - Rp 499.000)'
+          : productId === IAP_PRODUCT_IDS.sachetStarter
+          ? 'Paket Sachet Pemula (Rp 5.000)'
+          : 'Produk Dalam Aplikasi';
+
+      let userConfirmed = true;
+      if (typeof window !== 'undefined') {
+        userConfirmed = window.confirm(
+          `🍎 [Apple StoreKit 2 — Simulasi Sandbox]\n\n` +
+          `Konfirmasi Pembelian:\n${productName}\n\n` +
+          `• Klik OK untuk Simulasi Pembelian Berhasil\n` +
+          `• Klik Cancel untuk Simulasi Batalkan Transaksi`
+        );
+      }
+
+      if (!userConfirmed) {
+        return {
+          success: false,
+          cancelled: true,
+          productId,
+        };
+      }
+
+      const isVipProduct =
+        productId === IAP_PRODUCT_IDS.vipMonthly ||
+        productId === IAP_PRODUCT_IDS.vipAnnual ||
+        productId === IAP_PRODUCT_IDS.vipLifetime;
+
       return {
         success: true,
         productId,
-        entitlementUnlocked: productId === IAP_PRODUCT_IDS.vipMonthly,
+        entitlementUnlocked: isVipProduct,
       };
     }
 
@@ -226,6 +271,36 @@ class RevenueCatService {
   }
 
   /**
+   * Langganan Tahunan VIP TTS Bareng (Rp 199.000 / thn - Hemat ~40%)
+   */
+  public async purchaseVipAnnual(): Promise<PurchaseResult> {
+    return this.purchaseProduct(IAP_PRODUCT_IDS.vipAnnual);
+  }
+
+  /**
+   * Akses Seumur Hidup VIP TTS Bareng (Rp 499.000 - Sekali Bayar Selamanya)
+   */
+  public async purchaseVipLifetime(): Promise<PurchaseResult> {
+    return this.purchaseProduct(IAP_PRODUCT_IDS.vipLifetime);
+  }
+
+  /**
+   * Pembelian dinamis berdasarkan plan yang dipilih
+   */
+  public async purchaseVipPlan(plan: VipPlan): Promise<PurchaseResult> {
+    switch (plan) {
+      case 'annual':
+        return this.purchaseVipAnnual();
+      case 'monthly':
+        return this.purchaseVipMonthly();
+      case 'lifetime':
+        return this.purchaseVipLifetime();
+      default:
+        return this.purchaseVipAnnual();
+    }
+  }
+
+  /**
    * Kepatuhan Wajib Apple: Pulihkan Pembelian (Restore Purchases).
    */
   public async restorePurchases(): Promise<{
@@ -235,7 +310,8 @@ class RevenueCatService {
     error?: string;
   }> {
     if (this.isMockMode || !this.isConfigured) {
-      return { success: true, isVip: false };
+      const isVip = typeof window !== 'undefined' && localStorage.getItem('tts_quest_is_vip') === 'true';
+      return { success: true, isVip };
     }
 
     try {

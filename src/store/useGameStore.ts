@@ -42,7 +42,8 @@ import {
 import { haptic } from '../lib/haptics';
 import { notificationService } from '../lib/notificationService';
 import { calculateEloDelta, getEloTier } from '../lib/eloSystem';
-import { syncUserProfile, fetchUserProfile } from '../lib/supabase';
+import { supabase, syncUserProfile, fetchUserProfile } from '../lib/supabase';
+import { revenueCatService } from '../lib/revenueCatService';
 
 export type TabType = 'home' | 'social' | 'game' | 'quests' | 'profile' | 'stats' | 'settings' | 'arena';
 
@@ -949,17 +950,43 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
   },
 
-  logout: () => {
-    const currentId = get().user?.id || generatePlayerId();
-    const defaultUser: UserProfile = {
-      id: currentId,
-      name: 'Tamu',
-      isGuest: true,
-      avatar: '/maskot/Fierce Plush Crossword Champion.webp',
-      joinedAt: 'Mode Tamu',
-    };
-    localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(defaultUser));
-    set({ user: defaultUser });
+  logout: async () => {
+    try {
+      await supabase.auth.signOut();
+    } catch {}
+    try {
+      await revenueCatService.logOut();
+    } catch {}
+
+    try {
+      localStorage.removeItem(STORAGE_KEY_USER);
+      localStorage.removeItem(STORAGE_KEY_ONBOARDED);
+      localStorage.removeItem(STORAGE_KEY_IS_VIP);
+      // Remove any supabase auth tokens
+      const keysToRemove: string[] = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && (key.startsWith('sb-') || key.includes('supabase') || key === 'tts_quest_user' || key === 'tts_quest_onboarded')) {
+          keysToRemove.push(key);
+        }
+      }
+      keysToRemove.forEach((k) => localStorage.removeItem(k));
+    } catch {}
+
+    const defaultUser = getInitialUser();
+    set({
+      user: defaultUser,
+      initialAuthStage: 'auth',
+      currentTab: 'home',
+      isVip: false,
+      isPlayerIdModalOpen: false,
+      isVipModalOpen: false,
+      isSachetModalOpen: false,
+    });
+
+    if (typeof window !== 'undefined') {
+      window.location.reload();
+    }
   },
 
   theme: getInitialTheme(),
@@ -4051,12 +4078,19 @@ export const useGameStore = create<GameState>((set, get) => ({
     });
   },
 
-  deleteAccountAndData: () => {
+  deleteAccountAndData: async () => {
+    try {
+      await supabase.auth.signOut();
+    } catch {}
+    try {
+      await revenueCatService.logOut();
+    } catch {}
+
     try {
       const keysToRemove: string[] = [];
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
-        if (key && (key.startsWith('tts_') || key.startsWith('crossword_') || key.startsWith('mabar_'))) {
+        if (key && (key.startsWith('tts_') || key.startsWith('crossword_') || key.startsWith('mabar_') || key.startsWith('sb-') || key.includes('supabase'))) {
           keysToRemove.push(key);
         }
       }
@@ -4074,9 +4108,13 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     set({
       user: defaultUser,
+      initialAuthStage: 'auth',
+      currentTab: 'home',
+      isVip: false,
       stars: 120,
       streak: 0,
       streakShields: 1,
+      customTtsTickets: 0,
       levelRecords: {},
       claimedAchievementRewards: {},
       userInputs: {},
@@ -4092,8 +4130,14 @@ export const useGameStore = create<GameState>((set, get) => ({
       currentLevelIndex: 0,
       level: typedLevels[0],
       isLevelCompleteOpen: false,
+      isVipModalOpen: false,
+      isSachetModalOpen: false,
       activeRoomCode: null,
       mabarPeers: [],
     });
+
+    if (typeof window !== 'undefined') {
+      window.location.reload();
+    }
   },
 }));

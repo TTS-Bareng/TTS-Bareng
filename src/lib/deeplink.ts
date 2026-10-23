@@ -7,6 +7,7 @@ export interface ParsedDeepLink {
   roomCode?: string;
   tournamentCode?: string;
   levelIndex?: number;
+  vip?: boolean;
 }
 
 /**
@@ -55,8 +56,13 @@ export function parseDeepLink(totalLevels: number = 500): ParsedDeepLink {
     const roomParam = params.get('room') || params.get('join') || params.get('kamar');
     const tourneyParam = params.get('tourney') || params.get('cup');
     const levelParam = params.get('level') || params.get('bab') || params.get('lvl');
+    const vipParam = params.get('vip') || params.get('paywall');
 
     const result: ParsedDeepLink = {};
+
+    if (vipParam === '1' || vipParam === 'true') {
+      result.vip = true;
+    }
 
     if (tourneyParam && tourneyParam.trim()) {
       result.tournamentCode = tourneyParam.trim().toUpperCase();

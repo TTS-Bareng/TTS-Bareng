@@ -40,6 +40,7 @@ export const CustomCrosswordModal: React.FC = () => {
     setIsVip,
     consumeCustomTtsTicket,
     openSachetModal,
+    openVipModal,
     openLegalModal,
     showGlobalToast,
     soundEnabled,
@@ -47,33 +48,11 @@ export const CustomCrosswordModal: React.FC = () => {
     openShareModal,
   } = useGameStore();
 
-  const [isPurchasingVip, setIsPurchasingVip] = useState(false);
-
-  const handlePurchaseVip = async () => {
-    try {
-      setIsPurchasingVip(true);
-      const res = await revenueCatService.purchaseVipMonthly();
-      if (res.success || res.entitlementUnlocked) {
-        setIsVip(true);
-        if (soundEnabled) soundManager.playVictory();
-        if (hapticEnabled) haptic.success([40, 80, 50]);
-        confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
-        showGlobalToast('👑 Selamat! Langganan TTS Pass VIP Berhasil Diaktifkan!', 4500);
-      } else if (res.cancelled) {
-        showGlobalToast('Pembelian dibatalkan.');
-      } else if (res.error) {
-        showGlobalToast(res.error);
-      }
-    } catch (err: any) {
-      showGlobalToast(err?.message || 'Gagal memproses langganan VIP.');
-    } finally {
-      setIsPurchasingVip(false);
-    }
-  };
+  const [isRestoring, setIsRestoring] = useState(false);
 
   const handleRestorePurchases = async () => {
     try {
-      setIsPurchasingVip(true);
+      setIsRestoring(true);
       const res = await revenueCatService.restorePurchases();
       if (res.isVip) {
         setIsVip(true);
@@ -86,7 +65,7 @@ export const CustomCrosswordModal: React.FC = () => {
     } catch {
       showGlobalToast('Gagal memulihkan pembelian.');
     } finally {
-      setIsPurchasingVip(false);
+      setIsRestoring(false);
     }
   };
 
@@ -332,7 +311,10 @@ export const CustomCrosswordModal: React.FC = () => {
 
                 {/* Option 2: VIP Pass */}
                 <div
-                  onClick={handlePurchaseVip}
+                  onClick={() => {
+                    closeCustomCrosswordModal();
+                    openVipModal();
+                  }}
                   className="p-4 rounded-2xl border border-[var(--accent-main)]/30 hover:border-[var(--accent-main)]/60 transition-all cursor-pointer tactile-active flex flex-col justify-between text-left shadow-sm relative overflow-hidden"
                   style={{ backgroundColor: 'var(--bg-card)' }}
                 >
@@ -350,7 +332,7 @@ export const CustomCrosswordModal: React.FC = () => {
                       </span>
                     </div>
                     <h3 className="text-[13px] font-black text-[var(--text-primary)] leading-tight">
-                      TTS Pass VIP Bulanan
+                      TTS Pass VIP
                     </h3>
                     <p className="text-[10px] text-[var(--text-secondary)] mt-1">
                       Bikin TTS sepuasnya tanpa batas tiket & mahkota juara
@@ -358,10 +340,10 @@ export const CustomCrosswordModal: React.FC = () => {
                   </div>
                   <div className="mt-3 pt-2 border-t border-black/5 dark:border-white/10 flex items-center justify-between">
                     <span className="font-mono font-black text-[13px] text-[var(--text-primary)]">
-                      Rp 29.000<span className="text-[9px] font-normal text-[var(--text-secondary)]">/bln</span>
+                      Mulai Rp 16.500<span className="text-[9px] font-normal text-[var(--text-secondary)]">/bln</span>
                     </span>
                     <span className="text-[10px] font-bold text-[var(--accent-main)]">
-                      {isPurchasingVip ? 'Memproses...' : 'Langganan ↗'}
+                      Pilih Paket ↗
                     </span>
                   </div>
                 </div>
@@ -372,7 +354,7 @@ export const CustomCrosswordModal: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleRestorePurchases}
-                  disabled={isPurchasingVip}
+                  disabled={isRestoring}
                   className="hover:underline hover:text-[var(--text-primary)] cursor-pointer"
                 >
                   Pulihkan Pembelian
