@@ -121,6 +121,15 @@ export interface ShareModalData {
   shareText?: string;
 }
 
+export interface StoreKitModalData {
+  productId: string;
+  productTitle: string;
+  productPrice: string;
+  productPeriod?: string;
+  onSuccess: () => void;
+  onCancel: () => void;
+}
+
 export interface BattleConfig {
   mode?: 'tug_of_war' | 'speed_race';
   rounds: 1 | 3 | 5;
@@ -223,6 +232,10 @@ interface GameState {
   isVipModalOpen: boolean;
   openVipModal: () => void;
   closeVipModal: () => void;
+  isStoreKitModalOpen: boolean;
+  storeKitModalData: StoreKitModalData | null;
+  openStoreKitModal: (data: StoreKitModalData) => void;
+  closeStoreKitModal: () => void;
   battlesStats: { won: number; lost: number; total: number };
   isSachetModalOpen: boolean;
   openSachetModal: () => void;
@@ -981,6 +994,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       isVip: false,
       isPlayerIdModalOpen: false,
       isVipModalOpen: false,
+      isStoreKitModalOpen: false,
+      storeKitModalData: null,
       isSachetModalOpen: false,
     });
 
@@ -1704,6 +1719,10 @@ export const useGameStore = create<GameState>((set, get) => ({
   isVipModalOpen: false,
   openVipModal: () => set({ isVipModalOpen: true }),
   closeVipModal: () => set({ isVipModalOpen: false }),
+  isStoreKitModalOpen: false,
+  storeKitModalData: null,
+  openStoreKitModal: (data: StoreKitModalData) => set({ isStoreKitModalOpen: true, storeKitModalData: data }),
+  closeStoreKitModal: () => set({ isStoreKitModalOpen: false, storeKitModalData: null }),
   battlesStats: getInitialBattlesStats(),
   isSachetModalOpen: false,
   openSachetModal: () => set({ isSachetModalOpen: true }),
@@ -4131,6 +4150,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       level: typedLevels[0],
       isLevelCompleteOpen: false,
       isVipModalOpen: false,
+      isStoreKitModalOpen: false,
+      storeKitModalData: null,
       isSachetModalOpen: false,
       activeRoomCode: null,
       mabarPeers: [],

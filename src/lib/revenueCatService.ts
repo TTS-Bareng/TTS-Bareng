@@ -149,49 +149,68 @@ class RevenueCatService {
    * Melakukan pembelian produk berdasarkan Product ID.
    */
   public async purchaseProduct(productId: string): Promise<PurchaseResult> {
-    // Mode Mock Sandbox jika di web/dev
+    // Mode Mock Sandbox jika di web/dev (Simulasi StoreKit 2 Sheet)
     if (this.isMockMode || !this.isConfigured) {
-      console.info(`[RevenueCat:Mock] Menjalankan simulasi Sandbox StoreKit untuk ${productId}...`);
-      
-      const productName =
-        productId === IAP_PRODUCT_IDS.vipAnnual
-          ? 'TTS Bareng VIP (Tahunan - Rp 199.000)'
-          : productId === IAP_PRODUCT_IDS.vipMonthly
-          ? 'TTS Bareng VIP (Bulanan - Rp 29.000)'
-          : productId === IAP_PRODUCT_IDS.vipLifetime
-          ? 'TTS Bareng VIP (Seumur Hidup - Rp 499.000)'
-          : productId === IAP_PRODUCT_IDS.sachetStarter
-          ? 'Paket Sachet Pemula (Rp 5.000)'
-          : 'Produk Dalam Aplikasi';
+      console.info(`[RevenueCat:Mock] Menjalankan simulasi Sandbox StoreKit Sheet untuk ${productId}...`);
 
-      let userConfirmed = true;
-      if (typeof window !== 'undefined') {
-        userConfirmed = window.confirm(
-          `🍎 [Apple StoreKit 2 — Simulasi Sandbox]\n\n` +
-          `Konfirmasi Pembelian:\n${productName}\n\n` +
-          `• Klik OK untuk Simulasi Pembelian Berhasil\n` +
-          `• Klik Cancel untuk Simulasi Batalkan Transaksi`
-        );
+      let productTitle = 'Paket Pembelian Dalam Aplikasi';
+      let productPrice = 'Rp 29.000';
+      let productPeriod: string | undefined = undefined;
+
+      if (productId === IAP_PRODUCT_IDS.vipMonthly) {
+        productTitle = 'TTS Bareng VIP (Bulanan)';
+        productPrice = 'Rp 29.000';
+        productPeriod = '/ bulan';
+      } else if (productId === IAP_PRODUCT_IDS.vipAnnual) {
+        productTitle = 'TTS Bareng VIP (Tahunan - Hemat 40%)';
+        productPrice = 'Rp 199.000';
+        productPeriod = '/ tahun';
+      } else if (productId === IAP_PRODUCT_IDS.vipLifetime) {
+        productTitle = 'TTS Bareng VIP (Akses Seumur Hidup)';
+        productPrice = 'Rp 499.000';
+        productPeriod = 'sekali bayar';
+      } else if (productId === IAP_PRODUCT_IDS.sachetStarter) {
+        productTitle = 'Paket Sachet Pemula (1 Tiket + 100 Bintang)';
+        productPrice = 'Rp 5.000';
+        productPeriod = 'sekali beli';
       }
 
-      if (!userConfirmed) {
-        return {
-          success: false,
-          cancelled: true,
-          productId,
-        };
-      }
+      return new Promise<PurchaseResult>(async (resolve) => {
+        try {
+          const { useGameStore } = await import('../store/useGameStore');
+          useGameStore.getState().openStoreKitModal({
+            productId,
+            productTitle,
+            productPrice,
+            productPeriod,
+            onSuccess: () => {
+              const isVipProduct =
+                productId === IAP_PRODUCT_IDS.vipMonthly ||
+                productId === IAP_PRODUCT_IDS.vipAnnual ||
+                productId === IAP_PRODUCT_IDS.vipLifetime;
 
-      const isVipProduct =
-        productId === IAP_PRODUCT_IDS.vipMonthly ||
-        productId === IAP_PRODUCT_IDS.vipAnnual ||
-        productId === IAP_PRODUCT_IDS.vipLifetime;
-
-      return {
-        success: true,
-        productId,
-        entitlementUnlocked: isVipProduct,
-      };
+              resolve({
+                success: true,
+                productId,
+                entitlementUnlocked: isVipProduct,
+              });
+            },
+            onCancel: () => {
+              resolve({
+                success: false,
+                cancelled: true,
+                productId,
+              });
+            },
+          });
+        } catch {
+          resolve({
+            success: true,
+            productId,
+            entitlementUnlocked: true,
+          });
+        }
+      });
     }
 
     try {

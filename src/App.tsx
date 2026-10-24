@@ -34,6 +34,7 @@ const NotificationPromptModal = lazy(() => import('./components/NotificationProm
 const QuickMatchModal = lazy(() => import('./components/QuickMatchModal').then((m) => ({ default: m.QuickMatchModal })));
 const SachetOfferModal = lazy(() => import('./components/SachetOfferModal').then((m) => ({ default: m.SachetOfferModal })));
 const VipSubscriptionModal = lazy(() => import('./components/VipSubscriptionModal').then((m) => ({ default: m.VipSubscriptionModal })));
+const StoreKitSandboxModal = lazy(() => import('./components/StoreKitSandboxModal').then((m) => ({ default: m.StoreKitSandboxModal })));
 const CustomCrosswordModal = lazy(() => import('./components/CustomCrosswordModal').then((m) => ({ default: m.CustomCrosswordModal })));
 const InitialAuthView = lazy(() => import('./views/InitialAuthView').then((m) => ({ default: m.InitialAuthView })));
 const OnboardingView = lazy(() => import('./views/OnboardingView').then((m) => ({ default: m.OnboardingView })));
@@ -292,6 +293,7 @@ export const App: React.FC = () => {
         <QuickMatchModal />
         <SachetOfferModal />
         <VipSubscriptionModal />
+        <StoreKitSandboxModal />
         <CustomCrosswordModal />
       </Suspense>
     </div>
