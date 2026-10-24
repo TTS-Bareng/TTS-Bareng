@@ -42,16 +42,16 @@ interface FeatureSlide {
 const FEATURE_SLIDES: FeatureSlide[] = [
   {
     id: 'adventure',
-    badge: 'Jelajah Bab Nusantara',
+    badge: '500+ Bab • 5.000+ Kosakata',
     badgeColor: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30',
-    title: 'Petualangan Nusantara',
-    description: 'Taklukkan ratusan teka-teki silang tematik dari Sabang sampai Merauke.',
+    title: '500+ Bab Siap Dieksplorasi',
+    description: 'Jelajahi lebih dari 500 bab teka-teki silang dengan 5.000+ kosakata baku Nusantara.',
     mascot: MASCOTS.puzzleExplorer,
     microWidget: {
       icon: <Compass className="w-4 h-4 text-emerald-500" />,
-      title: 'Bab 1: Candi Borobudur',
-      subtitle: 'Jawa Tengah • 10/10 Kata',
-      pill: '100% Selesai',
+      title: '500+ Bab & 5.000+ Kata',
+      subtitle: 'Sabang sampai Merauke siap dimainkan',
+      pill: 'Koleksi Terlengkap',
     },
   },
   {
@@ -546,9 +546,9 @@ export const InitialAuthView: React.FC = () => {
             )}
           </AnimatePresence>
 
-          {/* Legal Footer (Terms of Service & Privacy Policy) */}
-          <div className="text-center pt-1 text-[10px] text-[var(--text-secondary)] leading-relaxed">
-            Dengan melanjutkan, Anda menyetujui{' '}
+          {/* Legal Footer (Terms of Service & Privacy Policy - Guaranteed 1 Line) */}
+          <div className="text-center pt-1 text-[9.5px] text-[var(--text-secondary)] whitespace-nowrap overflow-hidden text-ellipsis px-1">
+            Menyetujui{' '}
             <button
               type="button"
               onClick={() => openLegalModal('terms')}
@@ -564,7 +564,7 @@ export const InitialAuthView: React.FC = () => {
             >
               Kebijakan Privasi
             </button>{' '}
-            TTS Bareng.
+            TTS Bareng
           </div>
         </div>
       </motion.div>
