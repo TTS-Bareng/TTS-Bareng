@@ -25,6 +25,7 @@ import {
   Crown,
   RefreshCw,
   LogOut,
+  Mail,
 } from 'lucide-react';
 import { useGameStore, type SoundPackKey } from '../store/useGameStore';
 import { THEMES, type ThemeKey } from '../lib/themes';
@@ -893,6 +894,26 @@ export const SettingsView: React.FC = () => {
             </div>
             <ExternalLink className="w-3.5 h-3.5 text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors" />
           </button>
+
+          <a
+            href="mailto:mabar.tekatekisilang@gmail.com"
+            className="w-full flex items-center justify-between p-3 hover:bg-black/3 dark:hover:bg-white/5 transition-colors cursor-pointer text-left tactile-active group relative z-10 border-t border-black/5 dark:border-white/5"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-7.5 h-7.5 rounded-xl bg-black/5 dark:bg-white/5 text-[var(--accent-main)] flex items-center justify-center shrink-0">
+                <Mail className="w-4 h-4 stroke-[2]" />
+              </div>
+              <div>
+                <span className="text-[12px] font-bold text-[var(--text-primary)] block leading-tight">
+                  Hubungi Layanan CS / Bantuan
+                </span>
+                <span className="text-[9px] text-[var(--text-secondary)] block">
+                  mabar.tekatekisilang@gmail.com
+                </span>
+              </div>
+            </div>
+            <ExternalLink className="w-3.5 h-3.5 text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors" />
+          </a>
         </div>
       </section>
 

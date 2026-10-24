@@ -175,6 +175,15 @@ export const LegalModal: React.FC = () => {
                       Anda memiliki hak penuh untuk menghapus seluruh data dan profil Anda kapan pun melalui tombol <strong>Hapus Akun & Data</strong> di menu Pengaturan. Tindakan ini akan seketika membersihkan seluruh penyimpanan lokal perangkat Anda.
                     </p>
                   </div>
+
+                  <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10">
+                    <h4 className="font-black text-[11.5px] text-[var(--text-primary)] mb-1">
+                      5. Bantuan & Kontak Dukungan Pemain
+                    </h4>
+                    <p className="text-[10px]">
+                      Jika Anda memiliki pertanyaan seputar privasi, akun, atau kendala pembelian, hubungi tim layanan pelanggan kami di: <a href="mailto:mabar.tekatekisilang@gmail.com" className="text-[var(--accent-main)] underline font-bold">mabar.tekatekisilang@gmail.com</a>.
+                    </p>
+                  </div>
                 </div>
               </div>
             )}
