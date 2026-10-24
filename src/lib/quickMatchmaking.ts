@@ -117,6 +117,12 @@ export const quickMatchmaking = {
       });
     };
 
+    // If device is offline, instantly match with AI bot sparring (no waiting)
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
+      botFallbackTimer = setTimeout(triggerBotFallback, 400);
+      return;
+    }
+
     // If Supabase is unconfigured, trigger bot fallback after 2.5s simulated searching
     if (!isSupabaseConfigured) {
       botFallbackTimer = setTimeout(triggerBotFallback, 2500);

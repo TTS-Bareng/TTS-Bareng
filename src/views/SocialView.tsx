@@ -68,6 +68,18 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
   const isRoomActive = Boolean(activeRoomCode);
   const [inputCode, setInputCode] = useState('');
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
+  const [isOffline, setIsOffline] = useState(() => typeof navigator !== 'undefined' ? !navigator.onLine : false);
+
+  useEffect(() => {
+    const onOnline = () => setIsOffline(false);
+    const onOffline = () => setIsOffline(true);
+    window.addEventListener('online', onOnline);
+    window.addEventListener('offline', onOffline);
+    return () => {
+      window.removeEventListener('online', onOnline);
+      window.removeEventListener('offline', onOffline);
+    };
+  }, []);
 
   const isCustomImageAvatar = Boolean(
     user.avatar && (
@@ -571,11 +583,20 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
             </div>
 
             <div className="relative z-10 max-w-[70%]">
-              <h3 className="text-[17px] sm:text-[18px] font-black text-[var(--text-primary)] tracking-tight leading-tight mb-1">
-                Cari Lawan Cepat 1v1
-              </h3>
+              <div className="flex items-center gap-1.5 mb-1">
+                <h3 className="text-[17px] sm:text-[18px] font-black text-[var(--text-primary)] tracking-tight leading-tight">
+                  {isOffline ? 'Latihan Lawan Bot (Offline)' : 'Cari Lawan Cepat 1v1'}
+                </h3>
+                {isOffline && (
+                  <span className="text-[7.5px] font-black px-1.5 py-0.2 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-400 uppercase">
+                    OFFLINE
+                  </span>
+                )}
+              </div>
               <p className="text-[10.5px] text-[var(--text-secondary)] leading-snug">
-                Tanding instan tanpa perlu membagikan kode kamar. Temukan penantang setara dalam 5–8 detik!
+                {isOffline
+                  ? 'Mainkan duel kata instan melawan AI cerdas ber-rating ELO setara tanpa perlu kuota internet!'
+                  : 'Tanding instan tanpa perlu membagikan kode kamar. Temukan penantang setara dalam 5–8 detik!'}
               </p>
             </div>
 
@@ -586,7 +607,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
                 className="py-2.5 px-4 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[11px] font-black inline-flex items-center gap-1.5 cursor-pointer tactile-active shadow-sm hover:opacity-95 transition-all"
               >
                 <Zap className="w-3.5 h-3.5 stroke-[2.4]" />
-                <span>Cari Lawan Sekarang</span>
+                <span>{isOffline ? 'Latihan Lawan Bot' : 'Cari Lawan Sekarang'}</span>
               </button>
             </div>
 

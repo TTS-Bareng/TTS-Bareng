@@ -324,6 +324,18 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' | 'tournament'
 
   // Accordion state: default expands the realm containing the current active level
   const [expandedRealmId, setExpandedRealmId] = useState<string | null>(activeRealm.id);
+  const [isOffline, setIsOffline] = useState(() => typeof navigator !== 'undefined' ? !navigator.onLine : false);
+
+  useEffect(() => {
+    const onOnline = () => setIsOffline(false);
+    const onOffline = () => setIsOffline(true);
+    window.addEventListener('online', onOnline);
+    window.addEventListener('offline', onOffline);
+    return () => {
+      window.removeEventListener('online', onOnline);
+      window.removeEventListener('offline', onOffline);
+    };
+  }, []);
 
   const toggleRealm = (realmId: string) => {
     setExpandedRealmId((prev) => (prev === realmId ? null : realmId));
@@ -366,9 +378,16 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' | 'tournament'
               <span className="text-[9.5px] font-black uppercase tracking-wider text-[var(--accent-main)] block leading-none mb-0.5">
                 PUSAT PERMAINAN
               </span>
-              <h2 className="text-[18px] font-black text-[var(--text-primary)] tracking-tight leading-tight">
-                Arena & Petualangan
-              </h2>
+              <div className="flex items-center gap-1.5">
+                <h2 className="text-[18px] font-black text-[var(--text-primary)] tracking-tight leading-tight">
+                  Arena & Petualangan
+                </h2>
+                {isOffline && (
+                  <span className="text-[8px] font-black px-1.5 py-0.2 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-400 uppercase">
+                    OFFLINE
+                  </span>
+                )}
+              </div>
             </div>
 
             {/* Live Meta: ELO Pill & Streak/Stars Pill */}

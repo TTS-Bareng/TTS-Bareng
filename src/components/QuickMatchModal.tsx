@@ -38,6 +38,7 @@ export const QuickMatchModal: React.FC = () => {
   const matchedRef = useRef<MatchFoundResult | null>(null);
 
   const isSpeedRace = battleConfig.mode === 'speed_race';
+  const isOffline = typeof navigator !== 'undefined' && !navigator.onLine;
 
   // Handle Matchmaking Start & Teardown
   useEffect(() => {
@@ -185,10 +186,14 @@ export const QuickMatchModal: React.FC = () => {
           {queueState === 'searching' && (
             <div className="w-full flex flex-col items-center gap-3">
               {/* Header Pill */}
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/25">
-                <Swords className="w-3 h-3 text-[var(--accent-main)]" />
-                <span className="text-[9.5px] font-black uppercase tracking-wider text-[var(--accent-main)]">
-                  CARI LAWAN CEPAT 1V1
+              <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full border ${
+                isOffline
+                  ? 'bg-amber-500/15 border-amber-500/30 text-amber-600 dark:text-amber-400'
+                  : 'bg-[var(--accent-light)] border-[var(--accent-main)]/25 text-[var(--accent-main)]'
+              }`}>
+                <Swords className="w-3 h-3" />
+                <span className="text-[9.5px] font-black uppercase tracking-wider">
+                  {isOffline ? 'LATIHAN TANDING BOT (OFFLINE)' : 'CARI LAWAN CEPAT 1V1'}
                 </span>
               </div>
 
@@ -225,7 +230,7 @@ export const QuickMatchModal: React.FC = () => {
               {/* Title & Searching Status */}
               <div className="flex flex-col items-center">
                 <h3 className="text-[17px] font-black tracking-tight text-[var(--text-primary)] leading-tight">
-                  Mencari Penantang...
+                  {isOffline ? 'Memulai Sparing Bot AI...' : 'Mencari Penantang...'}
                 </h3>
                 <span className="text-[14px] font-black text-[var(--accent-main)] mt-0.5 tracking-wider font-mono">
                   {formatTimer(elapsedSeconds)}
@@ -292,7 +297,7 @@ export const QuickMatchModal: React.FC = () => {
               <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400">
                 <CheckCircle2 className="w-3.5 h-3.5 stroke-[2.5]" />
                 <span className="text-[10px] font-black uppercase tracking-wider">
-                  LAWAN DITEMUKAN!
+                  {matchedData.opponent.isBot ? 'SPARING BOT AI SIAP!' : 'LAWAN DITEMUKAN!'}
                 </span>
               </div>
 

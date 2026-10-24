@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { WifiOff, Wifi } from 'lucide-react';
+import { useGameStore } from '../store/useGameStore';
 
 export const NetworkStatusBar: React.FC = () => {
   const [isOnline, setIsOnline] = useState<boolean>(() => {
@@ -16,6 +17,9 @@ export const NetworkStatusBar: React.FC = () => {
     const handleOnline = () => {
       setIsOnline(true);
       setShowRestoredNotice(true);
+      // Trigger silent background cloud sync
+      useGameStore.getState().syncWithCloud();
+
       const timer = setTimeout(() => {
         setShowRestoredNotice(false);
       }, 2500);

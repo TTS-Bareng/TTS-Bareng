@@ -28,6 +28,18 @@ export const LeaderboardModal: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'daily_rush' | 'elo_rating'>('daily_rush');
   const [todayStr] = useState(getTodayDateString);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isOffline, setIsOffline] = useState(() => typeof navigator !== 'undefined' ? !navigator.onLine : false);
+
+  React.useEffect(() => {
+    const onOnline = () => setIsOffline(false);
+    const onOffline = () => setIsOffline(true);
+    window.addEventListener('online', onOnline);
+    window.addEventListener('offline', onOffline);
+    return () => {
+      window.removeEventListener('online', onOnline);
+      window.removeEventListener('offline', onOffline);
+    };
+  }, []);
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -124,9 +136,16 @@ export const LeaderboardModal: React.FC = () => {
                   <Trophy className="w-4 h-4 stroke-[2.2]" />
                 </div>
                 <div>
-                  <span className="text-[8.5px] font-black uppercase tracking-wider text-[var(--accent-main)] block leading-none mb-0.5">
-                    {activeTab === 'daily_rush' ? 'DAILY RUSH 90S' : 'LIGA CATUR ELO'}
-                  </span>
+                  <div className="flex items-center gap-1.5 mb-0.5">
+                    <span className="text-[8.5px] font-black uppercase tracking-wider text-[var(--accent-main)] block leading-none">
+                      {activeTab === 'daily_rush' ? 'DAILY RUSH 90S' : 'LIGA CATUR ELO'}
+                    </span>
+                    {isOffline && (
+                      <span className="text-[7px] font-black px-1.5 py-0.2 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-400 uppercase">
+                        OFFLINE
+                      </span>
+                    )}
+                  </div>
                   <h3 className="text-[16px] font-black tracking-tight text-[var(--text-primary)] leading-tight">
                     {activeTab === 'daily_rush' ? 'Peringkat Nasional' : 'Klasemen Master ELO'}
                   </h3>
@@ -187,6 +206,12 @@ export const LeaderboardModal: React.FC = () => {
 
             {/* Leaderboard List / Podium Container */}
             <div className="flex-1 overflow-y-auto min-h-[220px] max-h-[360px] flex flex-col gap-2 relative z-10 pr-0.5">
+              {isOffline && (
+                <div className="w-full py-1.5 px-3 rounded-xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-between text-amber-600 dark:text-amber-400 text-[9px] font-bold shrink-0">
+                  <span>Mode Offline • Rekor tersimpan di perangkat</span>
+                  <span className="uppercase font-black text-[7.5px] px-1.5 py-0.2 rounded bg-amber-500/20">Lokal</span>
+                </div>
+              )}
               {activeTab === 'daily_rush' ? (
                 isLoadingLeaderboard && nationalLeaderboard.length === 0 ? (
                   <div className="flex-1 flex flex-col items-center justify-center gap-2 py-8 text-center">
@@ -199,10 +224,14 @@ export const LeaderboardModal: React.FC = () => {
                   <div className="flex-1 flex flex-col items-center justify-center gap-2 py-8 text-center">
                     <Award className="w-8 h-8 text-[var(--accent-main)] stroke-[1.8] opacity-80" />
                     <span className="text-[12px] font-black text-[var(--text-primary)]">
-                      Belum Ada Rekor Hari Ini
+                      {isOffline ? 'Papan Peringkat Tersimpan' : 'Belum Ada Rekor Hari Ini'}
                     </span>
-                    <p className="text-[10px] text-[var(--text-secondary)] max-w-[200px] leading-tight">
-                      Jadilah yang pertama menyelesaikan tantangan Daily Rush 90 detik dan raih posisi teratas!
+                    <p className="text-[10px] text-[var(--text-secondary)] max-w-[220px] leading-tight">
+                      {isOffline
+                        ? (dailyRushRecord?.date === todayStr
+                            ? `Rekor lokal Anda hari ini: ${dailyRushRecord.score} poin. Skor akan otomatis diunggah saat koneksi pulih.`
+                            : 'Mainkan tantangan Daily Rush 90 detik untuk mencatat rekor lokal Anda.')
+                        : 'Jadilah yang pertama menyelesaikan tantangan Daily Rush 90 detik dan raih posisi teratas!'}
                     </p>
                   </div>
                 ) : (

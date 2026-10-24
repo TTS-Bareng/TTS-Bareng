@@ -473,6 +473,7 @@ interface GameState {
   nationalLeaderboard: DbDailyRushRecord[];
   isLoadingLeaderboard: boolean;
   loadNationalLeaderboard: (dateStr?: string) => Promise<void>;
+  syncWithCloud: () => Promise<void>;
   isShareModalOpen: boolean;
   shareModalData: ShareModalData | null;
   openShareModal: (data: ShareModalData) => void;
@@ -1661,6 +1662,53 @@ export const useGameStore = create<GameState>((set, get) => ({
       set({ nationalLeaderboard: records, isLoadingLeaderboard: false });
     } catch {
       set({ isLoadingLeaderboard: false });
+    }
+  },
+  syncWithCloud: async () => {
+    if (typeof navigator !== 'undefined' && !navigator.onLine) return;
+    const { user, stars, streak, eloRating, customTtsTickets, isVip, levels, levelRecords, dailyRushRecord } = get();
+    const today = getTodayDateString();
+
+    // Calculate total solved words across all levels
+    let totalWordsSolved = 0;
+    for (const lvl of levels) {
+      const rec = levelRecords[lvl.id];
+      if (rec?.solved) {
+        totalWordsSolved += rec.solved.length;
+      }
+    }
+
+    // Silent background profile sync to Supabase
+    syncUserProfile({
+      id: user.id || user.name,
+      name: user.name,
+      avatar: user.avatar,
+      isGuest: user.isGuest,
+      stars,
+      streak,
+      totalWordsSolved,
+      eloRating,
+      customTickets: customTtsTickets,
+      isVip,
+    }).catch(() => {});
+
+    // Flush pending Daily Rush record if played today and score > 0
+    if (dailyRushRecord && dailyRushRecord.date === today && dailyRushRecord.score > 0) {
+      submitDailyRushScore({
+        userName: user.name,
+        userAvatar: user.avatar,
+        date: today,
+        score: dailyRushRecord.score,
+        timeSpent: dailyRushRecord.timeSpent,
+        accuracy: dailyRushRecord.accuracy,
+        completed: dailyRushRecord.completed,
+      }).then((ok) => {
+        if (ok) {
+          get().loadNationalLeaderboard(today);
+        }
+      }).catch(() => {});
+    } else {
+      get().loadNationalLeaderboard(today);
     }
   },
 

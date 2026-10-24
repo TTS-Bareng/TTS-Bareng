@@ -80,10 +80,22 @@ export const mabarRealtime = {
           disconnectGraceTimer = setTimeout(() => {
             const current = useGameStore.getState().partnerReconnecting;
             if (current === left.name) {
+              const state = useGameStore.getState();
               useGameStore.getState().setPartnerReconnecting(null);
-              useGameStore.getState().showGlobalToast(`${left.name} telah meninggalkan sesi.`);
+
+              // If currently in an active 1v1 battle, smoothly activate AI Bot Takeover
+              if (state.gameMode === '1v1_battle') {
+                useGameStore.setState({
+                  isQuickMatchBot: true,
+                  quickMatchBotOpponent: { name: `${left.name} (AI Bot)`, avatar: left.avatar || '' },
+                  quickMatchAiCooldown: 5,
+                });
+                useGameStore.getState().showGlobalToast(`${left.name} terputus • Bot AI mengambil alih tanding!`, 3200);
+              } else {
+                useGameStore.getState().showGlobalToast(`${left.name} telah meninggalkan sesi.`);
+              }
             }
-          }, 12000);
+          }, 10000);
         }
       })
       .on('broadcast', { event: 'cell_input' }, ({ payload }) => {
