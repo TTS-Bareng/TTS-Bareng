@@ -10,6 +10,7 @@ import { NetworkStatusBar } from './components/NetworkStatusBar';
 import { notificationService } from './lib/notificationService';
 import { soundManager } from './lib/audio';
 import { revenueCatService } from './lib/revenueCatService';
+import { supabase, isSupabaseConfigured } from './lib/supabase';
 
 // Lazy-loaded views & modals for instant initial launch (< 200ms)
 const ArenaView = lazy(() => import('./views/ArenaView').then((m) => ({ default: m.ArenaView })));
@@ -109,6 +110,35 @@ export const App: React.FC = () => {
         useGameStore.getState().setIsVip(true);
       }
     });
+  }, []);
+
+  // Listen for Supabase OAuth Callback (e.g. Sign in with Apple)
+  useEffect(() => {
+    if (!isSupabaseConfigured) return;
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' && session?.user) {
+        const currentUser = useGameStore.getState().user;
+        const appleEmail = session.user.email || 'pemain.apple@icloud.com';
+        const appleName =
+          session.user.user_metadata?.full_name ||
+          session.user.user_metadata?.name ||
+          (currentUser.name !== 'Pemain TTS' && currentUser.name !== 'Tamu' ? currentUser.name : 'Pemain Apple');
+
+        if (currentUser.email !== appleEmail) {
+          useGameStore.getState().proceedToOnboarding({
+            email: appleEmail,
+            name: appleName,
+            isGuest: false,
+          });
+          useGameStore.getState().showGlobalToast('✨ Berhasil masuk dengan Apple ID!');
+        }
+      }
+    });
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
   }, []);
 
   // Apply theme tokens on initial mount and when theme changes
