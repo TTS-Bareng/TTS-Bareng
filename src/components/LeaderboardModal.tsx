@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Trophy, RotateCcw, Clock, Sparkles, Zap, Award, Share2, Swords, Crown } from 'lucide-react';
+import { X, Trophy, RotateCcw, Clock, Sparkles, Zap, Award, Share2, Swords, Crown, ChevronRight } from 'lucide-react';
 import { useGameStore, getTodayDateString } from '../store/useGameStore';
 import {
   NATIONAL_ELO_SEED_LEADERBOARD,
@@ -8,6 +8,7 @@ import {
   type NationalEloLeaderboardEntry,
 } from '../lib/eloSystem';
 import { MASCOTS } from '../assets/maskots';
+import { gameCenterService } from '../lib/gameCenterService';
 
 export const LeaderboardModal: React.FC = () => {
   const {
@@ -445,6 +446,27 @@ export const LeaderboardModal: React.FC = () => {
                 </div>
               </div>
             )}
+
+            {/* Apple Game Center Leaderboard Shortcut */}
+            <button
+              type="button"
+              onClick={() => gameCenterService.openDashboard('leaderboards')}
+              className="w-full shrink-0 py-2 px-3 rounded-2xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/5 dark:border-white/10 text-[var(--text-primary)] font-bold text-[10.5px] flex items-center justify-between gap-2 cursor-pointer tactile-active transition-all relative z-10"
+            >
+              <div className="flex items-center gap-2">
+                <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 shrink-0" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="8.5" cy="8.5" r="3.5" fill="#FF375F" fillOpacity="0.9" />
+                  <circle cx="15.5" cy="8.5" r="3.5" fill="#30D158" fillOpacity="0.9" />
+                  <circle cx="8.5" cy="15.5" r="3.5" fill="#0A84FF" fillOpacity="0.9" />
+                  <circle cx="15.5" cy="15.5" r="3.5" fill="#FFD60A" fillOpacity="0.9" />
+                </svg>
+                <span className="truncate">Peringkat Apple Game Center</span>
+              </div>
+              <div className="flex items-center gap-1 text-[8.5px] font-black text-[var(--accent-main)] uppercase shrink-0">
+                <span>Buka</span>
+                <ChevronRight className="w-3 h-3" />
+              </div>
+            </button>
           </motion.div>
         </div>
       )}

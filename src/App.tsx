@@ -11,6 +11,7 @@ import { NetworkStatusBar } from './components/NetworkStatusBar';
 import { notificationService } from './lib/notificationService';
 import { soundManager } from './lib/audio';
 import { revenueCatService } from './lib/revenueCatService';
+import { gameCenterService } from './lib/gameCenterService';
 import { supabase, isSupabaseConfigured } from './lib/supabase';
 
 // Lazy-loaded views & modals for instant initial launch (< 200ms)
@@ -79,6 +80,8 @@ export const App: React.FC = () => {
     joinTournament,
     openDailyRushBriefing,
     openVipModal,
+    stars,
+    streak,
   } = useGameStore();
 
   // Listen for local notification tap actions (Daily Rush, Game, Arena)
@@ -113,6 +116,30 @@ export const App: React.FC = () => {
       }
     });
   }, []);
+
+  // Initialize Apple Game Center in background on iOS
+  useEffect(() => {
+    gameCenterService.initialize();
+  }, []);
+
+  // Sync Game Center leaderboards & achievements on score/streak updates
+  useEffect(() => {
+    const { levelRecords } = useGameStore.getState();
+    const hasCompletedChapter1 = Boolean(
+      levelRecords['level_1_santai']?.completed || levelRecords['0']?.completed
+    );
+    let totalSolved = 0;
+    Object.values(levelRecords).forEach((rec) => {
+      totalSolved += rec.solved?.length || 0;
+    });
+
+    gameCenterService.syncAll({
+      stars,
+      streak,
+      totalSolvedWords: totalSolved,
+      hasCompletedChapter1,
+    });
+  }, [stars, streak]);
 
   // Listen for Supabase OAuth Callback (e.g. Sign in with Apple)
   useEffect(() => {
