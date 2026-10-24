@@ -5,8 +5,8 @@ import {
   Lock,
   Eye,
   EyeOff,
-  UserCheck,
   ArrowRight,
+  Zap,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
@@ -21,7 +21,7 @@ const AppleLogoIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4'
 export const InitialAuthView: React.FC = () => {
   const { proceedToOnboarding, openLegalModal, showGlobalToast } = useGameStore();
 
-  const [mode, setMode] = useState<'register' | 'login'>('register');
+  const [mode, setMode] = useState<'register' | 'login'>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -66,19 +66,17 @@ export const InitialAuthView: React.FC = () => {
         showGlobalToast('Konfirmasi kata sandi tidak cocok.');
         return;
       }
-      // Proceed to character setup onboarding
       proceedToOnboarding({
         email: cleanEmail,
         isGuest: false,
       });
-      showGlobalToast('Pendaftaran akun berhasil! Silakan atur karakter.');
+      showGlobalToast('Pendaftaran akun berhasil! Menyiapkan profil...');
     } else {
-      // Login mode
       proceedToOnboarding({
         email: cleanEmail,
         isGuest: false,
       });
-      showGlobalToast('Berhasil masuk! Menyiapkan petualangan...');
+      showGlobalToast('Berhasil masuk! Melanjutkan petualangan...');
     }
   };
 
@@ -90,218 +88,222 @@ export const InitialAuthView: React.FC = () => {
   };
 
   const handleForgotPassword = () => {
-    showGlobalToast('Fitur pemulihan kata sandi dikirim ke surel yang didaftarkan.');
+    showGlobalToast('Tautan pemulihan kata sandi telah dikirim ke surel terdaftar.');
   };
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-between px-5 pt-8 pb-6 select-none relative overflow-y-auto no-scrollbar">
-      {/* Background Ambient Glow & Specular Sheen (No Boxed Card) */}
+    <div className="flex-1 w-full flex flex-col items-center justify-between px-4 py-2.5 select-none relative overflow-y-auto no-scrollbar">
+      {/* Ambient Radial Background Glow */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-20 -left-20 w-80 h-80 rounded-full bg-[var(--accent-light)] blur-3xl opacity-60" />
-        <div className="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-[var(--accent-main)]/10 blur-3xl opacity-40" />
+        <div className="absolute -top-24 -left-20 w-88 h-88 rounded-full bg-[var(--accent-light)] blur-3xl opacity-50" />
+        <div className="absolute -bottom-24 -right-20 w-88 h-88 rounded-full bg-[var(--accent-main)]/15 blur-3xl opacity-40" />
       </div>
 
-      {/* Top Header / Mascot Stage (Seamless Canvas) */}
+      {/* Header / Brand & Mascot Stage */}
       <motion.header
-        initial={{ opacity: 0, y: -12 }}
+        initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="w-full max-w-[360px] flex flex-col items-center text-center relative z-10 pt-1"
+        transition={{ duration: 0.35 }}
+        className="w-full max-w-[360px] flex flex-col items-center text-center relative z-10 pt-1 shrink-0"
       >
-        {/* Enlarged Mascot: Plush Indonesian Puzzle Pals (No Top Pill) */}
-        <div className="relative w-48 h-48 sm:w-56 sm:h-56 my-1 flex items-center justify-center animate-float">
+        {/* Compact Mascot Stage */}
+        <div className="relative w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center animate-float">
           <img
             src={MASCOTS.indonesianPuzzlePals}
-            alt="Plush Indonesian Puzzle Pals"
-            className="w-full h-full object-contain filter drop-shadow-2xl"
+            alt="Maskot TTS Bareng"
+            className="w-full h-full object-contain filter drop-shadow-xl"
           />
         </div>
 
-        <h1 className="text-[24px] sm:text-[26px] font-black text-[var(--text-primary)] tracking-tight leading-tight mt-1">
-          {mode === 'register' ? 'Buat Akun Petualang' : 'Selamat Datang Kembali'}
+        <h1 className="text-[21px] sm:text-[23px] font-black text-[var(--text-primary)] tracking-tight leading-tight mt-0.5">
+          TTS Bareng
         </h1>
-        <p className="text-[11.5px] text-[var(--text-secondary)] font-medium mt-1 leading-snug max-w-[300px]">
+        <p className="text-[11.5px] text-[var(--text-secondary)] font-medium mt-0.5 leading-snug max-w-[310px]">
           {mode === 'register'
-            ? 'Simpan rekor kata, lencana nusantara, dan main mabar langsung bersama teman.'
-            : 'Masuk untuk melanjutkan petualangan bab dan rekor rentetan harian Anda.'}
+            ? 'Daftar untuk simpan rekor kata, lencana, & mabar.'
+            : 'Masuk kembali untuk melanjutkan rentetan harianmu.'}
         </p>
       </motion.header>
 
-      {/* Center Form: Seamless Open Canvas (No Outer Boxed Card) */}
+      {/* Frosted Glass Auth Card Container */}
       <motion.div
         layout
-        initial={{ opacity: 0, y: 12 }}
+        initial={{ opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.1 }}
-        className="w-full max-w-[360px] flex flex-col gap-2.5 my-auto pt-3 relative z-10"
+        transition={{ duration: 0.35, delay: 0.08 }}
+        className="w-full max-w-[360px] my-auto py-1 relative z-10 shrink-0"
       >
-        <form onSubmit={handleSubmit} className="flex flex-col gap-2.5">
-          {/* Email Input */}
-          <div className="relative">
-            <Mail className="absolute left-4 top-3.5 w-4 h-4 text-[var(--text-secondary)] stroke-[2]" />
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Alamat Surel / Email"
-              className="w-full h-11 pl-11 pr-4 rounded-2xl border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 text-[13px] text-[var(--text-primary)] placeholder-[var(--text-secondary)]/60 focus:outline-hidden focus:ring-2 focus:ring-[var(--accent-main)]/30 focus:border-[var(--accent-main)]/60 transition-all font-medium"
-            />
-          </div>
+        <div className="relative rounded-3xl p-4 bg-white/75 dark:bg-zinc-900/75 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-xl overflow-hidden flex flex-col gap-2.5">
+          {/* Top Specular Sheen Highlight */}
+          <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/50 dark:via-white/20 to-transparent pointer-events-none" />
 
-          {/* Password Input */}
-          <div className="relative">
-            <Lock className="absolute left-4 top-3.5 w-4 h-4 text-[var(--text-secondary)] stroke-[2]" />
-            <input
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Kata Sandi (Min. 6 Karakter)"
-              className="w-full h-11 pl-11 pr-11 rounded-2xl border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 text-[13px] text-[var(--text-primary)] placeholder-[var(--text-secondary)]/60 focus:outline-hidden focus:ring-2 focus:ring-[var(--accent-main)]/30 focus:border-[var(--accent-main)]/60 transition-all font-medium"
-            />
+          {/* Segmented Tab Switcher (Masuk / Daftar) */}
+          <div className="flex p-1 rounded-2xl bg-black/5 dark:bg-white/10 border border-black/5 dark:border-white/10">
             <button
               type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              aria-label={showPassword ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'}
-              className="absolute right-3.5 top-3 p-0.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer"
+              onClick={() => setMode('login')}
+              className={`flex-1 py-1.5 text-[12px] font-black rounded-xl transition-all cursor-pointer ${
+                mode === 'login'
+                  ? 'bg-white dark:bg-zinc-800 text-[var(--text-primary)] shadow-xs'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+              }`}
             >
-              {showPassword ? (
-                <EyeOff className="w-4 h-4 stroke-[2]" />
-              ) : (
-                <Eye className="w-4 h-4 stroke-[2]" />
-              )}
+              Masuk
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode('register')}
+              className={`flex-1 py-1.5 text-[12px] font-black rounded-xl transition-all cursor-pointer ${
+                mode === 'register'
+                  ? 'bg-white dark:bg-zinc-800 text-[var(--text-primary)] shadow-xs'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+              }`}
+            >
+              Daftar Baru
             </button>
           </div>
 
-          {/* Confirm Password Input (Only in Register Mode) */}
-          <AnimatePresence>
-            {mode === 'register' && (
-              <motion.div
-                initial={{ opacity: 0, height: 0, marginTop: -5 }}
-                animate={{ opacity: 1, height: 'auto', marginTop: 0 }}
-                exit={{ opacity: 0, height: 0, marginTop: -5 }}
-                transition={{ duration: 0.2 }}
-                className="relative overflow-hidden"
-              >
-                <Lock className="absolute left-4 top-3.5 w-4 h-4 text-[var(--text-secondary)] stroke-[2]" />
-                <input
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="Ulangi Kata Sandi"
-                  className="w-full h-11 pl-11 pr-11 rounded-2xl border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 text-[13px] text-[var(--text-primary)] placeholder-[var(--text-secondary)]/60 focus:outline-hidden focus:ring-2 focus:ring-[var(--accent-main)]/30 focus:border-[var(--accent-main)]/60 transition-all font-medium"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  aria-label={showConfirmPassword ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'}
-                  className="absolute right-3.5 top-3 p-0.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer"
-                >
-                  {showConfirmPassword ? (
-                    <EyeOff className="w-4 h-4 stroke-[2]" />
-                  ) : (
-                    <Eye className="w-4 h-4 stroke-[2]" />
-                  )}
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {/* Email / Password Form */}
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+            {/* Email Field */}
+            <div className="relative">
+              <Mail className="absolute left-3.5 top-3 w-4 h-4 text-[var(--text-secondary)] stroke-[2]" />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Alamat Surel / Email"
+                className="w-full h-10 pl-10 pr-3.5 rounded-xl border border-black/10 dark:border-white/15 bg-white/60 dark:bg-zinc-800/60 text-[13px] text-[var(--text-primary)] placeholder-[var(--text-secondary)]/60 focus:outline-hidden focus:ring-2 focus:ring-[var(--accent-main)]/30 focus:border-[var(--accent-main)]/70 transition-all font-medium"
+              />
+            </div>
 
-          {/* Forgot Password Link (Only in Login Mode) */}
-          {mode === 'login' && (
-            <div className="flex justify-end -mt-0.5 px-1">
+            {/* Password Field */}
+            <div className="relative">
+              <Lock className="absolute left-3.5 top-3 w-4 h-4 text-[var(--text-secondary)] stroke-[2]" />
+              <input
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Kata Sandi (Min. 6 Karakter)"
+                className="w-full h-10 pl-10 pr-10 rounded-xl border border-black/10 dark:border-white/15 bg-white/60 dark:bg-zinc-800/60 text-[13px] text-[var(--text-primary)] placeholder-[var(--text-secondary)]/60 focus:outline-hidden focus:ring-2 focus:ring-[var(--accent-main)]/30 focus:border-[var(--accent-main)]/70 transition-all font-medium"
+              />
               <button
                 type="button"
-                onClick={handleForgotPassword}
-                className="text-[11px] font-bold text-[var(--accent-main)] hover:underline cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'}
+                className="absolute right-3 top-2.5 p-1 text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer"
               >
-                Lupa Kata Sandi?
+                {showPassword ? <EyeOff className="w-4 h-4 stroke-[2]" /> : <Eye className="w-4 h-4 stroke-[2]" />}
               </button>
             </div>
-          )}
 
-          {/* Primary Action Button */}
-          <button
-            type="submit"
-            className="w-full h-11.5 rounded-full font-black text-[13px] text-[var(--accent-contrast)] flex items-center justify-center gap-2 cursor-pointer tactile-active shadow-md mt-1 transition-transform border border-white/20"
-            style={{ background: 'var(--accent-grad)' }}
-          >
-            <span>{mode === 'register' ? 'Daftar Akun Baru' : 'Masuk Sekarang'}</span>
-            <ArrowRight className="w-4 h-4 stroke-[2.5]" />
-          </button>
-        </form>
+            {/* Confirm Password (Register Only) */}
+            <AnimatePresence>
+              {mode === 'register' && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0, marginTop: -4 }}
+                  animate={{ opacity: 1, height: 'auto', marginTop: 0 }}
+                  exit={{ opacity: 0, height: 0, marginTop: -4 }}
+                  transition={{ duration: 0.18 }}
+                  className="relative overflow-hidden"
+                >
+                  <Lock className="absolute left-3.5 top-3 w-4 h-4 text-[var(--text-secondary)] stroke-[2]" />
+                  <input
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Ulangi Kata Sandi"
+                    className="w-full h-10 pl-10 pr-10 rounded-xl border border-black/10 dark:border-white/15 bg-white/60 dark:bg-zinc-800/60 text-[13px] text-[var(--text-primary)] placeholder-[var(--text-secondary)]/60 focus:outline-hidden focus:ring-2 focus:ring-[var(--accent-main)]/30 focus:border-[var(--accent-main)]/70 transition-all font-medium"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    aria-label={showConfirmPassword ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'}
+                    className="absolute right-3 top-2.5 p-1 text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer"
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff className="w-4 h-4 stroke-[2]" />
+                    ) : (
+                      <Eye className="w-4 h-4 stroke-[2]" />
+                    )}
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-        {/* Divider */}
-        <div className="relative my-0.5 flex items-center justify-center">
-          <div className="w-full border-t border-black/10 dark:border-white/10" />
-          <span className="absolute px-3 text-[9.5px] uppercase font-bold tracking-wider text-[var(--text-secondary)] bg-[var(--bg-main)]">
-            Atau
-          </span>
-        </div>
+            {/* Forgot Password Link (Login Mode) */}
+            {mode === 'login' && (
+              <div className="flex justify-end -mt-0.5 px-0.5">
+                <button
+                  type="button"
+                  onClick={handleForgotPassword}
+                  className="text-[11px] font-bold text-[var(--accent-main)] hover:underline cursor-pointer"
+                >
+                  Lupa Kata Sandi?
+                </button>
+              </div>
+            )}
 
-        {/* Apple Sign-In Button (Official Apple HIG Standard) */}
-        <button
-          type="button"
-          disabled={isAppleLoading}
-          onClick={handleAppleSignIn}
-          className="w-full h-11.5 rounded-full bg-black text-white hover:bg-zinc-900 active:scale-[0.98] flex items-center justify-center gap-2.5 text-[12.5px] font-semibold transition-all cursor-pointer shadow-sm border border-black/10 dark:border-white/20 select-none"
-        >
-          {isAppleLoading ? (
-            <>
-              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              <span>Menghubungkan ke Apple ID...</span>
-            </>
-          ) : (
-            <>
-              <AppleLogoIcon className="w-4.5 h-4.5 -mt-0.5" />
-              <span>Lanjutkan dengan Apple</span>
-            </>
-          )}
-        </button>
+            {/* Primary Action Button */}
+            <button
+              type="submit"
+              className="w-full h-10.5 rounded-xl font-black text-[13px] text-[var(--accent-contrast)] flex items-center justify-center gap-2 cursor-pointer tactile-active shadow-md mt-0.5 transition-transform border border-white/20"
+              style={{ background: 'var(--accent-grad)' }}
+            >
+              <span>{mode === 'register' ? 'Daftar Akun Baru' : 'Masuk Sekarang'}</span>
+              <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+            </button>
+          </form>
 
-        {/* Guest Mode Button (Tamu) */}
-        <button
-          type="button"
-          onClick={handleGuestSubmit}
-          className="w-full h-11.5 rounded-full border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 flex items-center justify-center gap-2 text-[12.5px] font-bold text-[var(--text-primary)] transition-all cursor-pointer tactile-active shadow-2xs"
-        >
-          <UserCheck className="w-4 h-4 text-[var(--accent-main)] stroke-[2.2]" />
-          <span>Lanjut sebagai Tamu (Mode Cepat)</span>
-        </button>
+          {/* Divider */}
+          <div className="relative my-0.5 flex items-center justify-center">
+            <div className="w-full border-t border-black/10 dark:border-white/10" />
+            <span className="absolute px-3 text-[9.5px] uppercase font-bold tracking-wider text-[var(--text-secondary)] bg-white/90 dark:bg-zinc-900/90 rounded-full">
+              Atau Opsi Instan
+            </span>
+          </div>
 
-        {/* Switch Between Register & Login */}
-        <div className="text-center pt-1.5">
-          {mode === 'register' ? (
-            <p className="text-[12px] text-[var(--text-secondary)] font-medium">
-              Sudah punya akun?{' '}
-              <button
-                type="button"
-                onClick={() => setMode('login')}
-                className="font-black text-[var(--accent-main)] hover:underline cursor-pointer ml-1"
-              >
-                Masuk
-              </button>
-            </p>
-          ) : (
-            <p className="text-[12px] text-[var(--text-secondary)] font-medium">
-              Belum punya akun?{' '}
-              <button
-                type="button"
-                onClick={() => setMode('register')}
-                className="font-black text-[var(--accent-main)] hover:underline cursor-pointer ml-1"
-              >
-                Daftar Akun Baru
-              </button>
-            </p>
-          )}
+          {/* Secondary Actions (Apple & Guest) */}
+          <div className="flex flex-col gap-2">
+            {/* Apple Sign-In (HIG Standard) */}
+            <button
+              type="button"
+              disabled={isAppleLoading}
+              onClick={handleAppleSignIn}
+              className="w-full h-10.5 rounded-xl bg-black text-white hover:bg-zinc-900 active:scale-[0.98] flex items-center justify-center gap-2 text-[12.5px] font-semibold transition-all cursor-pointer shadow-xs border border-black/10 dark:border-white/20 select-none"
+            >
+              {isAppleLoading ? (
+                <>
+                  <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <span>Menghubungkan ke Apple ID...</span>
+                </>
+              ) : (
+                <>
+                  <AppleLogoIcon className="w-4 h-4 -mt-0.5" />
+                  <span>Lanjutkan dengan Apple</span>
+                </>
+              )}
+            </button>
+
+            {/* Fast Guest Mode Button */}
+            <button
+              type="button"
+              onClick={handleGuestSubmit}
+              className="w-full h-10.5 rounded-xl border border-[var(--accent-main)]/30 bg-[var(--accent-main)]/10 hover:bg-[var(--accent-main)]/15 active:scale-[0.98] flex items-center justify-center gap-1.5 text-[12.5px] font-bold text-[var(--text-primary)] transition-all cursor-pointer tactile-active"
+            >
+              <Zap className="w-3.5 h-3.5 text-[var(--accent-main)] fill-[var(--accent-main)]" />
+              <span>Langsung Main (Mode Tamu)</span>
+            </button>
+          </div>
         </div>
       </motion.div>
 
-      {/* Footer: Legal Terms & Privacy Policy (No Green Tracking Text!) */}
+      {/* Footer: Legal Terms & Privacy Policy */}
       <motion.footer
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.4, delay: 0.2 }}
-        className="w-full max-w-[360px] text-center pt-3 text-[10.5px] text-[var(--text-secondary)] leading-relaxed relative z-10"
+        transition={{ duration: 0.35, delay: 0.15 }}
+        className="w-full max-w-[360px] text-center pt-1.5 pb-1 text-[10px] text-[var(--text-secondary)] leading-relaxed relative z-10 shrink-0"
       >
         Dengan melanjutkan, Anda menyetujui{' '}
         <button
@@ -326,3 +328,4 @@ export const InitialAuthView: React.FC = () => {
 };
 
 export default InitialAuthView;
+
