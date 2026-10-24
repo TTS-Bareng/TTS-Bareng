@@ -197,6 +197,7 @@ export const HomeView: React.FC = () => {
     isVip,
     openVipModal,
     openAvatarPicker,
+    openLevelSelect,
   } = useGameStore();
 
   const currentLevel = levels[currentLevelIndex] || levels[0];
@@ -393,10 +394,10 @@ export const HomeView: React.FC = () => {
             type="button"
             onClick={(e) => {
               e.stopPropagation();
-              setCurrentTab('arena');
+              openLevelSelect();
             }}
             className="text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/20 text-white backdrop-blur-md border border-white/25 hover:bg-white/30 transition-colors cursor-pointer flex items-center gap-1 tactile-active"
-            title="Buka Arena Bab"
+            title="Buka Peta & Pilihan Bab"
           >
             <span>BAB {currentLevelIndex + 1} • {cleanCategory}</span>
             <ChevronDown className="w-2.5 h-2.5 stroke-[3]" />
@@ -442,7 +443,7 @@ export const HomeView: React.FC = () => {
             type="button"
             onClick={(e) => {
               e.stopPropagation();
-              setCurrentTab('arena');
+              openLevelSelect();
             }}
             className="py-1.5 px-3 rounded-full bg-white/20 hover:bg-white/30 text-white text-[10.5px] font-bold border border-white/25 backdrop-blur-md tactile-active flex items-center gap-1.5 transition-all cursor-pointer"
           >

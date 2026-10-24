@@ -113,7 +113,7 @@ const FEATURE_SLIDES: FeatureSlide[] = [
 ];
 
 export const InitialAuthView: React.FC = () => {
-  const { proceedToOnboarding, openLegalModal, showGlobalToast } = useGameStore();
+  const { proceedToOnboarding, loginWithEmail, openLegalModal, showGlobalToast } = useGameStore();
 
   const [activeSlide, setActiveSlide] = useState(0);
   const [sheetMode, setSheetMode] = useState<'choices' | 'email'>('choices');
@@ -176,10 +176,8 @@ export const InitialAuthView: React.FC = () => {
       });
       showGlobalToast('Pendaftaran akun berhasil! Menyiapkan profil...');
     } else {
-      proceedToOnboarding({
-        email: cleanEmail,
-        isGuest: false,
-      });
+      // Returning user login: direct restore without forcing avatar onboarding
+      loginWithEmail(cleanEmail, '');
       showGlobalToast('Berhasil masuk! Melanjutkan petualangan...');
     }
   };

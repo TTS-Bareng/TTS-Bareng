@@ -1,6 +1,7 @@
 import React, { useEffect, Suspense, lazy } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
+import { App as CapacitorApp } from '@capacitor/app';
 import { useGameStore } from './store/useGameStore';
 import { applyTheme } from './lib/themes';
 import { parseDeepLink, clearUrlParams } from './lib/deeplink';
@@ -19,6 +20,7 @@ const QuestsView = lazy(() => import('./views/QuestsView').then((m) => ({ defaul
 const ProfileView = lazy(() => import('./views/ProfileView').then((m) => ({ default: m.ProfileView })));
 const SettingsView = lazy(() => import('./views/SettingsView').then((m) => ({ default: m.SettingsView })));
 const AuthModal = lazy(() => import('./components/AuthModal').then((m) => ({ default: m.AuthModal })));
+const LevelSelectModal = lazy(() => import('./components/LevelSelectModal').then((m) => ({ default: m.LevelSelectModal })));
 const LeaderboardModal = lazy(() => import('./components/LeaderboardModal').then((m) => ({ default: m.LeaderboardModal })));
 const ShareModal = lazy(() => import('./components/ShareModal').then((m) => ({ default: m.ShareModal })));
 const StreakSavedModal = lazy(() => import('./components/StreakSavedModal').then((m) => ({ default: m.StreakSavedModal })));
@@ -182,6 +184,50 @@ export const App: React.FC = () => {
     }
   }, [joinTournament, levels.length, openVipModal, selectLevel, setActiveRoomCode, setCurrentTab, showGlobalToast]);
 
+  // Native iOS & Android deep link listener (e.g. ttsbareng://room=ABCD or universal links)
+  useEffect(() => {
+    let removeListener: (() => void) | undefined;
+    try {
+      CapacitorApp.addListener('appUrlOpen', (event) => {
+        if (!event?.url) return;
+        try {
+          const urlObj = new URL(event.url);
+          const roomParam = urlObj.searchParams.get('room') || urlObj.searchParams.get('join') || urlObj.searchParams.get('kamar');
+          const tourneyParam = urlObj.searchParams.get('tourney') || urlObj.searchParams.get('cup');
+          const levelParam = urlObj.searchParams.get('level') || urlObj.searchParams.get('bab') || urlObj.searchParams.get('lvl');
+          const vipParam = urlObj.searchParams.get('vip') || urlObj.searchParams.get('paywall');
+
+          if (vipParam === 'true' || vipParam === '1') {
+            openVipModal();
+          } else if (tourneyParam) {
+            joinTournament(tourneyParam.trim().toUpperCase());
+            setCurrentTab('arena');
+            showGlobalToast(`Membuka Turnamen: ${tourneyParam.toUpperCase()}`, 3000);
+          } else if (roomParam) {
+            setActiveRoomCode(roomParam.trim().toUpperCase());
+            setCurrentTab('arena');
+            showGlobalToast(`Menghubungkan ke Kamar: ${roomParam.toUpperCase()}`, 3000);
+          } else if (levelParam) {
+            const lvl = parseInt(levelParam, 10);
+            if (!isNaN(lvl) && lvl > 0 && lvl <= levels.length) {
+              selectLevel(lvl - 1);
+              setCurrentTab('game');
+              showGlobalToast(`Membuka Bab ${lvl}`, 3000);
+            }
+          }
+        } catch (e) {
+          console.warn('[DeepLink] Gagal memproses native deep link:', e);
+        }
+      }).then((handle) => {
+        removeListener = () => handle.remove();
+      });
+    } catch {}
+
+    return () => {
+      removeListener?.();
+    };
+  }, [joinTournament, levels.length, openVipModal, selectLevel, setActiveRoomCode, setCurrentTab, showGlobalToast]);
+
   // Physical keyboard support for desktop/laptop testing when in Game view
   useEffect(() => {
     if (currentTab !== 'game') return;
@@ -304,6 +350,7 @@ export const App: React.FC = () => {
       {/* 3. Global Modals (Auth, Leaderboard, Share, Retention, League, Lexicon, AvatarPicker, Legal) with Suspense */}
       <Suspense fallback={null}>
         <AuthModal />
+        <LevelSelectModal />
         <LeaderboardModal />
         <ShareModal />
         <StreakSavedModal />
