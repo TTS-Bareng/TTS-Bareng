@@ -418,7 +418,7 @@ export const InitialAuthView: React.FC = () => {
   const currentFeature = FEATURE_SLIDES[activeSlide];
 
   return (
-    <div className="flex-1 w-full min-h-screen flex flex-col justify-between select-none relative overflow-x-hidden overflow-y-auto no-scrollbar">
+    <div className="flex-1 w-full min-h-screen flex flex-col justify-end select-none relative overflow-x-hidden overflow-y-auto no-scrollbar pb-[env(safe-area-inset-bottom,0px)]">
       {/* Ambient Radial Background Glow */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-24 -left-20 w-88 h-88 rounded-full bg-[var(--accent-light)] blur-3xl opacity-40" />
@@ -428,7 +428,7 @@ export const InitialAuthView: React.FC = () => {
       {/* =========================================================================
           TOP HALF: Feature Showcase Carousel (Always present & interactive)
           ========================================================================= */}
-      <div className="flex-1 min-h-[260px] max-h-[440px] flex flex-col items-center justify-center px-4 pt-[max(16px,env(safe-area-inset-top))] pb-3 relative z-10 w-full max-w-[420px] mx-auto">
+      <div className="flex-1 min-h-0 flex flex-col items-center justify-end px-4 pt-[max(20px,env(safe-area-inset-top))] pb-4 sm:pb-5 relative z-10 w-full max-w-[420px] mx-auto">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentFeature.id}
@@ -448,7 +448,7 @@ export const InitialAuthView: React.FC = () => {
             className="w-full flex flex-col items-center text-center cursor-grab active:cursor-grabbing"
           >
             {/* Mascot Visual Stage */}
-            <div className="relative w-28 h-28 sm:w-32 sm:h-32 mb-1 flex items-center justify-center">
+            <div className="relative w-32 h-32 sm:w-36 sm:h-36 mb-1.5 flex items-center justify-center">
               <img
                 src={currentFeature.mascot}
                 alt={currentFeature.title}
@@ -474,7 +474,7 @@ export const InitialAuthView: React.FC = () => {
             </p>
 
             {/* Micro-Widget Feature Preview Card */}
-            <div className="w-full max-w-[320px] mt-2 px-3 py-1.5 rounded-2xl bg-white/70 dark:bg-zinc-800/70 border border-black/5 dark:border-white/10 backdrop-blur-md shadow-xs flex items-center justify-between">
+            <div className="w-full max-w-[325px] mt-2.5 px-3.5 py-2 rounded-2xl bg-white/70 dark:bg-zinc-800/70 border border-black/5 dark:border-white/10 backdrop-blur-md shadow-xs flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <div className="w-7 h-7 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center shrink-0">
                   {currentFeature.microWidget.icon}
