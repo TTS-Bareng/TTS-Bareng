@@ -61,7 +61,7 @@ class RevenueCatService {
 
     const apiKey =
       platform === 'ios'
-        ? (import.meta.env.VITE_REVENUECAT_APPLE_KEY as string | undefined)
+        ? ((import.meta.env.VITE_REVENUECAT_APPLE_KEY as string | undefined)?.trim() || 'appl_VEwQioaVHugNkatZOCfknvKoDBv')
         : (import.meta.env.VITE_REVENUECAT_GOOGLE_KEY as string | undefined);
 
     // Fallback ke Mock Sandbox jika dijalankan di Web atau key belum dimasukkan

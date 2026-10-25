@@ -11,7 +11,7 @@ import { NetworkStatusBar } from './components/NetworkStatusBar';
 import { notificationService } from './lib/notificationService';
 import { soundManager } from './lib/audio';
 import { revenueCatService } from './lib/revenueCatService';
-import { supabase, isSupabaseConfigured } from './lib/supabase';
+import { supabase, isSupabaseConfigured, fetchUserProfile } from './lib/supabase';
 
 // Lazy-loaded views & modals for instant initial launch (< 200ms)
 const ArenaView = lazy(() => import('./views/ArenaView').then((m) => ({ default: m.ArenaView })));
@@ -120,6 +120,21 @@ export const App: React.FC = () => {
 
     const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_IN' && session?.user) {
+        // 1. Bind RevenueCat identity to Supabase user ID and check VIP entitlement
+        revenueCatService.logIn(session.user.id).then(async () => {
+          const isVip = await revenueCatService.checkVipStatus();
+          if (isVip && !useGameStore.getState().isVip) {
+            useGameStore.getState().setIsVip(true);
+          }
+        }).catch(() => {});
+
+        // 2. Restore cloud profile attributes from Supabase
+        fetchUserProfile(session.user.id).then((cloud) => {
+          if (cloud?.is_vip && !useGameStore.getState().isVip) {
+            useGameStore.getState().setIsVip(true);
+          }
+        }).catch(() => {});
+
         const currentUser = useGameStore.getState().user;
         const userEmail = session.user.email || 'pemain@ttsbareng.id';
         const provider = session.user.app_metadata?.provider || 'oauth';
@@ -134,6 +149,7 @@ export const App: React.FC = () => {
 
         if (currentUser.email !== userEmail) {
           useGameStore.getState().proceedToOnboarding({
+            id: session.user.id,
             email: userEmail,
             name: userName,
             isGuest: false,
@@ -145,6 +161,8 @@ export const App: React.FC = () => {
             : '✨ Berhasil masuk ke akun Anda!';
           useGameStore.getState().showGlobalToast(toastMsg);
         }
+      } else if (event === 'SIGNED_OUT') {
+        revenueCatService.logOut().catch(() => {});
       }
     });
 

@@ -333,7 +333,7 @@ interface GameState {
   // Initial Auth & Onboarding Flow
   initialAuthStage: 'auth' | 'onboarding' | 'completed';
   setInitialAuthStage: (stage: 'auth' | 'onboarding' | 'completed') => void;
-  proceedToOnboarding: (userData?: { name?: string; email?: string; isGuest?: boolean }) => void;
+  proceedToOnboarding: (userData?: { id?: string; name?: string; email?: string; isGuest?: boolean }) => void;
   completeOnboarding: (customName: string, avatarSrc: string) => void;
   restartOnboarding: () => void;
 
@@ -879,7 +879,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   setInitialAuthStage: (stage) => set({ initialAuthStage: stage }),
   proceedToOnboarding: (userData) => {
     if (userData) {
-      const currentId = get().user?.id || generatePlayerId();
+      const currentId = userData.id || get().user?.id || generatePlayerId();
       const isGuestMode = userData.isGuest ?? (userData.email ? false : true);
       const updated: UserProfile = {
         id: currentId,
@@ -1786,6 +1786,21 @@ export const useGameStore = create<GameState>((set, get) => ({
       localStorage.setItem(STORAGE_KEY_IS_VIP, String(vip));
     }
     set({ isVip: vip });
+    const { user, stars, streak, solvedClues, eloRating, customTtsTickets } = get();
+    if (user?.id && !user.isGuest) {
+      syncUserProfile({
+        id: user.id,
+        name: user.name,
+        avatar: user.avatar,
+        isGuest: false,
+        stars,
+        streak,
+        totalWordsSolved: solvedClues.length,
+        eloRating,
+        customTickets: customTtsTickets,
+        isVip: vip,
+      }).catch(() => {});
+    }
   },
   isVipModalOpen: false,
   openVipModal: () => set({ isVipModalOpen: true }),
