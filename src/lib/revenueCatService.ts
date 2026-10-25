@@ -170,8 +170,16 @@ class RevenueCatService {
         productPrice = 'Rp 499.000';
         productPeriod = 'sekali bayar';
       } else if (productId === IAP_PRODUCT_IDS.sachetStarter) {
-        productTitle = 'Paket Sachet Pemula (1 Tiket + 100 Bintang)';
+        productTitle = 'Paket Sachet Pemula (1 Tiket + 150 Bintang)';
         productPrice = 'Rp 5.000';
+        productPeriod = 'sekali beli';
+      } else if (productId === IAP_PRODUCT_IDS.customTicket1) {
+        productTitle = '1 Tiket Studio Pembuat TTS';
+        productPrice = 'Rp 5.000';
+        productPeriod = 'sekali beli';
+      } else if (productId === IAP_PRODUCT_IDS.customTicket5) {
+        productTitle = '5 Tiket Studio Pembuat TTS';
+        productPrice = 'Rp 19.000';
         productPeriod = 'sekali beli';
       }
 

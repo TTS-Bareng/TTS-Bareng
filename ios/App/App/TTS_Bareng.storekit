@@ -14,57 +14,77 @@
   ],
   "products" : [
     {
-      "displayPrice" : "0.49",
+      "displayPrice" : "0.29",
       "familyShareable" : false,
       "internalID" : "A1010101",
       "localizations" : [
         {
-          "description" : "10 Bintang Petunjuk Kata Silang",
-          "displayName" : "10 Bintang Petunjuk",
+          "description" : "1 Tiket Studio + 150 Bintang & Proteksi ELO",
+          "displayName" : "Paket Sachet Pemula",
           "locale" : "id"
         },
         {
-          "description" : "10 Crossword Hint Stars",
-          "displayName" : "10 Hint Stars",
+          "description" : "1 Studio Ticket + 150 Stars & ELO Protection",
+          "displayName" : "Starter Sachet Pack",
           "locale" : "en_US"
         }
       ],
-      "productID" : "com.syntheticae.ttsbareng.sachet.hints10",
-      "referenceName" : "10 Bintang Petunjuk",
+      "productID" : "com.syntheticae.ttsbareng.sachet_starter",
+      "referenceName" : "Paket Sachet Pemula",
       "type" : "Consumable"
     },
     {
-      "displayPrice" : "0.69",
+      "displayPrice" : "0.29",
       "familyShareable" : false,
       "internalID" : "A1010102",
       "localizations" : [
         {
-          "description" : "1 Pelindung Rentetan Api Harian",
-          "displayName" : "1 Pelindung Streak",
+          "description" : "1 Tiket pembuatan teka-teki silang kustom",
+          "displayName" : "1 Tiket Studio TTS",
           "locale" : "id"
         },
         {
-          "description" : "1 Daily Streak Shield",
-          "displayName" : "1 Streak Shield",
+          "description" : "1 Ticket to create custom crosswords",
+          "displayName" : "1 Studio Creator Ticket",
           "locale" : "en_US"
         }
       ],
-      "productID" : "com.syntheticae.ttsbareng.sachet.shield1",
-      "referenceName" : "1 Pelindung Streak",
+      "productID" : "com.syntheticae.ttsbareng.custom_ticket_1",
+      "referenceName" : "1 Tiket Studio TTS",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "1.19",
+      "familyShareable" : false,
+      "internalID" : "A1010103",
+      "localizations" : [
+        {
+          "description" : "5 Tiket pembuatan teka-teki silang kustom (Hemat 24%)",
+          "displayName" : "5 Tiket Studio TTS",
+          "locale" : "id"
+        },
+        {
+          "description" : "5 Tickets to create custom crosswords (Save 24%)",
+          "displayName" : "5 Studio Creator Tickets",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.syntheticae.ttsbareng.custom_ticket_5",
+      "referenceName" : "5 Tiket Studio TTS",
       "type" : "Consumable"
     },
     {
       "displayPrice" : "29.99",
       "familyShareable" : true,
-      "internalID" : "A1010103",
+      "internalID" : "A1010104",
       "localizations" : [
         {
-          "description" : "Akses Seumur Hidup TTS Pass VIP Tanpa Iklan",
+          "description" : "Akses Seumur Hidup VIP Bebas Iklan & Studio Tanpa Batas",
           "displayName" : "TTS Pass VIP Seumur Hidup",
           "locale" : "id"
         },
         {
-          "description" : "Lifetime Access to TTS Pass VIP",
+          "description" : "Lifetime Ad-Free Access & Unlimited Studio Creation",
           "displayName" : "TTS Pass VIP Lifetime",
           "locale" : "en_US"
         }
@@ -80,7 +100,7 @@
     "_storefront" : "IDN",
     "_storeKitErrors" : [
 
-    ]
+  ]
   },
   "subscriptionGroups" : [
     {
