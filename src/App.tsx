@@ -201,6 +201,48 @@ export const App: React.FC = () => {
       CapacitorApp.addListener('appUrlOpen', (event) => {
         if (!event?.url) return;
         try {
+          // 0. Handle Supabase OAuth Deep Link Callback (e.g. ttsbareng://auth-callback#access_token=... or ?code=...)
+          if (event.url.includes('auth-callback') || event.url.startsWith('ttsbareng://auth') || event.url.includes('access_token')) {
+            const rawUrl = event.url;
+            const hashIndex = rawUrl.indexOf('#');
+            const searchIndex = rawUrl.indexOf('?');
+            
+            let paramsString = '';
+            if (hashIndex !== -1) {
+              paramsString = rawUrl.substring(hashIndex + 1);
+            } else if (searchIndex !== -1) {
+              paramsString = rawUrl.substring(searchIndex + 1);
+            }
+
+            const params = new URLSearchParams(paramsString);
+            const accessToken = params.get('access_token');
+            const refreshToken = params.get('refresh_token');
+            const code = params.get('code');
+
+            if (accessToken && refreshToken) {
+              supabase.auth.setSession({
+                access_token: accessToken,
+                refresh_token: refreshToken,
+              }).then(({ data, error }) => {
+                if (data?.session) {
+                  showGlobalToast('✨ Berhasil masuk! Menyiapkan profil...');
+                } else if (error) {
+                  showGlobalToast(`Gagal masuk: ${error.message}`);
+                }
+              });
+              return;
+            } else if (code) {
+              supabase.auth.exchangeCodeForSession(code).then(({ data, error }) => {
+                if (data?.session) {
+                  showGlobalToast('✨ Berhasil masuk! Menyiapkan profil...');
+                } else if (error) {
+                  showGlobalToast(`Gagal masuk: ${error.message}`);
+                }
+              });
+              return;
+            }
+          }
+
           const urlObj = new URL(event.url);
           const roomParam = urlObj.searchParams.get('room') || urlObj.searchParams.get('join') || urlObj.searchParams.get('kamar');
           const tourneyParam = urlObj.searchParams.get('tourney') || urlObj.searchParams.get('cup');

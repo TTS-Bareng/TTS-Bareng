@@ -13,10 +13,20 @@ import {
   Flame,
   PencilLine,
   BookOpen,
+  KeyRound,
+  RotateCcw,
 } from 'lucide-react';
+import { App as CapacitorApp } from '@capacitor/app';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
-import { signInWithApple, signInWithGoogle, resetPasswordForEmail } from '../lib/supabase';
+import {
+  signInWithApple,
+  signInWithGoogle,
+  sendEmailOtp,
+  verifyEmailOtp,
+  signInWithEmailPassword,
+  resetPasswordForEmail,
+} from '../lib/supabase';
 
 const AppleLogoIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -133,10 +143,10 @@ const FEATURE_SLIDES: FeatureSlide[] = [
   },
 ];
 
-type ScreenState = 'welcome' | 'register' | 'login';
+type ScreenState = 'welcome' | 'register' | 'login' | 'otp';
 
 export const InitialAuthView: React.FC = () => {
-  const { proceedToOnboarding, loginWithEmail, openLegalModal, showGlobalToast } = useGameStore();
+  const { proceedToOnboarding, openLegalModal, showGlobalToast } = useGameStore();
 
   const [screen, setScreen] = useState<ScreenState>('welcome');
   const [activeSlide, setActiveSlide] = useState(0);
@@ -145,9 +155,15 @@ export const InitialAuthView: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isAppleLoading, setIsAppleLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isResetPromptOpen, setIsResetPromptOpen] = useState(false);
   const [resetEmail, setResetEmail] = useState('');
   const [isSendingReset, setIsSendingReset] = useState(false);
+
+  // In-App 6-Digit OTP State
+  const [otpCode, setOtpCode] = useState('');
+  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
+  const [otpCooldown, setOtpCooldown] = useState(0);
 
   // Auto-advance showcase carousel every 4.5 seconds
   useEffect(() => {
@@ -157,19 +173,56 @@ export const InitialAuthView: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // OTP Countdown timer
+  useEffect(() => {
+    if (otpCooldown <= 0) return;
+    const timer = setInterval(() => {
+      setOtpCooldown((prev) => prev - 1);
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [otpCooldown]);
+
+  // Anti-stuck safeguard: Reset loading states when returning to app from background
+  useEffect(() => {
+    let removeHandler: (() => void) | undefined;
+    try {
+      CapacitorApp.addListener('appStateChange', (state) => {
+        if (state.isActive) {
+          // Grace period for OAuth token deep link processing
+          setTimeout(() => {
+            setIsGoogleLoading(false);
+            setIsAppleLoading(false);
+          }, 2000);
+        }
+      }).then((handle) => {
+        removeHandler = () => handle.remove();
+      });
+    } catch {}
+
+    return () => {
+      removeHandler?.();
+    };
+  }, []);
+
   const handleAppleSignIn = async () => {
     if (isAppleLoading || isGoogleLoading) return;
     try {
       setIsAppleLoading(true);
       showGlobalToast('Menghubungkan ke Apple ID...');
+      
       const res = await signInWithApple();
+      setIsAppleLoading(false);
+
+      if (res?.canceled) {
+        // User closed the Face ID sheet smoothly, no alert needed
+        return;
+      }
       if (res?.error) {
         showGlobalToast(res.error);
-        setIsAppleLoading(false);
       }
     } catch (err: any) {
-      showGlobalToast(err?.message || 'Gagal memulai Sign in with Apple.');
       setIsAppleLoading(false);
+      showGlobalToast(err?.message || 'Gagal memulai Sign in with Apple.');
     }
   };
 
@@ -177,9 +230,16 @@ export const InitialAuthView: React.FC = () => {
     if (isGoogleLoading || isAppleLoading) return;
     try {
       setIsGoogleLoading(true);
-      showGlobalToast('Menghubungkan ke Akun Google...');
+      showGlobalToast('Membuka autentikasi Akun Google...');
+
+      // Timeout safeguard to prevent infinite spinning
+      const timeoutId = setTimeout(() => {
+        setIsGoogleLoading(false);
+      }, 15000);
+
       const res = await signInWithGoogle();
       if (res?.error) {
+        clearTimeout(timeoutId);
         showGlobalToast(res.error);
         setIsGoogleLoading(false);
       }
@@ -196,14 +256,10 @@ export const InitialAuthView: React.FC = () => {
     showGlobalToast('Masuk sebagai Tamu. Selamat bermain!');
   };
 
-  const handleRegisterSubmit = (e: React.FormEvent) => {
+  const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const cleanEmail = email.trim();
-    if (!cleanEmail) {
-      showGlobalToast('Silakan masukkan alamat surel Anda.');
-      return;
-    }
-    if (!cleanEmail.includes('@') || !cleanEmail.includes('.')) {
+    if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
       showGlobalToast('Format alamat surel tidak valid.');
       return;
     }
@@ -212,21 +268,27 @@ export const InitialAuthView: React.FC = () => {
       return;
     }
 
-    proceedToOnboarding({
-      email: cleanEmail,
-      isGuest: false,
-    });
-    showGlobalToast('Pendaftaran akun berhasil! Menyiapkan profil...');
+    setIsSubmitting(true);
+    showGlobalToast('Mengirim 6-digit kode verifikasi ke surel...');
+
+    // 100% In-App Gold Standard: Send OTP code directly to email
+    const res = await sendEmailOtp(cleanEmail);
+    setIsSubmitting(false);
+
+    if (res.success) {
+      setScreen('otp');
+      setOtpCooldown(60);
+      setOtpCode('');
+      showGlobalToast('Kode verifikasi 6 digit telah dikirim ke surel Anda.');
+    } else {
+      showGlobalToast(res.error || 'Gagal mengirim kode verifikasi.');
+    }
   };
 
-  const handleLoginSubmit = (e: React.FormEvent) => {
+  const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const cleanEmail = email.trim();
-    if (!cleanEmail) {
-      showGlobalToast('Silakan masukkan alamat surel Anda.');
-      return;
-    }
-    if (!cleanEmail.includes('@') || !cleanEmail.includes('.')) {
+    if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
       showGlobalToast('Format alamat surel tidak valid.');
       return;
     }
@@ -235,8 +297,81 @@ export const InitialAuthView: React.FC = () => {
       return;
     }
 
-    loginWithEmail(cleanEmail, '');
-    showGlobalToast('Berhasil masuk! Melanjutkan petualangan...');
+    setIsSubmitting(true);
+    showGlobalToast('Memverifikasi kredensial...');
+
+    const res = await signInWithEmailPassword(cleanEmail, password);
+    setIsSubmitting(false);
+
+    if (res?.session) {
+      showGlobalToast('✨ Berhasil masuk! Melanjutkan petualangan...');
+      proceedToOnboarding({
+        email: cleanEmail,
+        isGuest: false,
+      });
+    } else {
+      showGlobalToast(res?.error || 'Surel atau kata sandi tidak cocok.');
+    }
+  };
+
+  const handleSendOtpLogin = async () => {
+    const cleanEmail = email.trim();
+    if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
+      showGlobalToast('Silakan masukkan alamat surel Anda terlebih dahulu.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    showGlobalToast('Mengirim kode verifikasi OTP...');
+    const res = await sendEmailOtp(cleanEmail);
+    setIsSubmitting(false);
+
+    if (res.success) {
+      setScreen('otp');
+      setOtpCooldown(60);
+      setOtpCode('');
+      showGlobalToast('Kode verifikasi 6 digit telah dikirim.');
+    } else {
+      showGlobalToast(res.error || 'Gagal mengirim kode OTP.');
+    }
+  };
+
+  const handleVerifyOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const cleanToken = otpCode.trim();
+    if (cleanToken.length !== 6) {
+      showGlobalToast('Masukkan 6 digit kode verifikasi dengan lengkap.');
+      return;
+    }
+
+    setIsVerifyingOtp(true);
+    showGlobalToast('Memverifikasi kode...');
+
+    const res = await verifyEmailOtp(email.trim(), cleanToken);
+    setIsVerifyingOtp(false);
+
+    if (res?.session) {
+      showGlobalToast('✨ Verifikasi sukses! Menyiapkan profil...');
+      proceedToOnboarding({
+        email: email.trim(),
+        isGuest: false,
+      });
+    } else {
+      showGlobalToast(res?.error || 'Kode verifikasi tidak valid atau telah kedaluwarsa.');
+    }
+  };
+
+  const handleResendOtp = async () => {
+    if (otpCooldown > 0) return;
+    const cleanEmail = email.trim();
+    showGlobalToast('Mengirim ulang kode verifikasi...');
+    const res = await sendEmailOtp(cleanEmail);
+    if (res.success) {
+      setOtpCooldown(60);
+      showGlobalToast('Kode verifikasi baru telah dikirim.');
+    } else {
+      showGlobalToast(res.error || 'Gagal mengirim ulang kode.');
+    }
   };
 
   const handleSendResetPassword = async (e: React.FormEvent) => {
@@ -366,7 +501,7 @@ export const InitialAuthView: React.FC = () => {
           {/* Top Specular Sheen Highlight */}
           <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/60 dark:via-white/20 to-transparent pointer-events-none" />
 
-          {/* AnimatePresence for the 3 clean views */}
+          {/* AnimatePresence for the 4 distinct views */}
           <AnimatePresence mode="wait">
             {/* ---------------------------------------------------------------
                 1. LAYAR WELCOME (SAMBUTAN)
@@ -572,9 +707,10 @@ export const InitialAuthView: React.FC = () => {
                   {/* Submit Button */}
                   <button
                     type="submit"
-                    className="w-full h-11 rounded-2xl bg-[var(--accent-main)] text-[var(--accent-contrast)] hover:opacity-95 active:scale-[0.98] font-black text-[12.5px] flex items-center justify-center gap-2 cursor-pointer shadow-md transition-all mt-1"
+                    disabled={isSubmitting}
+                    className="w-full h-11 rounded-2xl bg-[var(--accent-main)] text-[var(--accent-contrast)] hover:opacity-95 active:scale-[0.98] font-black text-[12.5px] flex items-center justify-center gap-2 cursor-pointer shadow-md transition-all mt-1 disabled:opacity-50"
                   >
-                    <span>Daftar Akun Baru</span>
+                    <span>{isSubmitting ? 'Mengirim Kode OTP...' : 'Daftar Akun Baru'}</span>
                     <ArrowRight className="w-4 h-4 stroke-[2.2]" />
                   </button>
                 </form>
@@ -721,10 +857,126 @@ export const InitialAuthView: React.FC = () => {
                   {/* Submit Button */}
                   <button
                     type="submit"
-                    className="w-full h-11 rounded-2xl bg-[var(--accent-main)] text-[var(--accent-contrast)] hover:opacity-95 active:scale-[0.98] font-black text-[12.5px] flex items-center justify-center gap-2 cursor-pointer shadow-md transition-all mt-1"
+                    disabled={isSubmitting}
+                    className="w-full h-11 rounded-2xl bg-[var(--accent-main)] text-[var(--accent-contrast)] hover:opacity-95 active:scale-[0.98] font-black text-[12.5px] flex items-center justify-center gap-2 cursor-pointer shadow-md transition-all mt-1 disabled:opacity-50"
                   >
-                    <span>Masuk Sekarang</span>
+                    <span>{isSubmitting ? 'Memverifikasi...' : 'Masuk Sekarang'}</span>
                     <ArrowRight className="w-4 h-4 stroke-[2.2]" />
+                  </button>
+
+                  {/* Alternative: Masuk via Kode OTP */}
+                  <button
+                    type="button"
+                    onClick={handleSendOtpLogin}
+                    disabled={isSubmitting}
+                    className="w-full py-1 text-center text-[10.5px] font-bold text-[var(--text-secondary)] hover:text-[var(--accent-main)] transition-colors cursor-pointer"
+                  >
+                    Atau masuk dengan Kode OTP Surel →
+                  </button>
+                </form>
+              </motion.div>
+            )}
+
+            {/* ---------------------------------------------------------------
+                4. LAYAR 100% IN-APP OTP VERIFIKASI (GOLD STANDARD)
+                --------------------------------------------------------------- */}
+            {screen === 'otp' && (
+              <motion.div
+                key="screen-otp"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.25, ease: 'easeOut' }}
+                className="flex flex-col gap-3"
+              >
+                {/* Header: Back Button + Title */}
+                <div className="flex items-center gap-2.5 pb-0.5">
+                  <button
+                    type="button"
+                    onClick={() => setScreen('register')}
+                    aria-label="Kembali"
+                    className="w-8 h-8 rounded-full bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 flex items-center justify-center text-[var(--text-primary)] cursor-pointer tactile-active transition-all shrink-0 border border-black/5 dark:border-white/10"
+                  >
+                    <ArrowLeft className="w-4 h-4 stroke-[2.2]" />
+                  </button>
+                  <div className="min-w-0">
+                    <h2 className="text-[16px] sm:text-[17px] font-black text-[var(--text-primary)] tracking-tight leading-tight">
+                      Verifikasi Kode OTP
+                    </h2>
+                    <p className="text-[10px] text-[var(--text-secondary)] font-medium leading-tight truncate">
+                      Masukkan 6 digit kode yang dikirim ke <span className="font-bold text-[var(--accent-main)]">{email}</span>
+                    </p>
+                  </div>
+                </div>
+
+                {/* Segmented 6-Box OTP Display with iOS AutoFill support */}
+                <form onSubmit={handleVerifyOtp} className="flex flex-col gap-3">
+                  <div className="relative">
+                    <div className="flex justify-between gap-1.5 sm:gap-2">
+                      {[0, 1, 2, 3, 4, 5].map((idx) => {
+                        const digit = otpCode[idx] || '';
+                        const isFocused = otpCode.length === idx || (idx === 5 && otpCode.length === 6);
+                        return (
+                          <div
+                            key={idx}
+                            className={`flex-1 h-12 rounded-2xl flex items-center justify-center text-[19px] font-black font-mono transition-all border ${
+                              digit
+                                ? 'bg-[var(--accent-light)] border-[var(--accent-main)] text-[var(--accent-main)] shadow-xs'
+                                : isFocused
+                                ? 'border-[var(--accent-main)] ring-2 ring-[var(--accent-main)]/30 bg-black/5 dark:bg-white/5'
+                                : 'border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 text-[var(--text-primary)]'
+                            }`}
+                          >
+                            {digit}
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Hidden input activating iOS QuickType OTP AutoFill from Mail/SMS */}
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      autoComplete="one-time-code"
+                      maxLength={6}
+                      value={otpCode}
+                      onChange={(e) => {
+                        const val = e.target.value.replace(/\D/g, '').slice(0, 6);
+                        setOtpCode(val);
+                      }}
+                      autoFocus
+                      className="opacity-0 absolute inset-0 w-full h-full cursor-pointer z-10"
+                    />
+                  </div>
+
+                  {/* Resend OTP Timer & Button */}
+                  <div className="flex items-center justify-between text-[10.5px] px-1">
+                    <span className="text-[var(--text-secondary)]">Tidak menerima kode?</span>
+                    {otpCooldown > 0 ? (
+                      <span className="font-bold text-[var(--text-secondary)]">
+                        Kirim ulang ({otpCooldown}s)
+                      </span>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={handleResendOtp}
+                        className="font-bold text-[var(--accent-main)] hover:underline flex items-center gap-1 cursor-pointer"
+                      >
+                        <RotateCcw className="w-3 h-3" />
+                        <span>Kirim Ulang Kode</span>
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Submit Verification Button */}
+                  <button
+                    type="submit"
+                    disabled={isVerifyingOtp || otpCode.length !== 6}
+                    className="w-full h-11.5 rounded-2xl bg-[var(--accent-main)] text-[var(--accent-contrast)] hover:opacity-95 active:scale-[0.98] font-black text-[13px] flex items-center justify-center gap-2 cursor-pointer shadow-md transition-all disabled:opacity-40 select-none mt-1"
+                  >
+                    <KeyRound className="w-4 h-4 stroke-[2.2]" />
+                    <span>{isVerifyingOtp ? 'Memverifikasi...' : 'Verifikasi & Mulai Bermain'}</span>
                   </button>
                 </form>
               </motion.div>

@@ -50,13 +50,14 @@ export const AuthModal: React.FC = () => {
       setIsAppleLoading(true);
       showGlobalToast('Menghubungkan ke Apple ID...');
       const res = await signInWithApple();
+      setIsAppleLoading(false);
+      if (res?.canceled) return;
       if (res?.error) {
         showGlobalToast(res.error);
-        setIsAppleLoading(false);
       }
     } catch (err: any) {
-      showGlobalToast(err?.message || 'Gagal masuk dengan Apple ID.');
       setIsAppleLoading(false);
+      showGlobalToast(err?.message || 'Gagal masuk dengan Apple ID.');
     }
   };
 
@@ -65,8 +66,10 @@ export const AuthModal: React.FC = () => {
     try {
       setIsGoogleLoading(true);
       showGlobalToast('Menghubungkan ke Akun Google...');
+      const timeoutId = setTimeout(() => setIsGoogleLoading(false), 15000);
       const res = await signInWithGoogle();
       if (res?.error) {
+        clearTimeout(timeoutId);
         showGlobalToast(res.error);
         setIsGoogleLoading(false);
       }

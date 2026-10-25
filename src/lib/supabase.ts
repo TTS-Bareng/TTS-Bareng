@@ -1,5 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
+import { Capacitor } from '@capacitor/core';
 import type { CommunityTournament } from './tournament';
+import { performAppleSignIn } from './appleAuth';
 
 const DEFAULT_SUPABASE_URL = 'https://qrkfjacugcalegzhcatp.supabase.co';
 const DEFAULT_SUPABASE_ANON_KEY =
@@ -312,48 +314,133 @@ export async function fetchTournamentByCodeFromDb(code: string): Promise<Communi
 }
 
 /**
- * Sign in with Apple via Supabase OAuth (Apple Guideline 4.8 Compliance)
+ * Sign in with Apple (100% In-App on native iOS via Face ID / Touch ID sheet, or OAuth fallback on web)
  */
-export async function signInWithApple(): Promise<{ user?: any; error?: string }> {
-  if (!isSupabaseConfigured) {
-    return { error: 'Layanan Supabase belum terkonfigurasi' };
-  }
-  try {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'apple',
-      options: {
-        redirectTo: window.location.origin,
-      },
-    });
-    if (error) {
-      return { error: error.message };
-    }
-    return { user: data };
-  } catch (err: any) {
-    return { error: err?.message || 'Gagal memulai Sign in with Apple' };
-  }
+export async function signInWithApple(): Promise<{ user?: any; session?: any; error?: string; canceled?: boolean }> {
+  return performAppleSignIn();
 }
 
 /**
- * Sign in with Google via Supabase OAuth
+ * Sign in with Google via Supabase OAuth with mobile custom scheme redirect
  */
 export async function signInWithGoogle(): Promise<{ user?: any; error?: string }> {
   if (!isSupabaseConfigured) {
     return { error: 'Layanan Supabase belum terkonfigurasi' };
   }
   try {
+    const isNative = Capacitor.isNativePlatform();
+    const redirectTo = isNative ? 'ttsbareng://auth-callback' : window.location.origin;
+
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: window.location.origin,
+        redirectTo,
+        skipBrowserRedirect: isNative,
       },
     });
     if (error) {
       return { error: error.message };
     }
+
+    // On native mobile, open via system browser if skipBrowserRedirect was true
+    if (isNative && data?.url) {
+      window.open(data.url, '_system');
+    }
+
     return { user: data };
   } catch (err: any) {
     return { error: err?.message || 'Gagal memulai Sign in with Google' };
+  }
+}
+
+/**
+ * Send 6-digit In-App OTP to user's email (Zero browser, 100% in-app)
+ */
+export async function sendEmailOtp(email: string): Promise<{ success: boolean; error?: string }> {
+  if (!isSupabaseConfigured) {
+    return { success: false, error: 'Layanan Supabase belum terkonfigurasi' };
+  }
+  try {
+    const cleanEmail = email.trim().toLowerCase();
+    const { error } = await supabase.auth.signInWithOtp({
+      email: cleanEmail,
+      options: {
+        shouldCreateUser: true,
+      },
+    });
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err?.message || 'Gagal mengirim kode verifikasi' };
+  }
+}
+
+/**
+ * Verify 6-digit In-App OTP entered by the user
+ */
+export async function verifyEmailOtp(
+  email: string,
+  token: string
+): Promise<{ user?: any; session?: any; error?: string }> {
+  if (!isSupabaseConfigured) {
+    return { error: 'Layanan Supabase belum terkonfigurasi' };
+  }
+  try {
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanToken = token.trim().replace(/\s+/g, '');
+    const { data, error } = await supabase.auth.verifyOtp({
+      email: cleanEmail,
+      token: cleanToken,
+      type: 'email',
+    });
+    if (error) return { error: error.message };
+    return { user: data.user, session: data.session };
+  } catch (err: any) {
+    return { error: err?.message || 'Gagal memverifikasi kode OTP' };
+  }
+}
+
+/**
+ * Direct sign in with email and password
+ */
+export async function signInWithEmailPassword(
+  email: string,
+  password: string
+): Promise<{ user?: any; session?: any; error?: string }> {
+  if (!isSupabaseConfigured) {
+    return { error: 'Layanan Supabase belum terkonfigurasi' };
+  }
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email.trim().toLowerCase(),
+      password,
+    });
+    if (error) return { error: error.message };
+    return { user: data.user, session: data.session };
+  } catch (err: any) {
+    return { error: err?.message || 'Gagal masuk dengan email & kata sandi' };
+  }
+}
+
+/**
+ * Sign up with email and password
+ */
+export async function signUpWithEmailPassword(
+  email: string,
+  password: string
+): Promise<{ user?: any; session?: any; error?: string }> {
+  if (!isSupabaseConfigured) {
+    return { error: 'Layanan Supabase belum terkonfigurasi' };
+  }
+  try {
+    const { data, error } = await supabase.auth.signUp({
+      email: email.trim().toLowerCase(),
+      password,
+    });
+    if (error) return { error: error.message };
+    return { user: data.user, session: data.session };
+  } catch (err: any) {
+    return { error: err?.message || 'Gagal mendaftar akun baru' };
   }
 }
 
