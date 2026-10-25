@@ -9,6 +9,7 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "generate:assets": "node scripts/generate-app-assets.cjs",
+    "generate:screenshots": "node scripts/generate_app_store_screenshots.cjs",
     "cap:sync": "cap sync",
     "cap:build": "npm run build && cap sync"
   },

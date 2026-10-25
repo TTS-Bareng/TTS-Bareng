@@ -1,0 +1,164 @@
+{
+  "appPolicies" : {
+    "eula" : "https://tts-bareng-web.akashaaa-id.workers.dev/terms",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : ""
+      }
+    ]
+  },
+  "identifier" : "7F29B854",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "0.49",
+      "familyShareable" : false,
+      "internalID" : "A1010101",
+      "localizations" : [
+        {
+          "description" : "10 Bintang Petunjuk Kata Silang",
+          "displayName" : "10 Bintang Petunjuk",
+          "locale" : "id"
+        },
+        {
+          "description" : "10 Crossword Hint Stars",
+          "displayName" : "10 Hint Stars",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.syntheticae.ttsbareng.sachet.hints10",
+      "referenceName" : "10 Bintang Petunjuk",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "0.69",
+      "familyShareable" : false,
+      "internalID" : "A1010102",
+      "localizations" : [
+        {
+          "description" : "1 Pelindung Rentetan Api Harian",
+          "displayName" : "1 Pelindung Streak",
+          "locale" : "id"
+        },
+        {
+          "description" : "1 Daily Streak Shield",
+          "displayName" : "1 Streak Shield",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.syntheticae.ttsbareng.sachet.shield1",
+      "referenceName" : "1 Pelindung Streak",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "29.99",
+      "familyShareable" : true,
+      "internalID" : "A1010103",
+      "localizations" : [
+        {
+          "description" : "Akses Seumur Hidup TTS Pass VIP Tanpa Iklan",
+          "displayName" : "TTS Pass VIP Seumur Hidup",
+          "locale" : "id"
+        },
+        {
+          "description" : "Lifetime Access to TTS Pass VIP",
+          "displayName" : "TTS Pass VIP Lifetime",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.syntheticae.ttsbareng.vip.lifetime",
+      "referenceName" : "TTS Pass VIP Lifetime",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_failTransactionsEnabled" : false,
+    "_locale" : "id_ID",
+    "_storefront" : "IDN",
+    "_storeKitErrors" : [
+
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21568912",
+      "localizations" : [
+        {
+          "description" : "Akses penuh fitur premium TTS Bareng",
+          "displayName" : "TTS Pass VIP",
+          "locale" : "id"
+        }
+      ],
+      "name" : "TTS Pass VIP",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "1.99",
+          "familyShareable" : true,
+          "groupNumber" : 1,
+          "internalID" : "B2020201",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Bebas iklan, kreasi tanpa batas, & mahkota juara",
+              "displayName" : "TTS Pass VIP Bulanan",
+              "locale" : "id"
+            },
+            {
+              "description" : "Ad-free, unlimited studio creation & VIP badge",
+              "displayName" : "TTS Pass VIP Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.syntheticae.ttsbareng.vip.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "TTS Pass VIP Bulanan",
+          "subscriptionGroupID" : "21568912",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "12.99",
+          "familyShareable" : true,
+          "groupNumber" : 2,
+          "internalID" : "B2020202",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Bebas iklan setahun penuh (Hemat 42%)",
+              "displayName" : "TTS Pass VIP Tahunan",
+              "locale" : "id"
+            },
+            {
+              "description" : "Ad-free full year access (Save 42%)",
+              "displayName" : "TTS Pass VIP Annual",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.syntheticae.ttsbareng.vip.annual",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "TTS Pass VIP Tahunan",
+          "subscriptionGroupID" : "21568912",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}
