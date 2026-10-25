@@ -4183,6 +4183,14 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   deleteAccountAndData: async () => {
     try {
+      const { data } = await supabase.auth.getSession();
+      if (data?.session?.user) {
+        await supabase.rpc('delete_user_account');
+      }
+    } catch (err) {
+      console.warn('[Account] Error deleting user account from Supabase:', err);
+    }
+    try {
       await supabase.auth.signOut();
     } catch {}
     try {

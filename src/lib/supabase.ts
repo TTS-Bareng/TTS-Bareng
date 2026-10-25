@@ -483,8 +483,11 @@ export async function resetPasswordForEmail(email: string): Promise<{ success: b
     return { success: false, error: 'Layanan Supabase belum terkonfigurasi' };
   }
   try {
+    const isNative = Capacitor.isNativePlatform();
+    const redirectTo = isNative ? 'ttsbareng://auth-callback' : window.location.origin;
+
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: window.location.origin,
+      redirectTo,
     });
     if (error) return { success: false, error: error.message };
     return { success: true };
