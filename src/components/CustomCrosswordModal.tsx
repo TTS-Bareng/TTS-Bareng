@@ -187,7 +187,7 @@ export const CustomCrosswordModal: React.FC = () => {
       >
         {/* Minimalist Top App Bar (Opaque & Clean) */}
         <header
-          className="sticky top-0 z-30 w-full px-4 sm:px-6 py-3.5 border-b border-black/5 dark:border-white/10 flex items-center justify-between shadow-xs backdrop-blur-md"
+          className="sticky top-0 z-30 w-full px-4 sm:px-6 pt-[max(14px,calc(8px+env(safe-area-inset-top)))] pb-3.5 border-b border-black/5 dark:border-white/10 flex items-center justify-between shadow-xs backdrop-blur-md"
           style={{ backgroundColor: 'var(--bg-card)' }}
         >
           <div className="flex items-center gap-3">
@@ -238,7 +238,7 @@ export const CustomCrosswordModal: React.FC = () => {
             CASE 1: USER DOES NOT HAVE ACCESS (FULL-PAGE MINIMALIST PAYWALL)
             ============================================================ */}
         {!hasAccess ? (
-          <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-8 flex flex-col items-center justify-center">
+          <div className="flex-1 overflow-y-auto px-4 sm:px-6 pt-8 pb-[max(32px,calc(16px+env(safe-area-inset-bottom)))] flex flex-col items-center justify-center">
             <div className="w-full max-w-md mx-auto flex flex-col items-center text-center gap-4">
               {/* Mascot Hero with Subtle Theme Glow */}
               <div className="relative w-28 h-28 flex items-center justify-center">
@@ -622,7 +622,7 @@ export const CustomCrosswordModal: React.FC = () => {
         {/* Sticky Minimalist Bottom Action Bar (Opaque & Elevated) */}
         {hasAccess && (
           <div
-            className="sticky bottom-0 inset-x-0 p-3.5 sm:p-4 border-t border-black/5 dark:border-white/10 z-30 shadow-lg"
+            className="sticky bottom-0 inset-x-0 px-3.5 sm:px-4 pt-3.5 pb-[max(16px,calc(10px+env(safe-area-inset-bottom)))] border-t border-black/5 dark:border-white/10 z-30 shadow-lg"
             style={{ backgroundColor: 'var(--bg-card)' }}
           >
             <div className="w-full max-w-md sm:max-w-xl mx-auto flex items-center gap-2.5">

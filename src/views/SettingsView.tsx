@@ -195,7 +195,7 @@ export const SettingsView: React.FC = () => {
   const currentThemeObj = THEMES[theme] || THEMES.obsidian;
 
   return (
-    <div className="w-full flex-1 flex flex-col gap-4 px-3.5 pt-[max(18px,env(safe-area-inset-top))] pb-[110px] select-none overflow-y-auto relative">
+    <div className="w-full flex-1 flex flex-col gap-4 px-3.5 pt-[max(18px,env(safe-area-inset-top))] pb-[max(96px,calc(80px+env(safe-area-inset-bottom)))] select-none overflow-y-auto relative">
       {/* Toast Notification Floating Pill */}
       {toastMessage && (
         <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-full liquid-glass-card shadow-lg flex items-center gap-2 border border-[var(--accent-main)]/30 animate-in fade-in slide-in-from-top-3">

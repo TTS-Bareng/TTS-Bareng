@@ -69,7 +69,7 @@ export const OnboardingView: React.FC = () => {
   };
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-between px-5 pt-8 pb-6 select-none relative overflow-y-auto no-scrollbar">
+    <div className="w-full min-h-screen flex flex-col items-center justify-between px-5 pt-[max(24px,calc(12px+env(safe-area-inset-top)))] pb-[max(24px,calc(14px+env(safe-area-inset-bottom)))] select-none relative overflow-y-auto no-scrollbar">
       {/* Background Ambient Glow & Specular Canvas */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-[var(--accent-light)] blur-3xl opacity-60" />

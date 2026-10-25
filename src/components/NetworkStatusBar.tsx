@@ -49,9 +49,9 @@ export const NetworkStatusBar: React.FC = () => {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -20, scale: 0.95 }}
           transition={{ type: 'spring', damping: 24, stiffness: 320 }}
-          className="fixed top-[max(10px,env(safe-area-inset-top))] inset-x-4 max-w-[340px] mx-auto z-40 px-3.5 py-1.5 rounded-full liquid-glass-card border border-amber-500/35 bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[10.5px] font-bold shadow-lg flex items-center justify-center gap-2 backdrop-blur-xl pointer-events-none select-none"
+          className="fixed top-[max(10px,env(safe-area-inset-top))] inset-x-4 max-w-[340px] mx-auto z-40 px-3.5 py-1.5 rounded-full liquid-glass-card border border-[var(--accent-main)]/35 bg-[var(--accent-light)] text-[var(--accent-main)] text-[10.5px] font-bold shadow-lg flex items-center justify-center gap-2 backdrop-blur-xl pointer-events-none select-none"
         >
-          <WifiOff className="w-3.5 h-3.5 stroke-[2.2] shrink-0" />
+          <WifiOff className="w-3.5 h-3.5 stroke-[2.2] shrink-0 text-[var(--accent-main)]" />
           <span>Mode Offline • Permainan tersimpan di perangkat</span>
         </motion.div>
       )}
@@ -63,9 +63,9 @@ export const NetworkStatusBar: React.FC = () => {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -20, scale: 0.95 }}
           transition={{ type: 'spring', damping: 24, stiffness: 320 }}
-          className="fixed top-[max(10px,env(safe-area-inset-top))] inset-x-4 max-w-[340px] mx-auto z-40 px-3.5 py-1.5 rounded-full liquid-glass-card border border-emerald-500/35 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10.5px] font-bold shadow-lg flex items-center justify-center gap-2 backdrop-blur-xl pointer-events-none select-none"
+          className="fixed top-[max(10px,env(safe-area-inset-top))] inset-x-4 max-w-[340px] mx-auto z-40 px-3.5 py-1.5 rounded-full liquid-glass-card border border-[var(--accent-main)]/35 bg-[var(--accent-light)] text-[var(--text-primary)] text-[10.5px] font-bold shadow-lg flex items-center justify-center gap-2 backdrop-blur-xl pointer-events-none select-none"
         >
-          <Wifi className="w-3.5 h-3.5 stroke-[2.2] shrink-0" />
+          <Wifi className="w-3.5 h-3.5 stroke-[2.2] shrink-0 text-[var(--accent-main)]" />
           <span>Koneksi Pulih • Tersambung Kembali</span>
         </motion.div>
       )}

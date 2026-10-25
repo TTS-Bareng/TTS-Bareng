@@ -43,12 +43,12 @@ const FEATURE_SLIDES: FeatureSlide[] = [
   {
     id: 'adventure',
     badge: '500+ Bab • 5.000+ Kosakata',
-    badgeColor: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30',
+    badgeColor: 'bg-[var(--accent-light)] text-[var(--accent-main)] border-[var(--accent-main)]/25',
     title: '500+ Bab Siap Dieksplorasi',
     description: 'Jelajahi lebih dari 500 bab teka-teki silang dengan 5.000+ kosakata baku Nusantara.',
     mascot: MASCOTS.puzzleExplorer,
     microWidget: {
-      icon: <Compass className="w-4 h-4 text-emerald-500" />,
+      icon: <Compass className="w-4 h-4 text-[var(--accent-main)]" />,
       title: '500+ Bab & 5.000+ Kata',
       subtitle: 'Sabang sampai Merauke siap dimainkan',
       pill: 'Koleksi Terlengkap',
@@ -57,12 +57,12 @@ const FEATURE_SLIDES: FeatureSlide[] = [
   {
     id: 'mabar',
     badge: 'Duel 1v1 & Turnamen',
-    badgeColor: 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 border-indigo-500/30',
+    badgeColor: 'bg-[var(--accent-light)] text-[var(--accent-main)] border-[var(--accent-main)]/25',
     title: 'Mabar Bareng Teman',
     description: 'Tanding kecepatan tebak kata 1v1 via Kode Kamar atau turnamen komunitas.',
     mascot: MASCOTS.crosswordDuel,
     microWidget: {
-      icon: <Users className="w-4 h-4 text-indigo-500" />,
+      icon: <Users className="w-4 h-4 text-[var(--accent-main)]" />,
       title: 'Duel 1v1 Sedang Berlangsung',
       subtitle: 'Kamu ⚡ 120 vs Lawan 95 Pts',
       pill: 'Unggul +25',
@@ -71,12 +71,12 @@ const FEATURE_SLIDES: FeatureSlide[] = [
   {
     id: 'streak',
     badge: 'Tantangan Harian',
-    badgeColor: 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30',
+    badgeColor: 'bg-[var(--accent-light)] text-[var(--accent-main)] border-[var(--accent-main)]/25',
     title: 'Asah Otak Tiap Hari',
     description: 'Mainkan Daily Rush setiap pagi, pertahankan rentetan api, dan raih bintang.',
     mascot: MASCOTS.cheerfulBookBoy,
     microWidget: {
-      icon: <Flame className="w-4 h-4 text-amber-500 fill-amber-500" />,
+      icon: <Flame className="w-4 h-4 text-[var(--accent-main)] fill-[var(--accent-main)]" />,
       title: 'Rentetan 7 Hari Aktif',
       subtitle: 'Bonus Harian • +50 Bintang',
       pill: '🔥 Membara',
@@ -85,12 +85,12 @@ const FEATURE_SLIDES: FeatureSlide[] = [
   {
     id: 'studio',
     badge: 'Studio Kreator',
-    badgeColor: 'bg-rose-500/15 text-rose-600 dark:text-rose-400 border-rose-500/30',
+    badgeColor: 'bg-[var(--accent-light)] text-[var(--accent-main)] border-[var(--accent-main)]/25',
     title: 'Rancang & Bagikan TTS',
     description: 'Susun kata rahasiamu sendiri di kisi lalu bagikan via tautan atau QR Code.',
     mascot: MASCOTS.crosswordBoard,
     microWidget: {
-      icon: <PencilLine className="w-4 h-4 text-rose-500" />,
+      icon: <PencilLine className="w-4 h-4 text-[var(--accent-main)]" />,
       title: 'Studio TTS Interaktif',
       subtitle: 'Kisi 8x8 • Siap Main',
       pill: 'QR Siap',
@@ -99,12 +99,12 @@ const FEATURE_SLIDES: FeatureSlide[] = [
   {
     id: 'kbbi',
     badge: 'Kamus KBBI & Budaya',
-    badgeColor: 'bg-sky-500/15 text-sky-600 dark:text-sky-400 border-sky-500/30',
+    badgeColor: 'bg-[var(--accent-light)] text-[var(--accent-main)] border-[var(--accent-main)]/25',
     title: 'Kosakata Resmi KBBI',
     description: 'Perkaya wawasan bahasa Indonesia dengan definisi baku resmi KBBI.',
     mascot: MASCOTS.batikWordsmith,
     microWidget: {
-      icon: <BookOpen className="w-4 h-4 text-sky-500" />,
+      icon: <BookOpen className="w-4 h-4 text-[var(--accent-main)]" />,
       title: 'Leksikon Terverifikasi',
       subtitle: 'Swakarya: pekerjaan mandiri',
       pill: 'Baku KBBI',
@@ -204,7 +204,7 @@ export const InitialAuthView: React.FC = () => {
       </div>
 
       {/* TOP HALF: Feature Showcase Carousel */}
-      <div className="flex-1 min-h-[300px] max-h-[460px] flex flex-col items-center justify-center px-4 pt-4 pb-2 relative z-10 w-full max-w-[420px] mx-auto">
+      <div className="flex-1 min-h-[300px] max-h-[460px] flex flex-col items-center justify-center px-4 pt-[max(16px,env(safe-area-inset-top))] pb-2 relative z-10 w-full max-w-[420px] mx-auto">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentFeature.id}
@@ -293,7 +293,7 @@ export const InitialAuthView: React.FC = () => {
         layout
         className="w-full max-w-[420px] mx-auto z-20 shrink-0 px-1 sm:px-0"
       >
-        <div className="relative rounded-t-[32px] sm:rounded-3xl bg-white/95 dark:bg-zinc-900/95 backdrop-blur-2xl border-t sm:border border-black/10 dark:border-white/10 shadow-2xl p-4 sm:p-5 pt-3 pb-5 flex flex-col gap-2.5 overflow-hidden">
+        <div className="relative rounded-t-[32px] sm:rounded-3xl bg-[var(--bg-card)]/95 backdrop-blur-2xl border-t sm:border border-black/10 dark:border-white/10 shadow-2xl p-4 sm:p-5 pt-3 pb-[max(20px,calc(12px+env(safe-area-inset-bottom)))] flex flex-col gap-2.5 overflow-hidden">
           {/* Top Specular Sheen Highlight */}
           <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/60 dark:via-white/20 to-transparent pointer-events-none" />
 
@@ -376,7 +376,7 @@ export const InitialAuthView: React.FC = () => {
                 {/* Divider */}
                 <div className="relative my-0.5 flex items-center justify-center">
                   <div className="w-full border-t border-black/10 dark:border-white/10" />
-                  <span className="absolute px-3 text-[9.5px] uppercase font-bold tracking-wider text-[var(--text-secondary)] bg-white dark:bg-zinc-900 rounded-full">
+                  <span className="absolute px-3 text-[9.5px] uppercase font-bold tracking-wider text-[var(--text-secondary)] bg-[var(--bg-card)] rounded-full">
                     atau
                   </span>
                 </div>

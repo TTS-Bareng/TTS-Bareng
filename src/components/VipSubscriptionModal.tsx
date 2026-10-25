@@ -128,7 +128,7 @@ export const VipSubscriptionModal: React.FC = () => {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 select-none">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 pt-[max(12px,env(safe-area-inset-top))] pb-[max(12px,env(safe-area-inset-bottom))] select-none">
         {/* Dark Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
