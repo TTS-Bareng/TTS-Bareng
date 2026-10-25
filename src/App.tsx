@@ -106,10 +106,12 @@ export const App: React.FC = () => {
   // Initialize RevenueCat SDK & Verify Apple VIP Entitlements
   useEffect(() => {
     const user = useGameStore.getState().user;
-    revenueCatService.initialize(user?.id).then(async () => {
-      const isVipActive = await revenueCatService.checkVipStatus();
-      if (isVipActive && !useGameStore.getState().isVip) {
-        useGameStore.getState().setIsVip(true);
+    revenueCatService.initialize(user?.id).then(async (configured) => {
+      if (configured && !revenueCatService.getIsMockMode()) {
+        const isVipActive = await revenueCatService.checkVipStatus();
+        if (useGameStore.getState().isVip !== isVipActive) {
+          useGameStore.getState().setIsVip(isVipActive);
+        }
       }
     });
   }, []);
@@ -122,9 +124,11 @@ export const App: React.FC = () => {
       if (event === 'SIGNED_IN' && session?.user) {
         // 1. Bind RevenueCat identity to Supabase user ID and check VIP entitlement
         revenueCatService.logIn(session.user.id).then(async () => {
-          const isVip = await revenueCatService.checkVipStatus();
-          if (isVip && !useGameStore.getState().isVip) {
-            useGameStore.getState().setIsVip(true);
+          if (!revenueCatService.getIsMockMode()) {
+            const isVip = await revenueCatService.checkVipStatus();
+            if (useGameStore.getState().isVip !== isVip) {
+              useGameStore.getState().setIsVip(isVip);
+            }
           }
         }).catch(() => {});
 

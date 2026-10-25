@@ -81,6 +81,25 @@ class RevenueCatService {
         appUserID: userId && userId !== 'guest' ? userId : undefined,
       });
 
+      // Register real-time CustomerInfo update listener (auto-renews, refunds, cancellations)
+      Purchases.addCustomerInfoUpdateListener(async (customerInfo) => {
+        const isVip = Boolean(
+          customerInfo.entitlements?.active &&
+          (customerInfo.entitlements.active[REVENUECAT_ENTITLEMENT_VIP] ||
+           customerInfo.entitlements.active['vip'] ||
+           customerInfo.entitlements.active['pro'])
+        );
+        try {
+          const { useGameStore } = await import('../store/useGameStore');
+          if (useGameStore.getState().isVip !== isVip) {
+            console.info(`[RevenueCat] Real-time customer update: VIP entitlement set to ${isVip}`);
+            useGameStore.getState().setIsVip(isVip);
+          }
+        } catch (err) {
+          console.warn('[RevenueCat] Failed to update VIP store from listener:', err);
+        }
+      });
+
       this.isMockMode = false;
       this.isConfigured = true;
       this.currentUserId = userId || null;
@@ -92,6 +111,10 @@ class RevenueCatService {
       this.isConfigured = true;
       return false;
     }
+  }
+
+  public getIsMockMode(): boolean {
+    return this.isMockMode;
   }
 
   /**
