@@ -26,12 +26,17 @@ import {
   RefreshCw,
   LogOut,
   Mail,
+  Lock,
+  KeyRound,
+  Eye,
+  EyeOff,
 } from 'lucide-react';
 import { useGameStore, type SoundPackKey } from '../store/useGameStore';
 import { THEMES, type ThemeKey } from '../lib/themes';
 import { soundManager } from '../lib/audio';
 import { notificationService } from '../lib/notificationService';
 import { revenueCatService } from '../lib/revenueCatService';
+import { updateAccountPassword } from '../lib/supabase';
 
 export const SettingsView: React.FC = () => {
   const {
@@ -72,6 +77,35 @@ export const SettingsView: React.FC = () => {
   const [showDeleteAccountConfirm, setShowDeleteAccountConfirm] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [isSavingPassword, setIsSavingPassword] = useState(false);
+
+  const handleSavePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newPassword || newPassword.length < 6) {
+      showGlobalToast('Kata sandi minimal 6 karakter.');
+      return;
+    }
+    if (newPassword !== confirmNewPassword) {
+      showGlobalToast('Konfirmasi kata sandi tidak cocok.');
+      return;
+    }
+    setIsSavingPassword(true);
+    const res = await updateAccountPassword(newPassword);
+    setIsSavingPassword(false);
+    if (res.success) {
+      showGlobalToast('✨ Kata sandi akun berhasil diperbarui!');
+      setIsPasswordModalOpen(false);
+      setNewPassword('');
+      setConfirmNewPassword('');
+    } else {
+      showGlobalToast(res.error || 'Gagal memperbarui kata sandi.');
+    }
+  };
 
   const [confirmHint, setConfirmHint] = useState<boolean>(() => {
     return localStorage.getItem('tts_confirm_hint') === 'true';
@@ -957,6 +991,35 @@ export const SettingsView: React.FC = () => {
             </div>
           </button>
 
+          {/* Kata Sandi & Keamanan Akun */}
+          {!user.isGuest && (
+            <button
+              type="button"
+              onClick={() => setIsPasswordModalOpen(true)}
+              className="w-full flex items-center justify-between p-3 hover:bg-black/3 dark:hover:bg-white/5 transition-colors cursor-pointer text-left tactile-active group relative z-10"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-7.5 h-7.5 rounded-xl bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/20 flex items-center justify-center shrink-0">
+                  <KeyRound className="w-4 h-4 stroke-[2.2]" />
+                </div>
+                <div>
+                  <span className="text-[12px] font-bold text-[var(--text-primary)] block leading-tight">
+                    Kata Sandi Akun
+                  </span>
+                  <span className="text-[9px] text-[var(--text-secondary)] block">
+                    {user.email ? `Atur atau ubah kata sandi untuk ${user.email}` : 'Atur kata sandi untuk akses email'}
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-[10px] font-bold text-[var(--accent-main)]">
+                  Ubah
+                </span>
+                <ChevronRight className="w-3.5 h-3.5 text-[var(--text-secondary)] group-hover:text-[var(--text-primary)]" />
+              </div>
+            </button>
+          )}
+
           {/* Keluar dari Akun (Log Out) */}
           <div className="p-3 relative z-10">
             {showLogoutConfirm ? (
@@ -1166,6 +1229,99 @@ export const SettingsView: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Modal Ubah / Atur Kata Sandi Akun */}
+      {isPasswordModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm select-none">
+          <div className="w-full max-w-sm rounded-[28px] bg-[var(--bg-card)] border border-black/10 dark:border-white/10 p-5 shadow-2xl flex flex-col gap-3 relative overflow-hidden liquid-glass-card text-[var(--text-primary)]">
+            <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
+
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/20 flex items-center justify-center shrink-0">
+                <KeyRound className="w-4 h-4 stroke-[2.2]" />
+              </div>
+              <div>
+                <h3 className="text-[15px] font-black tracking-tight leading-tight">
+                  Kata Sandi Akun
+                </h3>
+                <p className="text-[9.5px] text-[var(--text-secondary)]">
+                  {user.email || 'Atur kata sandi akun'}
+                </p>
+              </div>
+            </div>
+
+            <p className="text-[10.5px] text-[var(--text-secondary)] leading-relaxed">
+              Atur kata sandi baru untuk akun Anda. Kata sandi ini memungkinkan Anda masuk langsung menggunakan surel & kata sandi di semua perangkat.
+            </p>
+
+            <form onSubmit={handleSavePassword} className="flex flex-col gap-2.5 mt-1">
+              <div className="flex flex-col gap-1">
+                <label className="text-[9px] font-black uppercase tracking-wider text-[var(--text-secondary)] px-0.5">
+                  Kata Sandi Baru (Min. 6 Karakter)
+                </label>
+                <div className="relative">
+                  <Lock className="w-4 h-4 text-[var(--text-secondary)] absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type={showNewPassword ? 'text' : 'password'}
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full h-10 rounded-xl pl-9 pr-9 text-[12px] bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-main)] font-medium"
+                    required
+                    minLength={6}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowNewPassword(!showNewPassword)}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer p-1"
+                  >
+                    {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <label className="text-[9px] font-black uppercase tracking-wider text-[var(--text-secondary)] px-0.5">
+                  Konfirmasi Kata Sandi Baru
+                </label>
+                <div className="relative">
+                  <Lock className="w-4 h-4 text-[var(--text-secondary)] absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type={showNewPassword ? 'text' : 'password'}
+                    value={confirmNewPassword}
+                    onChange={(e) => setConfirmNewPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full h-10 rounded-xl pl-9 pr-3 text-[12px] bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-main)] font-medium"
+                    required
+                    minLength={6}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 justify-end mt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsPasswordModalOpen(false);
+                    setNewPassword('');
+                    setConfirmNewPassword('');
+                  }}
+                  className="px-3.5 py-2 rounded-xl text-[11px] font-bold text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSavingPassword}
+                  className="px-4 py-2 rounded-xl text-[11.5px] font-black bg-[var(--accent-main)] text-[var(--accent-contrast)] hover:opacity-95 cursor-pointer shadow-xs disabled:opacity-50"
+                >
+                  {isSavingPassword ? 'Menyimpan...' : 'Simpan Kata Sandi'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* 7. Footer Info */}
       <footer className="w-full shrink-0 flex flex-col items-center justify-center gap-1.5 text-[9px] text-[var(--text-secondary)] pt-2 pb-2">

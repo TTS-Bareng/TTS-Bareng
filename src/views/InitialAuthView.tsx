@@ -25,6 +25,7 @@ import {
   sendEmailOtp,
   verifyEmailOtp,
   signInWithEmailPassword,
+  signUpWithEmailPassword,
   resetPasswordForEmail,
 } from '../lib/supabase';
 
@@ -269,19 +270,41 @@ export const InitialAuthView: React.FC = () => {
     }
 
     setIsSubmitting(true);
-    showGlobalToast('Mengirim 6-digit kode verifikasi ke surel...');
+    showGlobalToast('Mendaftarkan akun & mengamankan kata sandi...');
 
-    // 100% In-App Gold Standard: Send OTP code directly to email
-    const res = await sendEmailOtp(cleanEmail);
+    // 1. Register with email + password in Supabase Auth
+    const res = await signUpWithEmailPassword(cleanEmail, password);
     setIsSubmitting(false);
 
-    if (res.success) {
+    if (res?.session) {
+      // If email confirmation is disabled/auto-confirmed, user is logged in instantly
+      showGlobalToast('✨ Pendaftaran akun berhasil! Menyiapkan profil...');
+      proceedToOnboarding({
+        email: cleanEmail,
+        isGuest: false,
+      });
+    } else if (res?.user) {
+      // Supabase sent verification OTP to email
       setScreen('otp');
       setOtpCooldown(60);
       setOtpCode('');
       showGlobalToast('Kode verifikasi 6 digit telah dikirim ke surel Anda.');
-    } else {
-      showGlobalToast(res.error || 'Gagal mengirim kode verifikasi.');
+    } else if (res?.error) {
+      if (res.error.toLowerCase().includes('already registered') || res.error.toLowerCase().includes('terdaftar')) {
+        showGlobalToast('Surel ini sudah terdaftar. Silakan masuk menggunakan kata sandi Anda.');
+        setScreen('login');
+      } else {
+        // Fallback: try sending in-app OTP
+        const otpRes = await sendEmailOtp(cleanEmail);
+        if (otpRes.success) {
+          setScreen('otp');
+          setOtpCooldown(60);
+          setOtpCode('');
+          showGlobalToast('Kode verifikasi 6 digit telah dikirim ke surel Anda.');
+        } else {
+          showGlobalToast(res.error);
+        }
+      }
     }
   };
 

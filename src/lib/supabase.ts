@@ -388,13 +388,28 @@ export async function verifyEmailOtp(
   try {
     const cleanEmail = email.trim().toLowerCase();
     const cleanToken = token.trim().replace(/\s+/g, '');
-    const { data, error } = await supabase.auth.verifyOtp({
+    
+    // First try type: 'email' (from signInWithOtp)
+    let res = await supabase.auth.verifyOtp({
       email: cleanEmail,
       token: cleanToken,
       type: 'email',
     });
-    if (error) return { error: error.message };
-    return { user: data.user, session: data.session };
+
+    // If that fails, try type: 'signup' (from signUp with password)
+    if (res.error) {
+      const signupRes = await supabase.auth.verifyOtp({
+        email: cleanEmail,
+        token: cleanToken,
+        type: 'signup',
+      });
+      if (!signupRes.error) {
+        res = signupRes;
+      }
+    }
+
+    if (res.error) return { error: res.error.message };
+    return { user: res.data.user, session: res.data.session };
   } catch (err: any) {
     return { error: err?.message || 'Gagal memverifikasi kode OTP' };
   }
@@ -441,6 +456,22 @@ export async function signUpWithEmailPassword(
     return { user: data.user, session: data.session };
   } catch (err: any) {
     return { error: err?.message || 'Gagal mendaftar akun baru' };
+  }
+}
+
+/**
+ * Update or set account password in Supabase Auth (for Google, Apple, or Email users)
+ */
+export async function updateAccountPassword(password: string): Promise<{ success: boolean; error?: string }> {
+  if (!isSupabaseConfigured) {
+    return { success: false, error: 'Layanan Supabase belum terkonfigurasi' };
+  }
+  try {
+    const { error } = await supabase.auth.updateUser({ password });
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err?.message || 'Gagal memperbarui kata sandi' };
   }
 }
 
