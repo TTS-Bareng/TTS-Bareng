@@ -329,3 +329,26 @@ export async function signInWithApple(): Promise<{ user?: any; error?: string }>
     return { error: err?.message || 'Gagal memulai Sign in with Apple' };
   }
 }
+
+/**
+ * Sign in with Google via Supabase OAuth
+ */
+export async function signInWithGoogle(): Promise<{ user?: any; error?: string }> {
+  if (!isSupabaseConfigured) {
+    return { error: 'Layanan Supabase belum terkonfigurasi' };
+  }
+  try {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin,
+      },
+    });
+    if (error) {
+      return { error: error.message };
+    }
+    return { user: data };
+  } catch (err: any) {
+    return { error: err?.message || 'Gagal memulai Sign in with Google' };
+  }
+}

@@ -148,19 +148,29 @@ export const App: React.FC = () => {
     const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_IN' && session?.user) {
         const currentUser = useGameStore.getState().user;
-        const appleEmail = session.user.email || 'pemain.apple@icloud.com';
-        const appleName =
+        const userEmail = session.user.email || 'pemain@ttsbareng.id';
+        const provider = session.user.app_metadata?.provider || 'oauth';
+        const isGoogle = provider === 'google';
+        const isApple = provider === 'apple';
+        const fallbackName = isGoogle ? 'Pemain Google' : isApple ? 'Pemain Apple' : 'Pemain TTS';
+
+        const userName =
           session.user.user_metadata?.full_name ||
           session.user.user_metadata?.name ||
-          (currentUser.name !== 'Pemain TTS' && currentUser.name !== 'Tamu' ? currentUser.name : 'Pemain Apple');
+          (currentUser.name !== 'Pemain TTS' && currentUser.name !== 'Tamu' ? currentUser.name : fallbackName);
 
-        if (currentUser.email !== appleEmail) {
+        if (currentUser.email !== userEmail) {
           useGameStore.getState().proceedToOnboarding({
-            email: appleEmail,
-            name: appleName,
+            email: userEmail,
+            name: userName,
             isGuest: false,
           });
-          useGameStore.getState().showGlobalToast('✨ Berhasil masuk dengan Apple ID!');
+          const toastMsg = isGoogle
+            ? '✨ Berhasil masuk dengan Akun Google!'
+            : isApple
+            ? '✨ Berhasil masuk dengan Apple ID!'
+            : '✨ Berhasil masuk ke akun Anda!';
+          useGameStore.getState().showGlobalToast(toastMsg);
         }
       }
     });

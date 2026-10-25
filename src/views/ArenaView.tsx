@@ -119,7 +119,7 @@ const AuthGateCard: React.FC<{
       </button>
 
       <span className="text-[10px] text-[var(--text-secondary)] font-medium">
-        Gratis & cepat dengan Apple ID atau Surel
+        Gratis & cepat dengan Google, Apple, atau Surel
       </span>
     </div>
   );

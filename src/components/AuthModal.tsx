@@ -3,11 +3,32 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, User, UserCheck } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
-import { signInWithApple } from '../lib/supabase';
+import { signInWithApple, signInWithGoogle } from '../lib/supabase';
 
 const AppleLogoIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
     <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.4c.64-.81 1.07-1.93.95-3.05-1 .04-2.18.66-2.82 1.41-.57.66-1.06 1.76-.93 2.85 1.12.09 2.23-.55 2.8-1.21Z" />
+  </svg>
+);
+
+const GoogleLogoIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
+  <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      fill="#4285F4"
+      d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17Z"
+    />
+    <path
+      fill="#34A853"
+      d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24Z"
+    />
+    <path
+      fill="#FBBC05"
+      d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.98 0 12s.45 3.82 1.25 5.42l4.03-3.15Z"
+    />
+    <path
+      fill="#EA4335"
+      d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98Z"
+    />
   </svg>
 );
 
@@ -16,6 +37,7 @@ export const AuthModal: React.FC = () => {
   const [email, setEmail] = useState(user.email || '');
   const [name, setName] = useState(user.name !== 'Pemain TTS' && user.name !== 'Tamu' ? user.name : '');
   const [isAppleLoading, setIsAppleLoading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,7 +45,7 @@ export const AuthModal: React.FC = () => {
   };
 
   const handleAppleSignIn = async () => {
-    if (isAppleLoading) return;
+    if (isAppleLoading || isGoogleLoading) return;
     try {
       setIsAppleLoading(true);
       showGlobalToast('Menghubungkan ke Apple ID...');
@@ -35,6 +57,22 @@ export const AuthModal: React.FC = () => {
     } catch (err: any) {
       showGlobalToast(err?.message || 'Gagal masuk dengan Apple ID.');
       setIsAppleLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    if (isGoogleLoading || isAppleLoading) return;
+    try {
+      setIsGoogleLoading(true);
+      showGlobalToast('Menghubungkan ke Akun Google...');
+      const res = await signInWithGoogle();
+      if (res?.error) {
+        showGlobalToast(res.error);
+        setIsGoogleLoading(false);
+      }
+    } catch (err: any) {
+      showGlobalToast(err?.message || 'Gagal masuk dengan Akun Google.');
+      setIsGoogleLoading(false);
     }
   };
 
@@ -139,7 +177,7 @@ export const AuthModal: React.FC = () => {
             {/* Apple Sign-In Button (Official Apple HIG Standard) */}
             <button
               type="button"
-              disabled={isAppleLoading}
+              disabled={isAppleLoading || isGoogleLoading}
               onClick={handleAppleSignIn}
               className="w-full h-10.5 rounded-full bg-black text-white hover:bg-zinc-900 active:scale-[0.98] flex items-center justify-center gap-2 text-[12px] font-semibold transition-all cursor-pointer shadow-sm border border-black/10 dark:border-white/20 select-none"
             >
@@ -152,6 +190,26 @@ export const AuthModal: React.FC = () => {
                 <>
                   <AppleLogoIcon className="w-4 h-4 -mt-0.5" />
                   <span>Masuk dengan Apple ID</span>
+                </>
+              )}
+            </button>
+
+            {/* Google Sign-In Button */}
+            <button
+              type="button"
+              disabled={isGoogleLoading || isAppleLoading}
+              onClick={handleGoogleSignIn}
+              className="w-full h-10.5 rounded-full bg-[var(--bg-card)] hover:bg-black/5 dark:hover:bg-white/10 active:scale-[0.98] flex items-center justify-center gap-2 text-[12px] font-semibold text-[var(--text-primary)] transition-all cursor-pointer shadow-sm border border-black/10 dark:border-white/15 select-none"
+            >
+              {isGoogleLoading ? (
+                <>
+                  <div className="w-3.5 h-3.5 border-2 border-[var(--text-secondary)]/30 border-t-[var(--text-primary)] rounded-full animate-spin" />
+                  <span>Menghubungkan...</span>
+                </>
+              ) : (
+                <>
+                  <GoogleLogoIcon className="w-4 h-4 shrink-0" />
+                  <span>Masuk dengan Akun Google</span>
                 </>
               )}
             </button>
