@@ -5,6 +5,8 @@ import WidgetKit
 public struct StreakFlameWidget: Widget {
     public let kind: String = "TTSStreakFlameWidget"
 
+    public init() {}
+
     public var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: TTSWidgetProvider()) { entry in
             StreakFlameView(entry: entry)
@@ -94,6 +96,8 @@ struct StreakFlameView: View {
 public struct DailyRushRadarWidget: Widget {
     public let kind: String = "TTSDailyRushRadarWidget"
 
+    public init() {}
+
     public var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: TTSWidgetProvider()) { entry in
             DailyRushRadarView(entry: entry)
@@ -175,6 +179,8 @@ struct DailyRushRadarView: View {
 // MARK: - 3. Progres Peta 500 Bab Jelajah Nusantara
 public struct JelajahNusantaraWidget: Widget {
     public let kind: String = "TTSJelajahNusantaraWidget"
+
+    public init() {}
 
     public var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: TTSWidgetProvider()) { entry in
@@ -274,6 +280,8 @@ struct JelajahNusantaraView: View {
 public struct EloRankWidget: Widget {
     public let kind: String = "TTSEloRankWidget"
 
+    public init() {}
+
     public var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: TTSWidgetProvider()) { entry in
             EloRankView(entry: entry)
@@ -348,6 +356,8 @@ struct EloRankView: View {
 // MARK: - 5. Kata Hari Ini & Mini Crossword Leksikon
 public struct WordOfTheDayWidget: Widget {
     public let kind: String = "TTSWordOfTheDayWidget"
+
+    public init() {}
 
     public var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: TTSWidgetProvider()) { entry in

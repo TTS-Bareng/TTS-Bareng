@@ -5,6 +5,8 @@ import WidgetKit
 public struct LockScreenStreakWidget: Widget {
     public let kind: String = "TTSLockScreenStreakWidget"
 
+    public init() {}
+
     public var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: TTSWidgetProvider()) { entry in
             ZStack {
@@ -27,6 +29,8 @@ public struct LockScreenStreakWidget: Widget {
 // MARK: - 2. Lock Screen: Daily Rush Meter (Accessory Circular)
 public struct LockScreenDailyRushWidget: Widget {
     public let kind: String = "TTSLockScreenDailyRushWidget"
+
+    public init() {}
 
     public var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: TTSWidgetProvider()) { entry in
@@ -60,6 +64,8 @@ public struct LockScreenDailyRushWidget: Widget {
 public struct LockScreenBabProgressWidget: Widget {
     public let kind: String = "TTSLockScreenBabProgressWidget"
 
+    public init() {}
+
     public var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: TTSWidgetProvider()) { entry in
             VStack(alignment: .leading, spacing: 2) {
@@ -91,6 +97,8 @@ public struct LockScreenBabProgressWidget: Widget {
 // MARK: - 4. Lock Screen: Peringkat ELO & Liga (Accessory Rectangular)
 public struct LockScreenEloRankWidget: Widget {
     public let kind: String = "TTSLockScreenEloRankWidget"
+
+    public init() {}
 
     public var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: TTSWidgetProvider()) { entry in
@@ -127,6 +135,8 @@ public struct LockScreenEloRankWidget: Widget {
 // MARK: - 5. Lock Screen: Ticker Status Ringkas (Accessory Inline)
 public struct LockScreenStatusInlineWidget: Widget {
     public let kind: String = "TTSLockScreenStatusInlineWidget"
+
+    public init() {}
 
     public var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: TTSWidgetProvider()) { entry in
