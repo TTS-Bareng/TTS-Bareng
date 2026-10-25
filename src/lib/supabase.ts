@@ -1,8 +1,12 @@
 import { createClient } from '@supabase/supabase-js';
 import type { CommunityTournament } from './tournament';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const DEFAULT_SUPABASE_URL = 'https://qrkfjacugcalegzhcatp.supabase.co';
+const DEFAULT_SUPABASE_ANON_KEY =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFya2ZqYWN1Z2NhbGVnemhjYXRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIzNTYzNTUsImV4cCI6MjEwNzkzMjM1NX0.jkk4H82Zc9exOf5nHtapsysKigPuPpZcdwqTgRqWySM';
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || DEFAULT_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || DEFAULT_SUPABASE_ANON_KEY;
 
 export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
 
@@ -350,5 +354,56 @@ export async function signInWithGoogle(): Promise<{ user?: any; error?: string }
     return { user: data };
   } catch (err: any) {
     return { error: err?.message || 'Gagal memulai Sign in with Google' };
+  }
+}
+
+/**
+ * Request password reset email via Supabase Auth
+ */
+export async function resetPasswordForEmail(email: string): Promise<{ success: boolean; error?: string }> {
+  if (!isSupabaseConfigured) {
+    return { success: false, error: 'Layanan Supabase belum terkonfigurasi' };
+  }
+  try {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin,
+    });
+    if (error) return { success: false, error: error.message };
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err?.message || 'Gagal mengirim tautan reset kata sandi' };
+  }
+}
+
+/**
+ * Fetch real Top National ELO Leaderboard from profiles table
+ */
+export async function fetchEloLeaderboard(limit = 50): Promise<Array<{
+  id: string;
+  name: string;
+  avatar: string;
+  elo: number;
+  is_vip: boolean;
+  stars: number;
+}>> {
+  if (!isSupabaseConfigured) return [];
+  try {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('id, name, avatar, elo_rating, is_vip, stars')
+      .order('elo_rating', { ascending: false })
+      .limit(limit);
+
+    if (error || !data) return [];
+    return data.map((d: any) => ({
+      id: d.id,
+      name: d.name || 'Pemain TTS',
+      avatar: d.avatar || '',
+      elo: Number(d.elo_rating) || 1200,
+      is_vip: Boolean(d.is_vip),
+      stars: Number(d.stars) || 0,
+    }));
+  } catch {
+    return [];
   }
 }

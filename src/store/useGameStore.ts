@@ -14,6 +14,7 @@ import {
 import {
   submitDailyRushScore,
   fetchDailyRushLeaderboard,
+  fetchEloLeaderboard,
   type DbDailyRushRecord,
   saveTournamentToDb,
   fetchPublicTournamentsFromDb,
@@ -473,6 +474,16 @@ interface GameState {
   nationalLeaderboard: DbDailyRushRecord[];
   isLoadingLeaderboard: boolean;
   loadNationalLeaderboard: (dateStr?: string) => Promise<void>;
+  eloLeaderboard: Array<{
+    id: string;
+    name: string;
+    avatar: string;
+    elo: number;
+    is_vip: boolean;
+    stars: number;
+  }>;
+  isLoadingEloLeaderboard: boolean;
+  loadEloLeaderboard: () => Promise<void>;
   syncWithCloud: () => Promise<void>;
   isShareModalOpen: boolean;
   shareModalData: ShareModalData | null;
@@ -1649,9 +1660,12 @@ export const useGameStore = create<GameState>((set, get) => ({
   isLeaderboardOpen: false,
   nationalLeaderboard: [],
   isLoadingLeaderboard: false,
+  eloLeaderboard: [],
+  isLoadingEloLeaderboard: false,
   openLeaderboard: () => {
     set({ isLeaderboardOpen: true });
     get().loadNationalLeaderboard();
+    get().loadEloLeaderboard();
   },
   closeLeaderboard: () => set({ isLeaderboardOpen: false }),
   loadNationalLeaderboard: async (dateStr?: string) => {
@@ -1662,6 +1676,15 @@ export const useGameStore = create<GameState>((set, get) => ({
       set({ nationalLeaderboard: records, isLoadingLeaderboard: false });
     } catch {
       set({ isLoadingLeaderboard: false });
+    }
+  },
+  loadEloLeaderboard: async () => {
+    set({ isLoadingEloLeaderboard: true });
+    try {
+      const records = await fetchEloLeaderboard(50);
+      set({ eloLeaderboard: records, isLoadingEloLeaderboard: false });
+    } catch {
+      set({ isLoadingEloLeaderboard: false });
     }
   },
   syncWithCloud: async () => {

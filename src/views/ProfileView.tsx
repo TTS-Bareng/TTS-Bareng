@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Star,
   Flame,
@@ -23,7 +23,6 @@ import {
 import { useGameStore } from '../store/useGameStore';
 import { getEloTier } from '../lib/eloSystem';
 import { getAvatarFrame } from '../lib/avatarFrames';
-import { gameCenterService, type GameCenterProfile } from '../lib/gameCenterService';
 
 interface CircularProgressProps {
   percent: number;
@@ -106,18 +105,6 @@ export const ProfileView: React.FC = () => {
 
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [toastMessage] = useState<string | null>(null);
-  const [gcProfile, setGcProfile] = useState<GameCenterProfile>({
-    isAuthenticated: gameCenterService.isAuthenticated,
-    displayName: gameCenterService.playerDisplayName,
-  });
-
-  useEffect(() => {
-    if (gameCenterService.isNativeIos) {
-      gameCenterService.initialize().then((prof) => {
-        setGcProfile(prof);
-      });
-    }
-  }, []);
 
   const isCustomImageAvatar = Boolean(
     user.avatar && (
@@ -960,80 +947,6 @@ export const ProfileView: React.FC = () => {
               Perunggu (Top 4)
             </span>
           </div>
-        </div>
-      </div>
-
-      {/* Card 3.8: Apple Game Center (GameKit Sync & Leaderboards) */}
-      <div
-        onClick={() => gameCenterService.openDashboard('default')}
-        className="w-full shrink-0 rounded-[24px] p-4 relative z-10 flex flex-col gap-3 border border-black/10 dark:border-white/15 shadow-xs overflow-hidden cursor-pointer tactile-active group transition-all hover:border-[var(--accent-main)]/40"
-        style={{
-          background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
-        }}
-      >
-        <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
-
-        <div className="flex items-center justify-between relative z-10">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8.5 h-8.5 rounded-2xl bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/15 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
-              <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="8.5" cy="8.5" r="4" fill="#FF375F" fillOpacity="0.85" />
-                <circle cx="15.5" cy="8.5" r="4" fill="#30D158" fillOpacity="0.85" />
-                <circle cx="8.5" cy="15.5" r="4" fill="#0A84FF" fillOpacity="0.85" />
-                <circle cx="15.5" cy="15.5" r="4" fill="#FFD60A" fillOpacity="0.85" />
-              </svg>
-            </div>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <h4 className="text-[13px] font-black text-[var(--text-primary)] leading-tight">
-                  Apple Game Center
-                </h4>
-                <span className={`text-[8px] font-black px-1.5 py-0.2 rounded-full border ${
-                  gcProfile.isAuthenticated
-                    ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-500 dark:text-emerald-400'
-                    : 'bg-black/5 dark:bg-white/10 border-black/10 dark:border-white/15 text-[var(--text-secondary)]'
-                }`}>
-                  {gcProfile.isAuthenticated ? 'TERHUBUNG' : 'GAMEKIT'}
-                </span>
-              </div>
-              <span className="text-[9px] text-[var(--text-secondary)] block mt-0.5">
-                {gcProfile.isAuthenticated
-                  ? `Terhubung sebagai ${gcProfile.displayName || gcProfile.alias || 'Pemain iOS'}`
-                  : 'Papan Peringkat & Prestasi Global Apple'}
-              </span>
-            </div>
-          </div>
-
-          <div className="w-6 h-6 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">
-            <ChevronRight className="w-3.5 h-3.5" />
-          </div>
-        </div>
-
-        {/* Action Pills: Papan Peringkat & Pencapaian */}
-        <div className="grid grid-cols-2 gap-2 relative z-10 pt-0.5">
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              gameCenterService.openDashboard('leaderboards');
-            }}
-            className="py-1.5 px-3 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/5 dark:border-white/10 text-[10px] font-black text-[var(--text-primary)] inline-flex items-center justify-center gap-1.5 transition-all cursor-pointer tactile-active"
-          >
-            <Trophy className="w-3 h-3 text-[var(--accent-main)]" />
-            <span>Papan Peringkat</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              gameCenterService.openDashboard('achievements');
-            }}
-            className="py-1.5 px-3 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/5 dark:border-white/10 text-[10px] font-black text-[var(--text-primary)] inline-flex items-center justify-center gap-1.5 transition-all cursor-pointer tactile-active"
-          >
-            <Award className="w-3 h-3 text-[var(--accent-main)]" />
-            <span>Daftar Prestasi</span>
-          </button>
         </div>
       </div>
 
