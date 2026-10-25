@@ -12,6 +12,8 @@ import { notificationService } from './lib/notificationService';
 import { soundManager } from './lib/audio';
 import { revenueCatService } from './lib/revenueCatService';
 import { supabase, isSupabaseConfigured, fetchUserProfile } from './lib/supabase';
+import { syncWidgetSnapshot } from './lib/widgetSync';
+import { getEloTier } from './lib/eloSystem';
 
 // Lazy-loaded views & modals for instant initial launch (< 200ms)
 const ArenaView = lazy(() => import('./views/ArenaView').then((m) => ({ default: m.ArenaView })));
@@ -79,6 +81,14 @@ export const App: React.FC = () => {
     joinTournament,
     openDailyRushBriefing,
     openVipModal,
+    openQrModal,
+    streak,
+    streakShields,
+    stars,
+    currentLevelIndex,
+    eloRating,
+    isVip,
+    dailyRushRecord,
   } = useGameStore();
 
   // Listen for local notification tap actions (Daily Rush, Game, Arena)
@@ -216,6 +226,32 @@ export const App: React.FC = () => {
     }
   }, [joinTournament, levels.length, openVipModal, selectLevel, setActiveRoomCode, setCurrentTab, showGlobalToast]);
 
+  // Synchronize Native iOS Widget Snapshot (Home Screen, Lock Screen, Control Center)
+  useEffect(() => {
+    const currentLvl = levels[currentLevelIndex] || levels[0];
+    const today = new Date().toISOString().split('T')[0];
+    const isRushDone = Boolean(dailyRushRecord && dailyRushRecord.date === today && dailyRushRecord.completed);
+
+    syncWidgetSnapshot({
+      streak,
+      streakShields,
+      stars,
+      currentLevel: (currentLevelIndex || 0) + 1,
+      currentLevelTitle: currentLvl?.title || 'Jelajah Nusantara',
+      currentRealmName: currentLvl?.category || 'Alam Nusantara',
+      eloRating,
+      eloTier: getEloTier(eloRating).name,
+      isVip,
+      dailyRushCompleted: isRushDone,
+      dailyRushScore: dailyRushRecord?.score || 0,
+      wordOfTheDay: {
+        word: 'SEKATA',
+        clue: 'Satu pendapat atau seia sekata',
+        category: 'KBBI Daring',
+      },
+    });
+  }, [streak, streakShields, stars, currentLevelIndex, eloRating, isVip, dailyRushRecord, levels]);
+
   // Native iOS & Android deep link listener (e.g. ttsbareng://room=ABCD or universal links)
   useEffect(() => {
     let removeListener: (() => void) | undefined;
@@ -271,7 +307,16 @@ export const App: React.FC = () => {
           const levelParam = urlObj.searchParams.get('level') || urlObj.searchParams.get('bab') || urlObj.searchParams.get('lvl');
           const vipParam = urlObj.searchParams.get('vip') || urlObj.searchParams.get('paywall');
 
-          if (vipParam === 'true' || vipParam === '1') {
+          if (event.url.includes('//rush') || event.url.includes('tab=rush')) {
+            setCurrentTab('arena');
+            showGlobalToast('⚡ Membuka Tantangan Daily Rush...', 2500);
+          } else if (event.url.includes('//scan') || event.url.includes('action=scan')) {
+            openQrModal();
+            showGlobalToast('📷 Mengaktifkan Kamera Pemindai QR...', 2500);
+          } else if (event.url.includes('//play') || event.url.includes('action=play')) {
+            setCurrentTab('game');
+            showGlobalToast('🎮 Melanjutkan Permainan TTS...', 2500);
+          } else if (vipParam === 'true' || vipParam === '1') {
             openVipModal();
           } else if (tourneyParam) {
             joinTournament(tourneyParam.trim().toUpperCase());

@@ -20,7 +20,39 @@
 		9582B6872FE993A70072D4E8 /* GameCenterPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9582B6862FE993A50072D4E8 /* GameCenterPlugin.m */; };
 		9582B7012FE993A70072D4E8 /* AppleSignInPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9582B7032FE993A50072D4E8 /* AppleSignInPlugin.swift */; };
 		9582B7022FE993A70072D4E8 /* AppleSignInPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9582B7042FE993A50072D4E8 /* AppleSignInPlugin.m */; };
+		9582B8112FE993A70072D4E8 /* WidgetBridgePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9582B8102FE993A70072D4E8 /* WidgetBridgePlugin.swift */; };
+		9582B8132FE993A70072D4E8 /* WidgetBridgePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9582B8122FE993A70072D4E8 /* WidgetBridgePlugin.m */; };
+		9582B8212FE993A70072D4E8 /* TTSWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9582B8202FE993A70072D4E8 /* TTSWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9582B8232FE993A70072D4E8 /* TTSWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9582B8222FE993A70072D4E8 /* TTSWidgetBundle.swift */; };
+		9582B8252FE993A70072D4E8 /* WidgetDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9582B8242FE993A70072D4E8 /* WidgetDataModel.swift */; };
+		9582B8272FE993A70072D4E8 /* HomeWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9582B8262FE993A70072D4E8 /* HomeWidgets.swift */; };
+		9582B8292FE993A70072D4E8 /* LockScreenWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9582B8282FE993A70072D4E8 /* LockScreenWidgets.swift */; };
+		9582B82B2FE993A70072D4E8 /* ControlWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9582B82A2FE993A70072D4E8 /* ControlWidgets.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9582B8402FE993A70072D4E8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 504EC2FC1FED79650016851F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9582B8312FE993A70072D4E8;
+			remoteInfo = TTSWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9582B8422FE993A70072D4E8 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				9582B8212FE993A70072D4E8 /* TTSWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2FAD9762203C412B000D30F8 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
@@ -40,6 +72,16 @@
 		9582B6882FE993A50072D4E8 /* TTS_Bareng.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = TTS_Bareng.storekit; sourceTree = "<group>"; };
 		9582B68A2FE993A50072D4E8 /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		958DCC722DB07C7200EA8C5F /* debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = debug.xcconfig; path = ../debug.xcconfig; sourceTree = SOURCE_ROOT; };
+		9582B8102FE993A70072D4E8 /* WidgetBridgePlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetBridgePlugin.swift; sourceTree = "<group>"; };
+		9582B8122FE993A70072D4E8 /* WidgetBridgePlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WidgetBridgePlugin.m; sourceTree = "<group>"; };
+		9582B8202FE993A70072D4E8 /* TTSWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TTSWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		9582B8222FE993A70072D4E8 /* TTSWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTSWidgetBundle.swift; sourceTree = "<group>"; };
+		9582B8242FE993A70072D4E8 /* WidgetDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataModel.swift; sourceTree = "<group>"; };
+		9582B8262FE993A70072D4E8 /* HomeWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWidgets.swift; sourceTree = "<group>"; };
+		9582B8282FE993A70072D4E8 /* LockScreenWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenWidgets.swift; sourceTree = "<group>"; };
+		9582B82A2FE993A70072D4E8 /* ControlWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlWidgets.swift; sourceTree = "<group>"; };
+		9582B82C2FE993A70072D4E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9582B82D2FE993A70072D4E8 /* TTSWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TTSWidget.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +93,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9582B8332FE993A70072D4E8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -59,6 +108,7 @@
 			children = (
 				958DCC722DB07C7200EA8C5F /* debug.xcconfig */,
 				504EC3061FED79650016851F /* App */,
+				9582B8302FE993A70072D4E8 /* TTSWidget */,
 				504EC3051FED79650016851F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -67,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				504EC3041FED79650016851F /* App.app */,
+				9582B8202FE993A70072D4E8 /* TTSWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -74,6 +125,8 @@
 		504EC3061FED79650016851F /* App */ = {
 			isa = PBXGroup;
 			children = (
+				9582B8102FE993A70072D4E8 /* WidgetBridgePlugin.swift */,
+				9582B8122FE993A70072D4E8 /* WidgetBridgePlugin.m */,
 				9582B6842FE993A50072D4E8 /* GameCenterPlugin.swift */,
 				9582B6862FE993A50072D4E8 /* GameCenterPlugin.m */,
 				9582B7032FE993A50072D4E8 /* AppleSignInPlugin.swift */,
@@ -93,6 +146,20 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		9582B8302FE993A70072D4E8 /* TTSWidget */ = {
+			isa = PBXGroup;
+			children = (
+				9582B8222FE993A70072D4E8 /* TTSWidgetBundle.swift */,
+				9582B8242FE993A70072D4E8 /* WidgetDataModel.swift */,
+				9582B8262FE993A70072D4E8 /* HomeWidgets.swift */,
+				9582B8282FE993A70072D4E8 /* LockScreenWidgets.swift */,
+				9582B82A2FE993A70072D4E8 /* ControlWidgets.swift */,
+				9582B82C2FE993A70072D4E8 /* Info.plist */,
+				9582B82D2FE993A70072D4E8 /* TTSWidget.entitlements */,
+			);
+			path = TTSWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -103,10 +170,12 @@
 				504EC3001FED79650016851F /* Sources */,
 				504EC3011FED79650016851F /* Frameworks */,
 				504EC3021FED79650016851F /* Resources */,
+				9582B8422FE993A70072D4E8 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				9582B8412FE993A70072D4E8 /* PBXTargetDependency */,
 			);
 			name = App;
 			packageProductDependencies = (
@@ -115,6 +184,23 @@
 			productName = App;
 			productReference = 504EC3041FED79650016851F /* App.app */;
 			productType = "com.apple.product-type.application";
+		};
+		9582B8312FE993A70072D4E8 /* TTSWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9582B8352FE993A70072D4E8 /* Build configuration list for PBXNativeTarget "TTSWidget" */;
+			buildPhases = (
+				9582B8322FE993A70072D4E8 /* Sources */,
+				9582B8332FE993A70072D4E8 /* Frameworks */,
+				9582B8342FE993A70072D4E8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TTSWidget;
+			productName = TTSWidget;
+			productReference = 9582B8202FE993A70072D4E8 /* TTSWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -128,6 +214,11 @@
 					504EC3031FED79650016851F = {
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 1100;
+						ProvisioningStyle = Automatic;
+					};
+					9582B8312FE993A70072D4E8 = {
+						CreatedOnToolsVersion = 15.0;
+						DevelopmentTeam = VU4PP3SY5B;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -149,6 +240,7 @@
 			projectRoot = "";
 			targets = (
 				504EC3031FED79650016851F /* App */,
+				9582B8312FE993A70072D4E8 /* TTSWidget */,
 			);
 		};
 /* End PBXProject section */
@@ -167,6 +259,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9582B8342FE993A70072D4E8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -180,10 +279,32 @@
 				9582B6872FE993A70072D4E8 /* GameCenterPlugin.m in Sources */,
 				9582B7012FE993A70072D4E8 /* AppleSignInPlugin.swift in Sources */,
 				9582B7022FE993A70072D4E8 /* AppleSignInPlugin.m in Sources */,
+				9582B8112FE993A70072D4E8 /* WidgetBridgePlugin.swift in Sources */,
+				9582B8132FE993A70072D4E8 /* WidgetBridgePlugin.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9582B8322FE993A70072D4E8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9582B8232FE993A70072D4E8 /* TTSWidgetBundle.swift in Sources */,
+				9582B8252FE993A70072D4E8 /* WidgetDataModel.swift in Sources */,
+				9582B8272FE993A70072D4E8 /* HomeWidgets.swift in Sources */,
+				9582B8292FE993A70072D4E8 /* LockScreenWidgets.swift in Sources */,
+				9582B82B2FE993A70072D4E8 /* ControlWidgets.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9582B8412FE993A70072D4E8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9582B8312FE993A70072D4E8 /* TTSWidget */;
+			targetProxy = 9582B8402FE993A70072D4E8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		504EC30B1FED79650016851F /* Main.storyboard */ = {
@@ -362,6 +483,60 @@
 			};
 			name = Release;
 		};
+		9582B8362FE993A70072D4E8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = TTSWidget/TTSWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VU4PP3SY5B;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TTSWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "TTS Bareng Widgets";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.syntheticae.ttsbareng.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9582B8372FE993A70072D4E8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = TTSWidget/TTSWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VU4PP3SY5B;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TTSWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "TTS Bareng Widgets";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.syntheticae.ttsbareng.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -379,6 +554,15 @@
 			buildConfigurations = (
 				504EC3171FED79650016851F /* Debug */,
 				504EC3181FED79650016851F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9582B8352FE993A70072D4E8 /* Build configuration list for PBXNativeTarget "TTSWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9582B8362FE993A70072D4E8 /* Debug */,
+				9582B8372FE993A70072D4E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
