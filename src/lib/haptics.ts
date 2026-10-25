@@ -144,6 +144,91 @@ class HapticEngine {
       }
     }
   }
+
+  // ======================================================================
+  // TUNED HIG SEMANTIC FEEDBACK (APPLE TAPTIC ENGINE)
+  // ======================================================================
+
+  /**
+   * Keyboard letter tap: Crisp Apple Light impact
+   */
+  async keyTap(): Promise<void> {
+    if (this.isNative) {
+      try {
+        await Haptics.impact({ style: ImpactStyle.Light });
+        return;
+      } catch {}
+    }
+    this.vibrateWeb(6);
+  }
+
+  /**
+   * Backspace / Delete: Distinct subtle selection tick
+   */
+  async keyDelete(): Promise<void> {
+    if (this.isNative) {
+      try {
+        await Haptics.selectionChanged();
+        return;
+      } catch {}
+    }
+    this.vibrateWeb(8);
+  }
+
+  /**
+   * Word solved correctly: Apple Pay / Touch ID style success double-pulse
+   */
+  async wordSolved(): Promise<void> {
+    if (this.isNative) {
+      try {
+        await Haptics.notification({ type: NotificationType.Success });
+        return;
+      } catch {}
+    }
+    this.vibrateWeb([20, 50, 20]);
+  }
+
+  /**
+   * Word wrong / Invalid input: Distinct error notification
+   */
+  async wordWrong(): Promise<void> {
+    if (this.isNative) {
+      try {
+        await Haptics.notification({ type: NotificationType.Error });
+        return;
+      } catch {}
+    }
+    this.vibrateWeb([35, 45]);
+  }
+
+  /**
+   * Level completed fanfare: Ascending celebration cascade
+   */
+  async levelComplete(): Promise<void> {
+    if (this.isNative) {
+      try {
+        await Haptics.notification({ type: NotificationType.Success });
+        setTimeout(() => {
+          Haptics.impact({ style: ImpactStyle.Medium }).catch(() => {});
+        }, 180);
+        return;
+      } catch {}
+    }
+    this.vibrateWeb([30, 40, 50]);
+  }
+
+  /**
+   * Navigation / Tab switch / Map node tap: Smooth selection wheel tick
+   */
+  async navSelection(): Promise<void> {
+    if (this.isNative) {
+      try {
+        await Haptics.selectionChanged();
+        return;
+      } catch {}
+    }
+    this.vibrateWeb(6);
+  }
 }
 
 export const haptic = new HapticEngine();

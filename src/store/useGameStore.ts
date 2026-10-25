@@ -2792,6 +2792,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       battleCurrentRound,
       battleConfig,
       soundEnabled,
+      hapticEnabled,
       addStars,
       showGlobalToast,
       user,
@@ -2955,6 +2956,9 @@ export const useGameStore = create<GameState>((set, get) => ({
         addStars(30);
         get().addWeeklyLeagueXp(50);
         if (soundEnabled) soundManager.playVictory();
+        if (hapticEnabled) {
+          haptic.levelComplete();
+        }
         confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
         showGlobalToast(`🏆 Menang Duel! +${delta} ELO (${newElo} • ${tier.title}) & +30★!`, 4000);
       } else if (nextRoundWins.partner > nextRoundWins.local) {
@@ -3388,7 +3392,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       }
     }
     if (hapticEnabled) {
-      haptic.light(6);
+      haptic.keyTap();
     }
 
     const allClues = [...level.clues.across, ...level.clues.down];
@@ -3445,8 +3449,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       nextWordStreak = wordStreak + newlySolvedClues.length;
       if (soundEnabled) soundManager.playWordCorrect(nextWordStreak);
       if (hapticEnabled) {
-      haptic.success([15, 30, 20]);
-    }
+        haptic.wordSolved();
+      }
 
       if (nextWordStreak >= 2) {
         const titles = ['Menyala!', 'Hebat!', 'Luar Biasa!', 'Brilian!', 'Jenius!'];
@@ -3465,6 +3469,12 @@ export const useGameStore = create<GameState>((set, get) => ({
           return;
         } else {
           if (soundEnabled) soundManager.playVictory();
+        if (hapticEnabled) {
+          haptic.levelComplete();
+        }
+          if (hapticEnabled) {
+            haptic.levelComplete();
+          }
           get().addWeeklyLeagueXp(50);
           get().incrementStreakIfNewDay();
           notificationService.cancelTodayStreakWarning();
@@ -3517,8 +3527,8 @@ export const useGameStore = create<GameState>((set, get) => ({
             shaking = wordWrongCells;
             if (soundEnabled) soundManager.playWordWrong();
             if (hapticEnabled) {
-      haptic.error([35, 45]);
-    }
+              haptic.wordWrong();
+            }
             setTimeout(() => {
               set({ shakingCells: [] });
             }, 600);
@@ -3548,8 +3558,8 @@ export const useGameStore = create<GameState>((set, get) => ({
             validationMsg = 'Ada kata yang belum tepat, coba periksa kembali!';
             if (soundEnabled) soundManager.playWordWrong();
             if (hapticEnabled) {
-      haptic.error([35, 45]);
-    }
+              haptic.wordWrong();
+            }
             setTimeout(() => {
               set({ shakingCells: [], validationMessage: null });
             }, 2500);
@@ -3656,7 +3666,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     if (soundEnabled) soundManager.playBackspaceClick();
     if (hapticEnabled) {
-      haptic.light(10);
+      haptic.keyDelete();
     }
 
     if (newInputs[key] && !lockedCells[key]) {
@@ -3722,7 +3732,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     const nextIdx = (currIdx + 1) % allClues.length;
     if (soundEnabled) soundManager.playFocusTick();
     if (hapticEnabled) {
-      haptic.light(6);
+      haptic.navSelection();
     }
     selectClue(allClues[nextIdx].id);
   },
@@ -3735,7 +3745,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     const prevIdx = (currIdx - 1 + allClues.length) % allClues.length;
     if (soundEnabled) soundManager.playFocusTick();
     if (hapticEnabled) {
-      haptic.light(6);
+      haptic.navSelection();
     }
     selectClue(allClues[prevIdx].id);
   },
@@ -3838,8 +3848,8 @@ export const useGameStore = create<GameState>((set, get) => ({
 
       if (soundEnabled) soundManager.playWordCorrect(nextWordStreak);
       if (hapticEnabled) {
-      haptic.success([15, 30, 20]);
-    }
+        haptic.wordSolved();
+      }
 
       if (nextWordStreak >= 2) {
         const titles = ['Menyala!', 'Hebat!', 'Luar Biasa!', 'Brilian!', 'Jenius!'];
@@ -3873,6 +3883,9 @@ export const useGameStore = create<GameState>((set, get) => ({
           get().finishDailyRush(true);
         }
         if (soundEnabled) soundManager.playVictory();
+        if (hapticEnabled) {
+          haptic.levelComplete();
+        }
         confetti({
           particleCount: 140,
           spread: 80,
@@ -3885,8 +3898,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     } else if (shaking.length > 0) {
       if (soundEnabled) soundManager.playWordWrong();
       if (hapticEnabled) {
-      haptic.error([35, 45]);
-    }
+        haptic.wordWrong();
+      }
       set({
         shakingCells: shaking,
         poppingCells: [],
