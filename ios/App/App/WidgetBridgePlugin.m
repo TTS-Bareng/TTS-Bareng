@@ -3,4 +3,6 @@
 CAP_PLUGIN(WidgetBridgePlugin, "WidgetBridge",
     CAP_PLUGIN_METHOD(updateSnapshot, CAPPluginReturnPromise);
     CAP_PLUGIN_METHOD(reloadWidgets, CAPPluginReturnPromise);
+    CAP_PLUGIN_METHOD(getPendingAction, CAPPluginReturnPromise);
+    CAP_PLUGIN_METHOD(clearPendingAction, CAPPluginReturnPromise);
 )

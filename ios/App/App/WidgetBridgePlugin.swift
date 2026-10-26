@@ -8,7 +8,9 @@ public class WidgetBridgePlugin: CAPPlugin, CAPBridgedPlugin {
     public let jsName = "WidgetBridge"
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "updateSnapshot", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "reloadWidgets", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "reloadWidgets", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getPendingAction", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "clearPendingAction", returnType: CAPPluginReturnPromise)
     ]
 
     private let appGroupIdentifier = "group.com.syntheticae.ttsbareng"
@@ -49,6 +51,23 @@ public class WidgetBridgePlugin: CAPPlugin, CAPBridgedPlugin {
         if #available(iOS 14.0, *) {
             WidgetCenter.shared.reloadAllTimelines()
         }
+        call.resolve(["success": true])
+    }
+
+    /**
+     * Retrieves any pending intent navigation action queued by iOS 18 Control Center or Lock Screen widgets.
+     */
+    @objc public func getPendingAction(_ call: CAPPluginCall) {
+        let action = sharedDefaults.string(forKey: "tts_pending_widget_action")
+        call.resolve(["action": action as Any])
+    }
+
+    /**
+     * Clears processed widget navigation action.
+     */
+    @objc public func clearPendingAction(_ call: CAPPluginCall) {
+        sharedDefaults.removeObject(forKey: "tts_pending_widget_action")
+        sharedDefaults.synchronize()
         call.resolve(["success": true])
     }
 }

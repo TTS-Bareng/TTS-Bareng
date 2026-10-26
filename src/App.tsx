@@ -12,7 +12,7 @@ import { notificationService } from './lib/notificationService';
 import { soundManager } from './lib/audio';
 import { revenueCatService } from './lib/revenueCatService';
 import { supabase, isSupabaseConfigured, fetchUserProfile } from './lib/supabase';
-import { syncWidgetSnapshot } from './lib/widgetSync';
+import { syncWidgetSnapshot, getPendingWidgetAction, clearPendingWidgetAction } from './lib/widgetSync';
 import { getEloTier } from './lib/eloSystem';
 
 // Lazy-loaded views & modals for instant initial launch (< 200ms)
@@ -81,7 +81,8 @@ export const App: React.FC = () => {
     joinTournament,
     openDailyRushBriefing,
     openVipModal,
-    openQrModal,
+    openScanner,
+    openJoinTournament,
     streak,
     streakShields,
     stars,
@@ -226,22 +227,42 @@ export const App: React.FC = () => {
     }
   }, [joinTournament, levels.length, openVipModal, selectLevel, setActiveRoomCode, setCurrentTab, showGlobalToast]);
 
-  // Synchronize Native iOS Widget Snapshot (Home Screen, Lock Screen, Control Center)
-  useEffect(() => {
+  // Centralized action handler for widget taps and deep links
+  const handleWidgetAction = (action: string) => {
+    if (action === 'rush') {
+      setCurrentTab('home');
+      openDailyRushBriefing();
+      showGlobalToast('⚡ Membuka Tantangan Daily Rush...', 2500);
+    } else if (action === 'scan') {
+      openJoinTournament();
+      openScanner();
+      showGlobalToast('📷 Mengaktifkan Kamera Pemindai QR...', 2500);
+    } else if (action === 'play') {
+      setCurrentTab('game');
+      showGlobalToast('🎮 Melanjutkan Permainan TTS...', 2500);
+    } else if (action === 'home') {
+      setCurrentTab('home');
+    } else if (action === 'arena') {
+      setCurrentTab('arena');
+    }
+  };
+
+  // Helper to sync native iOS Widget Snapshot with current store data
+  const syncWidgetStateToNative = () => {
     const currentLvl = levels[currentLevelIndex] || levels[0];
     const today = new Date().toISOString().split('T')[0];
     const isRushDone = Boolean(dailyRushRecord && dailyRushRecord.date === today && dailyRushRecord.completed);
 
     syncWidgetSnapshot({
-      streak,
-      streakShields,
-      stars,
-      currentLevel: (currentLevelIndex || 0) + 1,
-      currentLevelTitle: currentLvl?.title || 'Jelajah Nusantara',
-      currentRealmName: currentLvl?.category || 'Alam Nusantara',
-      eloRating,
-      eloTier: getEloTier(eloRating).name,
-      isVip,
+      streak: streak ?? 0,
+      streakShields: streakShields ?? 0,
+      stars: stars ?? 0,
+      currentLevel: (currentLevelIndex ?? 0) + 1,
+      currentLevelTitle: currentLvl?.title || `Bab ${(currentLevelIndex ?? 0) + 1}`,
+      currentRealmName: currentLvl?.category || 'Jelajah Nusantara',
+      eloRating: eloRating ?? 1000,
+      eloTier: getEloTier(eloRating ?? 1000).name,
+      isVip: Boolean(isVip),
       dailyRushCompleted: isRushDone,
       dailyRushScore: dailyRushRecord?.score || 0,
       wordOfTheDay: {
@@ -250,7 +271,43 @@ export const App: React.FC = () => {
         category: 'KBBI Daring',
       },
     });
+  };
+
+  // Synchronize Native iOS Widget Snapshot (Home Screen, Lock Screen, Control Center)
+  useEffect(() => {
+    syncWidgetStateToNative();
   }, [streak, streakShields, stars, currentLevelIndex, eloRating, isVip, dailyRushRecord, levels]);
+
+  // Process pending iOS 18 Control Center / Lock Screen actions and re-sync on foreground resume
+  useEffect(() => {
+    const checkPendingAction = async () => {
+      const pendingAction = await getPendingWidgetAction();
+      if (pendingAction) {
+        handleWidgetAction(pendingAction);
+        await clearPendingWidgetAction();
+      }
+    };
+
+    // Run check on initial app mount
+    checkPendingAction();
+    syncWidgetStateToNative();
+
+    let resumeListener: (() => void) | undefined;
+    try {
+      CapacitorApp.addListener('appStateChange', (state) => {
+        if (state.isActive) {
+          checkPendingAction();
+          syncWidgetStateToNative();
+        }
+      }).then((handle) => {
+        resumeListener = () => handle.remove();
+      });
+    } catch {}
+
+    return () => {
+      resumeListener?.();
+    };
+  }, []);
 
   // Native iOS & Android deep link listener (e.g. ttsbareng://room=ABCD or universal links)
   useEffect(() => {
@@ -308,14 +365,15 @@ export const App: React.FC = () => {
           const vipParam = urlObj.searchParams.get('vip') || urlObj.searchParams.get('paywall');
 
           if (event.url.includes('//rush') || event.url.includes('tab=rush')) {
-            setCurrentTab('arena');
-            showGlobalToast('⚡ Membuka Tantangan Daily Rush...', 2500);
+            handleWidgetAction('rush');
           } else if (event.url.includes('//scan') || event.url.includes('action=scan')) {
-            openQrModal();
-            showGlobalToast('📷 Mengaktifkan Kamera Pemindai QR...', 2500);
+            handleWidgetAction('scan');
           } else if (event.url.includes('//play') || event.url.includes('action=play')) {
-            setCurrentTab('game');
-            showGlobalToast('🎮 Melanjutkan Permainan TTS...', 2500);
+            handleWidgetAction('play');
+          } else if (event.url.includes('//home')) {
+            handleWidgetAction('home');
+          } else if (event.url.includes('//arena')) {
+            handleWidgetAction('arena');
           } else if (vipParam === 'true' || vipParam === '1') {
             openVipModal();
           } else if (tourneyParam) {

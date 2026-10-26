@@ -12,9 +12,12 @@ public struct OpenDailyRushIntent: AppIntent {
 
     public init() {}
 
-    public func perform() async throws -> some IntentResult {
-        // App will open via URL scheme or onOpenURL
-        return .result()
+    @MainActor
+    public func perform() async throws -> some IntentResult & OpensIntent {
+        let defaults = UserDefaults(suiteName: "group.com.syntheticae.ttsbareng") ?? UserDefaults.standard
+        defaults.set("rush", forKey: "tts_pending_widget_action")
+        defaults.synchronize()
+        return .result(opensIntent: OpenURLIntent(URL(string: "ttsbareng://rush")!))
     }
 }
 
@@ -25,8 +28,12 @@ public struct OpenScanQrIntent: AppIntent {
 
     public init() {}
 
-    public func perform() async throws -> some IntentResult {
-        return .result()
+    @MainActor
+    public func perform() async throws -> some IntentResult & OpensIntent {
+        let defaults = UserDefaults(suiteName: "group.com.syntheticae.ttsbareng") ?? UserDefaults.standard
+        defaults.set("scan", forKey: "tts_pending_widget_action")
+        defaults.synchronize()
+        return .result(opensIntent: OpenURLIntent(URL(string: "ttsbareng://scan")!))
     }
 }
 
@@ -37,8 +44,12 @@ public struct OpenContinuePlayIntent: AppIntent {
 
     public init() {}
 
-    public func perform() async throws -> some IntentResult {
-        return .result()
+    @MainActor
+    public func perform() async throws -> some IntentResult & OpensIntent {
+        let defaults = UserDefaults(suiteName: "group.com.syntheticae.ttsbareng") ?? UserDefaults.standard
+        defaults.set("play", forKey: "tts_pending_widget_action")
+        defaults.synchronize()
+        return .result(opensIntent: OpenURLIntent(URL(string: "ttsbareng://play")!))
     }
 }
 

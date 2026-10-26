@@ -33,13 +33,13 @@ public struct TTSWidgetSnapshot: Codable {
 
     public static var fallback: TTSWidgetSnapshot {
         return TTSWidgetSnapshot(
-            streak: 7,
-            streakShields: 1,
-            stars: 120,
+            streak: 0,
+            streakShields: 0,
+            stars: 0,
             currentLevel: 1,
-            currentLevelTitle: "Pantai Losari",
-            currentRealmName: "Alam Maritim Makassar",
-            eloRating: 1100,
+            currentLevelTitle: "Bab 1",
+            currentRealmName: "Jelajah Nusantara",
+            eloRating: 1000,
             eloTier: "Pendekar Kata",
             isVip: false,
             dailyRushCompleted: false,
@@ -47,7 +47,7 @@ public struct TTSWidgetSnapshot: Codable {
             wordOfTheDay: WidgetWordOfTheDay(
                 word: "SEKATA",
                 clue: "Satu pendapat atau seia sekata",
-                category: "KBBI Nusantara"
+                category: "KBBI Daring"
             ),
             lastUpdated: nil
         )
