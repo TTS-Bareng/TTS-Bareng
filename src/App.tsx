@@ -2,7 +2,7 @@ import React, { useEffect, Suspense, lazy } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import { App as CapacitorApp } from '@capacitor/app';
-import { useGameStore } from './store/useGameStore';
+import { useGameStore, getOnboardedKey } from './store/useGameStore';
 import { applyTheme } from './lib/themes';
 import { parseDeepLink, clearUrlParams } from './lib/deeplink';
 import { HomeView } from './views/HomeView';
@@ -143,12 +143,11 @@ export const App: React.FC = () => {
           }
         }).catch(() => {});
 
-        // 2. Restore cloud profile attributes from Supabase
-        fetchUserProfile(session.user.id).then((cloud) => {
-          if (cloud?.is_vip && !useGameStore.getState().isVip) {
-            useGameStore.getState().setIsVip(true);
-          }
-        }).catch(() => {});
+        // 2. Fetch cloud profile to check existing history and VIP status
+        const cloud = await fetchUserProfile(session.user.id).catch(() => null);
+        if (cloud?.is_vip && !useGameStore.getState().isVip) {
+          useGameStore.getState().setIsVip(true);
+        }
 
         const currentUser = useGameStore.getState().user;
         const userEmail = session.user.email || 'pemain@ttsbareng.id';
@@ -158,23 +157,63 @@ export const App: React.FC = () => {
         const fallbackName = isGoogle ? 'Pemain Google' : isApple ? 'Pemain Apple' : 'Pemain TTS';
 
         const userName =
+          cloud?.name ||
           session.user.user_metadata?.full_name ||
           session.user.user_metadata?.name ||
           (currentUser.name !== 'Pemain TTS' && currentUser.name !== 'Tamu' ? currentUser.name : fallbackName);
 
-        if (currentUser.email !== userEmail) {
+        const userAvatar =
+          cloud?.avatar ||
+          session.user.user_metadata?.avatar_url ||
+          currentUser.avatar ||
+          '/maskot/Fierce Plush Crossword Champion.webp';
+
+        // Check Onboarding Routing Invariant:
+        // A. Per-user local storage key
+        // B. Supabase user_metadata?.onboarded === true
+        // C. Existing cloud game history (words solved > 0 or custom name)
+        const localOnboarded = localStorage.getItem(getOnboardedKey(session.user.id)) === 'true';
+        const metaOnboarded = session.user.user_metadata?.onboarded === true;
+        const cloudHasHistory = Boolean(
+          cloud &&
+          ((cloud.total_words_solved && cloud.total_words_solved > 0) ||
+           (cloud.name && cloud.name !== 'Pemain TTS' && cloud.name !== 'Tamu'))
+        );
+
+        const isAlreadyOnboarded = localOnboarded || metaOnboarded || cloudHasHistory;
+
+        const toastMsg = isGoogle
+          ? '✨ Berhasil masuk dengan Akun Google!'
+          : isApple
+          ? '✨ Berhasil masuk dengan Apple ID!'
+          : '✨ Berhasil masuk ke akun Anda!';
+        useGameStore.getState().showGlobalToast(toastMsg);
+
+        if (isAlreadyOnboarded) {
+          // Returning player: skip onboarding, mark per-user key, go straight to main game
+          localStorage.setItem(getOnboardedKey(session.user.id), 'true');
+          const updatedUser = {
+            ...currentUser,
+            id: session.user.id,
+            email: userEmail,
+            name: userName,
+            isGuest: false,
+            avatar: userAvatar,
+            joinedAt: currentUser.joinedAt !== 'Mode Tamu' && currentUser.joinedAt !== 'Hari ini' ? currentUser.joinedAt : 'Oktober 2026',
+          };
+          localStorage.setItem('tts_quest_user', JSON.stringify(updatedUser));
+          useGameStore.setState({
+            user: updatedUser,
+            initialAuthStage: 'completed',
+          });
+        } else {
+          // Brand new user: MUST route to OnboardingView to select name and avatar
           useGameStore.getState().proceedToOnboarding({
             id: session.user.id,
             email: userEmail,
             name: userName,
             isGuest: false,
           });
-          const toastMsg = isGoogle
-            ? '✨ Berhasil masuk dengan Akun Google!'
-            : isApple
-            ? '✨ Berhasil masuk dengan Apple ID!'
-            : '✨ Berhasil masuk ke akun Anda!';
-          useGameStore.getState().showGlobalToast(toastMsg);
         }
       } else if (event === 'SIGNED_OUT') {
         revenueCatService.logOut().catch(() => {});

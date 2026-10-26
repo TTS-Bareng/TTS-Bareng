@@ -43,7 +43,7 @@ import {
 import { haptic } from '../lib/haptics';
 import { notificationService } from '../lib/notificationService';
 import { calculateEloDelta, getEloTier } from '../lib/eloSystem';
-import { supabase, syncUserProfile, fetchUserProfile } from '../lib/supabase';
+import { supabase, syncUserProfile, fetchUserProfile, isSupabaseConfigured } from '../lib/supabase';
 import { revenueCatService } from '../lib/revenueCatService';
 
 export type TabType = 'home' | 'social' | 'game' | 'quests' | 'profile' | 'stats' | 'settings' | 'arena';
@@ -540,7 +540,9 @@ const STORAGE_KEY_CLAIMED_ACHIEVEMENTS = 'tts_quest_claimed_achievements';
 const STORAGE_KEY_LAST_COMPLETED_DAY = 'tts_quest_last_completed_day';
 const STORAGE_KEY_ERROR_FEEDBACK = 'tts_quest_error_feedback_mode';
 const STORAGE_KEY_AUTO_ADVANCE = 'tts_auto_advance';
-const STORAGE_KEY_ONBOARDED = 'tts_quest_onboarded';
+export const STORAGE_KEY_LEGACY_ONBOARDED = 'tts_quest_onboarded';
+export const getOnboardedKey = (userId?: string): string =>
+  userId ? `tts_quest_onboarded_${userId}` : 'tts_quest_onboarded_guest';
 const STORAGE_KEY_TICKETS = 'tts_tournament_tickets_v1';
 const STORAGE_KEY_TICKET_DATE = 'tts_last_ticket_claim_v1';
 const STORAGE_KEY_NOTIFICATIONS = 'tts_notifications_enabled_v1';
@@ -612,7 +614,22 @@ function getInitialTicketDate(): string {
 
 function getInitialAuthStage(): 'auth' | 'onboarding' | 'completed' {
   if (typeof window === 'undefined') return 'completed';
-  return localStorage.getItem(STORAGE_KEY_ONBOARDED) === 'true' ? 'completed' : 'auth';
+  const user = getInitialUser();
+  if (!user || !user.id) return 'auth';
+
+  // 1. Check isolated per-user onboarding key
+  if (localStorage.getItem(getOnboardedKey(user.id)) === 'true') {
+    return 'completed';
+  }
+
+  // 2. Safe migration for existing active users with custom names
+  const legacy = localStorage.getItem(STORAGE_KEY_LEGACY_ONBOARDED);
+  if (legacy === 'true' && user.name && user.name !== 'Pemain TTS' && user.name !== 'Tamu') {
+    localStorage.setItem(getOnboardedKey(user.id), 'true');
+    return 'completed';
+  }
+
+  return 'auth';
 }
 
 function getInitialErrorFeedbackMode(): 'gentle' | 'purist' {
@@ -903,11 +920,45 @@ export const useGameStore = create<GameState>((set, get) => ({
       avatar: avatarSrc || current.avatar,
     };
     localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(updated));
-    localStorage.setItem(STORAGE_KEY_ONBOARDED, 'true');
+    localStorage.setItem(getOnboardedKey(updated.id), 'true');
+    try {
+      localStorage.removeItem(STORAGE_KEY_LEGACY_ONBOARDED);
+    } catch {}
+
+    // Persist onboarded = true in Supabase Auth user_metadata & sync to profiles
+    if (isSupabaseConfigured && !updated.isGuest && updated.id) {
+      supabase.auth.updateUser({
+        data: {
+          onboarded: true,
+          full_name: updated.name,
+          avatar_url: updated.avatar,
+        },
+      }).catch((err) => console.warn('[Auth] Error updating Supabase user metadata:', err));
+
+      syncUserProfile({
+        id: updated.id,
+        name: updated.name,
+        avatar: updated.avatar,
+        isGuest: false,
+        stars: get().stars,
+        streak: get().streak,
+        totalWordsSolved: get().solvedClues.length,
+        eloRating: get().eloRating,
+        customTickets: get().customTtsTickets,
+        isVip: get().isVip,
+      }).catch(() => {});
+    }
+
     set({ user: updated, initialAuthStage: 'completed', currentTab: 'home' });
   },
   restartOnboarding: () => {
-    localStorage.removeItem(STORAGE_KEY_ONBOARDED);
+    const current = get().user;
+    if (current?.id) {
+      localStorage.removeItem(getOnboardedKey(current.id));
+    }
+    try {
+      localStorage.removeItem(STORAGE_KEY_LEGACY_ONBOARDED);
+    } catch {}
     set({ initialAuthStage: 'auth' });
   },
 
@@ -984,14 +1035,21 @@ export const useGameStore = create<GameState>((set, get) => ({
     } catch {}
 
     try {
-      localStorage.removeItem(STORAGE_KEY_USER);
-      localStorage.removeItem(STORAGE_KEY_ONBOARDED);
-      localStorage.removeItem(STORAGE_KEY_IS_VIP);
-      // Remove any supabase auth tokens
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.clear();
+      }
+      // Thoroughly remove auth tokens, user state, and session caches
       const keysToRemove: string[] = [];
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
-        if (key && (key.startsWith('sb-') || key.includes('supabase') || key === 'tts_quest_user' || key === 'tts_quest_onboarded')) {
+        if (
+          key &&
+          (key.startsWith('sb-') ||
+            key.includes('supabase') ||
+            key.startsWith('tts_') ||
+            key.startsWith('crossword_') ||
+            key.startsWith('mabar_'))
+        ) {
           keysToRemove.push(key);
         }
       }
@@ -1004,6 +1062,17 @@ export const useGameStore = create<GameState>((set, get) => ({
       initialAuthStage: 'auth',
       currentTab: 'home',
       isVip: false,
+      stars: 120,
+      streak: 0,
+      streakShields: 1,
+      customTtsTickets: 0,
+      levelRecords: {},
+      claimedAchievementRewards: {},
+      userInputs: {},
+      lockedCells: {},
+      solvedClues: [],
+      poppingCells: [],
+      shakingCells: [],
       isPlayerIdModalOpen: false,
       isVipModalOpen: false,
       isStoreKitModalOpen: false,

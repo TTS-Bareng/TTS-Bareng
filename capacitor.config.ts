@@ -12,6 +12,9 @@ const config: CapacitorConfig = {
     preferredContentMode: 'mobile',
   },
   plugins: {
+    CapacitorHttp: {
+      enabled: true,
+    },
     SplashScreen: {
       launchShowDuration: 1500,
       launchAutoHide: true,

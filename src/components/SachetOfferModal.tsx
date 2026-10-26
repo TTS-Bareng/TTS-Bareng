@@ -218,6 +218,11 @@ export const SachetOfferModal: React.FC = () => {
               </button>
             )}
 
+            {/* Apple StoreKit E-Wallet & Debit Support */}
+            <div className="w-full flex items-center justify-center gap-1.5 py-1 px-2 rounded-xl bg-black/10 dark:bg-white/5 border border-black/5 dark:border-white/5 text-[8.5px] text-[var(--text-secondary)]">
+              <span>Bisa bayar via <strong>GoPay, DANA, ShopeePay</strong> & Debit di Apple ID</span>
+            </div>
+
             {/* Apple Guideline 3.1.1 Mandatory Compliance Links */}
             <div className="flex items-center justify-center gap-2 pt-1 border-t border-black/5 dark:border-white/5 text-[9px] text-[var(--text-secondary)]">
               <button

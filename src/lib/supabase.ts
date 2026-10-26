@@ -116,6 +116,9 @@ export async function syncUserProfile(profile: {
  * Fetch user profile from Supabase
  */
 export async function fetchUserProfile(userId: string): Promise<{
+  name?: string;
+  avatar?: string;
+  total_words_solved?: number;
   elo_rating?: number;
   custom_tickets?: number;
   is_vip?: boolean;
@@ -126,7 +129,7 @@ export async function fetchUserProfile(userId: string): Promise<{
   try {
     const { data, error } = await supabase
       .from('profiles')
-      .select('elo_rating, custom_tickets, is_vip, stars, streak')
+      .select('name, avatar, total_words_solved, elo_rating, custom_tickets, is_vip, stars, streak')
       .eq('id', userId)
       .maybeSingle();
 
@@ -314,6 +317,23 @@ export async function fetchTournamentByCodeFromDb(code: string): Promise<Communi
 }
 
 /**
+ * Helper to enforce a strict timeout (default 20s) on Supabase async operations
+ * to prevent indefinite UI hangs and handle intermittent cellular network latency.
+ */
+export function withTimeout<T>(
+  promise: Promise<T>,
+  ms = 20000,
+  fallbackMessage = 'Batas waktu koneksi habis (20 detik). Periksa koneksi internet Anda.'
+): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error(fallbackMessage)), ms)
+    ),
+  ]);
+}
+
+/**
  * Sign in with Apple (100% In-App on native iOS via Face ID / Touch ID sheet, or OAuth fallback on web)
  */
 export async function signInWithApple(): Promise<{ user?: any; session?: any; error?: string; canceled?: boolean }> {
@@ -331,13 +351,17 @@ export async function signInWithGoogle(): Promise<{ user?: any; error?: string }
     const isNative = Capacitor.isNativePlatform();
     const redirectTo = isNative ? 'ttsbareng://auth-callback' : window.location.origin;
 
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo,
-        skipBrowserRedirect: isNative,
-      },
-    });
+    const { data, error } = await withTimeout(
+      supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo,
+          skipBrowserRedirect: isNative,
+        },
+      }),
+      20000,
+      'Koneksi ke Google OAuth batas waktu habis (20 detik).'
+    );
     if (error) {
       return { error: error.message };
     }
@@ -362,12 +386,16 @@ export async function sendEmailOtp(email: string): Promise<{ success: boolean; e
   }
   try {
     const cleanEmail = email.trim().toLowerCase();
-    const { error } = await supabase.auth.signInWithOtp({
-      email: cleanEmail,
-      options: {
-        shouldCreateUser: true,
-      },
-    });
+    const { error } = await withTimeout(
+      supabase.auth.signInWithOtp({
+        email: cleanEmail,
+        options: {
+          shouldCreateUser: true,
+        },
+      }),
+      20000,
+      'Koneksi pengiriman OTP batas waktu habis (20 detik).'
+    );
     if (error) return { success: false, error: error.message };
     return { success: true };
   } catch (err: any) {
@@ -376,7 +404,7 @@ export async function sendEmailOtp(email: string): Promise<{ success: boolean; e
 }
 
 /**
- * Verify 6-digit In-App OTP entered by the user
+ * Verify 6-digit In-App OTP entered by the user (protected by 20s timeout)
  */
 export async function verifyEmailOtp(
   email: string,
@@ -390,19 +418,27 @@ export async function verifyEmailOtp(
     const cleanToken = token.trim().replace(/\s+/g, '');
     
     // First try type: 'email' (from signInWithOtp)
-    let res = await supabase.auth.verifyOtp({
-      email: cleanEmail,
-      token: cleanToken,
-      type: 'email',
-    });
+    let res = await withTimeout(
+      supabase.auth.verifyOtp({
+        email: cleanEmail,
+        token: cleanToken,
+        type: 'email',
+      }),
+      20000,
+      'Koneksi verifikasi OTP batas waktu habis (20 detik).'
+    );
 
     // If that fails, try type: 'signup' (from signUp with password)
     if (res.error) {
-      const signupRes = await supabase.auth.verifyOtp({
-        email: cleanEmail,
-        token: cleanToken,
-        type: 'signup',
-      });
+      const signupRes = await withTimeout(
+        supabase.auth.verifyOtp({
+          email: cleanEmail,
+          token: cleanToken,
+          type: 'signup',
+        }),
+        20000,
+        'Koneksi verifikasi pendaftaran batas waktu habis (20 detik).'
+      );
       if (!signupRes.error) {
         res = signupRes;
       }
@@ -416,7 +452,7 @@ export async function verifyEmailOtp(
 }
 
 /**
- * Direct sign in with email and password
+ * Direct sign in with email and password (protected by 20s timeout)
  */
 export async function signInWithEmailPassword(
   email: string,
@@ -426,10 +462,14 @@ export async function signInWithEmailPassword(
     return { error: 'Layanan Supabase belum terkonfigurasi' };
   }
   try {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email.trim().toLowerCase(),
-      password,
-    });
+    const { data, error } = await withTimeout(
+      supabase.auth.signInWithPassword({
+        email: email.trim().toLowerCase(),
+        password,
+      }),
+      20000,
+      'Koneksi verifikasi akun batas waktu habis (20 detik).'
+    );
     if (error) return { error: error.message };
     return { user: data.user, session: data.session };
   } catch (err: any) {
@@ -438,7 +478,7 @@ export async function signInWithEmailPassword(
 }
 
 /**
- * Sign up with email and password
+ * Sign up with email and password (protected by 20s timeout)
  */
 export async function signUpWithEmailPassword(
   email: string,
@@ -448,10 +488,14 @@ export async function signUpWithEmailPassword(
     return { error: 'Layanan Supabase belum terkonfigurasi' };
   }
   try {
-    const { data, error } = await supabase.auth.signUp({
-      email: email.trim().toLowerCase(),
-      password,
-    });
+    const { data, error } = await withTimeout(
+      supabase.auth.signUp({
+        email: email.trim().toLowerCase(),
+        password,
+      }),
+      20000,
+      'Koneksi pendaftaran akun batas waktu habis (20 detik).'
+    );
     if (error) return { error: error.message };
     return { user: data.user, session: data.session };
   } catch (err: any) {

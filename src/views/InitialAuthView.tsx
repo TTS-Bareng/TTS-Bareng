@@ -17,7 +17,7 @@ import {
   RotateCcw,
 } from 'lucide-react';
 import { App as CapacitorApp } from '@capacitor/app';
-import { useGameStore } from '../store/useGameStore';
+import { useGameStore, getOnboardedKey } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
 import {
   signInWithApple,
@@ -251,10 +251,18 @@ export const InitialAuthView: React.FC = () => {
   };
 
   const handleGuestSubmit = () => {
-    proceedToOnboarding({
-      isGuest: true,
-    });
-    showGlobalToast('Masuk sebagai Tamu. Selamat bermain!');
+    const guestId = useGameStore.getState().user?.id || 'guest_' + Math.random().toString(36).substring(2, 9);
+    const isGuestOnboarded = localStorage.getItem(getOnboardedKey(guestId)) === 'true';
+    if (isGuestOnboarded) {
+      useGameStore.setState({ initialAuthStage: 'completed' });
+      showGlobalToast('Masuk sebagai Tamu. Selamat datang kembali!');
+    } else {
+      proceedToOnboarding({
+        id: guestId,
+        isGuest: true,
+      });
+      showGlobalToast('Masuk sebagai Tamu. Silakan atur nama dan avatar Anda.');
+    }
   };
 
   const handleRegisterSubmit = async (e: React.FormEvent) => {
@@ -277,9 +285,10 @@ export const InitialAuthView: React.FC = () => {
     setIsSubmitting(false);
 
     if (res?.session) {
-      // If email confirmation is disabled/auto-confirmed, user is logged in instantly
-      showGlobalToast('✨ Pendaftaran akun berhasil! Menyiapkan profil...');
+      // New registration: MUST route to OnboardingView
+      showGlobalToast('✨ Pendaftaran akun berhasil! Silakan atur nama & avatar Anda...');
       proceedToOnboarding({
+        id: res.session.user.id,
         email: cleanEmail,
         isGuest: false,
       });
@@ -327,11 +336,22 @@ export const InitialAuthView: React.FC = () => {
     setIsSubmitting(false);
 
     if (res?.session) {
-      showGlobalToast('✨ Berhasil masuk! Melanjutkan petualangan...');
-      proceedToOnboarding({
-        email: cleanEmail,
-        isGuest: false,
-      });
+      const isAlreadyOnboarded =
+        localStorage.getItem(getOnboardedKey(res.session.user.id)) === 'true' ||
+        res.session.user.user_metadata?.onboarded === true;
+
+      if (isAlreadyOnboarded) {
+        localStorage.setItem(getOnboardedKey(res.session.user.id), 'true');
+        useGameStore.setState({ initialAuthStage: 'completed' });
+        showGlobalToast('✨ Berhasil masuk! Selamat datang kembali.');
+      } else {
+        showGlobalToast('✨ Berhasil masuk! Silakan lengkapi profil Anda.');
+        proceedToOnboarding({
+          id: res.session.user.id,
+          email: cleanEmail,
+          isGuest: false,
+        });
+      }
     } else {
       showGlobalToast(res?.error || 'Surel atau kata sandi tidak cocok.');
     }
@@ -374,11 +394,22 @@ export const InitialAuthView: React.FC = () => {
     setIsVerifyingOtp(false);
 
     if (res?.session) {
-      showGlobalToast('✨ Verifikasi sukses! Menyiapkan profil...');
-      proceedToOnboarding({
-        email: email.trim(),
-        isGuest: false,
-      });
+      const isAlreadyOnboarded =
+        localStorage.getItem(getOnboardedKey(res.session.user.id)) === 'true' ||
+        res.session.user.user_metadata?.onboarded === true;
+
+      if (isAlreadyOnboarded) {
+        localStorage.setItem(getOnboardedKey(res.session.user.id), 'true');
+        useGameStore.setState({ initialAuthStage: 'completed' });
+        showGlobalToast('✨ Verifikasi sukses! Selamat datang kembali.');
+      } else {
+        showGlobalToast('✨ Verifikasi sukses! Menyiapkan profil...');
+        proceedToOnboarding({
+          id: res.session.user.id,
+          email: email.trim(),
+          isGuest: false,
+        });
+      }
     } else {
       showGlobalToast(res?.error || 'Kode verifikasi tidak valid atau telah kedaluwarsa.');
     }

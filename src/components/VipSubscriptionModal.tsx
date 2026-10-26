@@ -22,6 +22,8 @@ interface PlanOption {
   id: VipPlan;
   title: string;
   price: string;
+  approxIdr?: string;
+  approxUsd?: string;
   period: string;
   subtext: string;
   badge?: string;
@@ -33,6 +35,8 @@ const VIP_PLANS: PlanOption[] = [
     id: 'annual',
     title: 'Tahunan',
     price: 'Rp 199.000',
+    approxIdr: 'Rp 199.000',
+    approxUsd: '≈ $12.99',
     period: '/ tahun',
     subtext: 'Hemat 40% (~Rp 16.583/bln)',
     badge: 'HEMAT 40%',
@@ -42,6 +46,8 @@ const VIP_PLANS: PlanOption[] = [
     id: 'monthly',
     title: 'Bulanan',
     price: 'Rp 29.000',
+    approxIdr: 'Rp 29.000',
+    approxUsd: '≈ $1.99',
     period: '/ bulan',
     subtext: 'Fleksibel bayar tiap bulan',
   },
@@ -49,6 +55,8 @@ const VIP_PLANS: PlanOption[] = [
     id: 'lifetime',
     title: 'Seumur Hidup',
     price: 'Rp 499.000',
+    approxIdr: 'Rp 499.000',
+    approxUsd: '≈ $32.99',
     period: 'sekali bayar',
     subtext: 'Akses VIP selamanya tanpa tagihan lagi',
     badge: 'SEKALI BAYAR',
@@ -328,6 +336,11 @@ export const VipSubscriptionModal: React.FC = () => {
                       <span className="text-[8.5px] font-semibold text-[var(--text-secondary)] block leading-tight">
                         {plan.period}
                       </span>
+                      {plan.price.includes('$') && plan.approxIdr && (
+                        <span className="text-[7.5px] font-bold text-[var(--accent-main)] block leading-tight mt-0.5">
+                          ≈ {plan.approxIdr}
+                        </span>
+                      )}
                     </div>
                   </button>
                 );
@@ -355,10 +368,25 @@ export const VipSubscriptionModal: React.FC = () => {
                       : `Mulai Langganan ${currentPlan.title}`}
                   </span>
                 </div>
-                <span className="font-mono font-black text-[12.5px]">
-                  {currentPlan.price}
-                </span>
+                <div className="text-right">
+                  <span className="font-mono font-black text-[12.5px] block leading-tight">
+                    {currentPlan.price}
+                  </span>
+                  {currentPlan.price.includes('$') && currentPlan.approxIdr && (
+                    <span className="text-[8px] font-semibold opacity-85 block leading-tight">
+                      ≈ {currentPlan.approxIdr}
+                    </span>
+                  )}
+                </div>
               </button>
+
+              {/* Apple StoreKit Indonesian E-Wallet Support Note */}
+              <div className="w-full flex items-center justify-center gap-1.5 py-1 px-2.5 rounded-xl bg-black/10 dark:bg-white/5 border border-black/5 dark:border-white/5 text-[8.5px] text-[var(--text-secondary)] mt-0.5">
+                <Shield className="w-3 h-3 text-[var(--accent-main)] shrink-0" />
+                <span>
+                  Bisa bayar via <strong>GoPay, DANA, ShopeePay</strong> & Debit di Apple ID
+                </span>
+              </div>
 
               {/* Sachet Alternative Option */}
               <button
