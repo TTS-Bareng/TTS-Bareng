@@ -110,7 +110,7 @@ export const AvatarPickerModal: React.FC<AvatarPickerModalProps> = ({ isOpen, on
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.92, opacity: 0, y: 15 }}
             transition={{ type: 'spring', damping: 25, stiffness: 320 }}
-            className="relative w-full max-w-[350px] rounded-[28px] border border-[var(--border-card)] p-5 select-none shadow-2xl liquid-glass-card overflow-hidden"
+            className="relative w-full max-w-[380px] rounded-[32px] border border-[var(--border-card)] p-5 sm:p-6 select-none shadow-2xl liquid-glass-card overflow-hidden"
           >
             {/* Top Specular Sheen */}
             <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
@@ -120,22 +120,22 @@ export const AvatarPickerModal: React.FC<AvatarPickerModalProps> = ({ isOpen, on
               type="button"
               onClick={onClose}
               aria-label="Tutup"
-              className="absolute top-4 right-4 w-7 h-7 rounded-full flex items-center justify-center bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 active:scale-95 transition-all cursor-pointer"
+              className="absolute top-4 right-4 w-7 h-7 rounded-full flex items-center justify-center bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 active:scale-95 transition-all cursor-pointer z-10"
             >
               <X className="w-3.5 h-3.5 stroke-[2.2]" />
             </button>
 
             {/* Header */}
             <div className="text-center mb-3">
-              <h3 className="text-[16px] font-black tracking-tight text-[var(--text-primary)]">
+              <h3 className="text-[17px] font-black tracking-tight text-[var(--text-primary)]">
                 Kustomisasi Paspor
               </h3>
-              <p className="text-[11px] text-[var(--text-secondary)] font-medium">
+              <p className="text-[11px] text-[var(--text-secondary)] font-medium mt-0.5">
                 Pilih karakter maskot atau bingkai prestise
               </p>
             </div>
 
-            {/* Avatar & Frame Preview Display */}
+            {/* Avatar & Frame Preview Display - Squircle Pedestal Framing */}
             <div className="flex flex-col items-center justify-center mb-3">
               <div
                 className="relative group cursor-pointer"
@@ -144,30 +144,30 @@ export const AvatarPickerModal: React.FC<AvatarPickerModalProps> = ({ isOpen, on
                 }}
               >
                 <div
-                  className={`w-20 h-20 rounded-full liquid-glass-card ${previewFrameDef.ringClass} ${previewFrameDef.glowClass} flex items-center justify-center overflow-hidden shadow-md bg-black/5 dark:bg-white/5 p-1 transition-all duration-300`}
+                  className={`w-24 h-24 rounded-[26px] liquid-glass-card ${previewFrameDef.ringClass} ${previewFrameDef.glowClass} flex items-center justify-center overflow-hidden shadow-lg bg-black/5 dark:bg-white/5 p-2 transition-all duration-300`}
                 >
                   {isImageAvatar(selectedAvatar) ? (
                     <img
                       src={selectedAvatar}
                       alt="Avatar Terpilih"
-                      className="w-full h-full object-contain filter drop-shadow-sm"
+                      className="w-full h-full object-contain scale-105 filter drop-shadow-md"
                     />
                   ) : (
                     <img
                       src={MASCOTS.crosswordChampion}
                       alt="Avatar Terpilih"
-                      className="w-full h-full object-contain filter drop-shadow-sm"
+                      className="w-full h-full object-contain scale-105 filter drop-shadow-md"
                     />
                   )}
                 </div>
 
                 {/* Badge indicator on avatar bottom right */}
                 {activeTab === 'avatar' ? (
-                  <div className="absolute bottom-0 right-0 w-6.5 h-6.5 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] flex items-center justify-center shadow-md border-2 border-[var(--bg-card)]">
+                  <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] flex items-center justify-center shadow-md border-2 border-[var(--bg-card)]">
                     <Camera className="w-3.5 h-3.5 stroke-[2.4]" />
                   </div>
                 ) : (
-                  <div className="absolute bottom-0 right-0 w-6.5 h-6.5 rounded-full bg-black/80 text-white flex items-center justify-center shadow-md border-2 border-[var(--bg-card)] text-[11px]">
+                  <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-black/80 text-white flex items-center justify-center shadow-md border-2 border-[var(--bg-card)] text-[11px]">
                     {previewFrameDef.badgeIcon}
                   </div>
                 )}
@@ -239,18 +239,18 @@ export const AvatarPickerModal: React.FC<AvatarPickerModalProps> = ({ isOpen, on
               </button>
             </div>
 
-            {/* Tab 1: Mascot Characters Grid */}
+            {/* Tab 1: Mascot Characters Grid - Clean 3-Column Individual Cards */}
             {activeTab === 'avatar' && (
               <div className="mb-4">
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-[var(--text-secondary)]">
+                <div className="flex items-center justify-between mb-1.5 px-0.5">
+                  <span className="text-[9.5px] font-bold uppercase tracking-wider text-[var(--text-secondary)]">
                     Karakter TTS Bareng
                   </span>
-                  <span className="text-[8.5px] font-bold text-[var(--accent-main)]">
-                    {MASCOT_AVATARS.length} Karakter
+                  <span className="text-[9px] font-bold text-[var(--accent-main)]">
+                    {MASCOT_AVATARS.length} Karakter Pilihan
                   </span>
                 </div>
-                <div className="grid grid-cols-4 gap-2 max-h-[145px] overflow-y-auto p-1.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10">
+                <div className="grid grid-cols-3 gap-2.5 max-h-[195px] overflow-y-auto no-scrollbar p-1">
                   {MASCOT_AVATARS.map((mascot) => {
                     const isSelected = selectedAvatar === mascot.src;
                     return (
@@ -259,19 +259,24 @@ export const AvatarPickerModal: React.FC<AvatarPickerModalProps> = ({ isOpen, on
                         type="button"
                         title={mascot.name}
                         onClick={() => setSelectedAvatar(mascot.src)}
-                        className={`relative aspect-square rounded-2xl p-1 flex items-center justify-center transition-all cursor-pointer tactile-active overflow-hidden ${
+                        className={`relative rounded-2xl p-2 flex flex-col items-center justify-between transition-all cursor-pointer tactile-active border ${
                           isSelected
-                            ? 'bg-[var(--accent-light)] ring-2 ring-[var(--accent-main)] shadow-xs scale-105'
-                            : 'bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15'
+                            ? 'bg-[var(--accent-light)] border-2 border-[var(--accent-main)] ring-2 ring-[var(--accent-main)]/20 shadow-xs scale-[1.02]'
+                            : 'bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border-black/5 dark:border-white/10'
                         }`}
                       >
-                        <img
-                          src={mascot.src}
-                          alt={mascot.name}
-                          className="w-full h-full object-contain filter drop-shadow-sm"
-                        />
+                        <div className="w-13 h-13 flex items-center justify-center shrink-0 mb-1">
+                          <img
+                            src={mascot.src}
+                            alt={mascot.name}
+                            className="w-full h-full object-contain filter drop-shadow-sm"
+                          />
+                        </div>
+                        <span className="text-[9px] font-bold text-[var(--text-primary)] text-center truncate w-full leading-tight">
+                          {mascot.name}
+                        </span>
                         {isSelected && (
-                          <div className="absolute top-1 right-1 w-3.5 h-3.5 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] flex items-center justify-center shadow-xs">
+                          <div className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] flex items-center justify-center shadow-xs">
                             <Check className="w-2.5 h-2.5 stroke-[3]" />
                           </div>
                         )}

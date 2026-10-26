@@ -657,13 +657,13 @@ export function getIsoWeekKey(d: Date = new Date()): string {
 }
 
 function getInitialStreak(): number {
-  if (typeof window === 'undefined') return 3;
+  if (typeof window === 'undefined') return 0;
   const saved = localStorage.getItem(STORAGE_KEY_STREAK);
   if (saved !== null) {
     const num = parseInt(saved, 10);
-    if (!isNaN(num) && num >= 1) return num;
+    if (!isNaN(num) && num >= 0) return num;
   }
-  return 3;
+  return 0;
 }
 
 function getInitialStreakShields(): number {

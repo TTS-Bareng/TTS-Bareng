@@ -459,7 +459,7 @@ export const InitialAuthView: React.FC = () => {
       {/* =========================================================================
           TOP HALF: Feature Showcase Carousel (Always present & interactive)
           ========================================================================= */}
-      <div className="flex-1 min-h-0 flex flex-col items-center justify-end px-4 pt-[max(20px,env(safe-area-inset-top))] pb-4 sm:pb-5 relative z-10 w-full max-w-[420px] mx-auto">
+      <div className="flex-1 min-h-0 flex flex-col items-center justify-center px-4 pt-[max(14px,env(safe-area-inset-top))] pb-2.5 sm:pb-3.5 relative z-10 w-full max-w-[420px] mx-auto">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentFeature.id}
@@ -478,12 +478,12 @@ export const InitialAuthView: React.FC = () => {
             }}
             className="w-full flex flex-col items-center text-center cursor-grab active:cursor-grabbing"
           >
-            {/* Mascot Visual Stage */}
-            <div className="relative w-32 h-32 sm:w-36 sm:h-36 mb-1.5 flex items-center justify-center">
+            {/* Mascot Visual Stage - Prominently Enlarged for Compact Hero Presence */}
+            <div className="relative w-48 h-48 sm:w-56 sm:h-56 mb-1 flex items-center justify-center">
               <img
                 src={currentFeature.mascot}
                 alt={currentFeature.title}
-                className="w-full h-full object-contain filter drop-shadow-xl animate-float"
+                className="w-full h-full object-contain filter drop-shadow-2xl animate-float"
               />
             </div>
 
@@ -505,7 +505,7 @@ export const InitialAuthView: React.FC = () => {
             </p>
 
             {/* Micro-Widget Feature Preview Card */}
-            <div className="w-full max-w-[325px] mt-2.5 px-3.5 py-2 rounded-2xl bg-white/70 dark:bg-zinc-800/70 border border-black/5 dark:border-white/10 backdrop-blur-md shadow-xs flex items-center justify-between">
+            <div className="w-full max-w-[325px] mt-2 px-3.5 py-1.5 rounded-2xl bg-white/70 dark:bg-zinc-800/70 border border-black/5 dark:border-white/10 backdrop-blur-md shadow-xs flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <div className="w-7 h-7 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center shrink-0">
                   {currentFeature.microWidget.icon}
@@ -527,7 +527,7 @@ export const InitialAuthView: React.FC = () => {
         </AnimatePresence>
 
         {/* Carousel Pagination Dots */}
-        <div className="flex items-center gap-1.5 mt-2.5">
+        <div className="flex items-center gap-1.5 mt-2">
           {FEATURE_SLIDES.map((_, idx) => (
             <button
               key={idx}
