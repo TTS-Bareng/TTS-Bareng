@@ -112,3 +112,52 @@ public struct TTSWidgetProvider: TimelineProvider {
         completion(timeline)
     }
 }
+
+// MARK: - Specular Rim Light Reflection
+public struct SpecularRimLight: View {
+    public init() {}
+
+    public var body: some View {
+        LinearGradient(
+            colors: [
+                Color.clear,
+                Color.white.opacity(0.35),
+                Color.clear
+            ],
+            startPoint: .leading,
+            endPoint: .trailing
+        )
+        .frame(height: 1.2)
+    }
+}
+
+// MARK: - TTS Widget Container Shell (Full-Bleed with Rim Light)
+public struct TTSWidgetShell<Content: View, Background: View>: View {
+    let padding: CGFloat
+    let content: () -> Content
+    let background: () -> Background
+
+    public init(
+        padding: CGFloat = 14,
+        @ViewBuilder content: @escaping () -> Content,
+        @ViewBuilder background: @escaping () -> Background
+    ) {
+        self.padding = padding
+        self.content = content
+        self.background = background
+    }
+
+    public var body: some View {
+        ZStack(alignment: .top) {
+            content()
+                .padding(padding)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            SpecularRimLight()
+                .allowsHitTesting(false)
+        }
+        .containerBackground(for: .widget) {
+            background()
+        }
+    }
+}
