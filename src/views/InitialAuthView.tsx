@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Mail,
   Lock,
@@ -15,10 +15,10 @@ import {
   BookOpen,
   KeyRound,
   RotateCcw,
-} from 'lucide-react';
-import { App as CapacitorApp } from '@capacitor/app';
-import { useGameStore, getOnboardedKey } from '../store/useGameStore';
-import { MASCOTS } from '../assets/maskots';
+} from "lucide-react";
+import { App as CapacitorApp } from "@capacitor/app";
+import { useGameStore, getOnboardedKey } from "../store/useGameStore";
+import { MASCOTS } from "../assets/maskots";
 import {
   signInWithApple,
   signInWithGoogle,
@@ -27,15 +27,24 @@ import {
   signInWithEmailPassword,
   signUpWithEmailPassword,
   resetPasswordForEmail,
-} from '../lib/supabase';
+} from "../lib/supabase";
 
-const AppleLogoIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+const AppleLogoIcon: React.FC<{ className?: string }> = ({
+  className = "w-4 h-4",
+}) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    aria-hidden="true"
+  >
     <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.4c.64-.81 1.07-1.93.95-3.05-1 .04-2.18.66-2.82 1.41-.57.66-1.06 1.76-.93 2.85 1.12.09 2.23-.55 2.8-1.21Z" />
   </svg>
 );
 
-const GoogleLogoIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
+const GoogleLogoIcon: React.FC<{ className?: string }> = ({
+  className = "w-4 h-4",
+}) => (
   <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
     <path
       fill="#4285F4"
@@ -73,96 +82,109 @@ interface FeatureSlide {
 
 const FEATURE_SLIDES: FeatureSlide[] = [
   {
-    id: 'adventure',
-    badge: '500+ Bab • 5.000+ Kosakata',
-    badgeColor: 'bg-[var(--accent-light)] text-[var(--accent-main)] border-[var(--accent-main)]/25',
-    title: '500+ Bab Siap Dieksplorasi',
-    description: 'Jelajahi lebih dari 500 bab teka-teki silang dengan 5.000+ kosakata baku Nusantara.',
+    id: "adventure",
+    badge: "500+ Bab • 5.000+ Kosakata",
+    badgeColor:
+      "bg-[var(--accent-light)] text-[var(--accent-main)] border-[var(--accent-main)]/25",
+    title: "500+ Bab Siap Dieksplorasi",
+    description:
+      "Jelajahi lebih dari 500 bab teka-teki silang dengan 5.000+ kosakata baku Nusantara.",
     mascot: MASCOTS.puzzleExplorer,
     microWidget: {
       icon: <Compass className="w-4 h-4 text-[var(--accent-main)]" />,
-      title: '500+ Bab & 5.000+ Kata',
-      subtitle: 'Sabang sampai Merauke siap dimainkan',
-      pill: 'Koleksi Terlengkap',
+      title: "500+ Bab & 5.000+ Kata",
+      subtitle: "Sabang sampai Merauke siap dimainkan",
+      pill: "Koleksi Terlengkap",
     },
   },
   {
-    id: 'mabar',
-    badge: 'Duel 1v1 & Turnamen',
-    badgeColor: 'bg-[var(--accent-light)] text-[var(--accent-main)] border-[var(--accent-main)]/25',
-    title: 'Mabar Bareng Teman',
-    description: 'Tanding kecepatan tebak kata 1v1 via Kode Kamar atau turnamen komunitas.',
+    id: "mabar",
+    badge: "Duel 1v1 & Turnamen",
+    badgeColor:
+      "bg-[var(--accent-light)] text-[var(--accent-main)] border-[var(--accent-main)]/25",
+    title: "Mabar Bareng Teman",
+    description:
+      "Tanding kecepatan tebak kata 1v1 via Kode Kamar atau turnamen komunitas.",
     mascot: MASCOTS.crosswordDuel,
     microWidget: {
       icon: <Users className="w-4 h-4 text-[var(--accent-main)]" />,
-      title: 'Duel 1v1 Sedang Berlangsung',
-      subtitle: 'Kamu ⚡ 120 vs Lawan 95 Pts',
-      pill: 'Unggul +25',
+      title: "Duel 1v1 Sedang Berlangsung",
+      subtitle: "Kamu ⚡ 120 vs Lawan 95 Pts",
+      pill: "Unggul +25",
     },
   },
   {
-    id: 'streak',
-    badge: 'Tantangan Harian',
-    badgeColor: 'bg-[var(--accent-light)] text-[var(--accent-main)] border-[var(--accent-main)]/25',
-    title: 'Asah Otak Tiap Hari',
-    description: 'Mainkan Daily Rush setiap pagi, pertahankan rentetan api, dan raih bintang.',
+    id: "streak",
+    badge: "Tantangan Harian",
+    badgeColor:
+      "bg-[var(--accent-light)] text-[var(--accent-main)] border-[var(--accent-main)]/25",
+    title: "Asah Otak Tiap Hari",
+    description:
+      "Mainkan Daily Rush setiap pagi, pertahankan rentetan api, dan raih bintang.",
     mascot: MASCOTS.cheerfulBookBoy,
     microWidget: {
-      icon: <Flame className="w-4 h-4 text-[var(--accent-main)] fill-[var(--accent-main)]" />,
-      title: 'Rentetan 7 Hari Aktif',
-      subtitle: 'Bonus Harian • +50 Bintang',
-      pill: '🔥 Membara',
+      icon: (
+        <Flame className="w-4 h-4 text-[var(--accent-main)] fill-[var(--accent-main)]" />
+      ),
+      title: "Rentetan 7 Hari Aktif",
+      subtitle: "Bonus Harian • +50 Bintang",
+      pill: "🔥 Membara",
     },
   },
   {
-    id: 'studio',
-    badge: 'Studio Kreator',
-    badgeColor: 'bg-[var(--accent-light)] text-[var(--accent-main)] border-[var(--accent-main)]/25',
-    title: 'Rancang & Bagikan TTS',
-    description: 'Susun kata rahasiamu sendiri di kisi lalu bagikan via tautan atau QR Code.',
+    id: "studio",
+    badge: "Studio Kreator",
+    badgeColor:
+      "bg-[var(--accent-light)] text-[var(--accent-main)] border-[var(--accent-main)]/25",
+    title: "Rancang & Bagikan TTS",
+    description:
+      "Susun kata rahasiamu sendiri di kisi lalu bagikan via tautan atau QR Code.",
     mascot: MASCOTS.crosswordBoard,
     microWidget: {
       icon: <PencilLine className="w-4 h-4 text-[var(--accent-main)]" />,
-      title: 'Studio TTS Interaktif',
-      subtitle: 'Kisi 8x8 • Siap Main',
-      pill: 'QR Siap',
+      title: "Studio TTS Interaktif",
+      subtitle: "Kisi 8x8 • Siap Main",
+      pill: "QR Siap",
     },
   },
   {
-    id: 'kbbi',
-    badge: 'Kamus KBBI & Budaya',
-    badgeColor: 'bg-[var(--accent-light)] text-[var(--accent-main)] border-[var(--accent-main)]/25',
-    title: 'Kosakata Resmi KBBI',
-    description: 'Perkaya wawasan bahasa Indonesia dengan definisi baku resmi KBBI.',
+    id: "kbbi",
+    badge: "Kamus KBBI & Budaya",
+    badgeColor:
+      "bg-[var(--accent-light)] text-[var(--accent-main)] border-[var(--accent-main)]/25",
+    title: "Kosakata Resmi KBBI",
+    description:
+      "Perkaya wawasan bahasa Indonesia dengan definisi baku resmi KBBI.",
     mascot: MASCOTS.batikWordsmith,
     microWidget: {
       icon: <BookOpen className="w-4 h-4 text-[var(--accent-main)]" />,
-      title: 'Leksikon Terverifikasi',
-      subtitle: 'Swakarya: pekerjaan mandiri',
-      pill: 'Baku KBBI',
+      title: "Leksikon Terverifikasi",
+      subtitle: "Swakarya: pekerjaan mandiri",
+      pill: "Baku KBBI",
     },
   },
 ];
 
-type ScreenState = 'welcome' | 'register' | 'login' | 'otp';
+type ScreenState = "welcome" | "register" | "login" | "otp";
 
 export const InitialAuthView: React.FC = () => {
-  const { proceedToOnboarding, openLegalModal, showGlobalToast } = useGameStore();
+  const { proceedToOnboarding, openLegalModal, showGlobalToast } =
+    useGameStore();
 
-  const [screen, setScreen] = useState<ScreenState>('welcome');
+  const [screen, setScreen] = useState<ScreenState>("welcome");
   const [activeSlide, setActiveSlide] = useState(0);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isAppleLoading, setIsAppleLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isResetPromptOpen, setIsResetPromptOpen] = useState(false);
-  const [resetEmail, setResetEmail] = useState('');
+  const [resetEmail, setResetEmail] = useState("");
   const [isSendingReset, setIsSendingReset] = useState(false);
 
   // In-App 6-Digit OTP State
-  const [otpCode, setOtpCode] = useState('');
+  const [otpCode, setOtpCode] = useState("");
   const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
   const [otpCooldown, setOtpCooldown] = useState(0);
 
@@ -187,7 +209,7 @@ export const InitialAuthView: React.FC = () => {
   useEffect(() => {
     let removeHandler: (() => void) | undefined;
     try {
-      CapacitorApp.addListener('appStateChange', (state) => {
+      CapacitorApp.addListener("appStateChange", (state) => {
         if (state.isActive) {
           // Grace period for OAuth token deep link processing
           setTimeout(() => {
@@ -209,8 +231,8 @@ export const InitialAuthView: React.FC = () => {
     if (isAppleLoading || isGoogleLoading) return;
     try {
       setIsAppleLoading(true);
-      showGlobalToast('Menghubungkan ke Apple ID...');
-      
+      showGlobalToast("Menghubungkan ke Apple ID...");
+
       const res = await signInWithApple();
       setIsAppleLoading(false);
 
@@ -223,7 +245,7 @@ export const InitialAuthView: React.FC = () => {
       }
     } catch (err: any) {
       setIsAppleLoading(false);
-      showGlobalToast(err?.message || 'Gagal memulai Sign in with Apple.');
+      showGlobalToast(err?.message || "Gagal memulai Sign in with Apple.");
     }
   };
 
@@ -231,7 +253,7 @@ export const InitialAuthView: React.FC = () => {
     if (isGoogleLoading || isAppleLoading) return;
     try {
       setIsGoogleLoading(true);
-      showGlobalToast('Membuka autentikasi Akun Google...');
+      showGlobalToast("Membuka autentikasi Akun Google...");
 
       // Timeout safeguard to prevent infinite spinning
       const timeoutId = setTimeout(() => {
@@ -245,40 +267,43 @@ export const InitialAuthView: React.FC = () => {
         setIsGoogleLoading(false);
       }
     } catch (err: any) {
-      showGlobalToast(err?.message || 'Gagal memulai Sign in with Google.');
+      showGlobalToast(err?.message || "Gagal memulai Sign in with Google.");
       setIsGoogleLoading(false);
     }
   };
 
   const handleGuestSubmit = () => {
-    const guestId = useGameStore.getState().user?.id || 'guest_' + Math.random().toString(36).substring(2, 9);
-    const isGuestOnboarded = localStorage.getItem(getOnboardedKey(guestId)) === 'true';
+    const guestId =
+      useGameStore.getState().user?.id ||
+      "guest_" + Math.random().toString(36).substring(2, 9);
+    const isGuestOnboarded =
+      localStorage.getItem(getOnboardedKey(guestId)) === "true";
     if (isGuestOnboarded) {
-      useGameStore.setState({ initialAuthStage: 'completed' });
-      showGlobalToast('Masuk sebagai Tamu. Selamat datang kembali!');
+      useGameStore.setState({ initialAuthStage: "completed" });
+      showGlobalToast("Masuk sebagai Tamu. Selamat datang kembali!");
     } else {
       proceedToOnboarding({
         id: guestId,
         isGuest: true,
       });
-      showGlobalToast('Masuk sebagai Tamu. Silakan atur nama dan avatar Anda.');
+      showGlobalToast("Masuk sebagai Tamu. Silakan atur nama dan avatar Anda.");
     }
   };
 
   const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const cleanEmail = email.trim();
-    if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
-      showGlobalToast('Format alamat surel tidak valid.');
+    if (!cleanEmail || !cleanEmail.includes("@") || !cleanEmail.includes(".")) {
+      showGlobalToast("Format alamat surel tidak valid.");
       return;
     }
     if (!password || password.length < 6) {
-      showGlobalToast('Kata sandi minimal 6 karakter.');
+      showGlobalToast("Kata sandi minimal 6 karakter.");
       return;
     }
 
     setIsSubmitting(true);
-    showGlobalToast('Mendaftarkan akun & mengamankan kata sandi...');
+    showGlobalToast("Mendaftarkan akun & mengamankan kata sandi...");
 
     // 1. Register with email + password in Supabase Auth
     const res = await signUpWithEmailPassword(cleanEmail, password);
@@ -286,7 +311,9 @@ export const InitialAuthView: React.FC = () => {
 
     if (res?.session) {
       // New registration: MUST route to OnboardingView
-      showGlobalToast('✨ Pendaftaran akun berhasil! Silakan atur nama & avatar Anda...');
+      showGlobalToast(
+        "✨ Pendaftaran akun berhasil! Silakan atur nama & avatar Anda...",
+      );
       proceedToOnboarding({
         id: res.session.user.id,
         email: cleanEmail,
@@ -294,22 +321,29 @@ export const InitialAuthView: React.FC = () => {
       });
     } else if (res?.user) {
       // Supabase sent verification OTP to email
-      setScreen('otp');
+      setScreen("otp");
       setOtpCooldown(60);
-      setOtpCode('');
-      showGlobalToast('Kode verifikasi 6 digit telah dikirim ke surel Anda.');
+      setOtpCode("");
+      showGlobalToast("Kode verifikasi 6 digit telah dikirim ke surel Anda.");
     } else if (res?.error) {
-      if (res.error.toLowerCase().includes('already registered') || res.error.toLowerCase().includes('terdaftar')) {
-        showGlobalToast('Surel ini sudah terdaftar. Silakan masuk menggunakan kata sandi Anda.');
-        setScreen('login');
+      if (
+        res.error.toLowerCase().includes("already registered") ||
+        res.error.toLowerCase().includes("terdaftar")
+      ) {
+        showGlobalToast(
+          "Surel ini sudah terdaftar. Silakan masuk menggunakan kata sandi Anda.",
+        );
+        setScreen("login");
       } else {
         // Fallback: try sending in-app OTP
         const otpRes = await sendEmailOtp(cleanEmail);
         if (otpRes.success) {
-          setScreen('otp');
+          setScreen("otp");
           setOtpCooldown(60);
-          setOtpCode('');
-          showGlobalToast('Kode verifikasi 6 digit telah dikirim ke surel Anda.');
+          setOtpCode("");
+          showGlobalToast(
+            "Kode verifikasi 6 digit telah dikirim ke surel Anda.",
+          );
         } else {
           showGlobalToast(res.error);
         }
@@ -320,32 +354,32 @@ export const InitialAuthView: React.FC = () => {
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const cleanEmail = email.trim();
-    if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
-      showGlobalToast('Format alamat surel tidak valid.');
+    if (!cleanEmail || !cleanEmail.includes("@") || !cleanEmail.includes(".")) {
+      showGlobalToast("Format alamat surel tidak valid.");
       return;
     }
     if (!password || password.length < 6) {
-      showGlobalToast('Kata sandi minimal 6 karakter.');
+      showGlobalToast("Kata sandi minimal 6 karakter.");
       return;
     }
 
     setIsSubmitting(true);
-    showGlobalToast('Memverifikasi kredensial...');
+    showGlobalToast("Memverifikasi kredensial...");
 
     const res = await signInWithEmailPassword(cleanEmail, password);
     setIsSubmitting(false);
 
     if (res?.session) {
       const isAlreadyOnboarded =
-        localStorage.getItem(getOnboardedKey(res.session.user.id)) === 'true' ||
+        localStorage.getItem(getOnboardedKey(res.session.user.id)) === "true" ||
         res.session.user.user_metadata?.onboarded === true;
 
       if (isAlreadyOnboarded) {
-        localStorage.setItem(getOnboardedKey(res.session.user.id), 'true');
-        useGameStore.setState({ initialAuthStage: 'completed' });
-        showGlobalToast('✨ Berhasil masuk! Selamat datang kembali.');
+        localStorage.setItem(getOnboardedKey(res.session.user.id), "true");
+        useGameStore.setState({ initialAuthStage: "completed" });
+        showGlobalToast("✨ Berhasil masuk! Selamat datang kembali.");
       } else {
-        showGlobalToast('✨ Berhasil masuk! Silakan lengkapi profil Anda.');
+        showGlobalToast("✨ Berhasil masuk! Silakan lengkapi profil Anda.");
         proceedToOnboarding({
           id: res.session.user.id,
           email: cleanEmail,
@@ -353,29 +387,29 @@ export const InitialAuthView: React.FC = () => {
         });
       }
     } else {
-      showGlobalToast(res?.error || 'Surel atau kata sandi tidak cocok.');
+      showGlobalToast(res?.error || "Surel atau kata sandi tidak cocok.");
     }
   };
 
   const handleSendOtpLogin = async () => {
     const cleanEmail = email.trim();
-    if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
-      showGlobalToast('Silakan masukkan alamat surel Anda terlebih dahulu.');
+    if (!cleanEmail || !cleanEmail.includes("@") || !cleanEmail.includes(".")) {
+      showGlobalToast("Silakan masukkan alamat surel Anda terlebih dahulu.");
       return;
     }
 
     setIsSubmitting(true);
-    showGlobalToast('Mengirim kode verifikasi OTP...');
+    showGlobalToast("Mengirim kode verifikasi OTP...");
     const res = await sendEmailOtp(cleanEmail);
     setIsSubmitting(false);
 
     if (res.success) {
-      setScreen('otp');
+      setScreen("otp");
       setOtpCooldown(60);
-      setOtpCode('');
-      showGlobalToast('Kode verifikasi 6 digit telah dikirim.');
+      setOtpCode("");
+      showGlobalToast("Kode verifikasi 6 digit telah dikirim.");
     } else {
-      showGlobalToast(res.error || 'Gagal mengirim kode OTP.');
+      showGlobalToast(res.error || "Gagal mengirim kode OTP.");
     }
   };
 
@@ -383,27 +417,27 @@ export const InitialAuthView: React.FC = () => {
     e.preventDefault();
     const cleanToken = otpCode.trim();
     if (cleanToken.length !== 6) {
-      showGlobalToast('Masukkan 6 digit kode verifikasi dengan lengkap.');
+      showGlobalToast("Masukkan 6 digit kode verifikasi dengan lengkap.");
       return;
     }
 
     setIsVerifyingOtp(true);
-    showGlobalToast('Memverifikasi kode...');
+    showGlobalToast("Memverifikasi kode...");
 
     const res = await verifyEmailOtp(email.trim(), cleanToken);
     setIsVerifyingOtp(false);
 
     if (res?.session) {
       const isAlreadyOnboarded =
-        localStorage.getItem(getOnboardedKey(res.session.user.id)) === 'true' ||
+        localStorage.getItem(getOnboardedKey(res.session.user.id)) === "true" ||
         res.session.user.user_metadata?.onboarded === true;
 
       if (isAlreadyOnboarded) {
-        localStorage.setItem(getOnboardedKey(res.session.user.id), 'true');
-        useGameStore.setState({ initialAuthStage: 'completed' });
-        showGlobalToast('✨ Verifikasi sukses! Selamat datang kembali.');
+        localStorage.setItem(getOnboardedKey(res.session.user.id), "true");
+        useGameStore.setState({ initialAuthStage: "completed" });
+        showGlobalToast("✨ Verifikasi sukses! Selamat datang kembali.");
       } else {
-        showGlobalToast('✨ Verifikasi sukses! Menyiapkan profil...');
+        showGlobalToast("✨ Verifikasi sukses! Menyiapkan profil...");
         proceedToOnboarding({
           id: res.session.user.id,
           email: email.trim(),
@@ -411,38 +445,40 @@ export const InitialAuthView: React.FC = () => {
         });
       }
     } else {
-      showGlobalToast(res?.error || 'Kode verifikasi tidak valid atau telah kedaluwarsa.');
+      showGlobalToast(
+        res?.error || "Kode verifikasi tidak valid atau telah kedaluwarsa.",
+      );
     }
   };
 
   const handleResendOtp = async () => {
     if (otpCooldown > 0) return;
     const cleanEmail = email.trim();
-    showGlobalToast('Mengirim ulang kode verifikasi...');
+    showGlobalToast("Mengirim ulang kode verifikasi...");
     const res = await sendEmailOtp(cleanEmail);
     if (res.success) {
       setOtpCooldown(60);
-      showGlobalToast('Kode verifikasi baru telah dikirim.');
+      showGlobalToast("Kode verifikasi baru telah dikirim.");
     } else {
-      showGlobalToast(res.error || 'Gagal mengirim ulang kode.');
+      showGlobalToast(res.error || "Gagal mengirim ulang kode.");
     }
   };
 
   const handleSendResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     const clean = resetEmail.trim() || email.trim();
-    if (!clean || !clean.includes('@') || !clean.includes('.')) {
-      showGlobalToast('Masukkan alamat surel yang valid untuk reset password.');
+    if (!clean || !clean.includes("@") || !clean.includes(".")) {
+      showGlobalToast("Masukkan alamat surel yang valid untuk reset password.");
       return;
     }
     setIsSendingReset(true);
     const res = await resetPasswordForEmail(clean);
     setIsSendingReset(false);
     if (res.success) {
-      showGlobalToast('Tautan reset password berhasil dikirim ke surel Anda.');
+      showGlobalToast("Tautan reset password berhasil dikirim ke surel Anda.");
       setIsResetPromptOpen(false);
     } else {
-      showGlobalToast(res.error || 'Gagal mengirim email reset password.');
+      showGlobalToast(res.error || "Gagal mengirim email reset password.");
     }
   };
 
@@ -466,14 +502,17 @@ export const InitialAuthView: React.FC = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.35, ease: 'easeOut' }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             onDragEnd={(_, info) => {
               if (info.offset.x < -40) {
                 setActiveSlide((prev) => (prev + 1) % FEATURE_SLIDES.length);
               } else if (info.offset.x > 40) {
-                setActiveSlide((prev) => (prev - 1 + FEATURE_SLIDES.length) % FEATURE_SLIDES.length);
+                setActiveSlide(
+                  (prev) =>
+                    (prev - 1 + FEATURE_SLIDES.length) % FEATURE_SLIDES.length,
+                );
               }
             }}
             className="w-full flex flex-col items-center text-center cursor-grab active:cursor-grabbing"
@@ -525,23 +564,6 @@ export const InitialAuthView: React.FC = () => {
             </div>
           </motion.div>
         </AnimatePresence>
-
-        {/* Carousel Pagination Dots */}
-        <div className="flex items-center gap-1.5 mt-2">
-          {FEATURE_SLIDES.map((_, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => setActiveSlide(idx)}
-              className={`transition-all duration-300 cursor-pointer ${
-                activeSlide === idx
-                  ? 'w-5 h-1.5 rounded-full bg-[var(--accent-main)] shadow-xs'
-                  : 'w-1.5 h-1.5 rounded-full bg-black/20 dark:bg-white/20 hover:bg-black/40 dark:hover:bg-white/40'
-              }`}
-              aria-label={`Ke slide ${idx + 1}`}
-            />
-          ))}
-        </div>
       </div>
 
       {/* =========================================================================
@@ -560,13 +582,13 @@ export const InitialAuthView: React.FC = () => {
             {/* ---------------------------------------------------------------
                 1. LAYAR WELCOME (SAMBUTAN)
                 --------------------------------------------------------------- */}
-            {screen === 'welcome' && (
+            {screen === "welcome" && (
               <motion.div
                 key="screen-welcome"
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.25, ease: 'easeOut' }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
                 className="flex flex-col gap-3"
               >
                 {/* Greeting Headline */}
@@ -575,18 +597,18 @@ export const InitialAuthView: React.FC = () => {
                     Selamat Datang di TTS Bareng
                   </h2>
                   <p className="text-[11px] text-[var(--text-secondary)] font-medium max-w-[310px] mx-auto leading-snug mt-0.5">
-                    Pilih cara masuk untuk menyimpan rekor kata dan mabar teka-teki silang nusantara.
+                    Pilih cara masuk untuk menyimpan rekor kata dan mabar
+                    teka-teki silang nusantara.
                   </p>
                 </div>
 
                 {/* Primary Button: Ayo Mulai Petualangan */}
                 <button
                   type="button"
-                  onClick={() => setScreen('register')}
+                  onClick={() => setScreen("register")}
                   className="w-full h-11.5 rounded-2xl bg-[var(--accent-main)] text-[var(--accent-contrast)] hover:opacity-95 active:scale-[0.98] flex items-center justify-between px-4 text-[13px] font-black transition-all cursor-pointer shadow-md select-none"
                 >
                   <div className="flex items-center gap-2.5">
-                    <Sparkles className="w-4.5 h-4.5 fill-current" />
                     <span>Ayo Mulai Petualangan</span>
                   </div>
                   <ArrowRight className="w-4 h-4 stroke-[2.5]" />
@@ -595,7 +617,7 @@ export const InitialAuthView: React.FC = () => {
                 {/* Secondary Button: Sudah punya akun? Masuk */}
                 <button
                   type="button"
-                  onClick={() => setScreen('login')}
+                  onClick={() => setScreen("login")}
                   className="w-full h-11 rounded-2xl bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 active:scale-[0.98] border border-black/10 dark:border-white/15 text-[var(--text-primary)] flex items-center justify-between px-4 text-[12.5px] font-bold transition-all cursor-pointer select-none"
                 >
                   <span>Sudah punya akun? Masuk</span>
@@ -613,18 +635,18 @@ export const InitialAuthView: React.FC = () => {
 
                 {/* Single-line Legal Footnote at very bottom */}
                 <p className="text-[9.5px] text-center text-[var(--text-secondary)] leading-tight whitespace-nowrap overflow-hidden text-ellipsis px-1 pt-0.5">
-                  Dengan melanjutkan, Anda menyetujui{' '}
+                  Dengan melanjutkan, Anda menyetujui{" "}
                   <button
                     type="button"
-                    onClick={() => openLegalModal('terms')}
+                    onClick={() => openLegalModal("terms")}
                     className="underline font-bold text-[var(--text-primary)] cursor-pointer"
                   >
                     Ketentuan
-                  </button>{' '}
-                  &{' '}
+                  </button>{" "}
+                  &{" "}
                   <button
                     type="button"
-                    onClick={() => openLegalModal('privacy')}
+                    onClick={() => openLegalModal("privacy")}
                     className="underline font-bold text-[var(--text-primary)] cursor-pointer"
                   >
                     Kebijakan Privasi
@@ -636,20 +658,20 @@ export const InitialAuthView: React.FC = () => {
             {/* ---------------------------------------------------------------
                 2. LAYAR DAFTAR AKUN BARU ("AYO MULAI")
                 --------------------------------------------------------------- */}
-            {screen === 'register' && (
+            {screen === "register" && (
               <motion.div
                 key="screen-register"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.25, ease: 'easeOut' }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
                 className="flex flex-col gap-2.5"
               >
                 {/* Header: Back Button + Title */}
                 <div className="flex items-center gap-2.5 pb-0.5">
                   <button
                     type="button"
-                    onClick={() => setScreen('welcome')}
+                    onClick={() => setScreen("welcome")}
                     aria-label="Kembali"
                     className="w-8 h-8 rounded-full bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 flex items-center justify-center text-[var(--text-primary)] cursor-pointer tactile-active transition-all shrink-0 border border-black/5 dark:border-white/10"
                   >
@@ -712,7 +734,10 @@ export const InitialAuthView: React.FC = () => {
                 </div>
 
                 {/* Registration Form */}
-                <form onSubmit={handleRegisterSubmit} className="flex flex-col gap-2">
+                <form
+                  onSubmit={handleRegisterSubmit}
+                  className="flex flex-col gap-2"
+                >
                   <div className="flex flex-col gap-1">
                     <label className="text-[9px] font-black uppercase tracking-wider text-[var(--text-secondary)] px-0.5">
                       Alamat Surel
@@ -739,7 +764,7 @@ export const InitialAuthView: React.FC = () => {
                     <div className="relative">
                       <Lock className="w-4 h-4 text-[var(--text-secondary)] absolute left-3 top-1/2 -translate-y-1/2" />
                       <input
-                        type={showPassword ? 'text' : 'password'}
+                        type={showPassword ? "text" : "password"}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="••••••"
@@ -750,10 +775,16 @@ export const InitialAuthView: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        aria-label={showPassword ? 'Sembunyikan sandi' : 'Tampilkan sandi'}
+                        aria-label={
+                          showPassword ? "Sembunyikan sandi" : "Tampilkan sandi"
+                        }
                         className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer p-1"
                       >
-                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        {showPassword ? (
+                          <EyeOff className="w-4 h-4" />
+                        ) : (
+                          <Eye className="w-4 h-4" />
+                        )}
                       </button>
                     </div>
                   </div>
@@ -764,7 +795,11 @@ export const InitialAuthView: React.FC = () => {
                     disabled={isSubmitting}
                     className="w-full h-11 rounded-2xl bg-[var(--accent-main)] text-[var(--accent-contrast)] hover:opacity-95 active:scale-[0.98] font-black text-[12.5px] flex items-center justify-center gap-2 cursor-pointer shadow-md transition-all mt-1 disabled:opacity-50"
                   >
-                    <span>{isSubmitting ? 'Mengirim Kode OTP...' : 'Daftar Akun Baru'}</span>
+                    <span>
+                      {isSubmitting
+                        ? "Mengirim Kode OTP..."
+                        : "Daftar Akun Baru"}
+                    </span>
                     <ArrowRight className="w-4 h-4 stroke-[2.2]" />
                   </button>
                 </form>
@@ -774,20 +809,20 @@ export const InitialAuthView: React.FC = () => {
             {/* ---------------------------------------------------------------
                 3. LAYAR MASUK ("SELAMAT DATANG KEMBALI")
                 --------------------------------------------------------------- */}
-            {screen === 'login' && (
+            {screen === "login" && (
               <motion.div
                 key="screen-login"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.25, ease: 'easeOut' }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
                 className="flex flex-col gap-2.5"
               >
                 {/* Header: Back Button + Title */}
                 <div className="flex items-center gap-2.5 pb-0.5">
                   <button
                     type="button"
-                    onClick={() => setScreen('welcome')}
+                    onClick={() => setScreen("welcome")}
                     aria-label="Kembali"
                     className="w-8 h-8 rounded-full bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 flex items-center justify-center text-[var(--text-primary)] cursor-pointer tactile-active transition-all shrink-0 border border-black/5 dark:border-white/10"
                   >
@@ -850,7 +885,10 @@ export const InitialAuthView: React.FC = () => {
                 </div>
 
                 {/* Login Form */}
-                <form onSubmit={handleLoginSubmit} className="flex flex-col gap-2">
+                <form
+                  onSubmit={handleLoginSubmit}
+                  className="flex flex-col gap-2"
+                >
                   <div className="flex flex-col gap-1">
                     <label className="text-[9px] font-black uppercase tracking-wider text-[var(--text-secondary)] px-0.5">
                       Alamat Surel
@@ -889,7 +927,7 @@ export const InitialAuthView: React.FC = () => {
                     <div className="relative">
                       <Lock className="w-4 h-4 text-[var(--text-secondary)] absolute left-3 top-1/2 -translate-y-1/2" />
                       <input
-                        type={showPassword ? 'text' : 'password'}
+                        type={showPassword ? "text" : "password"}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="••••••"
@@ -900,10 +938,16 @@ export const InitialAuthView: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        aria-label={showPassword ? 'Sembunyikan sandi' : 'Tampilkan sandi'}
+                        aria-label={
+                          showPassword ? "Sembunyikan sandi" : "Tampilkan sandi"
+                        }
                         className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer p-1"
                       >
-                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        {showPassword ? (
+                          <EyeOff className="w-4 h-4" />
+                        ) : (
+                          <Eye className="w-4 h-4" />
+                        )}
                       </button>
                     </div>
                   </div>
@@ -914,7 +958,9 @@ export const InitialAuthView: React.FC = () => {
                     disabled={isSubmitting}
                     className="w-full h-11 rounded-2xl bg-[var(--accent-main)] text-[var(--accent-contrast)] hover:opacity-95 active:scale-[0.98] font-black text-[12.5px] flex items-center justify-center gap-2 cursor-pointer shadow-md transition-all mt-1 disabled:opacity-50"
                   >
-                    <span>{isSubmitting ? 'Memverifikasi...' : 'Masuk Sekarang'}</span>
+                    <span>
+                      {isSubmitting ? "Memverifikasi..." : "Masuk Sekarang"}
+                    </span>
                     <ArrowRight className="w-4 h-4 stroke-[2.2]" />
                   </button>
 
@@ -934,20 +980,20 @@ export const InitialAuthView: React.FC = () => {
             {/* ---------------------------------------------------------------
                 4. LAYAR 100% IN-APP OTP VERIFIKASI (GOLD STANDARD)
                 --------------------------------------------------------------- */}
-            {screen === 'otp' && (
+            {screen === "otp" && (
               <motion.div
                 key="screen-otp"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.25, ease: 'easeOut' }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
                 className="flex flex-col gap-3"
               >
                 {/* Header: Back Button + Title */}
                 <div className="flex items-center gap-2.5 pb-0.5">
                   <button
                     type="button"
-                    onClick={() => setScreen('register')}
+                    onClick={() => setScreen("register")}
                     aria-label="Kembali"
                     className="w-8 h-8 rounded-full bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 flex items-center justify-center text-[var(--text-primary)] cursor-pointer tactile-active transition-all shrink-0 border border-black/5 dark:border-white/10"
                   >
@@ -958,27 +1004,35 @@ export const InitialAuthView: React.FC = () => {
                       Verifikasi Kode OTP
                     </h2>
                     <p className="text-[10px] text-[var(--text-secondary)] font-medium leading-tight truncate">
-                      Masukkan 6 digit kode yang dikirim ke <span className="font-bold text-[var(--accent-main)]">{email}</span>
+                      Masukkan 6 digit kode yang dikirim ke{" "}
+                      <span className="font-bold text-[var(--accent-main)]">
+                        {email}
+                      </span>
                     </p>
                   </div>
                 </div>
 
                 {/* Segmented 6-Box OTP Display with iOS AutoFill support */}
-                <form onSubmit={handleVerifyOtp} className="flex flex-col gap-3">
+                <form
+                  onSubmit={handleVerifyOtp}
+                  className="flex flex-col gap-3"
+                >
                   <div className="relative">
                     <div className="flex justify-between gap-1.5 sm:gap-2">
                       {[0, 1, 2, 3, 4, 5].map((idx) => {
-                        const digit = otpCode[idx] || '';
-                        const isFocused = otpCode.length === idx || (idx === 5 && otpCode.length === 6);
+                        const digit = otpCode[idx] || "";
+                        const isFocused =
+                          otpCode.length === idx ||
+                          (idx === 5 && otpCode.length === 6);
                         return (
                           <div
                             key={idx}
                             className={`flex-1 h-12 rounded-2xl flex items-center justify-center text-[19px] font-black font-mono transition-all border ${
                               digit
-                                ? 'bg-[var(--accent-light)] border-[var(--accent-main)] text-[var(--accent-main)] shadow-xs'
+                                ? "bg-[var(--accent-light)] border-[var(--accent-main)] text-[var(--accent-main)] shadow-xs"
                                 : isFocused
-                                ? 'border-[var(--accent-main)] ring-2 ring-[var(--accent-main)]/30 bg-black/5 dark:bg-white/5'
-                                : 'border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 text-[var(--text-primary)]'
+                                  ? "border-[var(--accent-main)] ring-2 ring-[var(--accent-main)]/30 bg-black/5 dark:bg-white/5"
+                                  : "border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 text-[var(--text-primary)]"
                             }`}
                           >
                             {digit}
@@ -996,7 +1050,9 @@ export const InitialAuthView: React.FC = () => {
                       maxLength={6}
                       value={otpCode}
                       onChange={(e) => {
-                        const val = e.target.value.replace(/\D/g, '').slice(0, 6);
+                        const val = e.target.value
+                          .replace(/\D/g, "")
+                          .slice(0, 6);
                         setOtpCode(val);
                       }}
                       autoFocus
@@ -1006,7 +1062,9 @@ export const InitialAuthView: React.FC = () => {
 
                   {/* Resend OTP Timer & Button */}
                   <div className="flex items-center justify-between text-[10.5px] px-1">
-                    <span className="text-[var(--text-secondary)]">Tidak menerima kode?</span>
+                    <span className="text-[var(--text-secondary)]">
+                      Tidak menerima kode?
+                    </span>
                     {otpCooldown > 0 ? (
                       <span className="font-bold text-[var(--text-secondary)]">
                         Kirim ulang ({otpCooldown}s)
@@ -1030,7 +1088,11 @@ export const InitialAuthView: React.FC = () => {
                     className="w-full h-11.5 rounded-2xl bg-[var(--accent-main)] text-[var(--accent-contrast)] hover:opacity-95 active:scale-[0.98] font-black text-[13px] flex items-center justify-center gap-2 cursor-pointer shadow-md transition-all disabled:opacity-40 select-none mt-1"
                   >
                     <KeyRound className="w-4 h-4 stroke-[2.2]" />
-                    <span>{isVerifyingOtp ? 'Memverifikasi...' : 'Verifikasi & Mulai Bermain'}</span>
+                    <span>
+                      {isVerifyingOtp
+                        ? "Memverifikasi..."
+                        : "Verifikasi & Mulai Bermain"}
+                    </span>
                   </button>
                 </form>
               </motion.div>
@@ -1053,9 +1115,13 @@ export const InitialAuthView: React.FC = () => {
                 Pemulihan Kata Sandi
               </h3>
               <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
-                Masukkan alamat surel Anda. Kami akan mengirimkan tautan untuk mengatur ulang kata sandi.
+                Masukkan alamat surel Anda. Kami akan mengirimkan tautan untuk
+                mengatur ulang kata sandi.
               </p>
-              <form onSubmit={handleSendResetPassword} className="flex flex-col gap-3 mt-1">
+              <form
+                onSubmit={handleSendResetPassword}
+                className="flex flex-col gap-3 mt-1"
+              >
                 <input
                   type="email"
                   value={resetEmail}
@@ -1077,7 +1143,7 @@ export const InitialAuthView: React.FC = () => {
                     disabled={isSendingReset}
                     className="px-4 py-2 rounded-xl text-[11px] font-black bg-[var(--accent-main)] text-[var(--accent-contrast)] hover:opacity-95 cursor-pointer shadow-xs disabled:opacity-50"
                   >
-                    {isSendingReset ? 'Mengirim...' : 'Kirim Tautan'}
+                    {isSendingReset ? "Mengirim..." : "Kirim Tautan"}
                   </button>
                 </div>
               </form>

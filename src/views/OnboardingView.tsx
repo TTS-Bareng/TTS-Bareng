@@ -1,252 +1,268 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  Compass,
-  Users,
-  WifiOff,
-  Dices,
-  Sparkles,
-  Check,
+  Shuffle,
   ArrowRight,
-  Shield,
-} from 'lucide-react';
-import { useGameStore } from '../store/useGameStore';
-import { MASCOTS } from '../assets/maskots';
+  ShieldCheck,
+  ChevronLeft,
+  ChevronRight,
+  Sparkles,
+} from "lucide-react";
+import { useGameStore } from "../store/useGameStore";
+import { MASCOTS } from "../assets/maskots";
 
 const INDONESIAN_NAMES = [
-  'Arka',
-  'Laras',
-  'Satria',
-  'Kirana',
-  'Bayu',
-  'Putri',
-  'Danu',
-  'Sekar',
-  'Galang',
-  'Citra',
-  'Rangga',
-  'Nadia',
-  'Bima',
-  'Tari',
-  'Arya',
-  'Melati',
-  'Fajar',
-  'Gita',
-  'Reza',
-  'Intan',
+  "Arka",
+  "Laras",
+  "Satria",
+  "Kirana",
+  "Bayu",
+  "Putri",
+  "Danu",
+  "Sekar",
+  "Galang",
+  "Citra",
+  "Rangga",
+  "Nadia",
+  "Bima",
+  "Tari",
+  "Arya",
+  "Melati",
+  "Fajar",
+  "Gita",
+  "Reza",
+  "Intan",
 ];
 
 const ONBOARDING_AVATARS = [
-  { id: 'pals', src: MASCOTS.indonesianPuzzlePals, name: 'Sahabat' },
-  { id: 'champion', src: MASCOTS.crosswordChampion, name: 'Juara' },
-  { id: 'batik', src: MASCOTS.batikWordsmith, name: 'Pujangga' },
-  { id: 'kid', src: MASCOTS.indonesianPuzzleKid, name: 'Petualang' },
-  { id: 'girl', src: MASCOTS.crosswordGirl, name: 'Cendekia' },
-  { id: 'scholar', src: MASCOTS.puzzleScholar, name: 'Begawan' },
+  {
+    id: "pals",
+    src: MASCOTS.indonesianPuzzlePals,
+    name: "Sahabat",
+    role: "Kolaboratif",
+  },
+  {
+    id: "champion",
+    src: MASCOTS.crosswordChampion,
+    name: "Juara",
+    role: "Kompetitif",
+  },
+  {
+    id: "batik",
+    src: MASCOTS.batikWordsmith,
+    name: "Pujangga",
+    role: "Ahli Kata",
+  },
+  {
+    id: "kid",
+    src: MASCOTS.indonesianPuzzleKid,
+    name: "Petualang",
+    role: "Eksploratif",
+  },
+  { id: "girl", src: MASCOTS.crosswordGirl, name: "Cendekia", role: "Taktis" },
+  {
+    id: "scholar",
+    src: MASCOTS.puzzleScholar,
+    name: "Begawan",
+    role: "Master Teka-Teki",
+  },
 ];
 
 export const OnboardingView: React.FC = () => {
   const { user, completeOnboarding, showGlobalToast } = useGameStore();
 
+  const [activeIndex, setActiveIndex] = useState(() => {
+    const idx = ONBOARDING_AVATARS.findIndex(
+      (av) => av.src === (user.avatar || MASCOTS.crosswordChampion),
+    );
+    return idx !== -1 ? idx : 1;
+  });
+
   const [name, setName] = useState(
-    user.name && user.name !== 'Pemain TTS' && user.name !== 'Tamu' ? user.name : 'Arka'
-  );
-  const [selectedAvatar, setSelectedAvatar] = useState(
-    user.avatar || MASCOTS.indonesianPuzzlePals
+    user.name && user.name !== "Pemain TTS" && user.name !== "Tamu"
+      ? user.name
+      : "Arka",
   );
 
+  const currentAvatar = ONBOARDING_AVATARS[activeIndex];
+
+  const handlePrevAvatar = () => {
+    setActiveIndex((prev) =>
+      prev === 0 ? ONBOARDING_AVATARS.length - 1 : prev - 1,
+    );
+  };
+
+  const handleNextAvatar = () => {
+    setActiveIndex((prev) =>
+      prev === ONBOARDING_AVATARS.length - 1 ? 0 : prev + 1,
+    );
+  };
+
   const handleRandomizeName = () => {
-    const random = INDONESIAN_NAMES[Math.floor(Math.random() * INDONESIAN_NAMES.length)];
+    const random =
+      INDONESIAN_NAMES[Math.floor(Math.random() * INDONESIAN_NAMES.length)];
     setName(random);
     showGlobalToast(`Nama diacak: ${random}`);
   };
 
   const handleFinish = (e: React.FormEvent) => {
     e.preventDefault();
-    const finalName = name.trim() || 'Pemain TTS';
-    completeOnboarding(finalName, selectedAvatar);
+    const finalName = name.trim() || "Pemain TTS";
+    completeOnboarding(finalName, currentAvatar.src);
     showGlobalToast(`Selamat datang, ${finalName}!`);
   };
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-between px-5 pt-[max(24px,calc(12px+env(safe-area-inset-top)))] pb-[max(24px,calc(14px+env(safe-area-inset-bottom)))] select-none relative overflow-y-auto no-scrollbar">
-      {/* Background Ambient Glow & Specular Canvas */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-[var(--accent-light)] blur-3xl opacity-60" />
-        <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-[var(--accent-main)]/10 blur-3xl opacity-40" />
+    <div className="w-full min-h-screen bg-black text-white flex flex-col justify-between px-6 pt-[max(20px,env(safe-area-inset-top))] pb-[max(24px,env(safe-area-inset-bottom))] relative overflow-hidden select-none">
+      {/* Background Ambient Glow */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] rounded-full bg-white/[0.07] blur-[100px]" />
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-80 h-40 rounded-full bg-white/[0.04] blur-[80px]" />
       </div>
 
       {/* Top Header */}
       <motion.header
-        initial={{ opacity: 0, y: -10 }}
+        initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="w-full max-w-[360px] flex flex-col items-center text-center relative z-10 pt-2"
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full max-w-[360px] mx-auto flex flex-col items-center text-center relative z-10 pt-2"
       >
-        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full liquid-glass-tile border border-black/5 dark:border-white/10 shadow-xs mb-2">
-          <Sparkles className="w-3.5 h-3.5 text-[var(--accent-main)]" />
-          <span className="text-[10px] font-black uppercase tracking-wider text-[var(--accent-main)]">
-            PERSIAPAN PETUALANGAN
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.08] border border-white/10 backdrop-blur-md mb-3">
+          <Sparkles className="w-3.5 h-3.5 text-white/80" />
+          <span className="text-[11px] font-medium tracking-wide text-white/80">
+            Identitas Pemain
           </span>
         </div>
-        <h1 className="text-[23px] sm:text-[25px] font-black text-[var(--text-primary)] tracking-tight leading-tight">
-          Kenali Gaya Bermain Anda
+        <h1 className="text-[26px] font-bold tracking-tight text-white">
+          Pilih Karaktermu
         </h1>
-        <p className="text-[11.5px] text-[var(--text-secondary)] font-medium mt-1 leading-snug max-w-[310px]">
-          Pilih avatar maskot 3D resmi dan tentukan nama identitas pemain Anda.
+        <p className="text-[13px] text-white/50 font-normal mt-1 leading-snug">
+          Tentukan maskot dan nama panggilan untuk memulai
         </p>
       </motion.header>
 
-      {/* Center Setup: Seamless Canvas (No Boxed Card!) */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.1 }}
-        className="w-full max-w-[360px] flex flex-col gap-3.5 my-auto py-2 relative z-10"
-      >
-        {/* 3 Highlight Bento Chips */}
-        <div className="grid grid-cols-3 gap-2">
-          <div className="p-2.5 rounded-[18px] bg-black/[0.03] dark:bg-white/[0.04] border border-black/5 dark:border-white/10 flex flex-col items-center text-center gap-1 shadow-2xs">
-            <div className="w-7 h-7 rounded-xl bg-[var(--accent-light)] text-[var(--accent-main)] flex items-center justify-center">
-              <Compass className="w-3.5 h-3.5 stroke-[2.2]" />
-            </div>
-            <span className="text-[10.5px] font-black text-[var(--text-primary)] leading-tight">
-              220 Bab
-            </span>
-            <span className="text-[8.5px] text-[var(--text-secondary)] leading-tight">
-              12 Alam
-            </span>
-          </div>
+      {/* Hero Showcase Center Stage */}
+      <div className="w-full max-w-[360px] mx-auto flex flex-col items-center my-auto py-2 relative z-10">
+        <div className="relative w-full flex items-center justify-center">
+          {/* Nav Chevrons */}
+          <button
+            type="button"
+            onClick={handlePrevAvatar}
+            aria-label="Karakter sebelumnya"
+            className="absolute left-1 z-20 w-9 h-9 rounded-full bg-white/[0.08] hover:bg-white/[0.14] border border-white/10 backdrop-blur-md flex items-center justify-center text-white/70 hover:text-white transition-all active:scale-90"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
 
-          <div className="p-2.5 rounded-[18px] bg-black/[0.03] dark:bg-white/[0.04] border border-black/5 dark:border-white/10 flex flex-col items-center text-center gap-1 shadow-2xs">
-            <div className="w-7 h-7 rounded-xl bg-[var(--accent-light)] text-[var(--accent-main)] flex items-center justify-center">
-              <Users className="w-3.5 h-3.5 stroke-[2.2]" />
-            </div>
-            <span className="text-[10.5px] font-black text-[var(--text-primary)] leading-tight">
-              Mabar Live
-            </span>
-            <span className="text-[8.5px] text-[var(--text-secondary)] leading-tight">
-              1 Papan WA
-            </span>
-          </div>
+          <button
+            type="button"
+            onClick={handleNextAvatar}
+            aria-label="Karakter berikutnya"
+            className="absolute right-1 z-20 w-9 h-9 rounded-full bg-white/[0.08] hover:bg-white/[0.14] border border-white/10 backdrop-blur-md flex items-center justify-center text-white/70 hover:text-white transition-all active:scale-90"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
 
-          <div className="p-2.5 rounded-[18px] bg-black/[0.03] dark:bg-white/[0.04] border border-black/5 dark:border-white/10 flex flex-col items-center text-center gap-1 shadow-2xs">
-            <div className="w-7 h-7 rounded-xl bg-[var(--accent-light)] text-[var(--accent-main)] flex items-center justify-center">
-              <WifiOff className="w-3.5 h-3.5 stroke-[2.2]" />
-            </div>
-            <span className="text-[10.5px] font-black text-[var(--text-primary)] leading-tight">
-              Offline
-            </span>
-            <span className="text-[8.5px] text-[var(--text-secondary)] leading-tight">
-              Hemat Kuota
-            </span>
-          </div>
-        </div>
+          {/* Hero 3D Avatar Display */}
+          <div className="relative w-48 h-48 sm:w-52 sm:h-52 flex items-center justify-center">
+            {/* Radial Backlight */}
+            <div className="absolute inset-0 rounded-full bg-white/[0.06] blur-2xl transform scale-90" />
 
-        {/* Section 1: Choose Avatar Strip */}
-        <div className="flex flex-col gap-2 pt-1">
-          <div className="flex items-center justify-between px-0.5">
-            <span className="text-[10px] font-black uppercase tracking-wider text-[var(--accent-main)]">
-              1. PILIH AVATAR MASKOT 3D
-            </span>
-            <span className="text-[9px] font-bold text-[var(--text-secondary)]">
-              Karakter Resmi
-            </span>
-          </div>
-
-          <div className="grid grid-cols-6 gap-1.5 pt-0.5">
-            {ONBOARDING_AVATARS.map((av) => {
-              const isSelected = selectedAvatar === av.src;
-              return (
-                <button
-                  key={av.id}
-                  type="button"
-                  onClick={() => setSelectedAvatar(av.src)}
-                  className={`relative p-1 rounded-2xl flex flex-col items-center transition-all cursor-pointer tactile-active ${
-                    isSelected
-                      ? 'bg-[var(--accent-light)] border-2 border-[var(--accent-main)] shadow-xs scale-105'
-                      : 'border border-black/10 dark:border-white/10 hover:border-black/20 bg-black/[0.02] dark:bg-white/[0.03]'
-                  }`}
-                >
-                  <div className="w-10.5 h-10.5 rounded-xl overflow-hidden flex items-center justify-center">
-                    <img
-                      src={av.src}
-                      alt={av.name}
-                      className="w-full h-full object-contain filter drop-shadow-xs"
-                    />
-                  </div>
-                  {isSelected && (
-                    <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] flex items-center justify-center shadow-xs">
-                      <Check className="w-2.5 h-2.5 stroke-[3]" />
-                    </div>
-                  )}
-                  <span className="text-[8px] font-bold text-[var(--text-secondary)] truncate max-w-full mt-0.5">
-                    {av.name}
-                  </span>
-                </button>
-              );
-            })}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentAvatar.id}
+                initial={{ opacity: 0, scale: 0.85, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.85, y: -10 }}
+                transition={{ type: "spring", stiffness: 350, damping: 28 }}
+                className="w-full h-full flex flex-col items-center justify-center relative z-10"
+              >
+                <img
+                  src={currentAvatar.src}
+                  alt={currentAvatar.name}
+                  className="w-full h-full object-contain filter drop-shadow-[0_16px_24px_rgba(0,0,0,0.6)]"
+                />
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
 
-        {/* Section 2: Choose Nickname */}
-        <div className="flex flex-col gap-1.5 pt-1">
-          <div className="flex items-center justify-between px-0.5">
-            <span className="text-[10px] font-black uppercase tracking-wider text-[var(--accent-main)]">
-              2. NAMA PANGGILAN
-            </span>
-            <span className="text-[9px] font-bold text-[var(--text-secondary)]">
-              Maks. 20 Karakter
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <div className="relative flex-1">
-              <input
-                type="text"
-                value={name}
-                maxLength={20}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Masukkan nama Anda"
-                className="w-full h-11 px-4 rounded-2xl border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 text-[13.5px] font-bold text-[var(--text-primary)] placeholder-[var(--text-secondary)]/60 focus:outline-hidden focus:ring-2 focus:ring-[var(--accent-main)]/30 focus:border-[var(--accent-main)]/60 transition-all"
-              />
-            </div>
-
-            {/* Dices Randomizer Button */}
-            <button
-              type="button"
-              onClick={handleRandomizeName}
-              title="Acak Nama Keren"
-              className="h-11 px-3.5 rounded-2xl border border-[var(--accent-main)]/30 bg-[var(--accent-light)] text-[var(--accent-main)] hover:bg-[var(--accent-main)] hover:text-[var(--accent-contrast)] transition-colors flex items-center gap-1.5 font-bold text-[11px] cursor-pointer tactile-active shrink-0 shadow-2xs"
-            >
-              <Dices className="w-4 h-4" />
-              <span>Acak</span>
-            </button>
-          </div>
+        {/* Character Title & Badge */}
+        <div className="text-center mt-3 mb-5">
+          <h2 className="text-[17px] font-bold text-white tracking-tight">
+            {currentAvatar.name}
+          </h2>
+          <span className="text-[12px] font-medium text-white/40">
+            {currentAvatar.role}
+          </span>
         </div>
 
-        {/* Submit to Home Button */}
+        {/* Miniature Avatar Selectors (Apple-style Segmented Thumbnails) */}
+        <div className="flex items-center gap-2 p-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] backdrop-blur-xl">
+          {ONBOARDING_AVATARS.map((av, index) => {
+            const isSelected = activeIndex === index;
+            return (
+              <button
+                key={av.id}
+                type="button"
+                onClick={() => setActiveIndex(index)}
+                className={`relative w-9 h-9 rounded-full overflow-hidden transition-all duration-200 cursor-pointer flex items-center justify-center ${
+                  isSelected
+                    ? "ring-2 ring-white scale-110 bg-white/10"
+                    : "opacity-40 hover:opacity-75 scale-95"
+                }`}
+              >
+                <img
+                  src={av.src}
+                  alt={av.name}
+                  className="w-7 h-7 object-contain"
+                />
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Bottom Floating Controls: Input, CTA & Notes */}
+      <div className="w-full max-w-[360px] mx-auto flex flex-col gap-3 relative z-10">
+        {/* Apple-style Integrated Input Bar */}
+        <div className="relative flex items-center">
+          <input
+            type="text"
+            value={name}
+            maxLength={20}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Ketik nama pemain..."
+            className="w-full h-13 pl-4 pr-24 rounded-2xl bg-white/[0.06] border border-white/10 text-white placeholder-white/30 text-[14px] font-medium backdrop-blur-xl focus:outline-none focus:ring-1 focus:ring-white/40 focus:border-white/30 transition-all"
+          />
+
+          {/* Inline Shuffle Button */}
+          <button
+            type="button"
+            onClick={handleRandomizeName}
+            className="absolute right-1.5 h-10 px-3.5 rounded-xl bg-white/10 hover:bg-white/15 text-white/90 text-[12px] font-semibold flex items-center gap-1.5 backdrop-blur-sm active:scale-95 transition-all cursor-pointer"
+          >
+            <Shuffle className="w-3.5 h-3.5" />
+            <span>Acak</span>
+          </button>
+        </div>
+
+        {/* High-Contrast Primary CTA Button */}
         <button
           type="button"
           onClick={handleFinish}
-          className="w-full h-11.5 rounded-full font-black text-[13px] text-[var(--accent-contrast)] flex items-center justify-center gap-2 cursor-pointer tactile-active shadow-md mt-2 transition-transform border border-white/20"
-          style={{ background: 'var(--accent-grad)' }}
+          className="w-full h-13 rounded-2xl bg-white text-neutral-950 font-bold text-[14px] flex items-center justify-center gap-2 shadow-[0_8px_24px_rgba(255,255,255,0.12)] hover:bg-neutral-100 active:scale-[0.98] transition-all cursor-pointer"
         >
           <span>Mulai Petualangan</span>
           <ArrowRight className="w-4 h-4 stroke-[2.5]" />
         </button>
-      </motion.div>
 
-      {/* Footer System Info */}
-      <motion.footer
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4, delay: 0.2 }}
-        className="w-full max-w-[360px] flex items-center justify-center gap-1.5 text-[10px] text-[var(--text-secondary)] text-center relative z-10 pt-2"
-      >
-        <Shield className="w-3.5 h-3.5 text-[var(--accent-main)]" />
-        <span>Nama dan avatar dapat Anda ganti kapan saja di menu Profil</span>
-      </motion.footer>
+        {/* Discreet Reassurance Footer */}
+        <footer className="flex items-center justify-center gap-1.5 text-[11px] text-white/40 text-center font-medium pt-1 pb-0.5">
+          <ShieldCheck className="w-3.5 h-3.5 text-white/40 shrink-0" />
+          <span>Nama dan avatar dapat diubah kapan saja di profil</span>
+        </footer>
+      </div>
     </div>
   );
 };

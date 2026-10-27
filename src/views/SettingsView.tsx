@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo } from "react";
 import {
   Volume2,
   VolumeX,
@@ -30,13 +30,13 @@ import {
   KeyRound,
   Eye,
   EyeOff,
-} from 'lucide-react';
-import { useGameStore, type SoundPackKey } from '../store/useGameStore';
-import { THEMES, type ThemeKey } from '../lib/themes';
-import { soundManager } from '../lib/audio';
-import { notificationService } from '../lib/notificationService';
-import { revenueCatService } from '../lib/revenueCatService';
-import { updateAccountPassword } from '../lib/supabase';
+} from "lucide-react";
+import { useGameStore, type SoundPackKey } from "../store/useGameStore";
+import { THEMES, type ThemeKey } from "../lib/themes";
+import { soundManager } from "../lib/audio";
+import { notificationService } from "../lib/notificationService";
+import { revenueCatService } from "../lib/revenueCatService";
+import { updateAccountPassword } from "../lib/supabase";
 
 export const SettingsView: React.FC = () => {
   const {
@@ -74,41 +74,42 @@ export const SettingsView: React.FC = () => {
   } = useGameStore();
 
   const [showResetConfirm, setShowResetConfirm] = useState(false);
-  const [showDeleteAccountConfirm, setShowDeleteAccountConfirm] = useState(false);
+  const [showDeleteAccountConfirm, setShowDeleteAccountConfirm] =
+    useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [isSavingPassword, setIsSavingPassword] = useState(false);
 
   const handleSavePassword = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newPassword || newPassword.length < 6) {
-      showGlobalToast('Kata sandi minimal 6 karakter.');
+      showGlobalToast("Kata sandi minimal 6 karakter.");
       return;
     }
     if (newPassword !== confirmNewPassword) {
-      showGlobalToast('Konfirmasi kata sandi tidak cocok.');
+      showGlobalToast("Konfirmasi kata sandi tidak cocok.");
       return;
     }
     setIsSavingPassword(true);
     const res = await updateAccountPassword(newPassword);
     setIsSavingPassword(false);
     if (res.success) {
-      showGlobalToast('✨ Kata sandi akun berhasil diperbarui!');
+      showGlobalToast("✨ Kata sandi akun berhasil diperbarui!");
       setIsPasswordModalOpen(false);
-      setNewPassword('');
-      setConfirmNewPassword('');
+      setNewPassword("");
+      setConfirmNewPassword("");
     } else {
-      showGlobalToast(res.error || 'Gagal memperbarui kata sandi.');
+      showGlobalToast(res.error || "Gagal memperbarui kata sandi.");
     }
   };
 
   const [confirmHint, setConfirmHint] = useState<boolean>(() => {
-    return localStorage.getItem('tts_confirm_hint') === 'true';
+    return localStorage.getItem("tts_confirm_hint") === "true";
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -120,13 +121,13 @@ export const SettingsView: React.FC = () => {
       let totalLength = 0;
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
-        if (key && key.startsWith('tts_')) {
-          totalLength += (localStorage.getItem(key) || '').length;
+        if (key && key.startsWith("tts_")) {
+          totalLength += (localStorage.getItem(key) || "").length;
         }
       }
       return (totalLength / 1024).toFixed(1);
     } catch {
-      return '12.4';
+      return "12.4";
     }
   }, []);
 
@@ -144,7 +145,7 @@ export const SettingsView: React.FC = () => {
   const handleToggleConfirmHint = () => {
     const next = !confirmHint;
     setConfirmHint(next);
-    localStorage.setItem('tts_confirm_hint', String(next));
+    localStorage.setItem("tts_confirm_hint", String(next));
   };
 
   const handleToggleNotifications = async () => {
@@ -155,13 +156,19 @@ export const SettingsView: React.FC = () => {
       if (granted) {
         setNotificationsEnabled(true);
         await notificationService.scheduleDailyRetention(streak);
-        showGlobalToast('🔔 Pengingat aktif! Streak dan Daily Rush kamu aman.', 3000);
+        showGlobalToast(
+          "🔔 Pengingat aktif! Streak dan Daily Rush kamu aman.",
+          3000,
+        );
       } else {
-        showGlobalToast('Izin notifikasi belum diaktifkan di sistem perangkat.', 2800);
+        showGlobalToast(
+          "Izin notifikasi belum diaktifkan di sistem perangkat.",
+          2800,
+        );
       }
     } else {
       setNotificationsEnabled(false);
-      showGlobalToast('Pengingat notifikasi dinonaktifkan.', 2500);
+      showGlobalToast("Pengingat notifikasi dinonaktifkan.", 2500);
     }
   };
 
@@ -178,17 +185,17 @@ export const SettingsView: React.FC = () => {
         levelRecords: state.levelRecords,
       };
       const blob = new Blob([JSON.stringify(backupData, null, 2)], {
-        type: 'application/json',
+        type: "application/json",
       });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
       a.download = `tts_quest_backup_${new Date().toISOString().slice(0, 10)}.json`;
       a.click();
       URL.revokeObjectURL(url);
-      showToast('Cadangan data berhasil diunduh!');
+      showToast("Cadangan data berhasil diunduh!");
     } catch {
-      showToast('Gagal membuat berkas cadangan.');
+      showToast("Gagal membuat berkas cadangan.");
     }
   };
 
@@ -201,29 +208,34 @@ export const SettingsView: React.FC = () => {
       try {
         const content = event.target?.result as string;
         const parsed = JSON.parse(content);
-        if (parsed && typeof parsed === 'object') {
-          if (parsed.user) localStorage.setItem('tts_quest_user', JSON.stringify(parsed.user));
-          if (typeof parsed.stars === 'number')
-            localStorage.setItem('tts_quest_stars', String(parsed.stars));
-          if (typeof parsed.streak === 'number')
-            localStorage.setItem('tts_quest_streak', String(parsed.streak));
-          if (parsed.theme) localStorage.setItem('tts_quest_theme', parsed.theme);
+        if (parsed && typeof parsed === "object") {
+          if (parsed.user)
+            localStorage.setItem("tts_quest_user", JSON.stringify(parsed.user));
+          if (typeof parsed.stars === "number")
+            localStorage.setItem("tts_quest_stars", String(parsed.stars));
+          if (typeof parsed.streak === "number")
+            localStorage.setItem("tts_quest_streak", String(parsed.streak));
+          if (parsed.theme)
+            localStorage.setItem("tts_quest_theme", parsed.theme);
           if (parsed.levelRecords)
-            localStorage.setItem('tts_quest_records', JSON.stringify(parsed.levelRecords));
+            localStorage.setItem(
+              "tts_quest_records",
+              JSON.stringify(parsed.levelRecords),
+            );
 
-          showToast('Data berhasil dipulihkan! Memuat ulang...');
+          showToast("Data berhasil dipulihkan! Memuat ulang...");
           setTimeout(() => {
             window.location.reload();
           }, 800);
         } else {
-          showToast('Format berkas tidak valid.');
+          showToast("Format berkas tidak valid.");
         }
       } catch {
-        showToast('Gagal membaca berkas cadangan.');
+        showToast("Gagal membaca berkas cadangan.");
       }
     };
     reader.readAsText(file);
-    if (fileInputRef.current) fileInputRef.current.value = '';
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   const currentThemeObj = THEMES[theme] || THEMES.obsidian;
@@ -244,7 +256,7 @@ export const SettingsView: React.FC = () => {
       <header className="flex items-center gap-2.5 px-0.5 shrink-0 pt-0.5">
         <button
           type="button"
-          onClick={() => setCurrentTab('profile')}
+          onClick={() => setCurrentTab("profile")}
           title="Kembali ke Profil"
           aria-label="Kembali ke Profil"
           className="w-8.5 h-8.5 rounded-full liquid-glass-tile border border-black/5 dark:border-white/10 flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer tactile-active shadow-xs shrink-0"
@@ -269,7 +281,8 @@ export const SettingsView: React.FC = () => {
         <div
           className="w-full rounded-[22px] overflow-hidden border border-[var(--accent-main)]/20 shadow-xs relative divide-y divide-black/5 dark:divide-white/10"
           style={{
-            background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
+            background:
+              "linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)",
           }}
         >
           <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
@@ -282,7 +295,10 @@ export const SettingsView: React.FC = () => {
             <div className="flex items-center gap-3 min-w-0 pr-2">
               <div
                 className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 shadow-xs border border-white/20"
-                style={{ background: 'var(--accent-grad)', color: 'var(--accent-contrast)' }}
+                style={{
+                  background: "var(--accent-grad)",
+                  color: "var(--accent-contrast)",
+                }}
               >
                 <Crown className="w-4.5 h-4.5 fill-current stroke-current" />
               </div>
@@ -292,7 +308,7 @@ export const SettingsView: React.FC = () => {
                     TTS Pass VIP
                   </span>
                   <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/25">
-                    {isVip ? 'AKTIF 👑' : 'RP 29.000/BLN'}
+                    {isVip ? "AKTIF 👑" : "RP 29.000/BLN"}
                   </span>
                   {isVip && (
                     <button
@@ -300,7 +316,7 @@ export const SettingsView: React.FC = () => {
                       onClick={(e) => {
                         e.stopPropagation();
                         setIsVip(false);
-                        showToast('Status VIP dinonaktifkan (Reset Simulasi).');
+                        showToast("Status VIP dinonaktifkan (Reset Simulasi).");
                       }}
                       className="text-[7.5px] font-bold px-1.5 py-0.5 rounded-full bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500/20 cursor-pointer ml-1"
                     >
@@ -310,8 +326,8 @@ export const SettingsView: React.FC = () => {
                 </div>
                 <span className="text-[9px] text-[var(--text-secondary)] block truncate mt-0.5">
                   {isVip
-                    ? 'Status langganan aktif — Bebas bikin TTS sepuasnya'
-                    : 'Buka studio kreasi tanpa batas & mahkota eksklusif'}
+                    ? "Status langganan aktif — Bebas bikin TTS sepuasnya"
+                    : "Buka studio kreasi tanpa batas & mahkota eksklusif"}
                 </span>
               </div>
             </div>
@@ -342,15 +358,15 @@ export const SettingsView: React.FC = () => {
           {/* Row 3: Pulihkan Pembelian (Restore Purchases) */}
           <div
             onClick={async () => {
-              showToast('Menghubungi server Apple App Store...');
+              showToast("Menghubungi server Apple App Store...");
               const res = await revenueCatService.restorePurchases();
               if (res.isVip) {
                 setIsVip(true);
-                showToast('✨ Status VIP berhasil dipulihkan!');
+                showToast("✨ Status VIP berhasil dipulihkan!");
               } else if (res.success) {
-                showToast('Tidak ada pembelian aktif di Apple ID ini.');
+                showToast("Tidak ada pembelian aktif di Apple ID ini.");
               } else {
-                showToast(res.error || 'Gagal memulihkan pembelian.');
+                showToast(res.error || "Gagal memulihkan pembelian.");
               }
             }}
             className="flex items-center justify-between p-3 cursor-pointer tactile-active hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
@@ -381,7 +397,8 @@ export const SettingsView: React.FC = () => {
         <div
           className="w-full rounded-[22px] p-3.5 border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden"
           style={{
-            background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
+            background:
+              "linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)",
           }}
         >
           <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
@@ -406,8 +423,8 @@ export const SettingsView: React.FC = () => {
                   onClick={() => setTheme(t.id as ThemeKey)}
                   className={`flex flex-col items-center gap-1.5 p-1.5 rounded-[14px] transition-all cursor-pointer tactile-active shrink-0 ${
                     isSelected
-                      ? 'bg-[var(--accent-light)] border border-[var(--accent-main)]/35 ring-1.5 ring-[var(--accent-main)]/25 shadow-xs'
-                      : 'bg-black/[0.03] dark:bg-white/[0.04] border border-black/5 dark:border-white/10 hover:border-black/15'
+                      ? "bg-[var(--accent-light)] border border-[var(--accent-main)]/35 ring-1.5 ring-[var(--accent-main)]/25 shadow-xs"
+                      : "bg-black/[0.03] dark:bg-white/[0.04] border border-black/5 dark:border-white/10 hover:border-black/15"
                   }`}
                 >
                   {/* Kotak Rounded Swatch Tile Preview */}
@@ -429,7 +446,10 @@ export const SettingsView: React.FC = () => {
                           <Check
                             className="w-2.5 h-2.5 stroke-[3.5]"
                             style={{
-                              color: THEMES[t.id as ThemeKey]?.vars['--accent-contrast'] || '#FFFFFF',
+                              color:
+                                THEMES[t.id as ThemeKey]?.vars[
+                                  "--accent-contrast"
+                                ] || "#FFFFFF",
                             }}
                           />
                         </div>
@@ -442,12 +462,8 @@ export const SettingsView: React.FC = () => {
                         className="w-2.5 h-2.5 rounded-[3px] shadow-2xs"
                         style={{ backgroundColor: t.previewAccent }}
                       />
-                      <div
-                        className="w-2.5 h-2.5 rounded-[3px] border border-black/15 dark:border-white/20 bg-white/20"
-                      />
-                      <div
-                        className="w-2.5 h-2.5 rounded-[3px] border border-black/15 dark:border-white/20 bg-white/20"
-                      />
+                      <div className="w-2.5 h-2.5 rounded-[3px] border border-black/15 dark:border-white/20 bg-white/20" />
+                      <div className="w-2.5 h-2.5 rounded-[3px] border border-black/15 dark:border-white/20 bg-white/20" />
                     </div>
                   </div>
 
@@ -455,8 +471,8 @@ export const SettingsView: React.FC = () => {
                   <span
                     className={`text-[9.5px] truncate max-w-[68px] leading-tight text-center ${
                       isSelected
-                        ? 'font-black text-[var(--text-primary)]'
-                        : 'font-semibold text-[var(--text-secondary)]'
+                        ? "font-black text-[var(--text-primary)]"
+                        : "font-semibold text-[var(--text-secondary)]"
                     }`}
                   >
                     {t.name}
@@ -476,7 +492,8 @@ export const SettingsView: React.FC = () => {
         <div
           className="w-full rounded-[22px] overflow-hidden border border-[var(--accent-main)]/20 shadow-xs relative divide-y divide-black/5 dark:divide-white/10"
           style={{
-            background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
+            background:
+              "linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)",
           }}
         >
           <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
@@ -503,12 +520,14 @@ export const SettingsView: React.FC = () => {
               type="button"
               onClick={toggleSound}
               className={`w-9 h-5 rounded-full p-0.5 transition-colors cursor-pointer shrink-0 ${
-                soundEnabled ? 'bg-[var(--accent-main)]' : 'bg-black/20 dark:bg-white/20'
+                soundEnabled
+                  ? "bg-[var(--accent-main)]"
+                  : "bg-black/20 dark:bg-white/20"
               }`}
             >
               <div
                 className={`w-4 h-4 rounded-full bg-white shadow-xs transform transition-transform ${
-                  soundEnabled ? 'translate-x-4' : 'translate-x-0'
+                  soundEnabled ? "translate-x-4" : "translate-x-0"
                 }`}
               />
             </button>
@@ -529,28 +548,29 @@ export const SettingsView: React.FC = () => {
               <div className="grid grid-cols-3 gap-1.5">
                 {[
                   {
-                    id: 'apple_tactile' as SoundPackKey,
-                    name: 'Apple Tactile',
-                    desc: 'Mekanis iOS',
-                    icon: '🍎',
+                    id: "apple_tactile" as SoundPackKey,
+                    name: "Apple Tactile",
+                    desc: "Mekanis iOS",
+                    icon: "🍎",
                     play: () => soundManager.playKeyClick(),
                   },
                   {
-                    id: 'gamelan_classic' as SoundPackKey,
-                    name: 'Gamelan',
-                    desc: 'Slendro Lonceng',
-                    icon: '🔔',
+                    id: "gamelan_classic" as SoundPackKey,
+                    name: "Gamelan",
+                    desc: "Slendro Lonceng",
+                    icon: "🔔",
                     play: () => soundManager.playGamelanBell(),
                   },
                   {
-                    id: 'acoustic_nylon' as SoundPackKey,
-                    name: 'Akustik Dawai',
-                    desc: 'Senar Gitar',
-                    icon: '🎸',
+                    id: "acoustic_nylon" as SoundPackKey,
+                    name: "Akustik Dawai",
+                    desc: "Senar Gitar",
+                    icon: "🎸",
                     play: () => soundManager.playAcousticStrum(),
                   },
                 ].map((pack) => {
-                  const isSelected = (user.soundPack || 'apple_tactile') === pack.id;
+                  const isSelected =
+                    (user.soundPack || "apple_tactile") === pack.id;
                   return (
                     <button
                       key={pack.id}
@@ -561,8 +581,8 @@ export const SettingsView: React.FC = () => {
                       }}
                       className={`p-2 rounded-xl flex flex-col items-center text-center gap-1 transition-all cursor-pointer tactile-active border ${
                         isSelected
-                          ? 'bg-[var(--accent-light)] border-[var(--accent-main)]/40 ring-1 ring-[var(--accent-main)]/30 shadow-2xs'
-                          : 'bg-black/[0.02] dark:bg-white/[0.03] border-black/5 dark:border-white/10 hover:border-black/15'
+                          ? "bg-[var(--accent-light)] border-[var(--accent-main)]/40 ring-1 ring-[var(--accent-main)]/30 shadow-2xs"
+                          : "bg-black/[0.02] dark:bg-white/[0.03] border-black/5 dark:border-white/10 hover:border-black/15"
                       }`}
                     >
                       <span className="text-[14px]">{pack.icon}</span>
@@ -598,12 +618,14 @@ export const SettingsView: React.FC = () => {
               type="button"
               onClick={toggleAmbient}
               className={`w-9 h-5 rounded-full p-0.5 transition-colors cursor-pointer shrink-0 ${
-                ambientEnabled ? 'bg-[var(--accent-main)]' : 'bg-black/20 dark:bg-white/20'
+                ambientEnabled
+                  ? "bg-[var(--accent-main)]"
+                  : "bg-black/20 dark:bg-white/20"
               }`}
             >
               <div
                 className={`w-4 h-4 rounded-full bg-white shadow-xs transform transition-transform ${
-                  ambientEnabled ? 'translate-x-4' : 'translate-x-0'
+                  ambientEnabled ? "translate-x-4" : "translate-x-0"
                 }`}
               />
             </button>
@@ -646,12 +668,14 @@ export const SettingsView: React.FC = () => {
               type="button"
               onClick={handleToggleHaptics}
               className={`w-9 h-5 rounded-full p-0.5 transition-colors cursor-pointer shrink-0 ${
-                hapticEnabled ? 'bg-[var(--accent-main)]' : 'bg-black/20 dark:bg-white/20'
+                hapticEnabled
+                  ? "bg-[var(--accent-main)]"
+                  : "bg-black/20 dark:bg-white/20"
               }`}
             >
               <div
                 className={`w-4 h-4 rounded-full bg-white shadow-xs transform transition-transform ${
-                  hapticEnabled ? 'translate-x-4' : 'translate-x-0'
+                  hapticEnabled ? "translate-x-4" : "translate-x-0"
                 }`}
               />
             </button>
@@ -676,12 +700,14 @@ export const SettingsView: React.FC = () => {
               type="button"
               onClick={toggleAutoAdvance}
               className={`w-9 h-5 rounded-full p-0.5 transition-colors cursor-pointer shrink-0 ${
-                autoAdvanceEnabled ? 'bg-[var(--accent-main)]' : 'bg-black/20 dark:bg-white/20'
+                autoAdvanceEnabled
+                  ? "bg-[var(--accent-main)]"
+                  : "bg-black/20 dark:bg-white/20"
               }`}
             >
               <div
                 className={`w-4 h-4 rounded-full bg-white shadow-xs transform transition-transform ${
-                  autoAdvanceEnabled ? 'translate-x-4' : 'translate-x-0'
+                  autoAdvanceEnabled ? "translate-x-4" : "translate-x-0"
                 }`}
               />
             </button>
@@ -706,12 +732,14 @@ export const SettingsView: React.FC = () => {
               type="button"
               onClick={handleToggleConfirmHint}
               className={`w-9 h-5 rounded-full p-0.5 transition-colors cursor-pointer shrink-0 ${
-                confirmHint ? 'bg-[var(--accent-main)]' : 'bg-black/20 dark:bg-white/20'
+                confirmHint
+                  ? "bg-[var(--accent-main)]"
+                  : "bg-black/20 dark:bg-white/20"
               }`}
             >
               <div
                 className={`w-4 h-4 rounded-full bg-white shadow-xs transform transition-transform ${
-                  confirmHint ? 'translate-x-4' : 'translate-x-0'
+                  confirmHint ? "translate-x-4" : "translate-x-0"
                 }`}
               />
             </button>
@@ -736,12 +764,14 @@ export const SettingsView: React.FC = () => {
               type="button"
               onClick={handleToggleNotifications}
               className={`w-9 h-5 rounded-full p-0.5 transition-colors cursor-pointer shrink-0 ${
-                notificationsEnabled ? 'bg-[var(--accent-main)]' : 'bg-black/20 dark:bg-white/20'
+                notificationsEnabled
+                  ? "bg-[var(--accent-main)]"
+                  : "bg-black/20 dark:bg-white/20"
               }`}
             >
               <div
                 className={`w-4 h-4 rounded-full bg-white shadow-xs transform transition-transform ${
-                  notificationsEnabled ? 'translate-x-4' : 'translate-x-0'
+                  notificationsEnabled ? "translate-x-4" : "translate-x-0"
                 }`}
               />
             </button>
@@ -752,25 +782,27 @@ export const SettingsView: React.FC = () => {
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-1.5 text-[var(--text-primary)]">
                 <Sparkles className="w-3.5 h-3.5 text-[var(--accent-main)]" />
-                <span className="text-[12px] font-bold">Umpan Balik Kesalahan</span>
+                <span className="text-[12px] font-bold">
+                  Umpan Balik Kesalahan
+                </span>
               </div>
               <span className="text-[8.5px] font-black px-2 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/20 text-[var(--accent-main)]">
-                {errorFeedbackMode === 'gentle' ? 'Lembut' : 'Purist'}
+                {errorFeedbackMode === "gentle" ? "Lembut" : "Purist"}
               </span>
             </div>
             <p className="text-[9px] text-[var(--text-secondary)] leading-tight mb-2">
-              {errorFeedbackMode === 'gentle'
-                ? 'Kotak bergetar dan bergoyang lembut jika ada huruf yang keliru saat kata selesai.'
-                : 'Mode murni tanpa indikasi salah di tengah permainan. Penilaian saat bab tuntas.'}
+              {errorFeedbackMode === "gentle"
+                ? "Kotak bergetar dan bergoyang lembut jika ada huruf yang keliru saat kata selesai."
+                : "Mode murni tanpa indikasi salah di tengah permainan. Penilaian saat bab tuntas."}
             </p>
             <div className="flex items-center p-1 rounded-xl bg-black/5 dark:bg-white/10 gap-1 border border-black/5 dark:border-white/10">
               <button
                 type="button"
-                onClick={() => setErrorFeedbackMode('gentle')}
+                onClick={() => setErrorFeedbackMode("gentle")}
                 className={`flex-1 py-1.5 rounded-lg text-[10px] font-bold transition-all tactile-active cursor-pointer flex items-center justify-center gap-1.5 ${
-                  errorFeedbackMode === 'gentle'
-                    ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-2xs'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                  errorFeedbackMode === "gentle"
+                    ? "bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-2xs"
+                    : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                 }`}
               >
                 <Sparkles className="w-3 h-3 stroke-[2.2]" />
@@ -778,11 +810,11 @@ export const SettingsView: React.FC = () => {
               </button>
               <button
                 type="button"
-                onClick={() => setErrorFeedbackMode('purist')}
+                onClick={() => setErrorFeedbackMode("purist")}
                 className={`flex-1 py-1.5 rounded-lg text-[10px] font-bold transition-all tactile-active cursor-pointer flex items-center justify-center gap-1.5 ${
-                  errorFeedbackMode === 'purist'
-                    ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-2xs'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                  errorFeedbackMode === "purist"
+                    ? "bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-2xs"
+                    : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                 }`}
               >
                 <ShieldCheck className="w-3 h-3 stroke-[2.2]" />
@@ -801,7 +833,8 @@ export const SettingsView: React.FC = () => {
         <div
           className="w-full rounded-[22px] p-3.5 border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden flex flex-col gap-2.5"
           style={{
-            background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
+            background:
+              "linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)",
           }}
         >
           <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
@@ -862,13 +895,14 @@ export const SettingsView: React.FC = () => {
         <div
           className="w-full rounded-[22px] overflow-hidden border border-[var(--accent-main)]/20 shadow-xs relative divide-y divide-black/5 dark:divide-white/10"
           style={{
-            background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
+            background:
+              "linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)",
           }}
         >
           <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
           <button
             type="button"
-            onClick={() => openLegalModal('privacy')}
+            onClick={() => openLegalModal("privacy")}
             className="w-full flex items-center justify-between p-3 hover:bg-black/3 dark:hover:bg-white/5 transition-colors cursor-pointer text-left tactile-active group relative z-10"
           >
             <div className="flex items-center gap-3">
@@ -889,7 +923,7 @@ export const SettingsView: React.FC = () => {
 
           <button
             type="button"
-            onClick={() => openLegalModal('terms')}
+            onClick={() => openLegalModal("terms")}
             className="w-full flex items-center justify-between p-3 hover:bg-black/3 dark:hover:bg-white/5 transition-colors cursor-pointer text-left tactile-active group relative z-10"
           >
             <div className="flex items-center gap-3">
@@ -910,7 +944,7 @@ export const SettingsView: React.FC = () => {
 
           <button
             type="button"
-            onClick={() => openLegalModal('kbbi')}
+            onClick={() => openLegalModal("kbbi")}
             className="w-full flex items-center justify-between p-3 hover:bg-black/3 dark:hover:bg-white/5 transition-colors cursor-pointer text-left tactile-active group relative z-10"
           >
             <div className="flex items-center gap-3">
@@ -959,7 +993,8 @@ export const SettingsView: React.FC = () => {
         <div
           className="w-full rounded-[22px] overflow-hidden border border-red-500/20 shadow-xs relative divide-y divide-black/5 dark:divide-white/10"
           style={{
-            background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
+            background:
+              "linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)",
           }}
         >
           <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
@@ -979,13 +1014,13 @@ export const SettingsView: React.FC = () => {
                   Kartu Identitas Pemain
                 </span>
                 <span className="text-[9px] text-[var(--text-secondary)] block">
-                  Rincian ID ({user.id || 'TTS-8842'}), surel, dan profil
+                  Rincian ID ({user.id || "TTS-8842"}), surel, dan profil
                 </span>
               </div>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="text-[10px] font-mono font-black text-[var(--accent-main)] px-2 py-0.5 rounded-md bg-[var(--accent-light)] border border-[var(--accent-main)]/20">
-                {user.id || 'TTS-8842'}
+                {user.id || "TTS-8842"}
               </span>
               <ChevronRight className="w-3.5 h-3.5 text-[var(--text-secondary)] group-hover:text-[var(--text-primary)]" />
             </div>
@@ -1007,7 +1042,9 @@ export const SettingsView: React.FC = () => {
                     Kata Sandi Akun
                   </span>
                   <span className="text-[9px] text-[var(--text-secondary)] block">
-                    {user.email ? `Atur atau ubah kata sandi untuk ${user.email}` : 'Atur kata sandi untuk akses email'}
+                    {user.email
+                      ? `Atur atau ubah kata sandi untuk ${user.email}`
+                      : "Atur kata sandi untuk akses email"}
                   </span>
                 </div>
               </div>
@@ -1027,12 +1064,14 @@ export const SettingsView: React.FC = () => {
                 <div className="flex items-center gap-2 text-rose-500 dark:text-rose-400">
                   <LogOut className="w-3.5 h-3.5 stroke-[2.2]" />
                   <span className="text-[11.5px] font-black">
-                    {user.isGuest ? 'Keluar dari Sesi Tamu?' : 'Keluar dari Akun?'}
+                    {user.isGuest
+                      ? "Keluar dari Sesi Tamu?"
+                      : "Keluar dari Akun?"}
                   </span>
                 </div>
                 <p className="text-[9px] text-[var(--text-secondary)] leading-tight">
                   {user.isGuest
-                    ? 'Anda akan diarahkan kembali ke halaman awal untuk masuk atau membuat akun baru.'
+                    ? "Anda akan diarahkan kembali ke halaman awal untuk masuk atau membuat akun baru."
                     : `Sesi login untuk ${user.email || user.name} akan diakhiri. Data cloud Anda tetap aman.`}
                 </p>
                 <div className="flex gap-2 pt-1">
@@ -1063,10 +1102,14 @@ export const SettingsView: React.FC = () => {
                   </div>
                   <div>
                     <span className="text-[12px] font-bold text-[var(--text-primary)] block leading-tight">
-                      {user.isGuest ? 'Ganti Akun / Keluar Sesi' : 'Keluar dari Akun'}
+                      {user.isGuest
+                        ? "Ganti Akun / Keluar Sesi"
+                        : "Keluar dari Akun"}
                     </span>
                     <span className="text-[9px] text-[var(--text-secondary)] block">
-                      {user.isGuest ? 'Mode Tamu aktif • Masuk untuk simpan data' : `Terhubung sebagai ${user.email || user.name}`}
+                      {user.isGuest
+                        ? "Mode Tamu aktif • Masuk untuk simpan data"
+                        : `Terhubung sebagai ${user.email || user.name}`}
                     </span>
                   </div>
                 </div>
@@ -1085,38 +1128,19 @@ export const SettingsView: React.FC = () => {
             )}
           </div>
 
-          {/* Putar Ulang Sambutan & Onboarding */}
-          <button
-            type="button"
-            onClick={restartOnboarding}
-            className="w-full flex items-center justify-between p-3 hover:bg-black/3 dark:hover:bg-white/5 transition-colors cursor-pointer text-left tactile-active group relative z-10"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-7.5 h-7.5 rounded-xl bg-black/5 dark:bg-white/5 text-[var(--accent-main)] flex items-center justify-center shrink-0">
-                <Sparkles className="w-4 h-4 stroke-[2]" />
-              </div>
-              <div>
-                <span className="text-[12px] font-bold text-[var(--text-primary)] block leading-tight">
-                  Putar Ulang Sambutan & Onboarding
-                </span>
-                <span className="text-[9px] text-[var(--text-secondary)] block">
-                  Tinjau alur pendaftaran awal & tutorial
-                </span>
-              </div>
-            </div>
-            <ChevronRight className="w-3.5 h-3.5 text-[var(--text-secondary)] group-hover:text-[var(--text-primary)]" />
-          </button>
-
           {/* Reset Progres Bab */}
           <div className="p-3">
             {showResetConfirm ? (
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2 text-[var(--text-primary)]">
                   <RotateCcw className="w-3.5 h-3.5 text-[var(--accent-main)]" />
-                  <span className="text-[11.5px] font-black">Atur Ulang Semua Bab?</span>
+                  <span className="text-[11.5px] font-black">
+                    Atur Ulang Semua Bab?
+                  </span>
                 </div>
                 <p className="text-[9px] text-[var(--text-secondary)] leading-tight">
-                  Kemajuan bab dan jawaban kata akan kembali ke awal. Profil pemain Anda tetap aman.
+                  Kemajuan bab dan jawaban kata akan kembali ke awal. Profil
+                  pemain Anda tetap aman.
                 </p>
                 <div className="flex gap-2 pt-1">
                   <button
@@ -1124,7 +1148,7 @@ export const SettingsView: React.FC = () => {
                     onClick={() => {
                       resetAllProgress();
                       setShowResetConfirm(false);
-                      showToast('Semua kemajuan bab direset.');
+                      showToast("Semua kemajuan bab direset.");
                     }}
                     className="flex-1 py-1.5 rounded-lg bg-black/10 dark:bg-white/15 text-[var(--text-primary)] font-bold text-[10px] cursor-pointer tactile-active"
                   >
@@ -1174,10 +1198,15 @@ export const SettingsView: React.FC = () => {
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2 text-red-500 dark:text-red-400">
                   <Trash2 className="w-3.5 h-3.5 stroke-[2.2]" />
-                  <span className="text-[11.5px] font-black">Hapus Permanen Akun & Data?</span>
+                  <span className="text-[11.5px] font-black">
+                    Hapus Permanen Akun & Data?
+                  </span>
                 </div>
                 <p className="text-[9px] text-[var(--text-secondary)] leading-tight">
-                  Sesuai Apple App Store Guideline 5.1.1(v), tindakan ini akan <strong>menghapus total identitas pemain</strong>, avatar, bintang, streak, dan riwayat lokal dari perangkat ini tanpa dapat dipulihkan.
+                  Sesuai Apple App Store Guideline 5.1.1(v), tindakan ini akan{" "}
+                  <strong>menghapus total identitas pemain</strong>, avatar,
+                  bintang, streak, dan riwayat lokal dari perangkat ini tanpa
+                  dapat dipulihkan.
                 </p>
                 <div className="flex gap-2 pt-1">
                   <button
@@ -1245,16 +1274,21 @@ export const SettingsView: React.FC = () => {
                   Kata Sandi Akun
                 </h3>
                 <p className="text-[9.5px] text-[var(--text-secondary)]">
-                  {user.email || 'Atur kata sandi akun'}
+                  {user.email || "Atur kata sandi akun"}
                 </p>
               </div>
             </div>
 
             <p className="text-[10.5px] text-[var(--text-secondary)] leading-relaxed">
-              Atur kata sandi baru untuk akun Anda. Kata sandi ini memungkinkan Anda masuk langsung menggunakan surel & kata sandi di semua perangkat.
+              Atur kata sandi baru untuk akun Anda. Kata sandi ini memungkinkan
+              Anda masuk langsung menggunakan surel & kata sandi di semua
+              perangkat.
             </p>
 
-            <form onSubmit={handleSavePassword} className="flex flex-col gap-2.5 mt-1">
+            <form
+              onSubmit={handleSavePassword}
+              className="flex flex-col gap-2.5 mt-1"
+            >
               <div className="flex flex-col gap-1">
                 <label className="text-[9px] font-black uppercase tracking-wider text-[var(--text-secondary)] px-0.5">
                   Kata Sandi Baru (Min. 6 Karakter)
@@ -1262,7 +1296,7 @@ export const SettingsView: React.FC = () => {
                 <div className="relative">
                   <Lock className="w-4 h-4 text-[var(--text-secondary)] absolute left-3 top-1/2 -translate-y-1/2" />
                   <input
-                    type={showNewPassword ? 'text' : 'password'}
+                    type={showNewPassword ? "text" : "password"}
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="••••••••"
@@ -1275,7 +1309,11 @@ export const SettingsView: React.FC = () => {
                     onClick={() => setShowNewPassword(!showNewPassword)}
                     className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer p-1"
                   >
-                    {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showNewPassword ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
                   </button>
                 </div>
               </div>
@@ -1287,7 +1325,7 @@ export const SettingsView: React.FC = () => {
                 <div className="relative">
                   <Lock className="w-4 h-4 text-[var(--text-secondary)] absolute left-3 top-1/2 -translate-y-1/2" />
                   <input
-                    type={showNewPassword ? 'text' : 'password'}
+                    type={showNewPassword ? "text" : "password"}
                     value={confirmNewPassword}
                     onChange={(e) => setConfirmNewPassword(e.target.value)}
                     placeholder="••••••••"
@@ -1303,8 +1341,8 @@ export const SettingsView: React.FC = () => {
                   type="button"
                   onClick={() => {
                     setIsPasswordModalOpen(false);
-                    setNewPassword('');
-                    setConfirmNewPassword('');
+                    setNewPassword("");
+                    setConfirmNewPassword("");
                   }}
                   className="px-3.5 py-2 rounded-xl text-[11px] font-bold text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer"
                 >
@@ -1315,7 +1353,7 @@ export const SettingsView: React.FC = () => {
                   disabled={isSavingPassword}
                   className="px-4 py-2 rounded-xl text-[11.5px] font-black bg-[var(--accent-main)] text-[var(--accent-contrast)] hover:opacity-95 cursor-pointer shadow-xs disabled:opacity-50"
                 >
-                  {isSavingPassword ? 'Menyimpan...' : 'Simpan Kata Sandi'}
+                  {isSavingPassword ? "Menyimpan..." : "Simpan Kata Sandi"}
                 </button>
               </div>
             </form>
@@ -1326,13 +1364,23 @@ export const SettingsView: React.FC = () => {
       {/* 7. Footer Info */}
       <footer className="w-full shrink-0 flex flex-col items-center justify-center gap-1.5 text-[9px] text-[var(--text-secondary)] pt-2 pb-2">
         <div className="flex items-center gap-2">
-          <img src="/logo-dark.webp" alt="TTS Bareng" className="w-4.5 h-4.5 rounded-md object-contain hidden dark:block" />
-          <img src="/logo-light.webp" alt="TTS Bareng" className="w-4.5 h-4.5 rounded-md object-contain block dark:hidden" />
-          <span className="font-black text-[10.5px] text-[var(--text-primary)] tracking-tight">TTS Bareng</span>
+          <img
+            src="/logo-dark.webp"
+            alt="TTS Bareng"
+            className="w-4.5 h-4.5 rounded-md object-contain hidden dark:block"
+          />
+          <img
+            src="/logo-light.webp"
+            alt="TTS Bareng"
+            className="w-4.5 h-4.5 rounded-md object-contain block dark:hidden"
+          />
+          <span className="font-black text-[10.5px] text-[var(--text-primary)] tracking-tight">
+            TTS Bareng
+          </span>
         </div>
         <button
           type="button"
-          onClick={() => openLegalModal('privacy')}
+          onClick={() => openLegalModal("privacy")}
           className="flex items-center gap-1.5 text-[9px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
         >
           <ShieldCheck className="w-3 h-3 text-[var(--accent-main)]" />

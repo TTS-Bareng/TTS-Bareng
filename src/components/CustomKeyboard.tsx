@@ -1,11 +1,18 @@
-import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Check, Star, RotateCcw, Delete, ArrowRight } from 'lucide-react';
-import { useGameStore } from '../store/useGameStore';
+import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  ChevronDown,
+  Check,
+  Star,
+  RotateCcw,
+  Delete,
+  ArrowRight,
+} from "lucide-react";
+import { useGameStore } from "../store/useGameStore";
 
-const ROW_1 = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
-const ROW_2 = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
-const ROW_3 = ['Z', 'X', 'C', 'V', 'B', 'N', 'M'];
+const ROW_1 = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
+const ROW_2 = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
+const ROW_3 = ["Z", "X", "C", "V", "B", "N", "M"];
 
 export const CustomKeyboard: React.FC = () => {
   const {
@@ -25,13 +32,13 @@ export const CustomKeyboard: React.FC = () => {
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ y: '100%' }}
+          initial={{ y: "100%" }}
           animate={{ y: 0 }}
-          exit={{ y: '100%' }}
-          transition={{ type: 'spring', damping: 28, stiffness: 350 }}
+          exit={{ y: "100%" }}
+          transition={{ type: "spring", damping: 28, stiffness: 350 }}
           className="w-full flex flex-col z-30 select-none touch-manipulation relative overflow-hidden"
           style={{
-            backgroundColor: 'var(--keyboard-bg)',
+            backgroundColor: "var(--keyboard-bg)",
           }}
         >
           {/* Top Handle Pill (Tap to minimize) */}
@@ -49,8 +56,8 @@ export const CustomKeyboard: React.FC = () => {
               onClick={checkAnswers}
               className="flex-1 py-1.5 px-2.5 rounded-xl text-[10.5px] font-black flex items-center justify-center gap-1.5 cursor-pointer tactile-active shadow-sm transition-all"
               style={{
-                background: 'var(--accent-grad)',
-                color: 'var(--accent-contrast)',
+                background: "var(--accent-grad)",
+                color: "var(--accent-contrast)",
               }}
             >
               <Check className="w-3.5 h-3.5 stroke-[3]" />
@@ -101,11 +108,11 @@ export const CustomKeyboard: React.FC = () => {
                   onClick={() => inputLetter(char)}
                   className="flex-1 h-10.5 max-w-[38px] rounded-[8px] font-black text-[15px] flex items-center justify-center tactile-active transition-transform duration-75 active:scale-95 cursor-pointer shadow-xs touch-manipulation select-none"
                   style={{
-                    backgroundColor: 'var(--key-bg)',
-                    color: 'var(--key-text)',
-                    boxShadow: 'var(--key-shadow)',
-                    WebkitTapHighlightColor: 'transparent',
-                    WebkitTouchCallout: 'none',
+                    backgroundColor: "var(--key-bg)",
+                    color: "var(--key-text)",
+                    boxShadow: "var(--key-shadow)",
+                    WebkitTapHighlightColor: "transparent",
+                    WebkitTouchCallout: "none",
                   }}
                 >
                   {char}
@@ -122,11 +129,11 @@ export const CustomKeyboard: React.FC = () => {
                   onClick={() => inputLetter(char)}
                   className="flex-1 h-10.5 max-w-[38px] rounded-[8px] font-black text-[15px] flex items-center justify-center tactile-active transition-transform duration-75 active:scale-95 cursor-pointer shadow-xs touch-manipulation select-none"
                   style={{
-                    backgroundColor: 'var(--key-bg)',
-                    color: 'var(--key-text)',
-                    boxShadow: 'var(--key-shadow)',
-                    WebkitTapHighlightColor: 'transparent',
-                    WebkitTouchCallout: 'none',
+                    backgroundColor: "var(--key-bg)",
+                    color: "var(--key-text)",
+                    boxShadow: "var(--key-shadow)",
+                    WebkitTapHighlightColor: "transparent",
+                    WebkitTouchCallout: "none",
                   }}
                 >
                   {char}
@@ -144,8 +151,8 @@ export const CustomKeyboard: React.FC = () => {
                 aria-label="Petunjuk Berikutnya"
                 className="flex-[1.3] h-10.5 rounded-[8px] font-bold text-[11px] flex items-center justify-center gap-1 tactile-active transition-transform duration-75 active:scale-95 cursor-pointer shadow-xs bg-[var(--accent-light)] text-[var(--accent-main)] touch-manipulation select-none"
                 style={{
-                  WebkitTapHighlightColor: 'transparent',
-                  WebkitTouchCallout: 'none',
+                  WebkitTapHighlightColor: "transparent",
+                  WebkitTouchCallout: "none",
                 }}
               >
                 <span>Next</span>
@@ -159,11 +166,11 @@ export const CustomKeyboard: React.FC = () => {
                   onClick={() => inputLetter(char)}
                   className="flex-1 h-10.5 max-w-[38px] rounded-[8px] font-black text-[15px] flex items-center justify-center tactile-active transition-transform duration-75 active:scale-95 cursor-pointer shadow-xs touch-manipulation select-none"
                   style={{
-                    backgroundColor: 'var(--key-bg)',
-                    color: 'var(--key-text)',
-                    boxShadow: 'var(--key-shadow)',
-                    WebkitTapHighlightColor: 'transparent',
-                    WebkitTouchCallout: 'none',
+                    backgroundColor: "var(--key-bg)",
+                    color: "var(--key-text)",
+                    boxShadow: "var(--key-shadow)",
+                    WebkitTapHighlightColor: "transparent",
+                    WebkitTouchCallout: "none",
                   }}
                 >
                   {char}
@@ -178,8 +185,8 @@ export const CustomKeyboard: React.FC = () => {
                 aria-label="Hapus Huruf"
                 className="flex-[1.3] h-10.5 rounded-[8px] font-bold text-[12px] flex items-center justify-center tactile-active transition-transform duration-75 active:scale-95 cursor-pointer shadow-xs bg-black/10 dark:bg-white/10 text-[var(--text-primary)] touch-manipulation select-none"
                 style={{
-                  WebkitTapHighlightColor: 'transparent',
-                  WebkitTouchCallout: 'none',
+                  WebkitTapHighlightColor: "transparent",
+                  WebkitTouchCallout: "none",
                 }}
               >
                 <Delete className="w-4 h-4 stroke-[2.2]" />
