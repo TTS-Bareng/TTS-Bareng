@@ -72,6 +72,13 @@ Pedoman ini bertujuan untuk meminimalkan kesalahan umum LLM, bias terhadap kehat
 ### E. Full-Page Studio Canvas
 - Studio Kreator TTS Custom **wajib berupa Full-Page Canvas** (`fixed inset-0 z-50 bg-[var(--bg-main)] flex flex-col`), dilarang berupa pop-up modal terapung sempit.
 
+### F. Zero Native Browser Dialogs (Strict Custom Modal Rule)
+- **DILARANG KERAS** memanggil `window.confirm()`, `window.alert()`, atau `window.prompt()` native browser.
+- Seluruh dialog konfirmasi (keluar game, tinggalkan sesi duel/mabar, hapus TTS kustom, muat backup) **WAJIB** menggunakan `openConfirmDialog({ ... })` yang merender `ConfirmDialogModal.tsx` kaca cair adaptif tema.
+
+### G. Zero Raw Emojis pada Toast & System UI
+- **DILARANG** menyematkan emoji mentah (`🏆`, `🔥`, `⚡`, `⚠️`) di toast store (`showGlobalToast`). Gunakan teks Bahasa Indonesia yang bersih dan profesional.
+
 ---
 
 ## 3. Gameplay Mechanics & State Invariants (STRICT)
@@ -99,12 +106,17 @@ Pedoman ini bertujuan untuk meminimalkan kesalahan umum LLM, bias terhadap kehat
 
 ---
 
-## 4. TTS Kustom: Web Origin & Profil
+## 4. TTS Kustom: Web Origin, Profil & State Protection
 
 - Dalam deep link & share text: origin lokal Capacitor otomatis dipetakan ke web publik:
   `https://tts-bareng-web.akashaaa-id.workers.dev`.
+- Deep link dienkode menggunakan skema URL-safe Base64 (`encodeCustomCrosswordPayload` / `decodeCustomCrosswordParam` di `deeplink.ts`).
 - Karya TTS disimpan ke state `userCustomCrosswords` (`localStorage`: `tts_user_custom_crosswords_v1`).
-- Pada `ProfileView.tsx`, bento section **"TTS Kreasiku"** menyediakan tombol: **Mainkan**, **Bagikan**, **Edit**, dan **Hapus**.
+- **Dilarang mereset `userCustomCrosswords`** saat keluar sesi mabar (`leaveMabarSession()`) atau duel.
+- Pada `ProfileView.tsx`, bento section **"TTS Kreasiku"** menyediakan tombol: **Mainkan**, **Bagikan**, **Edit**, dan **Hapus** (didukung dialog konfirmasi modal kustom).
+- Visual khusus mode kustom:
+  - `Header.tsx` menampilkan `KREASI KUSTOM • STUDIO TTS` (bukan BAB 0).
+  - `LevelCompleteModal.tsx` menampilkan `KREASI KUSTOM • TUNTAS` dengan `hasNextLevel: false`.
 
 ---
 
@@ -116,9 +128,13 @@ Pedoman ini bertujuan untuk meminimalkan kesalahan umum LLM, bias terhadap kehat
 
 ---
 
-## 6. Autentikasi, Keamanan & Penghapusan Akun
+## 6. Autentikasi, Keamanan, Backup & Data Invariants
 
-- Konfirmasi hapus akun di `SettingsView.tsx` wajib mengetik kata **`hapus`** secara presisi sebelum tombol konfirmasi aktif.
+- **Invarian State `trophies` (TrophyRecord)**:
+  - Objek `{ gold: number, silver: number, bronze: number, totalTournaments: number }`, **BUKAN ARRAY**. Reset saat logout atau hapus akun wajib menggunakan `loadTrophies()`.
+- **Skema Backup Akun Versi 3**:
+  - Ekspor/impor di `SettingsView.tsx` menggunakan `version: 3` yang mencakup `userCustomCrosswords`, `trophies`, `eloRating`, `sachetPurchasedCount`, dan `customTtsTickets`.
+- **Hapus Akun**: Konfirmasi di `SettingsView.tsx` wajib mengetik kata **`hapus`** secara presisi sebelum tombol konfirmasi aktif.
 - Penghapusan akun mengeksekusi RPC Supabase `delete_user_account` (`SECURITY DEFINER`), membersihkan sesi Google/Apple/RevenueCat, menghapus seluruh cache `localStorage` (`tts_*`, `sb-*`, `sidenotes_*`, `noticed_*`), dan me-reload aplikasi.
 - Status VIP lokal distandardisasi ke `tts_is_vip_v1` dan divalidasi mutlak via StoreKit / RevenueCat v2 API.
 - Apple Privacy Manifest `PrivacyInfo.xcprivacy` terpasang di target App & Widget.
