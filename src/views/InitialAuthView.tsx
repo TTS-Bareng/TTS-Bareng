@@ -7,7 +7,6 @@ import {
   EyeOff,
   ArrowRight,
   ArrowLeft,
-  Sparkles,
   Compass,
   Users,
   Flame,

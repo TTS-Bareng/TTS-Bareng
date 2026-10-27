@@ -62,7 +62,6 @@ export const SettingsView: React.FC = () => {
     user,
     logout,
     setSoundPack,
-    restartOnboarding,
     notificationsEnabled,
     setNotificationsEnabled,
     streak,
