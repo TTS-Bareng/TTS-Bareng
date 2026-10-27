@@ -147,7 +147,7 @@ export const BattleLobbyModal: React.FC = () => {
         <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none z-20" />
 
         {/* Top Header Bar */}
-        <header className="w-full shrink-0 flex flex-col gap-2.5 px-4 pt-3 pb-2.5 border-b border-black/5 dark:border-white/10 bg-[var(--bg-app)]/80 backdrop-blur-md z-20">
+        <header className="w-full shrink-0 flex flex-col gap-2.5 px-4 pt-[max(16px,calc(10px+env(safe-area-inset-top)))] pb-3 border-b border-black/5 dark:border-white/10 bg-[var(--bg-app)]/80 backdrop-blur-md z-20">
           <div className="flex items-center justify-between">
             <button
               type="button"
@@ -492,7 +492,7 @@ export const BattleLobbyModal: React.FC = () => {
         </div>
 
         {/* Bottom Sticky Action Bar */}
-        <footer className="w-full shrink-0 p-4 border-t border-black/5 dark:border-white/10 bg-[var(--bg-app)]/90 backdrop-blur-xl z-20">
+        <footer className="w-full shrink-0 px-4 pt-3 pb-[max(18px,calc(10px+env(safe-area-inset-bottom)))] border-t border-black/5 dark:border-white/10 bg-[var(--bg-app)]/90 backdrop-blur-xl z-20">
           <div className="w-full max-w-[440px] mx-auto">
             <button
               type="button"

@@ -41,7 +41,10 @@ export const LevelCompleteModal: React.FC = () => {
     proposeNextLevel,
     acceptNextLevelProposal,
     cancelNextLevelProposal,
+    gameMode,
   } = useGameStore();
+
+  if (!isLevelCompleteOpen || gameMode === '1v1_battle') return null;
 
   const totalWords = (level.clues?.across?.length || 0) + (level.clues?.down?.length || 0);
   const starsEarned = totalWords * 10;

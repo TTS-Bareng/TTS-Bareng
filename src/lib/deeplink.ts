@@ -15,9 +15,19 @@ export interface ParsedDeepLink {
  */
 export function getBaseOrigin(): string {
   if (typeof window !== 'undefined' && window.location.origin) {
-    return window.location.origin;
+    const origin = window.location.origin;
+    if (
+      origin.includes('localhost') ||
+      origin.includes('127.0.0.1') ||
+      origin.startsWith('capacitor:') ||
+      origin.startsWith('ionic:') ||
+      origin.startsWith('file:')
+    ) {
+      return 'https://tts-bareng-web.akashaaa-id.workers.dev';
+    }
+    return origin;
   }
-  return 'https://ttsbareng.web.app';
+  return 'https://tts-bareng-web.akashaaa-id.workers.dev';
 }
 
 /**

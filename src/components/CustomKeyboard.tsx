@@ -49,12 +49,12 @@ export const CustomKeyboard: React.FC = () => {
           />
 
           {/* Quick Utility Action Bar */}
-          <div className="w-full px-3 pt-0.5 pb-1 flex items-center justify-between gap-1.5 shrink-0">
+          <div className="w-full px-3 pt-1 pb-1.5 flex items-center justify-between gap-1.5 shrink-0">
             {/* 1. Check Current Word */}
             <button
               type="button"
               onClick={checkAnswers}
-              className="flex-1 py-1.5 px-2.5 rounded-xl text-[10.5px] font-black flex items-center justify-center gap-1.5 cursor-pointer tactile-active shadow-sm transition-all"
+              className="flex-1 py-2 px-2.5 rounded-xl text-[11px] font-black flex items-center justify-center gap-1.5 cursor-pointer tactile-active shadow-sm transition-all"
               style={{
                 background: "var(--accent-grad)",
                 color: "var(--accent-contrast)",
@@ -68,7 +68,7 @@ export const CustomKeyboard: React.FC = () => {
             <button
               type="button"
               onClick={useHint}
-              className="py-1.5 px-3 rounded-xl text-[10.5px] font-bold flex items-center gap-1 border border-black/5 dark:border-white/10 shadow-xs cursor-pointer tactile-active bg-black/5 dark:bg-white/10 text-[var(--text-primary)] hover:bg-black/10"
+              className="py-2 px-3 rounded-xl text-[11px] font-bold flex items-center gap-1 border border-black/5 dark:border-white/10 shadow-xs cursor-pointer tactile-active bg-black/5 dark:bg-white/10 text-[var(--text-primary)] hover:bg-black/10"
             >
               <Star className="w-3.5 h-3.5 fill-[var(--accent-main)] text-[var(--accent-main)]" />
               <span>Hint (-10★)</span>
@@ -80,7 +80,7 @@ export const CustomKeyboard: React.FC = () => {
               onClick={clearActiveWord}
               title="Hapus Huruf Kata Ini"
               aria-label="Hapus Huruf Kata Ini"
-              className="w-8 h-8 rounded-xl flex items-center justify-center border border-black/5 dark:border-white/10 shadow-xs cursor-pointer tactile-active bg-black/5 dark:bg-white/10 text-[var(--text-primary)] hover:bg-black/10"
+              className="w-8.5 h-8.5 rounded-xl flex items-center justify-center border border-black/5 dark:border-white/10 shadow-xs cursor-pointer tactile-active bg-black/5 dark:bg-white/10 text-[var(--text-primary)] hover:bg-black/10"
             >
               <RotateCcw className="w-3.5 h-3.5 stroke-[2.2]" />
             </button>
@@ -91,14 +91,14 @@ export const CustomKeyboard: React.FC = () => {
               onClick={closeKeyboard}
               title="Sembunyikan Keyboard"
               aria-label="Sembunyikan Keyboard"
-              className="w-8 h-8 rounded-xl flex items-center justify-center border border-black/5 dark:border-white/10 shadow-xs cursor-pointer tactile-active bg-black/5 dark:bg-white/10 text-[var(--text-primary)] hover:bg-black/10"
+              className="w-8.5 h-8.5 rounded-xl flex items-center justify-center border border-black/5 dark:border-white/10 shadow-xs cursor-pointer tactile-active bg-black/5 dark:bg-white/10 text-[var(--text-primary)] hover:bg-black/10"
             >
               <ChevronDown className="w-4 h-4 stroke-[2.2]" />
             </button>
           </div>
 
           {/* QWERTY Tactile Apple Liquid Keys */}
-          <div className="w-full p-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex flex-col gap-1 select-none touch-none">
+          <div className="w-full p-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex flex-col gap-1.5 select-none touch-none">
             {/* Row 1 */}
             <div className="flex justify-center gap-1">
               {ROW_1.map((char) => (
@@ -106,7 +106,7 @@ export const CustomKeyboard: React.FC = () => {
                   key={char}
                   type="button"
                   onClick={() => inputLetter(char)}
-                  className="flex-1 h-10.5 max-w-[38px] rounded-[8px] font-black text-[15px] flex items-center justify-center tactile-active transition-transform duration-75 active:scale-95 cursor-pointer shadow-xs touch-manipulation select-none"
+                  className="flex-1 h-12 max-w-[40px] rounded-[10px] font-black text-[16.5px] flex items-center justify-center tactile-active transition-transform duration-75 active:scale-95 cursor-pointer shadow-xs touch-manipulation select-none"
                   style={{
                     backgroundColor: "var(--key-bg)",
                     color: "var(--key-text)",
@@ -127,7 +127,7 @@ export const CustomKeyboard: React.FC = () => {
                   key={char}
                   type="button"
                   onClick={() => inputLetter(char)}
-                  className="flex-1 h-10.5 max-w-[38px] rounded-[8px] font-black text-[15px] flex items-center justify-center tactile-active transition-transform duration-75 active:scale-95 cursor-pointer shadow-xs touch-manipulation select-none"
+                  className="flex-1 h-12 max-w-[40px] rounded-[10px] font-black text-[16.5px] flex items-center justify-center tactile-active transition-transform duration-75 active:scale-95 cursor-pointer shadow-xs touch-manipulation select-none"
                   style={{
                     backgroundColor: "var(--key-bg)",
                     color: "var(--key-text)",
@@ -149,7 +149,7 @@ export const CustomKeyboard: React.FC = () => {
                 onClick={nextClue}
                 title="Petunjuk Berikutnya"
                 aria-label="Petunjuk Berikutnya"
-                className="flex-[1.3] h-10.5 rounded-[8px] font-bold text-[11px] flex items-center justify-center gap-1 tactile-active transition-transform duration-75 active:scale-95 cursor-pointer shadow-xs bg-[var(--accent-light)] text-[var(--accent-main)] touch-manipulation select-none"
+                className="flex-[1.3] h-12 rounded-[10px] font-black text-[11.5px] flex items-center justify-center gap-1 tactile-active transition-transform duration-75 active:scale-95 cursor-pointer shadow-xs bg-[var(--accent-light)] text-[var(--accent-main)] touch-manipulation select-none"
                 style={{
                   WebkitTapHighlightColor: "transparent",
                   WebkitTouchCallout: "none",
@@ -164,7 +164,7 @@ export const CustomKeyboard: React.FC = () => {
                   key={char}
                   type="button"
                   onClick={() => inputLetter(char)}
-                  className="flex-1 h-10.5 max-w-[38px] rounded-[8px] font-black text-[15px] flex items-center justify-center tactile-active transition-transform duration-75 active:scale-95 cursor-pointer shadow-xs touch-manipulation select-none"
+                  className="flex-1 h-12 max-w-[40px] rounded-[10px] font-black text-[16.5px] flex items-center justify-center tactile-active transition-transform duration-75 active:scale-95 cursor-pointer shadow-xs touch-manipulation select-none"
                   style={{
                     backgroundColor: "var(--key-bg)",
                     color: "var(--key-text)",
@@ -183,7 +183,7 @@ export const CustomKeyboard: React.FC = () => {
                 onClick={deleteLetter}
                 title="Hapus Huruf"
                 aria-label="Hapus Huruf"
-                className="flex-[1.3] h-10.5 rounded-[8px] font-bold text-[12px] flex items-center justify-center tactile-active transition-transform duration-75 active:scale-95 cursor-pointer shadow-xs bg-black/10 dark:bg-white/10 text-[var(--text-primary)] touch-manipulation select-none"
+                className="flex-[1.3] h-12 rounded-[10px] font-black text-[12.5px] flex items-center justify-center tactile-active transition-transform duration-75 active:scale-95 cursor-pointer shadow-xs bg-black/10 dark:bg-white/10 text-[var(--text-primary)] touch-manipulation select-none"
                 style={{
                   WebkitTapHighlightColor: "transparent",
                   WebkitTouchCallout: "none",

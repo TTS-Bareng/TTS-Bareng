@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { ChevronLeft, ChevronRight, ListOrdered, ChevronDown, ChevronUp, Shuffle } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ListOrdered, ChevronDown, ChevronUp, Shuffle, Check } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { findClueById } from '../lib/crossword';
 
@@ -77,11 +77,11 @@ export const DynamicClueRibbon: React.FC<DynamicClueRibbonProps> = ({ onOpenDraw
         <div className="absolute top-0 inset-x-0 h-px bg-white/25 pointer-events-none" />
 
         {/* ROW 1: STATUS, ARAH, JUMLAH HURUF & NAVIGASI */}
-        <div className="flex items-center justify-between gap-2 relative z-10">
-          <div className="flex items-center gap-1.5 min-w-0">
+        <div className="flex items-center justify-between gap-1.5 relative z-10">
+          <div className="flex items-center gap-1 min-w-0 flex-wrap">
             {/* Direction Pill Badge */}
             <span
-              className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-xs shrink-0"
+              className="text-[9.5px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full shadow-xs shrink-0"
               style={{
                 background: 'var(--accent-main)',
                 color: 'var(--accent-contrast)',
@@ -91,20 +91,21 @@ export const DynamicClueRibbon: React.FC<DynamicClueRibbonProps> = ({ onOpenDraw
             </span>
 
             {/* Letter Count Badge */}
-            <span className="text-[9.5px] font-bold px-2 py-0.5 rounded-full bg-black/5 dark:bg-white/10 shrink-0 text-[var(--text-secondary)]">
+            <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-black/5 dark:bg-white/10 shrink-0 text-[var(--text-secondary)]">
               {activeClue.length} Huruf
             </span>
 
             {/* Solved Status Badge */}
             {solvedClues.includes(activeClue.id) && (
-              <span className="text-[9.5px] font-bold px-2 py-0.5 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/20 shrink-0">
-                Terpecahkan
+              <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/25 flex items-center gap-0.5 shrink-0">
+                <Check className="w-2.5 h-2.5 stroke-[3]" />
+                <span>Selesai</span>
               </span>
             )}
           </div>
 
           {/* Quick Navigation & Clue List Drawer Buttons */}
-          <div className="flex items-center gap-1.5 shrink-0">
+          <div className="flex items-center gap-1 shrink-0 z-10">
             <button
               type="button"
               onClick={(e) => {
@@ -113,9 +114,9 @@ export const DynamicClueRibbon: React.FC<DynamicClueRibbonProps> = ({ onOpenDraw
               }}
               title="Petunjuk Sebelumnya"
               aria-label="Petunjuk Sebelumnya"
-              className="w-8 h-8 rounded-full flex items-center justify-center border border-black/5 dark:border-white/10 shadow-xs cursor-pointer tactile-active bg-[var(--accent-light)] text-[var(--accent-main)]"
+              className="w-7.5 h-7.5 rounded-full flex items-center justify-center border border-black/5 dark:border-white/10 shadow-xs cursor-pointer tactile-active bg-[var(--accent-light)] text-[var(--accent-main)]"
             >
-              <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
+              <ChevronLeft className="w-3.5 h-3.5 stroke-[2.5]" />
             </button>
 
             <button
@@ -126,9 +127,9 @@ export const DynamicClueRibbon: React.FC<DynamicClueRibbonProps> = ({ onOpenDraw
               }}
               title="Petunjuk Berikutnya"
               aria-label="Petunjuk Berikutnya"
-              className="w-8 h-8 rounded-full flex items-center justify-center border border-black/5 dark:border-white/10 shadow-xs cursor-pointer tactile-active bg-[var(--accent-light)] text-[var(--accent-main)]"
+              className="w-7.5 h-7.5 rounded-full flex items-center justify-center border border-black/5 dark:border-white/10 shadow-xs cursor-pointer tactile-active bg-[var(--accent-light)] text-[var(--accent-main)]"
             >
-              <ChevronRight className="w-4 h-4 stroke-[2.5]" />
+              <ChevronRight className="w-3.5 h-3.5 stroke-[2.5]" />
             </button>
 
             <button
@@ -140,7 +141,7 @@ export const DynamicClueRibbon: React.FC<DynamicClueRibbonProps> = ({ onOpenDraw
               }}
               title="Bantuan Putar Huruf (Anagram Wheel)"
               aria-label="Bantuan Putar Huruf"
-              className="w-8 h-8 rounded-full flex items-center justify-center border border-black/5 dark:border-white/10 shadow-xs cursor-pointer tactile-active bg-black/5 dark:bg-white/10 text-[var(--accent-main)] hover:bg-[var(--accent-light)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-7.5 h-7.5 rounded-full flex items-center justify-center border border-black/5 dark:border-white/10 shadow-xs cursor-pointer tactile-active bg-black/5 dark:bg-white/10 text-[var(--accent-main)] hover:bg-[var(--accent-light)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <Shuffle className="w-3.5 h-3.5 stroke-[2.2]" />
             </button>
@@ -154,9 +155,9 @@ export const DynamicClueRibbon: React.FC<DynamicClueRibbonProps> = ({ onOpenDraw
                 }}
                 title="Lihat Seluruh Petunjuk"
                 aria-label="Lihat Seluruh Petunjuk"
-                className="w-8 h-8 rounded-full flex items-center justify-center border border-black/5 dark:border-white/10 shadow-xs cursor-pointer tactile-active bg-black/5 dark:bg-white/10 text-[var(--text-primary)]"
+                className="w-7.5 h-7.5 rounded-full flex items-center justify-center border border-black/5 dark:border-white/10 shadow-xs cursor-pointer tactile-active bg-black/5 dark:bg-white/10 text-[var(--text-primary)]"
               >
-                <ListOrdered className="w-4 h-4 stroke-[2.2]" />
+                <ListOrdered className="w-3.5 h-3.5 stroke-[2.2]" />
               </button>
             )}
           </div>

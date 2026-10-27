@@ -439,7 +439,28 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
 
           {/* Card 3: Tantangan Kolaborasi Harian (Bento with Mascot Pals) */}
           <div
-            className="w-full shrink-0 rounded-[24px] p-4 relative z-10 overflow-hidden border border-black/5 dark:border-white/10 shadow-xs group"
+            role="button"
+            tabIndex={0}
+            onClick={() => {
+              if (mabarPeers.length >= 2) {
+                handleLaunchGame();
+              } else {
+                handleShareRoom();
+                showGlobalToast(`Ajak kawanmu masuk Kamar ${roomCode} untuk menuntaskan Tantangan Dua Kepala!`);
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                if (mabarPeers.length >= 2) {
+                  handleLaunchGame();
+                } else {
+                  handleShareRoom();
+                  showGlobalToast(`Ajak kawanmu masuk Kamar ${roomCode} untuk menuntaskan Tantangan Dua Kepala!`);
+                }
+              }
+            }}
+            className="w-full shrink-0 rounded-[24px] p-4 relative z-10 overflow-hidden border border-black/5 dark:border-white/10 shadow-xs group cursor-pointer tactile-active hover:border-[var(--accent-main)]/40 transition-all select-none"
             style={{
               background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
             }}
@@ -462,6 +483,10 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
               <p className="text-[10px] text-[var(--text-secondary)] leading-snug max-w-[70%]">
                 Selesaikan 1 bab penuh bersama teman untuk membuka bonus prestasi dan aksesoris profil.
               </p>
+              <div className="mt-2.5 flex items-center gap-1.5 text-[10.5px] font-black text-[var(--accent-main)]">
+                <span>{mabarPeers.length >= 2 ? 'Mulai Main Bersama Sekarang' : 'Ajak Teman & Mainkan'}</span>
+                <ArrowRight className="w-3.5 h-3.5 stroke-[3] group-hover:translate-x-1 transition-transform" />
+              </div>
             </div>
 
             {/* Large Solid Mascot Overlay - Pinned to bottom-right edge of card, solid 100% */}
@@ -513,7 +538,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
             {/* Box 1: Bikin TTS Sendiri */}
             <button
               type="button"
-              onClick={openCustomCrosswordModal}
+              onClick={() => openCustomCrosswordModal()}
               className="p-3 rounded-2xl liquid-glass-card border border-[var(--accent-main)]/20 flex flex-col text-left gap-1 cursor-pointer tactile-active hover:border-[var(--accent-main)]/40 transition-all group"
             >
               <div className="flex items-center justify-between w-full">

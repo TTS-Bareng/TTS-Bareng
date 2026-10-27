@@ -26,7 +26,7 @@ export const LeaderboardModal: React.FC = () => {
     battlesStats,
   } = useGameStore();
 
-  const [activeTab, setActiveTab] = useState<'daily_rush' | 'elo_rating'>('daily_rush');
+  const [activeTab, setActiveTab] = useState<'daily_rush' | 'elo_rating'>('elo_rating');
   const [todayStr] = useState(getTodayDateString);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isOffline, setIsOffline] = useState(() => typeof navigator !== 'undefined' ? !navigator.onLine : false);

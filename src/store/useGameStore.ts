@@ -255,8 +255,13 @@ interface GameState {
   closeSachetModal: () => void;
   purchaseSachetPack: () => void;
   isCustomCrosswordModalOpen: boolean;
-  openCustomCrosswordModal: () => void;
+  editingCustomCrossword: UserCustomCrossword | null;
+  userCustomCrosswords: UserCustomCrossword[];
+  saveUserCustomCrossword: (item: UserCustomCrossword) => void;
+  deleteUserCustomCrossword: (id: string) => void;
+  openCustomCrosswordModal: (itemToEdit?: UserCustomCrossword) => void;
   closeCustomCrosswordModal: () => void;
+  playCustomCrossword: (item: UserCustomCrossword) => void;
   consumeCustomTtsTicket: () => boolean;
   recordBattleEloOutcome: (opponentElo: number, won: boolean | 'draw') => { delta: number; newElo: number };
 
@@ -563,8 +568,29 @@ const STORAGE_KEY_AMBIENT_ENABLED = 'tts_ambient_enabled_v1';
 const STORAGE_KEY_AMBIENT_VOLUME = 'tts_ambient_volume_v1';
 const STORAGE_KEY_ELO = 'tts_elo_rating_v1';
 const STORAGE_KEY_CUSTOM_TTS_TICKETS = 'tts_custom_tickets_v1';
+const STORAGE_KEY_USER_CUSTOM_CROSSWORDS = 'tts_user_custom_crosswords_v1';
 const STORAGE_KEY_IS_VIP = 'tts_is_vip_v1';
 const STORAGE_KEY_BATTLES_STATS = 'tts_battles_stats_v1';
+
+export interface UserCustomCrossword {
+  id: string;
+  title: string;
+  category: string;
+  wordsList: Array<{ word: string; clue: string }>;
+  level: LevelData;
+  createdAt: string;
+}
+
+function getInitialUserCustomCrosswords(): UserCustomCrossword[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_USER_CUSTOM_CROSSWORDS);
+    if (raw) return JSON.parse(raw);
+  } catch {
+    // ignore
+  }
+  return [];
+}
 
 function getInitialElo(): number {
   if (typeof window === 'undefined') return 1000;
@@ -1545,6 +1571,10 @@ export const useGameStore = create<GameState>((set, get) => ({
     });
 
     if (isLevelComplete) {
+      if (get().gameMode === '1v1_battle') {
+        get().finishBattleRound();
+        return;
+      }
       if (soundEnabled) soundManager.playVictory();
       confetti({
         particleCount: 140,
@@ -1569,6 +1599,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({
       activeRoomCode: null,
       mabarPeers: [],
+      userCustomCrosswords: [],
       partnerCursor: null,
       partnerReconnecting: null,
       cellAuthors: {},
@@ -1915,8 +1946,55 @@ export const useGameStore = create<GameState>((set, get) => ({
   openSachetModal: () => set({ isSachetModalOpen: true }),
   closeSachetModal: () => set({ isSachetModalOpen: false }),
   isCustomCrosswordModalOpen: false,
-  openCustomCrosswordModal: () => set({ isCustomCrosswordModalOpen: true }),
-  closeCustomCrosswordModal: () => set({ isCustomCrosswordModalOpen: false }),
+  editingCustomCrossword: null,
+  userCustomCrosswords: getInitialUserCustomCrosswords(),
+  openCustomCrosswordModal: (itemToEdit) =>
+    set({ isCustomCrosswordModalOpen: true, editingCustomCrossword: itemToEdit || null }),
+  closeCustomCrosswordModal: () =>
+    set({ isCustomCrosswordModalOpen: false, editingCustomCrossword: null }),
+  saveUserCustomCrossword: (item) => {
+    const { userCustomCrosswords } = get();
+    const existingIdx = userCustomCrosswords.findIndex((c) => c.id === item.id);
+    let updated: UserCustomCrossword[];
+    if (existingIdx !== -1) {
+      updated = [...userCustomCrosswords];
+      updated[existingIdx] = item;
+    } else {
+      updated = [item, ...userCustomCrosswords];
+    }
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY_USER_CUSTOM_CROSSWORDS, JSON.stringify(updated));
+    }
+    set({ userCustomCrosswords: updated });
+  },
+  deleteUserCustomCrossword: (id) => {
+    const { userCustomCrosswords } = get();
+    const updated = userCustomCrosswords.filter((c) => c.id !== id);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY_USER_CUSTOM_CROSSWORDS, JSON.stringify(updated));
+    }
+    set({ userCustomCrosswords: updated });
+    get().showGlobalToast('TTS Kustom berhasil dihapus');
+  },
+  playCustomCrossword: (item) => {
+    set({
+      level: item.level,
+      currentLevelIndex: -1,
+      userInputs: {},
+      lockedCells: {},
+      solvedClues: [],
+      cellAuthors: {},
+      clueAuthors: {},
+      wordStreak: 0,
+      comboMessage: null,
+      validationMessage: null,
+      activeClueId: null,
+      focusedCell: null,
+      gameMode: 'classic',
+      currentTab: 'game',
+    });
+    get().showGlobalToast(`Memainkan TTS Kustom: "${item.title}"`);
+  },
 
   purchaseSachetPack: () => {
     const nextTickets = get().customTtsTickets + 1;
@@ -3925,7 +4003,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
         if (!inputLetter) {
           isFull = false;
-        } else if (inputLetter !== correctLetter) {
+        } else if (inputLetter.trim().toUpperCase() !== correctLetter.trim().toUpperCase()) {
           isCorrect = false;
           wordWrongCells.push(key);
         }
@@ -3952,6 +4030,13 @@ export const useGameStore = create<GameState>((set, get) => ({
     let nextComboMessage: string | null = null;
 
     if (newlySolvedClues.length > 0) {
+      if (get().gameMode === '1v1_battle') {
+        newlySolvedClues.forEach((cid) => {
+          get().claimBattleClue(cid, newlySolvedClues, 'local');
+        });
+      } else if (get().activeRoomCode) {
+        mabarRealtime.broadcastClueSolved(newlySolvedClues[0], newlySolvedClues);
+      }
       const addedStars = newlySolvedClues.length * 10;
       const updatedStars = stars + addedStars;
       const updatedSolved = [...solvedClues, ...newlySolvedClues];
@@ -4020,11 +4105,19 @@ export const useGameStore = create<GameState>((set, get) => ({
       if (isLevelComplete) {
         if (get().gameMode === 'daily_rush') {
           get().finishDailyRush(true);
+          return;
+        }
+        if (get().gameMode === '1v1_battle') {
+          get().finishBattleRound();
+          return;
         }
         if (soundEnabled) soundManager.playVictory();
         if (hapticEnabled) {
           haptic.levelComplete();
         }
+        get().addWeeklyLeagueXp(50);
+        get().incrementStreakIfNewDay();
+        notificationService.cancelTodayStreakWarning();
         confetti({
           particleCount: 140,
           spread: 80,
@@ -4182,6 +4275,10 @@ export const useGameStore = create<GameState>((set, get) => ({
     });
 
     if (isLevelComplete) {
+      if (get().gameMode === '1v1_battle') {
+        get().finishBattleRound();
+        return;
+      }
       if (soundEnabled) soundManager.playVictory();
       confetti({
         particleCount: 140,
@@ -4378,6 +4475,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       isSachetModalOpen: false,
       activeRoomCode: null,
       mabarPeers: [],
+      userCustomCrosswords: [],
     });
 
     if (typeof window !== 'undefined') {

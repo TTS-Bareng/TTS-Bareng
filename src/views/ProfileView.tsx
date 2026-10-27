@@ -19,10 +19,16 @@ import {
   ChevronRight,
   PenTool,
   LogOut,
+  Plus,
+  Play,
+  Share2,
+  Trash2,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { getEloTier } from '../lib/eloSystem';
 import { getAvatarFrame } from '../lib/avatarFrames';
+import { getBaseOrigin } from '../lib/deeplink';
+import { MASCOTS } from '../assets/maskots';
 
 interface CircularProgressProps {
   percent: number;
@@ -101,6 +107,11 @@ export const ProfileView: React.FC = () => {
     openCustomCrosswordModal,
     openLeaderboard,
     logout,
+    userCustomCrosswords,
+    deleteUserCustomCrossword,
+    playCustomCrossword,
+    openShareModal,
+    showGlobalToast,
   } = useGameStore();
 
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
@@ -845,7 +856,7 @@ export const ProfileView: React.FC = () => {
 
         {/* Right: Studio Kreator & Tiket TTS */}
         <div
-          onClick={openCustomCrosswordModal}
+          onClick={() => openCustomCrosswordModal()}
           className="rounded-[22px] p-3.5 flex flex-col justify-between border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden cursor-pointer tactile-active hover:border-[var(--accent-main)]/50 transition-all"
           style={{
             background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
@@ -875,6 +886,150 @@ export const ProfileView: React.FC = () => {
             </span>
           </div>
         </div>
+      </div>
+
+      {/* Card: Koleksi TTS Kreasiku */}
+      <div className="w-full shrink-0 flex flex-col gap-2.5 relative z-10">
+        <div className="flex items-center justify-between px-1">
+          <div className="flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5 text-[var(--accent-main)]" />
+            <h4 className="text-[12px] font-black uppercase tracking-wider text-[var(--text-primary)]">
+              TTS Kreasiku
+            </h4>
+            <span className="text-[8px] font-black px-1.5 py-0.2 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/20 text-[var(--accent-main)]">
+              {userCustomCrosswords.length} KARYA
+            </span>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => openCustomCrosswordModal()}
+            className="text-[10px] font-bold text-[var(--accent-main)] hover:underline flex items-center gap-1 cursor-pointer"
+          >
+            <Plus className="w-3 h-3 stroke-[3]" />
+            <span>Buat Baru</span>
+          </button>
+        </div>
+
+        {userCustomCrosswords.length === 0 ? (
+          <div
+            onClick={() => openCustomCrosswordModal()}
+            className="w-full rounded-[22px] p-4 flex flex-col items-center justify-center text-center gap-2 border border-dashed border-[var(--accent-main)]/30 hover:border-[var(--accent-main)]/60 cursor-pointer tactile-active transition-all"
+            style={{
+              background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+            }}
+          >
+            <div className="w-10 h-10 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)] flex items-center justify-center">
+              <PenTool className="w-5 h-5 stroke-[2.2]" />
+            </div>
+            <div>
+              <p className="text-[12px] font-black text-[var(--text-primary)] leading-tight">
+                Belum Ada TTS Kreasimu
+              </p>
+              <p className="text-[9.5px] text-[var(--text-secondary)] mt-0.5 max-w-[260px] leading-snug">
+                Bikin teka-teki silang kustom versimu sendiri, buat kejutan teman atau kuis kelas!
+              </p>
+            </div>
+            <span className="mt-1 px-3 py-1 rounded-full text-[10px] font-black bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-xs">
+              Mulai Buat TTS
+            </span>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-2">
+            {userCustomCrosswords.map((item) => (
+              <div
+                key={item.id}
+                className="w-full rounded-[20px] p-3 border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden flex flex-col gap-2"
+                style={{
+                  background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+                }}
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5 mb-0.5">
+                      <span className="text-[8px] font-black uppercase tracking-wider text-[var(--accent-main)] px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/25">
+                        {item.category || 'Kreasi'}
+                      </span>
+                      <span className="text-[8.5px] text-[var(--text-secondary)] font-mono">
+                        {item.createdAt}
+                      </span>
+                    </div>
+                    <h5 className="text-[13px] font-black text-[var(--text-primary)] truncate">
+                      {item.title}
+                    </h5>
+                    <span className="text-[9px] text-[var(--text-secondary)]">
+                      {(item.level?.clues?.across?.length || 0) + (item.level?.clues?.down?.length || 0)} Kata Tersusun
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-1 shrink-0">
+                    {/* Mainkan */}
+                    <button
+                      type="button"
+                      onClick={() => playCustomCrossword(item)}
+                      title="Mainkan TTS"
+                      className="px-2.5 py-1.5 rounded-xl bg-[var(--accent-main)] text-[var(--accent-contrast)] font-black text-[10px] flex items-center gap-1 shadow-xs cursor-pointer tactile-active"
+                    >
+                      <Play className="w-3 h-3 fill-current stroke-none" />
+                      <span>Mainkan</span>
+                    </button>
+                    {/* Bagikan */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const origin = getBaseOrigin();
+                        const shareText = `🧩 Ayo mainkan TTS Karyaku: "${item.title}"! Buka di: ${origin}`;
+                        if (navigator.clipboard) {
+                          navigator.clipboard.writeText(shareText);
+                        }
+                        showGlobalToast('Tautan TTS berhasil disalin!');
+                        openShareModal({
+                          badge: 'TTS KREASI SENDIRI',
+                          title: item.title,
+                          subtitle: `Teka-teki silang kreasi bertema "${item.category}".`,
+                          mascot: MASCOTS.crosswordThinker,
+                          stats: [
+                            { label: 'KATA', value: `${(item.level?.clues?.across?.length || 0) + (item.level?.clues?.down?.length || 0)}` },
+                            { label: 'TEMA', value: item.category || 'Kreasi' },
+                            { label: 'KREATOR', value: 'Anda' },
+                          ],
+                          shareUrl: origin,
+                          shareText,
+                        });
+                      }}
+                      title="Bagikan Tautan"
+                      className="w-7 h-7 rounded-xl bg-black/5 dark:bg-white/10 text-[var(--text-primary)] flex items-center justify-center cursor-pointer tactile-active"
+                    >
+                      <Share2 className="w-3.5 h-3.5" />
+                    </button>
+                    {/* Edit */}
+                    <button
+                      type="button"
+                      onClick={() => openCustomCrosswordModal(item)}
+                      title="Edit TTS"
+                      className="w-7 h-7 rounded-xl bg-black/5 dark:bg-white/10 text-[var(--text-primary)] flex items-center justify-center cursor-pointer tactile-active"
+                    >
+                      <PenTool className="w-3.5 h-3.5" />
+                    </button>
+                    {/* Hapus */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (window.confirm(`Hapus TTS Kustom "${item.title}"?`)) {
+                          deleteUserCustomCrossword(item.id);
+                        }
+                      }}
+                      title="Hapus TTS"
+                      className="w-7 h-7 rounded-xl bg-red-500/10 text-red-500 flex items-center justify-center cursor-pointer tactile-active"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Card: Lemari Trofi Turnamen */}

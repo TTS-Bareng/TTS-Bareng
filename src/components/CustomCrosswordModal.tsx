@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft,
@@ -21,6 +21,7 @@ import { haptic } from '../lib/haptics';
 import confetti from 'canvas-confetti';
 import { MASCOTS } from '../assets/maskots';
 import { revenueCatService } from '../lib/revenueCatService';
+import { getBaseOrigin } from '../lib/deeplink';
 
 const TOPIC_PRESETS = [
   'Kolega & Teman',
@@ -46,6 +47,8 @@ export const CustomCrosswordModal: React.FC = () => {
     soundEnabled,
     hapticEnabled,
     openShareModal,
+    editingCustomCrossword,
+    saveUserCustomCrossword,
   } = useGameStore();
 
   const [isRestoring, setIsRestoring] = useState(false);
@@ -80,6 +83,25 @@ export const CustomCrosswordModal: React.FC = () => {
 
   const [previewLevel, setPreviewLevel] = useState<LevelData | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (editingCustomCrossword) {
+      setTitle(editingCustomCrossword.title);
+      setCategory(editingCustomCrossword.category);
+      setWordsList(editingCustomCrossword.wordsList);
+      setPreviewLevel(editingCustomCrossword.level);
+    } else {
+      setTitle('');
+      setCategory('Kolega & Teman');
+      setWordsList([
+        { word: 'SENJA', clue: 'Waktu matahari terbenam yang syahdu' },
+        { word: 'KOPI', clue: 'Minuman andalan saat begadang lembur' },
+        { word: 'PUISI', clue: 'Rangkaian sajak kata yang bermakna mendalam' },
+        { word: 'GITAR', clue: 'Alat musik petik favorit tongkrongan' },
+      ]);
+      setPreviewLevel(null);
+    }
+  }, [editingCustomCrossword, isCustomCrosswordModalOpen]);
 
   if (!isCustomCrosswordModalOpen) return null;
 
@@ -137,20 +159,32 @@ export const CustomCrosswordModal: React.FC = () => {
         return;
       }
 
+      // Save to user custom crosswords collection
+      const customItem = {
+        id: editingCustomCrossword?.id || `custom_${Date.now()}`,
+        title: generated.title,
+        category: generated.category || 'Kreasi',
+        wordsList,
+        level: generated,
+        createdAt: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
+      };
+      saveUserCustomCrossword(customItem);
+
       if (soundEnabled) soundManager.playVictory();
       if (hapticEnabled) haptic.success([40, 80, 50]);
       confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
 
+      const origin = getBaseOrigin();
       const shareText = `🧩 Ayo mainkan TTS Karyaku: "${generated.title}" (${
         generated.clues.across.length + generated.clues.down.length
-      } Kata)! Bisakah kamu menyelesaikannya? Buka di: ${window.location.origin}`;
+      } Kata)! Bisakah kamu menyelesaikannya? Buka di: ${origin}`;
 
       if (navigator.clipboard) {
         navigator.clipboard.writeText(shareText);
       }
 
       closeCustomCrosswordModal();
-      showGlobalToast('🎉 TTS Karyamu Berhasil Diterbitkan! Tautan disalin ke clipboard.', 4200);
+      showGlobalToast('🎉 TTS Karyamu Berhasil Diterbitkan & Disimpan ke Profil!', 4200);
 
       openShareModal({
         badge: 'TTS KREASI SENDIRI',
@@ -162,7 +196,7 @@ export const CustomCrosswordModal: React.FC = () => {
           { label: 'TEMA', value: generated.category || 'Kreasi' },
           { label: 'KREATOR', value: 'Anda' },
         ],
-        shareUrl: window.location.origin,
+        shareUrl: origin,
         shareText,
       });
     } catch (err: unknown) {

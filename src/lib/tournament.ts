@@ -107,43 +107,7 @@ export function generateTournamentCode(): string {
 }
 
 /** Initial public tournaments when fresh */
-export const DEFAULT_PUBLIC_TOURNAMENTS: CommunityTournament[] = [
-  {
-    id: 'tourney_pub_1',
-    code: 'CUP-7721',
-    name: 'Piala Jawara Nusantara',
-    hostId: 'host_budi',
-    hostName: 'Budi Santoso',
-    format: 'knockout_4',
-    roundDurationSeconds: 60,
-    themeCategory: 'Olahraga & Wisata',
-    status: 'lobby',
-    maxPlayers: 4,
-    players: [
-      { id: 'host_budi', name: 'Budi Santoso', avatar: MASCOTS.crosswordChampion, isHost: true, isReady: true },
-      { id: 'player_siti', name: 'Siti Rahma', avatar: MASCOTS.crosswordGirl, isHost: false, isReady: true },
-    ],
-    matches: [],
-    createdAt: 'Baru saja',
-  },
-  {
-    id: 'tourney_pub_2',
-    code: 'CUP-5510',
-    name: 'Duel Kosakata Cepat',
-    hostId: 'host_eko',
-    hostName: 'Eko Lawang',
-    format: 'sprint',
-    roundDurationSeconds: 60,
-    themeCategory: 'Bahasa & Sastra',
-    status: 'lobby',
-    maxPlayers: 4,
-    players: [
-      { id: 'host_eko', name: 'Eko Lawang', avatar: MASCOTS.cheerfulBookBoy, isHost: true, isReady: true },
-    ],
-    matches: [],
-    createdAt: '5m lalu',
-  },
-];
+export const DEFAULT_PUBLIC_TOURNAMENTS: CommunityTournament[] = [];
 
 /** Create a new community tournament instance */
 export function createCommunityTournament(

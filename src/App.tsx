@@ -7,6 +7,7 @@ import { applyTheme } from './lib/themes';
 import { parseDeepLink, clearUrlParams } from './lib/deeplink';
 import { HomeView } from './views/HomeView';
 import { NavigationBottomBar } from './components/NavigationBottomBar';
+import { ActiveGameResumeBanner } from './components/ActiveGameResumeBanner';
 import { NetworkStatusBar } from './components/NetworkStatusBar';
 import { notificationService } from './lib/notificationService';
 import { soundManager } from './lib/audio';
@@ -97,12 +98,9 @@ export const App: React.FC = () => {
   // Listen for local notification tap actions (Daily Rush, Game, Arena)
   useEffect(() => {
     notificationService.initActionListener((route) => {
-      if (route === 'daily_rush') {
-        setCurrentTab('home');
-        openDailyRushBriefing();
-      } else if (route === 'game') {
+      if (route === 'game') {
         setCurrentTab('game');
-      } else if (route === 'arena') {
+      } else if (route === 'arena' || route === 'daily_rush') {
         setCurrentTab('arena');
       }
     });
@@ -565,6 +563,9 @@ export const App: React.FC = () => {
               {currentTab === 'settings' && <SettingsView />}
             </Suspense>
           </div>
+
+          {/* Floating Active Game Session Resume Banner */}
+          <ActiveGameResumeBanner />
 
           {/* 2. Sleek Bottom Tab Navigation */}
           <NavigationBottomBar />

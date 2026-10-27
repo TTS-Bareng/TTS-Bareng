@@ -899,53 +899,81 @@ export const TournamentHubView: React.FC = () => {
             </span>
           </div>
 
-          <div className="flex flex-col gap-2">
-            {publicTournaments.map((item) => (
-              <div
-                key={item.id}
-                className="w-full p-3.5 rounded-[22px] border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden flex items-center justify-between gap-3 hover:border-[var(--accent-main)]/35 transition-all"
-                style={{
-                  background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
-                }}
-              >
-                <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
-                <div className="flex items-center gap-3 min-w-0 relative z-10">
-                  <div className="w-9 h-9 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/20 flex items-center justify-center text-[var(--accent-main)] shrink-0">
-                    <Trophy className="w-4 h-4 fill-current stroke-none" />
-                  </div>
-                  <div className="flex flex-col min-w-0">
-                    <div className="flex items-center gap-1.5 mb-0.5">
-                      <span className="text-[8.5px] font-black uppercase tracking-wider px-1.5 py-0.2 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)]">
-                        {item.code}
-                      </span>
-                      <span className="text-[9px] font-bold text-[var(--text-secondary)] truncate">
-                        Host: {item.hostName}
-                      </span>
-                    </div>
-                    <h4 className="text-[13px] font-black text-[var(--text-primary)] leading-tight truncate">
-                      {item.name}
-                    </h4>
-                    <div className="flex items-center gap-2 text-[9.5px] text-[var(--text-secondary)] font-semibold mt-0.5">
-                      <span>{item.maxPlayers} Pemain</span>
-                      <span>•</span>
-                      <span className="text-[var(--accent-main)] font-bold">
-                        {item.players.length}/{item.maxPlayers} Masuk
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => handleJoinPublicItem(item.code)}
-                  className="py-1.5 px-3.5 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[10.5px] font-black flex items-center gap-1 shrink-0 cursor-pointer tactile-active hover:opacity-95 shadow-xs transition-opacity relative z-10"
-                >
-                  <span>Ikut</span>
-                  <ArrowRight className="w-3 h-3 stroke-[2.4]" />
-                </button>
+          {publicTournaments.length === 0 ? (
+            <div
+              className="w-full p-5 rounded-[24px] border border-dashed border-[var(--accent-main)]/30 flex flex-col items-center justify-center text-center gap-2 relative overflow-hidden"
+              style={{
+                background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+              }}
+            >
+              <div className="w-10 h-10 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)]">
+                <Trophy className="w-5 h-5 fill-current stroke-none" />
               </div>
-            ))}
-          </div>
+              <div className="max-w-[260px]">
+                <h4 className="text-[12.5px] font-black text-[var(--text-primary)]">
+                  Belum Ada Lobi Terbuka
+                </h4>
+                <p className="text-[10px] text-[var(--text-secondary)] mt-0.5 leading-snug">
+                  Buat turnamen komunitas baru sekarang dan undang kawan-kawanmu via tautan atau kode QR!
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={openCreateTournament}
+                className="mt-1 py-1.5 px-4 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[11px] font-black cursor-pointer tactile-active shadow-xs"
+              >
+                Buat Turnamen Sekarang
+              </button>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2">
+              {publicTournaments.map((item) => (
+                <div
+                  key={item.id}
+                  className="w-full p-3.5 rounded-[22px] border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden flex items-center justify-between gap-3 hover:border-[var(--accent-main)]/35 transition-all"
+                  style={{
+                    background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+                  }}
+                >
+                  <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
+                  <div className="flex items-center gap-3 min-w-0 relative z-10">
+                    <div className="w-9 h-9 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/20 flex items-center justify-center text-[var(--accent-main)] shrink-0">
+                      <Trophy className="w-4 h-4 fill-current stroke-none" />
+                    </div>
+                    <div className="flex flex-col min-w-0">
+                      <div className="flex items-center gap-1.5 mb-0.5">
+                        <span className="text-[8.5px] font-black uppercase tracking-wider px-1.5 py-0.2 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)]">
+                          {item.code}
+                        </span>
+                        <span className="text-[9px] font-bold text-[var(--text-secondary)] truncate">
+                          Host: {item.hostName}
+                        </span>
+                      </div>
+                      <h4 className="text-[13px] font-black text-[var(--text-primary)] leading-tight truncate">
+                        {item.name}
+                      </h4>
+                      <div className="flex items-center gap-2 text-[9.5px] text-[var(--text-secondary)] font-semibold mt-0.5">
+                        <span>{item.maxPlayers} Pemain</span>
+                        <span>•</span>
+                        <span className="text-[var(--accent-main)] font-bold">
+                          {item.players.length}/{item.maxPlayers} Masuk
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => handleJoinPublicItem(item.code)}
+                    className="py-1.5 px-3.5 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[10.5px] font-black flex items-center gap-1 shrink-0 cursor-pointer tactile-active hover:opacity-95 shadow-xs transition-opacity relative z-10"
+                  >
+                    <span>Ikut</span>
+                    <ArrowRight className="w-3 h-3 stroke-[2.4]" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* 4. Format Regulasi & Hadiah Turnamen (Themed Bento) */}

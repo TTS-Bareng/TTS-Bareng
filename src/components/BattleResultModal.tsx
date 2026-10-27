@@ -58,7 +58,7 @@ export const BattleResultModal: React.FC = () => {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3.5 select-none">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3.5 pt-[max(14px,calc(8px+env(safe-area-inset-top)))] pb-[max(14px,calc(8px+env(safe-area-inset-bottom)))] select-none">
         {/* Dark Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
