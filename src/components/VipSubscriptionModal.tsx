@@ -92,18 +92,28 @@ export const VipSubscriptionModal: React.FC = () => {
         setIsVip(true);
         closeVipModal();
 
-        // Calculate friendly expiry date (1 month or 1 year)
-        const expiryDateObj = new Date();
+        // Calculate friendly expiry date (1 month or 1 year) or undefined for lifetime
+        let expiryFormatted: string | undefined;
         if (selectedPlan === 'annual') {
+          const expiryDateObj = new Date();
           expiryDateObj.setFullYear(expiryDateObj.getFullYear() + 1);
-        } else {
+          expiryFormatted = expiryDateObj.toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+          });
+        } else if (selectedPlan === 'monthly') {
+          const expiryDateObj = new Date();
           expiryDateObj.setMonth(expiryDateObj.getMonth() + 1);
+          expiryFormatted = expiryDateObj.toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+          });
+        } else {
+          // Lifetime: No expiration date
+          expiryFormatted = undefined;
         }
-        const expiryFormatted = expiryDateObj.toLocaleDateString('id-ID', {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric',
-        });
 
         openVipSuccessModal({
           planName: currentPlan.title,
@@ -128,9 +138,11 @@ export const VipSubscriptionModal: React.FC = () => {
       if (res.isVip) {
         setIsVip(true);
         closeVipModal();
+        const details = await revenueCatService.getVipExpiryDetails();
+        const isLifetimeProduct = details.productIdentifier?.includes('lifetime');
         openVipSuccessModal({
-          planName: 'Keanggotaan VIP Apple ID',
-          expiryDate: 'Telah Aktif',
+          planName: isLifetimeProduct ? 'TTS Pass VIP Seumur Hidup' : 'Keanggotaan VIP Apple ID',
+          expiryDate: isLifetimeProduct ? undefined : details.expirationDateFormatted,
           isRestore: true,
         });
       } else if (res.success) {

@@ -1,6 +1,6 @@
 import { Capacitor } from '@capacitor/core';
 import { GoogleSignIn } from '@capawesome/capacitor-google-sign-in';
-import { supabase, isSupabaseConfigured, withTimeout } from './supabase';
+import { supabase, isSupabaseConfigured, withTimeout, formatFriendlyNetworkError } from './supabase';
 
 export const GOOGLE_WEB_CLIENT_ID = '260911640333-mues538f6c5csidqdfcigda2pstavhd9.apps.googleusercontent.com';
 
@@ -133,7 +133,7 @@ export async function performGoogleSignIn(): Promise<{
         };
       }
 
-      return { error: googleErr?.message || 'Gagal masuk dengan Akun Google' };
+      return { error: formatFriendlyNetworkError(googleErr?.message) || 'Gagal masuk dengan Akun Google' };
     }
   }
 

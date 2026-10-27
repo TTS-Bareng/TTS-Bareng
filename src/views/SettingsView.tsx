@@ -76,8 +76,19 @@ export const SettingsView: React.FC = () => {
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [showDeleteAccountConfirm, setShowDeleteAccountConfirm] =
     useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState("");
+  const [isDeletingAccount, setIsDeletingAccount] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const formatSettingsPlayerId = (id?: string): string => {
+    if (!id) return '#TTS-8842';
+    if (id.startsWith('guest_')) {
+      return `TAMU #${id.replace('guest_', '').slice(0, 6).toUpperCase()}`;
+    }
+    const clean = id.replace(/-/g, '');
+    return `#${clean.slice(0, 8).toUpperCase()}`;
+  };
 
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [newPassword, setNewPassword] = useState("");
@@ -1013,13 +1024,13 @@ export const SettingsView: React.FC = () => {
                   Kartu Identitas Pemain
                 </span>
                 <span className="text-[9px] text-[var(--text-secondary)] block">
-                  Rincian ID ({user.id || "TTS-8842"}), surel, dan profil
+                  Rincian ID ({formatSettingsPlayerId(user.id)}), surel, dan profil
                 </span>
               </div>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="text-[10px] font-mono font-black text-[var(--accent-main)] px-2 py-0.5 rounded-md bg-[var(--accent-light)] border border-[var(--accent-main)]/20">
-                {user.id || "TTS-8842"}
+                {formatSettingsPlayerId(user.id)}
               </span>
               <ChevronRight className="w-3.5 h-3.5 text-[var(--text-secondary)] group-hover:text-[var(--text-primary)]" />
             </div>
@@ -1194,34 +1205,61 @@ export const SettingsView: React.FC = () => {
           {/* Hapus Akun & Data (Apple 5.1.1v) */}
           <div className="p-3">
             {showDeleteAccountConfirm ? (
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2.5 p-1">
                 <div className="flex items-center gap-2 text-red-500 dark:text-red-400">
-                  <Trash2 className="w-3.5 h-3.5 stroke-[2.2]" />
-                  <span className="text-[11.5px] font-black">
+                  <Trash2 className="w-4 h-4 stroke-[2.2]" />
+                  <span className="text-[12px] font-black">
                     Hapus Permanen Akun & Data?
                   </span>
                 </div>
-                <p className="text-[9px] text-[var(--text-secondary)] leading-tight">
+                <p className="text-[10px] text-[var(--text-secondary)] leading-relaxed">
                   Sesuai Apple App Store Guideline 5.1.1(v), tindakan ini akan{" "}
                   <strong>menghapus total identitas pemain</strong>, avatar,
-                  bintang, streak, dan riwayat lokal dari perangkat ini tanpa
+                  bintang, rekor kata, serta akun login dari server dan perangkat ini secara permanen tanpa
                   dapat dipulihkan.
                 </p>
+                <div className="space-y-1">
+                  <label className="text-[9.5px] font-bold text-[var(--text-secondary)] block">
+                    Ketik kata <span className="text-red-500 dark:text-red-400 font-black">hapus</span> di bawah ini untuk konfirmasi:
+                  </label>
+                  <input
+                    type="text"
+                    value={deleteConfirmText}
+                    onChange={(e) => setDeleteConfirmText(e.target.value)}
+                    placeholder="Ketik 'hapus'"
+                    disabled={isDeletingAccount}
+                    className="w-full px-3 py-2 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/15 text-[12px] font-bold text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]/50 focus:outline-none focus:border-red-500/50 transition-colors"
+                  />
+                </div>
                 <div className="flex gap-2 pt-1">
                   <button
                     type="button"
+                    disabled={deleteConfirmText.trim().toLowerCase() !== "hapus" || isDeletingAccount}
                     onClick={async () => {
-                      setShowDeleteAccountConfirm(false);
+                      if (deleteConfirmText.trim().toLowerCase() !== "hapus") return;
+                      setIsDeletingAccount(true);
                       await deleteAccountAndData();
                     }}
-                    className="flex-1 py-1.5 rounded-lg bg-red-500 text-white font-bold text-[10px] cursor-pointer tactile-active shadow-xs"
+                    className={`flex-1 py-2 rounded-xl font-black text-[11px] shadow-xs flex items-center justify-center gap-1.5 transition-all ${
+                      deleteConfirmText.trim().toLowerCase() === "hapus" && !isDeletingAccount
+                        ? "bg-red-500 text-white cursor-pointer active:scale-95"
+                        : "bg-red-500/30 text-white/50 cursor-not-allowed"
+                    }`}
                   >
-                    Ya, Hapus Permanen
+                    {isDeletingAccount ? (
+                      <span>Menghapus Akun...</span>
+                    ) : (
+                      <span>Ya, Hapus Akun Permanen</span>
+                    )}
                   </button>
                   <button
                     type="button"
-                    onClick={() => setShowDeleteAccountConfirm(false)}
-                    className="flex-1 py-1.5 rounded-lg bg-black/5 dark:bg-white/5 text-[var(--text-secondary)] font-bold text-[10px] cursor-pointer tactile-active"
+                    disabled={isDeletingAccount}
+                    onClick={() => {
+                      setShowDeleteAccountConfirm(false);
+                      setDeleteConfirmText("");
+                    }}
+                    className="flex-1 py-2 rounded-xl bg-black/5 dark:bg-white/5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-bold text-[11px] cursor-pointer active:scale-95 transition-all"
                   >
                     Batal
                   </button>
@@ -1246,6 +1284,7 @@ export const SettingsView: React.FC = () => {
                   type="button"
                   onClick={() => {
                     setShowDeleteAccountConfirm(true);
+                    setDeleteConfirmText("");
                     setShowResetConfirm(false);
                   }}
                   className="px-2.5 py-1 rounded-full text-[9px] font-bold bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/20 transition-colors cursor-pointer tactile-active"

@@ -31,7 +31,13 @@ export const VipSuccessModal: React.FC = () => {
   if (!isVipSuccessModalOpen) return null;
 
   const planTitle = vipSuccessData?.planName || 'Keanggotaan VIP';
-  const expiryLabel = vipSuccessData?.expiryDate
+  const isLifetime =
+    planTitle.toLowerCase().includes('lifetime') ||
+    planTitle.toLowerCase().includes('seumur hidup');
+
+  const expiryLabel = isLifetime
+    ? 'Akses Seumur Hidup (Aktif Permanen)'
+    : vipSuccessData?.expiryDate
     ? `Aktif hingga ${vipSuccessData.expiryDate}`
     : 'Langganan Aktif (Diperpanjang Otomatis)';
 

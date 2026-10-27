@@ -512,7 +512,7 @@ export const App: React.FC = () => {
 
   return (
     <div
-      className={`w-full h-[100dvh] mx-auto flex flex-col justify-between relative overflow-hidden select-none transition-all duration-300 ${
+      className={`w-full h-[100dvh] mx-auto flex flex-col justify-between relative overflow-hidden select-none transition-[max-width] duration-300 ${
         currentTab === 'game'
           ? 'max-w-[430px] md:max-w-4xl lg:max-w-5xl'
           : 'max-w-[430px] md:max-w-xl lg:max-w-2xl'
@@ -521,25 +521,27 @@ export const App: React.FC = () => {
         background: 'var(--bg-gradient)',
       }}
     >
-      {/* 0. Network Offline/Online Status Bar */}
-      <NetworkStatusBar />
+      {/* 0. Isolated Floating Overlays (Zero Layout Shift on Popups/Toasts) */}
+      <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
+        <NetworkStatusBar />
 
-      {/* 0. Floating Global Toast Alert Notification */}
-      <AnimatePresence>
-        {globalToast && (
-          <motion.div
-            key="global-toast-pill"
-            initial={{ opacity: 0, y: -24, scale: 0.92 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -20, scale: 0.92 }}
-            transition={{ type: 'spring', damping: 22, stiffness: 340 }}
-            className="fixed top-[max(12px,env(safe-area-inset-top))] inset-x-4 max-w-[380px] mx-auto z-50 px-4 py-2 rounded-full liquid-glass-card border border-[var(--accent-main)]/35 shadow-2xl flex items-center justify-center gap-2 text-[12px] font-bold text-[var(--text-primary)] backdrop-blur-xl pointer-events-none"
-          >
-            <Sparkles className="w-4 h-4 text-[var(--accent-main)] stroke-[2.2] shrink-0" />
-            <span className="truncate">{globalToast}</span>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        {/* Floating Global Toast Alert Notification */}
+        <AnimatePresence>
+          {globalToast && (
+            <motion.div
+              key="global-toast-pill"
+              initial={{ opacity: 0, y: -24, scale: 0.92 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.92 }}
+              transition={{ type: 'spring', damping: 22, stiffness: 340 }}
+              className="fixed top-[max(12px,env(safe-area-inset-top))] inset-x-4 max-w-[380px] mx-auto px-4 py-2 rounded-full liquid-glass-card border border-[var(--accent-main)]/35 shadow-2xl flex items-center justify-center gap-2 text-[12px] font-bold text-[var(--text-primary)] backdrop-blur-xl pointer-events-none"
+            >
+              <Sparkles className="w-4 h-4 text-[var(--accent-main)] stroke-[2.2] shrink-0" />
+              <span className="truncate">{globalToast}</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
 
       {/* Conditional Flow: 1. Initial Login -> 2. Onboarding -> 3. Main Game Views */}
       {initialAuthStage === 'auth' ? (

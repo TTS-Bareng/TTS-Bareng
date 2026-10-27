@@ -1,6 +1,6 @@
 import { Capacitor } from '@capacitor/core';
 import { SignInWithApple, type SignInWithAppleResponse } from '@capacitor-community/apple-sign-in';
-import { supabase, isSupabaseConfigured } from './supabase';
+import { supabase, isSupabaseConfigured, formatFriendlyNetworkError } from './supabase';
 
 /**
  * Perform Sign in with Apple:
@@ -68,7 +68,7 @@ export async function performAppleSignIn(): Promise<{
         return { canceled: true };
       }
 
-      return { error: appleErr?.message || 'Gagal masuk dengan Apple ID' };
+      return { error: formatFriendlyNetworkError(appleErr?.message) || 'Gagal masuk dengan Apple ID' };
     }
   }
 

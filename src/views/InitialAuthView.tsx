@@ -26,6 +26,7 @@ import {
   signInWithEmailPassword,
   signUpWithEmailPassword,
   resetPasswordForEmail,
+  formatFriendlyNetworkError,
 } from "../lib/supabase";
 
 const AppleLogoIcon: React.FC<{ className?: string }> = ({
@@ -240,11 +241,11 @@ export const InitialAuthView: React.FC = () => {
         return;
       }
       if (res?.error) {
-        showGlobalToast(res.error);
+        showGlobalToast(formatFriendlyNetworkError(res.error));
       }
     } catch (err: any) {
       setIsAppleLoading(false);
-      showGlobalToast(err?.message || "Gagal memulai Sign in with Apple.");
+      showGlobalToast(formatFriendlyNetworkError(err?.message) || "Gagal memulai Sign in with Apple.");
     }
   };
 
@@ -269,10 +270,10 @@ export const InitialAuthView: React.FC = () => {
       }
 
       if (res?.error) {
-        showGlobalToast(res.error);
+        showGlobalToast(formatFriendlyNetworkError(res.error));
       }
     } catch (err: any) {
-      showGlobalToast(err?.message || "Gagal memulai Sign in with Google.");
+      showGlobalToast(formatFriendlyNetworkError(err?.message) || "Gagal memulai Sign in with Google.");
       setIsGoogleLoading(false);
     }
   };
@@ -357,7 +358,7 @@ export const InitialAuthView: React.FC = () => {
             "Kode verifikasi 6 digit telah dikirim ke surel Anda.",
           );
         } else {
-          showGlobalToast(res.error);
+          showGlobalToast(formatFriendlyNetworkError(res.error));
         }
       }
     }

@@ -442,7 +442,9 @@ class RevenueCatService {
       }
 
       let formattedDate: string | undefined;
-      if (entitlement.expirationDate) {
+      const isLifetimeProduct = entitlement.productIdentifier?.toLowerCase().includes('lifetime');
+
+      if (!isLifetimeProduct && entitlement.expirationDate) {
         const d = new Date(entitlement.expirationDate);
         formattedDate = d.toLocaleDateString('id-ID', {
           day: 'numeric',

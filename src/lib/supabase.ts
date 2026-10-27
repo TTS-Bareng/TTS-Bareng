@@ -13,7 +13,27 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || DEFAULT_SUPABA
 
 export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
 
-// Resilient fetch wrapper with 7s timeout and fast auto-retry for spotty WiFi and mobile connections (Accrual Standard)
+/**
+ * Format raw network or WebKit NSURLError into friendly Indonesian message
+ */
+export function formatFriendlyNetworkError(rawError?: string | null): string {
+  if (!rawError) return 'Terjadi kendala pada koneksi internet. Silakan coba lagi.';
+  const msg = rawError.toLowerCase();
+  if (
+    msg.includes('network connection was lost') ||
+    msg.includes('-1005') ||
+    msg.includes('failed to fetch') ||
+    msg.includes('load failed') ||
+    msg.includes('the operation was aborted') ||
+    msg.includes('timeout') ||
+    msg.includes('koneksi jaringan')
+  ) {
+    return 'Koneksi internet tidak stabil atau terputus. Silakan periksa jaringan dan coba lagi.';
+  }
+  return rawError;
+}
+
+// Resilient fetch wrapper with 15s timeout and fast auto-retry for spotty WiFi and mobile connections (Accrual Standard)
 const resilientFetch: typeof fetch = async (input, init) => {
   const maxRetries = 2;
   let lastError: any = null;
@@ -24,7 +44,7 @@ const resilientFetch: typeof fetch = async (input, init) => {
     const timeoutId = setTimeout(() => {
       isTimedOut = true;
       controller.abort();
-    }, 7000);
+    }, 15000);
 
     if (init?.signal) {
       if (init.signal.aborted) {
@@ -61,15 +81,15 @@ const resilientFetch: typeof fetch = async (input, init) => {
       }
 
       if (isTimedOut) {
-        throw new Error('Koneksi jaringan melebihi batas waktu (timeout). Periksa koneksi internet Anda.');
+        throw new Error('Koneksi internet tidak stabil atau batas waktu habis. Silakan periksa jaringan Anda.');
       }
-      throw err;
+      throw new Error(formatFriendlyNetworkError(err?.message));
     } finally {
       clearTimeout(timeoutId);
     }
   }
 
-  throw lastError || new Error('Koneksi jaringan terputus. Periksa koneksi internet Anda.');
+  throw lastError ? new Error(formatFriendlyNetworkError(lastError?.message)) : new Error('Koneksi internet tidak stabil atau terputus. Silakan periksa jaringan Anda.');
 };
 
 export const supabase = createClient(
@@ -505,18 +525,18 @@ export async function signInWithEmailPassword(
         email: email.trim().toLowerCase(),
         password,
       }),
-      20000,
-      'Koneksi verifikasi akun batas waktu habis (20 detik).'
+      25000,
+      'Koneksi verifikasi akun batas waktu habis. Periksa jaringan Anda.'
     );
-    if (error) return { error: error.message };
+    if (error) return { error: formatFriendlyNetworkError(error.message) };
     return { user: data.user, session: data.session };
   } catch (err: any) {
-    return { error: err?.message || 'Gagal masuk dengan email & kata sandi' };
+    return { error: formatFriendlyNetworkError(err?.message) || 'Gagal masuk dengan email & kata sandi' };
   }
 }
 
 /**
- * Sign up with email and password (protected by 20s timeout)
+ * Sign up with email and password (protected by 25s timeout)
  */
 export async function signUpWithEmailPassword(
   email: string,
@@ -531,13 +551,13 @@ export async function signUpWithEmailPassword(
         email: email.trim().toLowerCase(),
         password,
       }),
-      20000,
-      'Koneksi pendaftaran akun batas waktu habis (20 detik).'
+      25000,
+      'Koneksi pendaftaran akun batas waktu habis. Periksa jaringan Anda.'
     );
-    if (error) return { error: error.message };
+    if (error) return { error: formatFriendlyNetworkError(error.message) };
     return { user: data.user, session: data.session };
   } catch (err: any) {
-    return { error: err?.message || 'Gagal mendaftar akun baru' };
+    return { error: formatFriendlyNetworkError(err?.message) || 'Gagal mendaftar akun baru' };
   }
 }
 

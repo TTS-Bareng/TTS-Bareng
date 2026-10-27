@@ -4301,7 +4301,10 @@ export const useGameStore = create<GameState>((set, get) => ({
     try {
       const { data } = await supabase.auth.getSession();
       if (data?.session?.user) {
-        await supabase.rpc('delete_user_account');
+        const { error } = await supabase.rpc('delete_user_account');
+        if (error) {
+          console.warn('[Account] Supabase delete_user_account RPC returned error:', error.message);
+        }
       }
     } catch (err) {
       console.warn('[Account] Error deleting user account from Supabase:', err);
@@ -4320,7 +4323,16 @@ export const useGameStore = create<GameState>((set, get) => ({
       const keysToRemove: string[] = [];
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
-        if (key && (key.startsWith('tts_') || key.startsWith('crossword_') || key.startsWith('mabar_') || key.startsWith('sb-') || key.includes('supabase'))) {
+        if (
+          key &&
+          (key.startsWith('tts_') ||
+            key.startsWith('crossword_') ||
+            key.startsWith('mabar_') ||
+            key.startsWith('sb-') ||
+            key.startsWith('sidenotes_') ||
+            key.startsWith('noticed_') ||
+            key.includes('supabase'))
+        ) {
           keysToRemove.push(key);
         }
       }
