@@ -13,6 +13,65 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || DEFAULT_SUPABA
 
 export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
 
+// Resilient fetch wrapper with 7s timeout and fast auto-retry for spotty WiFi and mobile connections (Accrual Standard)
+const resilientFetch: typeof fetch = async (input, init) => {
+  const maxRetries = 2;
+  let lastError: any = null;
+
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    const controller = new AbortController();
+    let isTimedOut = false;
+    const timeoutId = setTimeout(() => {
+      isTimedOut = true;
+      controller.abort();
+    }, 7000);
+
+    if (init?.signal) {
+      if (init.signal.aborted) {
+        clearTimeout(timeoutId);
+        controller.abort();
+      } else {
+        init.signal.addEventListener('abort', () => controller.abort(), { once: true });
+      }
+    }
+
+    try {
+      const response = await fetch(input, {
+        ...init,
+        signal: controller.signal,
+      });
+      return response;
+    } catch (err: any) {
+      lastError = err;
+      const msg = typeof err?.message === 'string' ? err.message.toLowerCase() : '';
+      const isTransient =
+        isTimedOut ||
+        msg.includes('network connection was lost') ||
+        msg.includes('failed to fetch') ||
+        msg.includes('load failed') ||
+        msg.includes('-1005') ||
+        msg.includes('timeout') ||
+        (err?.name === 'AbortError' && isTimedOut);
+
+      if (isTransient && attempt < maxRetries && !init?.signal?.aborted) {
+        const backoffMs = attempt === 0 ? 300 : 600;
+        console.warn(`[Supabase:fetch] Transient network issue on attempt ${attempt + 1}/${maxRetries}. Retrying in ${backoffMs}ms...`);
+        await new Promise((resolve) => setTimeout(resolve, backoffMs));
+        continue;
+      }
+
+      if (isTimedOut) {
+        throw new Error('Koneksi jaringan melebihi batas waktu (timeout). Periksa koneksi internet Anda.');
+      }
+      throw err;
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  }
+
+  throw lastError || new Error('Koneksi jaringan terputus. Periksa koneksi internet Anda.');
+};
+
 export const supabase = createClient(
   supabaseUrl || 'https://placeholder.supabase.co',
   supabaseAnonKey || 'placeholder',
@@ -21,6 +80,9 @@ export const supabase = createClient(
       persistSession: true,
       autoRefreshToken: true,
       detectSessionInUrl: true,
+    },
+    global: {
+      fetch: resilientFetch,
     },
     realtime: {
       params: {
