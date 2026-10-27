@@ -304,7 +304,17 @@ jobs:
             -exportPath build \
             -allowProvisioningUpdates
           
-          # Verifikasi file App.ipa
+          # Find exported IPA file dynamically and normalize it to build/App.ipa
+          IPA_PATH=$(find build -maxdepth 1 -name "*.ipa" | head -n 1)
+          if [ -z "$IPA_PATH" ]; then
+            echo "Error: No IPA file found in build directory!"
+            ls -lh build
+            exit 1
+          fi
+          echo "Found exported IPA: $IPA_PATH"
+          if [ "$IPA_PATH" != "build/App.ipa" ]; then
+            cp "$IPA_PATH" build/App.ipa
+          fi
           ls -lh build/App.ipa
 
       # 12. Upload IPA to TestFlight / App Store Connect via xcrun altool
