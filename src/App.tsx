@@ -4,7 +4,8 @@ import { Sparkles } from 'lucide-react';
 import { App as CapacitorApp } from '@capacitor/app';
 import { useGameStore, getOnboardedKey } from './store/useGameStore';
 import { applyTheme } from './lib/themes';
-import { parseDeepLink, clearUrlParams } from './lib/deeplink';
+import { parseDeepLink, clearUrlParams, decodeCustomCrosswordParam } from './lib/deeplink';
+import { generateCustomCrossword } from './lib/customCrosswordGenerator';
 import { HomeView } from './views/HomeView';
 import { NavigationBottomBar } from './components/NavigationBottomBar';
 import { ActiveGameResumeBanner } from './components/ActiveGameResumeBanner';
@@ -44,6 +45,9 @@ const StoreKitSandboxModal = lazy(() => import('./components/StoreKitSandboxModa
 const CustomCrosswordModal = lazy(() => import('./components/CustomCrosswordModal').then((m) => ({ default: m.CustomCrosswordModal })));
 const CancelSubscriptionModal = lazy(() => import('./components/CancelSubscriptionModal').then((m) => ({ default: m.CancelSubscriptionModal })));
 const VipSuccessModal = lazy(() => import('./components/VipSuccessModal').then((m) => ({ default: m.VipSuccessModal })));
+const BattleResultModal = lazy(() => import('./components/BattleResultModal').then((m) => ({ default: m.BattleResultModal })));
+const BattleLobbyModal = lazy(() => import('./components/BattleLobbyModal').then((m) => ({ default: m.BattleLobbyModal })));
+const ConfirmDialogModal = lazy(() => import('./components/ConfirmDialogModal').then((m) => ({ default: m.ConfirmDialogModal })));
 const InitialAuthView = lazy(() => import('./views/InitialAuthView').then((m) => ({ default: m.InitialAuthView })));
 const OnboardingView = lazy(() => import('./views/OnboardingView').then((m) => ({ default: m.OnboardingView })));
 
@@ -93,6 +97,7 @@ export const App: React.FC = () => {
     eloRating,
     isVip,
     dailyRushRecord,
+    playCustomCrossword,
   } = useGameStore();
 
   // Listen for local notification tap actions (Daily Rush, Game, Arena)
@@ -239,11 +244,31 @@ export const App: React.FC = () => {
     checkDailyStreakOnMount();
   }, [checkDailyStreakOnMount]);
 
-  // Deep Link & URL Query Sync Engine (?room=TTS-XXXX, ?tourney=CUP-XXXX, ?level=N, or ?vip=1)
+  // Deep Link & URL Query Sync Engine (?room=TTS-XXXX, ?tourney=CUP-XXXX, ?level=N, ?custom=..., or ?vip=1)
   useEffect(() => {
-    const { roomCode, tournamentCode, levelIndex, vip } = parseDeepLink(levels.length);
+    const { roomCode, tournamentCode, levelIndex, vip, customCrossword } = parseDeepLink(levels.length);
     if (vip) {
       openVipModal();
+      clearUrlParams();
+    } else if (customCrossword) {
+      try {
+        const generatedLevel = generateCustomCrossword(
+          customCrossword.title,
+          customCrossword.category,
+          customCrossword.wordsList.map((w) => ({ word: w.answer, clue: w.clue }))
+        );
+        playCustomCrossword({
+          id: `custom_${Date.now()}`,
+          title: customCrossword.title,
+          category: customCrossword.category,
+          wordsList: customCrossword.wordsList,
+          level: generatedLevel,
+          createdAt: new Date().toISOString(),
+        });
+        showGlobalToast(`Membuka TTS Kustom: "${customCrossword.title}"`, 3500);
+      } catch {
+        showGlobalToast('Gagal memuat TTS Kustom dari tautan.', 3000);
+      }
       clearUrlParams();
     } else if (tournamentCode) {
       joinTournament(tournamentCode);
@@ -268,21 +293,17 @@ export const App: React.FC = () => {
         showGlobalToast(`Menyambung kembali ke kamar: ${savedRoom}`, 2800);
       }
     }
-  }, [joinTournament, levels.length, openVipModal, selectLevel, setActiveRoomCode, setCurrentTab, showGlobalToast]);
+  }, [joinTournament, levels.length, openVipModal, playCustomCrossword, selectLevel, setActiveRoomCode, setCurrentTab, showGlobalToast]);
 
   // Centralized action handler for widget taps and deep links
   const handleWidgetAction = (action: string) => {
-    if (action === 'rush') {
-      setCurrentTab('home');
-      openDailyRushBriefing();
-      showGlobalToast('⚡ Membuka Tantangan Daily Rush...', 2500);
+    if (action === 'rush' || action === 'play') {
+      setCurrentTab('game');
+      showGlobalToast('Membuka Permainan TTS...', 2500);
     } else if (action === 'scan') {
       openJoinTournament();
       openScanner();
-      showGlobalToast('📷 Mengaktifkan Kamera Pemindai QR...', 2500);
-    } else if (action === 'play') {
-      setCurrentTab('game');
-      showGlobalToast('🎮 Melanjutkan Permainan TTS...', 2500);
+      showGlobalToast('Mengaktifkan Kamera Pemindai QR...', 2500);
     } else if (action === 'home') {
       setCurrentTab('home');
     } else if (action === 'arena') {
@@ -383,7 +404,7 @@ export const App: React.FC = () => {
                 refresh_token: refreshToken,
               }).then(({ data, error }) => {
                 if (data?.session) {
-                  showGlobalToast('✨ Berhasil masuk! Menyiapkan profil...');
+                  showGlobalToast('Berhasil masuk! Menyiapkan profil...');
                 } else if (error) {
                   showGlobalToast(`Gagal masuk: ${error.message}`);
                 }
@@ -392,7 +413,7 @@ export const App: React.FC = () => {
             } else if (code) {
               supabase.auth.exchangeCodeForSession(code).then(({ data, error }) => {
                 if (data?.session) {
-                  showGlobalToast('✨ Berhasil masuk! Menyiapkan profil...');
+                  showGlobalToast('Berhasil masuk! Menyiapkan profil...');
                 } else if (error) {
                   showGlobalToast(`Gagal masuk: ${error.message}`);
                 }
@@ -406,6 +427,30 @@ export const App: React.FC = () => {
           const tourneyParam = urlObj.searchParams.get('tourney') || urlObj.searchParams.get('cup');
           const levelParam = urlObj.searchParams.get('level') || urlObj.searchParams.get('bab') || urlObj.searchParams.get('lvl');
           const vipParam = urlObj.searchParams.get('vip') || urlObj.searchParams.get('paywall');
+          const customParam = urlObj.searchParams.get('custom') || urlObj.searchParams.get('tts');
+
+          if (customParam) {
+            const decoded = decodeCustomCrosswordParam(customParam);
+            if (decoded) {
+              try {
+                const generatedLevel = generateCustomCrossword(
+                  decoded.title,
+                  decoded.category,
+                  decoded.wordsList.map((w) => ({ word: w.answer, clue: w.clue }))
+                );
+                playCustomCrossword({
+                  id: `custom_${Date.now()}`,
+                  title: decoded.title,
+                  category: decoded.category,
+                  wordsList: decoded.wordsList,
+                  level: generatedLevel,
+                  createdAt: new Date().toISOString(),
+                });
+                showGlobalToast(`Membuka TTS Kustom: "${decoded.title}"`, 3500);
+                return;
+              } catch {}
+            }
+          }
 
           if (event.url.includes('//rush') || event.url.includes('tab=rush')) {
             handleWidgetAction('rush');
@@ -446,7 +491,7 @@ export const App: React.FC = () => {
     return () => {
       removeListener?.();
     };
-  }, [joinTournament, levels.length, openVipModal, selectLevel, setActiveRoomCode, setCurrentTab, showGlobalToast]);
+  }, [joinTournament, levels.length, openVipModal, playCustomCrossword, selectLevel, setActiveRoomCode, setCurrentTab, showGlobalToast]);
 
   // Physical keyboard support for desktop/laptop testing when in Game view
   useEffect(() => {
@@ -599,6 +644,9 @@ export const App: React.FC = () => {
         <CustomCrosswordModal />
         <VipSuccessModal />
         <CancelSubscriptionModal />
+        <BattleResultModal />
+        <BattleLobbyModal />
+        <ConfirmDialogModal />
       </Suspense>
     </div>
   );

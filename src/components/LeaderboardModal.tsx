@@ -1,24 +1,21 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Trophy, RotateCcw, Clock, Sparkles, Zap, Award, Share2, Swords, Crown } from 'lucide-react';
-import { useGameStore, getTodayDateString } from '../store/useGameStore';
+import { X, Trophy, RotateCcw, Share2, Swords, Crown } from 'lucide-react';
+import { useGameStore } from '../store/useGameStore';
 import {
   getEloTier,
   type NationalEloLeaderboardEntry,
 } from '../lib/eloSystem';
 import { MASCOTS } from '../assets/maskots';
+import { getBaseOrigin } from '../lib/deeplink';
 
 export const LeaderboardModal: React.FC = () => {
   const {
     isLeaderboardOpen,
     closeLeaderboard,
-    nationalLeaderboard,
-    isLoadingLeaderboard,
-    loadNationalLeaderboard,
     eloLeaderboard,
     isLoadingEloLeaderboard,
     loadEloLeaderboard,
-    dailyRushRecord,
     user,
     openShareModal,
     eloRating,
@@ -26,8 +23,6 @@ export const LeaderboardModal: React.FC = () => {
     battlesStats,
   } = useGameStore();
 
-  const [activeTab, setActiveTab] = useState<'daily_rush' | 'elo_rating'>('elo_rating');
-  const [todayStr] = useState(getTodayDateString);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isOffline, setIsOffline] = useState(() => typeof navigator !== 'undefined' ? !navigator.onLine : false);
 
@@ -44,18 +39,9 @@ export const LeaderboardModal: React.FC = () => {
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    await Promise.allSettled([
-      loadNationalLeaderboard(todayStr),
-      loadEloLeaderboard(),
-    ]);
+    await loadEloLeaderboard();
     setTimeout(() => setIsRefreshing(false), 500);
   };
-
-  // Find user rank if present in the daily rush leaderboard
-  const userRankIndex = nationalLeaderboard.findIndex(
-    (r) => r.user_name === user.name && r.rush_date === todayStr
-  );
-  const userRank = userRankIndex !== -1 ? userRankIndex + 1 : null;
 
   // Combine real Supabase player leaderboard with user's current ELO
   const userTier = getEloTier(eloRating);
@@ -94,22 +80,6 @@ export const LeaderboardModal: React.FC = () => {
 
   const playerEloRank = combinedEloLeaderboard.find((e) => e.id === userEntry.id || e.id === 'user_current')?.rank || 1;
 
-  const handleShareDailyRush = () => {
-    openShareModal({
-      badge: userRank ? `DAILY RUSH #${userRank}` : 'DAILY RUSH',
-      title: 'Top Jawara Daily Rush!',
-      subtitle: `${dailyRushRecord?.score || 0} poin berhasil dicapai dalam 90 detik pada Papan Peringkat Nasional TTS Bareng.`,
-      mascot: MASCOTS.crosswordChampion,
-      stats: [
-        { label: 'POIN', value: `${dailyRushRecord?.score || 0}` },
-        { label: 'PERINGKAT', value: userRank ? `#${userRank}` : '-' },
-        { label: 'WAKTU', value: `${dailyRushRecord?.timeSpent || 90}s` },
-      ],
-      shareUrl: window.location.origin,
-      shareText: `Saya mencetak skor ${dailyRushRecord?.score || 0} poin di Daily Rush TTS Bareng! Bisakah kamu mengalahkan peringkatku?`,
-    });
-  };
-
   const handleShareEloRank = () => {
     openShareModal({
       badge: `PERINGKAT #${playerEloRank} ELO NASIONAL`,
@@ -121,7 +91,7 @@ export const LeaderboardModal: React.FC = () => {
         { label: 'PERINGKAT', value: `#${playerEloRank}` },
         { label: 'MENANG 1V1', value: `${battlesStats.won}` },
       ],
-      shareUrl: window.location.origin,
+      shareUrl: getBaseOrigin(),
       shareText: `Saya bergelar ${userTier.name} (${eloRating} ELO) di Papan Peringkat TTS Bareng! Berani adu kecerdasan kata denganku?`,
     });
   };
@@ -159,16 +129,16 @@ export const LeaderboardModal: React.FC = () => {
                 <div>
                   <div className="flex items-center gap-1.5 mb-0.5">
                     <span className="text-[8.5px] font-black uppercase tracking-wider text-[var(--accent-main)] block leading-none">
-                      {activeTab === 'daily_rush' ? 'DAILY RUSH 90S' : 'LIGA CATUR ELO'}
+                      LIGA CATUR ELO
                     </span>
                     {isOffline && (
-                      <span className="text-[7px] font-black px-1.5 py-0.2 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-400 uppercase">
+                      <span className="text-[7px] font-black px-1.5 py-0.2 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)] uppercase">
                         OFFLINE
                       </span>
                     )}
                   </div>
                   <h3 className="text-[16px] font-black tracking-tight text-[var(--text-primary)] leading-tight">
-                    {activeTab === 'daily_rush' ? 'Peringkat Nasional' : 'Klasemen Master ELO'}
+                    Klasemen Master ELO
                   </h3>
                 </div>
               </div>
@@ -181,7 +151,7 @@ export const LeaderboardModal: React.FC = () => {
                   aria-label="Segarkan Peringkat"
                   className="w-7 h-7 rounded-full flex items-center justify-center bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 active:scale-95 transition-all text-[var(--text-primary)] border border-black/5 dark:border-white/10 cursor-pointer"
                 >
-                  <RotateCcw className={`w-3.5 h-3.5 stroke-[2] ${isRefreshing || (activeTab === 'daily_rush' ? isLoadingLeaderboard : isLoadingEloLeaderboard) ? 'animate-spin' : ''}`} />
+                  <RotateCcw className={`w-3.5 h-3.5 stroke-[2] ${isRefreshing || isLoadingEloLeaderboard ? 'animate-spin' : ''}`} />
                 </button>
 
                 <button
@@ -195,155 +165,31 @@ export const LeaderboardModal: React.FC = () => {
               </div>
             </div>
 
-            {/* Segmented Tab Switcher */}
-            <div className="w-full grid grid-cols-2 p-1 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 relative z-10 shrink-0">
-              <button
-                type="button"
-                onClick={() => setActiveTab('daily_rush')}
-                className={`py-1.5 px-2 rounded-xl text-[10.5px] font-black cursor-pointer tactile-active flex items-center justify-center gap-1.5 transition-all ${
-                  activeTab === 'daily_rush'
-                    ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-xs'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                }`}
-              >
-                <Zap className="w-3.5 h-3.5 stroke-[2.2]" />
-                <span>Daily Rush 90s</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveTab('elo_rating')}
-                className={`py-1.5 px-2 rounded-xl text-[10.5px] font-black cursor-pointer tactile-active flex items-center justify-center gap-1.5 transition-all ${
-                  activeTab === 'elo_rating'
-                    ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-xs'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                }`}
-              >
-                <Swords className="w-3.5 h-3.5 stroke-[2.2]" />
-                <span>Peringkat ELO</span>
-              </button>
+            {/* Subtitle Pill Header */}
+            <div className="w-full py-1.5 px-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 flex items-center justify-between text-[var(--text-secondary)] text-[9.5px] font-bold shrink-0">
+              <span className="flex items-center gap-1.5 text-[var(--accent-main)]">
+                <Swords className="w-3 h-3 stroke-[2.2]" />
+                <span>Papan Peringkat Duel Nasional</span>
+              </span>
+              <span className="uppercase font-black text-[8px] px-1.5 py-0.2 rounded bg-[var(--accent-light)] text-[var(--accent-main)]">
+                {combinedEloLeaderboard.length} Master
+              </span>
             </div>
 
-            {/* Leaderboard List / Podium Container */}
+            {/* Leaderboard List Container */}
             <div className="flex-1 overflow-y-auto min-h-[220px] max-h-[360px] flex flex-col gap-2 relative z-10 pr-0.5">
-              {isOffline && (
-                <div className="w-full py-1.5 px-3 rounded-xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-between text-amber-600 dark:text-amber-400 text-[9px] font-bold shrink-0">
-                  <span>Mode Offline • Rekor tersimpan di perangkat</span>
-                  <span className="uppercase font-black text-[7.5px] px-1.5 py-0.2 rounded bg-amber-500/20">Lokal</span>
+              {isLoadingEloLeaderboard && combinedEloLeaderboard.length <= 1 ? (
+                <div className="flex-1 flex flex-col items-center justify-center gap-2 py-8 text-center">
+                  <RotateCcw className="w-6 h-6 text-[var(--accent-main)] animate-spin stroke-[2]" />
+                  <span className="text-[11px] font-bold text-[var(--text-secondary)]">
+                    Memuat Klasemen ELO...
+                  </span>
                 </div>
-              )}
-              {activeTab === 'daily_rush' ? (
-                isLoadingLeaderboard && nationalLeaderboard.length === 0 ? (
-                  <div className="flex-1 flex flex-col items-center justify-center gap-2 py-8 text-center">
-                    <RotateCcw className="w-6 h-6 text-[var(--accent-main)] animate-spin stroke-[2]" />
-                    <span className="text-[11px] font-bold text-[var(--text-secondary)]">
-                      Memuat Peringkat Nasional...
-                    </span>
-                  </div>
-                ) : nationalLeaderboard.length === 0 ? (
-                  <div className="flex-1 flex flex-col items-center justify-center gap-2 py-8 text-center">
-                    <Award className="w-8 h-8 text-[var(--accent-main)] stroke-[1.8] opacity-80" />
-                    <span className="text-[12px] font-black text-[var(--text-primary)]">
-                      {isOffline ? 'Papan Peringkat Tersimpan' : 'Belum Ada Rekor Hari Ini'}
-                    </span>
-                    <p className="text-[10px] text-[var(--text-secondary)] max-w-[220px] leading-tight">
-                      {isOffline
-                        ? (dailyRushRecord?.date === todayStr
-                            ? `Rekor lokal Anda hari ini: ${dailyRushRecord.score} poin. Skor akan otomatis diunggah saat koneksi pulih.`
-                            : 'Mainkan tantangan Daily Rush 90 detik untuk mencatat rekor lokal Anda.')
-                        : 'Jadilah yang pertama menyelesaikan tantangan Daily Rush 90 detik dan raih posisi teratas!'}
-                    </p>
-                  </div>
-                ) : (
-                  nationalLeaderboard.map((item, index) => {
-                    const rank = index + 1;
-                    const isTop3 = rank <= 3;
-                    const isCurrentUserItem = item.user_name === user.name;
-
-                    return (
-                      <div
-                        key={item.id || `${item.user_name}-${index}`}
-                        className={`w-full p-2.5 rounded-2xl flex items-center justify-between gap-2 border transition-all ${
-                          isCurrentUserItem
-                            ? 'border-[var(--accent-main)] bg-[var(--accent-light)] shadow-xs'
-                            : 'border-black/5 dark:border-white/10 bg-black/5 dark:bg-white/5'
-                        }`}
-                      >
-                        {/* Rank Number + Avatar + Name */}
-                        <div className="flex items-center gap-2 min-w-0">
-                          <div
-                            className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black shrink-0 ${
-                              rank === 1
-                                ? 'bg-amber-400 text-black shadow-xs'
-                                : rank === 2
-                                ? 'bg-zinc-300 dark:bg-zinc-400 text-black shadow-xs'
-                                : rank === 3
-                                ? 'bg-amber-700 text-white shadow-xs'
-                                : 'text-[var(--text-secondary)] font-bold'
-                            }`}
-                          >
-                            {rank}
-                          </div>
-
-                          <div className="w-7 h-7 rounded-full overflow-hidden bg-black/10 dark:bg-white/10 shrink-0 border border-black/10 dark:border-white/15">
-                            {item.user_avatar ? (
-                              <img
-                                src={item.user_avatar}
-                                alt={item.user_name}
-                                className="w-full h-full object-cover"
-                              />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center text-[11px] font-black text-[var(--accent-main)]">
-                                {item.user_name.charAt(0)}
-                              </div>
-                            )}
-                          </div>
-
-                          <div className="min-w-0">
-                            <span className="text-[11.5px] font-black text-[var(--text-primary)] truncate block leading-tight">
-                              {item.user_name} {isCurrentUserItem && '(Anda)'}
-                            </span>
-                            <div className="flex items-center gap-1.5 text-[8.5px] text-[var(--text-secondary)] mt-0.5">
-                              <span className="flex items-center gap-0.5">
-                                <Clock className="w-2.5 h-2.5" />
-                                {item.time_spent}s
-                              </span>
-                              <span>•</span>
-                              <span className="flex items-center gap-0.5">
-                                <Sparkles className="w-2.5 h-2.5" />
-                                {item.accuracy}%
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="text-right shrink-0">
-                          <span className={`text-[12.5px] font-black block leading-none ${
-                            isTop3 ? 'text-[var(--accent-main)]' : 'text-[var(--text-primary)]'
-                          }`}>
-                            {item.score}
-                          </span>
-                          <span className="text-[7.5px] font-bold text-[var(--text-secondary)] uppercase">
-                            Pts
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })
-                )
               ) : (
-                /* ELO Rating Chess Leaderboard */
-                isLoadingEloLeaderboard && combinedEloLeaderboard.length <= 1 ? (
-                  <div className="flex-1 flex flex-col items-center justify-center gap-2 py-8 text-center">
-                    <RotateCcw className="w-6 h-6 text-[var(--accent-main)] animate-spin stroke-[2]" />
-                    <span className="text-[11px] font-bold text-[var(--text-secondary)]">
-                      Memuat Klasemen ELO...
-                    </span>
-                  </div>
-                ) : (
-                  combinedEloLeaderboard.map((item) => {
-                    const rank = item.rank;
-                    const isCurrentUserItem = item.id === userEntry.id || item.id === 'user_current';
-                    const tier = getEloTier(item.elo);
+                combinedEloLeaderboard.map((item) => {
+                  const rank = item.rank;
+                  const isCurrentUserItem = item.id === userEntry.id || item.id === 'user_current';
+                  const tier = getEloTier(item.elo);
 
                   return (
                     <div
@@ -359,11 +205,11 @@ export const LeaderboardModal: React.FC = () => {
                         <div
                           className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black shrink-0 ${
                             rank === 1
-                              ? 'bg-amber-400 text-black shadow-xs font-black'
+                              ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-xs font-black'
                               : rank === 2
                               ? 'bg-zinc-300 dark:bg-zinc-400 text-black shadow-xs font-black'
                               : rank === 3
-                              ? 'bg-amber-700 text-white shadow-xs font-black'
+                              ? 'bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/40 shadow-xs font-black'
                               : 'text-[var(--text-secondary)] font-bold'
                           }`}
                         >
@@ -378,8 +224,8 @@ export const LeaderboardModal: React.FC = () => {
                             className="w-full h-full object-cover"
                           />
                           {item.tier === 'grandmaster' && (
-                            <div className="absolute -top-1 -right-1 text-[11px] leading-none drop-shadow-sm">
-                              👑
+                            <div className="absolute -top-1 -right-1 text-[11px] leading-none drop-shadow-sm text-[var(--accent-main)]">
+                              <Crown className="w-3 h-3 fill-current" />
                             </div>
                           )}
                         </div>
@@ -395,8 +241,8 @@ export const LeaderboardModal: React.FC = () => {
                             )}
                           </div>
                           <div className="flex items-center gap-1.5 text-[8.5px] text-[var(--text-secondary)] mt-0.5">
-                            <span className="font-bold" style={{ color: tier.badgeColor }}>
-                              {tier.icon} {tier.name}
+                            <span className="font-bold text-[var(--accent-main)]">
+                              {tier.name}
                             </span>
                             <span>•</span>
                             <span>{item.winRate}% Menang</span>
@@ -418,93 +264,56 @@ export const LeaderboardModal: React.FC = () => {
                     </div>
                   );
                 })
-              ))}
+              )}
             </div>
 
             {/* Pinned User Record Footer Card */}
-            {activeTab === 'daily_rush' ? (
-              <div
-                className="w-full shrink-0 p-2.5 rounded-2xl border border-[var(--accent-main)]/30 bg-[var(--accent-light)] flex items-center justify-between gap-2 relative z-10"
-              >
-                <div className="flex items-center gap-2 min-w-0">
-                  <div className="w-6 h-6 rounded-lg bg-[var(--accent-main)] text-[var(--accent-contrast)] flex items-center justify-center text-[10px] font-black shrink-0">
-                    {userRank ? `#${userRank}` : '-'}
-                  </div>
-                  <div className="min-w-0">
+            <div
+              className="w-full shrink-0 p-2.5 rounded-2xl border border-[var(--accent-main)]/30 bg-[var(--accent-light)] flex items-center justify-between gap-2 relative z-10"
+            >
+              <div className="flex items-center gap-2 min-w-0">
+                <div className="w-6 h-6 rounded-lg bg-[var(--accent-main)] text-[var(--accent-contrast)] flex items-center justify-center text-[10px] font-black shrink-0">
+                  #{playerEloRank}
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1">
                     <span className="text-[10.5px] font-black text-[var(--text-primary)] block leading-tight truncate">
                       {user.name}
                     </span>
-                    <span className="text-[8px] text-[var(--text-secondary)]">
-                      {dailyRushRecord?.date === todayStr
-                        ? `Rekor: ${dailyRushRecord.score} Pts • ${dailyRushRecord.timeSpent}s`
-                        : 'Belum ada rekor hari ini'}
-                    </span>
+                    {isVip && <Crown className="w-2.5 h-2.5 text-[var(--accent-main)] fill-current shrink-0" />}
                   </div>
-                </div>
-
-                <div className="flex items-center gap-1.5 shrink-0">
-                  <div className="flex items-center gap-1 text-[var(--accent-main)]">
-                    <Zap className="w-3.5 h-3.5 stroke-[2.5]" />
-                    <span className="text-[11.5px] font-black">
-                      {dailyRushRecord?.date === todayStr ? `${dailyRushRecord.score} Pts` : '+50 ★'}
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleShareDailyRush}
-                    className="w-7 h-7 rounded-lg bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 text-[var(--text-primary)] flex items-center justify-center cursor-pointer tactile-active transition-all"
-                    title="Bagikan Rekor"
-                  >
-                    <Share2 className="w-3.5 h-3.5 stroke-[2.2]" />
-                  </button>
+                  <span className="text-[8px] text-[var(--text-secondary)] flex items-center gap-1">
+                    <span>{userTier.name}</span>
+                    <span>•</span>
+                    <span>{battlesStats.won}W / {battlesStats.lost}L</span>
+                  </span>
                 </div>
               </div>
-            ) : (
-              <div
-                className="w-full shrink-0 p-2.5 rounded-2xl border border-[var(--accent-main)]/30 bg-[var(--accent-light)] flex items-center justify-between gap-2 relative z-10"
-              >
-                <div className="flex items-center gap-2 min-w-0">
-                  <div className="w-6 h-6 rounded-lg bg-[var(--accent-main)] text-[var(--accent-contrast)] flex items-center justify-center text-[10px] font-black shrink-0">
-                    #{playerEloRank}
-                  </div>
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-1">
-                      <span className="text-[10.5px] font-black text-[var(--text-primary)] block leading-tight truncate">
-                        {user.name}
-                      </span>
-                      {isVip && <Crown className="w-2.5 h-2.5 text-[var(--accent-main)] fill-current shrink-0" />}
-                    </div>
-                    <span className="text-[8px] text-[var(--text-secondary)] flex items-center gap-1">
-                      <span>{userTier.icon} {userTier.name}</span>
-                      <span>•</span>
-                      <span>{battlesStats.won}W / {battlesStats.lost}L</span>
-                    </span>
-                  </div>
-                </div>
 
-                <div className="flex items-center gap-1.5 shrink-0">
-                  <div className="flex flex-col items-end">
-                    <span className="text-[12px] font-black text-[var(--accent-main)] font-mono leading-none">
-                      {eloRating} ELO
-                    </span>
-                    <span className="text-[7.5px] font-bold text-[var(--text-secondary)] uppercase">
-                      Peringkat #{playerEloRank}
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleShareEloRank}
-                    className="w-7 h-7 rounded-lg bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 text-[var(--text-primary)] flex items-center justify-center cursor-pointer tactile-active transition-all"
-                    title="Bagikan Gelar ELO"
-                  >
-                    <Share2 className="w-3.5 h-3.5 stroke-[2.2]" />
-                  </button>
+              <div className="flex items-center gap-1.5 shrink-0">
+                <div className="flex flex-col items-end">
+                  <span className="text-[12px] font-black text-[var(--accent-main)] font-mono leading-none">
+                    {eloRating} ELO
+                  </span>
+                  <span className="text-[7.5px] font-bold text-[var(--text-secondary)] uppercase">
+                    Peringkat #{playerEloRank}
+                  </span>
                 </div>
+                <button
+                  type="button"
+                  onClick={handleShareEloRank}
+                  className="w-7 h-7 rounded-lg bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 text-[var(--text-primary)] flex items-center justify-center cursor-pointer tactile-active transition-all"
+                  title="Bagikan Gelar ELO"
+                >
+                  <Share2 className="w-3.5 h-3.5 stroke-[2.2]" />
+                </button>
               </div>
-            )}
+            </div>
           </motion.div>
         </div>
       )}
     </AnimatePresence>
   );
 };
+
+export default LeaderboardModal;

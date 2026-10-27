@@ -186,11 +186,7 @@ export const QuickMatchModal: React.FC = () => {
           {queueState === 'searching' && (
             <div className="w-full flex flex-col items-center gap-3">
               {/* Header Pill */}
-              <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full border ${
-                isOffline
-                  ? 'bg-amber-500/15 border-amber-500/30 text-amber-600 dark:text-amber-400'
-                  : 'bg-[var(--accent-light)] border-[var(--accent-main)]/25 text-[var(--accent-main)]'
-              }`}>
+              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full border bg-[var(--accent-light)] border-[var(--accent-main)]/25 text-[var(--accent-main)]">
                 <Swords className="w-3 h-3" />
                 <span className="text-[9.5px] font-black uppercase tracking-wider">
                   {isOffline ? 'LATIHAN TANDING BOT (OFFLINE)' : 'CARI LAWAN CEPAT 1V1'}
@@ -217,7 +213,7 @@ export const QuickMatchModal: React.FC = () => {
                 />
 
                 {/* Central Player Avatar */}
-                <div className="relative w-18 h-18 rounded-full p-1 bg-gradient-to-tr from-[var(--accent-main)] to-amber-400 shadow-xl z-10 flex items-center justify-center overflow-hidden">
+                <div className="relative w-18 h-18 rounded-full p-1 bg-[var(--accent-grad)] shadow-xl z-10 flex items-center justify-center overflow-hidden">
                   <img
                     src={user.avatar || MASCOTS.crosswordChampion}
                     alt={user.name}
@@ -294,7 +290,7 @@ export const QuickMatchModal: React.FC = () => {
               className="w-full flex flex-col items-center gap-3 pt-1"
             >
               {/* Match Found Badge */}
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400">
+              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)]">
                 <CheckCircle2 className="w-3.5 h-3.5 stroke-[2.5]" />
                 <span className="text-[10px] font-black uppercase tracking-wider">
                   {matchedData.opponent.isBot ? 'SPARING BOT AI SIAP!' : 'LAWAN DITEMUKAN!'}
@@ -309,7 +305,7 @@ export const QuickMatchModal: React.FC = () => {
               <div className="w-full rounded-[24px] p-3.5 bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 flex items-center justify-between gap-2 my-1">
                 {/* Player 1 (You) */}
                 <div className="flex-1 flex flex-col items-center text-center gap-1">
-                  <div className="w-13 h-13 rounded-full overflow-hidden p-0.5 bg-gradient-to-tr from-blue-500 to-indigo-600 shadow-sm relative">
+                  <div className="w-13 h-13 rounded-full overflow-hidden p-0.5 bg-[var(--accent-grad)] shadow-sm relative">
                     <img
                       src={user.avatar || MASCOTS.crosswordChampion}
                       alt={user.name}
@@ -319,7 +315,7 @@ export const QuickMatchModal: React.FC = () => {
                   <span className="text-[11px] font-black truncate max-w-[95px] text-[var(--text-primary)]">
                     {user.name || 'Kamu'}
                   </span>
-                  <span className="text-[7.5px] font-black px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-600 dark:text-blue-400">
+                  <span className="text-[7.5px] font-black px-2 py-0.5 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)]">
                     {eloRating} ELO • {getEloTier(eloRating).title}
                   </span>
                 </div>
@@ -340,7 +336,7 @@ export const QuickMatchModal: React.FC = () => {
 
                 {/* Player 2 (Opponent) */}
                 <div className="flex-1 flex flex-col items-center text-center gap-1">
-                  <div className="w-13 h-13 rounded-full overflow-hidden p-0.5 bg-gradient-to-tr from-amber-500 to-rose-500 shadow-sm relative">
+                  <div className="w-13 h-13 rounded-full overflow-hidden p-0.5 bg-[var(--accent-grad)] shadow-sm relative">
                     <img
                       src={matchedData.opponent.avatar || MASCOTS.crosswordDuel}
                       alt={matchedData.opponent.name}

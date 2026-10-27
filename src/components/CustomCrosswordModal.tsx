@@ -21,7 +21,7 @@ import { haptic } from '../lib/haptics';
 import confetti from 'canvas-confetti';
 import { MASCOTS } from '../assets/maskots';
 import { revenueCatService } from '../lib/revenueCatService';
-import { getBaseOrigin } from '../lib/deeplink';
+import { createCustomCrosswordDeepLink } from '../lib/deeplink';
 
 const TOPIC_PRESETS = [
   'Kolega & Teman',
@@ -174,17 +174,21 @@ export const CustomCrosswordModal: React.FC = () => {
       if (hapticEnabled) haptic.success([40, 80, 50]);
       confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
 
-      const origin = getBaseOrigin();
-      const shareText = `🧩 Ayo mainkan TTS Karyaku: "${generated.title}" (${
+      const shareUrl = createCustomCrosswordDeepLink({
+        title: generated.title,
+        category: generated.category || 'Kreasi',
+        wordsList,
+      });
+      const shareText = `Ayo mainkan TTS Karyaku: "${generated.title}" (${
         generated.clues.across.length + generated.clues.down.length
-      } Kata)! Bisakah kamu menyelesaikannya? Buka di: ${origin}`;
+      } Kata)! Buka dan pecahkan langsung di: ${shareUrl}`;
 
       if (navigator.clipboard) {
         navigator.clipboard.writeText(shareText);
       }
 
       closeCustomCrosswordModal();
-      showGlobalToast('🎉 TTS Karyamu Berhasil Diterbitkan & Disimpan ke Profil!', 4200);
+      showGlobalToast('TTS Karyamu Berhasil Diterbitkan & Disimpan ke Profil!', 4000);
 
       openShareModal({
         badge: 'TTS KREASI SENDIRI',
@@ -196,7 +200,7 @@ export const CustomCrosswordModal: React.FC = () => {
           { label: 'TEMA', value: generated.category || 'Kreasi' },
           { label: 'KREATOR', value: 'Anda' },
         ],
-        shareUrl: origin,
+        shareUrl,
         shareText,
       });
     } catch (err: unknown) {

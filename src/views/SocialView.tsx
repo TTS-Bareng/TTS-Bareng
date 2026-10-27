@@ -28,7 +28,6 @@ import { MASCOTS } from '../assets/maskots';
 import { createDeepLink, shareOrCopy } from '../lib/deeplink';
 import { copyToClipboard } from '../lib/clipboard';
 import { QrScannerModal } from '../components/QrScannerModal';
-import { BattleLobbyModal } from '../components/BattleLobbyModal';
 import { mabarRealtime } from '../lib/mabarRealtime';
 
 export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = false }) => {
@@ -602,7 +601,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
                 ONLINE MATCHMAKING
               </span>
               <div className="flex items-center gap-1.5 text-[10px] font-black text-[var(--accent-main)]">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                <span className="w-2 h-2 rounded-full bg-[var(--accent-main)] animate-ping" />
                 <span>Antrean Aktif</span>
               </div>
             </div>
@@ -613,7 +612,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
                   {isOffline ? 'Latihan Lawan Bot (Offline)' : 'Cari Lawan Cepat 1v1'}
                 </h3>
                 {isOffline && (
-                  <span className="text-[7.5px] font-black px-1.5 py-0.2 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-400 uppercase">
+                  <span className="text-[7.5px] font-black px-1.5 py-0.2 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)] uppercase">
                     OFFLINE
                   </span>
                 )}
@@ -983,12 +982,6 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
           </div>
         </div>
       )}
-
-      {/* --- 1V1 TUG-OF-WAR BATTLE LOBBY MODAL --- */}
-      <BattleLobbyModal />
-
-      {/* --- DAILY RUSH BRIEFING MODAL --- */}
-      
 
       {/* --- QR CODE CAMERA & GALLERY SCANNER MODAL --- */}
       <QrScannerModal

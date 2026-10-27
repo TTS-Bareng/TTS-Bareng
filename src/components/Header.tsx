@@ -32,6 +32,7 @@ export const Header: React.FC = () => {
     activeTournament,
     activeCommunityMatchId,
     theme,
+    openConfirmDialog,
   } = useGameStore();
 
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
@@ -87,28 +88,46 @@ export const Header: React.FC = () => {
           type="button"
           onClick={() => {
             if (activeCommunityMatch) {
-              if (window.confirm('Tinggalkan pertandingan turnamen? Skor ronde ini tidak akan tersimpan.')) {
-                setCurrentTab('arena');
-              }
+              openConfirmDialog({
+                title: 'Tinggalkan Pertandingan?',
+                message: 'Skor ronde turnamen ini tidak akan tersimpan jika Anda keluar sekarang.',
+                confirmLabel: 'Ya, Tinggalkan',
+                isDestructive: true,
+                onConfirm: () => setCurrentTab('arena'),
+              });
               return;
             }
             if (activeTournamentMatch) {
-              if (window.confirm('Tinggalkan babak turnamen? Pertandingan ini akan dibatalkan.')) {
-                setCurrentTab('arena');
-              }
+              openConfirmDialog({
+                title: 'Tinggalkan Babak Turnamen?',
+                message: 'Pertandingan babak turnamen ini akan dibatalkan.',
+                confirmLabel: 'Ya, Batalkan',
+                isDestructive: true,
+                onConfirm: () => setCurrentTab('arena'),
+              });
               return;
             }
             if (isBattle) {
-              if (window.confirm('Tinggalkan duel 1v1 yang sedang berjalan?')) {
-                setCurrentTab('arena');
-              }
+              openConfirmDialog({
+                title: 'Tinggalkan Duel 1v1?',
+                message: 'Pertandingan duel yang sedang berjalan akan dinyatakan selesai/kalah.',
+                confirmLabel: 'Ya, Keluar',
+                isDestructive: true,
+                onConfirm: () => setCurrentTab('arena'),
+              });
               return;
             }
             if (isDailyRush) {
-              if (window.confirm('Keluar dari sesi Daily Rush? Sisa waktu akan hangus.')) {
-                finishDailyRush(false);
-                setCurrentTab('home');
-              }
+              openConfirmDialog({
+                title: 'Keluar dari Daily Rush?',
+                message: 'Sisa waktu tantangan kilat ini akan hangus.',
+                confirmLabel: 'Keluar',
+                isDestructive: true,
+                onConfirm: () => {
+                  finishDailyRush(false);
+                  setCurrentTab('home');
+                },
+              });
               return;
             }
             setCurrentTab(previousTab && previousTab !== 'game' ? previousTab : 'arena');
@@ -229,6 +248,17 @@ export const Header: React.FC = () => {
               </h2>
             </div>
           </div>
+        ) : currentLevelIndex < 0 || level.id.startsWith('custom_') ? (
+          <div className="flex flex-col items-center text-center px-2 py-0.5">
+            <div className="flex items-center gap-1 leading-none mb-0.5">
+              <span className="text-[8.5px] font-black uppercase tracking-wider text-[var(--accent-main)]">
+                KREASI KUSTOM • STUDIO TTS
+              </span>
+            </div>
+            <h2 className="text-[14.5px] font-black tracking-tight leading-tight text-[var(--text-primary)]">
+              {level.title}
+            </h2>
+          </div>
         ) : (
           <motion.button
             type="button"
@@ -259,10 +289,16 @@ export const Header: React.FC = () => {
             <button
               type="button"
               onClick={() => {
-                if (window.confirm(`Keluar dari sesi mabar Kamar ${activeRoomCode}?`)) {
-                  leaveMabarSession();
-                  setCurrentTab('arena');
-                }
+                openConfirmDialog({
+                  title: 'Keluar dari Sesi Mabar?',
+                  message: `Apakah Anda yakin ingin keluar dari Kamar ${activeRoomCode}?`,
+                  confirmLabel: 'Keluar Kamar',
+                  isDestructive: true,
+                  onConfirm: () => {
+                    leaveMabarSession();
+                    setCurrentTab('arena');
+                  },
+                });
               }}
               aria-label="Keluar Sesi Mabar"
               className="w-8 h-8 rounded-full flex items-center justify-center liquid-glass-card border border-rose-500/25 text-rose-500 hover:bg-rose-500/10 cursor-pointer tactile-active shadow-xs"

@@ -3,11 +3,18 @@
  * Handles URL query parameters parsing, link generation, and native share sheets.
  */
 
+export interface DecodedCustomCrossword {
+  title: string;
+  category: string;
+  wordsList: { word: string; answer: string; clue: string }[];
+}
+
 export interface ParsedDeepLink {
   roomCode?: string;
   tournamentCode?: string;
   levelIndex?: number;
   vip?: boolean;
+  customCrossword?: DecodedCustomCrossword;
 }
 
 /**
@@ -55,6 +62,88 @@ export function createTournamentDeepLink(code: string): string {
   return createDeepLink({ tourney: code });
 }
 
+interface CustomCrosswordWireFormat {
+  t: string;
+  c: string;
+  w: { a: string; c: string }[];
+}
+
+/**
+ * URL-safe Base64 encoder for Custom Crossword payloads
+ */
+export function encodeCustomCrosswordPayload(item: {
+  title: string;
+  category?: string;
+  wordsList: Array<{ word?: string; answer?: string; clue: string }>;
+}): string {
+  const minified: CustomCrosswordWireFormat = {
+    t: item.title,
+    c: item.category || 'Kreasi Komunitas',
+    w: item.wordsList.map((w) => ({
+      a: (w.answer || w.word || '').trim().toUpperCase(),
+      c: w.clue.trim(),
+    })),
+  };
+  const json = JSON.stringify(minified);
+  const bytes = new TextEncoder().encode(json);
+  let binary = '';
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  const base64 = btoa(binary);
+  return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+/**
+ * URL-safe Base64 decoder for Custom Crossword payloads
+ */
+export function decodeCustomCrosswordParam(param: string): DecodedCustomCrossword | null {
+  try {
+    if (!param || typeof param !== 'string') return null;
+    let base64 = param.trim().replace(/-/g, '+').replace(/_/g, '/');
+    while (base64.length % 4) {
+      base64 += '=';
+    }
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    const json = new TextDecoder().decode(bytes);
+    const data = JSON.parse(json) as CustomCrosswordWireFormat;
+    if (!data.t || !Array.isArray(data.w) || data.w.length < 2) return null;
+    return {
+      title: data.t,
+      category: data.c || 'Kreasi Komunitas',
+      wordsList: data.w.map((w) => {
+        const val = w.a.trim().toUpperCase();
+        return {
+          word: val,
+          answer: val,
+          clue: w.c.trim(),
+        };
+      }),
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Generates an absolute playable deep link for custom crosswords
+ */
+export function createCustomCrosswordDeepLink(item: {
+  title: string;
+  category?: string;
+  wordsList: Array<{ word?: string; answer?: string; clue: string }>;
+}): string {
+  const origin = getBaseOrigin();
+  const url = new URL(origin);
+  const payload = encodeCustomCrosswordPayload(item);
+  url.searchParams.set('custom', payload);
+  return url.toString();
+}
+
 /**
  * Parses current URL search parameters for room codes, tournament codes, or level numbers
  */
@@ -67,8 +156,16 @@ export function parseDeepLink(totalLevels: number = 500): ParsedDeepLink {
     const tourneyParam = params.get('tourney') || params.get('cup');
     const levelParam = params.get('level') || params.get('bab') || params.get('lvl');
     const vipParam = params.get('vip') || params.get('paywall');
+    const customParam = params.get('custom') || params.get('tts');
 
     const result: ParsedDeepLink = {};
+
+    if (customParam) {
+      const decoded = decodeCustomCrosswordParam(customParam);
+      if (decoded) {
+        result.customCrossword = decoded;
+      }
+    }
 
     if (vipParam === '1' || vipParam === 'true') {
       result.vip = true;

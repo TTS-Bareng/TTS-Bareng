@@ -27,7 +27,7 @@ import {
 import { useGameStore } from '../store/useGameStore';
 import { getEloTier } from '../lib/eloSystem';
 import { getAvatarFrame } from '../lib/avatarFrames';
-import { getBaseOrigin } from '../lib/deeplink';
+import { createCustomCrosswordDeepLink } from '../lib/deeplink';
 import { MASCOTS } from '../assets/maskots';
 
 interface CircularProgressProps {
@@ -112,6 +112,7 @@ export const ProfileView: React.FC = () => {
     playCustomCrossword,
     openShareModal,
     showGlobalToast,
+    openConfirmDialog,
   } = useGameStore();
 
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
@@ -131,8 +132,8 @@ export const ProfileView: React.FC = () => {
 
   // Compute real statistics (Zero Dummy Data)
   const totalCompletedLevels = useMemo(() => {
-    return Object.values(levelRecords).filter((r) => r.completed).length;
-  }, [levelRecords]);
+    return levels.filter((lvl) => levelRecords[lvl.id]?.completed).length;
+  }, [levels, levelRecords]);
 
   const totalWordsInApp = useMemo(() => {
     return levels.reduce((sum, lvl) => {
@@ -977,8 +978,12 @@ export const ProfileView: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => {
-                        const origin = getBaseOrigin();
-                        const shareText = `🧩 Ayo mainkan TTS Karyaku: "${item.title}"! Buka di: ${origin}`;
+                        const shareUrl = createCustomCrosswordDeepLink({
+                          title: item.title,
+                          category: item.category || 'Kreasi',
+                          wordsList: item.wordsList,
+                        });
+                        const shareText = `Ayo mainkan TTS Karyaku: "${item.title}"! Buka dan pecahkan langsung di: ${shareUrl}`;
                         if (navigator.clipboard) {
                           navigator.clipboard.writeText(shareText);
                         }
@@ -993,7 +998,7 @@ export const ProfileView: React.FC = () => {
                             { label: 'TEMA', value: item.category || 'Kreasi' },
                             { label: 'KREATOR', value: 'Anda' },
                           ],
-                          shareUrl: origin,
+                          shareUrl,
                           shareText,
                         });
                       }}
@@ -1015,12 +1020,16 @@ export const ProfileView: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => {
-                        if (window.confirm(`Hapus TTS Kustom "${item.title}"?`)) {
-                          deleteUserCustomCrossword(item.id);
-                        }
+                        openConfirmDialog({
+                          title: 'Hapus TTS Kustom?',
+                          message: `Apakah Anda yakin ingin menghapus karya "${item.title}" dari penyimpanan perangkat?`,
+                          confirmLabel: 'Hapus',
+                          isDestructive: true,
+                          onConfirm: () => deleteUserCustomCrossword(item.id),
+                        });
                       }}
                       title="Hapus TTS"
-                      className="w-7 h-7 rounded-xl bg-red-500/10 text-red-500 flex items-center justify-center cursor-pointer tactile-active"
+                      className="w-7 h-7 rounded-xl bg-rose-500/10 text-rose-500 flex items-center justify-center cursor-pointer tactile-active"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
@@ -1173,7 +1182,7 @@ export const ProfileView: React.FC = () => {
                   <span
                     className={`text-[7.5px] font-bold px-1.5 py-0.5 rounded-full ${
                       canClaim
-                        ? 'bg-amber-400 text-stone-900 font-black animate-pulse'
+                        ? 'bg-[var(--accent-contrast)] text-[var(--accent-main)] font-black animate-pulse shadow-xs'
                         : item.unlocked
                         ? 'bg-[var(--accent-contrast)]/15 text-[var(--accent-contrast)] border border-[var(--accent-contrast)]/20'
                         : 'bg-[var(--accent-contrast)]/5 text-[var(--accent-contrast)]/60 border border-[var(--accent-contrast)]/10'

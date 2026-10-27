@@ -120,16 +120,14 @@ export const AchievementDetailModal: React.FC = () => {
           <div className="w-full rounded-[22px] p-3.5 my-3 bg-black/[0.03] dark:bg-white/[0.05] border border-black/5 dark:border-white/10 text-left">
             <div className="flex items-center justify-between text-[11px] font-bold mb-1.5">
               <span className="text-[var(--text-secondary)]">Status Progres</span>
-              <span className={selectedAchievement.unlocked ? 'text-emerald-600 dark:text-emerald-400' : 'text-[var(--text-primary)]'}>
+              <span className={selectedAchievement.unlocked ? 'text-[var(--accent-main)]' : 'text-[var(--text-primary)]'}>
                 {selectedAchievement.unlocked ? 'Telah Terbuka ✓' : selectedAchievement.progress}
               </span>
             </div>
 
             <div className="w-full h-2 rounded-full bg-black/10 dark:bg-white/10 overflow-hidden">
               <div
-                className={`h-full rounded-full transition-all duration-500 ${
-                  selectedAchievement.unlocked ? 'bg-emerald-500' : 'bg-[var(--accent-main)]'
-                }`}
+                className="h-full rounded-full transition-all duration-500 bg-[var(--accent-main)]"
                 style={{ width: `${selectedAchievement.percent}%` }}
               />
             </div>
@@ -146,13 +144,13 @@ export const AchievementDetailModal: React.FC = () => {
               <button
                 type="button"
                 onClick={handleClaim}
-                className="w-full py-3 px-4 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white font-black text-[12.5px] inline-flex items-center justify-center gap-2 transition-all tactile-active shadow-md cursor-pointer"
+                className="w-full py-3 px-4 rounded-full bg-[var(--accent-main)] hover:opacity-95 text-[var(--accent-contrast)] font-black text-[12.5px] inline-flex items-center justify-center gap-2 transition-all tactile-active shadow-md cursor-pointer"
               >
                 <Star className="w-4 h-4 fill-current" />
                 <span>Klaim Hadiah (+25★)</span>
               </button>
             ) : isClaimed ? (
-              <div className="w-full py-2.5 px-4 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 font-bold text-[12px] inline-flex items-center justify-center gap-1.5">
+              <div className="w-full py-2.5 px-4 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)] font-bold text-[12px] inline-flex items-center justify-center gap-1.5">
                 <Check className="w-4 h-4 stroke-[2.5]" />
                 <span>Hadiah +25★ Telah Diklaim</span>
               </div>

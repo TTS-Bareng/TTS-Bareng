@@ -23,6 +23,7 @@ export const ActiveGameResumeBanner: React.FC = () => {
     activeCommunityMatchId,
     leaveMabarSession,
     showGlobalToast,
+    openConfirmDialog,
   } = useGameStore();
 
   const isBattle = gameMode === '1v1_battle';
@@ -64,29 +65,49 @@ export const ActiveGameResumeBanner: React.FC = () => {
 
   const handleForfeit = () => {
     if (isBattle) {
-      if (window.confirm('Menyerah dari duel? Pertandingan akan dinyatakan kalah.')) {
-        finishBattleRound();
-      }
+      openConfirmDialog({
+        title: 'Menyerah dari Duel?',
+        message: 'Pertandingan 1v1 akan dinyatakan kalah dan ELO rating akan diperbarui.',
+        confirmLabel: 'Ya, Menyerah',
+        isDestructive: true,
+        onConfirm: () => finishBattleRound(),
+      });
       return;
     }
     if (isTourney) {
-      if (window.confirm('Tinggalkan babak turnamen? Pertandingan akan dibatalkan.')) {
-        finishBattleRound();
-      }
+      openConfirmDialog({
+        title: 'Tinggalkan Babak Turnamen?',
+        message: 'Pertandingan babak turnamen ini akan dibatalkan.',
+        confirmLabel: 'Tinggalkan',
+        isDestructive: true,
+        onConfirm: () => finishBattleRound(),
+      });
       return;
     }
     if (isMabar) {
-      if (window.confirm('Tinggalkan sesi mabar bersama kawan?')) {
-        leaveMabarSession();
-        showGlobalToast('Keluar dari sesi mabar');
-      }
+      openConfirmDialog({
+        title: 'Tinggalkan Sesi Mabar?',
+        message: 'Apakah Anda yakin ingin meninggalkan sesi bermain bersama kawan?',
+        confirmLabel: 'Tinggalkan',
+        isDestructive: true,
+        onConfirm: () => {
+          leaveMabarSession();
+          showGlobalToast('Keluar dari sesi mabar');
+        },
+      });
       return;
     }
     if (isSoloActive) {
-      if (window.confirm('Tinggalkan bab permainan ini?')) {
-        useGameStore.setState({ userInputs: {}, solvedClues: [], lockedCells: {} });
-        showGlobalToast('Sesi bab direset');
-      }
+      openConfirmDialog({
+        title: 'Tinggalkan Bab Ini?',
+        message: 'Sesi pengisian jawaban untuk bab ini akan diatur ulang.',
+        confirmLabel: 'Atur Ulang',
+        isDestructive: true,
+        onConfirm: () => {
+          useGameStore.setState({ userInputs: {}, solvedClues: [], lockedCells: {} });
+          showGlobalToast('Sesi bab direset');
+        },
+      });
     }
   };
 
@@ -120,12 +141,8 @@ export const ActiveGameResumeBanner: React.FC = () => {
           <div className="flex items-center gap-2.5 min-w-0">
             <div
               className={`w-9 h-9 rounded-2xl flex items-center justify-center shrink-0 shadow-xs border ${
-                isBattle
+                isBattle || isTourney || isMabar
                   ? 'bg-[var(--accent-light)] border-[var(--accent-main)]/30 text-[var(--accent-main)]'
-                  : isTourney
-                  ? 'bg-amber-500/15 border-amber-500/30 text-amber-500'
-                  : isMabar
-                  ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-500'
                   : 'bg-[var(--accent-light)] border-[var(--accent-main)]/25 text-[var(--accent-main)]'
               }`}
             >
@@ -144,12 +161,8 @@ export const ActiveGameResumeBanner: React.FC = () => {
               <div className="flex items-center gap-1.5 mb-0.5">
                 <span
                   className={`text-[8px] font-black uppercase tracking-wider px-1.5 py-0.2 rounded-full border ${
-                    isBattle
+                    isBattle || isTourney || isMabar
                       ? 'bg-[var(--accent-light)] border-[var(--accent-main)]/30 text-[var(--accent-main)]'
-                      : isTourney
-                      ? 'bg-amber-500/20 border-amber-500/40 text-amber-500'
-                      : isMabar
-                      ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-500'
                       : 'bg-black/5 dark:bg-white/10 border-black/10 dark:border-white/15 text-[var(--text-secondary)]'
                   }`}
                 >
@@ -169,7 +182,7 @@ export const ActiveGameResumeBanner: React.FC = () => {
               </div>
 
               <h5 className="text-[12px] font-black leading-tight truncate">
-                {level?.title || `Bab ${currentLevelIndex + 1}`}
+                {currentLevelIndex < 0 ? (level?.title || 'TTS Kustom') : (level?.title || `Bab ${currentLevelIndex + 1}`)}
               </h5>
               <span className="text-[8.5px] text-[var(--text-secondary)] font-medium">
                 {solvedClues.length}/{totalClues} Kata Selesai

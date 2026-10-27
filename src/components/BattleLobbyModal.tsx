@@ -420,7 +420,7 @@ export const BattleLobbyModal: React.FC = () => {
                 onClick={handleCopyLink}
                 className="px-3 py-1.5 rounded-lg text-[10px] font-bold bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 cursor-pointer tactile-active flex items-center gap-1.5 text-[var(--text-primary)] border border-black/5 dark:border-white/10 transition-colors"
               >
-                {copied ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
+                {copied ? <Check className="w-3 h-3 text-[var(--accent-main)]" /> : <Copy className="w-3 h-3" />}
                 <span>{copied ? 'Tersalin' : 'Salin Tautan'}</span>
               </button>
             </div>

@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Share2, Copy } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
-import { shareOrCopy } from '../lib/deeplink';
+import { shareOrCopy, getBaseOrigin } from '../lib/deeplink';
 import { copyToClipboard } from '../lib/clipboard';
 
 export const ShareModal: React.FC = () => {
@@ -14,7 +14,7 @@ export const ShareModal: React.FC = () => {
   }
 
   const handleShare = async () => {
-    const url = shareModalData.shareUrl || window.location.origin;
+    const url = shareModalData.shareUrl || getBaseOrigin();
     const text = shareModalData.shareText || shareModalData.subtitle;
     const result = await shareOrCopy({
       title: shareModalData.title,
@@ -30,7 +30,7 @@ export const ShareModal: React.FC = () => {
   };
 
   const handleCopy = async () => {
-    const url = shareModalData.shareUrl || window.location.origin;
+    const url = shareModalData.shareUrl || getBaseOrigin();
     const text = shareModalData.shareText || `${shareModalData.title}\n${shareModalData.subtitle}\nMain di: ${url}`;
     const success = await copyToClipboard(text);
     if (success) {

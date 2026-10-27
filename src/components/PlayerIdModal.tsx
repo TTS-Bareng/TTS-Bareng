@@ -212,7 +212,7 @@ export const PlayerIdModal: React.FC = () => {
             <div className="flex items-center justify-between relative z-10">
               <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-black/20 dark:bg-black/35 backdrop-blur-md border border-white/20 text-white shadow-xs">
                 <span
-                  className={`w-1.5 h-1.5 rounded-full ${user.isGuest ? 'bg-amber-300' : 'bg-emerald-300'} animate-pulse`}
+                  className={`w-1.5 h-1.5 rounded-full ${user.isGuest ? 'bg-white/50' : 'bg-white'} animate-pulse`}
                 />
                 <span className="text-[8.5px] font-black uppercase tracking-wider">
                   {user.isGuest ? 'AKUN TAMU' : 'TERVERIFIKASI'}
@@ -230,7 +230,7 @@ export const PlayerIdModal: React.FC = () => {
                   {formatPassportChipId(playerId)}
                 </span>
                 {copied ? (
-                  <Check className="w-3 h-3 text-emerald-300 stroke-[3]" />
+                  <Check className="w-3 h-3 text-white stroke-[3]" />
                 ) : (
                   <Copy className="w-2.5 h-2.5 text-white/90 stroke-[2.2]" />
                 )}
@@ -345,7 +345,7 @@ export const PlayerIdModal: React.FC = () => {
                   className="p-1 rounded-md bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 text-[var(--text-primary)] cursor-pointer tactile-active"
                 >
                   {copied ? (
-                    <Check className="w-3 h-3 text-emerald-500 stroke-[3]" />
+                    <Check className="w-3 h-3 text-[var(--accent-main)] stroke-[3]" />
                   ) : (
                     <Copy className="w-3 h-3 stroke-[2]" />
                   )}

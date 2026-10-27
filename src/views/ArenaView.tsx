@@ -383,7 +383,7 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' | 'tournament'
                   Arena & Petualangan
                 </h2>
                 {isOffline && (
-                  <span className="text-[8px] font-black px-1.5 py-0.2 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-400 uppercase">
+                  <span className="text-[8px] font-black px-1.5 py-0.2 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)] uppercase">
                     OFFLINE
                   </span>
                 )}

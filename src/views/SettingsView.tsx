@@ -79,7 +79,6 @@ export const SettingsView: React.FC = () => {
   const [deleteConfirmText, setDeleteConfirmText] = useState("");
   const [isDeletingAccount, setIsDeletingAccount] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const formatSettingsPlayerId = (id?: string): string => {
     if (!id) return '#TTS-8842';
@@ -110,7 +109,7 @@ export const SettingsView: React.FC = () => {
     const res = await updateAccountPassword(newPassword);
     setIsSavingPassword(false);
     if (res.success) {
-      showGlobalToast("✨ Kata sandi akun berhasil diperbarui!");
+      showGlobalToast("Kata sandi akun berhasil diperbarui!");
       setIsPasswordModalOpen(false);
       setNewPassword("");
       setConfirmNewPassword("");
@@ -143,10 +142,7 @@ export const SettingsView: React.FC = () => {
   }, []);
 
   const showToast = (msg: string) => {
-    setToastMessage(msg);
-    setTimeout(() => {
-      setToastMessage(null);
-    }, 2400);
+    showGlobalToast(msg);
   };
 
   const handleToggleHaptics = () => {
@@ -168,7 +164,7 @@ export const SettingsView: React.FC = () => {
         setNotificationsEnabled(true);
         await notificationService.scheduleDailyRetention(streak);
         showGlobalToast(
-          "🔔 Pengingat aktif! Streak dan Daily Rush kamu aman.",
+          "Pengingat aktif! Streak dan teka-teki harian aman.",
           3000,
         );
       } else {
@@ -187,13 +183,20 @@ export const SettingsView: React.FC = () => {
     try {
       const state = useGameStore.getState();
       const backupData = {
-        version: 2,
+        version: 3,
         exportedAt: new Date().toISOString(),
         user: state.user,
         stars: state.stars,
         streak: state.streak,
+        streakShields: state.streakShields,
         theme: state.theme,
         levelRecords: state.levelRecords,
+        eloRating: state.eloRating,
+        battlesStats: state.battlesStats,
+        trophies: state.trophies,
+        customTtsTickets: state.customTtsTickets,
+        userCustomCrosswords: state.userCustomCrosswords,
+        claimedAchievementRewards: state.claimedAchievementRewards,
       };
       const blob = new Blob([JSON.stringify(backupData, null, 2)], {
         type: "application/json",
@@ -204,9 +207,9 @@ export const SettingsView: React.FC = () => {
       a.download = `tts_quest_backup_${new Date().toISOString().slice(0, 10)}.json`;
       a.click();
       URL.revokeObjectURL(url);
-      showToast("Cadangan data berhasil diunduh!");
+      showGlobalToast("Cadangan data lengkap berhasil diunduh!");
     } catch {
-      showToast("Gagal membuat berkas cadangan.");
+      showGlobalToast("Gagal membuat berkas cadangan.");
     }
   };
 
@@ -226,23 +229,34 @@ export const SettingsView: React.FC = () => {
             localStorage.setItem("tts_quest_stars", String(parsed.stars));
           if (typeof parsed.streak === "number")
             localStorage.setItem("tts_quest_streak", String(parsed.streak));
+          if (typeof parsed.streakShields === "number")
+            localStorage.setItem("tts_quest_streak_shields", String(parsed.streakShields));
           if (parsed.theme)
             localStorage.setItem("tts_quest_theme", parsed.theme);
           if (parsed.levelRecords)
-            localStorage.setItem(
-              "tts_quest_records",
-              JSON.stringify(parsed.levelRecords),
-            );
+            localStorage.setItem("tts_quest_records", JSON.stringify(parsed.levelRecords));
+          if (typeof parsed.eloRating === "number")
+            localStorage.setItem("tts_elo_rating_v1", String(parsed.eloRating));
+          if (parsed.battlesStats)
+            localStorage.setItem("tts_battles_stats_v1", JSON.stringify(parsed.battlesStats));
+          if (parsed.trophies)
+            localStorage.setItem("tts_trophies_v1", JSON.stringify(parsed.trophies));
+          if (typeof parsed.customTtsTickets === "number")
+            localStorage.setItem("tts_custom_tts_tickets_v1", String(parsed.customTtsTickets));
+          if (Array.isArray(parsed.userCustomCrosswords))
+            localStorage.setItem("tts_user_custom_crosswords_v1", JSON.stringify(parsed.userCustomCrosswords));
+          if (parsed.claimedAchievementRewards)
+            localStorage.setItem("tts_quest_claimed_achievements", JSON.stringify(parsed.claimedAchievementRewards));
 
-          showToast("Data berhasil dipulihkan! Memuat ulang...");
+          showGlobalToast("Data berhasil dipulihkan! Memuat ulang...");
           setTimeout(() => {
             window.location.reload();
           }, 800);
         } else {
-          showToast("Format berkas tidak valid.");
+          showGlobalToast("Format berkas cadangan tidak valid.");
         }
       } catch {
-        showToast("Gagal membaca berkas cadangan.");
+        showGlobalToast("Gagal membaca berkas cadangan.");
       }
     };
     reader.readAsText(file);
@@ -253,16 +267,6 @@ export const SettingsView: React.FC = () => {
 
   return (
     <div className="w-full flex-1 flex flex-col gap-4 px-3.5 pt-[max(18px,env(safe-area-inset-top))] pb-[max(96px,calc(80px+env(safe-area-inset-bottom)))] select-none overflow-y-auto relative">
-      {/* Toast Notification Floating Pill */}
-      {toastMessage && (
-        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-full liquid-glass-card shadow-lg flex items-center gap-2 border border-[var(--accent-main)]/30 animate-in fade-in slide-in-from-top-3">
-          <Sparkles className="w-3.5 h-3.5 text-[var(--accent-main)]" />
-          <span className="text-[11px] font-bold text-[var(--text-primary)]">
-            {toastMessage}
-          </span>
-        </div>
-      )}
-
       {/* 1. Header: Back Button + Typographic Title */}
       <header className="flex items-center gap-2.5 px-0.5 shrink-0 pt-0.5">
         <button

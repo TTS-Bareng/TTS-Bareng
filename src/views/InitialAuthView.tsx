@@ -120,7 +120,7 @@ const FEATURE_SLIDES: FeatureSlide[] = [
       "bg-[var(--accent-light)] text-[var(--accent-main)] border-[var(--accent-main)]/25",
     title: "Asah Otak Tiap Hari",
     description:
-      "Mainkan Daily Rush setiap pagi, pertahankan rentetan api, dan raih bintang.",
+      "Pecahkan teka-teki silang setiap hari, pertahankan api streak, dan raih bintang.",
     mascot: MASCOTS.cheerfulBookBoy,
     microWidget: {
       icon: (
@@ -128,7 +128,7 @@ const FEATURE_SLIDES: FeatureSlide[] = [
       ),
       title: "Rentetan 7 Hari Aktif",
       subtitle: "Bonus Harian • +50 Bintang",
-      pill: "🔥 Membara",
+      pill: "Streak Aktif",
     },
   },
   {
@@ -390,9 +390,9 @@ export const InitialAuthView: React.FC = () => {
       if (isAlreadyOnboarded) {
         localStorage.setItem(getOnboardedKey(res.session.user.id), "true");
         useGameStore.setState({ initialAuthStage: "completed" });
-        showGlobalToast("✨ Berhasil masuk! Selamat datang kembali.");
+        showGlobalToast("Berhasil masuk! Selamat datang kembali.");
       } else {
-        showGlobalToast("✨ Berhasil masuk! Silakan lengkapi profil Anda.");
+        showGlobalToast("Berhasil masuk! Silakan lengkapi profil Anda.");
         proceedToOnboarding({
           id: res.session.user.id,
           email: cleanEmail,
@@ -448,9 +448,9 @@ export const InitialAuthView: React.FC = () => {
       if (isAlreadyOnboarded) {
         localStorage.setItem(getOnboardedKey(res.session.user.id), "true");
         useGameStore.setState({ initialAuthStage: "completed" });
-        showGlobalToast("✨ Verifikasi sukses! Selamat datang kembali.");
+        showGlobalToast("Verifikasi sukses! Selamat datang kembali.");
       } else {
-        showGlobalToast("✨ Verifikasi sukses! Menyiapkan profil...");
+        showGlobalToast("Verifikasi sukses! Menyiapkan profil...");
         proceedToOnboarding({
           id: res.session.user.id,
           email: email.trim(),

@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ScanLine, Image as ImageIcon, Zap, ZapOff, AlertCircle } from 'lucide-react';
 import jsQR from 'jsqr';
-import { extractRoomCodeFromText } from '../lib/deeplink';
+import { extractRoomCodeFromText, decodeCustomCrosswordParam } from '../lib/deeplink';
+import { generateCustomCrossword } from '../lib/customCrosswordGenerator';
 import { useGameStore } from '../store/useGameStore';
 
 interface QrScannerModalProps {
@@ -16,7 +17,7 @@ export const QrScannerModal: React.FC<QrScannerModalProps> = ({
   onClose,
   onScanSuccess,
 }) => {
-  const { showGlobalToast } = useGameStore();
+  const { showGlobalToast, playCustomCrossword } = useGameStore();
   const videoRef = useRef<HTMLVideoElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -54,6 +55,36 @@ export const QrScannerModal: React.FC<QrScannerModalProps> = ({
 
   // Handle successful QR detection
   const handleDetectedCode = useCallback((rawText: string) => {
+    // Check if QR contains custom crossword payload
+    if (rawText.includes('custom=')) {
+      try {
+        const url = new URL(rawText.startsWith('http') ? rawText : `https://domain.com/${rawText}`);
+        const customParam = url.searchParams.get('custom');
+        if (customParam) {
+          const decoded = decodeCustomCrosswordParam(customParam);
+          if (decoded) {
+            const level = generateCustomCrossword(
+              decoded.title,
+              decoded.category,
+              decoded.wordsList.map((w) => ({ word: w.answer, clue: w.clue }))
+            );
+            stopMediaStreams();
+            playCustomCrossword({
+              id: `custom_${Date.now()}`,
+              title: decoded.title,
+              category: decoded.category,
+              wordsList: decoded.wordsList,
+              level,
+              createdAt: new Date().toISOString(),
+            });
+            showGlobalToast(`Membuka TTS Kustom: "${decoded.title}"`, 3500);
+            onClose();
+            return;
+          }
+        }
+      } catch {}
+    }
+
     const roomCode = extractRoomCodeFromText(rawText);
     if (roomCode) {
       stopMediaStreams();
@@ -61,9 +92,9 @@ export const QrScannerModal: React.FC<QrScannerModalProps> = ({
       onScanSuccess(roomCode);
       onClose();
     } else {
-      showGlobalToast('Format QR tidak dikenali sebagai kode kamar.');
+      showGlobalToast('Format QR tidak dikenali sebagai kode kamar atau TTS.');
     }
-  }, [stopMediaStreams, showGlobalToast, onScanSuccess, onClose]);
+  }, [stopMediaStreams, showGlobalToast, onScanSuccess, onClose, playCustomCrossword]);
 
   // Frame processing loop with jsQR
   const startScanningFrames = useCallback(() => {
@@ -351,7 +382,7 @@ export const QrScannerModal: React.FC<QrScannerModalProps> = ({
               onClick={toggleTorch}
               className={`p-3 rounded-2xl border transition-all cursor-pointer tactile-active shadow-md ${
                 isTorchOn
-                  ? 'bg-amber-400 text-slate-900 border-amber-300'
+                  ? 'bg-white text-slate-900 border-white shadow-lg'
                   : 'bg-white/15 hover:bg-white/20 text-white border-white/20'
               }`}
               title="Lampu Kilat"

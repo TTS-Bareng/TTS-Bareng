@@ -172,8 +172,8 @@ export const TournamentHubView: React.FC = () => {
                 <Trophy className="w-3 h-3 stroke-[2.2]" />
                 <span>LOBI TURNAMEN</span>
               </span>
-              <span className="text-[8.5px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/25 text-emerald-300 border border-emerald-400/30 inline-flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-[8.5px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/20 text-white border border-white/30 inline-flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                 <span>{tournamentPeers.length > 0 ? `${tournamentPeers.length} ONLINE` : 'LIVE READY'}</span>
               </span>
             </div>
@@ -270,7 +270,7 @@ export const TournamentHubView: React.FC = () => {
                     )}
                     {/* Live Online Presence Dot */}
                     {isOnline && !isBot && (
-                      <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border border-white shadow-2xs" />
+                      <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[var(--accent-main)] border border-white shadow-2xs" />
                     )}
                   </div>
                   <div className="flex flex-col min-w-0 relative z-10">
@@ -748,7 +748,7 @@ export const TournamentHubView: React.FC = () => {
             </span>
 
             <span className="text-[8.5px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/30 text-white/90 backdrop-blur-md border border-white/15 inline-flex items-center gap-1.5 shadow-2xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
               <span>SISTEM GUGUR</span>
             </span>
           </div>

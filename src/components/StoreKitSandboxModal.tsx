@@ -171,7 +171,7 @@ export const StoreKitSandboxModal: React.FC = () => {
             </div>
 
             <div className="flex items-start gap-1.5 pt-1 text-[8.5px] text-white/40 leading-relaxed">
-              <Lock className="w-3 h-3 text-emerald-400 shrink-0 mt-0.5" />
+              <Lock className="w-3 h-3 text-[var(--accent-main)] shrink-0 mt-0.5" />
               <span>
                 Pembayaran ditagihkan ke Akun Apple ID Sandbox. Tidak ada uang riil yang dipotong selama pengujian.
               </span>
@@ -186,7 +186,7 @@ export const StoreKitSandboxModal: React.FC = () => {
               onClick={handleConfirmPurchase}
               className={`w-full h-12 rounded-2xl font-black text-[13px] flex items-center justify-center gap-2 transition-all cursor-pointer shadow-lg ${
                 isSuccess
-                  ? 'bg-emerald-500 text-white'
+                  ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)]'
                   : 'bg-blue-600 hover:bg-blue-500 active:scale-98 text-white'
               }`}
             >

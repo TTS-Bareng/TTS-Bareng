@@ -135,7 +135,7 @@ export const TabletClueCompanion: React.FC = () => {
                 isActive
                   ? 'border-[var(--accent-main)] bg-[var(--accent-light)] shadow-xs ring-1 ring-[var(--accent-main)]/30'
                   : isSolved
-                  ? 'border-emerald-500/25 bg-emerald-500/5 dark:bg-emerald-500/10 opacity-90 hover:opacity-100'
+                  ? 'border-[var(--accent-main)]/25 bg-[var(--accent-light)] opacity-90 hover:opacity-100'
                   : 'border-black/5 dark:border-white/10 bg-black/[0.02] dark:bg-white/[0.03] hover:bg-black/[0.04] dark:hover:bg-white/[0.06]'
               }`}
             >
@@ -145,7 +145,7 @@ export const TabletClueCompanion: React.FC = () => {
                   isActive
                     ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-2xs'
                     : isSolved
-                    ? 'bg-emerald-500 text-white'
+                    ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)]'
                     : 'bg-black/5 dark:bg-white/10 text-[var(--text-secondary)]'
                 }`}
               >
@@ -159,13 +159,7 @@ export const TabletClueCompanion: React.FC = () => {
               {/* Clue Text & Metadata */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-1.5 mb-0.5">
-                  <span
-                    className={`text-[8px] font-black uppercase tracking-wider px-1.5 py-0.2 rounded-full ${
-                      clue.direction === 'across'
-                        ? 'bg-sky-500/15 text-sky-600 dark:text-sky-400'
-                        : 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-400'
-                    }`}
-                  >
+                  <span className="text-[8px] font-black uppercase tracking-wider px-1.5 py-0.2 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)]">
                     {clue.direction === 'across' ? 'Mendatar' : 'Menurun'}
                   </span>
                   <span className="text-[8.5px] font-semibold text-[var(--text-secondary)]">
@@ -192,7 +186,7 @@ export const TabletClueCompanion: React.FC = () => {
 
                 {/* If solved, show revealed word */}
                 {isSolved && (
-                  <div className="mt-1 flex items-center gap-1 text-[10.5px] font-black tracking-widest text-emerald-600 dark:text-emerald-400 uppercase">
+                  <div className="mt-1 flex items-center gap-1 text-[10.5px] font-black tracking-widest text-[var(--accent-main)] uppercase">
                     <span>{clue.answer}</span>
                   </div>
                 )}

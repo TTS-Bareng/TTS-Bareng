@@ -8,9 +8,7 @@ import { DynamicClueRibbon } from '../components/DynamicClueRibbon';
 import { CustomKeyboard } from '../components/CustomKeyboard';
 import { ClueListDrawer } from '../components/ClueListDrawer';
 import { LevelCompleteModal } from '../components/LevelCompleteModal';
-import { LevelSelectModal } from '../components/LevelSelectModal';
 import { MabarReactionTray } from '../components/MabarReactionTray';
-import { BattleResultModal } from '../components/BattleResultModal';
 import { AnagramWheelDrawer } from '../components/AnagramWheelDrawer';
 import { TabletClueCompanion } from '../components/TabletClueCompanion';
 
@@ -97,7 +95,7 @@ export const GameView: React.FC = () => {
                 initial={{ opacity: 0, y: 10, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                className="mx-auto mb-1.5 px-3.5 py-1 rounded-full border border-amber-500/35 bg-amber-500/15 text-amber-600 dark:text-amber-400 text-[10.5px] font-bold shadow-lg flex items-center gap-1.5 pointer-events-none backdrop-blur-md"
+                className="mx-auto mb-1.5 px-3.5 py-1 rounded-full border border-[var(--accent-main)]/35 bg-[var(--accent-light)] text-[var(--accent-main)] text-[10.5px] font-bold shadow-lg flex items-center gap-1.5 pointer-events-none backdrop-blur-md"
               >
                 <Loader2 className="w-3 h-3 animate-spin stroke-[2.5]" />
                 <span>{partnerReconnecting} terputus... Menunggu tersambung kembali</span>
@@ -127,8 +125,6 @@ export const GameView: React.FC = () => {
 
       {/* 5. Modals & Drawers */}
       <LevelCompleteModal />
-      <LevelSelectModal />
-      <BattleResultModal />
       <AnagramWheelDrawer />
     </div>
   );

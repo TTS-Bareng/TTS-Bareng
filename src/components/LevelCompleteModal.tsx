@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
-import { createDeepLink } from '../lib/deeplink';
+import { createDeepLink, createCustomCrosswordDeepLink } from '../lib/deeplink';
 import { mabarRealtime } from '../lib/mabarRealtime';
 
 export const LevelCompleteModal: React.FC = () => {
@@ -48,7 +48,8 @@ export const LevelCompleteModal: React.FC = () => {
 
   const totalWords = (level.clues?.across?.length || 0) + (level.clues?.down?.length || 0);
   const starsEarned = totalWords * 10;
-  const hasNextLevel = currentLevelIndex < levels.length - 1;
+  const isCustomCrossword = currentLevelIndex < 0 || level.id.startsWith('custom_');
+  const hasNextLevel = !isCustomCrossword && currentLevelIndex < levels.length - 1;
 
   const currentRecord = levelRecords[level.id];
   const timeSpent = currentRecord?.timeSpent || 35;
@@ -87,12 +88,32 @@ export const LevelCompleteModal: React.FC = () => {
   );
 
   const handleShareLevel = () => {
-    const levelUrl = createDeepLink({ level: currentLevelIndex + 1 });
+    let levelUrl = '';
+    if (isCustomCrossword) {
+      const wordsList = allClues.map((c) => ({ answer: c.answer, clue: c.text }));
+      levelUrl = createCustomCrosswordDeepLink({
+        title: level.title,
+        category: level.category || 'Kreasi Komunitas',
+        wordsList,
+      });
+    } else {
+      levelUrl = createDeepLink({ level: currentLevelIndex + 1 });
+    }
     const formattedTime = formatDuration(timeSpent);
     openShareModal({
-      badge: isMabar ? `MABAR BAB ${currentLevelIndex + 1} TUNTAS` : `BAB ${currentLevelIndex + 1} TUNTAS`,
-      title: isMabar ? 'Duo Pemecah Kata!' : 'Gokil! Bab Ini Rata Kanan!',
-      subtitle: isMabar
+      badge: isCustomCrossword
+        ? 'TTS KUSTOM TUNTAS'
+        : isMabar
+        ? `MABAR BAB ${currentLevelIndex + 1} TUNTAS`
+        : `BAB ${currentLevelIndex + 1} TUNTAS`,
+      title: isCustomCrossword
+        ? 'Teka-Teki Silang Kustom Selesai!'
+        : isMabar
+        ? 'Duo Pemecah Kata!'
+        : 'Gokil! Bab Ini Rata Kanan!',
+      subtitle: isCustomCrossword
+        ? `Seluruh ${totalWords} kata pada karya "${level.title}" berhasil dipecahkan dalam ${formattedTime}!`
+        : isMabar
         ? `Kami berdua menuntaskan seluruh ${totalWords} kata teka-teki silang pada ${level.title} bersama!`
         : `Semua ${totalWords} kata teka-teki silang pada ${level.title} berhasil kamu tuntaskan dengan akurasi ${accuracy}%.`,
       mascot: MASCOTS.crosswordChampion,
@@ -105,7 +126,9 @@ export const LevelCompleteModal: React.FC = () => {
         },
       ],
       shareUrl: levelUrl,
-      shareText: isMabar
+      shareText: isCustomCrossword
+        ? `Saya menuntaskan TTS Kustom "${level.title}" di TTS Bareng! Coba mainkan juga kreasinya di sini:`
+        : isMabar
         ? `Kami menyelesaikan Bab ${currentLevelIndex + 1} (${level.title}) bersama di TTS Bareng! Bisakah kamu dan rekanmu menuntaskannya?`
         : `Saya menyelesaikan Bab ${currentLevelIndex + 1} (${level.title}) dalam ${formattedTime} dengan akurasi ${accuracy}% di TTS Bareng! Bisakah kamu menuntaskannya?`,
     });
@@ -180,13 +203,23 @@ export const LevelCompleteModal: React.FC = () => {
             {/* Title & Badge */}
             <div>
               <span className="text-[8.5px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/20 border border-white/30 text-white backdrop-blur-sm">
-                {isMabar ? `MABAR CO-OP • BAB ${currentLevelIndex + 1} TUNTAS` : `BAB ${currentLevelIndex + 1} TUNTAS`}
+                {isCustomCrossword
+                  ? 'KREASI KUSTOM • TUNTAS'
+                  : isMabar
+                  ? `MABAR CO-OP • BAB ${currentLevelIndex + 1} TUNTAS`
+                  : `BAB ${currentLevelIndex + 1} TUNTAS`}
               </span>
               <h3 className="text-[19px] font-black tracking-tight text-white mt-1.5 leading-tight">
-                {isMabar ? 'Duo Pemecah Kata!' : 'Luar Biasa, Jawara!'}
+                {isCustomCrossword
+                  ? 'Karya Kata Terpecahkan!'
+                  : isMabar
+                  ? 'Duo Pemecah Kata!'
+                  : 'Luar Biasa, Jawara!'}
               </h3>
               <p className="text-[10.5px] text-white/85 mt-0.5 leading-snug px-1">
-                {isMabar
+                {isCustomCrossword
+                  ? `Seluruh ${totalWords} kata pada kreasi "${level.title}" berhasil dipecahkan.`
+                  : isMabar
                   ? `Seluruh ${totalWords} kata pada ${level.title} berhasil dituntaskan bersama.`
                   : `Seluruh ${totalWords} kata teka-teki silang pada ${level.title} berhasil dipecahkan.`}
               </p>

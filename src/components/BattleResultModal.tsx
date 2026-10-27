@@ -208,7 +208,7 @@ export const BattleResultModal: React.FC = () => {
               transition={{ delay: 0.2 }}
               className="w-full py-2 px-3 rounded-2xl bg-white/20 border border-white/30 backdrop-blur-md flex items-center justify-center gap-2 text-white shadow-xs"
             >
-              <Star className="w-4 h-4 fill-amber-300 text-amber-300 drop-shadow-sm" />
+              <Star className="w-4 h-4 fill-white text-white drop-shadow-sm" />
               <span className="text-[11px] font-black tracking-wide">
                 Hadiah Juara: +30 Bintang Ditambahkan!
               </span>
@@ -233,9 +233,9 @@ export const BattleResultModal: React.FC = () => {
                 <div
                   className={`px-2.5 py-1 rounded-full text-[11px] font-black border ${
                     lastEloDelta > 0
-                      ? 'bg-emerald-500/30 text-emerald-300 border-emerald-400/40'
+                      ? 'bg-white/30 text-white border-white/40'
                       : lastEloDelta < 0
-                      ? 'bg-rose-500/30 text-rose-300 border-rose-400/40'
+                      ? 'bg-rose-500/30 text-rose-200 border-rose-400/40'
                       : 'bg-white/20 text-white/80 border-white/30'
                   }`}
                 >

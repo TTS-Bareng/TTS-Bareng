@@ -164,6 +164,16 @@ export interface AchievementDetailData {
   unlockedDate?: string;
 }
 
+export interface ConfirmDialogConfig {
+  isOpen: boolean;
+  title: string;
+  message: string;
+  confirmLabel?: string;
+  cancelLabel?: string;
+  isDestructive?: boolean;
+  onConfirm: () => void;
+}
+
 interface GameState {
   // Navigation
   currentTab: TabType;
@@ -512,6 +522,9 @@ interface GameState {
   isScannerOpen: boolean;
   openScanner: () => void;
   closeScanner: () => void;
+  confirmDialog: ConfirmDialogConfig | null;
+  openConfirmDialog: (config: Omit<ConfirmDialogConfig, 'isOpen'>) => void;
+  closeConfirmDialog: () => void;
 
   // Gameplay actions
   selectClue: (clueId: string, cellToFocus?: [number, number]) => void;
@@ -1129,6 +1142,9 @@ export const useGameStore = create<GameState>((set, get) => ({
       isStoreKitModalOpen: false,
       storeKitModalData: null,
       isSachetModalOpen: false,
+      userCustomCrosswords: [],
+      eloRating: 1000,
+      trophies: loadTrophies(),
     });
 
     if (typeof window !== 'undefined') {
@@ -1165,7 +1181,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({ ambientEnabled: next });
     if (next && get().soundEnabled) {
       soundManager.startFocusAmbient(get().ambientVolume);
-      get().showGlobalToast('Musik Latar Santai Aktif ☕', 2400);
+      get().showGlobalToast('Musik Latar Santai Aktif', 2400);
     } else {
       soundManager.stopFocusAmbient();
       get().showGlobalToast('Musik Latar Santai Dimatikan', 2000);
@@ -1326,7 +1342,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     // Cancel tonight's 21:00 urgent streak warning since streak has been extended today!
     notificationService.cancelTodayStreakWarning();
 
-    get().showGlobalToast(`Api Streak Membara! 🔥 ${nextStreak} Hari Berturut-turut!`, 3200);
+    get().showGlobalToast(`Api Streak Membara! ${nextStreak} Hari Berturut-turut!`, 3200);
   },
 
   buyStreakShield: () => {
@@ -1599,7 +1615,6 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({
       activeRoomCode: null,
       mabarPeers: [],
-      userCustomCrosswords: [],
       partnerCursor: null,
       partnerReconnecting: null,
       cellAuthors: {},
@@ -1873,6 +1888,10 @@ export const useGameStore = create<GameState>((set, get) => ({
   openScanner: () => set({ isScannerOpen: true }),
   closeScanner: () => set({ isScannerOpen: false }),
 
+  confirmDialog: null,
+  openConfirmDialog: (config) => set({ confirmDialog: { ...config, isOpen: true } }),
+  closeConfirmDialog: () => set({ confirmDialog: null }),
+
   // 1v1 Tug-of-War & Speed Race Battle State & Methods
   battleConfig: {
     mode: 'tug_of_war',
@@ -2011,7 +2030,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     });
     if (get().soundEnabled) soundManager.playReward();
     if (get().hapticEnabled) haptic.success([30, 60, 40]);
-    get().showGlobalToast('🎉 Paket Pemula Aktif! +150 Bintang, +3 Pelindung Streak & 1x Tiket Bikin TTS!', 3800);
+    get().showGlobalToast('Paket Pemula Aktif! +150 Bintang, +3 Pelindung Streak & 1x Tiket Bikin TTS!', 3800);
 
     // Sync updated tickets & stars to Supabase cloud profile in background
     const user = get().user;
@@ -4476,6 +4495,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       activeRoomCode: null,
       mabarPeers: [],
       userCustomCrosswords: [],
+      eloRating: 1000,
+      trophies: loadTrophies(),
     });
 
     if (typeof window !== 'undefined') {

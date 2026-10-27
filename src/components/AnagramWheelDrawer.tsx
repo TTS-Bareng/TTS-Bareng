@@ -198,7 +198,7 @@ export const AnagramWheelDrawer: React.FC = () => {
                   className={`w-9.5 h-11 sm:w-11 sm:h-12 rounded-[14px] flex items-center justify-center font-black text-base sm:text-lg transition-all tactile-active ${
                     letter
                       ? isMatch
-                        ? 'bg-emerald-500 text-white shadow-sm border border-emerald-400'
+                        ? 'bg-[var(--accent-grad)] text-[var(--accent-contrast)] shadow-md border border-[var(--accent-main)]'
                         : 'bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-xs border border-[var(--accent-main)]'
                       : 'bg-black/5 dark:bg-white/5 border-2 border-dashed border-black/10 dark:border-white/15 text-transparent'
                   }`}
