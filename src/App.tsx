@@ -41,6 +41,8 @@ const SachetOfferModal = lazy(() => import('./components/SachetOfferModal').then
 const VipSubscriptionModal = lazy(() => import('./components/VipSubscriptionModal').then((m) => ({ default: m.VipSubscriptionModal })));
 const StoreKitSandboxModal = lazy(() => import('./components/StoreKitSandboxModal').then((m) => ({ default: m.StoreKitSandboxModal })));
 const CustomCrosswordModal = lazy(() => import('./components/CustomCrosswordModal').then((m) => ({ default: m.CustomCrosswordModal })));
+const CancelSubscriptionModal = lazy(() => import('./components/CancelSubscriptionModal').then((m) => ({ default: m.CancelSubscriptionModal })));
+const VipSuccessModal = lazy(() => import('./components/VipSuccessModal').then((m) => ({ default: m.VipSuccessModal })));
 const InitialAuthView = lazy(() => import('./views/InitialAuthView').then((m) => ({ default: m.InitialAuthView })));
 const OnboardingView = lazy(() => import('./views/OnboardingView').then((m) => ({ default: m.OnboardingView })));
 
@@ -134,19 +136,23 @@ export const App: React.FC = () => {
     const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_IN' && session?.user) {
         // 1. Bind RevenueCat identity to Supabase user ID and check VIP entitlement
-        revenueCatService.logIn(session.user.id).then(async () => {
+        let verifiedVip = false;
+        try {
+          await revenueCatService.logIn(session.user.id);
           if (!revenueCatService.getIsMockMode()) {
-            const isVip = await revenueCatService.checkVipStatus();
-            if (useGameStore.getState().isVip !== isVip) {
-              useGameStore.getState().setIsVip(isVip);
-            }
+            verifiedVip = await revenueCatService.checkVipStatus();
           }
-        }).catch(() => {});
+        } catch {}
 
         // 2. Fetch cloud profile to check existing history and VIP status
         const cloud = await fetchUserProfile(session.user.id).catch(() => null);
-        if (cloud?.is_vip && !useGameStore.getState().isVip) {
-          useGameStore.getState().setIsVip(true);
+        if (!verifiedVip && cloud?.is_vip === true) {
+          verifiedVip = true;
+        }
+
+        // Strictly synchronize VIP: never leak stale local state onto unverified users
+        if (useGameStore.getState().isVip !== verifiedVip) {
+          useGameStore.getState().setIsVip(verifiedVip);
         }
 
         const currentUser = useGameStore.getState().user;
@@ -588,6 +594,8 @@ export const App: React.FC = () => {
         <VipSubscriptionModal />
         <StoreKitSandboxModal />
         <CustomCrosswordModal />
+        <VipSuccessModal />
+        <CancelSubscriptionModal />
       </Suspense>
     </div>
   );

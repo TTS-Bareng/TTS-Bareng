@@ -278,6 +278,13 @@ export const InitialAuthView: React.FC = () => {
   };
 
   const handleGuestSubmit = () => {
+    // Explicitly enforce Free status for Guest mode (prevent VIP flag leakage)
+    useGameStore.getState().setIsVip(false);
+    try {
+      localStorage.removeItem("tts_is_vip_v1");
+      localStorage.removeItem("tts_quest_is_vip");
+    } catch {}
+
     const guestId =
       useGameStore.getState().user?.id ||
       "guest_" + Math.random().toString(36).substring(2, 9);

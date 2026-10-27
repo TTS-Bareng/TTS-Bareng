@@ -56,6 +56,7 @@ export const SettingsView: React.FC = () => {
     openLegalModal,
     openPlayerIdModal,
     openVipModal,
+    openCancelSubModal,
     openSachetModal,
     isVip,
     setIsVip,
@@ -314,12 +315,11 @@ export const SettingsView: React.FC = () => {
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation();
-                        setIsVip(false);
-                        showToast("Status VIP dinonaktifkan (Reset Simulasi).");
+                        openCancelSubModal();
                       }}
-                      className="text-[7.5px] font-bold px-1.5 py-0.5 rounded-full bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500/20 cursor-pointer ml-1"
+                      className="text-[7.5px] font-bold px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/25 hover:opacity-85 cursor-pointer ml-1 inline-flex items-center gap-0.5"
                     >
-                      Reset Uji Coba
+                      Kelola Langganan
                     </button>
                   )}
                 </div>

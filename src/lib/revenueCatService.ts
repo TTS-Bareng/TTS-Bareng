@@ -360,7 +360,7 @@ class RevenueCatService {
     error?: string;
   }> {
     if (this.isMockMode || !this.isConfigured) {
-      const isVip = typeof window !== 'undefined' && localStorage.getItem('tts_quest_is_vip') === 'true';
+      const isVip = typeof window !== 'undefined' && localStorage.getItem('tts_is_vip_v1') === 'true';
       return { success: true, isVip };
     }
 
@@ -405,6 +405,69 @@ class RevenueCatService {
     } catch (err) {
       console.warn('[RevenueCat] checkVipStatus gagal:', err);
       return false;
+    }
+  }
+
+  /**
+   * Mengambil detail masa aktif dan tanggal kedaluwarsa langganan VIP dari App Store.
+   */
+  public async getVipExpiryDetails(): Promise<{
+    isActive: boolean;
+    expirationDateFormatted?: string;
+    productIdentifier?: string;
+  }> {
+    if (this.isMockMode || !this.isConfigured) {
+      const nextYear = new Date();
+      nextYear.setFullYear(nextYear.getFullYear() + 1);
+      return {
+        isActive: true,
+        expirationDateFormatted: nextYear.toLocaleDateString('id-ID', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+        }),
+        productIdentifier: 'id.ttsbareng.vip.annual',
+      };
+    }
+
+    try {
+      const { customerInfo } = await Purchases.getCustomerInfo();
+      const entitlement =
+        customerInfo.entitlements?.active?.[REVENUECAT_ENTITLEMENT_VIP] ||
+        customerInfo.entitlements?.active?.['vip'] ||
+        customerInfo.entitlements?.active?.['pro'];
+
+      if (!entitlement) {
+        return { isActive: false };
+      }
+
+      let formattedDate: string | undefined;
+      if (entitlement.expirationDate) {
+        const d = new Date(entitlement.expirationDate);
+        formattedDate = d.toLocaleDateString('id-ID', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+        });
+      }
+
+      return {
+        isActive: true,
+        expirationDateFormatted: formattedDate,
+        productIdentifier: entitlement.productIdentifier,
+      };
+    } catch {
+      return { isActive: false };
+    }
+  }
+
+  /**
+   * Buka antarmuka manajemen langganan resmi Apple ID iOS.
+   */
+  public openAppleSubscriptionSettings(): void {
+    const appleSubsUrl = 'https://apps.apple.com/account/subscriptions';
+    if (typeof window !== 'undefined') {
+      window.open(appleSubsUrl, '_system');
     }
   }
 }

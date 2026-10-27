@@ -10,12 +10,11 @@ import {
   PenTool,
   CheckCircle2,
   Circle,
+  ExternalLink,
 } from 'lucide-react';
-import confetti from 'canvas-confetti';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
 import { revenueCatService, type VipPlan } from '../lib/revenueCatService';
-import { soundManager } from '../lib/audio';
 import { haptic } from '../lib/haptics';
 
 interface PlanOption {
@@ -69,10 +68,11 @@ export const VipSubscriptionModal: React.FC = () => {
     closeVipModal,
     isVip,
     setIsVip,
+    openVipSuccessModal,
+    openCancelSubModal,
     openLegalModal,
     openSachetModal,
     showGlobalToast,
-    soundEnabled,
     hapticEnabled,
   } = useGameStore();
 
@@ -90,11 +90,25 @@ export const VipSubscriptionModal: React.FC = () => {
 
       if (res.success || res.entitlementUnlocked) {
         setIsVip(true);
-        if (soundEnabled) soundManager.playVictory();
-        if (hapticEnabled) haptic.success([40, 80, 50]);
-        confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-        showGlobalToast('👑 Selamat! Akses TTS Pass VIP Berhasil Diaktifkan!', 4500);
         closeVipModal();
+
+        // Calculate friendly expiry date (1 month or 1 year)
+        const expiryDateObj = new Date();
+        if (selectedPlan === 'annual') {
+          expiryDateObj.setFullYear(expiryDateObj.getFullYear() + 1);
+        } else {
+          expiryDateObj.setMonth(expiryDateObj.getMonth() + 1);
+        }
+        const expiryFormatted = expiryDateObj.toLocaleDateString('id-ID', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+        });
+
+        openVipSuccessModal({
+          planName: currentPlan.title,
+          expiryDate: expiryFormatted,
+        });
       } else if (res.cancelled) {
         showGlobalToast('Langganan dibatalkan.');
       } else if (res.error) {
@@ -113,10 +127,12 @@ export const VipSubscriptionModal: React.FC = () => {
       const res = await revenueCatService.restorePurchases();
       if (res.isVip) {
         setIsVip(true);
-        if (soundEnabled) soundManager.playVictory();
-        if (hapticEnabled) haptic.success([30, 60, 40]);
-        showGlobalToast('✨ Status Langganan VIP berhasil dipulihkan dari Apple ID!', 4000);
         closeVipModal();
+        openVipSuccessModal({
+          planName: 'Keanggotaan VIP Apple ID',
+          expiryDate: 'Telah Aktif',
+          isRestore: true,
+        });
       } else if (res.success) {
         showGlobalToast('Tidak ada langganan aktif yang ditemukan pada akun Apple ID ini.', 3500);
       } else {
@@ -265,9 +281,22 @@ export const VipSubscriptionModal: React.FC = () => {
 
           {/* Subscription Plans Selector */}
           {isVip ? (
-            <div className="w-full py-3 px-4 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)] font-bold text-[12.5px] flex items-center justify-center gap-2 mt-1">
-              <Crown className="w-4 h-4 fill-current" />
-              <span>Status VIP Anda Saat Ini Aktif</span>
+            <div className="w-full flex flex-col gap-2 mt-1">
+              <div className="w-full py-3 px-4 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)] font-bold text-[12.5px] flex items-center justify-center gap-2">
+                <Crown className="w-4 h-4 fill-current" />
+                <span>Status VIP Anda Saat Ini Aktif</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  closeVipModal();
+                  openCancelSubModal();
+                }}
+                className="w-full py-2.5 px-4 rounded-xl border border-[var(--accent-main)]/25 text-[var(--accent-main)] bg-[var(--accent-light)] hover:opacity-90 font-bold text-[11.5px] flex items-center justify-center gap-1.5 cursor-pointer tactile-active transition-all"
+              >
+                <span>Kelola atau Batalkan Langganan</span>
+                <ExternalLink className="w-3.5 h-3.5 stroke-[2]" />
+              </button>
             </div>
           ) : (
             <div className="w-full flex flex-col gap-2 mt-1">

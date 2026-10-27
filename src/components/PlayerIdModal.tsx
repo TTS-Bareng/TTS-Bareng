@@ -84,6 +84,25 @@ export const PlayerIdModal: React.FC = () => {
     }
   };
 
+  const formatPassportChipId = (id: string): string => {
+    if (!id) return '#TTS-8842';
+    if (id.startsWith('guest_')) {
+      return `TAMU #${id.replace('guest_', '').slice(0, 6).toUpperCase()}`;
+    }
+    const clean = id.replace(/-/g, '');
+    return `#${clean.slice(0, 8).toUpperCase()}`;
+  };
+
+  const formatAccountDetailId = (id: string): string => {
+    if (!id) return 'TTS-8842';
+    if (id.startsWith('guest_')) {
+      return `guest_${id.replace('guest_', '').slice(0, 8)}`;
+    }
+    const clean = id.replace(/-/g, '');
+    if (clean.length <= 12) return `#${clean.toUpperCase()}`;
+    return `${clean.slice(0, 8).toUpperCase()}...${clean.slice(-4).toUpperCase()}`;
+  };
+
   const handleStartEdit = () => {
     setNameInput(user.name);
     setIsEditing(true);
@@ -205,10 +224,10 @@ export const PlayerIdModal: React.FC = () => {
                 type="button"
                 onClick={handleCopyId}
                 title="Salin ID Pemain"
-                className="px-2.5 py-1 rounded-full bg-white/15 hover:bg-white/25 backdrop-blur-md border border-white/25 text-white inline-flex items-center gap-1.5 cursor-pointer tactile-active shadow-xs transition-all"
+                className="px-2.5 py-1 rounded-full bg-white/15 hover:bg-white/25 backdrop-blur-md border border-white/25 text-white inline-flex items-center gap-1.5 cursor-pointer tactile-active shadow-xs transition-all shrink-0"
               >
-                <span className="text-[10px] font-mono font-black tracking-wide">
-                  {playerId}
+                <span className="text-[10px] font-mono font-black tracking-wider">
+                  {formatPassportChipId(playerId)}
                 </span>
                 {copied ? (
                   <Check className="w-3 h-3 text-emerald-300 stroke-[3]" />
@@ -317,8 +336,8 @@ export const PlayerIdModal: React.FC = () => {
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-[11px] font-mono font-black text-[var(--text-secondary)]">
-                  {playerId}
+                <span className="text-[11px] font-mono font-bold text-[var(--text-secondary)]">
+                  {formatAccountDetailId(playerId)}
                 </span>
                 <button
                   type="button"

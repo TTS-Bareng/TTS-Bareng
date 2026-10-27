@@ -234,6 +234,17 @@ interface GameState {
   isVipModalOpen: boolean;
   openVipModal: () => void;
   closeVipModal: () => void;
+  isVipSuccessModalOpen: boolean;
+  vipSuccessData: {
+    planName: string;
+    expiryDate?: string;
+    isRestore?: boolean;
+  } | null;
+  openVipSuccessModal: (data: { planName: string; expiryDate?: string; isRestore?: boolean }) => void;
+  closeVipSuccessModal: () => void;
+  isCancelSubModalOpen: boolean;
+  openCancelSubModal: () => void;
+  closeCancelSubModal: () => void;
   isStoreKitModalOpen: boolean;
   storeKitModalData: StoreKitModalData | null;
   openStoreKitModal: (data: StoreKitModalData) => void;
@@ -569,6 +580,12 @@ function getInitialCustomTickets(): number {
 
 function getInitialIsVip(): boolean {
   if (typeof window === 'undefined') return false;
+  // Accrual/Noticed standard: purge legacy keys to prevent flag leakage
+  try {
+    localStorage.removeItem('tts_quest_is_vip');
+    localStorage.removeItem('sidenotes_is_pro');
+    localStorage.removeItem('noticed_is_pro');
+  } catch {}
   return localStorage.getItem(STORAGE_KEY_IS_VIP) === 'true';
 }
 
@@ -972,8 +989,12 @@ export const useGameStore = create<GameState>((set, get) => ({
       avatar: '/maskot/Fierce Plush Crossword Champion.webp',
       joinedAt: 'Mode Tamu',
     };
+    try {
+      localStorage.removeItem(STORAGE_KEY_IS_VIP);
+      localStorage.removeItem('tts_quest_is_vip');
+    } catch {}
     localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(guestUser));
-    set({ user: guestUser, isAuthOpen: false });
+    set({ user: guestUser, isVip: false, isAuthOpen: false });
   },
 
   loginWithEmail: async (email: string, name: string) => {
@@ -1019,7 +1040,7 @@ export const useGameStore = create<GameState>((set, get) => ({
           totalWordsSolved: get().solvedClues.length,
           eloRating: get().eloRating,
           customTickets: get().customTtsTickets,
-          isVip: get().isVip,
+          isVip: false,
         }).catch(() => {});
       }
     } catch (err) {
@@ -1878,6 +1899,13 @@ export const useGameStore = create<GameState>((set, get) => ({
   isVipModalOpen: false,
   openVipModal: () => set({ isVipModalOpen: true }),
   closeVipModal: () => set({ isVipModalOpen: false }),
+  isVipSuccessModalOpen: false,
+  vipSuccessData: null,
+  openVipSuccessModal: (data) => set({ isVipSuccessModalOpen: true, vipSuccessData: data }),
+  closeVipSuccessModal: () => set({ isVipSuccessModalOpen: false, vipSuccessData: null }),
+  isCancelSubModalOpen: false,
+  openCancelSubModal: () => set({ isCancelSubModalOpen: true }),
+  closeCancelSubModal: () => set({ isCancelSubModalOpen: false }),
   isStoreKitModalOpen: false,
   storeKitModalData: null,
   openStoreKitModal: (data: StoreKitModalData) => set({ isStoreKitModalOpen: true, storeKitModalData: data }),
