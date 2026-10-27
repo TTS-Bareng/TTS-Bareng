@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import { Capacitor } from '@capacitor/core';
 import type { CommunityTournament } from './tournament';
 import { performAppleSignIn } from './appleAuth';
+import { performGoogleSignIn } from './googleAuth';
 
 const DEFAULT_SUPABASE_URL = 'https://qrkfjacugcalegzhcatp.supabase.co';
 const DEFAULT_SUPABASE_ANON_KEY =
@@ -341,40 +342,15 @@ export async function signInWithApple(): Promise<{ user?: any; session?: any; er
 }
 
 /**
- * Sign in with Google via Supabase OAuth with mobile custom scheme redirect
+ * Sign in with Google (100% In-App on native iOS via Google bottom sheet, or OAuth fallback on web)
  */
-export async function signInWithGoogle(): Promise<{ user?: any; error?: string }> {
-  if (!isSupabaseConfigured) {
-    return { error: 'Layanan Supabase belum terkonfigurasi' };
-  }
-  try {
-    const isNative = Capacitor.isNativePlatform();
-    const redirectTo = isNative ? 'ttsbareng://auth-callback' : window.location.origin;
-
-    const { data, error } = await withTimeout(
-      supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo,
-          skipBrowserRedirect: isNative,
-        },
-      }),
-      20000,
-      'Koneksi ke Google OAuth batas waktu habis (20 detik).'
-    );
-    if (error) {
-      return { error: error.message };
-    }
-
-    // On native mobile, open via system browser if skipBrowserRedirect was true
-    if (isNative && data?.url) {
-      window.open(data.url, '_system');
-    }
-
-    return { user: data };
-  } catch (err: any) {
-    return { error: err?.message || 'Gagal memulai Sign in with Google' };
-  }
+export async function signInWithGoogle(): Promise<{
+  user?: any;
+  session?: any;
+  error?: string;
+  canceled?: boolean;
+}> {
+  return performGoogleSignIn();
 }
 
 /**

@@ -15,6 +15,9 @@ const config: CapacitorConfig = {
     CapacitorHttp: {
       enabled: true,
     },
+    GoogleSignIn: {
+      clientId: '260911640333-mues538f6c5csidqdfcigda2pstavhd9.apps.googleusercontent.com',
+    },
     SplashScreen: {
       launchShowDuration: 1500,
       launchAutoHide: true,

@@ -44,6 +44,7 @@ import { haptic } from '../lib/haptics';
 import { notificationService } from '../lib/notificationService';
 import { calculateEloDelta, getEloTier } from '../lib/eloSystem';
 import { supabase, syncUserProfile, fetchUserProfile, isSupabaseConfigured } from '../lib/supabase';
+import { performGoogleSignOut } from '../lib/googleAuth';
 import { revenueCatService } from '../lib/revenueCatService';
 
 export type TabType = 'home' | 'social' | 'game' | 'quests' | 'profile' | 'stats' | 'settings' | 'arena';
@@ -1029,6 +1030,9 @@ export const useGameStore = create<GameState>((set, get) => ({
   logout: async () => {
     try {
       await supabase.auth.signOut();
+    } catch {}
+    try {
+      await performGoogleSignOut();
     } catch {}
     try {
       await revenueCatService.logOut();
@@ -4276,6 +4280,9 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
     try {
       await supabase.auth.signOut();
+    } catch {}
+    try {
+      await performGoogleSignOut();
     } catch {}
     try {
       await revenueCatService.logOut();

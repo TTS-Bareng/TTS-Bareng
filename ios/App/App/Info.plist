@@ -24,6 +24,10 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>GIDClientID</key>
+	<string>260911640333-rl9mq2b3ija230h77vbnek9uqogc39op.apps.googleusercontent.com</string>
+	<key>GIDServerClientID</key>
+	<string>260911640333-mues538f6c5csidqdfcigda2pstavhd9.apps.googleusercontent.com</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -62,6 +66,7 @@
 			<array>
 				<string>ttsbareng</string>
 				<string>ttsquest</string>
+				<string>com.googleusercontent.apps.260911640333-rl9mq2b3ija230h77vbnek9uqogc39op</string>
 			</array>
 		</dict>
 	</array>

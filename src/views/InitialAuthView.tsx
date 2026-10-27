@@ -260,10 +260,16 @@ export const InitialAuthView: React.FC = () => {
       }, 15000);
 
       const res = await signInWithGoogle();
+      clearTimeout(timeoutId);
+      setIsGoogleLoading(false);
+
+      if (res?.canceled) {
+        // User closed the Google sheet smoothly, no alert needed
+        return;
+      }
+
       if (res?.error) {
-        clearTimeout(timeoutId);
         showGlobalToast(res.error);
-        setIsGoogleLoading(false);
       }
     } catch (err: any) {
       showGlobalToast(err?.message || "Gagal memulai Sign in with Google.");
