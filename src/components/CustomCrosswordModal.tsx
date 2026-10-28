@@ -46,7 +46,7 @@ export const CustomCrosswordModal: React.FC = () => {
     showGlobalToast,
     soundEnabled,
     hapticEnabled,
-    openShareModal,
+    openCustomCrosswordQrModal,
     editingCustomCrossword,
     saveUserCustomCrossword,
   } = useGameStore();
@@ -190,19 +190,8 @@ export const CustomCrosswordModal: React.FC = () => {
       closeCustomCrosswordModal();
       showGlobalToast('TTS Karyamu Berhasil Diterbitkan & Disimpan ke Profil!', 4000);
 
-      openShareModal({
-        badge: 'TTS KREASI SENDIRI',
-        title: generated.title,
-        subtitle: `Teka-teki silang bertema "${generated.category}" siap dimainkan teman-temanmu.`,
-        mascot: MASCOTS.crosswordThinker,
-        stats: [
-          { label: 'KATA', value: `${generated.clues.across.length + generated.clues.down.length}` },
-          { label: 'TEMA', value: generated.category || 'Kreasi' },
-          { label: 'KREATOR', value: 'Anda' },
-        ],
-        shareUrl,
-        shareText,
-      });
+      // Buka Tiket Undangan Resmi & QR Code untuk TTS Kustom
+      openCustomCrosswordQrModal(customItem);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Gagal mempublikasikan TTS.';
       setErrorMsg(msg);

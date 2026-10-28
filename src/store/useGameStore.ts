@@ -46,6 +46,8 @@ import { calculateEloDelta, getEloTier } from '../lib/eloSystem';
 import { supabase, syncUserProfile, fetchUserProfile, isSupabaseConfigured } from '../lib/supabase';
 import { performGoogleSignOut } from '../lib/googleAuth';
 import { revenueCatService } from '../lib/revenueCatService';
+import { decodeCustomCrosswordParam } from '../lib/deeplink';
+import { generateCustomCrossword } from '../lib/customCrosswordGenerator';
 
 export type TabType = 'home' | 'social' | 'game' | 'quests' | 'profile' | 'stats' | 'settings' | 'arena';
 
@@ -271,6 +273,14 @@ interface GameState {
   deleteUserCustomCrossword: (id: string) => void;
   openCustomCrosswordModal: (itemToEdit?: UserCustomCrossword) => void;
   closeCustomCrosswordModal: () => void;
+  isCustomCrosswordQrOpen: boolean;
+  customCrosswordQrData: UserCustomCrossword | null;
+  openCustomCrosswordQrModal: (item: UserCustomCrossword) => void;
+  closeCustomCrosswordQrModal: () => void;
+  isImportCustomCrosswordOpen: boolean;
+  openImportCustomCrosswordModal: () => void;
+  closeImportCustomCrosswordModal: () => void;
+  importCustomCrosswordFromPayload: (payloadOrUrl: string) => boolean;
   playCustomCrossword: (item: UserCustomCrossword) => void;
   consumeCustomTtsTicket: () => boolean;
   recordBattleEloOutcome: (opponentElo: number, won: boolean | 'draw') => { delta: number; newElo: number };
@@ -1971,6 +1981,57 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({ isCustomCrosswordModalOpen: true, editingCustomCrossword: itemToEdit || null }),
   closeCustomCrosswordModal: () =>
     set({ isCustomCrosswordModalOpen: false, editingCustomCrossword: null }),
+  isCustomCrosswordQrOpen: false,
+  customCrosswordQrData: null,
+  openCustomCrosswordQrModal: (item) =>
+    set({ isCustomCrosswordQrOpen: true, customCrosswordQrData: item }),
+  closeCustomCrosswordQrModal: () =>
+    set({ isCustomCrosswordQrOpen: false, customCrosswordQrData: null }),
+  isImportCustomCrosswordOpen: false,
+  openImportCustomCrosswordModal: () => set({ isImportCustomCrosswordOpen: true }),
+  closeImportCustomCrosswordModal: () => set({ isImportCustomCrosswordOpen: false }),
+  importCustomCrosswordFromPayload: (payloadOrUrl: string) => {
+    if (!payloadOrUrl || typeof payloadOrUrl !== 'string') return false;
+    let param = payloadOrUrl.trim();
+    if (param.includes('custom=')) {
+      try {
+        const url = new URL(param.startsWith('http') || param.startsWith('ttsbareng') ? param : `https://domain.com/${param}`);
+        const cParam = url.searchParams.get('custom');
+        if (cParam) param = cParam;
+      } catch {
+        const match = param.match(/custom=([a-zA-Z0-9_-]+)/);
+        if (match && match[1]) param = match[1];
+      }
+    } else if (param.includes('tts=')) {
+      const match = param.match(/tts=([a-zA-Z0-9_-]+)/);
+      if (match && match[1]) param = match[1];
+    }
+
+    const decoded = decodeCustomCrosswordParam(param);
+    if (!decoded) return false;
+
+    try {
+      const level = generateCustomCrossword(
+        decoded.title,
+        decoded.category,
+        decoded.wordsList.map((w) => ({ word: w.answer || w.word, clue: w.clue }))
+      );
+      const customItem: UserCustomCrossword = {
+        id: `custom_${Date.now()}`,
+        title: decoded.title,
+        category: decoded.category || 'Kreasi Teman',
+        wordsList: decoded.wordsList.map((w) => ({ word: w.answer || w.word, clue: w.clue })),
+        level,
+        createdAt: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
+      };
+      get().saveUserCustomCrossword(customItem);
+      get().playCustomCrossword(customItem);
+      get().showGlobalToast(`Berhasil memuat TTS Teman: "${decoded.title}"`, 3500);
+      return true;
+    } catch {
+      return false;
+    }
+  },
   saveUserCustomCrossword: (item) => {
     const { userCustomCrosswords } = get();
     const existingIdx = userCustomCrosswords.findIndex((c) => c.id === item.id);

@@ -23,12 +23,11 @@ import {
   Play,
   Share2,
   Trash2,
+  FolderDown,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { getEloTier } from '../lib/eloSystem';
 import { getAvatarFrame } from '../lib/avatarFrames';
-import { createCustomCrosswordDeepLink } from '../lib/deeplink';
-import { MASCOTS } from '../assets/maskots';
 
 interface CircularProgressProps {
   percent: number;
@@ -105,13 +104,13 @@ export const ProfileView: React.FC = () => {
     isVip,
     openVipModal,
     openCustomCrosswordModal,
+    openCustomCrosswordQrModal,
+    openImportCustomCrosswordModal,
     openLeaderboard,
     logout,
     userCustomCrosswords,
     deleteUserCustomCrossword,
     playCustomCrossword,
-    openShareModal,
-    showGlobalToast,
     openConfirmDialog,
   } = useGameStore();
 
@@ -902,14 +901,24 @@ export const ProfileView: React.FC = () => {
             </span>
           </div>
 
-          <button
-            type="button"
-            onClick={() => openCustomCrosswordModal()}
-            className="text-[10px] font-bold text-[var(--accent-main)] hover:underline flex items-center gap-1 cursor-pointer"
-          >
-            <Plus className="w-3 h-3 stroke-[3]" />
-            <span>Buat Baru</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => openImportCustomCrosswordModal()}
+              className="text-[10px] font-bold text-[var(--text-secondary)] hover:text-[var(--accent-main)] flex items-center gap-1 cursor-pointer transition-colors"
+            >
+              <FolderDown className="w-3 h-3 stroke-[2.2]" />
+              <span>Buka TTS Teman</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => openCustomCrosswordModal()}
+              className="text-[10px] font-bold text-[var(--accent-main)] hover:underline flex items-center gap-1 cursor-pointer"
+            >
+              <Plus className="w-3 h-3 stroke-[3]" />
+              <span>Buat Baru</span>
+            </button>
+          </div>
         </div>
 
         {userCustomCrosswords.length === 0 ? (
@@ -977,33 +986,9 @@ export const ProfileView: React.FC = () => {
                     {/* Bagikan */}
                     <button
                       type="button"
-                      onClick={() => {
-                        const shareUrl = createCustomCrosswordDeepLink({
-                          title: item.title,
-                          category: item.category || 'Kreasi',
-                          wordsList: item.wordsList,
-                        });
-                        const shareText = `Ayo mainkan TTS Karyaku: "${item.title}"! Buka dan pecahkan langsung di: ${shareUrl}`;
-                        if (navigator.clipboard) {
-                          navigator.clipboard.writeText(shareText);
-                        }
-                        showGlobalToast('Tautan TTS berhasil disalin!');
-                        openShareModal({
-                          badge: 'TTS KREASI SENDIRI',
-                          title: item.title,
-                          subtitle: `Teka-teki silang kreasi bertema "${item.category}".`,
-                          mascot: MASCOTS.crosswordThinker,
-                          stats: [
-                            { label: 'KATA', value: `${(item.level?.clues?.across?.length || 0) + (item.level?.clues?.down?.length || 0)}` },
-                            { label: 'TEMA', value: item.category || 'Kreasi' },
-                            { label: 'KREATOR', value: 'Anda' },
-                          ],
-                          shareUrl,
-                          shareText,
-                        });
-                      }}
-                      title="Bagikan Tautan"
-                      className="w-7 h-7 rounded-xl bg-black/5 dark:bg-white/10 text-[var(--text-primary)] flex items-center justify-center cursor-pointer tactile-active"
+                      onClick={() => openCustomCrosswordQrModal(item)}
+                      title="Bagikan Tiket Undangan & QR Code"
+                      className="w-7 h-7 rounded-xl bg-black/5 dark:bg-white/10 text-[var(--text-primary)] hover:bg-[var(--accent-light)] hover:text-[var(--accent-main)] flex items-center justify-center cursor-pointer tactile-active transition-colors"
                     >
                       <Share2 className="w-3.5 h-3.5" />
                     </button>

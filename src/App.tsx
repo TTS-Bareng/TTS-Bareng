@@ -43,6 +43,8 @@ const SachetOfferModal = lazy(() => import('./components/SachetOfferModal').then
 const VipSubscriptionModal = lazy(() => import('./components/VipSubscriptionModal').then((m) => ({ default: m.VipSubscriptionModal })));
 const StoreKitSandboxModal = lazy(() => import('./components/StoreKitSandboxModal').then((m) => ({ default: m.StoreKitSandboxModal })));
 const CustomCrosswordModal = lazy(() => import('./components/CustomCrosswordModal').then((m) => ({ default: m.CustomCrosswordModal })));
+const CustomCrosswordQrModal = lazy(() => import('./components/CustomCrosswordQrModal').then((m) => ({ default: m.CustomCrosswordQrModal })));
+const ImportCustomCrosswordModal = lazy(() => import('./components/ImportCustomCrosswordModal').then((m) => ({ default: m.ImportCustomCrosswordModal })));
 const CancelSubscriptionModal = lazy(() => import('./components/CancelSubscriptionModal').then((m) => ({ default: m.CancelSubscriptionModal })));
 const VipSuccessModal = lazy(() => import('./components/VipSuccessModal').then((m) => ({ default: m.VipSuccessModal })));
 const BattleResultModal = lazy(() => import('./components/BattleResultModal').then((m) => ({ default: m.BattleResultModal })));
@@ -98,6 +100,7 @@ export const App: React.FC = () => {
     isVip,
     dailyRushRecord,
     playCustomCrossword,
+    saveUserCustomCrossword,
   } = useGameStore();
 
   // Listen for local notification tap actions (Daily Rush, Game, Arena)
@@ -257,14 +260,16 @@ export const App: React.FC = () => {
           customCrossword.category,
           customCrossword.wordsList.map((w) => ({ word: w.answer, clue: w.clue }))
         );
-        playCustomCrossword({
+        const customItem = {
           id: `custom_${Date.now()}`,
           title: customCrossword.title,
-          category: customCrossword.category,
-          wordsList: customCrossword.wordsList,
+          category: customCrossword.category || 'Kreasi Teman',
+          wordsList: customCrossword.wordsList.map((w) => ({ word: w.answer, clue: w.clue })),
           level: generatedLevel,
-          createdAt: new Date().toISOString(),
-        });
+          createdAt: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
+        };
+        saveUserCustomCrossword(customItem);
+        playCustomCrossword(customItem);
         showGlobalToast(`Membuka TTS Kustom: "${customCrossword.title}"`, 3500);
       } catch {
         showGlobalToast('Gagal memuat TTS Kustom dari tautan.', 3000);
@@ -438,14 +443,16 @@ export const App: React.FC = () => {
                   decoded.category,
                   decoded.wordsList.map((w) => ({ word: w.answer, clue: w.clue }))
                 );
-                playCustomCrossword({
+                const customItem = {
                   id: `custom_${Date.now()}`,
                   title: decoded.title,
-                  category: decoded.category,
-                  wordsList: decoded.wordsList,
+                  category: decoded.category || 'Kreasi Teman',
+                  wordsList: decoded.wordsList.map((w) => ({ word: w.answer, clue: w.clue })),
                   level: generatedLevel,
-                  createdAt: new Date().toISOString(),
-                });
+                  createdAt: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
+                };
+                saveUserCustomCrossword(customItem);
+                playCustomCrossword(customItem);
                 showGlobalToast(`Membuka TTS Kustom: "${decoded.title}"`, 3500);
                 return;
               } catch {}
@@ -642,6 +649,8 @@ export const App: React.FC = () => {
         <VipSubscriptionModal />
         <StoreKitSandboxModal />
         <CustomCrosswordModal />
+        <CustomCrosswordQrModal />
+        <ImportCustomCrosswordModal />
         <VipSuccessModal />
         <CancelSubscriptionModal />
         <BattleResultModal />

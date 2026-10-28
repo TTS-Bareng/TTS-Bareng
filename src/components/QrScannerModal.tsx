@@ -17,7 +17,7 @@ export const QrScannerModal: React.FC<QrScannerModalProps> = ({
   onClose,
   onScanSuccess,
 }) => {
-  const { showGlobalToast, playCustomCrossword } = useGameStore();
+  const { showGlobalToast, playCustomCrossword, saveUserCustomCrossword } = useGameStore();
   const videoRef = useRef<HTMLVideoElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -69,14 +69,16 @@ export const QrScannerModal: React.FC<QrScannerModalProps> = ({
               decoded.wordsList.map((w) => ({ word: w.answer, clue: w.clue }))
             );
             stopMediaStreams();
-            playCustomCrossword({
+            const customItem = {
               id: `custom_${Date.now()}`,
               title: decoded.title,
-              category: decoded.category,
-              wordsList: decoded.wordsList,
+              category: decoded.category || 'Kreasi Teman',
+              wordsList: decoded.wordsList.map((w) => ({ word: w.answer || w.word, clue: w.clue })),
               level,
-              createdAt: new Date().toISOString(),
-            });
+              createdAt: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
+            };
+            saveUserCustomCrossword(customItem);
+            playCustomCrossword(customItem);
             showGlobalToast(`Membuka TTS Kustom: "${decoded.title}"`, 3500);
             onClose();
             return;
