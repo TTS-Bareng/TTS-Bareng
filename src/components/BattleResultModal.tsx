@@ -31,6 +31,9 @@ export const BattleResultModal: React.FC = () => {
     mabarPeers,
     eloRating,
     lastEloDelta,
+    activeTournamentMatch,
+    activeCommunityMatchId,
+    setArenaSubTab,
   } = useGameStore();
 
   if (!isBattleResultOpen) return null;
@@ -51,9 +54,14 @@ export const BattleResultModal: React.FC = () => {
   const localShare = totalPoints > 0 ? Math.round((battleScores.local / totalPoints) * 100) : 50;
   const partnerShare = 100 - localShare;
 
+  const isTourney = Boolean(activeTournamentMatch || activeCommunityMatchId);
+
   const handleReturnHome = () => {
     closeBattleResult();
     setCurrentTab('arena');
+    if (isTourney) {
+      setArenaSubTab('tournament');
+    }
   };
 
   return (
@@ -256,7 +264,7 @@ export const BattleResultModal: React.FC = () => {
                 <span>Lanjut Ronde {battleCurrentRound + 1}</span>
                 <ArrowRight className="w-4 h-4 stroke-[2.5]" />
               </button>
-            ) : (
+            ) : !isTourney ? (
               <button
                 type="button"
                 onClick={rematchBattle}
@@ -264,6 +272,15 @@ export const BattleResultModal: React.FC = () => {
               >
                 <RotateCcw className="w-4 h-4 stroke-[2.5]" />
                 <span>Tanding Ulang</span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={handleReturnHome}
+                className="w-full py-3 rounded-full bg-white text-zinc-900 font-black text-[12.5px] cursor-pointer tactile-active shadow-lg flex items-center justify-center gap-2 hover:bg-white/95"
+              >
+                <Trophy className="w-4 h-4 stroke-[2.5]" />
+                <span>Kembali ke Bagan Turnamen</span>
               </button>
             )}
 
@@ -273,7 +290,7 @@ export const BattleResultModal: React.FC = () => {
               className="w-full py-2 rounded-full border border-white/30 text-white font-bold text-[11px] cursor-pointer tactile-active hover:bg-white/10 flex items-center justify-center gap-1.5"
             >
               <Home className="w-3.5 h-3.5 stroke-[2]" />
-              <span>Kembali ke Arena</span>
+              <span>{isTourney ? 'Tutup & Ke Arena' : 'Kembali ke Arena'}</span>
             </button>
           </div>
         </motion.div>

@@ -2299,7 +2299,17 @@ export const useGameStore = create<GameState>((set, get) => ({
   isTournamentResultOpen: false,
   tournamentResultData: null,
   openTournamentResult: () => set({ isTournamentResultOpen: true }),
-  closeTournamentResult: () => set({ isTournamentResultOpen: false }),
+  closeTournamentResult: () =>
+    set({
+      isTournamentResultOpen: false,
+      gameMode: 'classic',
+      battleTimeLeft: 0,
+      battleScores: { local: 0, partner: 0 },
+      battleClueOwners: {},
+      activeCommunityMatchId: null,
+      activeTournamentMatch: null,
+      isBattleResultOpen: false,
+    }),
   tournamentAiCooldown: 8,
   tournamentTickets: getInitialTickets(),
   lastTicketClaimDate: getInitialTicketDate(),
@@ -2883,7 +2893,18 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
   closeBattleLobby: () => set({ isBattleLobbyOpen: false }),
   openBattleResult: () => set({ isBattleResultOpen: true }),
-  closeBattleResult: () => set({ isBattleResultOpen: false }),
+  closeBattleResult: () =>
+    set({
+      isBattleResultOpen: false,
+      gameMode: 'classic',
+      battleTimeLeft: 0,
+      battleScores: { local: 0, partner: 0 },
+      battleClueOwners: {},
+      activeCommunityMatchId: null,
+      activeTournamentMatch: null,
+      battleRoundWins: { local: 0, partner: 0 },
+      isLevelCompleteOpen: false,
+    }),
 
   openQuickMatchModal: (mode) => {
     const battleMode = mode || 'speed_race';
@@ -3047,8 +3068,17 @@ export const useGameStore = create<GameState>((set, get) => ({
       tickTournamentAi,
       finishBattleRound,
       soundEnabled,
+      level,
     } = get();
     if (gameMode !== '1v1_battle' || isBattleResultOpen || isTournamentResultOpen) return;
+
+    // Safety check: jika semua petunjuk sudah terpecahkan/diklaim, akhiri ronde duel seketika
+    const totalClues = (level?.clues?.across?.length || 0) + (level?.clues?.down?.length || 0);
+    const totalClaimed = Object.keys(get().battleClueOwners).length;
+    if (totalClues > 0 && totalClaimed >= totalClues) {
+      finishBattleRound();
+      return;
+    }
 
     if (activeTournamentMatch || activeCommunityMatchId) {
       tickTournamentAi();
@@ -3153,7 +3183,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
 
     const totalClues = (level.clues.across?.length || 0) + (level.clues.down?.length || 0);
-    const isBoardFull = Object.keys(nextOwners).length >= totalClues;
+    const isBoardFull = Object.keys(nextOwners).length >= totalClues || nextSolved.length >= totalClues;
 
     set({
       battleClueOwners: nextOwners,
@@ -3168,12 +3198,14 @@ export const useGameStore = create<GameState>((set, get) => ({
     if (isBoardFull) {
       setTimeout(() => {
         finishBattleRound();
-      }, 500);
+      }, 300);
     }
   },
 
   finishBattleRound: () => {
     const {
+      isBattleResultOpen,
+      isTournamentResultOpen,
       activeCommunityMatchId,
       activeTournament,
       activeTournamentMatch,
@@ -3188,6 +3220,12 @@ export const useGameStore = create<GameState>((set, get) => ({
       showGlobalToast,
       user,
     } = get();
+
+    // Idempotency Guard: jika modal hasil duel atau turnamen sudah terbuka, jangan eksekusi ulang
+    if (isBattleResultOpen || isTournamentResultOpen) return;
+
+    // Hentikan timer duel seketika
+    set({ battleTimeLeft: 0 });
 
     if (activeCommunityMatchId && activeTournament) {
       const myId = user.id || 'player_local';
@@ -3249,6 +3287,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       }
 
       set({
+        battleTimeLeft: 0,
         activeTournament: fullyUpdatedTourney,
         trophies: nextTrophies,
         isTournamentResultOpen: true,
@@ -3303,6 +3342,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       }
 
       set({
+        battleTimeLeft: 0,
         tournamentState: nextState,
         trophies: nextTrophies,
         isTournamentResultOpen: true,
@@ -3315,6 +3355,7 @@ export const useGameStore = create<GameState>((set, get) => ({
           opponentScore: battleScores.partner,
         },
         battleWinner: playerWon ? 'local' : 'partner',
+        activeTournamentMatch: null,
       });
       return;
     }
@@ -3351,7 +3392,7 @@ export const useGameStore = create<GameState>((set, get) => ({
           haptic.levelComplete();
         }
         confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-        showGlobalToast(`🏆 Menang Duel! +${delta} ELO (${newElo} • ${tier.title}) & +30★!`, 4000);
+        showGlobalToast(`Menang Duel! +${delta} ELO (${newElo} • ${tier.title}) & +30★!`, 4000);
       } else if (nextRoundWins.partner > nextRoundWins.local) {
         overallWinner = 'partner';
         const { delta, newElo } = get().recordBattleEloOutcome(oppElo, false);
@@ -3373,6 +3414,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
 
     set({
+      battleTimeLeft: 0,
       battleRoundWins: nextRoundWins,
       battleWinner: overallWinner,
       isBattleResultOpen: true,
@@ -3395,6 +3437,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
 
     set({
+      gameMode: '1v1_battle',
       battleCurrentRound: nextRound,
       battleScores: { local: 0, partner: 0 },
       battleClueOwners: {},
@@ -3432,6 +3475,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
 
     set({
+      gameMode: '1v1_battle',
       battleCurrentRound: 1,
       battleRoundWins: { local: 0, partner: 0 },
       battleScores: { local: 0, partner: 0 },
@@ -3799,7 +3843,9 @@ export const useGameStore = create<GameState>((set, get) => ({
       const isFull = clue.cells.every(([cr, cc]) => !!newInputs[`${cr},${cc}`]);
       if (isFull) {
         const isCorrect = clue.cells.every(
-          ([cr, cc], i) => newInputs[`${cr},${cc}`] === clue.answer[i]
+          ([cr, cc], i) =>
+            (newInputs[`${cr},${cc}`] || '').trim().toUpperCase() ===
+            (clue.answer[i] || '').trim().toUpperCase()
         );
         if (isCorrect) {
           newlySolvedClues.push(clue.id);
@@ -3815,7 +3861,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
 
     const updatedSolved = [...solvedClues, ...newlySolvedClues];
-    const isLevelComplete = updatedSolved.length === allClues.length;
+    let isLevelComplete = updatedSolved.length === allClues.length;
     const addedStars = newlySolvedClues.length * 10;
     const updatedStars = stars + addedStars;
 
@@ -3935,7 +3981,9 @@ export const useGameStore = create<GameState>((set, get) => ({
           if (updatedSolved.includes(clue.id)) continue;
           clue.cells.forEach(([cr, cc], i) => {
             const ck = `${cr},${cc}`;
-            if (newInputs[ck] && newInputs[ck] !== clue.answer[i]) {
+            const inChar = (newInputs[ck] || '').trim().toUpperCase();
+            const ansChar = (clue.answer[i] || '').trim().toUpperCase();
+            if (inChar !== ansChar) {
               if (!allWrongCells.includes(ck)) allWrongCells.push(ck);
             }
           });
@@ -3954,6 +4002,26 @@ export const useGameStore = create<GameState>((set, get) => ({
             setTimeout(() => {
               set({ shakingCells: [], validationMessage: null });
             }, 2500);
+          }
+        } else {
+          // Seluruh petak terisi dan semuanya BENAR
+          allClues.forEach((clue) => {
+            if (!updatedSolved.includes(clue.id)) {
+              updatedSolved.push(clue.id);
+            }
+            clue.cells.forEach(([cr, cc]) => {
+              newLockedCells[`${cr},${cc}`] = true;
+            });
+          });
+          isLevelComplete = true;
+          if (get().gameMode === '1v1_battle') {
+            allClues.forEach((clue) => {
+              if (!get().battleClueOwners[clue.id]) {
+                get().claimBattleClue(clue.id, [clue.id], 'local');
+              }
+            });
+            get().finishBattleRound();
+            return;
           }
         }
       } else {
@@ -4318,6 +4386,30 @@ export const useGameStore = create<GameState>((set, get) => ({
         set({ shakingCells: [], validationMessage: null });
       }, 2500);
     } else {
+      // Periksa apakah papan sebenarnya sudah tuntas terisi dengan benar
+      const allTilesFilled = level.tiles.every((t) => !!userInputs[`${t.r},${t.c}`]);
+      let isAllCorrect = allTilesFilled;
+      if (allTilesFilled) {
+        for (const clue of allClues) {
+          const clueMatch = clue.cells.every(([cr, cc], i) => {
+            const inChar = (userInputs[`${cr},${cc}`] || '').trim().toUpperCase();
+            const ansChar = (clue.answer[i] || '').trim().toUpperCase();
+            return inChar === ansChar;
+          });
+          if (!clueMatch) {
+            isAllCorrect = false;
+            break;
+          }
+        }
+      }
+
+      if (isAllCorrect || (solvedClues.length >= allClues.length && allClues.length > 0)) {
+        if (get().gameMode === '1v1_battle') {
+          get().finishBattleRound();
+          return;
+        }
+      }
+
       set({
         validationMessage: 'Belum ada kata baru yang selesai diisi!',
       });

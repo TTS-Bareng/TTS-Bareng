@@ -43,14 +43,22 @@ export const ActiveGameResumeBanner: React.FC = () => {
 
   // Keep ticking battle timer in background when player is outside Game tab
   useEffect(() => {
-    if (!isBattle || isBattleResultOpen || isTournamentResultOpen || currentTab === 'game') return;
+    if (
+      !isBattle ||
+      isBattleResultOpen ||
+      isTournamentResultOpen ||
+      currentTab === 'game' ||
+      battleTimeLeft <= 0
+    ) {
+      return;
+    }
 
     const timer = setInterval(() => {
       tickBattleTimer();
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [isBattle, isBattleResultOpen, isTournamentResultOpen, currentTab, tickBattleTimer]);
+  }, [isBattle, isBattleResultOpen, isTournamentResultOpen, currentTab, battleTimeLeft, tickBattleTimer]);
 
   if (!hasActiveSession) return null;
 

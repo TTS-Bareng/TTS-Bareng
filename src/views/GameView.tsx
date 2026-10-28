@@ -24,17 +24,26 @@ export const GameView: React.FC = () => {
     gameMode,
     tickBattleTimer,
     isBattleResultOpen,
+    isTournamentResultOpen,
+    battleTimeLeft,
     partnerReconnecting,
   } = useGameStore();
 
   // 1v1 Battle countdown interval
   useEffect(() => {
-    if (gameMode !== '1v1_battle' || isBattleResultOpen) return;
+    if (
+      gameMode !== '1v1_battle' ||
+      isBattleResultOpen ||
+      isTournamentResultOpen ||
+      battleTimeLeft <= 0
+    ) {
+      return;
+    }
     const timer = setInterval(() => {
       tickBattleTimer();
     }, 1000);
     return () => clearInterval(timer);
-  }, [gameMode, isBattleResultOpen, tickBattleTimer]);
+  }, [gameMode, isBattleResultOpen, isTournamentResultOpen, battleTimeLeft, tickBattleTimer]);
 
   // Auto-focus first unsolved clue when entering game if none active
   useEffect(() => {

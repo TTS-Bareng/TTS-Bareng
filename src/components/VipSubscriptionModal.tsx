@@ -146,6 +146,7 @@ export const VipSubscriptionModal: React.FC = () => {
           isRestore: true,
         });
       } else if (res.success) {
+        setIsVip(false);
         showGlobalToast('Tidak ada langganan aktif yang ditemukan pada akun Apple ID ini.', 3500);
       } else {
         showGlobalToast(res.error || 'Gagal memulihkan pembelian.', 3500);

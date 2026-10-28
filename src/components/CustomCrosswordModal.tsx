@@ -59,8 +59,9 @@ export const CustomCrosswordModal: React.FC = () => {
       const res = await revenueCatService.restorePurchases();
       if (res.isVip) {
         setIsVip(true);
-        showGlobalToast('✨ Status VIP Anda berhasil dipulihkan dari Apple ID!', 4000);
+        showGlobalToast('Status VIP Anda berhasil dipulihkan dari Apple ID!', 4000);
       } else if (res.success) {
+        setIsVip(false);
         showGlobalToast('Tidak ada langganan VIP aktif pada akun Apple ini.', 3500);
       } else {
         showGlobalToast(res.error || 'Gagal memulihkan pembelian.', 3500);

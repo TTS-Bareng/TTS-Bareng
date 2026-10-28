@@ -376,8 +376,9 @@ export const SettingsView: React.FC = () => {
               const res = await revenueCatService.restorePurchases();
               if (res.isVip) {
                 setIsVip(true);
-                showToast("✨ Status VIP berhasil dipulihkan!");
+                showToast("Status VIP berhasil dipulihkan!");
               } else if (res.success) {
+                setIsVip(false);
                 showToast("Tidak ada pembelian aktif di Apple ID ini.");
               } else {
                 showToast(res.error || "Gagal memulihkan pembelian.");

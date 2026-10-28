@@ -85,9 +85,7 @@ class RevenueCatService {
       Purchases.addCustomerInfoUpdateListener(async (customerInfo) => {
         const isVip = Boolean(
           customerInfo.entitlements?.active &&
-          (customerInfo.entitlements.active[REVENUECAT_ENTITLEMENT_VIP] ||
-           customerInfo.entitlements.active['vip'] ||
-           customerInfo.entitlements.active['pro'])
+          customerInfo.entitlements.active[REVENUECAT_ENTITLEMENT_VIP]
         );
         try {
           const { useGameStore } = await import('../store/useGameStore');
@@ -269,9 +267,7 @@ class RevenueCatService {
 
       const hasVipEntitlement = Boolean(
         customerInfo.entitlements?.active &&
-        (customerInfo.entitlements.active[REVENUECAT_ENTITLEMENT_VIP] ||
-         customerInfo.entitlements.active['vip'] ||
-         customerInfo.entitlements.active['pro'])
+        customerInfo.entitlements.active[REVENUECAT_ENTITLEMENT_VIP]
       );
 
       return {
@@ -368,9 +364,7 @@ class RevenueCatService {
       const { customerInfo } = await Purchases.restorePurchases();
       const isVip = Boolean(
         customerInfo.entitlements?.active &&
-        (customerInfo.entitlements.active[REVENUECAT_ENTITLEMENT_VIP] ||
-         customerInfo.entitlements.active['vip'] ||
-         customerInfo.entitlements.active['pro'])
+        customerInfo.entitlements.active[REVENUECAT_ENTITLEMENT_VIP]
       );
 
       return {
@@ -398,9 +392,7 @@ class RevenueCatService {
       const { customerInfo } = await Purchases.getCustomerInfo();
       return Boolean(
         customerInfo.entitlements?.active &&
-        (customerInfo.entitlements.active[REVENUECAT_ENTITLEMENT_VIP] ||
-         customerInfo.entitlements.active['vip'] ||
-         customerInfo.entitlements.active['pro'])
+        customerInfo.entitlements.active[REVENUECAT_ENTITLEMENT_VIP]
       );
     } catch (err) {
       console.warn('[RevenueCat] checkVipStatus gagal:', err);
@@ -432,10 +424,7 @@ class RevenueCatService {
 
     try {
       const { customerInfo } = await Purchases.getCustomerInfo();
-      const entitlement =
-        customerInfo.entitlements?.active?.[REVENUECAT_ENTITLEMENT_VIP] ||
-        customerInfo.entitlements?.active?.['vip'] ||
-        customerInfo.entitlements?.active?.['pro'];
+      const entitlement = customerInfo.entitlements?.active?.[REVENUECAT_ENTITLEMENT_VIP];
 
       if (!entitlement) {
         return { isActive: false };
