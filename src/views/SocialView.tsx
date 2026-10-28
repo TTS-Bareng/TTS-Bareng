@@ -805,10 +805,10 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
           style={{
             background: 'var(--bg-gradient, var(--bg-app))',
           }}
-          className="fixed inset-0 z-50 flex flex-col justify-between items-center p-4 sm:p-6 overflow-y-auto select-none transition-colors duration-300"
+          className="fixed inset-0 z-50 flex flex-col justify-between items-center px-4 sm:px-6 pt-[max(24px,calc(16px+env(safe-area-inset-top)))] pb-[max(24px,calc(16px+env(safe-area-inset-bottom)))] overflow-y-auto select-none transition-colors duration-300"
         >
           {/* Top Brand Header & Close */}
-          <div className="w-full max-w-[360px] flex items-center justify-between shrink-0 pt-1 px-1">
+          <div className="w-full max-w-[360px] flex items-center justify-between shrink-0 px-1">
             {/* User Profile Pill with Theme Accent Gradient */}
             <div
               style={{ background: 'var(--accent-grad)' }}

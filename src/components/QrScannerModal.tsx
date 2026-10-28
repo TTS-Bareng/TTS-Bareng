@@ -268,9 +268,9 @@ export const QrScannerModal: React.FC<QrScannerModalProps> = ({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-[70] flex flex-col justify-between items-center p-4 sm:p-6 select-none bg-black/85 backdrop-blur-xl text-white transition-opacity duration-300">
+      <div className="fixed inset-0 z-[70] flex flex-col justify-between items-center px-4 sm:px-6 pt-[max(24px,calc(16px+env(safe-area-inset-top)))] pb-[max(24px,calc(16px+env(safe-area-inset-bottom)))] select-none bg-black/85 backdrop-blur-xl text-white transition-opacity duration-300">
         {/* Top Header Row with Theme Accent Styling */}
-        <div className="w-full max-w-[360px] flex items-center justify-between shrink-0 pt-2 px-1">
+        <div className="w-full max-w-[360px] flex items-center justify-between shrink-0 px-1">
           <div
             style={{ background: 'var(--accent-grad)' }}
             className="h-9 px-3.5 rounded-full text-white font-bold text-xs tracking-tight flex items-center gap-2 shadow-md border border-white/20 backdrop-blur-md"

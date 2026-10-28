@@ -373,7 +373,9 @@ export async function fetchPublicTournamentsFromDb(limit = 30): Promise<Communit
       .limit(limit);
 
     if (error || !data) return [];
-    return (data as unknown as DbTournamentRow[]).map(mapDbToTournament);
+    return (data as unknown as DbTournamentRow[])
+      .map(mapDbToTournament)
+      .filter((t) => !['Budi Santoso', 'Eko Lawang'].includes(t.hostName) && !t.id.startsWith('tourney_pub_'));
   } catch {
     return [];
   }

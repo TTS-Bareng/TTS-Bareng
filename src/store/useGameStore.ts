@@ -33,6 +33,7 @@ import {
   saveActiveCommunityTournament,
   loadPublicTournaments,
   savePublicTournaments,
+  sanitizePublicTournaments,
   type TournamentCupState,
   type TournamentMatch,
   type TournamentDuelist,
@@ -48,6 +49,12 @@ import { performGoogleSignOut } from '../lib/googleAuth';
 import { revenueCatService } from '../lib/revenueCatService';
 import { decodeCustomCrosswordParam } from '../lib/deeplink';
 import { generateCustomCrossword } from '../lib/customCrosswordGenerator';
+import {
+  type FriendRecord,
+  loadFriendsFromStorage,
+  saveFriendsToStorage,
+  fetchFriendProfileLive,
+} from '../lib/friends';
 
 export type TabType = 'home' | 'social' | 'game' | 'quests' | 'profile' | 'stats' | 'settings' | 'arena';
 
@@ -366,6 +373,17 @@ interface GameState {
   isPlayerIdModalOpen: boolean;
   openPlayerIdModal: () => void;
   closePlayerIdModal: () => void;
+
+  // Koleksi Teman (Friends List)
+  friends: FriendRecord[];
+  isAddFriendModalOpen: boolean;
+  openAddFriendModal: () => void;
+  closeAddFriendModal: () => void;
+  addFriend: (friend: FriendRecord) => boolean;
+  removeFriend: (friendId: string) => void;
+  refreshFriendsProfiles: () => Promise<void>;
+  inviteFriendToDuel: (friend: FriendRecord) => void;
+  inviteFriendToMabar: (friend: FriendRecord) => void;
 
   // Initial Auth & Onboarding Flow
   initialAuthStage: 'auth' | 'onboarding' | 'completed';
@@ -959,6 +977,71 @@ export const useGameStore = create<GameState>((set, get) => ({
   openPlayerIdModal: () => set({ isPlayerIdModalOpen: true }),
   closePlayerIdModal: () => set({ isPlayerIdModalOpen: false }),
 
+  // Koleksi Teman (Friends List)
+  friends: loadFriendsFromStorage(),
+  isAddFriendModalOpen: false,
+  openAddFriendModal: () => set({ isAddFriendModalOpen: true }),
+  closeAddFriendModal: () => set({ isAddFriendModalOpen: false }),
+
+  addFriend: (newFriend) => {
+    const { friends, showGlobalToast } = get();
+    if (friends.some((f) => f.id === newFriend.id)) {
+      showGlobalToast(`${newFriend.name} sudah ada di daftar teman`);
+      return false;
+    }
+    const updated = [newFriend, ...friends];
+    saveFriendsToStorage(updated);
+    set({ friends: updated });
+    showGlobalToast(`${newFriend.name} berhasil ditambahkan ke teman!`);
+    return true;
+  },
+
+  removeFriend: (friendId) => {
+    const { friends, showGlobalToast } = get();
+    const target = friends.find((f) => f.id === friendId);
+    const updated = friends.filter((f) => f.id !== friendId);
+    saveFriendsToStorage(updated);
+    set({ friends: updated });
+    showGlobalToast(`${target?.name || 'Teman'} dihapus dari daftar`);
+  },
+
+  refreshFriendsProfiles: async () => {
+    const { friends } = get();
+    if (friends.length === 0) return;
+    try {
+      const updated = await Promise.all(
+        friends.map(async (f) => {
+          const live = await fetchFriendProfileLive(f.id);
+          if (!live) return f;
+          return {
+            ...f,
+            name: live.name || f.name,
+            avatar: live.avatar || f.avatar,
+            eloRating: live.eloRating ?? f.eloRating,
+            stars: live.stars ?? f.stars,
+            isVip: live.isVip ?? f.isVip,
+          };
+        })
+      );
+      saveFriendsToStorage(updated);
+      set({ friends: updated });
+    } catch {
+      // ignore
+    }
+  },
+
+  inviteFriendToDuel: (friend) => {
+    const { openBattleLobby, showGlobalToast } = get();
+    openBattleLobby('speed_race');
+    showGlobalToast(`Membuka arena duel untuk menantang ${friend.name}!`, 3000);
+  },
+
+  inviteFriendToMabar: (friend) => {
+    const { setCurrentTab, showGlobalToast } = get();
+    setCurrentTab('social');
+    showGlobalToast(`Buka lobi mabar untuk bermain bareng ${friend.name}!`, 3000);
+  },
+
   initialAuthStage: getInitialAuthStage(),
   setInitialAuthStage: (stage) => set({ initialAuthStage: stage }),
   proceedToOnboarding: (userData) => {
@@ -1148,6 +1231,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       poppingCells: [],
       shakingCells: [],
       isPlayerIdModalOpen: false,
+      isAddFriendModalOpen: false,
       isVipModalOpen: false,
       isStoreKitModalOpen: false,
       storeKitModalData: null,
@@ -1624,6 +1708,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     mabarRealtime.leaveRoom();
     set({
       activeRoomCode: null,
+      gameMode: 'classic',
       mabarPeers: [],
       partnerCursor: null,
       partnerReconnecting: null,
@@ -1632,7 +1717,18 @@ export const useGameStore = create<GameState>((set, get) => ({
       activeReaction: null,
       nextLevelProposal: null,
       isWaitingForPartnerNextLevel: false,
+      userInputs: {},
+      lockedCells: {},
+      solvedClues: [],
+      activeClueId: null,
+      focusedCell: null,
     });
+    // Clean URL params if any room param exists
+    if (typeof window !== 'undefined' && window.location.search.includes('room=')) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('room');
+      window.history.replaceState({}, '', url.pathname + (url.search ? url.search : ''));
+    }
     get().showGlobalToast('Keluar dari sesi mabar');
   },
 
@@ -2379,15 +2475,13 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   refreshPublicTournamentsFromDb: async () => {
     const dbTourneys = await fetchPublicTournamentsFromDb();
-    if (dbTourneys.length > 0) {
-      const { publicTournaments } = get();
-      const map = new Map<string, CommunityTournament>();
-      publicTournaments.forEach((t) => map.set(t.id, t));
-      dbTourneys.forEach((t) => map.set(t.id, t));
-      const merged = Array.from(map.values());
-      savePublicTournaments(merged);
-      set({ publicTournaments: merged });
-    }
+    const { publicTournaments } = get();
+    const map = new Map<string, CommunityTournament>();
+    sanitizePublicTournaments(publicTournaments).forEach((t) => map.set(t.id, t));
+    sanitizePublicTournaments(dbTourneys).forEach((t) => map.set(t.id, t));
+    const merged = Array.from(map.values());
+    savePublicTournaments(merged);
+    set({ publicTournaments: merged });
   },
 
   createTournament: (

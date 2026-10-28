@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Star,
   Flame,
@@ -24,10 +24,14 @@ import {
   Share2,
   Trash2,
   FolderDown,
+  Users,
+  UserPlus,
+  Swords,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { getEloTier } from '../lib/eloSystem';
 import { getAvatarFrame } from '../lib/avatarFrames';
+import { formatPlayerCompactId } from '../lib/friends';
 
 interface CircularProgressProps {
   percent: number;
@@ -112,10 +116,21 @@ export const ProfileView: React.FC = () => {
     deleteUserCustomCrossword,
     playCustomCrossword,
     openConfirmDialog,
+    friends,
+    openAddFriendModal,
+    removeFriend,
+    refreshFriendsProfiles,
+    inviteFriendToDuel,
+    inviteFriendToMabar,
   } = useGameStore();
 
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [toastMessage] = useState<string | null>(null);
+
+  // Refresh friends profile stats on view mount
+  useEffect(() => {
+    refreshFriendsProfiles();
+  }, [refreshFriendsProfiles]);
 
   const isCustomImageAvatar = Boolean(
     user.avatar && (
@@ -1019,6 +1034,142 @@ export const ProfileView: React.FC = () => {
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Card: Koleksi Teman Mabar */}
+      <div className="w-full shrink-0 flex flex-col gap-2.5 relative z-10">
+        <div className="flex items-center justify-between px-1">
+          <div className="flex items-center gap-1.5">
+            <Users className="w-3.5 h-3.5 text-[var(--accent-main)]" />
+            <h4 className="text-[12px] font-black uppercase tracking-wider text-[var(--text-primary)]">
+              Koleksi Teman
+            </h4>
+            <span className="text-[8px] font-black px-1.5 py-0.2 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/20 text-[var(--accent-main)]">
+              {friends.length} TEMAN
+            </span>
+          </div>
+
+          <button
+            type="button"
+            onClick={openAddFriendModal}
+            className="text-[10px] font-bold text-[var(--accent-main)] hover:underline flex items-center gap-1 cursor-pointer"
+          >
+            <UserPlus className="w-3 h-3 stroke-[2.4]" />
+            <span>+ Tambah Teman</span>
+          </button>
+        </div>
+
+        {friends.length === 0 ? (
+          <div
+            onClick={openAddFriendModal}
+            className="w-full rounded-[22px] p-4 flex flex-col items-center justify-center text-center gap-2 border border-dashed border-[var(--accent-main)]/30 hover:border-[var(--accent-main)]/60 cursor-pointer tactile-active transition-all"
+            style={{
+              background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+            }}
+          >
+            <div className="w-10 h-10 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)] flex items-center justify-center">
+              <Users className="w-5 h-5 stroke-[2.2]" />
+            </div>
+            <div>
+              <p className="text-[12px] font-black text-[var(--text-primary)] leading-tight">
+                Belum Ada Teman Ditambahkan
+              </p>
+              <p className="text-[9.5px] text-[var(--text-secondary)] mt-0.5 max-w-[260px] leading-snug">
+                Pindai paspor kawan atau cari ID pemain untuk bermain bareng dan menantang duel 1v1!
+              </p>
+            </div>
+            <span className="mt-1 px-3 py-1 rounded-full text-[10px] font-black bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-xs">
+              + Cari & Tambah Teman
+            </span>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {friends.map((friend) => (
+              <div
+                key={friend.id}
+                className="rounded-[22px] p-3 border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden flex flex-col justify-between gap-2.5"
+                style={{
+                  background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+                }}
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div className="w-9 h-9 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center shrink-0 overflow-hidden shadow-2xs">
+                      {friend.avatar ? (
+                        <img
+                          src={friend.avatar}
+                          alt={friend.name}
+                          className="w-full h-full rounded-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-[12px] font-black text-[var(--accent-main)] uppercase">
+                          {friend.name.charAt(0)}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="flex flex-col min-w-0">
+                      <div className="flex items-center gap-1">
+                        <span className="text-[12px] font-black text-[var(--text-primary)] truncate">
+                          {friend.name}
+                        </span>
+                        {friend.isVip && (
+                          <Crown className="w-3 h-3 text-amber-500 fill-amber-500 shrink-0" />
+                        )}
+                      </div>
+                      <div className="flex items-center gap-1 mt-0.5">
+                        <span className="text-[8px] font-mono font-bold text-[var(--accent-main)]">
+                          {formatPlayerCompactId(friend.id)}
+                        </span>
+                        <span className="text-[7.5px] font-bold px-1.5 py-0.2 rounded-full bg-black/5 dark:bg-white/10 text-[var(--text-secondary)]">
+                          {friend.eloRating} ELO
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      openConfirmDialog({
+                        title: 'Hapus Teman?',
+                        message: `Apakah Anda yakin ingin menghapus "${friend.name}" dari koleksi teman?`,
+                        confirmLabel: 'Hapus',
+                        isDestructive: true,
+                        onConfirm: () => removeFriend(friend.id),
+                      });
+                    }}
+                    title="Hapus Teman"
+                    className="w-6 h-6 rounded-full flex items-center justify-center text-[var(--text-secondary)] hover:text-rose-500 hover:bg-rose-500/10 cursor-pointer tactile-active transition-colors shrink-0"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </button>
+                </div>
+
+                {/* Quick Actions: Ajak Duel & Ajak Mabar */}
+                <div className="grid grid-cols-2 gap-1.5 pt-1 border-t border-[var(--accent-main)]/10">
+                  <button
+                    type="button"
+                    onClick={() => inviteFriendToDuel(friend)}
+                    className="py-1.5 px-2 rounded-xl bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[9.5px] font-black flex items-center justify-center gap-1 cursor-pointer tactile-active shadow-2xs hover:opacity-95 transition-opacity"
+                  >
+                    <Swords className="w-3 h-3 stroke-[2.4]" />
+                    <span>Ajak Duel</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => inviteFriendToMabar(friend)}
+                    className="py-1.5 px-2 rounded-xl bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/15 text-[var(--text-primary)] text-[9.5px] font-bold flex items-center justify-center gap-1 cursor-pointer tactile-active hover:bg-black/10 transition-colors"
+                  >
+                    <Users className="w-3 h-3 stroke-[2.2]" />
+                    <span>Ajak Mabar</span>
+                  </button>
                 </div>
               </div>
             ))}

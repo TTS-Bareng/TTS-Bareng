@@ -49,6 +49,7 @@ const CancelSubscriptionModal = lazy(() => import('./components/CancelSubscripti
 const VipSuccessModal = lazy(() => import('./components/VipSuccessModal').then((m) => ({ default: m.VipSuccessModal })));
 const BattleResultModal = lazy(() => import('./components/BattleResultModal').then((m) => ({ default: m.BattleResultModal })));
 const BattleLobbyModal = lazy(() => import('./components/BattleLobbyModal').then((m) => ({ default: m.BattleLobbyModal })));
+const AddFriendModal = lazy(() => import('./components/AddFriendModal').then((m) => ({ default: m.AddFriendModal })));
 const ConfirmDialogModal = lazy(() => import('./components/ConfirmDialogModal').then((m) => ({ default: m.ConfirmDialogModal })));
 const InitialAuthView = lazy(() => import('./views/InitialAuthView').then((m) => ({ default: m.InitialAuthView })));
 const OnboardingView = lazy(() => import('./views/OnboardingView').then((m) => ({ default: m.OnboardingView })));
@@ -290,13 +291,6 @@ export const App: React.FC = () => {
       setCurrentTab('game');
       showGlobalToast(`Membuka Bab ${levelIndex + 1} dari Tautan Teman`, 3200);
       clearUrlParams();
-    } else {
-      // Check saved active room for automatic session restoration
-      const savedRoom = localStorage.getItem('tts_quest_active_room');
-      if (savedRoom) {
-        setActiveRoomCode(savedRoom);
-        showGlobalToast(`Menyambung kembali ke kamar: ${savedRoom}`, 2800);
-      }
     }
   }, [joinTournament, levels.length, openVipModal, playCustomCrossword, selectLevel, setActiveRoomCode, setCurrentTab, showGlobalToast]);
 
@@ -655,6 +649,7 @@ export const App: React.FC = () => {
         <CancelSubscriptionModal />
         <BattleResultModal />
         <BattleLobbyModal />
+        <AddFriendModal />
         <ConfirmDialogModal />
       </Suspense>
     </div>

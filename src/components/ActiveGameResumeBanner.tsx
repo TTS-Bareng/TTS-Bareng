@@ -22,6 +22,7 @@ export const ActiveGameResumeBanner: React.FC = () => {
     activeTournamentMatch,
     activeCommunityMatchId,
     leaveMabarSession,
+    restartLevel,
     showGlobalToast,
     openConfirmDialog,
   } = useGameStore();
@@ -104,7 +105,7 @@ export const ActiveGameResumeBanner: React.FC = () => {
         confirmLabel: 'Atur Ulang',
         isDestructive: true,
         onConfirm: () => {
-          useGameStore.setState({ userInputs: {}, solvedClues: [], lockedCells: {} });
+          restartLevel();
           showGlobalToast('Sesi bab direset');
         },
       });

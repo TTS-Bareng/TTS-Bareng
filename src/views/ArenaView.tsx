@@ -364,7 +364,7 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' | 'tournament'
 
   return (
     <div
-      className={`w-full flex-1 flex flex-col gap-3 px-3.5 pt-[max(18px,calc(10px+env(safe-area-inset-top)))] ${
+      className={`w-full flex-1 flex flex-col gap-3 px-3.5 pt-[max(22px,calc(14px+env(safe-area-inset-top)))] ${
         activeTournament
           ? 'pb-[max(24px,calc(16px+env(safe-area-inset-bottom)))]'
           : 'pb-[max(90px,calc(75px+env(safe-area-inset-bottom)))]'

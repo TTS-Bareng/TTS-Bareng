@@ -97,8 +97,23 @@ export function fillRemainingSlotsWithBots(tournament: CommunityTournament): Com
 }
 
 const STORAGE_KEY_ACTIVE_TOURNAMENT = 'tts_active_tournament_v2';
-const STORAGE_KEY_PUBLIC_TOURNAMENTS = 'tts_public_tournaments_v2';
+const STORAGE_KEY_PUBLIC_TOURNAMENTS = 'tts_public_tournaments_v3';
 const STORAGE_KEY_TROPHIES = 'tts_tournament_trophies_v1';
+
+/** Sanitizer to permanently filter out any legacy dummy tournaments */
+export function isDummyTournament(t: CommunityTournament): boolean {
+  if (!t) return true;
+  const host = (t.hostName || '').trim();
+  const id = (t.id || '').trim();
+  if (['Budi Santoso', 'Eko Lawang'].includes(host)) return true;
+  if (id.startsWith('tourney_pub_') || id.startsWith('tourney-dummy-')) return true;
+  return false;
+}
+
+export function sanitizePublicTournaments(list: CommunityTournament[]): CommunityTournament[] {
+  if (!Array.isArray(list)) return [];
+  return list.filter((t) => !isDummyTournament(t));
+}
 
 /** Generate random 4-digit tournament code: CUP-XXXX */
 export function generateTournamentCode(): string {
@@ -106,7 +121,7 @@ export function generateTournamentCode(): string {
   return `CUP-${digits}`;
 }
 
-/** Initial public tournaments when fresh */
+/** Initial public tournaments when fresh (Zero Dummy Data Rule) */
 export const DEFAULT_PUBLIC_TOURNAMENTS: CommunityTournament[] = [];
 
 /** Create a new community tournament instance */
@@ -700,8 +715,15 @@ export function saveActiveCommunityTournament(tournament: CommunityTournament | 
 /** Storage for Public Tournaments List */
 export function loadPublicTournaments(): CommunityTournament[] {
   try {
+    // Purge legacy storage keys that held dummy tournaments
+    localStorage.removeItem('tts_public_tournaments_v1');
+    localStorage.removeItem('tts_public_tournaments_v2');
+
     const raw = localStorage.getItem(STORAGE_KEY_PUBLIC_TOURNAMENTS);
-    if (raw) return JSON.parse(raw);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      return sanitizePublicTournaments(parsed);
+    }
   } catch {
     // ignore
   }
@@ -710,7 +732,8 @@ export function loadPublicTournaments(): CommunityTournament[] {
 
 export function savePublicTournaments(list: CommunityTournament[]): void {
   try {
-    localStorage.setItem(STORAGE_KEY_PUBLIC_TOURNAMENTS, JSON.stringify(list));
+    const cleanList = sanitizePublicTournaments(list);
+    localStorage.setItem(STORAGE_KEY_PUBLIC_TOURNAMENTS, JSON.stringify(cleanList));
   } catch {
     // ignore
   }

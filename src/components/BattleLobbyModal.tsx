@@ -147,7 +147,7 @@ export const BattleLobbyModal: React.FC = () => {
         <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none z-20" />
 
         {/* Top Header Bar */}
-        <header className="w-full shrink-0 flex flex-col gap-2.5 px-4 pt-[max(16px,calc(10px+env(safe-area-inset-top)))] pb-3 border-b border-black/5 dark:border-white/10 bg-[var(--bg-app)]/80 backdrop-blur-md z-20">
+        <header className="w-full shrink-0 flex flex-col gap-2.5 px-4 pt-[max(22px,calc(14px+env(safe-area-inset-top)))] pb-3 border-b border-black/5 dark:border-white/10 bg-[var(--bg-app)]/80 backdrop-blur-md z-20">
           <div className="flex items-center justify-between">
             <button
               type="button"
@@ -224,11 +224,11 @@ export const BattleLobbyModal: React.FC = () => {
           </div>
 
           {/* VS Card: Player 1 (Kamu) vs Player 2 (Lawan) */}
-          <div className="w-full rounded-[22px] p-3.5 liquid-glass-card border border-black/5 dark:border-white/10 flex items-center justify-between gap-2 relative overflow-hidden">
+          <div className="w-full rounded-[22px] p-3.5 liquid-glass-card border border-black/10 dark:border-white/10 flex items-center justify-between gap-2 relative overflow-hidden">
             {/* Player 1 (Local) */}
-            <div className="flex-1 flex flex-col items-center text-center gap-1 z-10">
+            <div className="flex-1 min-w-0 flex flex-col items-center text-center gap-1.5 z-10">
               <div
-                className="w-13 h-13 rounded-full overflow-hidden p-0.5 relative shadow-sm"
+                className="w-14 h-14 shrink-0 rounded-full overflow-hidden p-0.5 relative shadow-sm flex items-center justify-center"
                 style={{ background: palette.p1.grad }}
               >
                 <img
@@ -237,12 +237,12 @@ export const BattleLobbyModal: React.FC = () => {
                   className="w-full h-full object-cover rounded-full bg-white/20"
                 />
               </div>
-              <span className="text-[11px] font-black truncate max-w-[95px]">{user.name || 'Kamu'}</span>
-              <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-black/10 dark:bg-white/10 text-[var(--text-secondary)]">
+              <span className="text-[11.5px] font-black truncate max-w-full px-1">{user.name || 'Kamu'}</span>
+              <span className="text-[8px] font-black px-2 py-0.5 rounded-full bg-black/5 dark:bg-white/10 text-[var(--text-secondary)] border border-black/5 dark:border-white/10 truncate max-w-full">
                 {eloRating} ELO • {getEloTier(eloRating).title}
               </span>
               <span
-                className="text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shadow-2xs"
+                className="text-[8px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-2xs"
                 style={{ background: palette.p1.grad, color: palette.p1.text }}
               >
                 {palette.p1.name}
@@ -262,9 +262,9 @@ export const BattleLobbyModal: React.FC = () => {
             </div>
 
             {/* Player 2 (Opponent) */}
-            <div className="flex-1 flex flex-col items-center text-center gap-1 z-10">
+            <div className="flex-1 min-w-0 flex flex-col items-center text-center gap-1.5 z-10">
               <div
-                className="w-13 h-13 rounded-full overflow-hidden p-0.5 relative shadow-sm"
+                className="w-14 h-14 shrink-0 rounded-full overflow-hidden p-0.5 relative shadow-sm flex items-center justify-center"
                 style={{ background: isOpponentReady ? palette.p2.grad : 'rgba(128,128,128,0.25)' }}
               >
                 {partner?.avatar ? (
@@ -279,11 +279,11 @@ export const BattleLobbyModal: React.FC = () => {
                   </div>
                 )}
               </div>
-              <span className="text-[11px] font-black truncate max-w-[95px]">
+              <span className="text-[11.5px] font-black truncate max-w-full px-1">
                 {partner?.name || 'Menunggu Lawan'}
               </span>
               <span
-                className="text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shadow-2xs"
+                className="text-[8px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-2xs"
                 style={{
                   background: isOpponentReady ? palette.p2.grad : 'rgba(128,128,128,0.2)',
                   color: isOpponentReady ? palette.p2.text : 'var(--text-secondary)',
@@ -324,7 +324,7 @@ export const BattleLobbyModal: React.FC = () => {
                     className={`py-1.5 rounded-xl text-[10px] font-black cursor-pointer tactile-active transition-all border text-center ${
                       battleConfig.rounds === r
                         ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] border-[var(--accent-main)] shadow-xs'
-                        : 'bg-black/5 dark:bg-white/5 border-black/5 dark:border-white/10 text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                        : 'bg-black/5 dark:bg-white/10 border-black/10 dark:border-white/15 text-[var(--text-primary)] hover:bg-black/10 dark:hover:bg-white/15'
                     }`}
                   >
                     {r} Ronde
@@ -353,7 +353,7 @@ export const BattleLobbyModal: React.FC = () => {
                     className={`py-1.5 rounded-xl text-[10px] font-black cursor-pointer tactile-active transition-all border text-center ${
                       battleConfig.durationSeconds === d
                         ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] border-[var(--accent-main)] shadow-xs'
-                        : 'bg-black/5 dark:bg-white/5 border-black/5 dark:border-white/10 text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                        : 'bg-black/5 dark:bg-white/10 border-black/10 dark:border-white/15 text-[var(--text-primary)] hover:bg-black/10 dark:hover:bg-white/15'
                     }`}
                   >
                     {d}s {d === 60 ? 'Sprint' : d === 90 ? 'Standar' : 'Santai'}
@@ -382,7 +382,7 @@ export const BattleLobbyModal: React.FC = () => {
                     className={`py-1.5 rounded-xl text-[10px] font-black cursor-pointer tactile-active transition-all border text-center ${
                       battleConfig.wordCount === w
                         ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] border-[var(--accent-main)] shadow-xs'
-                        : 'bg-black/5 dark:bg-white/5 border-black/5 dark:border-white/10 text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                        : 'bg-black/5 dark:bg-white/10 border-black/10 dark:border-white/15 text-[var(--text-primary)] hover:bg-black/10 dark:hover:bg-white/15'
                     }`}
                   >
                     {w === 'short' ? 'Pendek' : w === 'medium' ? 'Sedang' : 'Panjang'}

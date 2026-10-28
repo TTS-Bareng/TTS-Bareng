@@ -28,10 +28,10 @@ export const ConfirmDialogModal: React.FC = () => {
         {/* Backdrop Blur */}
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.65 }}
+          animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={closeConfirmDialog}
-          className="absolute inset-0 bg-black/60 backdrop-blur-md"
+          className="absolute inset-0 bg-black/30 dark:bg-black/65 backdrop-blur-md"
         />
 
         {/* Modal Card Content (Apple Liquid Glass) */}
