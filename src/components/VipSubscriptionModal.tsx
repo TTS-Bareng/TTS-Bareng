@@ -461,8 +461,17 @@ export const VipSubscriptionModal: React.FC = () => {
                 onClick={() => openLegalModal('terms')}
                 className="hover:underline hover:text-[var(--text-primary)] cursor-pointer font-medium"
               >
-                Syarat & Ketentuan (EULA)
+                Syarat Layanan
               </button>
+              <span>•</span>
+              <a
+                href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:underline hover:text-[var(--text-primary)] cursor-pointer font-medium"
+              >
+                Apple EULA
+              </a>
               <span>•</span>
               <button
                 type="button"

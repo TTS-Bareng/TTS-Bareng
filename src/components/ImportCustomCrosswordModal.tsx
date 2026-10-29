@@ -199,6 +199,10 @@ export const ImportCustomCrosswordModal: React.FC = () => {
                 <Sparkles className="w-4 h-4 fill-current stroke-none" />
                 <span>Buka & Mainkan TTS</span>
               </button>
+
+              <p className="text-[8.5px] text-[var(--text-secondary)] text-center mt-1.5 leading-tight">
+                Sesuai Apple Guideline 1.2, jika TTS kawan memuat kata tidak pantas, Anda dapat menekan ikon bendera Lapor saat bermain untuk menghapus dan memblokirnya.
+              </p>
             </form>
           </motion.div>
         </div>

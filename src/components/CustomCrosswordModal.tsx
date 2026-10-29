@@ -152,6 +152,16 @@ export const CustomCrosswordModal: React.FC = () => {
 
   const handlePublishAndShare = () => {
     try {
+      // Apple Guideline 1.2: Check for forbidden/objectionable words in title, category, words, and clues
+      const FORBIDDEN_WORDS = ['anjing', 'bangsat', 'kontol', 'memek', 'ngentot', 'babi', 'jembut', 'itil', 'pepek', 'pantek', 'bajingan', 'kampret'];
+      const combinedText = [title, category, ...wordsList.map((w) => `${w.word} ${w.clue}`)].join(' ').toLowerCase();
+      const hasObjectionable = FORBIDDEN_WORDS.some((bad) => combinedText.includes(bad));
+      if (hasObjectionable) {
+        setErrorMsg('Terdapat kata yang dilarang sesuai Ketentuan Komunitas (Apple Guideline 1.2). Mohon perbaiki kata atau petunjuk.');
+        showGlobalToast('Kata terlarang terdeteksi. Harap gunakan kata yang sopan.', 3500);
+        return;
+      }
+
       const generated = previewLevel || generateCustomCrossword(title || 'TTS Karyaku', category, wordsList);
 
       // Only consume creation ticket for brand new crosswords (editing own existing crossword is free)
@@ -653,9 +663,22 @@ export const CustomCrosswordModal: React.FC = () => {
         {/* Sticky Minimalist Bottom Action Bar (Opaque & Elevated) */}
         {hasAccess && (
           <div
-            className="sticky bottom-0 inset-x-0 px-3.5 sm:px-4 pt-3.5 pb-[max(16px,calc(10px+env(safe-area-inset-bottom)))] border-t border-black/5 dark:border-white/10 z-30 shadow-lg"
+            className="sticky bottom-0 inset-x-0 px-3.5 sm:px-4 pt-2.5 pb-[max(16px,calc(10px+env(safe-area-inset-bottom)))] border-t border-black/5 dark:border-white/10 z-30 shadow-lg flex flex-col gap-2"
             style={{ backgroundColor: 'var(--bg-card)' }}
           >
+            {/* Apple Guideline 1.2 UGC Disclosure */}
+            <p className="text-[9px] text-[var(--text-secondary)] text-center leading-tight">
+              Dengan mempublikasikan, Anda menyetujui{' '}
+              <button
+                type="button"
+                onClick={() => openLegalModal('terms')}
+                className="text-[var(--accent-main)] underline font-bold cursor-pointer"
+              >
+                Ketentuan Layanan
+              </button>
+              : dilarang memuat kata kasar, SARA, atau konten terlarang.
+            </p>
+
             <div className="w-full max-w-md sm:max-w-xl mx-auto flex items-center gap-2.5">
               <button
                 type="button"
@@ -672,7 +695,7 @@ export const CustomCrosswordModal: React.FC = () => {
                 className="flex-1 py-3 px-4 rounded-2xl font-black text-[12.5px] cursor-pointer tactile-active shadow-md flex items-center justify-center gap-2 border border-white/20 transition-all whitespace-nowrap overflow-hidden"
                 style={{ background: 'var(--accent-grad)', color: 'var(--accent-contrast)' }}
               >
-                <Share2 className="w-4 h-4 stroke-[2.2] shrink-0" />
+                <Share2 className="w-4 h-4 stroke-[2.2]" />
                 <span className="whitespace-nowrap">Publikasikan TTS</span>
               </button>
             </div>

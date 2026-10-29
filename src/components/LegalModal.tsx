@@ -229,6 +229,41 @@ export const LegalModal: React.FC = () => {
                       Fitur solo dan glosarium kosakata dapat dimainkan secara penuh tanpa koneksi internet (100% offline). Layanan multiplayer online disediakan atas dasar ketersediaan jaringan peramban.
                     </p>
                   </div>
+
+                  <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10">
+                    <h4 className="font-black text-[11.5px] text-[var(--text-primary)] mb-1">
+                      4. Konten Buatan Pengguna (UGC) & Nol Toleransi (Apple Guideline 1.2)
+                    </h4>
+                    <p className="text-[10px]">
+                      Aplikasi menerapkan kebijakan nol toleransi (zero tolerance) terhadap konten yang memuat kata kasar, pornografi, ujaran kebencian, pelecehan, atau konten ilegal dalam Studio Kreator (TTS Kustom). Pengguna dapat langsung melaporkan dan memblokir konten yang melanggar melalui tombol Lapor di dalam permainan. Pengguna yang melanggar akan diblokir dari fitur kreasi.
+                    </p>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10">
+                    <h4 className="font-black text-[11.5px] text-[var(--text-primary)] mb-1">
+                      5. Ketentuan Pembelian & Apple Standard EULA (Guideline 3.1.2)
+                    </h4>
+                    <p className="text-[10px]">
+                      Seluruh transaksi In-App Purchase dan langganan diperpanjang otomatis diatur berdasarkan Perjanjian Lisensi Standar Pengguna Akhir Apple. Anda dapat membaca ketentuan selengkapnya di{' '}
+                      <a
+                        href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-[var(--accent-main)] underline font-bold"
+                      >
+                        Apple Standard EULA
+                      </a>{' '}
+                      dan versi web resmi di{' '}
+                      <a
+                        href="https://tts-bareng-web.akashaaa-id.workers.dev/terms"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-[var(--accent-main)] underline font-bold"
+                      >
+                        Ketentuan Web TTS Bareng
+                      </a>.
+                    </p>
+                  </div>
                 </div>
               </div>
             )}

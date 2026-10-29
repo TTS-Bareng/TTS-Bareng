@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Settings, Star, Clock, ChevronDown, Zap, LogOut, Swords, Shield, Trophy } from 'lucide-react';
+import { ArrowLeft, Settings, Star, Clock, ChevronDown, Zap, LogOut, Swords, Shield, Trophy, Flag } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { getBattlePalette } from '../lib/battlePalette';
 
@@ -33,6 +33,8 @@ export const Header: React.FC = () => {
     activeCommunityMatchId,
     theme,
     openConfirmDialog,
+    deleteUserCustomCrossword,
+    showGlobalToast,
   } = useGameStore();
 
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
@@ -79,6 +81,24 @@ export const Header: React.FC = () => {
     : null;
   const partnerPeer = mabarPeers.find((p) => p.name !== user.name);
   const partnerName = communityOpponent?.name || tournamentOpponent?.name || partnerPeer?.name || 'Lawan';
+
+  const isCustomCrossword = currentLevelIndex < 0 || Boolean(level?.id && level.id.startsWith('custom_'));
+
+  const handleReportCustomCrossword = () => {
+    openConfirmDialog({
+      title: 'Laporkan & Blokir TTS Ini?',
+      message: 'Apakah teka-teki silang kustom ini memuat kata kasar, SARA, atau konten tidak pantas? TTS ini akan dilaporkan dan seketika dihapus dari perangkat Anda sesuai Ketentuan Komunitas (Apple Guideline 1.2).',
+      confirmLabel: 'Laporkan & Hapus',
+      isDestructive: true,
+      onConfirm: () => {
+        if (level?.id) {
+          deleteUserCustomCrossword(level.id);
+        }
+        showGlobalToast('Terima kasih. Laporan telah dicatat dan TTS telah dihapus dari perangkat.', 3500);
+        setCurrentTab('profile');
+      },
+    });
+  };
 
   return (
     <header className="w-full px-3.5 pt-[max(16px,calc(10px+env(safe-area-inset-top)))] pb-1.5 flex flex-col gap-1.5 select-none shrink-0 z-20">
@@ -283,8 +303,20 @@ export const Header: React.FC = () => {
           </motion.button>
         )}
 
-        {/* Right: Exit Mabar / Star Capsule / Settings */}
+        {/* Right: Exit Mabar / Report Custom Crossword / Star Capsule / Settings */}
         <div className="flex items-center gap-1.5">
+          {isCustomCrossword && (
+            <button
+              type="button"
+              onClick={handleReportCustomCrossword}
+              aria-label="Laporkan TTS Kustom"
+              title="Laporkan Konten / Kata Kasar (Apple Guideline 1.2)"
+              className="w-8 h-8 rounded-full flex items-center justify-center liquid-glass-card border border-rose-500/25 text-rose-500 hover:bg-rose-500/10 cursor-pointer tactile-active shadow-xs"
+            >
+              <Flag className="w-3.5 h-3.5 stroke-[2.2]" />
+            </button>
+          )}
+
           {activeRoomCode && (
             <button
               type="button"

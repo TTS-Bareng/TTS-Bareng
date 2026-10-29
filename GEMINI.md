@@ -1,7 +1,7 @@
 # TTS Bareng (Teka Teki Silang) — Project Architecture & Strict Rules
 
 > **Engram Project Name**: `tts-bareng`  
-> **Versi Rilis Stabil**: `v1.0.56`  
+> **Versi Rilis Stabil**: `v1.0.57`  
 > Saat memanggil tool MCP Engram (`mem_context`, `mem_search`, `mem_save`, `mem_session_summary`), **wajib** sertakan `project: "tts-bareng"`.
 
 ---
