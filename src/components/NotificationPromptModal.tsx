@@ -28,7 +28,7 @@ export const NotificationPromptModal: React.FC = () => {
     if (granted) {
       setNotificationsEnabled(true);
       await notificationService.scheduleDailyRetention(streak);
-      showGlobalToast('🔔 Pengingat aktif! Streak dan Daily Rush kamu aman.', 3000);
+      showGlobalToast('Pengingat aktif! Streak dan Daily Rush kamu aman.', 3000);
     } else {
       showGlobalToast('Izin notifikasi tidak diberikan.', 2500);
     }

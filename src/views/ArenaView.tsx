@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   Compass,
@@ -321,6 +321,13 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' | 'tournament'
 
   const currentLevel = levels[currentLevelIndex] || levels[0];
   const activeRealm = getRealmForLevel(currentLevel);
+  const realmLevelsMap = useMemo(() => {
+    const map: Record<string, ReturnType<typeof getLevelsByRealm>> = {};
+    for (const r of REALMS) {
+      map[r.id] = getLevelsByRealm(r.id, levels);
+    }
+    return map;
+  }, [levels]);
 
   // Accordion state: default expands the realm containing the current active level
   const [expandedRealmId, setExpandedRealmId] = useState<string | null>(activeRealm.id);
@@ -598,7 +605,7 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' | 'tournament'
             {/* List of 30 Themes */}
             <div className="space-y-2.5">
               {REALMS.map((realm: RealmDefinition, realmIdx: number) => {
-                const realmLevels = getLevelsByRealm(realm.id, levels);
+                const realmLevels = realmLevelsMap[realm.id] || [];
                 const isExpanded = expandedRealmId === realm.id;
                 const RealmIconComponent = REALM_ICONS[realm.id] || Compass;
 

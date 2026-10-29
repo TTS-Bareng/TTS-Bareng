@@ -234,6 +234,7 @@ export const HomeView: React.FC = () => {
     if (!isWordRewardClaimed) {
       setIsWordRewardClaimed(true);
       localStorage.setItem(wordStorageKey, 'true');
+      localStorage.setItem(`tts_quest_daily_word_done_${new Date().toISOString().slice(0, 10)}`, 'true');
       addStars(5);
       confetti({
         particleCount: 35,
@@ -488,7 +489,7 @@ export const HomeView: React.FC = () => {
               </span>
             </div>
             <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)]">
-              🏆 PIALA
+              PIALA
             </span>
           </div>
 
@@ -537,7 +538,7 @@ export const HomeView: React.FC = () => {
               </span>
             </div>
             <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)] shrink-0">
-              {streak > 0 ? '✓ AKTIF' : 'PADAM'}
+              {streak > 0 ? 'AKTIF' : 'PADAM'}
             </span>
           </div>
 
@@ -629,7 +630,7 @@ export const HomeView: React.FC = () => {
           </div>
           {!isWordRewardClaimed && (
             <span className="text-[8.5px] font-black px-2 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)]">
-              +5 ★ Bintang
+              +5 Bintang
             </span>
           )}
         </div>

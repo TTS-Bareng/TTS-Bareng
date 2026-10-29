@@ -189,7 +189,7 @@ export const TournamentHubView: React.FC = () => {
     if (!activeTournament) return;
     const inviteLink = createTournamentDeepLink(activeTournament.code);
     const text =
-      `🏆 Ayo tanding di Turnamen TTS Bareng!\n\n` +
+      `Ayo tanding di Turnamen TTS Bareng!\n\n` +
       `Kamar: *${activeTournament.name}*\n` +
       `Kode PIN: *${activeTournament.code}*\n` +
       `Format: *${activeTournament.maxPlayers} Pemain (Sistem Gugur)*\n\n` +
@@ -360,7 +360,7 @@ export const TournamentHubView: React.FC = () => {
                         : isBot
                         ? 'Jawara Bot'
                         : isOnline
-                        ? '🟢 Online'
+                        ? 'Online'
                         : 'Peserta Siap'}
                     </span>
                   </div>
@@ -399,7 +399,7 @@ export const TournamentHubView: React.FC = () => {
               className="w-full py-2.5 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)] text-[11.5px] font-black flex items-center justify-center gap-1.5 cursor-pointer tactile-active hover:opacity-90 transition-opacity"
             >
               <Zap className="w-3.5 h-3.5 fill-current" />
-              <span>⚡ Lengkapi Slot dengan Jawara TTS (Mulai Cepat)</span>
+              <span>Lengkapi Slot dengan Jawara TTS (Mulai Cepat)</span>
             </button>
           )}
 
@@ -430,7 +430,7 @@ export const TournamentHubView: React.FC = () => {
           <button
             type="button"
             onClick={leaveTournament}
-            className="w-full py-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-[var(--border-card)] text-[var(--text-secondary)] hover:text-red-500 hover:border-red-500/30 text-[11.5px] font-bold flex items-center justify-center gap-1.5 cursor-pointer tactile-active transition-colors"
+            className="w-full py-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-[var(--border-card)] text-[var(--text-secondary)] hover:text-[var(--accent-main)] hover:border-[var(--accent-main)]/35 text-[11.5px] font-bold flex items-center justify-center gap-1.5 cursor-pointer tactile-active transition-colors"
           >
             <LogOut className="w-3.5 h-3.5" />
             <span>{isHost ? 'Batalkan Turnamen' : 'Tinggalkan Kamar'}</span>
@@ -625,12 +625,12 @@ export const TournamentHubView: React.FC = () => {
                 </button>
                 {!isOpponentOnline && (
                   <div className="flex flex-col gap-1.5 w-full">
-                    <div className="w-full py-2 px-3 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between text-[11px] font-bold text-amber-500">
+                    <div className="w-full py-2 px-3 rounded-xl bg-[var(--accent-light)] border border-[var(--accent-main)]/30 flex items-center justify-between text-[11px] font-bold text-[var(--accent-main)]">
                       <span className="flex items-center gap-1.5">
                         <Clock className="w-3.5 h-3.5 animate-spin" />
                         <span>Menunggu Lawan Hadir...</span>
                       </span>
-                      <span className="font-black px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-500">
+                      <span className="font-black px-2 py-0.5 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)]">
                         Auto W.O. ({readyCountdown}s)
                       </span>
                     </div>
@@ -656,14 +656,14 @@ export const TournamentHubView: React.FC = () => {
         {/* Spotlight Card: User Eliminated (Auto-resolve remaining matches) */}
         {!myActiveMatch && isEliminated && (
           <div
-            className="w-full rounded-[24px] p-4 relative z-10 overflow-hidden border border-red-500/30 shadow-md flex flex-col gap-2.5"
+            className="w-full rounded-[24px] p-4 relative z-10 overflow-hidden border border-[var(--accent-main)]/30 shadow-md flex flex-col gap-2.5"
             style={{
               background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
             }}
           >
             <div className="absolute top-0 inset-x-0 h-px bg-white/30 pointer-events-none" />
             <div className="flex items-center justify-between relative z-10">
-              <span className="text-[9px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-500 border border-red-500/30 inline-flex items-center gap-1.5">
+              <span className="text-[9px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/30 inline-flex items-center gap-1.5">
                 <span>STATUS: TERELIMINASI</span>
               </span>
               <span className="text-[10px] font-bold text-[var(--text-secondary)]">
@@ -760,7 +760,7 @@ export const TournamentHubView: React.FC = () => {
                     )}
                   </div>
                   <span className="text-[9.5px] font-bold text-[var(--text-secondary)]">
-                    {isCompleted ? '✓ Selesai' : `${match.durationSeconds} Detik`}
+                    {isCompleted ? 'Selesai' : `${match.durationSeconds} Detik`}
                   </span>
                 </div>
 
@@ -824,7 +824,7 @@ export const TournamentHubView: React.FC = () => {
         <button
           type="button"
           onClick={leaveTournament}
-          className="w-full py-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-[var(--border-card)] text-[var(--text-secondary)] hover:text-red-500 text-[11.5px] font-bold flex items-center justify-center gap-1.5 cursor-pointer tactile-active transition-colors mt-1"
+          className="w-full py-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-[var(--border-card)] text-[var(--text-secondary)] hover:text-[var(--accent-main)] text-[11.5px] font-bold flex items-center justify-center gap-1.5 cursor-pointer tactile-active transition-colors mt-1"
         >
           <LogOut className="w-3.5 h-3.5" />
           <span>Tinggalkan Turnamen</span>
@@ -864,25 +864,25 @@ export const TournamentHubView: React.FC = () => {
           <div className="w-full grid grid-cols-2 gap-2 mt-2">
             {/* 1st Place */}
             <div className="p-3 rounded-2xl bg-white/15 border border-white/25 flex flex-col items-center text-center">
-              <span className="text-[18px] mb-1">🥇</span>
+              <Trophy className="w-5 h-5 text-white mb-1 stroke-[2.2]" />
               <span className="text-[9px] font-bold text-white/80 uppercase">JUARA 1</span>
               <span className="text-[13px] font-black text-white truncate max-w-full">
                 {activeTournament.champion?.name || 'Pemenang'}
               </span>
               <span className="text-[10px] font-bold text-white/90 mt-1">
-                +200 ★ & Trofi Emas
+                +200 Bintang & Trofi Emas
               </span>
             </div>
 
             {/* 2nd Place */}
             <div className="p-3 rounded-2xl bg-white/10 border border-white/20 flex flex-col items-center text-center">
-              <span className="text-[18px] mb-1">🥈</span>
+              <Medal className="w-5 h-5 text-white mb-1 stroke-[2.2]" />
               <span className="text-[9px] font-bold text-white/80 uppercase">RUNNER UP</span>
               <span className="text-[13px] font-black text-white truncate max-w-full">
                 {activeTournament.runnerUp?.name || 'Runner Up'}
               </span>
               <span className="text-[10px] font-bold text-white/90 mt-1">
-                +100 ★ & Trofi Perak
+                +100 Bintang & Trofi Perak
               </span>
             </div>
           </div>
@@ -957,7 +957,7 @@ export const TournamentHubView: React.FC = () => {
                   Emas
                 </span>
                 <span className="text-[12.5px] font-black text-white leading-none">
-                  {trophies.gold} 🏆
+                  {trophies.gold}
                 </span>
               </div>
             </div>
@@ -971,7 +971,7 @@ export const TournamentHubView: React.FC = () => {
                   Perak
                 </span>
                 <span className="text-[12.5px] font-black text-white leading-none">
-                  {trophies.silver} 🥈
+                  {trophies.silver}
                 </span>
               </div>
             </div>
@@ -985,7 +985,7 @@ export const TournamentHubView: React.FC = () => {
                   Perunggu
                 </span>
                 <span className="text-[12.5px] font-black text-white leading-none">
-                  {trophies.bronze} 🥉
+                  {trophies.bronze}
                 </span>
               </div>
             </div>
@@ -1200,7 +1200,7 @@ export const TournamentHubView: React.FC = () => {
             <div className="p-2.5 rounded-2xl bg-[var(--accent-light)]/40 border border-[var(--accent-main)]/20 flex flex-col items-center text-center">
               <Sparkles className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2] mb-1" />
               <span className="text-[11px] font-black text-[var(--text-primary)]">
-                +200 ★
+                +200 Bintang
               </span>
               <span className="text-[8px] text-[var(--text-secondary)] mt-0.5">
                 Hadiah Juara

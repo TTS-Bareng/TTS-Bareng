@@ -1,3 +1,4 @@
+import { Capacitor } from '@capacitor/core';
 import { MASCOTS } from '../assets/maskots';
 
 let deferredPrompt: BeforeInstallPromptEvent | null = null;
@@ -16,7 +17,7 @@ interface BeforeInstallPromptEvent extends Event {
  * Register Service Worker for offline PWA operation
  */
 export function registerServiceWorker(): void {
-  if (typeof window === 'undefined' || !('serviceWorker' in navigator)) {
+  if (typeof window === 'undefined' || Capacitor.isNativePlatform() || !('serviceWorker' in navigator)) {
     return;
   }
 

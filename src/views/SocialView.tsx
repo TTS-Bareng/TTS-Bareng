@@ -354,7 +354,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
                   type="button"
                   onClick={handleLeaveRoom}
                   title="Keluar dari Kamar"
-                  className="p-1.5 rounded-full bg-rose-500/40 hover:bg-rose-500/60 text-white cursor-pointer tactile-active transition-colors shrink-0"
+                  className="p-1.5 rounded-full bg-black/25 hover:bg-black/40 text-white cursor-pointer tactile-active transition-colors shrink-0"
                 >
                   <LogOut className="w-3 h-3 stroke-[2.2]" />
                 </button>
@@ -432,7 +432,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
                 <button
                   type="button"
                   onClick={handleLeaveRoom}
-                  className="py-1.5 px-2.5 rounded-full bg-rose-500/30 hover:bg-rose-500/50 text-white border border-rose-400/40 text-[10.5px] font-black inline-flex items-center gap-1 cursor-pointer tactile-active transition-colors"
+                  className="py-1.5 px-2.5 rounded-full bg-black/25 hover:bg-black/25 text-white border border-white/25 text-[10.5px] font-black inline-flex items-center gap-1 cursor-pointer tactile-active transition-colors"
                 >
                   <LogOut className="w-3 h-3 stroke-[2.2]" />
                   <span>Keluar</span>
@@ -538,7 +538,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
                   MISI KOLABORASI
                 </span>
                 <span className="text-[8px] font-black px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)] ml-auto">
-                  +30 ★
+                  +30 Pts
                 </span>
               </div>
               <h4 className="text-[15px] font-black text-[var(--text-primary)] tracking-tight leading-tight mb-1 max-w-[75%]">
@@ -648,7 +648,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
                 Paket Pemula Sachet
               </span>
               <span className="text-[8.5px] text-[var(--text-secondary)] leading-tight">
-                150★ + 3 Streak + 1 Tiket TTS
+                150 Bintang + 3 Streak + 1 Tiket TTS
               </span>
             </button>
           </div>
@@ -853,7 +853,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
               <div className="p-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 flex flex-col items-center text-center">
                 <Star className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2] mb-1" />
                 <span className="text-[11px] font-black text-[var(--text-primary)]">
-                  +25 ★
+                  +25 Pts
                 </span>
                 <span className="text-[8px] text-[var(--text-secondary)] mt-0.5">
                   Hadiah Menang
@@ -905,14 +905,14 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
           <div className="relative w-full max-w-[340px] rounded-[34px] shadow-2xl overflow-visible my-auto py-2">
             {/* Floating Avatar Sticker 1: Top Right (DIPERBESAR) */}
             <div className="absolute -top-4 -right-3 z-30 flex items-center gap-2 pointer-events-none">
-              <div className="px-3 py-1 rounded-full bg-white text-slate-900 font-black text-[10.5px] shadow-lg border border-slate-200/90 tracking-tight">
+              <div className="px-3 py-1 rounded-full bg-[var(--bg-card)] text-[var(--text-primary)] font-black text-[10.5px] shadow-lg border border-black/10 dark:border-white/15/90 tracking-tight">
                 Ayo mabar!
               </div>
               <div className="w-12 h-12 rounded-full bg-white p-0.5 shadow-xl shrink-0 border-2 border-white">
                 <img
                   src={MASCOTS.cheerfulBookBoy}
                   alt="Avatar Teman"
-                  className="w-full h-full rounded-full object-cover bg-amber-50"
+                  className="w-full h-full rounded-full object-cover bg-[var(--accent-light)]"
                 />
               </div>
             </div>
@@ -975,18 +975,18 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
                 <img
                   src={MASCOTS.crosswordGirl}
                   alt="Avatar Pemain"
-                  className="w-full h-full rounded-full object-cover bg-rose-50"
+                  className="w-full h-full rounded-full object-cover bg-[var(--accent-light)]"
                 />
               </div>
-              <div className="px-3 py-1 rounded-full bg-white text-slate-900 font-black text-[10.5px] shadow-lg border border-slate-200/90 tracking-tight">
+              <div className="px-3 py-1 rounded-full bg-[var(--bg-card)] text-[var(--text-primary)] font-black text-[10.5px] shadow-lg border border-black/10 dark:border-white/15/90 tracking-tight">
                 Nungguin kamu nih
               </div>
             </div>
 
             {/* White Ticket Base / QR Stub Sliding Out (DIPANJANGIN LAGI) */}
-            <div className="w-full bg-white rounded-b-[34px] p-7 pt-5 pb-12 flex flex-col items-center text-center shadow-lg border-t border-slate-100">
+            <div className="w-full bg-[var(--bg-card)] text-[var(--text-primary)] rounded-b-[34px] p-7 pt-5 pb-12 flex flex-col items-center text-center shadow-lg border-t border-black/10 dark:border-white/10">
               {/* Real Scannable QR Code Frame */}
-              <div className="p-3.5 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 shadow-xs flex flex-col items-center my-2">
+              <div className="p-3.5 rounded-2xl bg-white border border-black/10 shadow-xs flex flex-col items-center my-2">
                 {qrCodeDataUrl ? (
                   <img
                     src={qrCodeDataUrl}
@@ -994,20 +994,20 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
                     className="w-40 h-40 rounded-xl object-contain"
                   />
                 ) : (
-                  <div className="w-40 h-40 flex items-center justify-center text-xs text-slate-400">
+                  <div className="w-40 h-40 flex items-center justify-center text-xs text-[var(--text-secondary)]">
                     Membuat QR...
                   </div>
                 )}
-                <span className="text-[14px] font-black tracking-widest text-slate-900 mt-2.5 font-mono">
+                <span className="text-[14px] font-black tracking-widest text-[var(--text-primary)] mt-2.5 font-mono">
                   PIN: {roomCode.split('').join(' ')}
                 </span>
               </div>
 
               {/* Host Subtitle */}
-              <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mt-3.5">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-secondary)] mt-3.5">
                 MABAR DENGAN
               </div>
-              <div className="text-[14px] font-black text-slate-900 mt-0.5 tracking-tight truncate max-w-[250px]">
+              <div className="text-[14px] font-black text-[var(--text-primary)] mt-0.5 tracking-tight truncate max-w-[250px]">
                 {user?.name ? `${user.name.toUpperCase()} & TEMAN-TEMAN` : 'JAWARA & TEMAN-TEMAN'}
               </div>
             </div>

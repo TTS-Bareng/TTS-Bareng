@@ -135,7 +135,6 @@ export const ProfileView: React.FC = () => {
   } = useGameStore();
 
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
-  const [toastMessage] = useState<string | null>(null);
   const [pendingRequests, setPendingRequests] = useState<FriendRequest[]>([]);
   const [, setIsLoadingRequests] = useState(false);
   const [processingRequestId, setProcessingRequestId] = useState<string | null>(null);
@@ -351,7 +350,7 @@ export const ProfileView: React.FC = () => {
         percent: Math.min(100, Math.round((stars / 150) * 100)),
         rewardStars: 25,
         unlocked: stars >= 150,
-        progress: `${Math.min(stars, 150)}/150★`,
+        progress: `${Math.min(stars, 150)}/150 Pts`,
       },
       {
         id: 'star_master_500',
@@ -362,7 +361,7 @@ export const ProfileView: React.FC = () => {
         percent: Math.min(100, Math.round((stars / 500) * 100)),
         rewardStars: 25,
         unlocked: stars >= 500,
-        progress: `${Math.min(stars, 500)}/500★`,
+        progress: `${Math.min(stars, 500)}/500 Pts`,
       },
       {
         id: 'all_chapters',
@@ -465,7 +464,7 @@ export const ProfileView: React.FC = () => {
         <div className="flex items-center justify-between relative z-10">
           <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/20 dark:bg-black/30 backdrop-blur-md border border-white/20 text-white shadow-xs">
             <span
-              className={`w-1.5 h-1.5 rounded-full ${user.isGuest ? 'bg-amber-300' : 'bg-emerald-300'} animate-pulse`}
+              className={`w-1.5 h-1.5 rounded-full ${user.isGuest ? 'bg-white/60' : 'bg-white'} animate-pulse`}
             />
             <span className="text-[9px] font-black uppercase tracking-wider">
               PASPOR • {user.isGuest ? 'TAMU' : 'TERVERIFIKASI'}
@@ -568,7 +567,7 @@ export const ProfileView: React.FC = () => {
           <div className="py-1.5 px-2 rounded-xl bg-black/15 dark:bg-black/25 backdrop-blur-md border border-white/15 flex items-center justify-center gap-1.5">
             <Star className="w-3.5 h-3.5 fill-current text-white/90" />
             <span className="text-[11px] font-black text-white leading-none">
-              {stars} <span className="text-[9px] font-semibold text-white/75">★</span>
+              {stars} <span className="text-[9px] font-semibold text-white/75">Pts</span>
             </span>
           </div>
 
@@ -810,7 +809,7 @@ export const ProfileView: React.FC = () => {
                   }`}
                   title="Slot Perisai 1"
                 >
-                  {streakShields >= 1 ? '✓' : '+'}
+                  {streakShields >= 1 ? 'ON' : '+'}
                 </div>
                 <div
                   className={`w-5 h-5 rounded-md flex items-center justify-center text-[9px] font-black transition-all ${
@@ -820,7 +819,7 @@ export const ProfileView: React.FC = () => {
                   }`}
                   title="Slot Perisai 2"
                 >
-                  {streakShields >= 2 ? '✓' : '+'}
+                  {streakShields >= 2 ? 'ON' : '+'}
                 </div>
               </div>
             </div>
@@ -847,11 +846,11 @@ export const ProfileView: React.FC = () => {
                   color: 'var(--accent-contrast)',
                 }}
               >
-                <span>Beli (+100★)</span>
+                <span>Beli (100 Pts)</span>
               </button>
             ) : (
               <span className="text-[9px] font-bold text-[var(--accent-main)] block text-center py-1">
-                Slot Maksimal Aktif ✓
+                Slot Maksimal Aktif
               </span>
             )}
           </div>
@@ -1098,7 +1097,7 @@ export const ProfileView: React.FC = () => {
                         });
                       }}
                       title="Hapus TTS"
-                      className="w-7 h-7 rounded-xl bg-rose-500/10 text-rose-500 flex items-center justify-center cursor-pointer tactile-active"
+                      className="w-7 h-7 rounded-xl bg-[var(--accent-light)] text-[var(--accent-main)] flex items-center justify-center cursor-pointer tactile-active"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
@@ -1205,7 +1204,7 @@ export const ProfileView: React.FC = () => {
                       type="button"
                       disabled={processingRequestId === req.id}
                       onClick={() => handleDeclineRequest(req)}
-                      className="px-2 py-1 rounded-xl bg-black/5 dark:bg-white/10 text-[var(--text-secondary)] hover:text-rose-500 hover:bg-rose-500/10 text-[9.5px] font-bold flex items-center cursor-pointer tactile-active transition-colors disabled:opacity-50"
+                      className="px-2 py-1 rounded-xl bg-black/5 dark:bg-white/10 text-[var(--text-secondary)] hover:text-[var(--accent-main)] hover:bg-[var(--accent-light)] text-[9.5px] font-bold flex items-center cursor-pointer tactile-active transition-colors disabled:opacity-50"
                     >
                       <X className="w-3 h-3 stroke-[2.2]" />
                     </button>
@@ -1297,7 +1296,7 @@ export const ProfileView: React.FC = () => {
                       });
                     }}
                     title="Hapus Teman"
-                    className="w-6 h-6 rounded-full flex items-center justify-center text-[var(--text-secondary)] hover:text-rose-500 hover:bg-rose-500/10 cursor-pointer tactile-active transition-colors shrink-0"
+                    className="w-6 h-6 rounded-full flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--accent-main)] hover:bg-[var(--accent-light)] cursor-pointer tactile-active transition-colors shrink-0"
                   >
                     <Trash2 className="w-3 h-3" />
                   </button>
@@ -1380,7 +1379,7 @@ export const ProfileView: React.FC = () => {
 
           {/* Trofi Perak */}
           <div className="p-2 rounded-2xl bg-black/5 dark:bg-white/5 border border-[var(--border-card)] flex flex-col items-center text-center">
-            <Medal className="w-4 h-4 text-slate-400 stroke-[2] mb-1" />
+            <Medal className="w-4 h-4 text-[var(--text-secondary)] stroke-[2] mb-1" />
             <span className="text-[14px] font-black text-[var(--text-primary)] leading-none">
               {trophies.silver}
             </span>
@@ -1476,7 +1475,7 @@ export const ProfileView: React.FC = () => {
                         : 'bg-[var(--accent-contrast)]/5 text-[var(--accent-contrast)]/60 border border-[var(--accent-contrast)]/10'
                     }`}
                   >
-                    {canClaim ? 'KLAIM +25★' : item.progress}
+                    {canClaim ? 'KLAIM +25 PTS' : item.progress}
                   </span>
                 </div>
 
@@ -1543,7 +1542,7 @@ export const ProfileView: React.FC = () => {
                   setShowLogoutConfirm(false);
                   await logout();
                 }}
-                className="flex-1 py-1.5 rounded-lg bg-rose-500 text-white text-[10.5px] font-bold cursor-pointer"
+                className="flex-1 py-1.5 rounded-lg bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[10.5px] font-bold cursor-pointer"
               >
                 Ya, Keluar
               </button>
@@ -1560,7 +1559,7 @@ export const ProfileView: React.FC = () => {
           <button
             type="button"
             onClick={() => setShowLogoutConfirm(true)}
-            className="text-[11px] text-[var(--text-secondary)] hover:text-rose-500 font-bold transition-colors cursor-pointer flex items-center justify-center gap-1.5 py-1 px-3 rounded-full hover:bg-black/5 dark:hover:bg-white/5"
+            className="text-[11px] text-[var(--text-secondary)] hover:text-[var(--accent-main)] font-bold transition-colors cursor-pointer flex items-center justify-center gap-1.5 py-1 px-3 rounded-full hover:bg-black/5 dark:hover:bg-white/5"
           >
             <LogOut className="w-3.5 h-3.5" />
             <span>{user.isGuest ? 'Keluar dari Sesi Tamu' : 'Keluar dari Akun'}</span>

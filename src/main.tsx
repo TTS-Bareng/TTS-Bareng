@@ -9,7 +9,7 @@ import { useGameStore } from './store/useGameStore'
 const savedTheme = (localStorage.getItem('tts_quest_theme') as ThemeKey) || 'obsidian'
 applyTheme(THEMES[savedTheme] ? savedTheme : 'obsidian')
 
-if (typeof window !== 'undefined') {
+if (import.meta.env.DEV && typeof window !== 'undefined') {
   (window as unknown as { __gameStore: typeof useGameStore }).__gameStore = useGameStore
 }
 

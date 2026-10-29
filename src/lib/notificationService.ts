@@ -76,7 +76,7 @@ export const notificationService = {
         // 1. Daily Rush 10:00 WIB
         {
           id: NOTIFICATION_IDS.DAILY_RUSH,
-          title: 'Teka-Teki Kilat Hari Ini Telah Terbit! ⚡',
+          title: 'Teka-Teki Kilat Hari Ini Telah Terbit!',
           body: 'Papan 90 detik siap diuji. Raih skor tertinggi di papan rekor nasional!',
           schedule: {
             at: getNextOccurrence(10, 0),
@@ -92,7 +92,7 @@ export const notificationService = {
         // 2. Evening Relax 19:00 WIB
         {
           id: NOTIFICATION_IDS.EVENING_RELAX,
-          title: 'Waktunya Asah Otak Santai ☕',
+          title: 'Waktunya Asah Otak Santai',
           body: 'Luangkan 5 menit untuk mengisi TTS malam ini dan kumpulkan bintangmu!',
           schedule: {
             at: getNextOccurrence(19, 0),
@@ -108,7 +108,7 @@ export const notificationService = {
         // 3. Streak Saver 21:00 WIB (Urgent for today if not yet played)
         {
           id: NOTIFICATION_IDS.STREAK_SAVER,
-          title: '⚠️ Api Streak Kamu Mau Padam!',
+          title: 'Api Streak Kamu Hampir Padam!',
           body: `Streak ${Math.max(1, streakCount)} hari kamu akan hangus dalam 3 jam! Selesaikan 1 level sekarang.`,
           schedule: {
             at: getNextOccurrence(21, 0),

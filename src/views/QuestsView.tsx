@@ -158,28 +158,34 @@ export const QuestsView: React.FC = () => {
     localStorage.setItem(storageClaimKey, JSON.stringify(updated));
   };
 
-  // Quest 1: Pecahkan 5 Kata
+  // Quest 1: Pecahkan 5 Kata Hari Ini
   const wordsTarget = 5;
-  const wordsProgress = Math.min(wordsTarget, Math.max(totalSolvedWords, solvedCountInCurrentLevel));
+  const dailyWordsSolvedToday = useMemo(() => {
+    if (typeof window === 'undefined') return 0;
+    return parseInt(localStorage.getItem(`tts_quest_daily_words_${todayKey}`) || '0', 10) || 0;
+  }, [todayKey, levelRecords, solvedCountInCurrentLevel]);
+  const wordsProgress = Math.min(wordsTarget, Math.max(dailyWordsSolvedToday, solvedCountInCurrentLevel));
   const isWordsQuestComplete = wordsProgress >= wordsTarget;
 
   // Quest 2: Tuntaskan 1 Bab Lengkap
-  const isLevelQuestComplete =
-    completedLevelsCount > 0 || (levelRecords[currentLevel.id]?.completed ?? false);
+  const isLevelQuestComplete = useMemo(() => {
+    if (typeof window === 'undefined') return false;
+    const doneToday = localStorage.getItem(`tts_quest_daily_level_${todayKey}`) === 'true';
+    return doneToday || (levelRecords[currentLevel.id]?.completed ?? false) || completedLevelsCount > 0;
+  }, [todayKey, levelRecords, currentLevel.id, completedLevelsCount]);
 
   // Quest 3: Selesaikan Wawasan Kata Hari Ini / Anagram
   const isDailyWordDone = useMemo(() => {
     if (typeof window === 'undefined') return false;
-    let found = false;
+    if (localStorage.getItem(`tts_quest_daily_word_done_${todayKey}`) === 'true') return true;
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
       if (key && (key.startsWith('tts_quest_word_claimed_') || key === 'tts_quest_anagram_done')) {
-        found = true;
-        break;
+        return true;
       }
     }
-    return found;
-  }, []);
+    return false;
+  }, [todayKey, stars]);
 
   const completedQuestsCount =
     (isWordsQuestComplete ? 1 : 0) + (isLevelQuestComplete ? 1 : 0) + (isDailyWordDone ? 1 : 0);
@@ -324,7 +330,7 @@ export const QuestsView: React.FC = () => {
             RESET 00:00 WIB • PETI HADIAH
           </span>
           <span className="text-[11px] font-black text-white">
-            +50 ★ Bintang
+            +50 Bintang
           </span>
         </div>
 
@@ -390,7 +396,7 @@ export const QuestsView: React.FC = () => {
           ) : isGrandChestAvailable ? (
             <>
               <Gift className="w-3.5 h-3.5 stroke-[2.2]" />
-              <span>Buka Peti (+50 ★ Bonus)</span>
+              <span>Buka Peti (+50 Bintang Bonus)</span>
             </>
           ) : (
             <>
@@ -432,7 +438,7 @@ export const QuestsView: React.FC = () => {
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-2">
               <span className="text-[8.5px] font-black px-2 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)]">
-                +15 ★
+                +15 Pts
               </span>
               <div className="w-6.5 h-6.5 rounded-lg bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)]">
                 <Brain className="w-3.5 h-3.5 stroke-[2.2]" />
@@ -466,7 +472,7 @@ export const QuestsView: React.FC = () => {
             {/* Action Button */}
             {claimedQuests.words ? (
               <div className="w-full py-2 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 text-center text-[9px] font-bold text-[var(--text-secondary)]">
-                ✓ Selesai
+                Selesai
               </div>
             ) : isWordsQuestComplete ? (
               <button
@@ -474,7 +480,7 @@ export const QuestsView: React.FC = () => {
                 onClick={() => handleClaimQuest('words', 15)}
                 className="w-full py-2 rounded-xl bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[9.5px] font-black cursor-pointer tactile-active shadow-xs text-center hover:opacity-95"
               >
-                Klaim +15 ★
+                Klaim +15 Pts
               </button>
             ) : (
               <button
@@ -503,7 +509,7 @@ export const QuestsView: React.FC = () => {
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-1.5">
                 <span className="text-[8px] font-black px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)]">
-                  +20 ★
+                  +20 Pts
                 </span>
                 <div className="w-6 h-6 rounded-lg bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)]">
                   <Trophy className="w-3.5 h-3.5 stroke-[2.2]" />
@@ -521,7 +527,7 @@ export const QuestsView: React.FC = () => {
             <div className="relative z-10">
               {claimedQuests.level ? (
                 <div className="w-full py-1.5 rounded-lg bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 text-center text-[8.5px] font-bold text-[var(--text-secondary)]">
-                  ✓ Selesai
+                  Selesai
                 </div>
               ) : isLevelQuestComplete ? (
                 <button
@@ -529,7 +535,7 @@ export const QuestsView: React.FC = () => {
                   onClick={() => handleClaimQuest('level', 20)}
                   className="w-full py-1.5 rounded-lg bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[9px] font-black cursor-pointer tactile-active shadow-xs hover:opacity-95"
                 >
-                  Klaim +20 ★
+                  Klaim +20 Pts
                 </button>
               ) : (
                 <button
@@ -556,7 +562,7 @@ export const QuestsView: React.FC = () => {
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-1.5">
                 <span className="text-[8px] font-black px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)]">
-                  +15 ★
+                  +15 Pts
                 </span>
                 <div className="w-6 h-6 rounded-lg bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center text-[var(--accent-main)]">
                   <Zap className="w-3.5 h-3.5 stroke-[2.2]" />
@@ -574,7 +580,7 @@ export const QuestsView: React.FC = () => {
             <div className="relative z-10">
               {claimedQuests.anagram ? (
                 <div className="w-full py-1.5 rounded-lg bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 text-center text-[8.5px] font-bold text-[var(--text-secondary)]">
-                  ✓ Selesai
+                  Selesai
                 </div>
               ) : isDailyWordDone ? (
                 <button
@@ -582,7 +588,7 @@ export const QuestsView: React.FC = () => {
                   onClick={() => handleClaimQuest('anagram', 15)}
                   className="w-full py-1.5 rounded-lg bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[9px] font-black cursor-pointer tactile-active shadow-xs hover:opacity-95"
                 >
-                  Klaim +15 ★
+                  Klaim +15 Pts
                 </button>
               ) : (
                 <button

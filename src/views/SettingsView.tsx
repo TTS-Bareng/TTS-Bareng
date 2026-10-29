@@ -189,14 +189,21 @@ export const SettingsView: React.FC = () => {
         stars: state.stars,
         streak: state.streak,
         streakShields: state.streakShields,
+        shields: state.streakShields,
         theme: state.theme,
+        customThemeId: state.theme,
+        currentAvatarFrameId: state.user?.avatarFrame || "classic",
+        currentLevelIndex: state.currentLevelIndex,
         levelRecords: state.levelRecords,
+        records: state.levelRecords,
+        dailyRushRecord: state.dailyRushRecord,
         eloRating: state.eloRating,
         battlesStats: state.battlesStats,
         trophies: state.trophies,
         customTtsTickets: state.customTtsTickets,
         userCustomCrosswords: state.userCustomCrosswords,
         claimedAchievementRewards: state.claimedAchievementRewards,
+        friends: state.friends,
       };
       const blob = new Blob([JSON.stringify(backupData, null, 2)], {
         type: "application/json",
@@ -223,30 +230,39 @@ export const SettingsView: React.FC = () => {
         const content = event.target?.result as string;
         const parsed = JSON.parse(content);
         if (parsed && typeof parsed === "object") {
-          if (parsed.user)
+          if (parsed.user && typeof parsed.user === "object")
             localStorage.setItem("tts_quest_user", JSON.stringify(parsed.user));
           if (typeof parsed.stars === "number")
             localStorage.setItem("tts_quest_stars", String(parsed.stars));
           if (typeof parsed.streak === "number")
             localStorage.setItem("tts_quest_streak", String(parsed.streak));
-          if (typeof parsed.streakShields === "number")
-            localStorage.setItem("tts_quest_streak_shields", String(parsed.streakShields));
-          if (parsed.theme)
-            localStorage.setItem("tts_quest_theme", parsed.theme);
-          if (parsed.levelRecords)
-            localStorage.setItem("tts_quest_records", JSON.stringify(parsed.levelRecords));
+          const resolvedShields = typeof parsed.streakShields === "number" ? parsed.streakShields : parsed.shields;
+          if (typeof resolvedShields === "number")
+            localStorage.setItem("tts_quest_streak_shields", String(resolvedShields));
+          const resolvedTheme = parsed.theme || parsed.customThemeId;
+          if (typeof resolvedTheme === "string")
+            localStorage.setItem("tts_quest_theme", resolvedTheme);
+          if (typeof parsed.currentLevelIndex === "number")
+            localStorage.setItem("tts_quest_level_idx", String(parsed.currentLevelIndex));
+          const resolvedRecords = parsed.levelRecords || parsed.records;
+          if (resolvedRecords && typeof resolvedRecords === "object")
+            localStorage.setItem("tts_quest_records_v2", JSON.stringify(resolvedRecords));
+          if (parsed.dailyRushRecord && typeof parsed.dailyRushRecord === "object")
+            localStorage.setItem("tts_quest_daily_rush_record", JSON.stringify(parsed.dailyRushRecord));
           if (typeof parsed.eloRating === "number")
             localStorage.setItem("tts_elo_rating_v1", String(parsed.eloRating));
-          if (parsed.battlesStats)
+          if (parsed.battlesStats && typeof parsed.battlesStats === "object")
             localStorage.setItem("tts_battles_stats_v1", JSON.stringify(parsed.battlesStats));
-          if (parsed.trophies)
+          if (parsed.trophies && typeof parsed.trophies === "object" && !Array.isArray(parsed.trophies))
             localStorage.setItem("tts_trophies_v1", JSON.stringify(parsed.trophies));
           if (typeof parsed.customTtsTickets === "number")
-            localStorage.setItem("tts_custom_tts_tickets_v1", String(parsed.customTtsTickets));
+            localStorage.setItem("tts_custom_tickets_v1", String(parsed.customTtsTickets));
           if (Array.isArray(parsed.userCustomCrosswords))
             localStorage.setItem("tts_user_custom_crosswords_v1", JSON.stringify(parsed.userCustomCrosswords));
-          if (parsed.claimedAchievementRewards)
+          if (parsed.claimedAchievementRewards && typeof parsed.claimedAchievementRewards === "object")
             localStorage.setItem("tts_quest_claimed_achievements", JSON.stringify(parsed.claimedAchievementRewards));
+          if (Array.isArray(parsed.friends))
+            localStorage.setItem("tts_user_friends_v1", JSON.stringify(parsed.friends));
 
           showGlobalToast("Data berhasil dipulihkan! Memuat ulang...");
           setTimeout(() => {
@@ -323,7 +339,7 @@ export const SettingsView: React.FC = () => {
                     TTS Pass VIP
                   </span>
                   <span className="text-[7.5px] font-black px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/25">
-                    {isVip ? "AKTIF 👑" : "RP 29.000/BLN"}
+                    {isVip ? "VIP AKTIF" : "RP 29.000/BLN"}
                   </span>
                   {isVip && (
                     <button
@@ -566,21 +582,21 @@ export const SettingsView: React.FC = () => {
                     id: "apple_tactile" as SoundPackKey,
                     name: "Apple Tactile",
                     desc: "Mekanis iOS",
-                    icon: "🍎",
+                    icon: <Smartphone className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2]" />,
                     play: () => soundManager.playKeyClick(),
                   },
                   {
                     id: "gamelan_classic" as SoundPackKey,
                     name: "Gamelan",
                     desc: "Slendro Lonceng",
-                    icon: "🔔",
+                    icon: <Bell className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2]" />,
                     play: () => soundManager.playGamelanBell(),
                   },
                   {
                     id: "acoustic_nylon" as SoundPackKey,
                     name: "Akustik Dawai",
                     desc: "Senar Gitar",
-                    icon: "🎸",
+                    icon: <Music className="w-3.5 h-3.5 text-[var(--accent-main)] stroke-[2.2]" />,
                     play: () => soundManager.playAcousticStrum(),
                   },
                 ].map((pack) => {
@@ -600,7 +616,7 @@ export const SettingsView: React.FC = () => {
                           : "bg-black/[0.02] dark:bg-white/[0.03] border-black/5 dark:border-white/10 hover:border-black/15"
                       }`}
                     >
-                      <span className="text-[14px]">{pack.icon}</span>
+                      <div className="w-6 h-6 rounded-lg bg-[var(--accent-light)] flex items-center justify-center">{pack.icon}</div>
                       <span className="text-[10px] font-black text-[var(--text-primary)] leading-tight">
                         {pack.name}
                       </span>
@@ -1002,11 +1018,11 @@ export const SettingsView: React.FC = () => {
 
       {/* 6. Group 5: Pengelolaan Akun & Zona Berbahaya */}
       <section className="w-full shrink-0 flex flex-col gap-1.5">
-        <span className="text-[10px] font-black uppercase tracking-wider text-red-500/80 px-1">
+        <span className="text-[10px] font-black uppercase tracking-wider text-[var(--accent-main)] px-1">
           PENGELOLAAN DATA & AKUN
         </span>
         <div
-          className="w-full rounded-[22px] overflow-hidden border border-red-500/20 shadow-xs relative divide-y divide-black/5 dark:divide-white/10"
+          className="w-full rounded-[22px] overflow-hidden border border-[var(--accent-main)]/20 shadow-xs relative divide-y divide-black/5 dark:divide-white/10"
           style={{
             background:
               "linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)",
@@ -1076,7 +1092,7 @@ export const SettingsView: React.FC = () => {
           <div className="p-3 relative z-10">
             {showLogoutConfirm ? (
               <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-2 text-rose-500 dark:text-rose-400">
+                <div className="flex items-center gap-2 text-[var(--accent-main)]">
                   <LogOut className="w-3.5 h-3.5 stroke-[2.2]" />
                   <span className="text-[11.5px] font-black">
                     {user.isGuest
@@ -1096,7 +1112,7 @@ export const SettingsView: React.FC = () => {
                       setShowLogoutConfirm(false);
                       await logout();
                     }}
-                    className="flex-1 py-1.5 rounded-lg bg-rose-500 text-white font-bold text-[10px] cursor-pointer tactile-active shadow-xs"
+                    className="flex-1 py-1.5 rounded-lg bg-[var(--accent-main)] text-[var(--accent-contrast)] font-bold text-[10px] cursor-pointer tactile-active shadow-xs"
                   >
                     Ya, Keluar
                   </button>
@@ -1112,7 +1128,7 @@ export const SettingsView: React.FC = () => {
             ) : (
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-7.5 h-7.5 rounded-xl bg-rose-500/10 text-rose-500 dark:text-rose-400 flex items-center justify-center shrink-0">
+                  <div className="w-7.5 h-7.5 rounded-xl bg-[var(--accent-light)] text-[var(--accent-main)] flex items-center justify-center shrink-0">
                     <LogOut className="w-4 h-4 stroke-[2]" />
                   </div>
                   <div>
@@ -1135,7 +1151,7 @@ export const SettingsView: React.FC = () => {
                     setShowDeleteAccountConfirm(false);
                     setShowResetConfirm(false);
                   }}
-                  className="px-2.5 py-1 rounded-full text-[9px] font-bold bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/20 transition-colors cursor-pointer tactile-active"
+                  className="px-2.5 py-1 rounded-full text-[9px] font-bold bg-[var(--accent-light)] hover:opacity-85 text-[var(--accent-main)] border border-[var(--accent-main)]/25 transition-colors cursor-pointer tactile-active"
                 >
                   Keluar
                 </button>
@@ -1211,7 +1227,7 @@ export const SettingsView: React.FC = () => {
           <div className="p-3">
             {showDeleteAccountConfirm ? (
               <div className="flex flex-col gap-2.5 p-1">
-                <div className="flex items-center gap-2 text-red-500 dark:text-red-400">
+                <div className="flex items-center gap-2 text-[var(--accent-main)]">
                   <Trash2 className="w-4 h-4 stroke-[2.2]" />
                   <span className="text-[12px] font-black">
                     Hapus Permanen Akun & Data?
@@ -1225,7 +1241,7 @@ export const SettingsView: React.FC = () => {
                 </p>
                 <div className="space-y-1">
                   <label className="text-[9.5px] font-bold text-[var(--text-secondary)] block">
-                    Ketik kata <span className="text-red-500 dark:text-red-400 font-black">hapus</span> di bawah ini untuk konfirmasi:
+                    Ketik kata <span className="text-[var(--accent-main)] font-black">hapus</span> di bawah ini untuk konfirmasi:
                   </label>
                   <input
                     type="text"
@@ -1233,7 +1249,7 @@ export const SettingsView: React.FC = () => {
                     onChange={(e) => setDeleteConfirmText(e.target.value)}
                     placeholder="Ketik 'hapus'"
                     disabled={isDeletingAccount}
-                    className="w-full px-3 py-2 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/15 text-[12px] font-bold text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]/50 focus:outline-none focus:border-red-500/50 transition-colors"
+                    className="w-full px-3 py-2 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/15 text-[12px] font-bold text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]/50 focus:outline-none focus:border-[var(--accent-main)] transition-colors"
                   />
                 </div>
                 <div className="flex gap-2 pt-1">
@@ -1247,8 +1263,8 @@ export const SettingsView: React.FC = () => {
                     }}
                     className={`flex-1 py-2 rounded-xl font-black text-[11px] shadow-xs flex items-center justify-center gap-1.5 transition-all ${
                       deleteConfirmText.trim().toLowerCase() === "hapus" && !isDeletingAccount
-                        ? "bg-red-500 text-white cursor-pointer active:scale-95"
-                        : "bg-red-500/30 text-white/50 cursor-not-allowed"
+                        ? "bg-[var(--accent-main)] text-[var(--accent-contrast)] cursor-pointer active:scale-95"
+                        : "bg-black/10 dark:bg-white/10 text-[var(--text-secondary)]/50 cursor-not-allowed"
                     }`}
                   >
                     {isDeletingAccount ? (
@@ -1273,11 +1289,11 @@ export const SettingsView: React.FC = () => {
             ) : (
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-7.5 h-7.5 rounded-xl bg-red-500/10 text-red-500 dark:text-red-400 flex items-center justify-center shrink-0">
+                  <div className="w-7.5 h-7.5 rounded-xl bg-[var(--accent-light)] text-[var(--accent-main)] flex items-center justify-center shrink-0">
                     <Trash2 className="w-4 h-4 stroke-[2]" />
                   </div>
                   <div>
-                    <span className="text-[12px] font-bold text-red-600 dark:text-red-400 block leading-tight">
+                    <span className="text-[12px] font-bold text-[var(--accent-main)] block leading-tight">
                       Hapus Akun & Data (Apple 5.1.1v)
                     </span>
                     <span className="text-[9px] text-[var(--text-secondary)] block">
@@ -1292,7 +1308,7 @@ export const SettingsView: React.FC = () => {
                     setDeleteConfirmText("");
                     setShowResetConfirm(false);
                   }}
-                  className="px-2.5 py-1 rounded-full text-[9px] font-bold bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/20 transition-colors cursor-pointer tactile-active"
+                  className="px-2.5 py-1 rounded-full text-[9px] font-bold bg-[var(--accent-light)] hover:opacity-85 text-[var(--accent-main)] border border-[var(--accent-main)]/20 transition-colors cursor-pointer tactile-active"
                 >
                   Hapus
                 </button>

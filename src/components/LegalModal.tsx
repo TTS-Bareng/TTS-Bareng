@@ -142,19 +142,19 @@ export const LegalModal: React.FC = () => {
                 <div className="flex flex-col gap-2">
                   <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10">
                     <h4 className="font-black text-[11.5px] text-[var(--text-primary)] mb-1">
-                      1. Penyimpanan Data Lokal
+                      1. Penyimpanan Lokal & Sinkronisasi Cloud Terenkripsi
                     </h4>
                     <p className="text-[10px]">
-                      Identitas pemain, perolehan bintang, kemajuan bab, dan riwayat level disimpan secara eksklusif di memori lokal peramban Anda (<code>localStorage</code>). Kami tidak menyimpan kata sandi dan tidak mengumpulkan informasi sensitif.
+                      Dalam Mode Tamu, progres bab, perolehan bintang, dan preferensi tema disimpan secara lokal pada perangkat Anda (<code>localStorage</code>). Apabila Anda memilih masuk menggunakan <strong>Sign in with Apple</strong>, <strong>Akun Google</strong>, atau <strong>Surel & Kata Sandi</strong>, profil permainan, rating ELO, papan peringkat nasional, dan daftar teman disinkronkan secara terenkripsi melalui layanan autentikasi dan basis data <strong>Supabase Cloud</strong>.
                     </p>
                   </div>
 
                   <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10">
                     <h4 className="font-black text-[11.5px] text-[var(--text-primary)] mb-1">
-                      2. Sesi Bermain Bersama (Mabar)
+                      2. Sesi Bermain Bersama (Mabar) & Transaksi App Store
                     </h4>
                     <p className="text-[10px]">
-                      Sinkronisasi papan real-time saat bermain bersama teman berlangsung melalui saluran sesi WebSockets/WebRTC sementara. Ruang bermain bersifat anonim dan tidak ada riwayat permainan yang disimpan di server permanen setelah sesi selesai.
+                      Sinkronisasi papan real-time saat bermain bersama maupun turnamen berlangsung melalui kanal WebSockets terenkripsi. Seluruh transaksi pembelian dalam aplikasi dan status keanggotaan VIP diproses secara resmi oleh <strong>Apple StoreKit 2</strong> dan diverifikasi melalui <strong>RevenueCat</strong> tanpa menyimpan detail kartu pembayaran Anda.
                     </p>
                   </div>
 

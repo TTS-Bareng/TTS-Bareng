@@ -134,7 +134,7 @@ export const ActiveGameResumeBanner: React.FC = () => {
         <div
           className={`w-full rounded-[24px] p-3 border shadow-2xl flex items-center justify-between gap-3 relative overflow-hidden backdrop-blur-xl transition-all ${
             isTimeCritical
-              ? 'border-red-500/50 bg-red-950/80 text-white animate-pulse'
+              ? 'border-[var(--accent-main)] bg-[var(--bg-card)] text-[var(--text-primary)] animate-pulse'
               : 'border-[var(--accent-main)]/35 liquid-glass-card text-[var(--text-primary)]'
           }`}
           style={{
@@ -181,7 +181,7 @@ export const ActiveGameResumeBanner: React.FC = () => {
                 {isBattle && (
                   <span
                     className={`text-[9px] font-mono font-black flex items-center gap-0.5 ${
-                      isTimeCritical ? 'text-red-400 font-bold' : 'text-[var(--accent-main)]'
+                      isTimeCritical ? 'text-[var(--accent-main)] font-black' : 'text-[var(--accent-main)]'
                     }`}
                   >
                     <Clock className="w-2.5 h-2.5" />

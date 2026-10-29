@@ -106,10 +106,19 @@ export function inflateLevel(raw: RawLevelData): LevelData {
   if (raw.tiles && raw.tiles.length > 0) {
     return raw as LevelData;
   }
-  return {
-    ...raw,
-    tiles: deriveTiles(raw.clues),
-  };
+  let cachedTiles: TileData[] | null = null;
+  const obj = { ...raw } as LevelData;
+  Object.defineProperty(obj, 'tiles', {
+    enumerable: true,
+    configurable: true,
+    get() {
+      if (!cachedTiles) {
+        cachedTiles = deriveTiles(raw.clues);
+      }
+      return cachedTiles;
+    },
+  });
+  return obj;
 }
 
 /**

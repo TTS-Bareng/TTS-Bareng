@@ -344,6 +344,8 @@ export const AddFriendModal: React.FC = () => {
           isOpen={isScannerActive}
           onClose={() => setIsScannerActive(false)}
           onScanSuccess={handleScanSuccess}
+          allowRawText={true}
+          scannerTitle="Pindai QR ID Teman"
         />
       </div>
     </AnimatePresence>

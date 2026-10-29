@@ -69,7 +69,7 @@ export const CustomCrosswordQrModal: React.FC = () => {
 
   const handleShareWhatsApp = async () => {
     const text =
-      `🧩 Ayo pecahkan TTS Karyaku: *"${item.title}"*!\n\n` +
+      `Ayo pecahkan TTS Karyaku: *"${item.title}"*!\n\n` +
       `Kategori: *${item.category || 'Kreasi'}*\n` +
       `Jumlah Kata: *${totalWords} Kata*\n` +
       `Kreator: *${creatorName}*\n\n` +
@@ -155,7 +155,7 @@ export const CustomCrosswordQrModal: React.FC = () => {
               </div>
 
               <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-black/20 border border-white/20 text-[9px] font-black uppercase tracking-wider mb-2 relative z-10">
-                <Sparkles className="w-3 h-3 text-amber-300" />
+                <Sparkles className="w-3 h-3 text-white" />
                 <span>Undangan Teka-Teki Silang</span>
               </div>
 
@@ -186,18 +186,18 @@ export const CustomCrosswordQrModal: React.FC = () => {
                 <img
                   src={MASCOTS.crosswordThinker}
                   alt="Maskot Kreator"
-                  className="w-full h-full rounded-full object-cover bg-amber-50"
+                  className="w-full h-full rounded-full object-cover bg-[var(--accent-light)]"
                 />
               </div>
-              <div className="px-2.5 py-0.5 rounded-full bg-white text-slate-900 font-black text-[10px] shadow-lg border border-slate-200/90 tracking-tight">
-                Pecahkan Teka-Teki! ✨
+              <div className="px-2.5 py-0.5 rounded-full bg-[var(--bg-card)] text-[var(--text-primary)] font-black text-[10px] shadow-lg border border-black/10 dark:border-white/15/90 tracking-tight">
+                Pecahkan Teka-Teki!
               </div>
             </div>
 
             {/* White Ticket Base / QR Stub */}
-            <div className="w-full bg-white rounded-b-[34px] p-5 pt-3.5 pb-8 flex flex-col items-center text-center shadow-lg border-t border-slate-100">
+            <div className="w-full bg-[var(--bg-card)] text-[var(--text-primary)] rounded-b-[34px] p-5 pt-3.5 pb-8 flex flex-col items-center text-center shadow-lg border-t border-black/10 dark:border-white/10">
               {/* Scannable QR Code Frame */}
-              <div className="p-3 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 shadow-xs flex flex-col items-center my-1.5">
+              <div className="p-3 rounded-2xl bg-white border border-black/10 shadow-xs flex flex-col items-center my-1.5">
                 {qrCodeDataUrl ? (
                   <img
                     src={qrCodeDataUrl}
@@ -205,16 +205,16 @@ export const CustomCrosswordQrModal: React.FC = () => {
                     className="w-40 h-40 rounded-xl object-contain"
                   />
                 ) : (
-                  <div className="w-40 h-40 flex items-center justify-center text-xs text-slate-400">
+                  <div className="w-40 h-40 flex items-center justify-center text-xs text-[var(--text-secondary)]">
                     Membuat QR...
                   </div>
                 )}
-                <span className="text-[11px] font-black tracking-wider text-slate-700 mt-2 font-mono">
+                <span className="text-[11px] font-black tracking-wider text-[var(--text-primary)] mt-2 font-mono">
                   PINDAI DENGAN KAMERA / APP
                 </span>
               </div>
 
-              <p className="text-[10px] text-slate-500 font-medium max-w-[260px] leading-relaxed mt-1">
+              <p className="text-[10px] text-[var(--text-secondary)] font-medium max-w-[260px] leading-relaxed mt-1">
                 Arahkan kamera HP kawanmu ke QR code di atas, atau bagikan tautan via WhatsApp.
               </p>
 
@@ -235,7 +235,7 @@ export const CustomCrosswordQrModal: React.FC = () => {
                   <button
                     type="button"
                     onClick={handleCopyLink}
-                    className="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-98 text-slate-800 font-bold text-[11px] flex items-center justify-center gap-1.5 transition-all cursor-pointer tactile-active border border-slate-200"
+                    className="py-2 px-3 rounded-xl bg-black/5 dark:bg-white/10 hover:opacity-85 active:scale-98 text-[var(--text-primary)] font-bold text-[11px] flex items-center justify-center gap-1.5 transition-all cursor-pointer tactile-active border border-black/10 dark:border-white/10"
                   >
                     <Copy className="w-3.5 h-3.5" />
                     <span>Salin Tautan</span>
@@ -244,7 +244,7 @@ export const CustomCrosswordQrModal: React.FC = () => {
                   <button
                     type="button"
                     onClick={handleShareNative}
-                    className="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-98 text-slate-800 font-bold text-[11px] flex items-center justify-center gap-1.5 transition-all cursor-pointer tactile-active border border-slate-200"
+                    className="py-2 px-3 rounded-xl bg-black/5 dark:bg-white/10 hover:opacity-85 active:scale-98 text-[var(--text-primary)] font-bold text-[11px] flex items-center justify-center gap-1.5 transition-all cursor-pointer tactile-active border border-black/10 dark:border-white/10"
                   >
                     <Share2 className="w-3.5 h-3.5" />
                     <span>Bagikan...</span>
@@ -255,7 +255,7 @@ export const CustomCrosswordQrModal: React.FC = () => {
                 <button
                   type="button"
                   onClick={handlePlayNow}
-                  className="w-full py-2 px-4 rounded-xl bg-slate-900 hover:bg-black active:scale-98 text-white font-black text-[11.5px] flex items-center justify-center gap-1.5 shadow-xs transition-all cursor-pointer tactile-active mt-1"
+                  className="w-full py-2 px-4 rounded-xl bg-[var(--accent-main)] hover:opacity-90 active:scale-98 text-[var(--accent-contrast)] font-black text-[11.5px] flex items-center justify-center gap-1.5 shadow-xs transition-all cursor-pointer tactile-active mt-1"
                 >
                   <Play className="w-3 h-3 fill-current" />
                   <span>Uji Mainkan Sekarang</span>

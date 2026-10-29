@@ -109,7 +109,7 @@ const FEATURE_SLIDES: FeatureSlide[] = [
     microWidget: {
       icon: <Users className="w-4 h-4 text-[var(--accent-main)]" />,
       title: "Duel 1v1 Sedang Berlangsung",
-      subtitle: "Kamu ⚡ 120 vs Lawan 95 Pts",
+      subtitle: "Kamu 120 vs Lawan 95 Pts",
       pill: "Unggul +25",
     },
   },
@@ -325,7 +325,7 @@ export const InitialAuthView: React.FC = () => {
     if (res?.session) {
       // New registration: MUST route to OnboardingView
       showGlobalToast(
-        "✨ Pendaftaran akun berhasil! Silakan atur nama & avatar Anda...",
+        "Pendaftaran akun berhasil! Silakan atur nama & avatar Anda...",
       );
       proceedToOnboarding({
         id: res.session.user.id,

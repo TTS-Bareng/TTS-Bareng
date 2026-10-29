@@ -243,7 +243,7 @@ export const BattleResultModal: React.FC = () => {
                     lastEloDelta > 0
                       ? 'bg-white/30 text-white border-white/40'
                       : lastEloDelta < 0
-                      ? 'bg-rose-500/30 text-rose-200 border-rose-400/40'
+                      ? 'bg-white/15 text-white border-white/30'
                       : 'bg-white/20 text-white/80 border-white/30'
                   }`}
                 >

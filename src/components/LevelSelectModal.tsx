@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import { X, Play, Star, Clock, Sparkles, CheckCircle2 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
@@ -16,7 +16,32 @@ export const LevelSelectModal: React.FC = () => {
   } = useGameStore();
 
   const [selectedFilterRealm, setSelectedFilterRealm] = useState<string>('all');
+  const [visibleCount, setVisibleCount] = useState<number>(60);
   const dragControls = useDragControls();
+
+  useEffect(() => {
+    setVisibleCount(60);
+  }, [selectedFilterRealm, isLevelSelectOpen]);
+
+  const realmCounts = useMemo(() => {
+    if (!isLevelSelectOpen) return {};
+    const counts: Record<string, number> = {};
+    for (const r of REALMS) {
+      counts[r.id] = levels.filter((l) => l.category && r.categories.includes(l.category)).length;
+    }
+    return counts;
+  }, [isLevelSelectOpen, levels]);
+
+  const filteredLevels = useMemo(() => {
+    if (!isLevelSelectOpen) return [];
+    const realm = selectedFilterRealm === 'all' ? null : REALMS.find((r) => r.id === selectedFilterRealm);
+    return levels
+      .map((lvl, index) => ({ lvl, index }))
+      .filter(({ lvl }) => {
+        if (!realm) return true;
+        return lvl.category ? realm.categories.includes(lvl.category) : true;
+      });
+  }, [isLevelSelectOpen, levels, selectedFilterRealm]);
 
   if (!isLevelSelectOpen) return null;
 
@@ -27,14 +52,6 @@ export const LevelSelectModal: React.FC = () => {
   };
 
   const totalCompleted = Object.values(levelRecords).filter((r) => r.completed).length;
-
-  const filteredLevels = levels
-    .map((lvl, index) => ({ lvl, index }))
-    .filter(({ lvl }) => {
-      if (selectedFilterRealm === 'all') return true;
-      const realm = REALMS.find((r) => r.id === selectedFilterRealm);
-      return realm && lvl.category ? realm.categories.includes(lvl.category) : true;
-    });
 
   return (
     <AnimatePresence>
@@ -148,7 +165,7 @@ export const LevelSelectModal: React.FC = () => {
             </button>
             {REALMS.map((r) => {
               const isSelected = selectedFilterRealm === r.id;
-              const countInRealm = levels.filter((l) => l.category && r.categories.includes(l.category)).length;
+              const countInRealm = realmCounts[r.id] || 0;
               return (
                 <button
                   key={r.id}
@@ -168,7 +185,7 @@ export const LevelSelectModal: React.FC = () => {
 
           {/* Scrollable Chapter List */}
           <div className="flex-1 overflow-y-auto space-y-2 pr-0.5">
-            {filteredLevels.map(({ lvl, index }) => {
+            {filteredLevels.slice(0, visibleCount).map(({ lvl, index }) => {
               const record = levelRecords[lvl.id];
               const isCurrent = index === currentLevelIndex;
               const isCompleted = !!record?.completed;
@@ -332,6 +349,15 @@ export const LevelSelectModal: React.FC = () => {
                 </div>
               );
             })}
+            {filteredLevels.length > visibleCount && (
+              <button
+                type="button"
+                onClick={() => setVisibleCount((prev) => prev + 80)}
+                className="w-full py-2.5 rounded-2xl bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/25 text-[11px] font-black cursor-pointer tactile-active mt-2"
+              >
+                Tampilkan Lebih Banyak ({filteredLevels.length - visibleCount} bab lagi)
+              </button>
+            )}
           </div>
         </motion.div>
       </div>

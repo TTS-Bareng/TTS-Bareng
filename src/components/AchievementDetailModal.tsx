@@ -121,7 +121,7 @@ export const AchievementDetailModal: React.FC = () => {
             <div className="flex items-center justify-between text-[11px] font-bold mb-1.5">
               <span className="text-[var(--text-secondary)]">Status Progres</span>
               <span className={selectedAchievement.unlocked ? 'text-[var(--accent-main)]' : 'text-[var(--text-primary)]'}>
-                {selectedAchievement.unlocked ? 'Telah Terbuka ✓' : selectedAchievement.progress}
+                {selectedAchievement.unlocked ? 'Telah Terbuka' : selectedAchievement.progress}
               </span>
             </div>
 
@@ -133,7 +133,7 @@ export const AchievementDetailModal: React.FC = () => {
             </div>
 
             <div className="flex items-center justify-between text-[9.5px] text-[var(--text-secondary)] mt-1.5 font-medium">
-              <span>Hadiah: +25 Bintang (★)</span>
+              <span>Hadiah: +25 Bintang</span>
               <span>{selectedAchievement.percent}% Tercapai</span>
             </div>
           </div>
@@ -147,12 +147,12 @@ export const AchievementDetailModal: React.FC = () => {
                 className="w-full py-3 px-4 rounded-full bg-[var(--accent-main)] hover:opacity-95 text-[var(--accent-contrast)] font-black text-[12.5px] inline-flex items-center justify-center gap-2 transition-all tactile-active shadow-md cursor-pointer"
               >
                 <Star className="w-4 h-4 fill-current" />
-                <span>Klaim Hadiah (+25★)</span>
+                <span>Klaim Hadiah (+25 Bintang)</span>
               </button>
             ) : isClaimed ? (
               <div className="w-full py-2.5 px-4 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)] font-bold text-[12px] inline-flex items-center justify-center gap-1.5">
                 <Check className="w-4 h-4 stroke-[2.5]" />
-                <span>Hadiah +25★ Telah Diklaim</span>
+                <span>Hadiah +25 Bintang Telah Diklaim</span>
               </div>
             ) : (
               <div className="w-full py-2.5 px-4 rounded-full bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 text-[var(--text-secondary)] font-bold text-[11.5px] inline-flex items-center justify-center gap-1.5">

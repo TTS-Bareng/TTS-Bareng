@@ -20,7 +20,7 @@ import { soundManager } from '../lib/audio';
 import { haptic } from '../lib/haptics';
 import confetti from 'canvas-confetti';
 import { MASCOTS } from '../assets/maskots';
-import { revenueCatService } from '../lib/revenueCatService';
+import { revenueCatService, IAP_PRODUCT_IDS } from '../lib/revenueCatService';
 import { createCustomCrosswordDeepLink } from '../lib/deeplink';
 
 const TOPIC_PRESETS = [
@@ -52,6 +52,20 @@ export const CustomCrosswordModal: React.FC = () => {
   } = useGameStore();
 
   const [isRestoring, setIsRestoring] = useState(false);
+  const [sachetPriceLabel, setSachetPriceLabel] = useState('Rp 5.000');
+  const [vipPriceLabel, setVipPriceLabel] = useState('Mulai Rp 16.500');
+
+  useEffect(() => {
+    if (!isCustomCrosswordModalOpen) return;
+    revenueCatService.getDynamicPriceMap().then((prices) => {
+      if (prices[IAP_PRODUCT_IDS.sachetStarter]) {
+        setSachetPriceLabel(prices[IAP_PRODUCT_IDS.sachetStarter]);
+      }
+      if (prices[IAP_PRODUCT_IDS.vipMonthly]) {
+        setVipPriceLabel(prices[IAP_PRODUCT_IDS.vipMonthly]);
+      }
+    }).catch(() => {});
+  }, [isCustomCrosswordModalOpen]);
 
   const handleRestorePurchases = async () => {
     try {
@@ -342,7 +356,7 @@ export const CustomCrosswordModal: React.FC = () => {
                   </div>
                   <div className="mt-3 pt-2 border-t border-black/5 dark:border-white/10 flex items-center justify-between">
                     <span className="font-mono font-black text-[13px] text-[var(--text-primary)]">
-                      Rp 5.000
+                      {sachetPriceLabel}
                     </span>
                     <span className="text-[10px] font-bold text-[var(--accent-main)]">
                       Pilih Paket ↗
@@ -381,7 +395,7 @@ export const CustomCrosswordModal: React.FC = () => {
                   </div>
                   <div className="mt-3 pt-2 border-t border-black/5 dark:border-white/10 flex items-center justify-between">
                     <span className="font-mono font-black text-[13px] text-[var(--text-primary)]">
-                      Mulai Rp 16.500<span className="text-[9px] font-normal text-[var(--text-secondary)]">/bln</span>
+                      {vipPriceLabel}<span className="text-[9px] font-normal text-[var(--text-secondary)]">/bln</span>
                     </span>
                     <span className="text-[10px] font-bold text-[var(--accent-main)]">
                       Pilih Paket ↗
@@ -542,7 +556,7 @@ export const CustomCrosswordModal: React.FC = () => {
                             type="button"
                             onClick={() => handleRemoveWord(idx)}
                             aria-label="Hapus kata"
-                            className="w-7 h-7 rounded-lg text-[var(--text-secondary)] hover:text-rose-500 hover:bg-rose-500/10 flex items-center justify-center shrink-0 transition-colors cursor-pointer"
+                            className="w-7 h-7 rounded-lg text-[var(--text-secondary)] hover:text-[var(--accent-main)] hover:bg-[var(--accent-light)] flex items-center justify-center shrink-0 transition-colors cursor-pointer"
                           >
                             <Trash2 className="w-3.5 h-3.5 stroke-[2]" />
                           </button>
@@ -565,7 +579,7 @@ export const CustomCrosswordModal: React.FC = () => {
 
               {/* Error Message */}
               {errorMsg && (
-                <div className="p-3 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-500 text-[11.5px] font-bold">
+                <div className="p-3 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)] text-[11.5px] font-bold">
                   {errorMsg}
                 </div>
               )}

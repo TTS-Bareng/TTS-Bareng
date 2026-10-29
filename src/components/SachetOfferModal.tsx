@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Sparkles, Star, PenTool, Check, Crown, Flame, RefreshCw } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
-import { revenueCatService } from '../lib/revenueCatService';
+import { revenueCatService, IAP_PRODUCT_IDS } from '../lib/revenueCatService';
 
 export const SachetOfferModal: React.FC = () => {
   const {
@@ -18,6 +18,16 @@ export const SachetOfferModal: React.FC = () => {
   } = useGameStore();
 
   const [isProcessing, setIsProcessing] = useState(false);
+  const [sachetPrice, setSachetPrice] = useState('Rp 5.000');
+
+  useEffect(() => {
+    if (!isSachetModalOpen) return;
+    revenueCatService.getDynamicPriceMap().then((prices) => {
+      if (prices[IAP_PRODUCT_IDS.sachetStarter]) {
+        setSachetPrice(prices[IAP_PRODUCT_IDS.sachetStarter]);
+      }
+    }).catch(() => {});
+  }, [isSachetModalOpen]);
 
   if (!isSachetModalOpen) return null;
 
@@ -49,7 +59,7 @@ export const SachetOfferModal: React.FC = () => {
       const res = await revenueCatService.restorePurchases();
       if (res.isVip) {
         setIsVip(true);
-        showGlobalToast('✨ Status VIP Anda berhasil dipulihkan dari Apple ID!', 4000);
+        showGlobalToast('Status VIP Anda berhasil dipulihkan dari Apple ID!', 4000);
       } else if (res.success) {
         showGlobalToast('Tidak ada langganan aktif yang ditemukan di Apple ID ini.', 3500);
       } else {
@@ -202,7 +212,7 @@ export const SachetOfferModal: React.FC = () => {
                 <span>{isProcessing ? 'Memproses Transaksi...' : 'Beli Paket Pemula'}</span>
               </div>
               <div className="px-2 py-0.5 rounded-lg bg-black/15 dark:bg-white/20 font-mono font-black text-[12px]">
-                Rp 5.000
+                {sachetPrice}
               </div>
             </button>
 
@@ -220,7 +230,7 @@ export const SachetOfferModal: React.FC = () => {
 
             {/* Apple StoreKit E-Wallet & Debit Support */}
             <div className="w-full flex items-center justify-center gap-1.5 py-1 px-2 rounded-xl bg-black/10 dark:bg-white/5 border border-black/5 dark:border-white/5 text-[8.5px] text-[var(--text-secondary)]">
-              <span>Bisa bayar via <strong>GoPay, DANA, ShopeePay</strong> & Debit di Apple ID</span>
+              <span>Pembayaran aman melalui metode resmi <strong>Akun Apple ID</strong> Anda</span>
             </div>
 
             {/* Apple Guideline 3.1.1 Mandatory Compliance Links */}

@@ -9,13 +9,17 @@ import { useGameStore } from '../store/useGameStore';
 interface QrScannerModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onScanSuccess: (roomCode: string) => void;
+  onScanSuccess: (scannedValue: string) => void;
+  allowRawText?: boolean;
+  scannerTitle?: string;
 }
 
 export const QrScannerModal: React.FC<QrScannerModalProps> = ({
   isOpen,
   onClose,
   onScanSuccess,
+  allowRawText = false,
+  scannerTitle = 'Pindai QR Kamar',
 }) => {
   const { showGlobalToast, playCustomCrossword, saveUserCustomCrossword } = useGameStore();
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -87,6 +91,16 @@ export const QrScannerModal: React.FC<QrScannerModalProps> = ({
       } catch {}
     }
 
+    if (allowRawText || rawText.trim().toUpperCase().startsWith('TTS-PASSPORT:')) {
+      const cleaned = rawText.trim().replace(/^TTS-PASSPORT:/i, '').trim();
+      if (cleaned) {
+        stopMediaStreams();
+        onScanSuccess(cleaned);
+        onClose();
+        return;
+      }
+    }
+
     const roomCode = extractRoomCodeFromText(rawText);
     if (roomCode) {
       stopMediaStreams();
@@ -96,7 +110,7 @@ export const QrScannerModal: React.FC<QrScannerModalProps> = ({
     } else {
       showGlobalToast('Format QR tidak dikenali sebagai kode kamar atau TTS.');
     }
-  }, [stopMediaStreams, showGlobalToast, onScanSuccess, onClose, playCustomCrossword]);
+  }, [allowRawText, stopMediaStreams, showGlobalToast, onScanSuccess, onClose, playCustomCrossword, saveUserCustomCrossword]);
 
   // Frame processing loop with jsQR
   const startScanningFrames = useCallback(() => {
@@ -276,7 +290,7 @@ export const QrScannerModal: React.FC<QrScannerModalProps> = ({
             className="h-9 px-3.5 rounded-full text-white font-bold text-xs tracking-tight flex items-center gap-2 shadow-md border border-white/20 backdrop-blur-md"
           >
             <ScanLine className="w-4 h-4 stroke-[2.2]" />
-            <span className="font-black">Pindai QR Kamar</span>
+            <span className="font-black">{scannerTitle}</span>
           </div>
 
           <button
@@ -329,7 +343,7 @@ export const QrScannerModal: React.FC<QrScannerModalProps> = ({
           ) : (
             /* Friendly Fallback View when Camera is Blocked/Unavailable */
             <div className="w-full rounded-[28px] p-6 bg-white/10 border border-white/15 backdrop-blur-md flex flex-col items-center text-center shadow-xl">
-              <div className="w-12 h-12 rounded-2xl bg-rose-500/20 border border-rose-400/30 text-rose-300 flex items-center justify-center mb-3">
+              <div className="w-12 h-12 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/35 text-[var(--accent-main)] flex items-center justify-center mb-3">
                 <AlertCircle className="w-6 h-6 stroke-[2.2]" />
               </div>
               <h3 className="text-base font-black text-white mb-1.5">
@@ -384,7 +398,7 @@ export const QrScannerModal: React.FC<QrScannerModalProps> = ({
               onClick={toggleTorch}
               className={`p-3 rounded-2xl border transition-all cursor-pointer tactile-active shadow-md ${
                 isTorchOn
-                  ? 'bg-white text-slate-900 border-white shadow-lg'
+                  ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)] border-white/40 shadow-lg'
                   : 'bg-white/15 hover:bg-white/20 text-white border-white/20'
               }`}
               title="Lampu Kilat"

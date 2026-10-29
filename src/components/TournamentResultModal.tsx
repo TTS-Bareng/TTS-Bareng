@@ -101,7 +101,7 @@ export const TournamentResultModal: React.FC = () => {
 
             <h3 className="text-[20px] font-black tracking-tight leading-tight mt-1 text-white">
               {isChampion
-                ? '🏆 JUARA TURNAMEN!'
+                ? 'JUARA TURNAMEN!'
                 : won
                 ? 'LOLOS KE BABAK BERIKUTNYA!'
                 : 'TERELIMINASI'}
@@ -123,7 +123,7 @@ export const TournamentResultModal: React.FC = () => {
                 <>
                   <Trophy className="w-5 h-5 fill-current text-white shrink-0" />
                   <span className="text-[11.5px] font-black text-white">
-                    +1 Trofi Emas & 200★ Berhasil Diraih!
+                    +1 Trofi Emas & 200 Bintang Berhasil Diraih!
                   </span>
                 </>
               )}
@@ -131,7 +131,7 @@ export const TournamentResultModal: React.FC = () => {
                 <>
                   <Medal className="w-5 h-5 fill-current text-white shrink-0" />
                   <span className="text-[11.5px] font-black text-white">
-                    +1 Trofi Perak & 100★ Diraih!
+                    +1 Trofi Perak & 100 Bintang Diraih!
                   </span>
                 </>
               )}
@@ -139,7 +139,7 @@ export const TournamentResultModal: React.FC = () => {
                 <>
                   <Shield className="w-5 h-5 fill-current text-white shrink-0" />
                   <span className="text-[11.5px] font-black text-white">
-                    +1 Trofi Perunggu & 50★ Diraih!
+                    +1 Trofi Perunggu & 50 Bintang Diraih!
                   </span>
                 </>
               )}

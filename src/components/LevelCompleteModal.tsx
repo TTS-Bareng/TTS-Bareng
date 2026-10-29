@@ -122,7 +122,7 @@ export const LevelCompleteModal: React.FC = () => {
         { label: 'KATA', value: `${totalWords} KATA` },
         {
           label: isMabar ? 'DUO' : 'BINTANG',
-          value: isMabar ? `${localSolvedCount} vs ${partnerSolvedCount}` : `${rating} ★`,
+          value: isMabar ? `${localSolvedCount} vs ${partnerSolvedCount}` : `${rating}/3 Bintang`,
         },
       ],
       shareUrl: levelUrl,
@@ -146,7 +146,7 @@ export const LevelCompleteModal: React.FC = () => {
             background: 'var(--hero-grad, var(--accent-grad))',
             color: '#ffffff',
           }}
-          className="fixed inset-0 z-50 flex flex-col items-center select-none overflow-y-auto no-scrollbar text-white"
+          className="fixed inset-0 z-50 flex flex-col items-center pt-[max(16px,calc(10px+env(safe-area-inset-top)))] pb-[max(18px,calc(10px+env(safe-area-inset-bottom)))] select-none overflow-y-auto no-scrollbar text-white"
         >
           {/* Top Specular Sheen Highlight & Ambient Glows */}
           <div className="fixed top-0 inset-x-0 h-px bg-white/40 pointer-events-none z-10" />

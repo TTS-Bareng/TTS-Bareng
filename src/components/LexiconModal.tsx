@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import {
   X,
@@ -60,10 +60,16 @@ export const LexiconModal: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('SEMUA');
   const [expandedWordId, setExpandedWordId] = useState<string | null>(null);
+  const [visibleCount, setVisibleCount] = useState<number>(60);
+
+  useEffect(() => {
+    setVisibleCount(60);
+  }, [searchQuery, selectedCategory, isLexiconOpen]);
   const dragControls = useDragControls();
 
   // Compute all lexicon words across levels dynamically (Zero Dummy Data)
   const allLexiconWords = useMemo<LexiconWordItem[]>(() => {
+    if (!isLexiconOpen) return [];
     const list: LexiconWordItem[] = [];
     const seenWords = new Set<string>();
 
@@ -95,7 +101,7 @@ export const LexiconModal: React.FC = () => {
     });
 
     return list;
-  }, [levels, levelRecords]);
+  }, [isLexiconOpen, levels, levelRecords]);
 
   // Categories list
   const categories = useMemo(() => {
@@ -276,7 +282,7 @@ export const LexiconModal: React.FC = () => {
                 <p className="text-[12px] font-medium">Tidak ada kata yang sesuai pencarian.</p>
               </div>
             ) : (
-              filteredWords.map((item) => {
+              filteredWords.slice(0, visibleCount).map((item) => {
                 const isExpanded = expandedWordId === item.id;
 
                 if (!item.isUnlocked) {
@@ -373,6 +379,15 @@ export const LexiconModal: React.FC = () => {
                   </div>
                 );
               })
+            )}
+            {filteredWords.length > visibleCount && (
+              <button
+                type="button"
+                onClick={() => setVisibleCount((prev) => prev + 80)}
+                className="w-full py-2.5 rounded-2xl bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/25 text-[11px] font-black cursor-pointer tactile-active mt-2"
+              >
+                Tampilkan Lebih Banyak ({filteredWords.length - visibleCount} kata lagi)
+              </button>
             )}
           </div>
         </motion.div>

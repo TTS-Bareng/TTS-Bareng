@@ -122,7 +122,7 @@ export const InviteFriendsToMabarModal: React.FC<InviteFriendsToMabarModalProps>
                       onClick={() => handleInvite(friend.id, friend.name)}
                       className={`px-3 py-1.5 rounded-xl text-[10.5px] font-black flex items-center gap-1.5 cursor-pointer tactile-active transition-all shrink-0 ${
                         isSent
-                          ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
+                          ? 'bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/30'
                           : 'shadow-xs border border-white/20'
                       }`}
                       style={!isSent ? { background: 'var(--accent-grad)', color: 'var(--accent-contrast)' } : {}}

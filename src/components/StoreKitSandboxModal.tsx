@@ -105,13 +105,13 @@ export const StoreKitSandboxModal: React.FC = () => {
           {/* Header Row: Apple StoreKit Sandbox Badge */}
           <div className="flex items-center justify-between pb-1 border-b border-white/10">
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-400">
+              <div className="w-7 h-7 rounded-lg bg-[var(--accent-light)] border border-[var(--accent-main)]/30 flex items-center justify-center text-[var(--accent-main)]">
                 <AppleLogoIcon className="w-4 h-4" />
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center gap-1.5">
                   <span className="text-[12px] font-black tracking-tight text-white">App Store</span>
-                  <span className="text-[8.5px] font-bold px-1.5 py-0.5 rounded-full bg-blue-500/25 text-blue-300 border border-blue-400/30">
+                  <span className="text-[8.5px] font-bold px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/30">
                     StoreKit 2 Sandbox
                   </span>
                 </div>
@@ -141,7 +141,7 @@ export const StoreKitSandboxModal: React.FC = () => {
               <span className="text-[14px] font-black text-white leading-tight truncate">
                 {productTitle}
               </span>
-              <span className="text-[10px] text-sky-400 font-semibold mt-0.5">
+              <span className="text-[10px] text-[var(--accent-main)] font-semibold mt-0.5">
                 Syntheticae Studio (In-App Purchase)
               </span>
             </div>
@@ -187,7 +187,7 @@ export const StoreKitSandboxModal: React.FC = () => {
               className={`w-full h-12 rounded-2xl font-black text-[13px] flex items-center justify-center gap-2 transition-all cursor-pointer shadow-lg ${
                 isSuccess
                   ? 'bg-[var(--accent-main)] text-[var(--accent-contrast)]'
-                  : 'bg-blue-600 hover:bg-blue-500 active:scale-98 text-white'
+                  : 'bg-[var(--accent-main)] hover:opacity-90 active:scale-98 text-[var(--accent-contrast)]'
               }`}
             >
               {isProcessing ? (

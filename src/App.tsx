@@ -232,10 +232,10 @@ export const App: React.FC = () => {
         const isAlreadyOnboarded = localOnboarded || metaOnboarded || cloudHasHistory;
 
         const toastMsg = isGoogle
-          ? '✨ Berhasil masuk dengan Akun Google!'
+          ? 'Berhasil masuk dengan Akun Google!'
           : isApple
-          ? '✨ Berhasil masuk dengan Apple ID!'
-          : '✨ Berhasil masuk ke akun Anda!';
+          ? 'Berhasil masuk dengan Apple ID!'
+          : 'Berhasil masuk ke akun Anda!';
         useGameStore.getState().showGlobalToast(toastMsg);
 
         if (isAlreadyOnboarded) {

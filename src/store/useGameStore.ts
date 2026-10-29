@@ -1481,7 +1481,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       return false;
     }
     if (stars < 100) {
-      get().showGlobalToast('Bintang tidak cukup! Butuh 100★ untuk membeli perisai.');
+      get().showGlobalToast('Bintang tidak cukup! Butuh 100 Bintang untuk membeli perisai.');
       return false;
     }
     const nextStars = stars - 100;
@@ -1498,7 +1498,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       spread: 60,
       origin: { y: 0.7 },
     });
-    get().showGlobalToast('Berhasil membeli 1 Perisai Runtun (-100★)!');
+    get().showGlobalToast('Berhasil membeli 1 Perisai Runtun (-100 Bintang)!');
     return true;
   },
 
@@ -1556,7 +1556,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       spread: 70,
       origin: { y: 0.7 },
     });
-    get().showGlobalToast('Hadiah Lencana Diklaim (+25★)!', 2800);
+    get().showGlobalToast('Hadiah Lencana Diklaim (+25 Bintang)!', 2800);
   },
 
   // Smart Solving & Assisting Engine State & Actions
@@ -2369,14 +2369,14 @@ export const useGameStore = create<GameState>((set, get) => ({
       tournamentTickets: nextTickets,
       lastTicketClaimDate: today,
     });
-    get().showGlobalToast('🎟️ +1 Tiket Turnamen Harian Berhasil Diklaim!');
+    get().showGlobalToast('+1 Tiket Turnamen Harian Berhasil Diklaim!');
     return true;
   },
 
   buyTournamentTicketWithStars: () => {
     const { stars, tournamentTickets, showGlobalToast } = get();
     if (stars < 50) {
-      showGlobalToast('Bintang tidak mencukupi (Butuh 50★)!');
+      showGlobalToast('Bintang tidak mencukupi (Butuh 50 Bintang)!');
       return false;
     }
     const nextStars = stars - 50;
@@ -2387,7 +2387,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       stars: nextStars,
       tournamentTickets: nextTickets,
     });
-    showGlobalToast('🎟️ Berhasil Menukar 50★ dengan 1 Tiket Turnamen!');
+    showGlobalToast('Berhasil Menukar 50 Bintang dengan 1 Tiket Turnamen!');
     return true;
   },
 
@@ -2838,7 +2838,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     const { tournamentState, tournamentTickets, levels, soundEnabled, hapticEnabled } = get();
 
     if (tournamentTickets <= 0) {
-      get().showGlobalToast('Tiket turnamen habis! Klaim tiket harian gratis atau tukar 50★.');
+      get().showGlobalToast('Tiket turnamen habis! Klaim tiket harian gratis atau tukar 50 Bintang.');
       return;
     }
 
@@ -3524,7 +3524,7 @@ export const useGameStore = create<GameState>((set, get) => ({
           haptic.levelComplete();
         }
         confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-        showGlobalToast(`Menang Duel! +${delta} ELO (${newElo} • ${tier.title}) & +30★!`, 4000);
+        showGlobalToast(`Menang Duel! +${delta} ELO (${newElo} • ${tier.title}) & +30 Bintang!`, 4000);
       } else if (nextRoundWins.partner > nextRoundWins.local) {
         overallWinner = 'partner';
         const { delta, newElo } = get().recordBattleEloOutcome(oppElo, false);
@@ -4447,6 +4447,15 @@ export const useGameStore = create<GameState>((set, get) => ({
 
       localStorage.setItem(STORAGE_KEY_STARS, updatedStars.toString());
       localStorage.setItem(STORAGE_KEY_RECORDS, JSON.stringify(updatedRecords));
+      try {
+        const todayStr = getTodayDateString();
+        const dailyWordsKey = `tts_quest_daily_words_${todayStr}`;
+        const prevDailyWords = parseInt(localStorage.getItem(dailyWordsKey) || '0', 10) || 0;
+        localStorage.setItem(dailyWordsKey, String(prevDailyWords + newlySolvedClues.length));
+        if (isLevelComplete) {
+          localStorage.setItem(`tts_quest_daily_level_${todayStr}`, 'true');
+        }
+      } catch {}
 
       if (soundEnabled) soundManager.playWordCorrect(nextWordStreak);
       if (hapticEnabled) {
@@ -4470,7 +4479,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         shakingCells: [],
         wordStreak: nextWordStreak,
         comboMessage: nextComboMessage,
-        validationMessage: isLevelComplete ? null : `${newlySolvedClues.length} kata terverifikasi! +${addedStars}★`,
+        validationMessage: isLevelComplete ? null : `${newlySolvedClues.length} kata terverifikasi! +${addedStars} Bintang`,
         levelRecords: updatedRecords,
       });
 

@@ -172,7 +172,7 @@ export const Header: React.FC = () => {
                 vs {communityOpponent?.name || 'Lawan'}
               </h2>
               {communityOpponent?.id && !communityOpponent.id.startsWith('bot_') && (
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" title="Lawan Terhubung Live" />
+                <span className="w-2 h-2 rounded-full bg-[var(--accent-main)] animate-pulse shrink-0" title="Lawan Terhubung Live" />
               )}
             </div>
           </div>
@@ -249,10 +249,10 @@ export const Header: React.FC = () => {
                 <span
                   className={`w-1.5 h-1.5 rounded-full shrink-0 ${
                     partnerReconnecting
-                      ? 'bg-amber-400 animate-ping'
+                      ? 'bg-[var(--accent-main)]/75 animate-ping'
                       : mabarPeers.length >= 2
-                      ? 'bg-emerald-500 animate-pulse'
-                      : 'bg-amber-400'
+                      ? 'bg-[var(--accent-main)] animate-pulse'
+                      : 'bg-[var(--accent-main)]/75'
                   }`}
                 />
                 <span className="text-[8px] font-black uppercase tracking-wider text-[var(--accent-main)] truncate">
@@ -311,7 +311,7 @@ export const Header: React.FC = () => {
               onClick={handleReportCustomCrossword}
               aria-label="Laporkan TTS Kustom"
               title="Laporkan Konten / Kata Kasar (Apple Guideline 1.2)"
-              className="w-8 h-8 rounded-full flex items-center justify-center liquid-glass-card border border-rose-500/25 text-rose-500 hover:bg-rose-500/10 cursor-pointer tactile-active shadow-xs"
+              className="w-8 h-8 rounded-full flex items-center justify-center liquid-glass-card border border-[var(--accent-main)]/25 text-[var(--accent-main)] hover:bg-[var(--accent-light)] cursor-pointer tactile-active shadow-xs"
             >
               <Flag className="w-3.5 h-3.5 stroke-[2.2]" />
             </button>
@@ -333,7 +333,7 @@ export const Header: React.FC = () => {
                 });
               }}
               aria-label="Keluar Sesi Mabar"
-              className="w-8 h-8 rounded-full flex items-center justify-center liquid-glass-card border border-rose-500/25 text-rose-500 hover:bg-rose-500/10 cursor-pointer tactile-active shadow-xs"
+              className="w-8 h-8 rounded-full flex items-center justify-center liquid-glass-card border border-[var(--accent-main)]/25 text-[var(--accent-main)] hover:bg-[var(--accent-light)] cursor-pointer tactile-active shadow-xs"
               title="Keluar Sesi Mabar"
             >
               <LogOut className="w-3.5 h-3.5 stroke-[2.2]" />
@@ -374,7 +374,7 @@ export const Header: React.FC = () => {
             {/* Countdown Timer in Center */}
             <div
               className={`flex items-center gap-1 text-[10px] font-black ${
-                battleTimeLeft <= 10 ? 'text-rose-500 animate-pulse' : 'text-[var(--text-primary)]'
+                battleTimeLeft <= 10 ? 'text-[var(--accent-main)] animate-pulse' : 'text-[var(--text-primary)]'
               }`}
             >
               <Clock className="w-3 h-3 stroke-[2.2]" />

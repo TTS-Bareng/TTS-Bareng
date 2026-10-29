@@ -64,14 +64,14 @@ export const CustomKeyboard: React.FC = () => {
               <span>Periksa Kata</span>
             </button>
 
-            {/* 2. Hint (-10★) */}
+            {/* 2. Hint (-10 Bintang) */}
             <button
               type="button"
               onClick={useHint}
               className="py-2 px-3 rounded-xl text-[11px] font-bold flex items-center gap-1 border border-black/5 dark:border-white/10 shadow-xs cursor-pointer tactile-active bg-black/5 dark:bg-white/10 text-[var(--text-primary)] hover:bg-black/10"
             >
               <Star className="w-3.5 h-3.5 fill-[var(--accent-main)] text-[var(--accent-main)]" />
-              <span>Hint (-10★)</span>
+              <span>Hint (-10)</span>
             </button>
 
             {/* 3. Clear Active Word */}

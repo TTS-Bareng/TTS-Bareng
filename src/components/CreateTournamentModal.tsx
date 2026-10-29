@@ -150,10 +150,10 @@ export const CreateTournamentModal: React.FC = () => {
               </div>
 
               <div className="text-[9.5px] text-[var(--text-secondary)] font-medium px-1">
-                {maxPlayers <= 4 && '⚡ 4 Pemain: Babak Semifinal & Grand Final.'}
-                {maxPlayers === 6 && '🏆 6 Pemain: 2 Peserta Unggulan (Bye) + Semifinal + Final.'}
-                {maxPlayers === 8 && '🏆 8 Pemain: Perempat Final, Semifinal, dan Grand Final.'}
-                {maxPlayers >= 10 && `🔥 ${maxPlayers} Pemain: Babak Penyisihan, 8 Besar, Semifinal, dan Grand Final.`}
+                {maxPlayers <= 4 && '4 Pemain: Babak Semifinal & Grand Final.'}
+                {maxPlayers === 6 && '6 Pemain: 2 Peserta Unggulan (Bye) + Semifinal + Final.'}
+                {maxPlayers === 8 && '8 Pemain: Perempat Final, Semifinal, dan Grand Final.'}
+                {maxPlayers >= 10 && `${maxPlayers} Pemain: Babak Penyisihan, 8 Besar, Semifinal, dan Grand Final.`}
               </div>
             </div>
 
@@ -172,7 +172,7 @@ export const CreateTournamentModal: React.FC = () => {
               >
                 <div className="flex items-center gap-2 min-w-0">
                   <span className="text-[15px]">
-                    {selectedTheme === 'Semua Kategori (Acak)' ? '🎲' : '📚'}
+                    {selectedTheme === 'Semua Kategori (Acak)' ? 'ACAK' : 'TEMA'}
                   </span>
                   <span className="text-[12.5px] font-bold text-[var(--text-primary)] truncate">
                     {selectedTheme}
@@ -311,7 +311,7 @@ export const CreateTournamentModal: React.FC = () => {
                 </span>
               </div>
               <span className="text-[11.5px] font-black text-[var(--accent-main)] relative z-10">
-                🏆 Emas + 200 ★ Bintang
+                Trofi Emas + 200 Bintang
               </span>
             </div>
           </form>

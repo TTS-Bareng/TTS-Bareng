@@ -71,7 +71,7 @@ export const TournamentBracketDrawingOverlay: React.FC<TournamentBracketDrawingO
           onClick={onComplete}
           className="text-[10px] font-bold text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer px-2.5 py-1 rounded-full bg-black/5 dark:bg-white/10"
         >
-          Lewati ➔
+          Lewati
         </button>
       </div>
 

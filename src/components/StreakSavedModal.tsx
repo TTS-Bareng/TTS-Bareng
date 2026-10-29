@@ -124,7 +124,7 @@ export const StreakSavedModal: React.FC = () => {
                 }}
               >
                 <Plus className="w-4 h-4 stroke-[2.5]" />
-                <span>Isi Ulang Perisai (100★)</span>
+                <span>Isi Ulang Perisai (100 Bintang)</span>
               </button>
             )}
 

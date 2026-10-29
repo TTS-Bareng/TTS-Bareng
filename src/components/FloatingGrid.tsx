@@ -22,7 +22,15 @@ export const FloatingGrid: React.FC = () => {
 
     updateSize();
     window.addEventListener('resize', updateSize);
-    return () => window.removeEventListener('resize', updateSize);
+    let observer: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== 'undefined' && containerRef.current) {
+      observer = new ResizeObserver(() => updateSize());
+      observer.observe(containerRef.current);
+    }
+    return () => {
+      window.removeEventListener('resize', updateSize);
+      observer?.disconnect();
+    };
   }, []);
 
   // Responsive tile size based on BOTH available width and height

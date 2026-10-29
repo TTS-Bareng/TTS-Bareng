@@ -11,27 +11,24 @@ interface TileProps {
   style?: React.CSSProperties;
 }
 
-export const Tile: React.FC<TileProps> = ({ r, c, style }) => {
+export const Tile: React.FC<TileProps> = React.memo(({ r, c, style }) => {
   const tileRef = useRef<HTMLButtonElement>(null);
-  const {
-    level,
-    activeClueId,
-    focusedCell,
-    userInputs,
-    lockedCells,
-    poppingCells,
-    shakingCells,
-    selectCell,
-    partnerCursor,
-    cellAuthors,
-    activeRoomCode,
-    gameMode,
-    theme,
-  } = useGameStore();
+  const key = `${r},${c}`;
+  const level = useGameStore((s) => s.level);
+  const activeClueId = useGameStore((s) => s.activeClueId);
+  const isFocused = useGameStore((s) => s.focusedCell?.[0] === r && s.focusedCell?.[1] === c);
+  const letter = useGameStore((s) => s.userInputs[key] || '');
+  const isLocked = useGameStore((s) => Boolean(s.lockedCells[key]));
+  const isPopping = useGameStore((s) => s.poppingCells.includes(key));
+  const isShaking = useGameStore((s) => s.shakingCells.includes(key));
+  const selectCell = useGameStore((s) => s.selectCell);
+  const partnerCursorName = useGameStore((s) => (s.partnerCursor?.key === key ? s.partnerCursor.name : null));
+  const cellAuthor = useGameStore((s) => s.cellAuthors[key]);
+  const activeRoomCode = useGameStore((s) => s.activeRoomCode);
+  const gameMode = useGameStore((s) => s.gameMode);
+  const theme = useGameStore((s) => s.theme);
 
   const tileData = level.tiles.find((t) => t.r === r && t.c === c);
-
-  const isFocused = focusedCell?.[0] === r && focusedCell?.[1] === c;
 
   // Auto-scroll active focused cell into view on mobile so it never hides behind keyboard or clue ribbon
   useEffect(() => {
@@ -48,18 +45,13 @@ export const Tile: React.FC<TileProps> = ({ r, c, style }) => {
     return null;
   }
 
-  const key = `${r},${c}`;
-  const letter = userInputs[key] || '';
-  const isLocked = !!lockedCells[key];
-  const isPopping = poppingCells.includes(key);
-  const isShaking = shakingCells.includes(key);
-  const isPartnerCell = !!activeRoomCode && !!letter && cellAuthors[key] === 'partner';
+  const isPartnerCell = !!activeRoomCode && !!letter && cellAuthor === 'partner';
 
   // 1v1 Tug-of-War Battle: dynamically stained with player's adaptive palette
   const isBattle = gameMode === '1v1_battle';
   const battlePalette = getBattlePalette(theme);
-  const battleOwner = isBattle && isLocked && cellAuthors[key]
-    ? cellAuthors[key] === 'local'
+  const battleOwner = isBattle && isLocked && cellAuthor
+    ? cellAuthor === 'local'
       ? battlePalette.p1
       : battlePalette.p2
     : null;
@@ -175,13 +167,13 @@ export const Tile: React.FC<TileProps> = ({ r, c, style }) => {
       )}
 
       {/* Partner active cursor indicator (Mabar live sync) */}
-      {partnerCursor?.key === key && (
+      {partnerCursorName && (
         <div className="absolute inset-0 rounded-[9px] sm:rounded-[11px] ring-2 ring-[var(--accent-main)] pointer-events-none z-30 animate-pulse">
           <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-1.5 py-0.2 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[7px] font-black uppercase tracking-wider shadow-xs whitespace-nowrap">
-            {partnerCursor.name.split(' ')[0]}
+            {partnerCursorName.split(' ')[0]}
           </span>
         </div>
       )}
     </motion.button>
   );
-};
+});

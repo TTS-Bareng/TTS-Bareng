@@ -54,7 +54,7 @@ export const ConfirmDialogModal: React.FC = () => {
               <div
                 className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border ${
                   isDestructive
-                    ? 'bg-rose-500/15 border-rose-500/30 text-rose-500'
+                    ? 'bg-[var(--accent-light)] border-[var(--accent-main)]/35 text-[var(--accent-main)]'
                     : 'bg-[var(--accent-light)] border-[var(--accent-main)]/30 text-[var(--accent-main)]'
                 }`}
               >
@@ -99,7 +99,7 @@ export const ConfirmDialogModal: React.FC = () => {
               onClick={handleConfirm}
               className={`flex-1 py-2.5 px-3 rounded-full text-[11.5px] font-black shadow-md transition-all cursor-pointer tactile-active ${
                 isDestructive
-                  ? 'bg-rose-500 hover:bg-rose-600 text-white'
+                  ? 'bg-[var(--accent-main)] hover:opacity-90 text-[var(--accent-contrast)]'
                   : 'bg-[var(--accent-main)] text-[var(--accent-contrast)] hover:opacity-95'
               }`}
             >

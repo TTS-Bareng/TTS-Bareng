@@ -173,9 +173,48 @@ class RevenueCatService {
   /**
    * Melakukan pembelian produk berdasarkan Product ID.
    */
+  public async getDynamicPriceMap(): Promise<Record<string, string>> {
+    const map: Record<string, string> = {};
+    if (this.isMockMode) return map;
+    if (!this.isConfigured) {
+      await this.initialize(this.currentUserId || undefined);
+    }
+    try {
+      const offering = await this.getOffering();
+      if (offering && offering.availablePackages) {
+        for (const pkg of offering.availablePackages) {
+          if (pkg.product?.identifier && pkg.product?.priceString) {
+            map[pkg.product.identifier] = pkg.product.priceString;
+          }
+          if (pkg.identifier && pkg.product?.priceString) {
+            map[pkg.identifier] = pkg.product.priceString;
+          }
+        }
+      }
+    } catch {
+      // fallback to default labels
+    }
+    return map;
+  }
+
   public async purchaseProduct(productId: string): Promise<PurchaseResult> {
-    // Mode Mock Sandbox jika di web/dev (Simulasi StoreKit 2 Sheet)
-    if (this.isMockMode || !this.isConfigured) {
+    const isNative = Capacitor.isNativePlatform();
+
+    // Jika di perangkat native (iOS/Android) tetapi belum terkonfigurasi, coba inisialisasi ulang
+    if (isNative && !this.isConfigured) {
+      await this.initialize(this.currentUserId || undefined);
+    }
+
+    // DILARANG membuka simulasi StoreKitSandboxModal pada perangkat iOS/Android asli (Apple Guideline 2.1 & 3.1.1)
+    if (isNative && (!this.isConfigured || this.isMockMode)) {
+      return {
+        success: false,
+        error: 'Layanan App Store sedang tidak tersedia. Periksa koneksi internet Anda dan coba lagi.',
+      };
+    }
+
+    // Mode Mock Sandbox HANYA jika dijalankan di Web browser non-native
+    if (!isNative && (this.isMockMode || !this.isConfigured)) {
       console.info(`[RevenueCat:Mock] Menjalankan simulasi Sandbox StoreKit Sheet untuk ${productId}...`);
 
       let productTitle = 'Paket Pembelian Dalam Aplikasi';

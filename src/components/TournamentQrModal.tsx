@@ -54,7 +54,7 @@ export const TournamentQrModal: React.FC<TournamentQrModalProps> = ({
 
   const handleShareWhatsApp = async () => {
     const text =
-      `🏆 Ayo bergabung ke Turnamen TTS Bareng!\n\n` +
+      `Ayo bergabung ke Turnamen TTS Bareng!\n\n` +
       `Kamar: *${tournament.name}*\n` +
       `Kode PIN: *${tournament.code}*\n` +
       `Format: *${tournament.maxPlayers} Pemain (Sistem Gugur)*\n\n` +
@@ -147,18 +147,18 @@ export const TournamentQrModal: React.FC<TournamentQrModalProps> = ({
                 <img
                   src={MASCOTS.crosswordChampion}
                   alt="Avatar Juara"
-                  className="w-full h-full rounded-full object-cover bg-amber-50"
+                  className="w-full h-full rounded-full object-cover bg-[var(--accent-light)]"
                 />
               </div>
-              <div className="px-3 py-1 rounded-full bg-white text-slate-900 font-black text-[10.5px] shadow-lg border border-slate-200/90 tracking-tight">
-                Rebut Trofi Emas! 🏆
+              <div className="px-3 py-1 rounded-full bg-[var(--bg-card)] text-[var(--text-primary)] font-black text-[10.5px] shadow-lg border border-black/10 dark:border-white/15/90 tracking-tight">
+                Rebut Trofi Emas!
               </div>
             </div>
 
             {/* White Ticket Base / QR Stub */}
-            <div className="w-full bg-white rounded-b-[34px] p-6 pt-4 pb-11 flex flex-col items-center text-center shadow-lg border-t border-slate-100">
+            <div className="w-full bg-[var(--bg-card)] text-[var(--text-primary)] rounded-b-[34px] p-6 pt-4 pb-11 flex flex-col items-center text-center shadow-lg border-t border-black/10 dark:border-white/10">
               {/* Real Scannable QR Code Frame */}
-              <div className="p-3.5 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 shadow-xs flex flex-col items-center my-2">
+              <div className="p-3.5 rounded-2xl bg-white border border-black/10 shadow-xs flex flex-col items-center my-2">
                 {qrCodeDataUrl ? (
                   <img
                     src={qrCodeDataUrl}
@@ -166,23 +166,23 @@ export const TournamentQrModal: React.FC<TournamentQrModalProps> = ({
                     className="w-40 h-40 rounded-xl object-contain"
                   />
                 ) : (
-                  <div className="w-40 h-40 flex items-center justify-center text-xs text-slate-400">
+                  <div className="w-40 h-40 flex items-center justify-center text-xs text-[var(--text-secondary)]">
                     Membuat QR...
                   </div>
                 )}
-                <span className="text-[14px] font-black tracking-widest text-slate-900 mt-2.5 font-mono">
+                <span className="text-[14px] font-black tracking-widest text-[var(--text-primary)] mt-2.5 font-mono">
                   PIN: {tournament.code.split('').join(' ')}
                 </span>
               </div>
 
               {/* Tournament Name & Host info */}
-              <div className="text-[9.5px] font-bold uppercase tracking-wider text-slate-400 mt-2.5">
+              <div className="text-[9.5px] font-bold uppercase tracking-wider text-[var(--text-secondary)] mt-2.5">
                 TURNAMEN RESMI
               </div>
-              <div className="text-[14px] font-black text-slate-900 mt-0.5 tracking-tight truncate max-w-[260px]">
+              <div className="text-[14px] font-black text-[var(--text-primary)] mt-0.5 tracking-tight truncate max-w-[260px]">
                 {tournament.name.toUpperCase()}
               </div>
-              <span className="text-[10px] font-bold text-slate-500 mt-0.5">
+              <span className="text-[10px] font-bold text-[var(--text-secondary)] mt-0.5">
                 Host: {tournament.hostName} • Kuota: {tournament.maxPlayers} Pemain
               </span>
             </div>

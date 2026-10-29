@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X,
@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { MASCOTS } from '../assets/maskots';
-import { revenueCatService, type VipPlan } from '../lib/revenueCatService';
+import { revenueCatService, IAP_PRODUCT_IDS, type VipPlan } from '../lib/revenueCatService';
 import { haptic } from '../lib/haptics';
 
 interface PlanOption {
@@ -78,10 +78,31 @@ export const VipSubscriptionModal: React.FC = () => {
 
   const [selectedPlan, setSelectedPlan] = useState<VipPlan>('annual');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [dynamicPrices, setDynamicPrices] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    if (!isVipModalOpen) return;
+    revenueCatService.getDynamicPriceMap().then((prices) => {
+      if (prices && Object.keys(prices).length > 0) {
+        setDynamicPrices(prices);
+      }
+    }).catch(() => {});
+  }, [isVipModalOpen]);
 
   if (!isVipModalOpen) return null;
 
-  const currentPlan = VIP_PLANS.find((p) => p.id === selectedPlan) || VIP_PLANS[0];
+  const resolvedPlans = VIP_PLANS.map((p) => {
+    const prodId =
+      p.id === 'annual'
+        ? IAP_PRODUCT_IDS.vipAnnual
+        : p.id === 'monthly'
+        ? IAP_PRODUCT_IDS.vipMonthly
+        : IAP_PRODUCT_IDS.vipLifetime;
+    const dynamicPrice = dynamicPrices[prodId];
+    return dynamicPrice ? { ...p, price: dynamicPrice } : p;
+  });
+
+  const currentPlan = resolvedPlans.find((p) => p.id === selectedPlan) || resolvedPlans[0];
 
   const handlePurchaseVip = async () => {
     try {
@@ -313,7 +334,7 @@ export const VipSubscriptionModal: React.FC = () => {
             </div>
           ) : (
             <div className="w-full flex flex-col gap-2 mt-1">
-              {VIP_PLANS.map((plan) => {
+              {resolvedPlans.map((plan) => {
                 const isSelected = selectedPlan === plan.id;
                 return (
                   <button
@@ -426,7 +447,7 @@ export const VipSubscriptionModal: React.FC = () => {
               <div className="w-full flex items-center justify-center gap-1.5 py-1 px-2.5 rounded-xl bg-black/10 dark:bg-white/5 border border-black/5 dark:border-white/5 text-[8.5px] text-[var(--text-secondary)] mt-0.5">
                 <Shield className="w-3 h-3 text-[var(--accent-main)] shrink-0" />
                 <span>
-                  Bisa bayar via <strong>GoPay, DANA, ShopeePay</strong> & Debit di Apple ID
+                  Transaksi diproses aman melalui metode pembayaran resmi <strong>Akun Apple ID</strong>
                 </span>
               </div>
 
