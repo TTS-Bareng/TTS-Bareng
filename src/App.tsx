@@ -16,6 +16,7 @@ import { revenueCatService } from './lib/revenueCatService';
 import { supabase, isSupabaseConfigured, fetchUserProfile } from './lib/supabase';
 import { syncWidgetSnapshot, getPendingWidgetAction, clearPendingWidgetAction } from './lib/widgetSync';
 import { getEloTier } from './lib/eloSystem';
+import { subscribeToSocialInbox, consumeAcceptedFriendships, type MabarInvite } from './lib/socialSync';
 
 // Lazy-loaded views & modals for instant initial launch (< 200ms)
 const ArenaView = lazy(() => import('./views/ArenaView').then((m) => ({ default: m.ArenaView })));
@@ -51,6 +52,7 @@ const BattleResultModal = lazy(() => import('./components/BattleResultModal').th
 const BattleLobbyModal = lazy(() => import('./components/BattleLobbyModal').then((m) => ({ default: m.BattleLobbyModal })));
 const AddFriendModal = lazy(() => import('./components/AddFriendModal').then((m) => ({ default: m.AddFriendModal })));
 const ConfirmDialogModal = lazy(() => import('./components/ConfirmDialogModal').then((m) => ({ default: m.ConfirmDialogModal })));
+const MabarInviteModal = lazy(() => import('./components/MabarInviteModal').then((m) => ({ default: m.MabarInviteModal })));
 const InitialAuthView = lazy(() => import('./views/InitialAuthView').then((m) => ({ default: m.InitialAuthView })));
 const OnboardingView = lazy(() => import('./views/OnboardingView').then((m) => ({ default: m.OnboardingView })));
 
@@ -103,7 +105,43 @@ export const App: React.FC = () => {
     playCustomCrossword,
     saveUserCustomCrossword,
     reconcileActiveGameplayLifecycles,
+    user,
+    addFriend,
   } = useGameStore();
+
+  const [incomingMabarInvite, setIncomingMabarInvite] = React.useState<MabarInvite | null>(null);
+
+  // Listen for real-time social events (Two-way friend requests, acceptances, mabar invites)
+  useEffect(() => {
+    if (!user?.id) return;
+
+    // Check consumed acceptances on boot
+    consumeAcceptedFriendships(user.id).then((newFriends) => {
+      if (newFriends && newFriends.length > 0) {
+        for (const nf of newFriends) {
+          addFriend(nf);
+          showGlobalToast(`${nf.name} telah menerima permintaan berteman!`, 3500);
+        }
+      }
+    });
+
+    const unsubscribe = subscribeToSocialInbox(user.id, {
+      onFriendRequest: (req) => {
+        showGlobalToast(`Permintaan pertemanan baru dari ${req.fromName}!`, 3500);
+      },
+      onFriendAccepted: (friend) => {
+        addFriend(friend);
+        showGlobalToast(`${friend.name} menerima permintaan berteman Anda!`, 3500);
+      },
+      onMabarInvite: (invite) => {
+        setIncomingMabarInvite(invite);
+      },
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [user?.id, addFriend, showGlobalToast]);
 
   // Listen for local notification tap actions (Daily Rush, Game, Arena)
   useEffect(() => {
@@ -651,6 +689,16 @@ export const App: React.FC = () => {
         <BattleLobbyModal />
         <AddFriendModal />
         <ConfirmDialogModal />
+        <MabarInviteModal
+          invite={incomingMabarInvite}
+          onAccept={(code) => {
+            setActiveRoomCode(code);
+            setCurrentTab('social');
+            setIncomingMabarInvite(null);
+            showGlobalToast('Bergabung ke kamar mabar kawan...', 2500);
+          }}
+          onDecline={() => setIncomingMabarInvite(null)}
+        />
       </Suspense>
     </div>
   );

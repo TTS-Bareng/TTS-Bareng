@@ -19,6 +19,8 @@ import {
   X,
   ScanLine,
   PenTool,
+  UserPlus,
+  LogOut,
 } from 'lucide-react';
 import QRCode from 'qrcode';
 import { useGameStore } from '../store/useGameStore';
@@ -28,6 +30,7 @@ import { MASCOTS } from '../assets/maskots';
 import { createDeepLink, shareOrCopy } from '../lib/deeplink';
 import { copyToClipboard } from '../lib/clipboard';
 import { QrScannerModal } from '../components/QrScannerModal';
+import { InviteFriendsToMabarModal } from '../components/InviteFriendsToMabarModal';
 import { mabarRealtime } from '../lib/mabarRealtime';
 
 export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = false }) => {
@@ -57,6 +60,8 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
     openCustomCrosswordModal,
     openSachetModal,
     openLeaderboard,
+    openConfirmDialog,
+    leaveMabarSession,
   } = useGameStore();
 
   const [activeSegment, setActiveSegment] = useState<'coop' | 'battle'>('coop');
@@ -68,6 +73,7 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
   const [inputCode, setInputCode] = useState('');
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
   const [isOffline, setIsOffline] = useState(() => typeof navigator !== 'undefined' ? !navigator.onLine : false);
+  const [isInviteFriendsModalOpen, setIsInviteFriendsModalOpen] = useState(false);
 
   useEffect(() => {
     const onOnline = () => setIsOffline(false);
@@ -157,6 +163,35 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
 
   const handleScanSuccess = (scannedCode: string) => {
     handleJoinRoom(scannedCode);
+  };
+
+  // Auto-subscribe to Supabase room channel when in Mabar lobby so friends joining via barcode/QR are detected in real-time
+  useEffect(() => {
+    if (activeSegment === 'coop' && !isOffline && user && !user.isGuest) {
+      const codeToJoin = activeRoomCode || localRoomCode;
+      if (codeToJoin) {
+        if (!activeRoomCode) {
+          setActiveRoomCode(codeToJoin);
+        } else {
+          mabarRealtime.joinRoom(codeToJoin, { name: user.name, avatar: user.avatar });
+        }
+      }
+    }
+  }, [activeSegment, activeRoomCode, localRoomCode, user, isOffline]);
+
+  const handleLeaveRoom = () => {
+    openConfirmDialog({
+      title: 'Keluar dari Kamar Mabar?',
+      message: `Apakah Anda yakin ingin keluar dari Kamar ${roomCode}? Hubungan realtime dengan teman di kamar ini akan diputuskan.`,
+      confirmLabel: 'Keluar Kamar',
+      isDestructive: true,
+      onConfirm: () => {
+        leaveMabarSession();
+        const next = `TTS-${Math.floor(1000 + Math.random() * 9000)}`;
+        setLocalRoomCode(next);
+        showGlobalToast('Berhasil keluar dari kamar mabar');
+      },
+    });
   };
 
   const handleLaunchGame = () => {
@@ -314,6 +349,16 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
               >
                 <RotateCcw className="w-3 h-3 stroke-[2.2]" />
               </button>
+              {isRoomActive && (
+                <button
+                  type="button"
+                  onClick={handleLeaveRoom}
+                  title="Keluar dari Kamar"
+                  className="p-1.5 rounded-full bg-rose-500/40 hover:bg-rose-500/60 text-white cursor-pointer tactile-active transition-colors shrink-0"
+                >
+                  <LogOut className="w-3 h-3 stroke-[2.2]" />
+                </button>
+              )}
             </div>
 
             {/* Overlapping Player Avatars Pill */}
@@ -353,8 +398,8 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
               </span>
             </div>
 
-            {/* Primary Action Button (Left Aligned) */}
-            <div className="flex items-center gap-2 justify-start relative z-10">
+            {/* Primary Action Buttons (Left Aligned) */}
+            <div className="flex flex-wrap items-center gap-1.5 justify-start relative z-10">
               <button
                 type="button"
                 onClick={handleLaunchGame}
@@ -367,12 +412,32 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
 
               <button
                 type="button"
+                onClick={() => setIsInviteFriendsModalOpen(true)}
+                className="py-1.5 px-3 rounded-full bg-white/20 hover:bg-white/30 text-white border border-white/25 text-[10.5px] font-black inline-flex items-center gap-1.5 cursor-pointer tactile-active transition-colors"
+              >
+                <UserPlus className="w-3 h-3 stroke-[2.2]" />
+                <span>Ajak Kawan</span>
+              </button>
+
+              <button
+                type="button"
                 onClick={handleShareRoom}
                 className="py-1.5 px-3 rounded-full bg-white/20 hover:bg-white/30 text-white border border-white/25 text-[10.5px] font-black inline-flex items-center gap-1.5 cursor-pointer tactile-active transition-colors"
               >
                 <Share2 className="w-3 h-3 stroke-[2.2]" />
-                <span>Undang Teman</span>
+                <span>Undang</span>
               </button>
+
+              {isRoomActive && (
+                <button
+                  type="button"
+                  onClick={handleLeaveRoom}
+                  className="py-1.5 px-2.5 rounded-full bg-rose-500/30 hover:bg-rose-500/50 text-white border border-rose-400/40 text-[10.5px] font-black inline-flex items-center gap-1 cursor-pointer tactile-active transition-colors"
+                >
+                  <LogOut className="w-3 h-3 stroke-[2.2]" />
+                  <span>Keluar</span>
+                </button>
+              )}
             </div>
 
             {/* Large Solid Mascot Overlay - Pinned to bottom-right edge of card, enlarged for prominence */}
@@ -988,6 +1053,13 @@ export const SocialView: React.FC<{ isEmbedded?: boolean }> = ({ isEmbedded = fa
         isOpen={isScannerOpen}
         onClose={closeScanner}
         onScanSuccess={handleScanSuccess}
+      />
+
+      {/* --- INVITE FRIENDS TO MABAR MODAL --- */}
+      <InviteFriendsToMabarModal
+        isOpen={isInviteFriendsModalOpen}
+        onClose={() => setIsInviteFriendsModalOpen(false)}
+        roomCode={roomCode}
       />
     </div>
   );

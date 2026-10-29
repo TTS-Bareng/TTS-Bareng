@@ -60,8 +60,58 @@ export const TournamentHubView: React.FC = () => {
   const [copiedCode, setCopiedCode] = useState(false);
   const [isDrawingBracket, setIsDrawingBracket] = useState(false);
   const [selectedRoundFilter, setSelectedRoundFilter] = useState<string>('all');
+  const [readyCountdown, setReadyCountdown] = useState<number>(15);
 
   const isHost = activeTournament?.hostId === (user.id || 'player_local');
+
+  // 15-second Chess-clock auto-forfeit countdown for active match when opponent is not ready/online
+  useEffect(() => {
+    if (!activeTournament || activeTournament.status !== 'in_progress') return;
+    const myId = user.id || 'player_local';
+    const activeMatch = activeTournament.matches.find(
+      (m) => m.status === 'active' && (m.player1?.id === myId || m.player2?.id === myId)
+    );
+    if (!activeMatch) return;
+    const opp = activeMatch.player1?.id === myId ? activeMatch.player2 : activeMatch.player1;
+    if (!opp) return;
+    const isOnline = opp.id.startsWith('bot_') || tournamentPeers.some((p) => p.id === opp.id);
+    if (isOnline) {
+      setReadyCountdown(15);
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setReadyCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          const { updatedTournament, trophyAwarded, starsAwarded } = advanceTournamentMatch(
+            activeTournament,
+            activeMatch.id,
+            myId,
+            100,
+            0,
+            myId
+          );
+          if (trophyAwarded) addTrophy(trophyAwarded);
+          if (starsAwarded > 0) addStars(starsAwarded);
+          tournamentRealtime.broadcastMatchCompleted({
+            matchId: activeMatch.id,
+            winnerId: myId,
+            player1Score: 100,
+            player2Score: 0,
+            completedBy: user.name || 'Pemain',
+          });
+          updateActiveTournamentLocally(updatedTournament);
+          saveTournamentToDb(updatedTournament);
+          showGlobalToast('Lawan tidak hadir dalam 15 detik • Kemenangan Walkover (W.O.) diberikan!', 3500);
+          return 15;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [activeTournament, tournamentPeers, user, addTrophy, addStars, showGlobalToast, updateActiveTournamentLocally]);
 
   // Reconcile tournament lifecycle & subscribe to public tournaments broadcast channel
   useEffect(() => {
@@ -574,13 +624,24 @@ export const TournamentHubView: React.FC = () => {
                   <ArrowRight className="w-4 h-4 stroke-[2.4]" />
                 </button>
                 {!isOpponentOnline && (
-                  <button
-                    type="button"
-                    onClick={() => handleClaimWalkover(myActiveMatch)}
-                    className="w-full py-2.5 rounded-xl bg-black/5 dark:bg-white/5 border border-[var(--accent-main)]/30 text-[var(--accent-main)] text-[11px] font-black flex items-center justify-center gap-1.5 cursor-pointer tactile-active transition-all"
-                  >
-                    <span>Lawan Tidak Hadir • Klaim Menang Walkover (W.O.)</span>
-                  </button>
+                  <div className="flex flex-col gap-1.5 w-full">
+                    <div className="w-full py-2 px-3 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between text-[11px] font-bold text-amber-500">
+                      <span className="flex items-center gap-1.5">
+                        <Clock className="w-3.5 h-3.5 animate-spin" />
+                        <span>Menunggu Lawan Hadir...</span>
+                      </span>
+                      <span className="font-black px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-500">
+                        Auto W.O. ({readyCountdown}s)
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleClaimWalkover(myActiveMatch)}
+                      className="w-full py-2 rounded-xl bg-black/5 dark:bg-white/5 border border-[var(--accent-main)]/30 text-[var(--accent-main)] text-[11px] font-black flex items-center justify-center gap-1.5 cursor-pointer tactile-active transition-all"
+                    >
+                      <span>Klaim Menang Walkover (W.O.) Sekarang</span>
+                    </button>
+                  </div>
                 )}
               </div>
             ) : (

@@ -58,6 +58,7 @@ import {
   saveFriendsToStorage,
   fetchFriendProfileLive,
 } from '../lib/friends';
+import { sendDirectMabarInvite } from '../lib/socialSync';
 
 export type TabType = 'home' | 'social' | 'game' | 'quests' | 'profile' | 'stats' | 'settings' | 'arena';
 
@@ -1052,9 +1053,22 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   inviteFriendToMabar: (friend) => {
-    const { setCurrentTab, showGlobalToast } = get();
+    const { setCurrentTab, showGlobalToast, activeRoomCode, setActiveRoomCode, user } = get();
+    let code = activeRoomCode;
+    if (!code) {
+      code = `TTS-${Math.floor(1000 + Math.random() * 9000)}`;
+      setActiveRoomCode(code);
+    }
     setCurrentTab('social');
-    showGlobalToast(`Buka lobi mabar untuk bermain bareng ${friend.name}!`, 3000);
+    if (user?.id) {
+      sendDirectMabarInvite(friend.id, code, {
+        name: user.name || 'Teman',
+        avatar: user.avatar || '',
+      });
+      showGlobalToast(`Undangan mabar dikirim ke ${friend.name}!`, 3000);
+    } else {
+      showGlobalToast(`Buka lobi mabar untuk bermain bareng ${friend.name}!`, 3000);
+    }
   },
 
   initialAuthStage: getInitialAuthStage(),
@@ -2512,13 +2526,9 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   refreshPublicTournamentsFromDb: async () => {
     const dbTourneys = await fetchPublicTournamentsFromDb();
-    const { publicTournaments } = get();
-    const map = new Map<string, CommunityTournament>();
-    sanitizePublicTournaments(publicTournaments).forEach((t) => map.set(t.id, t));
-    sanitizePublicTournaments(dbTourneys).forEach((t) => map.set(t.id, t));
-    const merged = Array.from(map.values());
-    savePublicTournaments(merged);
-    set({ publicTournaments: merged });
+    const cleanDb = sanitizePublicTournaments(dbTourneys);
+    savePublicTournaments(cleanDb);
+    set({ publicTournaments: cleanDb });
   },
 
   createTournament: (
@@ -2636,6 +2646,14 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   leaveTournament: () => {
+    const { activeTournament, user } = get();
+    if (activeTournament) {
+      if (activeTournament.hostId === user.id) {
+        const abandoned = { ...activeTournament, status: 'abandoned' as const };
+        saveTournamentToDb(abandoned);
+      }
+      get().removePublicTournament(activeTournament.id);
+    }
     tournamentRealtime.leaveTournament();
     saveActiveCommunityTournament(null);
     set({ activeTournament: null, activeCommunityMatchId: null, tournamentPeers: [] });
@@ -2978,18 +2996,28 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
   closeBattleLobby: () => set({ isBattleLobbyOpen: false }),
   openBattleResult: () => set({ isBattleResultOpen: true }),
-  closeBattleResult: () =>
+  closeBattleResult: () => {
+    localStorage.removeItem(STORAGE_KEY_ACTIVE_ROOM);
+    mabarRealtime.leaveRoom();
     set({
       isBattleResultOpen: false,
       gameMode: 'classic',
+      activeRoomCode: null,
+      mabarPeers: [],
+      partnerCursor: null,
+      partnerReconnecting: null,
       battleTimeLeft: 0,
       battleScores: { local: 0, partner: 0 },
       battleClueOwners: {},
+      battleWinner: null,
+      isQuickMatchBot: false,
+      quickMatchBotOpponent: null,
       activeCommunityMatchId: null,
       activeTournamentMatch: null,
       battleRoundWins: { local: 0, partner: 0 },
       isLevelCompleteOpen: false,
-    }),
+    });
+  },
 
   openQuickMatchModal: (mode) => {
     const battleMode = mode || 'speed_race';
@@ -4647,6 +4675,17 @@ export const useGameStore = create<GameState>((set, get) => ({
       levelHintsUsed: nextHintsUsed,
       levelRecords: updatedRecords,
     });
+
+    // Auto-claim clue(s) in 1v1 Battle/Tournament and broadcast in Mabar Co-op
+    if (newlySolvedClues.length > 0) {
+      if (get().gameMode === '1v1_battle') {
+        newlySolvedClues.forEach((cid) => {
+          get().claimBattleClue(cid, newlySolvedClues, 'local');
+        });
+      } else if (get().activeRoomCode) {
+        mabarRealtime.broadcastClueSolved(targetClueId || newlySolvedClues[0], newlySolvedClues);
+      }
+    }
 
     if (isLevelComplete) {
       if (get().gameMode === '1v1_battle') {

@@ -39,7 +39,7 @@ export interface CommunityTournament {
   format: TournamentFormat;
   roundDurationSeconds: number;
   themeCategory: string;
-  status: 'lobby' | 'in_progress' | 'completed';
+  status: 'lobby' | 'in_progress' | 'completed' | 'abandoned';
   players: CommunityTournamentPlayer[];
   maxPlayers: number;
   matches: CommunityTournamentMatch[];
@@ -115,10 +115,10 @@ export function isDummyTournament(t: CommunityTournament): boolean {
   // Non-lobby tournaments should not appear in public lobby listings
   if (t.status && t.status !== 'lobby') return true;
 
-  // Tournaments older than 2 hours in lobby are stale/abandoned
+  // Tournaments older than 15 minutes in lobby are stale/abandoned
   if (t.createdAt && t.createdAt !== 'Baru saja') {
     const createdMs = Date.parse(t.createdAt);
-    if (!isNaN(createdMs) && Date.now() - createdMs > 2 * 3600 * 1000) {
+    if (!isNaN(createdMs) && Date.now() - createdMs > 15 * 60 * 1000) {
       return true;
     }
   }

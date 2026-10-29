@@ -27,11 +27,19 @@ import {
   Users,
   UserPlus,
   Swords,
+  X,
 } from 'lucide-react';
 import { useGameStore } from '../store/useGameStore';
 import { getEloTier } from '../lib/eloSystem';
 import { getAvatarFrame } from '../lib/avatarFrames';
 import { formatPlayerCompactId } from '../lib/friends';
+import {
+  fetchPendingFriendRequests,
+  acceptFriendRequestCloud,
+  declineFriendRequestCloud,
+  consumeAcceptedFriendships,
+  type FriendRequest,
+} from '../lib/socialSync';
 
 interface CircularProgressProps {
   percent: number;
@@ -117,20 +125,81 @@ export const ProfileView: React.FC = () => {
     playCustomCrossword,
     openConfirmDialog,
     friends,
+    addFriend,
     openAddFriendModal,
     removeFriend,
     refreshFriendsProfiles,
     inviteFriendToDuel,
     inviteFriendToMabar,
+    showGlobalToast,
   } = useGameStore();
 
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [toastMessage] = useState<string | null>(null);
+  const [pendingRequests, setPendingRequests] = useState<FriendRequest[]>([]);
+  const [, setIsLoadingRequests] = useState(false);
+  const [processingRequestId, setProcessingRequestId] = useState<string | null>(null);
 
-  // Refresh friends profile stats on view mount
+  // Refresh friends profile stats and fetch pending friend requests on mount
   useEffect(() => {
     refreshFriendsProfiles();
-  }, [refreshFriendsProfiles]);
+
+    if (user?.id) {
+      setIsLoadingRequests(true);
+      fetchPendingFriendRequests(user.id)
+        .then((reqs) => setPendingRequests(reqs))
+        .catch(() => {})
+        .finally(() => setIsLoadingRequests(false));
+
+      consumeAcceptedFriendships(user.id).then((newFriends) => {
+        if (newFriends && newFriends.length > 0) {
+          for (const nf of newFriends) {
+            addFriend(nf);
+            showGlobalToast(`${nf.name} telah menerima permintaan berteman!`, 3500);
+          }
+        }
+      });
+    }
+  }, [user?.id, refreshFriendsProfiles, addFriend, showGlobalToast]);
+
+  const handleAcceptRequest = async (req: FriendRequest) => {
+    if (!user?.id) return;
+    setProcessingRequestId(req.id);
+    try {
+      const res = await acceptFriendRequestCloud(user.id, req, {
+        id: user.id,
+        name: user.name || 'Pemain TTS',
+        avatar: user.avatar || '',
+        eloRating: eloRating || 1200,
+        stars: stars || 0,
+      });
+      if (res.success && res.newFriend) {
+        addFriend(res.newFriend);
+        setPendingRequests((prev) => prev.filter((r) => r.id !== req.id));
+        showGlobalToast(`Berteman dengan ${req.fromName}!`, 3000);
+      } else {
+        showGlobalToast('Gagal menerima permintaan.', 2500);
+      }
+    } catch {
+      showGlobalToast('Gagal memproses permintaan.', 2500);
+    } finally {
+      setProcessingRequestId(null);
+    }
+  };
+
+  const handleDeclineRequest = async (req: FriendRequest) => {
+    if (!user?.id) return;
+    setProcessingRequestId(req.id);
+    try {
+      await declineFriendRequestCloud(user.id, req.id);
+      setPendingRequests((prev) => prev.filter((r) => r.id !== req.id));
+      showGlobalToast('Permintaan berteman ditolak.', 2500);
+    } catch {
+      showGlobalToast('Gagal menolak permintaan.', 2500);
+    } finally {
+      setProcessingRequestId(null);
+    }
+  };
 
   const isCustomImageAvatar = Boolean(
     user.avatar && (
@@ -1064,6 +1133,89 @@ export const ProfileView: React.FC = () => {
           </button>
         </div>
 
+        {/* Pending Friend Requests Box */}
+        {pendingRequests.length > 0 && (
+          <div
+            className="w-full rounded-[22px] p-3 border border-[var(--accent-main)]/30 shadow-xs relative overflow-hidden flex flex-col gap-2.5"
+            style={{
+              background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+            }}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-main)] opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--accent-main)]" />
+                </span>
+                <span className="text-[10px] font-black uppercase tracking-wider text-[var(--accent-main)]">
+                  Permintaan Masuk ({pendingRequests.length})
+                </span>
+              </div>
+              <span className="text-[8.5px] font-bold text-[var(--text-secondary)]">
+                Menunggu Konfirmasi
+              </span>
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              {pendingRequests.map((req) => (
+                <div
+                  key={req.id}
+                  className="p-2.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 flex items-center justify-between gap-2"
+                >
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div className="w-8 h-8 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/25 flex items-center justify-center shrink-0 overflow-hidden shadow-2xs">
+                      {req.fromAvatar ? (
+                        <img
+                          src={req.fromAvatar}
+                          alt={req.fromName}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-[11px] font-black text-[var(--accent-main)] uppercase">
+                          {req.fromName.charAt(0)}
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex flex-col min-w-0">
+                      <span className="text-[11.5px] font-black text-[var(--text-primary)] truncate">
+                        {req.fromName}
+                      </span>
+                      <div className="flex items-center gap-1 mt-0.5">
+                        <span className="text-[8px] font-mono font-bold text-[var(--accent-main)]">
+                          {formatPlayerCompactId(req.fromId)}
+                        </span>
+                        <span className="text-[7.5px] font-bold px-1.5 py-0.2 rounded-full bg-black/5 dark:bg-white/10 text-[var(--text-secondary)]">
+                          {req.eloRating} ELO
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <button
+                      type="button"
+                      disabled={processingRequestId === req.id}
+                      onClick={() => handleAcceptRequest(req)}
+                      className="px-2.5 py-1 rounded-xl bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[9.5px] font-black flex items-center gap-1 cursor-pointer tactile-active shadow-2xs hover:opacity-95 transition-opacity disabled:opacity-50"
+                    >
+                      <Check className="w-3 h-3 stroke-[3]" />
+                      <span>Terima</span>
+                    </button>
+                    <button
+                      type="button"
+                      disabled={processingRequestId === req.id}
+                      onClick={() => handleDeclineRequest(req)}
+                      className="px-2 py-1 rounded-xl bg-black/5 dark:bg-white/10 text-[var(--text-secondary)] hover:text-rose-500 hover:bg-rose-500/10 text-[9.5px] font-bold flex items-center cursor-pointer tactile-active transition-colors disabled:opacity-50"
+                    >
+                      <X className="w-3 h-3 stroke-[2.2]" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {friends.length === 0 ? (
           <div
             onClick={openAddFriendModal}
@@ -1119,7 +1271,7 @@ export const ProfileView: React.FC = () => {
                           {friend.name}
                         </span>
                         {friend.isVip && (
-                          <Crown className="w-3 h-3 text-amber-500 fill-amber-500 shrink-0" />
+                          <Crown className="w-3 h-3 text-[var(--accent-main)] fill-current shrink-0" />
                         )}
                       </div>
                       <div className="flex items-center gap-1 mt-0.5">

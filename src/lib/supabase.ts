@@ -366,12 +366,12 @@ export async function saveTournamentToDb(t: CommunityTournament): Promise<boolea
 export async function fetchPublicTournamentsFromDb(limit = 30): Promise<CommunityTournament[]> {
   if (!isSupabaseConfigured) return [];
   try {
-    const twoHoursAgo = new Date(Date.now() - 2 * 3600 * 1000).toISOString();
+    const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000).toISOString();
     const { data, error } = await supabase
       .from('community_tournaments')
       .select('*')
       .eq('status', 'lobby')
-      .gte('created_at', twoHoursAgo)
+      .gte('created_at', fifteenMinutesAgo)
       .order('created_at', { ascending: false })
       .limit(limit);
 

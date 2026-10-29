@@ -18,6 +18,7 @@ import {
   type FriendRecord,
 } from '../lib/friends';
 import { getEloTier } from '../lib/eloSystem';
+import { sendFriendRequestCloud } from '../lib/socialSync';
 import { QrScannerModal } from './QrScannerModal';
 
 export const AddFriendModal: React.FC = () => {
@@ -27,6 +28,8 @@ export const AddFriendModal: React.FC = () => {
     user,
     friends,
     addFriend,
+    eloRating,
+    stars,
     showGlobalToast,
   } = useGameStore();
 
@@ -35,6 +38,8 @@ export const AddFriendModal: React.FC = () => {
   const [searchResults, setSearchResults] = useState<FriendRecord[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [isScannerActive, setIsScannerActive] = useState(false);
+  const [sentRequestIds, setSentRequestIds] = useState<string[]>([]);
+  const [isSendingId, setIsSendingId] = useState<string | null>(null);
 
   // Debounced search effect
   useEffect(() => {
@@ -94,8 +99,34 @@ export const AddFriendModal: React.FC = () => {
     showGlobalToast(`Memindai ID: ${extracted}`, 2400);
   };
 
-  const handleAdd = (friend: FriendRecord) => {
-    addFriend(friend);
+  const handleAdd = async (player: FriendRecord) => {
+    if (!user?.id) {
+      addFriend(player);
+      showGlobalToast(`Menambahkan ${player.name} ke daftar kawan.`, 2500);
+      return;
+    }
+
+    setIsSendingId(player.id);
+    try {
+      const res = await sendFriendRequestCloud(player.id, {
+        id: user.id,
+        name: user.name || 'Pemain TTS',
+        avatar: user.avatar || '',
+        eloRating: eloRating || 1200,
+        stars: stars || 0,
+      });
+
+      if (res.success) {
+        setSentRequestIds((prev) => [...prev, player.id]);
+        showGlobalToast(`Permintaan berteman dikirim ke ${player.name}!`, 3000);
+      } else {
+        showGlobalToast(res.message || 'Gagal mengirim permintaan berteman', 3000);
+      }
+    } catch {
+      showGlobalToast('Terjadi kendala saat mengirim permintaan.', 3000);
+    } finally {
+      setIsSendingId(null);
+    }
   };
 
   const isAlreadyFriend = (id: string) => {
@@ -238,7 +269,7 @@ export const AddFriendModal: React.FC = () => {
                             {player.name}
                           </span>
                           {player.isVip && (
-                            <Crown className="w-3 h-3 text-amber-500 fill-amber-500 shrink-0" />
+                            <Crown className="w-3 h-3 text-[var(--accent-main)] fill-current shrink-0" />
                           )}
                         </div>
 
@@ -256,18 +287,28 @@ export const AddFriendModal: React.FC = () => {
                     {/* Right: Add or Done Button */}
                     <div className="shrink-0">
                       {alreadyAdded ? (
-                        <div className="px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 text-[9.5px] font-black flex items-center gap-1">
+                        <div className="px-2.5 py-1 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)] text-[9.5px] font-black flex items-center gap-1">
                           <Check className="w-3 h-3 stroke-[3]" />
                           <span>Teman</span>
+                        </div>
+                      ) : sentRequestIds.includes(player.id) ? (
+                        <div className="px-2.5 py-1 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/20 text-[var(--text-secondary)] text-[9.5px] font-black flex items-center gap-1">
+                          <Check className="w-3 h-3 stroke-[2.5]" />
+                          <span>Terkirim</span>
                         </div>
                       ) : (
                         <button
                           type="button"
+                          disabled={isSendingId === player.id}
                           onClick={() => handleAdd(player)}
-                          className="px-3 py-1.5 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[10.5px] font-black flex items-center gap-1 cursor-pointer tactile-active shadow-xs hover:opacity-95 transition-opacity"
+                          className="px-3 py-1.5 rounded-full bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[10.5px] font-black flex items-center gap-1 cursor-pointer tactile-active shadow-xs hover:opacity-95 transition-opacity disabled:opacity-50"
                         >
-                          <UserPlus className="w-3 h-3 stroke-[2.4]" />
-                          <span>+ Tambah</span>
+                          {isSendingId === player.id ? (
+                            <Loader2 className="w-3 h-3 animate-spin" />
+                          ) : (
+                            <UserPlus className="w-3 h-3 stroke-[2.4]" />
+                          )}
+                          <span>{isSendingId === player.id ? 'Mengirim...' : '+ Tambah'}</span>
                         </button>
                       )}
                     </div>
