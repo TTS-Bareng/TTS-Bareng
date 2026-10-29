@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from "react";
 import {
   Star,
   Flame,
@@ -28,18 +28,18 @@ import {
   UserPlus,
   Swords,
   X,
-} from 'lucide-react';
-import { useGameStore } from '../store/useGameStore';
-import { getEloTier } from '../lib/eloSystem';
-import { getAvatarFrame } from '../lib/avatarFrames';
-import { formatPlayerCompactId } from '../lib/friends';
+} from "lucide-react";
+import { useGameStore } from "../store/useGameStore";
+import { getEloTier } from "../lib/eloSystem";
+import { getAvatarFrame } from "../lib/avatarFrames";
+import { formatPlayerCompactId } from "../lib/friends";
 import {
   fetchPendingFriendRequests,
   acceptFriendRequestCloud,
   declineFriendRequestCloud,
   consumeAcceptedFriendships,
   type FriendRequest,
-} from '../lib/socialSync';
+} from "../lib/socialSync";
 
 interface CircularProgressProps {
   percent: number;
@@ -63,7 +63,11 @@ const CircularProgress: React.FC<CircularProgressProps> = ({
       <defs>
         <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="var(--accent-main)" stopOpacity="1" />
-          <stop offset="100%" stopColor="var(--accent-main)" stopOpacity="0.4" />
+          <stop
+            offset="100%"
+            stopColor="var(--accent-main)"
+            stopOpacity="0.4"
+          />
         </linearGradient>
       </defs>
       <circle
@@ -137,7 +141,9 @@ export const ProfileView: React.FC = () => {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [pendingRequests, setPendingRequests] = useState<FriendRequest[]>([]);
   const [, setIsLoadingRequests] = useState(false);
-  const [processingRequestId, setProcessingRequestId] = useState<string | null>(null);
+  const [processingRequestId, setProcessingRequestId] = useState<string | null>(
+    null,
+  );
 
   // Refresh friends profile stats and fetch pending friend requests on mount
   useEffect(() => {
@@ -154,7 +160,10 @@ export const ProfileView: React.FC = () => {
         if (newFriends && newFriends.length > 0) {
           for (const nf of newFriends) {
             addFriend(nf);
-            showGlobalToast(`${nf.name} telah menerima permintaan berteman!`, 3500);
+            showGlobalToast(
+              `${nf.name} telah menerima permintaan berteman!`,
+              3500,
+            );
           }
         }
       });
@@ -167,8 +176,8 @@ export const ProfileView: React.FC = () => {
     try {
       const res = await acceptFriendRequestCloud(user.id, req, {
         id: user.id,
-        name: user.name || 'Pemain TTS',
-        avatar: user.avatar || '',
+        name: user.name || "Pemain TTS",
+        avatar: user.avatar || "",
         eloRating: eloRating || 1200,
         stars: stars || 0,
       });
@@ -177,10 +186,10 @@ export const ProfileView: React.FC = () => {
         setPendingRequests((prev) => prev.filter((r) => r.id !== req.id));
         showGlobalToast(`Berteman dengan ${req.fromName}!`, 3000);
       } else {
-        showGlobalToast('Gagal menerima permintaan.', 2500);
+        showGlobalToast("Gagal menerima permintaan.", 2500);
       }
     } catch {
-      showGlobalToast('Gagal memproses permintaan.', 2500);
+      showGlobalToast("Gagal memproses permintaan.", 2500);
     } finally {
       setProcessingRequestId(null);
     }
@@ -192,22 +201,21 @@ export const ProfileView: React.FC = () => {
     try {
       await declineFriendRequestCloud(user.id, req.id);
       setPendingRequests((prev) => prev.filter((r) => r.id !== req.id));
-      showGlobalToast('Permintaan berteman ditolak.', 2500);
+      showGlobalToast("Permintaan berteman ditolak.", 2500);
     } catch {
-      showGlobalToast('Gagal menolak permintaan.', 2500);
+      showGlobalToast("Gagal menolak permintaan.", 2500);
     } finally {
       setProcessingRequestId(null);
     }
   };
 
   const isCustomImageAvatar = Boolean(
-    user.avatar && (
-      user.avatar.startsWith('data:') ||
-      user.avatar.startsWith('http') ||
-      user.avatar.startsWith('/') ||
-      user.avatar.includes('.webp') ||
-      user.avatar.includes('.png')
-    )
+    user.avatar &&
+    (user.avatar.startsWith("data:") ||
+      user.avatar.startsWith("http") ||
+      user.avatar.startsWith("/") ||
+      user.avatar.includes(".webp") ||
+      user.avatar.includes(".png")),
   );
 
   const activeFrame = getAvatarFrame(user.avatarFrame);
@@ -219,7 +227,9 @@ export const ProfileView: React.FC = () => {
 
   const totalWordsInApp = useMemo(() => {
     return levels.reduce((sum, lvl) => {
-      return sum + (lvl.clues?.across?.length || 0) + (lvl.clues?.down?.length || 0);
+      return (
+        sum + (lvl.clues?.across?.length || 0) + (lvl.clues?.down?.length || 0)
+      );
     }, 0);
   }, [levels]);
 
@@ -236,169 +246,183 @@ export const ProfileView: React.FC = () => {
 
   const accuracy = useMemo(() => {
     if (totalWordsInApp === 0) return 0;
-    return Math.min(100, Math.round((totalSolvedWords / totalWordsInApp) * 100));
+    return Math.min(
+      100,
+      Math.round((totalSolvedWords / totalWordsInApp) * 100),
+    );
   }, [totalSolvedWords, totalWordsInApp]);
 
   // Authentic Honors Badges (Lencana Kehormatan 100% Data Riil)
   const achievements = useMemo(() => {
     return [
       {
-        id: 'first_word',
-        title: 'Langkah Awal',
-        desc: 'Pecahkan kata silang pertama Anda',
+        id: "first_word",
+        title: "Langkah Awal",
+        desc: "Pecahkan kata silang pertama Anda",
         icon: Sparkles,
-        rarity: 'Umum' as const,
+        rarity: "Umum" as const,
         percent: Math.min(100, Math.round((totalSolvedWords / 1) * 100)),
         rewardStars: 25,
         unlocked: totalSolvedWords >= 1,
         progress: `${Math.min(totalSolvedWords, 1)}/1 Kata`,
       },
       {
-        id: 'chapter_one',
-        title: 'Penakluk Bab 1',
-        desc: 'Tuntaskan Bab 1 Horizon Kata',
+        id: "chapter_one",
+        title: "Penakluk Bab 1",
+        desc: "Tuntaskan Bab 1 Horizon Kata",
         icon: Trophy,
-        rarity: 'Umum' as const,
-        percent: levelRecords['level_1_santai']?.completed ? 100 : 0,
+        rarity: "Umum" as const,
+        percent: levelRecords["level_1_santai"]?.completed ? 100 : 0,
         rewardStars: 25,
-        unlocked: !!levelRecords['level_1_santai']?.completed,
-        progress: levelRecords['level_1_santai']?.completed ? 'Selesai' : '0/1 Bab',
+        unlocked: !!levelRecords["level_1_santai"]?.completed,
+        progress: levelRecords["level_1_santai"]?.completed
+          ? "Selesai"
+          : "0/1 Bab",
       },
       {
-        id: 'word_master_10',
-        title: 'Kolektor Kata',
-        desc: 'Pecahkan 10 kata teka-teki silang',
+        id: "word_master_10",
+        title: "Kolektor Kata",
+        desc: "Pecahkan 10 kata teka-teki silang",
         icon: Brain,
-        rarity: 'Umum' as const,
+        rarity: "Umum" as const,
         percent: Math.min(100, Math.round((totalSolvedWords / 10) * 100)),
         rewardStars: 25,
         unlocked: totalSolvedWords >= 10,
         progress: `${Math.min(totalSolvedWords, 10)}/10 Kata`,
       },
       {
-        id: 'word_master_25',
-        title: 'Pujangga Muda',
-        desc: 'Pecahkan 25 kata teka-teki silang',
+        id: "word_master_25",
+        title: "Pujangga Muda",
+        desc: "Pecahkan 25 kata teka-teki silang",
         icon: Award,
-        rarity: 'Langka' as const,
+        rarity: "Langka" as const,
         percent: Math.min(100, Math.round((totalSolvedWords / 25) * 100)),
         rewardStars: 25,
         unlocked: totalSolvedWords >= 25,
         progress: `${Math.min(totalSolvedWords, 25)}/25 Kata`,
       },
       {
-        id: 'word_master_50',
-        title: 'Ahli Leksikon',
-        desc: 'Kuasai 50 kata teka-teki silang',
+        id: "word_master_50",
+        title: "Ahli Leksikon",
+        desc: "Kuasai 50 kata teka-teki silang",
         icon: BookOpen,
-        rarity: 'Langka' as const,
+        rarity: "Langka" as const,
         percent: Math.min(100, Math.round((totalSolvedWords / 50) * 100)),
         rewardStars: 25,
         unlocked: totalSolvedWords >= 50,
         progress: `${Math.min(totalSolvedWords, 50)}/50 Kata`,
       },
       {
-        id: 'word_master_100',
-        title: 'Begawan Bahasa',
-        desc: 'Pecahkan 100 kosakata nusantara',
+        id: "word_master_100",
+        title: "Begawan Bahasa",
+        desc: "Pecahkan 100 kosakata nusantara",
         icon: Crown,
-        rarity: 'Epik' as const,
+        rarity: "Epik" as const,
         percent: Math.min(100, Math.round((totalSolvedWords / 100) * 100)),
         rewardStars: 25,
         unlocked: totalSolvedWords >= 100,
         progress: `${Math.min(totalSolvedWords, 100)}/100 Kata`,
       },
       {
-        id: 'streak_3',
-        title: 'Semangat Menyala',
-        desc: 'Pertahankan rentetan bermain 3 hari berturut-turut',
+        id: "streak_3",
+        title: "Semangat Menyala",
+        desc: "Pertahankan rentetan bermain 3 hari berturut-turut",
         icon: Flame,
-        rarity: 'Umum' as const,
+        rarity: "Umum" as const,
         percent: Math.min(100, Math.round((streak / 3) * 100)),
         rewardStars: 25,
         unlocked: streak >= 3,
         progress: `${Math.min(streak, 3)}/3 Hari`,
       },
       {
-        id: 'streak_7',
-        title: 'Api Abadi',
-        desc: 'Pertahankan streak bermain 7 hari',
+        id: "streak_7",
+        title: "Api Abadi",
+        desc: "Pertahankan streak bermain 7 hari",
         icon: Zap,
-        rarity: 'Langka' as const,
+        rarity: "Langka" as const,
         percent: Math.min(100, Math.round((streak / 7) * 100)),
         rewardStars: 25,
         unlocked: streak >= 7,
         progress: `${Math.min(streak, 7)}/7 Hari`,
       },
       {
-        id: 'explorer_10',
-        title: 'Penjelajah Bab',
-        desc: 'Tuntaskan minimal 10 bab permainan',
+        id: "explorer_10",
+        title: "Penjelajah Bab",
+        desc: "Tuntaskan minimal 10 bab permainan",
         icon: Compass,
-        rarity: 'Langka' as const,
+        rarity: "Langka" as const,
         percent: Math.min(100, Math.round((totalCompletedLevels / 10) * 100)),
         rewardStars: 25,
         unlocked: totalCompletedLevels >= 10,
         progress: `${Math.min(totalCompletedLevels, 10)}/10 Bab`,
       },
       {
-        id: 'star_collector',
-        title: 'Bintang Terang',
-        desc: 'Kumpulkan 150 bintang petualangan',
+        id: "star_collector",
+        title: "Bintang Terang",
+        desc: "Kumpulkan 150 bintang petualangan",
         icon: Star,
-        rarity: 'Epik' as const,
+        rarity: "Epik" as const,
         percent: Math.min(100, Math.round((stars / 150) * 100)),
         rewardStars: 25,
         unlocked: stars >= 150,
         progress: `${Math.min(stars, 150)}/150 Pts`,
       },
       {
-        id: 'star_master_500',
-        title: 'Bintang Kejora',
-        desc: 'Kumpulkan 500 bintang petualangan',
+        id: "star_master_500",
+        title: "Bintang Kejora",
+        desc: "Kumpulkan 500 bintang petualangan",
         icon: Medal,
-        rarity: 'Epik' as const,
+        rarity: "Epik" as const,
         percent: Math.min(100, Math.round((stars / 500) * 100)),
         rewardStars: 25,
         unlocked: stars >= 500,
         progress: `${Math.min(stars, 500)}/500 Pts`,
       },
       {
-        id: 'all_chapters',
-        title: 'Sang Mahaguru',
-        desc: 'Selesaikan seluruh bab petualangan nusantara',
+        id: "all_chapters",
+        title: "Sang Mahaguru",
+        desc: "Selesaikan seluruh bab petualangan nusantara",
         icon: Trophy,
-        rarity: 'Legendaris' as const,
-        percent: levels.length > 0 ? Math.min(100, Math.round((totalCompletedLevels / levels.length) * 100)) : 0,
+        rarity: "Legendaris" as const,
+        percent:
+          levels.length > 0
+            ? Math.min(
+                100,
+                Math.round((totalCompletedLevels / levels.length) * 100),
+              )
+            : 0,
         rewardStars: 25,
         unlocked: totalCompletedLevels >= levels.length && levels.length > 0,
         progress: `${totalCompletedLevels}/${levels.length} Bab`,
       },
     ];
-  }, [totalSolvedWords, levelRecords, streak, stars, totalCompletedLevels, levels.length]);
+  }, [
+    totalSolvedWords,
+    levelRecords,
+    streak,
+    stars,
+    totalCompletedLevels,
+    levels.length,
+  ]);
 
-  const unlockedAchievementsCount = achievements.filter((a) => a.unlocked).length;
+  const unlockedAchievementsCount = achievements.filter(
+    (a) => a.unlocked,
+  ).length;
 
   const playerTitle = useMemo(() => {
-    if (totalCompletedLevels >= 50 || totalSolvedWords >= 200) return 'Begawan Kosakata';
-    if (totalCompletedLevels >= 25 || totalSolvedWords >= 100) return 'Ahli Leksikon';
-    if (totalCompletedLevels >= 10 || totalSolvedWords >= 50) return 'Pujangga Muda';
-    if (totalCompletedLevels >= 3 || totalSolvedWords >= 15) return 'Penjelajah Kata';
-    return 'Perintis Bahasa';
+    if (totalCompletedLevels >= 50 || totalSolvedWords >= 200)
+      return "Begawan Kosakata";
+    if (totalCompletedLevels >= 25 || totalSolvedWords >= 100)
+      return "Ahli Leksikon";
+    if (totalCompletedLevels >= 10 || totalSolvedWords >= 50)
+      return "Pujangga Muda";
+    if (totalCompletedLevels >= 3 || totalSolvedWords >= 15)
+      return "Penjelajah Kata";
+    return "Perintis Bahasa";
   }, [totalCompletedLevels, totalSolvedWords]);
 
   return (
     <div className="w-full flex-1 flex flex-col gap-3 px-3.5 pt-[max(18px,env(safe-area-inset-top))] pb-[max(90px,calc(75px+env(safe-area-inset-bottom)))] select-none overflow-y-auto relative">
-      {/* Toast Alert Notification */}
-      {toastMessage && (
-        <div className="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 px-4 py-2 rounded-full liquid-glass-card border border-[var(--accent-main)]/40 shadow-xl flex items-center gap-2 animate-bounce">
-          <Check className="w-4 h-4 text-[var(--accent-main)]" />
-          <span className="text-[12px] font-bold text-[var(--text-primary)]">
-            {toastMessage}
-          </span>
-        </div>
-      )}
-
       {/* 1. Header: Typographic Title + Live Stars Pill + Settings Button */}
       <header className="flex items-center justify-between px-0.5 relative z-10 shrink-0">
         <div>
@@ -430,7 +454,7 @@ export const ProfileView: React.FC = () => {
 
           <button
             type="button"
-            onClick={() => setCurrentTab('settings')}
+            onClick={() => setCurrentTab("settings")}
             title="Pengaturan"
             aria-label="Buka Pengaturan"
             className="w-8.5 h-8.5 rounded-full liquid-glass-tile border border-black/5 dark:border-white/10 flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all cursor-pointer tactile-active shadow-xs"
@@ -446,8 +470,8 @@ export const ProfileView: React.FC = () => {
         title="Buka Kartu Identitas Resmi"
         className="w-full shrink-0 rounded-[24px] p-4 relative z-10 overflow-hidden border border-white/15 dark:border-white/20 shadow-md flex flex-col gap-3.5 group cursor-pointer tactile-active hover:border-white/35 transition-all"
         style={{
-          background: 'var(--hero-grad, var(--accent-grad))',
-          color: '#ffffff',
+          background: "var(--hero-grad, var(--accent-grad))",
+          color: "#ffffff",
         }}
       >
         {/* Specular Top Sheen & Subtle Ambient Reflections */}
@@ -464,10 +488,10 @@ export const ProfileView: React.FC = () => {
         <div className="flex items-center justify-between relative z-10">
           <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/20 dark:bg-black/30 backdrop-blur-md border border-white/20 text-white shadow-xs">
             <span
-              className={`w-1.5 h-1.5 rounded-full ${user.isGuest ? 'bg-white/60' : 'bg-white'} animate-pulse`}
+              className={`w-1.5 h-1.5 rounded-full ${user.isGuest ? "bg-white/60" : "bg-white"} animate-pulse`}
             />
             <span className="text-[9px] font-black uppercase tracking-wider">
-              PASPOR • {user.isGuest ? 'TAMU' : 'TERVERIFIKASI'}
+              PASPOR • {user.isGuest ? "TAMU" : "TERVERIFIKASI"}
             </span>
             <ChevronRight className="w-3 h-3 text-white/70 ml-0.5 group-hover:translate-x-0.5 transition-transform" />
           </div>
@@ -480,7 +504,7 @@ export const ProfileView: React.FC = () => {
                 openAuth();
               }}
               className="px-3 py-1 rounded-full bg-white text-[10.5px] font-black inline-flex items-center gap-1.5 cursor-pointer tactile-active shadow-xs hover:bg-white/95 transition-all"
-              style={{ color: 'var(--hero-btn-text, #111113)' }}
+              style={{ color: "var(--hero-btn-text, #111113)" }}
             >
               <Sparkles className="w-3 h-3" />
               <span>Masuk / Sinkron</span>
@@ -512,7 +536,9 @@ export const ProfileView: React.FC = () => {
             aria-label="Ganti Foto Profil"
             className="relative group cursor-pointer tactile-active shrink-0"
           >
-            <div className={`w-14 h-14 rounded-full p-0.5 ${activeFrame.ringClass} ${activeFrame.glowClass} flex items-center justify-center overflow-hidden shadow-sm transition-all duration-300`}>
+            <div
+              className={`w-14 h-14 rounded-full p-0.5 ${activeFrame.ringClass} ${activeFrame.glowClass} flex items-center justify-center overflow-hidden shadow-sm transition-all duration-300`}
+            >
               <div className="w-full h-full rounded-full overflow-hidden bg-black/25 flex items-center justify-center">
                 {isCustomImageAvatar ? (
                   <img
@@ -522,7 +548,7 @@ export const ProfileView: React.FC = () => {
                   />
                 ) : (
                   <span className="text-[20px] font-black text-white uppercase">
-                    {user.name?.charAt(0) || 'P'}
+                    {user.name?.charAt(0) || "P"}
                   </span>
                 )}
               </div>
@@ -539,7 +565,7 @@ export const ProfileView: React.FC = () => {
                 {user.name}
               </h3>
               <span className="text-[10px] font-bold text-white/80 shrink-0">
-                @{user.name.toLowerCase().replace(/\s+/g, '_')}
+                @{user.name.toLowerCase().replace(/\s+/g, "_")}
               </span>
             </div>
 
@@ -549,7 +575,7 @@ export const ProfileView: React.FC = () => {
                 {playerTitle}
               </span>
               <span className="text-[10px] text-white/80 truncate">
-                {user.email || 'Pemain TTS Bareng'}
+                {user.email || "Pemain TTS Bareng"}
               </span>
             </div>
           </div>
@@ -560,21 +586,30 @@ export const ProfileView: React.FC = () => {
           <div className="py-1.5 px-2 rounded-xl bg-black/15 dark:bg-black/25 backdrop-blur-md border border-white/15 flex items-center justify-center gap-1.5">
             <Trophy className="w-3.5 h-3.5 text-white/90 stroke-[2.2]" />
             <span className="text-[11px] font-black text-white leading-none">
-              {totalCompletedLevels} <span className="text-[9px] font-semibold text-white/75">Bab</span>
+              {totalCompletedLevels}{" "}
+              <span className="text-[9px] font-semibold text-white/75">
+                Bab
+              </span>
             </span>
           </div>
 
           <div className="py-1.5 px-2 rounded-xl bg-black/15 dark:bg-black/25 backdrop-blur-md border border-white/15 flex items-center justify-center gap-1.5">
             <Star className="w-3.5 h-3.5 fill-current text-white/90" />
             <span className="text-[11px] font-black text-white leading-none">
-              {stars} <span className="text-[9px] font-semibold text-white/75">Pts</span>
+              {stars}{" "}
+              <span className="text-[9px] font-semibold text-white/75">
+                Pts
+              </span>
             </span>
           </div>
 
           <div className="py-1.5 px-2 rounded-xl bg-black/15 dark:bg-black/25 backdrop-blur-md border border-white/15 flex items-center justify-center gap-1.5">
             <Flame className="w-3.5 h-3.5 fill-current text-white/90" />
             <span className="text-[11px] font-black text-white leading-none">
-              {streak} <span className="text-[9px] font-semibold text-white/75">Hari</span>
+              {streak}{" "}
+              <span className="text-[9px] font-semibold text-white/75">
+                Hari
+              </span>
             </span>
           </div>
         </div>
@@ -585,29 +620,33 @@ export const ProfileView: React.FC = () => {
         onClick={openVipModal}
         className="w-full shrink-0 rounded-[22px] p-3.5 relative z-10 overflow-hidden border border-[var(--accent-main)]/20 shadow-xs flex items-center justify-between gap-3 cursor-pointer tactile-active hover:border-[var(--accent-main)]/40 transition-all backdrop-blur-md"
         style={{
-          background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+          background:
+            "linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)",
         }}
       >
         <div className="flex items-center gap-2.5 min-w-0">
           <div
             className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow-xs border border-white/20"
-            style={{ background: 'var(--accent-grad)', color: 'var(--accent-contrast)' }}
+            style={{
+              background: "var(--accent-grad)",
+              color: "var(--accent-contrast)",
+            }}
           >
             <Crown className="w-4.5 h-4.5 fill-current stroke-current" />
           </div>
           <div className="min-w-0 text-left">
             <div className="flex items-center gap-1.5">
               <span className="text-[12.5px] font-black text-[var(--text-primary)] tracking-tight">
-                {isVip ? 'TTS Pass VIP Aktif' : 'Tingkatkan ke TTS Pass VIP'}
+                {isVip ? "TTS Pass VIP Aktif" : "Tingkatkan ke TTS Pass VIP"}
               </span>
               <span className="text-[8px] font-black px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] text-[var(--accent-main)] border border-[var(--accent-main)]/25">
-                {isVip ? 'UNLIMITED' : 'RP 29.000/BLN'}
+                {isVip ? "UNLIMITED" : "RP 29.000/BLN"}
               </span>
             </div>
             <p className="text-[9.5px] text-[var(--text-secondary)] truncate mt-0.5">
               {isVip
-                ? 'Nikmati kreasi tanpa batas & mahkota juara eksklusif'
-                : 'Bebas bikin TTS kustom, lencana mahkota & pelindung streak'}
+                ? "Nikmati kreasi tanpa batas & mahkota juara eksklusif"
+                : "Bebas bikin TTS kustom, lencana mahkota & pelindung streak"}
             </p>
           </div>
         </div>
@@ -618,7 +657,8 @@ export const ProfileView: React.FC = () => {
       <div
         className="w-full shrink-0 rounded-[24px] p-4 relative z-10 flex items-center justify-between gap-3.5 border border-[var(--accent-main)]/20 shadow-xs overflow-hidden"
         style={{
-          background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
+          background:
+            "linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)",
         }}
       >
         <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
@@ -648,10 +688,10 @@ export const ProfileView: React.FC = () => {
           </div>
           <p className="text-[9.5px] text-[var(--text-secondary)] leading-tight mb-2">
             {accuracy >= 80
-              ? 'Penguasaan kosakata Anda sangat tinggi!'
+              ? "Penguasaan kosakata Anda sangat tinggi!"
               : accuracy >= 40
-              ? 'Bagus! Selesaikan bab berikutnya untuk menambah kata.'
-              : 'Pecahkan teka-teki silang untuk meningkatkan akurasi.'}
+                ? "Bagus! Selesaikan bab berikutnya untuk menambah kata."
+                : "Pecahkan teka-teki silang untuk meningkatkan akurasi."}
           </p>
           <div className="w-full h-1.5 rounded-full bg-black/5 dark:bg-white/10 overflow-hidden">
             <div
@@ -666,11 +706,12 @@ export const ProfileView: React.FC = () => {
       <div className="grid grid-cols-2 gap-2.5 z-10 relative shrink-0">
         {/* Metrik 1: Bab Selesai (Beralih ke tab Arena) */}
         <div
-          onClick={() => setCurrentTab('arena')}
+          onClick={() => setCurrentTab("arena")}
           title="Buka Arena Petualangan Bab"
           className="rounded-[22px] p-3.5 flex flex-col justify-between border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden cursor-pointer tactile-active hover:border-[var(--accent-main)]/50 transition-all"
           style={{
-            background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+            background:
+              "linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)",
           }}
         >
           <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
@@ -702,7 +743,8 @@ export const ProfileView: React.FC = () => {
           title="Buka Buku Kosakata KBBI"
           className="rounded-[22px] p-3.5 flex flex-col justify-between border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden cursor-pointer tactile-active hover:border-[var(--accent-main)]/50 transition-all"
           style={{
-            background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+            background:
+              "linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)",
           }}
         >
           <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
@@ -729,7 +771,8 @@ export const ProfileView: React.FC = () => {
         <div
           className="rounded-[22px] p-3.5 flex flex-col justify-between border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden"
           style={{
-            background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+            background:
+              "linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)",
           }}
         >
           <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
@@ -756,7 +799,8 @@ export const ProfileView: React.FC = () => {
         <div
           className="rounded-[22px] p-3.5 flex flex-col justify-between border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden"
           style={{
-            background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+            background:
+              "linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)",
           }}
         >
           <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
@@ -789,7 +833,8 @@ export const ProfileView: React.FC = () => {
         <div
           className="rounded-[22px] p-3.5 flex flex-col justify-between border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden"
           style={{
-            background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+            background:
+              "linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)",
           }}
         >
           <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
@@ -804,22 +849,22 @@ export const ProfileView: React.FC = () => {
                 <div
                   className={`w-5 h-5 rounded-md flex items-center justify-center text-[9px] font-black transition-all ${
                     streakShields >= 1
-                      ? 'bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)]'
-                      : 'border border-dashed border-[var(--accent-main)]/20 text-[var(--text-secondary)]'
+                      ? "bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)]"
+                      : "border border-dashed border-[var(--accent-main)]/20 text-[var(--text-secondary)]"
                   }`}
                   title="Slot Perisai 1"
                 >
-                  {streakShields >= 1 ? 'ON' : '+'}
+                  {streakShields >= 1 ? "ON" : "+"}
                 </div>
                 <div
                   className={`w-5 h-5 rounded-md flex items-center justify-center text-[9px] font-black transition-all ${
                     streakShields >= 2
-                      ? 'bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)]'
-                      : 'border border-dashed border-[var(--accent-main)]/20 text-[var(--text-secondary)]'
+                      ? "bg-[var(--accent-light)] border border-[var(--accent-main)]/30 text-[var(--accent-main)]"
+                      : "border border-dashed border-[var(--accent-main)]/20 text-[var(--text-secondary)]"
                   }`}
                   title="Slot Perisai 2"
                 >
-                  {streakShields >= 2 ? 'ON' : '+'}
+                  {streakShields >= 2 ? "ON" : "+"}
                 </div>
               </div>
             </div>
@@ -830,7 +875,7 @@ export const ProfileView: React.FC = () => {
             <p className="text-[8.5px] text-[var(--text-secondary)] leading-tight">
               {streakShields > 0
                 ? `${streakShields} perisai siap menjaga streak.`
-                : 'Kosong. Beli perisai untuk jaga streak.'}
+                : "Kosong. Beli perisai untuk jaga streak."}
             </p>
           </div>
 
@@ -842,8 +887,8 @@ export const ProfileView: React.FC = () => {
                 disabled={stars < 100}
                 className="w-full py-1.5 px-2 rounded-full font-black text-[9.5px] inline-flex items-center justify-center gap-1 transition-all tactile-active cursor-pointer shadow-xs disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{
-                  background: 'var(--accent-grad)',
-                  color: 'var(--accent-contrast)',
+                  background: "var(--accent-grad)",
+                  color: "var(--accent-contrast)",
                 }}
               >
                 <span>Beli (100 Pts)</span>
@@ -861,7 +906,8 @@ export const ProfileView: React.FC = () => {
           onClick={openLeagueModal}
           className="rounded-[22px] p-3.5 flex flex-col justify-between border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden cursor-pointer tactile-active hover:border-[var(--accent-main)]/50 transition-all"
           style={{
-            background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+            background:
+              "linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)",
           }}
         >
           <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
@@ -878,17 +924,17 @@ export const ProfileView: React.FC = () => {
 
             <h4 className="text-[12px] font-black text-[var(--text-primary)] leading-tight mb-0.5">
               {weeklyLeagueXp >= 5000
-                ? 'Divisi Berlian'
+                ? "Divisi Berlian"
                 : weeklyLeagueXp >= 3000
-                ? 'Divisi Safir'
-                : weeklyLeagueXp >= 1500
-                ? 'Divisi Emas'
-                : weeklyLeagueXp >= 500
-                ? 'Divisi Perak'
-                : 'Divisi Perunggu'}
+                  ? "Divisi Safir"
+                  : weeklyLeagueXp >= 1500
+                    ? "Divisi Emas"
+                    : weeklyLeagueXp >= 500
+                      ? "Divisi Perak"
+                      : "Divisi Perunggu"}
             </h4>
             <p className="text-[8.5px] text-[var(--text-secondary)] leading-tight">
-              {weeklyLeagueXp.toLocaleString('id-ID')} Poin Liga minggu ini.
+              {weeklyLeagueXp.toLocaleString("id-ID")} Poin Liga minggu ini.
             </p>
           </div>
 
@@ -910,7 +956,8 @@ export const ProfileView: React.FC = () => {
           onClick={openLeaderboard}
           className="rounded-[22px] p-3.5 flex flex-col justify-between border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden cursor-pointer tactile-active hover:border-[var(--accent-main)]/50 transition-all"
           style={{
-            background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+            background:
+              "linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)",
           }}
         >
           <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
@@ -942,7 +989,8 @@ export const ProfileView: React.FC = () => {
           onClick={() => openCustomCrosswordModal()}
           className="rounded-[22px] p-3.5 flex flex-col justify-between border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden cursor-pointer tactile-active hover:border-[var(--accent-main)]/50 transition-all"
           style={{
-            background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+            background:
+              "linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)",
           }}
         >
           <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
@@ -962,7 +1010,7 @@ export const ProfileView: React.FC = () => {
           </div>
           <div>
             <span className="text-[14px] font-black text-[var(--text-primary)] block leading-tight">
-              {isVip ? 'Bebas Kreasi' : `${customTtsTickets} Tiket TTS`}
+              {isVip ? "Bebas Kreasi" : `${customTtsTickets} Tiket TTS`}
             </span>
             <span className="text-[8.5px] font-medium text-[var(--text-secondary)] mt-0.5 block">
               Bikin TTS Custom
@@ -1009,7 +1057,8 @@ export const ProfileView: React.FC = () => {
             onClick={() => openCustomCrosswordModal()}
             className="w-full rounded-[22px] p-4 flex flex-col items-center justify-center text-center gap-2 border border-dashed border-[var(--accent-main)]/30 hover:border-[var(--accent-main)]/60 cursor-pointer tactile-active transition-all"
             style={{
-              background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+              background:
+                "linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)",
             }}
           >
             <div className="w-10 h-10 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)] flex items-center justify-center">
@@ -1020,7 +1069,8 @@ export const ProfileView: React.FC = () => {
                 Belum Ada TTS Kreasimu
               </p>
               <p className="text-[9.5px] text-[var(--text-secondary)] mt-0.5 max-w-[260px] leading-snug">
-                Bikin teka-teki silang kustom versimu sendiri, buat kejutan teman atau kuis kelas!
+                Bikin teka-teki silang kustom versimu sendiri, buat kejutan
+                teman atau kuis kelas!
               </p>
             </div>
             <span className="mt-1 px-3 py-1 rounded-full text-[10px] font-black bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-xs">
@@ -1034,14 +1084,15 @@ export const ProfileView: React.FC = () => {
                 key={item.id}
                 className="w-full rounded-[20px] p-3 border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden flex flex-col gap-2"
                 style={{
-                  background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+                  background:
+                    "linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)",
                 }}
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5 mb-0.5">
                       <span className="text-[8px] font-black uppercase tracking-wider text-[var(--accent-main)] px-1.5 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-main)]/25">
-                        {item.category || 'Kreasi'}
+                        {item.category || "Kreasi"}
                       </span>
                       <span className="text-[8.5px] text-[var(--text-secondary)] font-mono">
                         {item.createdAt}
@@ -1051,7 +1102,9 @@ export const ProfileView: React.FC = () => {
                       {item.title}
                     </h5>
                     <span className="text-[9px] text-[var(--text-secondary)]">
-                      {(item.level?.clues?.across?.length || 0) + (item.level?.clues?.down?.length || 0)} Kata Tersusun
+                      {(item.level?.clues?.across?.length || 0) +
+                        (item.level?.clues?.down?.length || 0)}{" "}
+                      Kata Tersusun
                     </span>
                   </div>
 
@@ -1089,9 +1142,9 @@ export const ProfileView: React.FC = () => {
                       type="button"
                       onClick={() => {
                         openConfirmDialog({
-                          title: 'Hapus TTS Kustom?',
+                          title: "Hapus TTS Kustom?",
                           message: `Apakah Anda yakin ingin menghapus karya "${item.title}" dari penyimpanan perangkat?`,
-                          confirmLabel: 'Hapus',
+                          confirmLabel: "Hapus",
                           isDestructive: true,
                           onConfirm: () => deleteUserCustomCrossword(item.id),
                         });
@@ -1137,7 +1190,8 @@ export const ProfileView: React.FC = () => {
           <div
             className="w-full rounded-[22px] p-3 border border-[var(--accent-main)]/30 shadow-xs relative overflow-hidden flex flex-col gap-2.5"
             style={{
-              background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+              background:
+                "linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)",
             }}
           >
             <div className="flex items-center justify-between">
@@ -1220,7 +1274,8 @@ export const ProfileView: React.FC = () => {
             onClick={openAddFriendModal}
             className="w-full rounded-[22px] p-4 flex flex-col items-center justify-center text-center gap-2 border border-dashed border-[var(--accent-main)]/30 hover:border-[var(--accent-main)]/60 cursor-pointer tactile-active transition-all"
             style={{
-              background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+              background:
+                "linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)",
             }}
           >
             <div className="w-10 h-10 rounded-2xl bg-[var(--accent-light)] border border-[var(--accent-main)]/25 text-[var(--accent-main)] flex items-center justify-center">
@@ -1231,7 +1286,8 @@ export const ProfileView: React.FC = () => {
                 Belum Ada Teman Ditambahkan
               </p>
               <p className="text-[9.5px] text-[var(--text-secondary)] mt-0.5 max-w-[260px] leading-snug">
-                Pindai paspor kawan atau cari ID pemain untuk bermain bareng dan menantang duel 1v1!
+                Pindai paspor kawan atau cari ID pemain untuk bermain bareng dan
+                menantang duel 1v1!
               </p>
             </div>
             <span className="mt-1 px-3 py-1 rounded-full text-[10px] font-black bg-[var(--accent-main)] text-[var(--accent-contrast)] shadow-xs">
@@ -1245,7 +1301,8 @@ export const ProfileView: React.FC = () => {
                 key={friend.id}
                 className="rounded-[22px] p-3 border border-[var(--accent-main)]/20 shadow-xs relative overflow-hidden flex flex-col justify-between gap-2.5"
                 style={{
-                  background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+                  background:
+                    "linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)",
                 }}
               >
                 <div className="flex items-center justify-between gap-2">
@@ -1288,9 +1345,9 @@ export const ProfileView: React.FC = () => {
                     type="button"
                     onClick={() => {
                       openConfirmDialog({
-                        title: 'Hapus Teman?',
+                        title: "Hapus Teman?",
                         message: `Apakah Anda yakin ingin menghapus "${friend.name}" dari koleksi teman?`,
-                        confirmLabel: 'Hapus',
+                        confirmLabel: "Hapus",
                         isDestructive: true,
                         onConfirm: () => removeFriend(friend.id),
                       });
@@ -1331,12 +1388,13 @@ export const ProfileView: React.FC = () => {
       {/* Card: Lemari Trofi Turnamen */}
       <div
         onClick={() => {
-          setCurrentTab('arena');
-          setArenaSubTab('tournament');
+          setCurrentTab("arena");
+          setArenaSubTab("tournament");
         }}
         className="w-full shrink-0 rounded-[24px] p-4 relative z-10 flex flex-col gap-2.5 border border-[var(--accent-main)]/20 shadow-xs overflow-hidden cursor-pointer tactile-active group transition-all hover:border-[var(--accent-main)]/40"
         style={{
-          background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)',
+          background:
+            "linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 60%, var(--accent-light) 100%)",
         }}
       >
         <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
@@ -1354,7 +1412,8 @@ export const ProfileView: React.FC = () => {
                 </span>
               </h4>
               <span className="text-[9px] text-[var(--text-secondary)]">
-                {trophies.totalTournaments} Musim Diikuti {trophies.lastChampionDate ? '• Pernah Juara' : ''}
+                {trophies.totalTournaments} Musim Diikuti{" "}
+                {trophies.lastChampionDate ? "• Pernah Juara" : ""}
               </span>
             </div>
           </div>
@@ -1405,8 +1464,8 @@ export const ProfileView: React.FC = () => {
       <div
         className="w-full shrink-0 rounded-[24px] p-4 relative z-10 flex flex-col gap-2.5 border border-white/20 shadow-md overflow-hidden"
         style={{
-          background: 'var(--accent-grad)',
-          color: 'var(--accent-contrast)',
+          background: "var(--accent-grad)",
+          color: "var(--accent-contrast)",
         }}
       >
         <div className="absolute top-0 inset-x-0 h-px bg-white/30 pointer-events-none" />
@@ -1421,8 +1480,8 @@ export const ProfileView: React.FC = () => {
           <span
             className="text-[8.5px] font-black px-2 py-0.5 rounded-full border border-current/20"
             style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.18)',
-              color: 'var(--accent-contrast)',
+              backgroundColor: "rgba(255, 255, 255, 0.18)",
+              color: "var(--accent-contrast)",
             }}
           >
             {unlockedAchievementsCount}/{achievements.length} Terbuka
@@ -1451,16 +1510,16 @@ export const ProfileView: React.FC = () => {
                 }}
                 className={`rounded-[20px] p-3 border transition-all flex flex-col justify-between cursor-pointer tactile-active hover:scale-[1.02] ${
                   item.unlocked
-                    ? 'bg-[var(--accent-contrast)]/10 border-[var(--accent-contrast)]/20 shadow-xs backdrop-blur-xs'
-                    : 'bg-[var(--accent-contrast)]/5 border-[var(--accent-contrast)]/10 opacity-55'
+                    ? "bg-[var(--accent-contrast)]/10 border-[var(--accent-contrast)]/20 shadow-xs backdrop-blur-xs"
+                    : "bg-[var(--accent-contrast)]/5 border-[var(--accent-contrast)]/10 opacity-55"
                 }`}
               >
                 <div className="flex items-start justify-between mb-2">
                   <div
                     className={`w-7.5 h-7.5 rounded-xl flex items-center justify-center ${
                       item.unlocked
-                        ? 'bg-[var(--accent-contrast)]/15 border border-[var(--accent-contrast)]/25 text-[var(--accent-contrast)]'
-                        : 'bg-[var(--accent-contrast)]/5 text-[var(--accent-contrast)]/60'
+                        ? "bg-[var(--accent-contrast)]/15 border border-[var(--accent-contrast)]/25 text-[var(--accent-contrast)]"
+                        : "bg-[var(--accent-contrast)]/5 text-[var(--accent-contrast)]/60"
                     }`}
                   >
                     <IconComponent className="w-3.5 h-3.5 stroke-[2.2]" />
@@ -1469,13 +1528,13 @@ export const ProfileView: React.FC = () => {
                   <span
                     className={`text-[7.5px] font-bold px-1.5 py-0.5 rounded-full ${
                       canClaim
-                        ? 'bg-[var(--accent-contrast)] text-[var(--accent-main)] font-black animate-pulse shadow-xs'
+                        ? "bg-[var(--accent-contrast)] text-[var(--accent-main)] font-black animate-pulse shadow-xs"
                         : item.unlocked
-                        ? 'bg-[var(--accent-contrast)]/15 text-[var(--accent-contrast)] border border-[var(--accent-contrast)]/20'
-                        : 'bg-[var(--accent-contrast)]/5 text-[var(--accent-contrast)]/60 border border-[var(--accent-contrast)]/10'
+                          ? "bg-[var(--accent-contrast)]/15 text-[var(--accent-contrast)] border border-[var(--accent-contrast)]/20"
+                          : "bg-[var(--accent-contrast)]/5 text-[var(--accent-contrast)]/60 border border-[var(--accent-contrast)]/10"
                     }`}
                   >
-                    {canClaim ? 'KLAIM +25 PTS' : item.progress}
+                    {canClaim ? "KLAIM +25 PTS" : item.progress}
                   </span>
                 </div>
 
@@ -1486,8 +1545,8 @@ export const ProfileView: React.FC = () => {
                   <p
                     className={`text-[8.5px] leading-tight line-clamp-2 ${
                       item.unlocked
-                        ? 'text-[var(--accent-contrast)]/80'
-                        : 'text-[var(--accent-contrast)]/55'
+                        ? "text-[var(--accent-contrast)]/80"
+                        : "text-[var(--accent-contrast)]/55"
                     }`}
                   >
                     {item.desc}
@@ -1501,10 +1560,11 @@ export const ProfileView: React.FC = () => {
 
       {/* Card 5: Quick Link to Pengaturan Sistem */}
       <div
-        onClick={() => setCurrentTab('settings')}
+        onClick={() => setCurrentTab("settings")}
         className="w-full shrink-0 rounded-[22px] p-3.5 relative z-10 flex items-center justify-between gap-3 border border-[var(--accent-main)]/20 shadow-xs overflow-hidden cursor-pointer tactile-active group"
         style={{
-          background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+          background:
+            "linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)",
         }}
       >
         <div className="absolute top-0 inset-x-0 h-px bg-white/20 pointer-events-none" />
@@ -1533,7 +1593,9 @@ export const ProfileView: React.FC = () => {
         {showLogoutConfirm ? (
           <div className="w-full rounded-2xl p-3 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex flex-col items-center gap-2 text-center">
             <span className="text-[11px] font-bold text-[var(--text-primary)]">
-              {user.isGuest ? 'Keluar dari Sesi Tamu?' : `Keluar dari ${user.email || user.name}?`}
+              {user.isGuest
+                ? "Keluar dari Sesi Tamu?"
+                : `Keluar dari ${user.email || user.name}?`}
             </span>
             <div className="flex gap-2 w-full max-w-xs">
               <button
@@ -1562,11 +1624,12 @@ export const ProfileView: React.FC = () => {
             className="text-[11px] text-[var(--text-secondary)] hover:text-[var(--accent-main)] font-bold transition-colors cursor-pointer flex items-center justify-center gap-1.5 py-1 px-3 rounded-full hover:bg-black/5 dark:hover:bg-white/5"
           >
             <LogOut className="w-3.5 h-3.5" />
-            <span>{user.isGuest ? 'Keluar dari Sesi Tamu' : 'Keluar dari Akun'}</span>
+            <span>
+              {user.isGuest ? "Keluar dari Sesi Tamu" : "Keluar dari Akun"}
+            </span>
           </button>
         )}
       </div>
-
     </div>
   );
 };
