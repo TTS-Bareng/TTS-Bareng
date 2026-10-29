@@ -6,33 +6,15 @@ export const NavigationBottomBar: React.FC = () => {
   const {
     currentTab,
     setCurrentTab,
-    activeTournament,
-    isQrModalOpen,
-    isShareModalOpen,
     isScannerOpen,
     isBattleLobbyOpen,
-    isLevelCompleteOpen,
-    isTournamentOpen,
-    isTournamentResultOpen,
-    isCreateTournamentOpen,
-    isJoinTournamentOpen,
-    isTournamentQrModalOpen,
   } = useGameStore();
 
-  // Hide bottom navigation bar when in game mode, inside a tournament room, or when full-screen modals are open
+  // Hide bottom navigation bar ONLY when actively playing a crossword game or in full-screen camera/matchmaking takeovers
   if (
     currentTab === 'game' ||
-    Boolean(activeTournament) ||
-    isCreateTournamentOpen ||
-    isJoinTournamentOpen ||
     isScannerOpen ||
-    isTournamentQrModalOpen ||
-    isQrModalOpen ||
-    isShareModalOpen ||
-    isBattleLobbyOpen ||
-    isLevelCompleteOpen ||
-    isTournamentOpen ||
-    isTournamentResultOpen
+    isBattleLobbyOpen
   ) {
     return null;
   }
@@ -55,48 +37,48 @@ export const NavigationBottomBar: React.FC = () => {
         aria-label="Navigasi Utama"
       >
         <div className="w-full h-[62px] rounded-full liquid-glass-nav flex items-center justify-around px-1.5 shadow-2xl relative overflow-hidden">
-        {/* Specular gloss sheen reflection on top edge */}
-        <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
+          {/* Specular gloss sheen reflection on top edge */}
+          <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
 
-        {items.map((item) => {
-          const isActive =
-            currentTab === item.id ||
-            (item.id === 'arena' && currentTab === 'social') ||
-            (item.id === 'profile' && (currentTab === 'stats' || currentTab === 'settings'));
-          const IconComponent = item.icon;
+          {items.map((item) => {
+            const isActive =
+              currentTab === item.id ||
+              (item.id === 'arena' && currentTab === 'social') ||
+              (item.id === 'profile' && (currentTab === 'stats' || currentTab === 'settings'));
+            const IconComponent = item.icon;
 
-          return (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => setCurrentTab(item.id)}
-              className={`relative flex flex-col items-center justify-center flex-1 py-1 rounded-full transition-all duration-200 cursor-pointer tactile-active ${
-                isActive
-                  ? 'text-[var(--accent-main)] font-black'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold'
-              }`}
-            >
-              <div
-                className={`w-10 h-7 rounded-full flex items-center justify-center transition-all ${
+            return (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setCurrentTab(item.id)}
+                className={`relative flex flex-col items-center justify-center flex-1 py-1 rounded-full transition-all duration-200 cursor-pointer tactile-active ${
                   isActive
-                    ? 'bg-[var(--accent-light)] border border-[var(--accent-main)]/30 shadow-xs'
-                    : 'bg-transparent border border-transparent'
+                    ? 'text-[var(--accent-main)] font-black'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-semibold'
                 }`}
               >
-                <IconComponent className={`w-4 h-4 ${isActive ? 'stroke-[2.5] text-[var(--accent-main)]' : 'stroke-[1.8] text-[var(--text-secondary)]'}`} />
-              </div>
-              <span className={`text-[9.5px] tracking-tight leading-none mt-0.5 ${
-                isActive ? 'text-[var(--accent-main)] font-black' : 'text-[var(--text-secondary)] font-medium'
-              }`}>
-                {item.label}
-              </span>
-            </button>
-          );
-        })}
-      </div>
-    </nav>
-  </>
-);
+                <div
+                  className={`w-10 h-7 rounded-full flex items-center justify-center transition-all ${
+                    isActive
+                      ? 'bg-[var(--accent-light)] border border-[var(--accent-main)]/30 shadow-xs'
+                      : 'bg-transparent border border-transparent'
+                  }`}
+                >
+                  <IconComponent className={`w-4 h-4 ${isActive ? 'stroke-[2.5] text-[var(--accent-main)]' : 'stroke-[1.8] text-[var(--text-secondary)]'}`} />
+                </div>
+                <span className={`text-[9.5px] tracking-tight leading-none mt-0.5 ${
+                  isActive ? 'text-[var(--accent-main)] font-black' : 'text-[var(--text-secondary)] font-medium'
+                }`}>
+                  {item.label}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </nav>
+    </>
+  );
 };
 
 export default NavigationBottomBar;

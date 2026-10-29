@@ -364,14 +364,10 @@ export const ArenaView: React.FC<{ initialMode?: 'solo' | 'mabar' | 'tournament'
 
   return (
     <div
-      className={`w-full flex-1 flex flex-col gap-3 px-3.5 pt-[max(22px,calc(14px+env(safe-area-inset-top)))] ${
-        activeTournament
-          ? 'pb-[max(24px,calc(16px+env(safe-area-inset-bottom)))]'
-          : 'pb-[max(90px,calc(75px+env(safe-area-inset-bottom)))]'
-      } select-none overflow-y-auto relative`}
+      className="w-full flex-1 flex flex-col gap-3 px-3.5 pt-[max(22px,calc(14px+env(safe-area-inset-top)))] pb-[max(90px,calc(75px+env(safe-area-inset-bottom)))] select-none overflow-y-auto relative"
     >
-      {/* 1. Header & Primary Segmented Switcher (Hidden when inside a tournament room) */}
-      {!activeTournament && (
+      {/* 1. Header & Primary Segmented Switcher (Only hidden when actively viewing a tournament room on tournament tab) */}
+      {!(activeTournament && hubMode === 'tournament') && (
         <>
           <header className="flex items-center justify-between px-0.5 relative z-10 shrink-0">
             <div>

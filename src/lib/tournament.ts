@@ -545,7 +545,15 @@ export function addTrophy(type: 'gold' | 'silver' | 'bronze'): TrophyRecord {
 export function loadActiveCommunityTournament(): CommunityTournament | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_ACTIVE_TOURNAMENT);
-    if (raw) return JSON.parse(raw);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      // Stale or already completed tournament sessions should not be restored as active rooms
+      if (parsed.status === 'completed') {
+        localStorage.removeItem(STORAGE_KEY_ACTIVE_TOURNAMENT);
+        return null;
+      }
+      return parsed;
+    }
   } catch {
     // ignore
   }
