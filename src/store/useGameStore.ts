@@ -18,11 +18,13 @@ import {
   type DbDailyRushRecord,
   saveTournamentToDb,
   fetchPublicTournamentsFromDb,
+  fetchTournamentByCodeFromDb,
 } from '../lib/supabase';
 import {
   createInitialTournamentState,
   loadTournamentState,
   advanceTournament,
+  addTrophy,
   loadTrophies,
   createCommunityTournament,
   generateKnockoutBracket,
@@ -341,7 +343,7 @@ interface GameState {
     themeCategory: string,
     maxPlayers?: number
   ) => CommunityTournament;
-  joinTournament: (code: string) => { success: boolean; message: string };
+  joinTournament: (code: string) => Promise<{ success: boolean; message: string }>;
   leaveTournament: () => void;
   fillTournamentSlotsWithBots: () => void;
   startTournamentLobby: () => void;
@@ -798,7 +800,13 @@ function getInitialClaimedAchievements(): Record<string, boolean> {
 
 function getInitialActiveRoomCode(): string | null {
   if (typeof window === 'undefined') return null;
-  return localStorage.getItem(STORAGE_KEY_ACTIVE_ROOM);
+  // Ephemeral realtime rooms must not persist zombie state across cold boots
+  try {
+    localStorage.removeItem(STORAGE_KEY_ACTIVE_ROOM);
+  } catch {
+    // ignore
+  }
+  return null;
 }
 
 export function getTodayDateString(): string {
@@ -960,6 +968,9 @@ export const useGameStore = create<GameState>((set, get) => ({
   setUser: (user) => {
     localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(user));
     set({ user });
+    if (user?.id && !user.isGuest) {
+      revenueCatService.logIn(user.id).catch(() => {});
+    }
   },
   updateUserName: (name) => {
     const trimmed = name.trim();
@@ -1144,6 +1155,9 @@ export const useGameStore = create<GameState>((set, get) => ({
     };
     localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(emailUser));
     set({ user: emailUser, isAuthOpen: false });
+    if (emailUser.id && !emailUser.isGuest) {
+      revenueCatService.logIn(emailUser.id).catch(() => {});
+    }
 
     // Restore or sync profile to Supabase cloud
     try {
@@ -1158,8 +1172,11 @@ export const useGameStore = create<GameState>((set, get) => ({
           set({ customTtsTickets: cloud.custom_tickets });
         }
         if (typeof cloud.is_vip === 'boolean') {
-          localStorage.setItem(STORAGE_KEY_IS_VIP, String(cloud.is_vip));
-          set({ isVip: cloud.is_vip });
+          revenueCatService.checkVipStatus().then((isVipReal) => {
+            if (get().isVip !== isVipReal) {
+              get().setIsVip(isVipReal);
+            }
+          }).catch(() => {});
         }
       } else {
         syncUserProfile({
@@ -2153,6 +2170,9 @@ export const useGameStore = create<GameState>((set, get) => ({
     get().showGlobalToast('TTS Kustom berhasil dihapus');
   },
   playCustomCrossword: (item) => {
+    if (get().activeRoomCode) {
+      get().leaveMabarSession();
+    }
     set({
       level: item.level,
       currentLevelIndex: -1,
@@ -2168,6 +2188,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       focusedCell: null,
       gameMode: 'classic',
       currentTab: 'game',
+      activeCommunityMatchId: null,
     });
     get().showGlobalToast(`Memainkan TTS Kustom: "${item.title}"`);
   },
@@ -2531,7 +2552,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     return newTourney;
   },
 
-  joinTournament: (code: string) => {
+  joinTournament: async (code: string) => {
     const { user, activeTournament, publicTournaments } = get();
     const cleanCode = code.trim().toUpperCase();
     const myId = user.id || 'player_local';
@@ -2547,24 +2568,20 @@ export const useGameStore = create<GameState>((set, get) => ({
       return { success: true, message: `Kembali ke turnamen ${activeTournament.name}` };
     }
 
-    let target = publicTournaments.find((t) => t.code === cleanCode);
+    let target: CommunityTournament | null | undefined = publicTournaments.find((t) => t.code === cleanCode);
     if (!target) {
-      target = {
-        id: `tourney_${cleanCode}`,
-        code: cleanCode,
-        name: `Turnamen ${cleanCode}`,
-        hostId: 'host_peer',
-        hostName: 'Kawan Mabar',
-        format: 'knockout_4',
-        roundDurationSeconds: 60,
-        themeCategory: 'Semua Kategori (Acak)',
-        status: 'lobby',
-        maxPlayers: 4,
-        players: [
-          { id: 'host_peer', name: 'Kawan Mabar', isHost: true, isReady: true },
-        ],
-        matches: [],
-        createdAt: 'Baru saja',
+      target = await fetchTournamentByCodeFromDb(cleanCode);
+      if (target) {
+        set((s) => ({
+          publicTournaments: [target!, ...s.publicTournaments.filter((x) => x.id !== target!.id)],
+        }));
+      }
+    }
+
+    if (!target) {
+      return {
+        success: false,
+        message: 'Turnamen tidak ditemukan. Pastikan kode benar atau buat turnamen baru!',
       };
     }
 
@@ -2668,7 +2685,14 @@ export const useGameStore = create<GameState>((set, get) => ({
     const myId = user.id || 'player_local';
     const isSlot1 = targetMatch.player1?.id === myId;
     const opponent = isSlot1 ? targetMatch.player2 : targetMatch.player1;
-    const opponentName = opponent?.name || 'Lawan';
+
+    // Guard: match cannot start if opponent is not yet ready or status is pending
+    if (!opponent || targetMatch.status !== 'active') {
+      get().showGlobalToast('Lawan di babak ini belum siap! Tunggu pertandingan sebelumnya selesai.', 3000);
+      return;
+    }
+
+    const opponentName = opponent.name || 'Lawan';
 
     // Synchronized Level Index across both players
     const chosenLevelIdx =
@@ -3229,7 +3253,8 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     if (activeCommunityMatchId && activeTournament) {
       const myId = user.id || 'player_local';
-      const playerWon = battleScores.local > battleScores.partner;
+      const isTie = battleScores.local === battleScores.partner;
+      const playerWon = isTie ? Math.random() > 0.5 : battleScores.local > battleScores.partner;
       const targetMatch = activeTournament.matches.find((m) => m.id === activeCommunityMatchId);
       const opponent = targetMatch?.player1?.id === myId ? targetMatch?.player2 : targetMatch?.player1;
       const opponentName = opponent?.name || 'Lawan';
@@ -3243,6 +3268,10 @@ export const useGameStore = create<GameState>((set, get) => ({
         battleScores.partner,
         myId
       );
+
+      if (trophyAwarded) {
+        addTrophy(trophyAwarded);
+      }
 
       if (starsAwarded > 0) {
         addStars(starsAwarded);

@@ -142,7 +142,7 @@ export const CustomCrosswordModal: React.FC = () => {
       setPreviewLevel(generated);
       if (soundEnabled) soundManager.playFocusTick();
       if (hapticEnabled) haptic.light(15);
-      showGlobalToast('✨ Papan TTS berhasil disusun!', 2500);
+      showGlobalToast('Papan TTS berhasil disusun!', 2500);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Gagal menyusun TTS. Periksa kata dan petunjuk.';
       setErrorMsg(msg);
@@ -154,10 +154,13 @@ export const CustomCrosswordModal: React.FC = () => {
     try {
       const generated = previewLevel || generateCustomCrossword(title || 'TTS Karyaku', category, wordsList);
 
-      const consumed = consumeCustomTtsTicket();
-      if (!consumed) {
-        showGlobalToast('Tiket kreasi tidak mencukupi.', 3000);
-        return;
+      // Only consume creation ticket for brand new crosswords (editing own existing crossword is free)
+      if (!editingCustomCrossword) {
+        const consumed = consumeCustomTtsTicket();
+        if (!consumed) {
+          showGlobalToast('Tiket kreasi tidak mencukupi.', 3000);
+          return;
+        }
       }
 
       // Save to user custom crosswords collection

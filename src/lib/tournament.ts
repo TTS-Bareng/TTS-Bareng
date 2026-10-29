@@ -24,6 +24,8 @@ export interface CommunityTournamentMatch {
   status: 'pending' | 'active' | 'completed';
   isPlayerMatch: boolean;
   levelIndex?: number;
+  nextMatchId?: string;
+  nextSlot?: 1 | 2;
 }
 
 export interface CommunityTournament {
@@ -164,279 +166,119 @@ export function createCommunityTournament(
   return newTourney;
 }
 
-/** Generate a realistic knockout bracket from real joined players (4 to 16 players) */
+function getRoundTitle(roundIdx: number, totalRounds: number, matchIdxInRound: number): string {
+  const distFromFinal = totalRounds - 1 - roundIdx;
+  if (distFromFinal === 0) return 'Grand Final';
+  if (distFromFinal === 1) return `Semifinal ${matchIdxInRound + 1}`;
+  if (distFromFinal === 2) return `Perempat Final ${matchIdxInRound + 1}`;
+  if (distFromFinal === 3) return `Babak 16 Besar ${matchIdxInRound + 1}`;
+  return `Babak ${roundIdx + 1} #${matchIdxInRound + 1}`;
+}
+
+function getMatchIdentifier(roundIdx: number, totalRounds: number, matchIdxInRound: number): string {
+  const distFromFinal = totalRounds - 1 - roundIdx;
+  if (distFromFinal === 0) return 'match_final';
+  if (distFromFinal === 1) return `match_sf${matchIdxInRound + 1}`;
+  if (distFromFinal === 2) return `match_qf${matchIdxInRound + 1}`;
+  if (distFromFinal === 3) return `match_r1_${matchIdxInRound + 1}`;
+  return `match_r${roundIdx}_${matchIdxInRound + 1}`;
+}
+
+/** Generate a realistic knockout bracket from real joined players (2 to 16 players) */
 export function generateKnockoutBracket(
   players: CommunityTournamentPlayer[],
   _format: TournamentFormat,
   durationSeconds: number,
   currentUserId: string
 ): CommunityTournamentMatch[] {
-  const matches: CommunityTournamentMatch[] = [];
   const count = players.length;
+  if (count < 2) return [];
 
-  if (count <= 4) {
-    // 4 Players -> 2 Semifinals + 1 Grand Final
-    const p1 = players[0] || null;
-    const p2 = players[1] || null;
-    const p3 = players[2] || null;
-    const p4 = players[3] || null;
+  // Determine smallest power-of-two bracket size (min 2, max 16)
+  let bracketSize = 2;
+  while (bracketSize < count && bracketSize < 16) {
+    bracketSize *= 2;
+  }
 
-    matches.push(
-      {
-        id: 'match_sf1',
-        roundIndex: 0,
-        roundName: 'Semifinal 1',
-        player1: p1,
-        player2: p2,
-        winner: null,
-        player1Score: 0,
-        player2Score: 0,
-        durationSeconds,
-        status: 'active',
-        isPlayerMatch: Boolean(p1?.id === currentUserId || p2?.id === currentUserId),
-      },
-      {
-        id: 'match_sf2',
-        roundIndex: 0,
-        roundName: 'Semifinal 2',
-        player1: p3,
-        player2: p4,
-        winner: null,
-        player1Score: 0,
-        player2Score: 0,
-        durationSeconds,
-        status: 'active',
-        isPlayerMatch: Boolean(p3?.id === currentUserId || p4?.id === currentUserId),
-      },
-      {
-        id: 'match_final',
-        roundIndex: 1,
-        roundName: 'Grand Final',
+  const totalRounds = Math.max(1, Math.round(Math.log2(bracketSize)));
+  const matches: CommunityTournamentMatch[] = [];
+
+  // 1. Pre-build all match slots across all rounds (Round 0 up to Grand Final)
+  for (let r = 0; r < totalRounds; r++) {
+    const matchesInRound = bracketSize / Math.pow(2, r + 1);
+    for (let m = 0; m < matchesInRound; m++) {
+      const matchId = getMatchIdentifier(r, totalRounds, m);
+      const isFinal = r === totalRounds - 1;
+      const nextMatchId = !isFinal
+        ? getMatchIdentifier(r + 1, totalRounds, Math.floor(m / 2))
+        : undefined;
+      const nextSlot = !isFinal ? ((m % 2 === 0 ? 1 : 2) as 1 | 2) : undefined;
+
+      matches.push({
+        id: matchId,
+        roundIndex: r,
+        roundName: getRoundTitle(r, totalRounds, m),
         player1: null,
         player2: null,
         winner: null,
         player1Score: 0,
         player2Score: 0,
-        durationSeconds: Math.round(durationSeconds * 1.2),
+        durationSeconds: isFinal ? Math.round(durationSeconds * 1.2) : durationSeconds,
         status: 'pending',
         isPlayerMatch: false,
-      }
-    );
-  } else if (count <= 8) {
-    // 6 or 8 Players -> Bracket 8 Besar
-    if (count < 8) {
-      // 5, 6, 7 players: top seeds get BYE to Semifinals
-      const byeCount = 8 - count;
-      const byePlayers = players.slice(0, byeCount);
-      const activeContestants = players.slice(byeCount);
-
-      const qfCount = Math.floor(activeContestants.length / 2);
-      for (let i = 0; i < qfCount; i++) {
-        const p1 = activeContestants[i * 2] || null;
-        const p2 = activeContestants[i * 2 + 1] || null;
-        matches.push({
-          id: `match_qf${i + 1}`,
-          roundIndex: 0,
-          roundName: `Perempat Final ${i + 1}`,
-          player1: p1,
-          player2: p2,
-          winner: null,
-          player1Score: 0,
-          player2Score: 0,
-          durationSeconds,
-          status: 'active',
-          isPlayerMatch: Boolean(p1?.id === currentUserId || p2?.id === currentUserId),
-        });
-      }
-
-      matches.push(
-        {
-          id: 'match_sf1',
-          roundIndex: 1,
-          roundName: 'Semifinal 1',
-          player1: byePlayers[0] || null,
-          player2: null,
-          winner: null,
-          player1Score: 0,
-          player2Score: 0,
-          durationSeconds,
-          status: 'pending',
-          isPlayerMatch: Boolean(byePlayers[0]?.id === currentUserId),
-        },
-        {
-          id: 'match_sf2',
-          roundIndex: 1,
-          roundName: 'Semifinal 2',
-          player1: byePlayers[1] || null,
-          player2: null,
-          winner: null,
-          player1Score: 0,
-          player2Score: 0,
-          durationSeconds,
-          status: 'pending',
-          isPlayerMatch: Boolean(byePlayers[1]?.id === currentUserId),
-        },
-        {
-          id: 'match_final',
-          roundIndex: 2,
-          roundName: 'Grand Final',
-          player1: null,
-          player2: null,
-          winner: null,
-          player1Score: 0,
-          player2Score: 0,
-          durationSeconds: Math.round(durationSeconds * 1.2),
-          status: 'pending',
-          isPlayerMatch: false,
-        }
-      );
-    } else {
-      // Exactly 8 players -> 4 QF + 2 SF + 1 Final
-      for (let i = 0; i < 4; i++) {
-        const p1 = players[i * 2] || null;
-        const p2 = players[i * 2 + 1] || null;
-        matches.push({
-          id: `match_qf${i + 1}`,
-          roundIndex: 0,
-          roundName: `Perempat Final ${i + 1}`,
-          player1: p1,
-          player2: p2,
-          winner: null,
-          player1Score: 0,
-          player2Score: 0,
-          durationSeconds,
-          status: 'active',
-          isPlayerMatch: Boolean(p1?.id === currentUserId || p2?.id === currentUserId),
-        });
-      }
-
-      matches.push(
-        {
-          id: 'match_sf1',
-          roundIndex: 1,
-          roundName: 'Semifinal 1',
-          player1: null,
-          player2: null,
-          winner: null,
-          player1Score: 0,
-          player2Score: 0,
-          durationSeconds,
-          status: 'pending',
-          isPlayerMatch: false,
-        },
-        {
-          id: 'match_sf2',
-          roundIndex: 1,
-          roundName: 'Semifinal 2',
-          player1: null,
-          player2: null,
-          winner: null,
-          player1Score: 0,
-          player2Score: 0,
-          durationSeconds,
-          status: 'pending',
-          isPlayerMatch: false,
-        },
-        {
-          id: 'match_final',
-          roundIndex: 2,
-          roundName: 'Grand Final',
-          player1: null,
-          player2: null,
-          winner: null,
-          player1Score: 0,
-          player2Score: 0,
-          durationSeconds: Math.round(durationSeconds * 1.2),
-          status: 'pending',
-          isPlayerMatch: false,
-        }
-      );
-    }
-  } else {
-    // 9 to 16 players (10, 12, 14, 16)
-    const byeCount = 16 - count;
-    const byePlayers = players.slice(0, byeCount);
-    const activeContestants = players.slice(byeCount);
-
-    const r1Count = Math.floor(activeContestants.length / 2);
-    for (let i = 0; i < r1Count; i++) {
-      const p1 = activeContestants[i * 2] || null;
-      const p2 = activeContestants[i * 2 + 1] || null;
-      matches.push({
-        id: `match_r1_${i + 1}`,
-        roundIndex: 0,
-        roundName: `Babak 16 Besar ${i + 1}`,
-        player1: p1,
-        player2: p2,
-        winner: null,
-        player1Score: 0,
-        player2Score: 0,
-        durationSeconds,
-        status: 'active',
-        isPlayerMatch: Boolean(p1?.id === currentUserId || p2?.id === currentUserId),
+        nextMatchId,
+        nextSlot,
       });
     }
+  }
 
-    // 4 Quarterfinals (pre-seeded with BYEs)
-    for (let i = 0; i < 4; i++) {
-      const seededBye = byePlayers[i] || null;
-      matches.push({
-        id: `match_qf${i + 1}`,
-        roundIndex: 1,
-        roundName: `Perempat Final ${i + 1}`,
-        player1: seededBye,
-        player2: null,
-        winner: null,
-        player1Score: 0,
-        player2Score: 0,
-        durationSeconds,
-        status: 'pending',
-        isPlayerMatch: Boolean(seededBye?.id === currentUserId),
-      });
-    }
+  // 2. Seed players and BYEs into Round 0 matches
+  const round0MatchesCount = bracketSize / 2;
+  const byeCount = bracketSize - count; // Guaranteed < round0MatchesCount because bracketSize/2 < count <= bracketSize
 
-    // 2 Semifinals and 1 Grand Final
-    matches.push(
-      {
-        id: 'match_sf1',
-        roundIndex: 2,
-        roundName: 'Semifinal 1',
-        player1: null,
-        player2: null,
-        winner: null,
-        player1Score: 0,
-        player2Score: 0,
-        durationSeconds,
-        status: 'pending',
-        isPlayerMatch: false,
-      },
-      {
-        id: 'match_sf2',
-        roundIndex: 2,
-        roundName: 'Semifinal 2',
-        player1: null,
-        player2: null,
-        winner: null,
-        player1Score: 0,
-        player2Score: 0,
-        durationSeconds,
-        status: 'pending',
-        isPlayerMatch: false,
-      },
-      {
-        id: 'match_final',
-        roundIndex: 3,
-        roundName: 'Grand Final',
-        player1: null,
-        player2: null,
-        winner: null,
-        player1Score: 0,
-        player2Score: 0,
-        durationSeconds: Math.round(durationSeconds * 1.2),
-        status: 'pending',
-        isPlayerMatch: false,
-      }
+  for (let m = 0; m < round0MatchesCount; m++) {
+    const matchIdx = matches.findIndex(
+      (match) => match.roundIndex === 0 && match.id === getMatchIdentifier(0, totalRounds, m)
     );
+    if (matchIdx === -1) continue;
+
+    const p1 = players[m] || null;
+    // Matches with index >= (round0MatchesCount - byeCount) receive a BYE (player2 = null)
+    const p2 = m < round0MatchesCount - byeCount ? (players[round0MatchesCount + m] || null) : null;
+
+    const isBye = Boolean(p1 && !p2);
+    const isPlayerMatch = Boolean(p1?.id === currentUserId || p2?.id === currentUserId);
+
+    matches[matchIdx] = {
+      ...matches[matchIdx],
+      player1: p1,
+      player2: p2,
+      isPlayerMatch,
+      status: isBye ? 'completed' : 'active',
+      winner: isBye ? p1 : null,
+      player1Score: isBye ? 1 : 0,
+      player2Score: 0,
+    };
+  }
+
+  // 3. Auto-advance any BYEs from Round 0 into subsequent rounds
+  const round0Completed = matches.filter((m) => m.roundIndex === 0 && m.status === 'completed' && m.winner);
+  for (const completedMatch of round0Completed) {
+    propagateWinnerToNextRound(matches, completedMatch, completedMatch.winner, currentUserId);
+  }
+
+  // 4. In any round, if both player1 and player2 are present and match is pending, activate it
+  for (let i = 0; i < matches.length; i++) {
+    const match = matches[i];
+    if (match.status === 'pending' && match.player1 && match.player2) {
+      matches[i] = {
+        ...match,
+        status: 'active',
+        isPlayerMatch: Boolean(
+          match.player1.id === currentUserId || match.player2.id === currentUserId
+        ),
+      };
+    }
   }
 
   return matches.map((m, idx) => ({
@@ -454,49 +296,51 @@ export function propagateWinnerToNextRound(
 ): void {
   if (!winner) return;
 
-  // 1. match_r1_X (Round 1 / 16 Besar) -> match_qfX (Quarterfinals)
-  if (target.id.startsWith('match_r1_')) {
-    const r1Num = parseInt(target.id.replace('match_r1_', ''), 10);
-    const qfIdx = matches.findIndex((m) => m.id === `match_qf${r1Num}`);
-    if (qfIdx !== -1) {
-      const qf = matches[qfIdx];
-      matches[qfIdx] = {
-        ...qf,
-        player2: winner,
-        isPlayerMatch: Boolean(qf.player1?.id === currentUserId || winner.id === currentUserId),
-        status: qf.player1 ? 'active' : 'pending',
+  // Primary path: using explicit nextMatchId and nextSlot
+  if (target.nextMatchId) {
+    const nextIdx = matches.findIndex((m) => m.id === target.nextMatchId);
+    if (nextIdx !== -1) {
+      const nextMatch = matches[nextIdx];
+      const isSlot1 = target.nextSlot === 1;
+      const nextP1 = isSlot1 ? winner : nextMatch.player1;
+      const nextP2 = !isSlot1 ? winner : nextMatch.player2;
+      matches[nextIdx] = {
+        ...nextMatch,
+        player1: nextP1,
+        player2: nextP2,
+        isPlayerMatch: Boolean(nextP1?.id === currentUserId || nextP2?.id === currentUserId),
+        status: nextP1 && nextP2 ? 'active' : 'pending',
       };
     }
     return;
   }
 
-  // 2. match_qfX (Quarterfinals) -> match_sf1 or match_sf2
+  // Fallback for legacy match IDs
+  if (target.id.startsWith('match_r1_')) {
+    const r1Num = parseInt(target.id.replace('match_r1_', ''), 10);
+    const qfTargetNum = Math.ceil(r1Num / 2);
+    const isSlot1 = r1Num % 2 === 1;
+    const qfIdx = matches.findIndex((m) => m.id === `match_qf${qfTargetNum}`);
+    if (qfIdx !== -1) {
+      const qf = matches[qfIdx];
+      const nextP1 = isSlot1 ? winner : qf.player1;
+      const nextP2 = !isSlot1 ? winner : qf.player2;
+      matches[qfIdx] = {
+        ...qf,
+        player1: nextP1,
+        player2: nextP2,
+        isPlayerMatch: Boolean(nextP1?.id === currentUserId || nextP2?.id === currentUserId),
+        status: nextP1 && nextP2 ? 'active' : 'pending',
+      };
+    }
+    return;
+  }
+
   if (target.id.startsWith('match_qf')) {
     const qfNum = parseInt(target.id.replace('match_qf', ''), 10);
-    const totalQFs = matches.filter((m) => m.id.startsWith('match_qf')).length;
-    let sfIdx = -1;
-    let isSlot1 = true;
-
-    if (totalQFs <= 2) {
-      // 6-player format with 2 byes pre-seeded in SF
-      if (qfNum === 1) {
-        sfIdx = matches.findIndex((m) => m.id === 'match_sf1');
-        isSlot1 = false;
-      } else {
-        sfIdx = matches.findIndex((m) => m.id === 'match_sf2');
-        isSlot1 = false;
-      }
-    } else {
-      // 4 QFs: QF1 & QF2 feed SF1; QF3 & QF4 feed SF2
-      if (qfNum <= 2) {
-        sfIdx = matches.findIndex((m) => m.id === 'match_sf1');
-        isSlot1 = qfNum === 1;
-      } else {
-        sfIdx = matches.findIndex((m) => m.id === 'match_sf2');
-        isSlot1 = qfNum === 3;
-      }
-    }
-
+    const sfTargetNum = Math.ceil(qfNum / 2);
+    const isSlot1 = qfNum % 2 === 1;
+    const sfIdx = matches.findIndex((m) => m.id === `match_sf${sfTargetNum}`);
     if (sfIdx !== -1) {
       const sf = matches[sfIdx];
       const nextP1 = isSlot1 ? winner : sf.player1;
@@ -512,7 +356,6 @@ export function propagateWinnerToNextRound(
     return;
   }
 
-  // 3. match_sf1 or match_sf2 -> match_final
   if (target.id === 'match_sf1' || target.id === 'match_sf2') {
     const finalIdx = matches.findIndex((m) => m.id === 'match_final');
     if (finalIdx !== -1) {
@@ -532,7 +375,7 @@ export function propagateWinnerToNextRound(
   }
 }
 
-/** Simulate concurrent AI vs AI matches in the same round */
+/** Simulate concurrent bot vs bot matches in the same round */
 export function simulateConcurrentMatches(
   tournament: CommunityTournament,
   currentRoundIndex: number,
@@ -543,11 +386,17 @@ export function simulateConcurrentMatches(
 
   for (let i = 0; i < matches.length; i++) {
     const m = matches[i];
-    // Find active non-player match in the current round with both contestants present
+    // Strict Zero Dummy Data Rule: ONLY simulate matches where BOTH contestants are bots!
+    // Never fake human vs human or human vs bot match outcomes.
+    const isBotVsBot = Boolean(
+      m.player1?.id.startsWith('bot_') && m.player2?.id.startsWith('bot_')
+    );
+
     if (
       m.roundIndex === currentRoundIndex &&
       m.status === 'active' &&
       !m.isPlayerMatch &&
+      isBotVsBot &&
       m.player1 &&
       m.player2
     ) {
@@ -581,7 +430,7 @@ export function simulateConcurrentMatches(
   return updatedTournament;
 }
 
-/** Advance match result and update bracket */
+/** Advance match result and update bracket (Idempotent) */
 export function advanceTournamentMatch(
   tournament: CommunityTournament,
   matchId: string,
@@ -601,6 +450,11 @@ export function advanceTournamentMatch(
   }
 
   const target = matches[targetIdx];
+  // Idempotency Guard: if match is already completed, do not re-process
+  if (target.status === 'completed' && target.winner) {
+    return { updatedTournament: tournament, starsAwarded: 0 };
+  }
+
   const winner = target.player1?.id === winnerId ? target.player1 : target.player2;
   const loser = target.player1?.id === winnerId ? target.player2 : target.player1;
 
@@ -619,7 +473,8 @@ export function advanceTournamentMatch(
   let runnerUp = tournament.runnerUp;
 
   // Check if target was the Grand Final
-  if (target.roundName === 'Grand Final') {
+  const isFinal = target.roundName === 'Grand Final' || target.id === 'match_final';
+  if (isFinal) {
     newStatus = 'completed';
     champion = winner || undefined;
     runnerUp = loser || undefined;
@@ -627,18 +482,15 @@ export function advanceTournamentMatch(
     if (winner?.id === currentUserId) {
       trophyAwarded = 'gold';
       starsAwarded = 200;
-      addTrophy('gold');
     } else if (loser?.id === currentUserId) {
       trophyAwarded = 'silver';
       starsAwarded = 100;
-      addTrophy('silver');
     }
   } else {
     // If user lost in Semifinal, they get Bronze
     if (target.roundName.startsWith('Semifinal') && loser?.id === currentUserId) {
       trophyAwarded = 'bronze';
       starsAwarded = 50;
-      addTrophy('bronze');
     }
 
     // Universal winner advancement across all tournament formats

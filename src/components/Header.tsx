@@ -173,7 +173,7 @@ export const Header: React.FC = () => {
             <div className="flex items-center gap-1 leading-none mb-0.5">
               <Swords className="w-2.5 h-2.5 text-[var(--accent-main)] stroke-[3]" />
               <span className="text-[8.5px] font-black uppercase tracking-wider text-[var(--accent-main)]">
-                RONDE {battleCurrentRound}/{battleConfig.rounds} • TUG-OF-WAR
+                RONDE {battleCurrentRound}/{battleConfig.rounds} • {battleConfig.mode === 'speed_race' ? 'SPEED RACE • 60S' : 'TARIK TAMBANG • 3 RONDE'}
               </span>
             </div>
             <h2 className="text-[14.5px] font-black tracking-tight leading-tight text-[var(--text-primary)]">

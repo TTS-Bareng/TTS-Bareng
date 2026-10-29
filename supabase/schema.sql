@@ -79,6 +79,39 @@ create table if not exists public.user_progress_backup (
 
 create index if not exists idx_progress_backup_user on public.user_progress_backup(user_identifier);
 
+-- 6. COMMUNITY TOURNAMENTS (Turnamen Komunitas & Bagan Liga)
+create table if not exists public.community_tournaments (
+  id uuid primary key default uuid_generate_v4(),
+  code text unique not null,
+  name text not null,
+  host_id text not null,
+  host_name text not null,
+  status text not null default 'lobby' check (status in ('lobby', 'in_progress', 'completed')),
+  format text not null default 'single_elimination',
+  max_players integer not null default 8,
+  round_duration integer not null default 90,
+  theme_category text not null default 'Umum',
+  players jsonb not null default '[]'::jsonb,
+  matches jsonb not null default '[]'::jsonb,
+  champion jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists idx_community_tournaments_code on public.community_tournaments(code);
+create index if not exists idx_community_tournaments_status on public.community_tournaments(status);
+
+-- 7. USER FRIENDS (Relasi Pertemanan Cloud)
+create table if not exists public.user_friends (
+  id uuid primary key default uuid_generate_v4(),
+  user_id uuid references public.profiles(id) on delete cascade,
+  friend_id uuid references public.profiles(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  unique(user_id, friend_id)
+);
+
+create index if not exists idx_user_friends_user on public.user_friends(user_id);
+
 -- ==============================================================================
 -- ROW LEVEL SECURITY (RLS) POLICIES
 -- Mendukung pemain anonim/tamu (Guest) dan pemain terdaftar
@@ -88,19 +121,24 @@ alter table public.profiles enable row level security;
 alter table public.daily_rush_leaderboard enable row level security;
 alter table public.mabar_rooms enable row level security;
 alter table public.user_progress_backup enable row level security;
+alter table public.community_tournaments enable row level security;
+alter table public.user_friends enable row level security;
 
--- Profiles: Siapa saja bisa membaca dan mengupdate profilnya sendiri
+-- Profiles: Siapa saja bisa membaca profil (untuk mabar & papan skor)
 create policy "Public read profiles" 
   on public.profiles for select 
   using (true);
 
-create policy "Public insert profiles" 
+create policy "Users can insert profiles" 
   on public.profiles for insert 
   with check (true);
 
-create policy "Public update profiles" 
+create policy "Users can update own profile" 
   on public.profiles for update 
-  using (true);
+  using (
+    auth.uid() = auth_user_id 
+    or (auth_user_id is null and auth.uid() is null)
+  );
 
 -- Daily Rush: Siapa saja bisa melihat leaderboard nasional hari ini
 create policy "Public read leaderboard" 
@@ -137,12 +175,38 @@ create policy "Public progress backup update"
   on public.user_progress_backup for update 
   using (true);
 
+-- Community Tournaments: Publik bisa melihat dan berpartisipasi
+create policy "Public read tournaments" 
+  on public.community_tournaments for select 
+  using (true);
+
+create policy "Public insert tournaments" 
+  on public.community_tournaments for insert 
+  with check (true);
+
+create policy "Public update tournaments" 
+  on public.community_tournaments for update 
+  using (true);
+
+-- User Friends: Pengguna mengelola teman miliknya
+create policy "Public read friends" 
+  on public.user_friends for select 
+  using (true);
+
+create policy "Users insert friends" 
+  on public.user_friends for insert 
+  with check (true);
+
+create policy "Users delete friends" 
+  on public.user_friends for delete 
+  using (true);
+
 -- ==============================================================================
--- ENABLE SUPABASE REALTIME (WebSockets live board & lobby sync)
+-- ENABLE SUPABASE REALTIME (WebSockets live board, lobby & tournament sync)
 -- ==============================================================================
 
 begin;
-  -- Tambahkan tabel mabar_rooms ke publikasi realtime Supabase
+  -- Tambahkan tabel mabar_rooms, daily_rush_leaderboard, dan community_tournaments ke publikasi realtime Supabase
   drop publication if exists supabase_realtime;
-  create publication supabase_realtime for table public.mabar_rooms, public.daily_rush_leaderboard;
+  create publication supabase_realtime for table public.mabar_rooms, public.daily_rush_leaderboard, public.community_tournaments;
 commit;

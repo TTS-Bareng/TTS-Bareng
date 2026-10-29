@@ -55,7 +55,7 @@ export const JoinTournamentModal: React.FC = () => {
       }
     }
 
-    const res = joinTournament(cleanCode);
+    const res = await joinTournament(cleanCode);
     if (res.success) {
       showGlobalToast(res.message, 2500);
       closeJoinTournament();
@@ -83,7 +83,7 @@ export const JoinTournamentModal: React.FC = () => {
         }
       }
 
-      const res = joinTournament(cleanCode);
+      const res = await joinTournament(cleanCode);
       showGlobalToast(res.message, 2500);
       if (res.success) {
         closeJoinTournament();

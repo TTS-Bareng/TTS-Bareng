@@ -104,9 +104,13 @@ class RevenueCatService {
       console.info('[RevenueCat] Native Purchases SDK berhasil diinisialisasi.');
       return true;
     } catch (err) {
-      console.warn('[RevenueCat] Inisialisasi native gagal, beralih ke mock sandbox:', err);
-      this.isMockMode = true;
-      this.isConfigured = true;
+      console.warn('[RevenueCat] Inisialisasi native gagal:', err);
+      if (!isNative) {
+        this.isMockMode = true;
+      } else {
+        this.isMockMode = false;
+      }
+      this.isConfigured = false;
       return false;
     }
   }

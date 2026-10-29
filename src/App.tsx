@@ -151,13 +151,10 @@ export const App: React.FC = () => {
           }
         } catch {}
 
-        // 2. Fetch cloud profile to check existing history and VIP status
+        // 2. Fetch cloud profile to check existing history
         const cloud = await fetchUserProfile(session.user.id).catch(() => null);
-        if (!verifiedVip && cloud?.is_vip === true) {
-          verifiedVip = true;
-        }
 
-        // Strictly synchronize VIP: never leak stale local state onto unverified users
+        // Strictly synchronize VIP: StoreKit/RevenueCat is authoritative
         if (useGameStore.getState().isVip !== verifiedVip) {
           useGameStore.getState().setIsVip(verifiedVip);
         }

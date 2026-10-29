@@ -20,7 +20,8 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useGameStore } from '../store/useGameStore';
-import { type CommunityTournamentMatch } from '../lib/tournament';
+import { type CommunityTournamentMatch, advanceTournamentMatch, addTrophy } from '../lib/tournament';
+import { saveTournamentToDb } from '../lib/supabase';
 import { TournamentQrModal } from '../components/TournamentQrModal';
 import { QrScannerModal } from '../components/QrScannerModal';
 import { TournamentBracketDrawingOverlay } from '../components/TournamentBracketDrawingOverlay';
@@ -46,6 +47,8 @@ export const TournamentHubView: React.FC = () => {
     fillTournamentSlotsWithBots,
     startTournamentLobby,
     startCommunityMatch,
+    addStars,
+    updateActiveTournamentLocally,
     isTournamentQrModalOpen,
     openTournamentQrModal,
     closeTournamentQrModal,
@@ -129,12 +132,12 @@ export const TournamentHubView: React.FC = () => {
     }
   };
 
-  const handleJoinPublicItem = (code: string) => {
-    const res = joinTournament(code);
+  const handleJoinPublicItem = async (code: string) => {
+    const res = await joinTournament(code);
     showGlobalToast(res.message, 2500);
   };
 
-  const handleScanSuccess = (scannedText: string) => {
+  const handleScanSuccess = async (scannedText: string) => {
     closeScanner();
     const resolvedCode =
       extractTournamentCodeFromText(scannedText) ||
@@ -142,7 +145,7 @@ export const TournamentHubView: React.FC = () => {
       scannedText.trim().toUpperCase();
 
     if (resolvedCode) {
-      const res = joinTournament(resolvedCode);
+      const res = await joinTournament(resolvedCode);
       showGlobalToast(res.message, 2500);
     } else {
       showGlobalToast('Format QR turnamen tidak dikenali', 2500);
@@ -414,6 +417,37 @@ export const TournamentHubView: React.FC = () => {
       ? (myActiveMatch.player1?.id === myId ? myActiveMatch.player2 : myActiveMatch.player1)
       : null;
 
+    const isMatchReady = Boolean(myActiveMatch && myActiveMatch.status === 'active' && opponent);
+    const isOpponentOnline = opponent?.id.startsWith('bot_') || tournamentPeers.some((p) => p.id === opponent?.id);
+
+    const handleClaimWalkover = (match: CommunityTournamentMatch) => {
+      if (!activeTournament) return;
+      const { updatedTournament, trophyAwarded, starsAwarded } = advanceTournamentMatch(
+        activeTournament,
+        match.id,
+        myId,
+        100,
+        0,
+        myId
+      );
+      if (trophyAwarded) {
+        addTrophy(trophyAwarded);
+      }
+      if (starsAwarded > 0) {
+        addStars(starsAwarded);
+      }
+      tournamentRealtime.broadcastMatchCompleted({
+        matchId: match.id,
+        winnerId: myId,
+        player1Score: 100,
+        player2Score: 0,
+        completedBy: user.name || 'Pemain',
+      });
+      updateActiveTournamentLocally(updatedTournament);
+      saveTournamentToDb(updatedTournament);
+      showGlobalToast('Kemenangan Walkover (W.O.) berhasil diklaim!', 3000);
+    };
+
     return (
       <div className="w-full flex flex-col gap-3.5 relative z-10 pb-8">
         {/* Header Bagan */}
@@ -500,15 +534,33 @@ export const TournamentHubView: React.FC = () => {
               </div>
             </div>
 
-            <button
-              type="button"
-              onClick={() => startCommunityMatch(myActiveMatch.id)}
-              className="w-full py-3 rounded-2xl bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[12.5px] font-black flex items-center justify-center gap-2 cursor-pointer tactile-active shadow-md hover:opacity-95 transition-all relative z-10"
-            >
-              <Swords className="w-4 h-4" />
-              <span>Mulai Duel ({myActiveMatch.roundName})</span>
-              <ArrowRight className="w-4 h-4 stroke-[2.4]" />
-            </button>
+            {isMatchReady ? (
+              <div className="flex flex-col gap-2 relative z-10">
+                <button
+                  type="button"
+                  onClick={() => startCommunityMatch(myActiveMatch.id)}
+                  className="w-full py-3 rounded-2xl bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[12.5px] font-black flex items-center justify-center gap-2 cursor-pointer tactile-active shadow-md hover:opacity-95 transition-all relative z-10"
+                >
+                  <Swords className="w-4 h-4" />
+                  <span>Mulai Duel ({myActiveMatch.roundName})</span>
+                  <ArrowRight className="w-4 h-4 stroke-[2.4]" />
+                </button>
+                {!isOpponentOnline && (
+                  <button
+                    type="button"
+                    onClick={() => handleClaimWalkover(myActiveMatch)}
+                    className="w-full py-2.5 rounded-xl bg-black/5 dark:bg-white/5 border border-[var(--accent-main)]/30 text-[var(--accent-main)] text-[11px] font-black flex items-center justify-center gap-1.5 cursor-pointer tactile-active transition-all"
+                  >
+                    <span>Lawan Tidak Hadir • Klaim Menang Walkover (W.O.)</span>
+                  </button>
+                )}
+              </div>
+            ) : (
+              <div className="w-full py-3 rounded-2xl bg-black/5 dark:bg-white/5 border border-[var(--border-card)] text-[var(--text-secondary)] text-[12px] font-bold flex items-center justify-center gap-2 relative z-10">
+                <Clock className="w-4 h-4 text-[var(--accent-main)] animate-pulse" />
+                <span>Menunggu lawan di babak sebelumnya selesai...</span>
+              </div>
+            )}
           </div>
         )}
 
@@ -551,7 +603,11 @@ export const TournamentHubView: React.FC = () => {
           {displayedMatches.map((match: CommunityTournamentMatch) => {
             const isMyMatch = Boolean(match.player1?.id === myId || match.player2?.id === myId);
             const isCompleted = match.status === 'completed';
-            const canPlay = isMyMatch && !isCompleted;
+            const canPlay =
+              isMyMatch &&
+              !isCompleted &&
+              match.status === 'active' &&
+              Boolean(match.player1 && match.player2);
 
             return (
               <div
