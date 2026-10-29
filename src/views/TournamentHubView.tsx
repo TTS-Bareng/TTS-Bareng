@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useGameStore } from '../store/useGameStore';
-import { type CommunityTournamentMatch, advanceTournamentMatch, addTrophy } from '../lib/tournament';
+import { type CommunityTournamentMatch, advanceTournamentMatch, addTrophy, simulateAllBotMatches } from '../lib/tournament';
 import { saveTournamentToDb } from '../lib/supabase';
 import { TournamentQrModal } from '../components/TournamentQrModal';
 import { QrScannerModal } from '../components/QrScannerModal';
@@ -54,6 +54,7 @@ export const TournamentHubView: React.FC = () => {
     closeTournamentQrModal,
     isScannerOpen,
     closeScanner,
+    reconcileActiveGameplayLifecycles,
   } = useGameStore();
 
   const [copiedCode, setCopiedCode] = useState(false);
@@ -62,14 +63,15 @@ export const TournamentHubView: React.FC = () => {
 
   const isHost = activeTournament?.hostId === (user.id || 'player_local');
 
-  // Subscribe to public tournaments broadcast channel & sync from cloud DB
+  // Reconcile tournament lifecycle & subscribe to public tournaments broadcast channel
   useEffect(() => {
+    reconcileActiveGameplayLifecycles();
     refreshPublicTournamentsFromDb();
     tournamentRealtime.subscribePublicTournaments();
     return () => {
       tournamentRealtime.unsubscribePublicTournaments();
     };
-  }, [refreshPublicTournamentsFromDb]);
+  }, [reconcileActiveGameplayLifecycles, refreshPublicTournamentsFromDb]);
 
   // Ensure active tournament realtime channel is joined
   useEffect(() => {
@@ -98,6 +100,23 @@ export const TournamentHubView: React.FC = () => {
       }
     }
   }, [activeTournament, user.id]);
+
+  // Auto-complete remaining bot matches if player is eliminated and tournament is in progress
+  useEffect(() => {
+    if (activeTournament && activeTournament.status === 'in_progress') {
+      const myId = user.id || 'player_local';
+      const hasMyMatch = activeTournament.matches.some(
+        (m) => (m.player1?.id === myId || m.player2?.id === myId) && m.status !== 'completed'
+      );
+      if (!hasMyMatch) {
+        const finished = simulateAllBotMatches(activeTournament, myId, { forceCompleteAll: true });
+        if (finished.status === 'completed' && finished !== activeTournament) {
+          updateActiveTournamentLocally(finished);
+          saveTournamentToDb(finished);
+        }
+      }
+    }
+  }, [activeTournament, user.id, updateActiveTournamentLocally]);
 
   const handleStartLobbyWithAnimation = () => {
     setIsDrawingBracket(true);
@@ -400,6 +419,15 @@ export const TournamentHubView: React.FC = () => {
         (m.player1?.id === myId || m.player2?.id === myId) && m.status !== 'completed'
     );
 
+    const isEliminated =
+      !myActiveMatch &&
+      activeTournament.matches.some(
+        (m: CommunityTournamentMatch) =>
+          (m.player1?.id === myId || m.player2?.id === myId) &&
+          m.status === 'completed' &&
+          m.winner?.id !== myId
+      );
+
     // Extract unique round names preserving order
     const availableRounds: string[] = [];
     activeTournament.matches.forEach((m) => {
@@ -561,6 +589,41 @@ export const TournamentHubView: React.FC = () => {
                 <span>Menunggu lawan di babak sebelumnya selesai...</span>
               </div>
             )}
+          </div>
+        )}
+
+        {/* Spotlight Card: User Eliminated (Auto-resolve remaining matches) */}
+        {!myActiveMatch && isEliminated && (
+          <div
+            className="w-full rounded-[24px] p-4 relative z-10 overflow-hidden border border-red-500/30 shadow-md flex flex-col gap-2.5"
+            style={{
+              background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--accent-light) 100%)',
+            }}
+          >
+            <div className="absolute top-0 inset-x-0 h-px bg-white/30 pointer-events-none" />
+            <div className="flex items-center justify-between relative z-10">
+              <span className="text-[9px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-500 border border-red-500/30 inline-flex items-center gap-1.5">
+                <span>STATUS: TERELIMINASI</span>
+              </span>
+              <span className="text-[10px] font-bold text-[var(--text-secondary)]">
+                Laga Lanjutan Sedang Berjalan
+              </span>
+            </div>
+            <p className="text-[11.5px] font-bold text-[var(--text-primary)] leading-snug">
+              Perjalananmu di turnamen ini telah berakhir. Selesaikan sisa laga untuk melihat penobatan juara di podium!
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                const finished = simulateAllBotMatches(activeTournament, myId, { forceCompleteAll: true });
+                updateActiveTournamentLocally(finished);
+                saveTournamentToDb(finished);
+              }}
+              className="w-full py-2.5 rounded-xl bg-[var(--accent-main)] text-[var(--accent-contrast)] text-[12px] font-black flex items-center justify-center gap-1.5 cursor-pointer tactile-active shadow-xs hover:opacity-95 transition-opacity"
+            >
+              <Trophy className="w-3.5 h-3.5 fill-current" />
+              <span>Selesaikan Turnamen & Lihat Podium</span>
+            </button>
           </div>
         )}
 

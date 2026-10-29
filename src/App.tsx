@@ -102,6 +102,7 @@ export const App: React.FC = () => {
     dailyRushRecord,
     playCustomCrossword,
     saveUserCustomCrossword,
+    reconcileActiveGameplayLifecycles,
   } = useGameStore();
 
   // Listen for local notification tap actions (Daily Rush, Game, Arena)
@@ -351,6 +352,7 @@ export const App: React.FC = () => {
     // Run check on initial app mount
     checkPendingAction();
     syncWidgetStateToNative();
+    reconcileActiveGameplayLifecycles();
 
     let resumeListener: (() => void) | undefined;
     try {
@@ -358,6 +360,7 @@ export const App: React.FC = () => {
         if (state.isActive) {
           checkPendingAction();
           syncWidgetStateToNative();
+          reconcileActiveGameplayLifecycles();
         }
       }).then((handle) => {
         resumeListener = () => handle.remove();

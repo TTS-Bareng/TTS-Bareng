@@ -26,6 +26,8 @@ export interface CommunityTournamentMatch {
   levelIndex?: number;
   nextMatchId?: string;
   nextSlot?: 1 | 2;
+  startedAt?: string;
+  deadlineAt?: string;
 }
 
 export interface CommunityTournament {
@@ -102,13 +104,36 @@ const STORAGE_KEY_ACTIVE_TOURNAMENT = 'tts_active_tournament_v2';
 const STORAGE_KEY_PUBLIC_TOURNAMENTS = 'tts_public_tournaments_v3';
 const STORAGE_KEY_TROPHIES = 'tts_tournament_trophies_v1';
 
-/** Sanitizer to permanently filter out any legacy dummy tournaments */
+/** Sanitizer to permanently filter out any legacy dummy, stale, or full-bot tournaments */
 export function isDummyTournament(t: CommunityTournament): boolean {
   if (!t) return true;
   const host = (t.hostName || '').trim();
   const id = (t.id || '').trim();
   if (['Budi Santoso', 'Eko Lawang'].includes(host)) return true;
   if (id.startsWith('tourney_pub_') || id.startsWith('tourney-dummy-')) return true;
+
+  // Non-lobby tournaments should not appear in public lobby listings
+  if (t.status && t.status !== 'lobby') return true;
+
+  // Tournaments older than 2 hours in lobby are stale/abandoned
+  if (t.createdAt && t.createdAt !== 'Baru saja') {
+    const createdMs = Date.parse(t.createdAt);
+    if (!isNaN(createdMs) && Date.now() - createdMs > 2 * 3600 * 1000) {
+      return true;
+    }
+  }
+
+  // Full lobbies (players.length >= maxPlayers) cannot accept new players
+  if (Array.isArray(t.players) && t.maxPlayers && t.players.length >= t.maxPlayers) {
+    return true;
+  }
+
+  // Lobbies with 100% bots (zero human players) are orphaned bot rooms
+  if (Array.isArray(t.players) && t.players.length > 0) {
+    const hasHuman = t.players.some((p) => p && !p.id.startsWith('bot_'));
+    if (!hasHuman) return true;
+  }
+
   return false;
 }
 
@@ -159,7 +184,7 @@ export function createCommunityTournament(
       },
     ],
     matches: [],
-    createdAt: 'Baru saja',
+    createdAt: new Date().toISOString(),
   };
 
   saveActiveCommunityTournament(newTourney);
@@ -248,6 +273,10 @@ export function generateKnockoutBracket(
 
     const isBye = Boolean(p1 && !p2);
     const isPlayerMatch = Boolean(p1?.id === currentUserId || p2?.id === currentUserId);
+    const isActive = !isBye;
+    const now = Date.now();
+    const duration = matches[matchIdx]?.durationSeconds || durationSeconds;
+    const deadline = new Date(now + Math.max(90, duration + 45) * 1000).toISOString();
 
     matches[matchIdx] = {
       ...matches[matchIdx],
@@ -258,6 +287,8 @@ export function generateKnockoutBracket(
       winner: isBye ? p1 : null,
       player1Score: isBye ? 1 : 0,
       player2Score: 0,
+      startedAt: isActive ? new Date(now).toISOString() : undefined,
+      deadlineAt: isActive ? deadline : undefined,
     };
   }
 
@@ -271,12 +302,17 @@ export function generateKnockoutBracket(
   for (let i = 0; i < matches.length; i++) {
     const match = matches[i];
     if (match.status === 'pending' && match.player1 && match.player2) {
+      const now = Date.now();
+      const duration = match.durationSeconds || durationSeconds;
+      const deadline = new Date(now + Math.max(90, duration + 45) * 1000).toISOString();
       matches[i] = {
         ...match,
         status: 'active',
         isPlayerMatch: Boolean(
           match.player1.id === currentUserId || match.player2.id === currentUserId
         ),
+        startedAt: match.startedAt || new Date(now).toISOString(),
+        deadlineAt: match.deadlineAt || deadline,
       };
     }
   }
@@ -285,6 +321,28 @@ export function generateKnockoutBracket(
     ...m,
     levelIndex: m.levelIndex ?? (idx * 3 + 1) % 20,
   }));
+}
+
+/** Helper to activate next match slot with wall-clock timestamps */
+function activateMatchSlot(
+  match: CommunityTournamentMatch,
+  p1: CommunityTournamentPlayer | null,
+  p2: CommunityTournamentPlayer | null,
+  currentUserId: string
+): CommunityTournamentMatch {
+  const isActive = Boolean(p1 && p2);
+  const now = Date.now();
+  const duration = match.durationSeconds || 60;
+  const deadline = new Date(now + Math.max(90, duration + 45) * 1000).toISOString();
+  return {
+    ...match,
+    player1: p1,
+    player2: p2,
+    isPlayerMatch: Boolean(p1?.id === currentUserId || p2?.id === currentUserId),
+    status: isActive ? 'active' : 'pending',
+    startedAt: isActive ? (match.startedAt || new Date(now).toISOString()) : match.startedAt,
+    deadlineAt: isActive ? (match.deadlineAt || deadline) : match.deadlineAt,
+  };
 }
 
 /** Propagate winner of a match into the corresponding slot in next round */
@@ -304,13 +362,7 @@ export function propagateWinnerToNextRound(
       const isSlot1 = target.nextSlot === 1;
       const nextP1 = isSlot1 ? winner : nextMatch.player1;
       const nextP2 = !isSlot1 ? winner : nextMatch.player2;
-      matches[nextIdx] = {
-        ...nextMatch,
-        player1: nextP1,
-        player2: nextP2,
-        isPlayerMatch: Boolean(nextP1?.id === currentUserId || nextP2?.id === currentUserId),
-        status: nextP1 && nextP2 ? 'active' : 'pending',
-      };
+      matches[nextIdx] = activateMatchSlot(nextMatch, nextP1, nextP2, currentUserId);
     }
     return;
   }
@@ -325,13 +377,7 @@ export function propagateWinnerToNextRound(
       const qf = matches[qfIdx];
       const nextP1 = isSlot1 ? winner : qf.player1;
       const nextP2 = !isSlot1 ? winner : qf.player2;
-      matches[qfIdx] = {
-        ...qf,
-        player1: nextP1,
-        player2: nextP2,
-        isPlayerMatch: Boolean(nextP1?.id === currentUserId || nextP2?.id === currentUserId),
-        status: nextP1 && nextP2 ? 'active' : 'pending',
-      };
+      matches[qfIdx] = activateMatchSlot(qf, nextP1, nextP2, currentUserId);
     }
     return;
   }
@@ -345,13 +391,7 @@ export function propagateWinnerToNextRound(
       const sf = matches[sfIdx];
       const nextP1 = isSlot1 ? winner : sf.player1;
       const nextP2 = !isSlot1 ? winner : sf.player2;
-      matches[sfIdx] = {
-        ...sf,
-        player1: nextP1,
-        player2: nextP2,
-        isPlayerMatch: Boolean(nextP1?.id === currentUserId || nextP2?.id === currentUserId),
-        status: nextP1 && nextP2 ? 'active' : 'pending',
-      };
+      matches[sfIdx] = activateMatchSlot(sf, nextP1, nextP2, currentUserId);
     }
     return;
   }
@@ -363,49 +403,66 @@ export function propagateWinnerToNextRound(
       const isSlot1 = target.id === 'match_sf1';
       const nextP1 = isSlot1 ? winner : finalMatch.player1;
       const nextP2 = !isSlot1 ? winner : finalMatch.player2;
-      matches[finalIdx] = {
-        ...finalMatch,
-        player1: nextP1,
-        player2: nextP2,
-        isPlayerMatch: Boolean(nextP1?.id === currentUserId || nextP2?.id === currentUserId),
-        status: nextP1 && nextP2 ? 'active' : 'pending',
-      };
+      matches[finalIdx] = activateMatchSlot(finalMatch, nextP1, nextP2, currentUserId);
     }
     return;
   }
 }
 
-/** Simulate concurrent bot vs bot matches in the same round */
-export function simulateConcurrentMatches(
+/**
+ * Recursively simulate all active bot-vs-bot matches across rounds.
+ * If the player is eliminated or forceCompleteAll is true, it simulates through
+ * the Grand Final so the tournament reaches 'completed' status with champion & runner-up.
+ */
+export function simulateAllBotMatches(
   tournament: CommunityTournament,
-  currentRoundIndex: number,
-  currentUserId: string
+  currentUserId: string,
+  options?: { forceCompleteAll?: boolean }
 ): CommunityTournament {
   const matches = [...tournament.matches];
+  let newStatus = tournament.status;
+  let champion = tournament.champion;
+  let runnerUp = tournament.runnerUp;
   let changed = false;
 
-  for (let i = 0; i < matches.length; i++) {
-    const m = matches[i];
-    // Strict Zero Dummy Data Rule: ONLY simulate matches where BOTH contestants are bots!
-    // Never fake human vs human or human vs bot match outcomes.
-    const isBotVsBot = Boolean(
-      m.player1?.id.startsWith('bot_') && m.player2?.id.startsWith('bot_')
-    );
+  // Determine if player has any ongoing match
+  const playerHasFutureMatch = matches.some(
+    (m) =>
+      m.isPlayerMatch &&
+      (m.status === 'active' || m.status === 'pending' || (m.status === 'completed' && m.winner?.id === currentUserId))
+  );
 
-    if (
-      m.roundIndex === currentRoundIndex &&
-      m.status === 'active' &&
-      !m.isPlayerMatch &&
-      isBotVsBot &&
-      m.player1 &&
-      m.player2
-    ) {
+  const shouldSimulateToFinality = Boolean(options?.forceCompleteAll || !playerHasFutureMatch);
+
+  let loopSafety = 0;
+  while (loopSafety < 20) {
+    loopSafety++;
+    let simulatedThisRound = false;
+
+    for (let i = 0; i < matches.length; i++) {
+      const m = matches[i];
+      if (m.status !== 'active') continue;
+      if (m.isPlayerMatch) continue; // Strict Zero Dummy Data Rule: NEVER fake human match outcomes!
+
+      const isBotVsBot = Boolean(
+        m.player1?.id.startsWith('bot_') && m.player2?.id.startsWith('bot_')
+      );
+      if (!isBotVsBot || !m.player1 || !m.player2) continue;
+
+      // If player is still actively competing, only simulate matches at or behind current round
+      if (!shouldSimulateToFinality) {
+        const playerActiveMatch = matches.find((pm) => pm.isPlayerMatch && pm.status === 'active');
+        const playerRound = playerActiveMatch?.roundIndex ?? 0;
+        if (m.roundIndex > playerRound) continue;
+      }
+
       const p1Wins = Math.random() > 0.48;
       const scoreWinner = Math.floor(65 + Math.random() * 30);
       const scoreLoser = Math.floor(25 + Math.random() * 35);
       const p1Score = p1Wins ? scoreWinner : scoreLoser;
       const p2Score = p1Wins ? scoreLoser : scoreWinner;
       const winner = p1Wins ? m.player1 : m.player2;
+      const loser = p1Wins ? m.player2 : m.player1;
 
       matches[i] = {
         ...m,
@@ -415,19 +472,119 @@ export function simulateConcurrentMatches(
         player2Score: p2Score,
       };
 
-      propagateWinnerToNextRound(matches, matches[i], winner, currentUserId);
+      const isFinal = m.roundName === 'Grand Final' || m.id === 'match_final';
+      if (isFinal) {
+        newStatus = 'completed';
+        champion = winner || undefined;
+        runnerUp = loser || undefined;
+      } else {
+        propagateWinnerToNextRound(matches, matches[i], winner, currentUserId);
+      }
+
+      simulatedThisRound = true;
       changed = true;
     }
+
+    if (!simulatedThisRound) break;
   }
 
   if (!changed) return tournament;
 
   const updatedTournament: CommunityTournament = {
     ...tournament,
+    status: newStatus,
     matches,
+    champion,
+    runnerUp,
+    completedAt: newStatus === 'completed' ? new Date().toISOString() : tournament.completedAt,
   };
+
   saveActiveCommunityTournament(updatedTournament);
   return updatedTournament;
+}
+
+/** Backward compatibility alias for simulateConcurrentMatches */
+export function simulateConcurrentMatches(
+  tournament: CommunityTournament,
+  _currentRoundIndex: number,
+  currentUserId: string
+): CommunityTournament {
+  return simulateAllBotMatches(tournament, currentUserId);
+}
+
+/**
+ * Wall-clock lifecycle validator:
+ * Reconciles match deadlines, detects player abandonment (W.O.), and auto-resolves stale tournaments.
+ */
+export function verifyAndReconcileTournamentLifecycle(
+  tournament: CommunityTournament,
+  currentUserId: string
+): { updatedTournament: CommunityTournament; wasForfeited: boolean; wasCompleted: boolean } {
+  let tourney = { ...tournament, matches: [...tournament.matches] };
+  let wasForfeited = false;
+  let wasCompleted = false;
+
+  if (tourney.status === 'completed') {
+    return { updatedTournament: tourney, wasForfeited: false, wasCompleted: false };
+  }
+
+  const now = Date.now();
+  const createdAtMs = Date.parse(tourney.createdAt);
+  const isStale = !isNaN(createdAtMs) && now - createdAtMs > 2 * 3600 * 1000;
+
+  for (let i = 0; i < tourney.matches.length; i++) {
+    const m = tourney.matches[i];
+    if (m.status !== 'active') continue;
+
+    const deadlineMs = m.deadlineAt ? Date.parse(m.deadlineAt) : null;
+    const isOverdue = deadlineMs ? now > deadlineMs : isStale;
+
+    if (isOverdue) {
+      if (m.isPlayerMatch) {
+        // Player abandoned match or closed app past deadline -> Walkover (W.O.) Loss
+        const opponent = m.player1?.id === currentUserId ? m.player2 : m.player1;
+        const p1IsPlayer = m.player1?.id === currentUserId;
+        tourney.matches[i] = {
+          ...m,
+          status: 'completed',
+          winner: opponent,
+          player1Score: p1IsPlayer ? 0 : 75,
+          player2Score: p1IsPlayer ? 75 : 0,
+        };
+        propagateWinnerToNextRound(tourney.matches, tourney.matches[i], opponent, currentUserId);
+        wasForfeited = true;
+      } else {
+        // Bot vs Bot overdue match
+        const isBotVsBot = Boolean(m.player1?.id.startsWith('bot_') && m.player2?.id.startsWith('bot_'));
+        if (isBotVsBot && m.player1 && m.player2) {
+          const winner = Math.random() > 0.5 ? m.player1 : m.player2;
+          tourney.matches[i] = {
+            ...m,
+            status: 'completed',
+            winner,
+            player1Score: 60,
+            player2Score: 40,
+          };
+          propagateWinnerToNextRound(tourney.matches, tourney.matches[i], winner, currentUserId);
+        }
+      }
+    }
+  }
+
+  // If player was forfeited, or has no active/pending matches left, simulate remaining bot matches to completion
+  const hasActivePlayerMatch = tourney.matches.some(
+    (m) => m.isPlayerMatch && (m.status === 'active' || m.status === 'pending')
+  );
+
+  if (!hasActivePlayerMatch || isStale) {
+    tourney = simulateAllBotMatches(tourney, currentUserId, { forceCompleteAll: true });
+    if (tourney.status === 'completed') {
+      wasCompleted = true;
+    }
+  }
+
+  saveActiveCommunityTournament(tourney);
+  return { updatedTournament: tourney, wasForfeited, wasCompleted };
 }
 
 /** Advance match result and update bracket (Idempotent) */
@@ -497,7 +654,7 @@ export function advanceTournamentMatch(
     propagateWinnerToNextRound(matches, target, winner, currentUserId);
   }
 
-  const updatedTournament: CommunityTournament = {
+  let updatedTournament: CommunityTournament = {
     ...tournament,
     status: newStatus,
     matches,
@@ -505,6 +662,11 @@ export function advanceTournamentMatch(
     runnerUp,
     completedAt: newStatus === 'completed' ? new Date().toISOString() : undefined,
   };
+
+  // If player lost and was eliminated, automatically simulate all remaining bot matches to Grand Final!
+  if (loser?.id === currentUserId && newStatus !== 'completed') {
+    updatedTournament = simulateAllBotMatches(updatedTournament, currentUserId, { forceCompleteAll: true });
+  }
 
   saveActiveCommunityTournament(updatedTournament);
   return { updatedTournament, trophyAwarded, starsAwarded };
@@ -547,10 +709,13 @@ export function loadActiveCommunityTournament(): CommunityTournament | null {
     const raw = localStorage.getItem(STORAGE_KEY_ACTIVE_TOURNAMENT);
     if (raw) {
       const parsed = JSON.parse(raw);
-      // Stale or already completed tournament sessions should not be restored as active rooms
+      // Stale completed tournament sessions (> 30m) should be cleared
       if (parsed.status === 'completed') {
-        localStorage.removeItem(STORAGE_KEY_ACTIVE_TOURNAMENT);
-        return null;
+        const completedMs = parsed.completedAt ? Date.parse(parsed.completedAt) : 0;
+        if (!completedMs || Date.now() - completedMs > 30 * 60 * 1000) {
+          localStorage.removeItem(STORAGE_KEY_ACTIVE_TOURNAMENT);
+          return null;
+        }
       }
       return parsed;
     }

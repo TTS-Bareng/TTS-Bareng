@@ -31,6 +31,7 @@ import {
   advanceTournamentMatch,
   fillRemainingSlotsWithBots,
   simulateConcurrentMatches,
+  verifyAndReconcileTournamentLifecycle,
   loadActiveCommunityTournament,
   saveActiveCommunityTournament,
   loadPublicTournaments,
@@ -216,6 +217,9 @@ interface GameState {
   battleScores: { local: number; partner: number };
   battleClueOwners: Record<string, 'local' | 'partner'>;
   battleTimeLeft: number;
+  battleStartedAt: number | null;
+  battleTotalSeconds: number;
+  reconcileActiveGameplayLifecycles: () => void;
   isBattleLobbyOpen: boolean;
   isBattleResultOpen: boolean;
   battleWinner: 'local' | 'partner' | 'draw' | null;
@@ -2034,6 +2038,8 @@ export const useGameStore = create<GameState>((set, get) => ({
   battleScores: { local: 0, partner: 0 },
   battleClueOwners: {},
   battleTimeLeft: 90,
+  battleStartedAt: null,
+  battleTotalSeconds: 90,
   isBattleLobbyOpen: false,
   isBattleResultOpen: false,
   battleWinner: null,
@@ -2636,12 +2642,63 @@ export const useGameStore = create<GameState>((set, get) => ({
     get().showGlobalToast('Keluar dari turnamen.');
   },
 
+  reconcileActiveGameplayLifecycles: () => {
+    const {
+      activeTournament,
+      user,
+      gameMode,
+      battleStartedAt,
+      battleTotalSeconds,
+      isBattleResultOpen,
+      isTournamentResultOpen,
+      finishBattleRound,
+      showGlobalToast,
+      refreshPublicTournamentsFromDb,
+    } = get();
+
+    const myId = user.id || 'player_local';
+
+    // 1. Reconcile Active Tournament Lifecycle
+    if (activeTournament) {
+      const { updatedTournament, wasForfeited, wasCompleted } = verifyAndReconcileTournamentLifecycle(
+        activeTournament,
+        myId
+      );
+
+      if (wasForfeited) {
+        showGlobalToast('Batas waktu tanding turnamen telah berakhir (W.O.).', 3500);
+      } else if (wasCompleted && activeTournament.status !== 'completed') {
+        showGlobalToast('Turnamen telah selesai diselenggarakan!', 3000);
+      }
+
+      if (updatedTournament !== activeTournament) {
+        set({ activeTournament: updatedTournament });
+        saveTournamentToDb(updatedTournament);
+      }
+    }
+
+    // 2. Reconcile 1v1 Battle Background Expiration
+    if (gameMode === '1v1_battle' && !isBattleResultOpen && !isTournamentResultOpen) {
+      if (battleStartedAt && battleTotalSeconds) {
+        const elapsed = Math.floor((Date.now() - battleStartedAt) / 1000);
+        if (elapsed >= battleTotalSeconds) {
+          showGlobalToast('Waktu duel telah habis saat aplikasi tidak aktif.', 3500);
+          finishBattleRound();
+        } else {
+          set({ battleTimeLeft: Math.max(0, battleTotalSeconds - elapsed) });
+        }
+      }
+    }
+
+    // 3. Keep Public Tournaments Clean
+    refreshPublicTournamentsFromDb();
+  },
+
   fillTournamentSlotsWithBots: () => {
     const { activeTournament, showGlobalToast } = get();
     if (!activeTournament) return;
     const updated = fillRemainingSlotsWithBots(activeTournament);
     tournamentRealtime.broadcastTournamentSync(updated);
-    saveTournamentToDb(updated);
     set({ activeTournament: updated });
     showGlobalToast(`Slot berhasil dilengkapi dengan Jawara TTS! Siap tanding!`, 2500);
   },
@@ -2725,6 +2782,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       battleScores: { local: 0, partner: 0 },
       battleClueOwners: {},
       battleTimeLeft: targetMatch.durationSeconds,
+      battleStartedAt: Date.now(),
+      battleTotalSeconds: targetMatch.durationSeconds,
       battleWinner: null,
       currentLevelIndex: chosenLevelIdx,
       level: targetLevel,
@@ -2803,6 +2862,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       battleScores: { local: 0, partner: 0 },
       battleClueOwners: {},
       battleTimeLeft: playerMatch.durationSeconds,
+      battleStartedAt: Date.now(),
+      battleTotalSeconds: playerMatch.durationSeconds,
       battleWinner: null,
       isTournamentOpen: false,
       isTournamentResultOpen: false,
@@ -2982,6 +3043,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       battleScores: { local: 0, partner: 0 },
       battleClueOwners: {},
       battleTimeLeft: config.durationSeconds,
+      battleStartedAt: Date.now(),
+      battleTotalSeconds: config.durationSeconds,
       battleWinner: null,
       currentLevelIndex: safeIdx,
       level: targetLevel,
@@ -3022,6 +3085,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       battleScores: { local: 0, partner: 0 },
       battleClueOwners: {},
       battleTimeLeft: battleConfig.durationSeconds,
+      battleStartedAt: Date.now(),
+      battleTotalSeconds: battleConfig.durationSeconds,
       battleWinner: null,
       isBattleLobbyOpen: false,
       isBattleResultOpen: false,
@@ -3060,6 +3125,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       battleScores: { local: 0, partner: 0 },
       battleClueOwners: {},
       battleTimeLeft: payload.config.durationSeconds,
+      battleStartedAt: Date.now(),
+      battleTotalSeconds: payload.config.durationSeconds,
       battleWinner: null,
       isBattleLobbyOpen: false,
       isBattleResultOpen: false,
@@ -3085,6 +3152,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     const {
       gameMode,
       battleTimeLeft,
+      battleStartedAt,
+      battleTotalSeconds,
       isBattleResultOpen,
       isTournamentResultOpen,
       activeTournamentMatch,
@@ -3122,12 +3191,18 @@ export const useGameStore = create<GameState>((set, get) => ({
       }
     }
 
-    if (battleTimeLeft <= 1) {
+    // Accurate wall-clock countdown calculation to prevent timer freezing in background
+    let nextTime = battleTimeLeft - 1;
+    if (battleStartedAt && battleTotalSeconds) {
+      const elapsed = Math.floor((Date.now() - battleStartedAt) / 1000);
+      nextTime = Math.max(0, battleTotalSeconds - elapsed);
+    }
+
+    if (nextTime <= 0) {
       finishBattleRound();
       return;
     }
 
-    const nextTime = battleTimeLeft - 1;
     if (nextTime <= 10 && nextTime > 0) {
       if (soundEnabled) soundManager.playHeartbeat();
       if (get().hapticEnabled) {
@@ -3249,7 +3324,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     if (isBattleResultOpen || isTournamentResultOpen) return;
 
     // Hentikan timer duel seketika
-    set({ battleTimeLeft: 0 });
+    set({ battleTimeLeft: 0, battleStartedAt: null });
 
     if (activeCommunityMatchId && activeTournament) {
       const myId = user.id || 'player_local';
@@ -3471,6 +3546,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       battleScores: { local: 0, partner: 0 },
       battleClueOwners: {},
       battleTimeLeft: battleConfig.durationSeconds,
+      battleStartedAt: Date.now(),
+      battleTotalSeconds: battleConfig.durationSeconds,
       isBattleResultOpen: false,
       currentLevelIndex: targetLevelIdx,
       level: targetLevel,
@@ -3510,6 +3587,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       battleScores: { local: 0, partner: 0 },
       battleClueOwners: {},
       battleTimeLeft: battleConfig.durationSeconds,
+      battleStartedAt: Date.now(),
+      battleTotalSeconds: battleConfig.durationSeconds,
       battleWinner: null,
       lastEloDelta: null,
       isBattleResultOpen: false,

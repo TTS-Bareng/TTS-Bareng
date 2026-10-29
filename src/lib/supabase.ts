@@ -366,16 +366,29 @@ export async function saveTournamentToDb(t: CommunityTournament): Promise<boolea
 export async function fetchPublicTournamentsFromDb(limit = 30): Promise<CommunityTournament[]> {
   if (!isSupabaseConfigured) return [];
   try {
+    const twoHoursAgo = new Date(Date.now() - 2 * 3600 * 1000).toISOString();
     const { data, error } = await supabase
       .from('community_tournaments')
       .select('*')
+      .eq('status', 'lobby')
+      .gte('created_at', twoHoursAgo)
       .order('created_at', { ascending: false })
       .limit(limit);
 
     if (error || !data) return [];
     return (data as unknown as DbTournamentRow[])
       .map(mapDbToTournament)
-      .filter((t) => !['Budi Santoso', 'Eko Lawang'].includes(t.hostName) && !t.id.startsWith('tourney_pub_'));
+      .filter((t) => {
+        if (!t || t.status !== 'lobby') return false;
+        if (['Budi Santoso', 'Eko Lawang'].includes(t.hostName)) return false;
+        if (t.id.startsWith('tourney_pub_') || t.id.startsWith('tourney-dummy-')) return false;
+        // Exclude full lobbies
+        if (Array.isArray(t.players) && t.maxPlayers && t.players.length >= t.maxPlayers) return false;
+        // Strict Zero Dummy Data: must have at least one real human player (exclude 100% bot rooms)
+        const hasHuman = Array.isArray(t.players) && t.players.some((p) => p && !p.id.startsWith('bot_'));
+        if (!hasHuman) return false;
+        return true;
+      });
   } catch {
     return [];
   }
