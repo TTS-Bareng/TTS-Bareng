@@ -8,12 +8,12 @@
 
 ## Tasks and verification
 
-- [ ] Add failing server tests: unauthorized caller, non-Apple deletion, missing Apple code, token exchange failure, wrong Apple identity/signature, revocation failure, and successful revoke-before-delete ordering. Use generated test keys and fake upstream responses, never real Apple accounts.
-- [ ] Implement a dependency-free Web Crypto server handler and thin Deno entrypoint. Validate the Supabase session using Auth, never trust a user ID sent by the client. Compare Apple's verified subject with the linked identity returned by Auth. Bound external request timeouts; suppress upstream credential-bearing errors.
-- [ ] Route native Apple deletion through reauthentication and the Edge Function. Test client sequencing, wrong/missing identity, cancellation, and backend errors before local cleanup. Keep guest behavior covered.
-- [ ] Add native credential-state querying and revoked notifications; sign out the matching session on revoked/notFound state at startup/resume. Avoid racing an account deletion already in progress.
-- [ ] Configure backend secrets using the existing key, deploy the function, and run safe live checks (reject unauthenticated calls; reject missing code for an Apple-linked account without deleting it). Verify non-Apple deletion only using a newly created disposable test account.
-- [ ] Run `npm run build`, targeted tests, diff review, and iOS CI build. Attach processed build only after verification; update reviewer notes and retain the draft unsubmitted.
+- [x] Add failing server tests: unauthorized caller, non-Apple deletion, missing Apple code, token exchange failure, wrong Apple identity/signature, revocation failure, and successful revoke-before-delete ordering. Use generated test keys and fake upstream responses, never real Apple accounts.
+- [x] Implement a dependency-free Web Crypto server handler and thin Deno entrypoint. Validate the Supabase session using Auth, never trust a user ID sent by the client. Compare Apple's verified subject with the linked identity returned by Auth. Bound external request timeouts; suppress upstream credential-bearing errors.
+- [x] Route native Apple deletion through reauthentication and the Edge Function. Test client sequencing, wrong/missing identity, cancellation, and backend errors before local cleanup. Keep guest behavior covered.
+- [x] Add native credential-state querying and revoked notifications; sign out the matching session on revoked/notFound state at startup/resume. Avoid racing an account deletion already in progress.
+- [x] Configure backend secrets using the existing key, deploy the function, and run safe live checks. Live unauthorized access rejected; missing Apple code verified in unit tests without impersonating a real Apple user. Non-Apple live deletion used only a newly created disposable test account.
+- [x] Run `npm run build`, targeted tests, diff review, and iOS CI build. Attach processed build only after verification; update reviewer notes and retain the draft unsubmitted.
 - [ ] Native Apple round-trip on the new TestFlight build requires a real device and the owner's Apple authorization. Report this separately from automated tests and never treat a mocked Apple response as that proof.
 
 ## References
@@ -27,3 +27,4 @@
 - Existing key confirmed in Apple Developer: TTS Bareng Sign in Key, Sign In with Apple capability. Supabase CLI account cannot manage this project's secrets (403); dashboard sign-in requested while implementation continues.
 - Dashboard login completed by owner. Owner explicitly authorized storing the existing Apple key in backend secrets and deploying the function. Three secrets saved without exposing their values.
 - Server/client implementation, 15 tests, build, independent review, and safe live function checks passed. Function version 1 active with JWT verification. Real Apple device test remains a separate release gate.
+- Commit `dc8167b`, tag `v1.0.63`, CI run #52 (`41010186009`) succeeded, including native archive/signing/upload. Apple processed build `52` as VALID and it is selected on version 1.0. Internal TestFlight group already has access to all builds. App version removed from the draft queue until the new device test is confirmed; five purchase/subscription items preserved.

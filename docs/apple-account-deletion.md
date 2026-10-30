@@ -25,7 +25,7 @@ Akun non-Apple tidak memerlukan verifikasi Apple. Mode Tamu hanya membersihkan d
 - 15 tes Node mencakup validasi sesi, pembatalan, pergantian akun saat sheet terbuka, permintaan paralel, tanda tangan Apple, audience/expiry/subject, kegagalan pertukaran/revokasi, serta urutan revoke sebelum delete.
 - Function live menolak request anonim (401), menerima sesi valid untuk pemeriksaan metode baca (405), dan berhasil menghapus satu akun email uji sementara yang baru dibuat (200); pemeriksaan Auth setelahnya mengembalikan 404. Akun demo reviewer tidak dihapus.
 - Probe kunci memakai kode Apple dummy mengembalikan `invalid_grant`, bukan `invalid_client`. Ini tidak menggantikan tes otorisasi Apple asli.
-- Build Vite/TypeScript lulus. Kompilasi native dan uji TestFlight Apple asli masih harus diperiksa pada build kandidat baru.
+- Build Vite/TypeScript, typecheck handler backend, dan kompilasi/signing/upload native melalui CI #52 lulus. Build `1.0 (52)` sudah VALID di Apple dan dipilih sebagai kandidat. Uji TestFlight Apple asli pada build ini masih menunggu konfirmasi pemilik; hasil build 51 tidak dianggap sebagai bukti alur baru.
 - Pengujian perangkat: masuk Apple → hapus akun → verifikasi Apple → kembali ke layar masuk; pastikan TTS hilang dari daftar Sign in with Apple pada pengaturan Apple ID. Masuk ulang harus menawarkan otorisasi baru. Uji batal di sheet: akun tetap tersedia. Jangan gunakan akun yang progresnya masih diperlukan.
 
 Referensi: [Apple TN3194](https://developer.apple.com/documentation/technotes/tn3194-handling-account-deletions-and-revoking-tokens-for-sign-in-with-apple), [Firebase: otorisasi ulang sebelum revokasi Apple](https://firebase.google.com/docs/auth/ios/apple#token_revocation).

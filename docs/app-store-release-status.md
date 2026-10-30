@@ -17,7 +17,7 @@
 - Build lama belum menggunakan RPC sosial baru, sehingga alur pertemanan lama tidak kompatibel dengan pembatasan akses baru. Gunakan kandidat baru untuk pengujian.
 - Halaman privasi web sudah terpublikasi dan diperiksa pada `https://tts-bareng-web.akashaaa-id.workers.dev/#privacy`, termasuk Supabase, RevenueCat, moderasi, dan penghapusan akun.
 
-## Verifikasi App Store Connect terakhir
+## Verifikasi draft awal sebelum perbaikan revokasi
 
 - Versi `1.0`, build `51`, berstatus `READY_FOR_REVIEW`. Build Apple berstatus `VALID`; kandidat terbaru dikonfigurasi iPhone-only oleh commit `5b25028`.
 - Konflik screenshot diatasi dengan melepas dua **item antrean review** gambar `TTS - 8.png` dan `TTS - 07.png` dari draft. Berkas Asset Library tidak dihapus. Add for Review kemudian berhasil.
@@ -32,6 +32,7 @@
 
 ## Handoff
 
-- Buka Distribution → Draft Submissions → draft iOS versi 1.0 (51), lalu pemilik dapat menekan Submit for Review. Agent belum mengirim submission.
+- Kandidat terbaru: tag `v1.0.63`, commit `dc8167b`, build `1.0 (52)`. CI #52 berhasil; Apple processing VALID; build 52 dipilih pada versi App Store. Akun demo dan catatan reviewer dipertahankan/diperbarui. Backend `delete-account` aktif, pemeriksaan sesi dan penghapusan akun uji sementara lulus, 15 tes otomatis lulus.
+- **Belum dinyatakan siap submit ulang:** konfirmasi uji Apple asli pada build 52 masih ditunggu. Item versi aplikasi sementara dilepas dari antrean draft, sementara lima item IAP/langganan/grup tetap ada. Setelah tes lulus, Add for Review harus dijalankan lagi dan tombol akhir diperiksa. Agent belum mengirim submission.
 - Moderator tetap perlu memeriksa kreasi pending dan laporan setiap hari menurut `docs/app-store-moderation.md`.
 - Setelah pemeriksaan build 51, alur iOS pencabutan akses Apple otomatis diimplementasikan melalui otorisasi ulang dan Edge Function. Lihat `docs/apple-account-deletion.md`. Build kandidat baru dan tes Apple di perangkat harus lulus sebelum menggantikan build 51 di draft. Status Ready for Review adalah validasi draft Apple, bukan jaminan hasil penilaian kepatuhan saat review.
