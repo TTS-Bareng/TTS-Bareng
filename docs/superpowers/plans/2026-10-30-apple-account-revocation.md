@@ -14,7 +14,7 @@
 - [x] Add native credential-state querying and revoked notifications; sign out the matching session on revoked/notFound state at startup/resume. Avoid racing an account deletion already in progress.
 - [x] Configure backend secrets using the existing key, deploy the function, and run safe live checks. Live unauthorized access rejected; missing Apple code verified in unit tests without impersonating a real Apple user. Non-Apple live deletion used only a newly created disposable test account.
 - [x] Run `npm run build`, targeted tests, diff review, and iOS CI build. Attach processed build only after verification; update reviewer notes and retain the draft unsubmitted.
-- [ ] Native Apple round-trip on the new TestFlight build requires a real device and the owner's Apple authorization. Report this separately from automated tests and never treat a mocked Apple response as that proof.
+- [x] Native Apple round-trip on the new TestFlight build requires a real device and the owner's Apple authorization. Owner confirmed all four steps passed on build 52; recorded separately from automated tests.
 
 ## References
 
@@ -28,3 +28,4 @@
 - Dashboard login completed by owner. Owner explicitly authorized storing the existing Apple key in backend secrets and deploying the function. Three secrets saved without exposing their values.
 - Server/client implementation, 15 tests, build, independent review, and safe live function checks passed. Function version 1 active with JWT verification. Real Apple device test remains a separate release gate.
 - Commit `dc8167b`, tag `v1.0.63`, CI run #52 (`41010186009`) succeeded, including native archive/signing/upload. Apple processed build `52` as VALID and it is selected on version 1.0. Internal TestFlight group already has access to all builds. App version removed from the draft queue until the new device test is confirmed; five purchase/subscription items preserved.
+- Owner confirmed the build 52 device test passed. Add for Review succeeded again; final UI and API verification showed six READY_FOR_REVIEW items, build 52 VALID, Indonesia only, reviewer credentials present, no standalone screenshot review items, Submit for Review enabled, and submittedDate null. No submission performed. Final `npm run build` passed.
