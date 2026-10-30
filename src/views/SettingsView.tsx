@@ -1240,7 +1240,7 @@ export const SettingsView: React.FC = () => {
                   dapat dipulihkan.
                 </p>
                 <p className="text-[10px] text-[var(--text-secondary)] leading-relaxed">
-                  Penghapusan akun tidak membatalkan langganan Apple. Kelola langganan melalui pengaturan Apple ID. Jika memakai Sign in with Apple, setelah penghapusan Anda juga dapat mencabut akses TTS Bareng melalui pengaturan Apple ID → Masuk & Keamanan → Sign in with Apple.
+                  Penghapusan akun tidak membatalkan langganan Apple. Kelola langganan melalui pengaturan Apple ID. Di iPhone, akun yang terhubung ke Apple akan meminta verifikasi Apple ID untuk mencabut akses sebelum data dihapus. Jika menghapus melalui web, cabut akses TTS Bareng setelah penghapusan melalui pengaturan Apple ID → Masuk & Keamanan → Sign in with Apple.
                 </p>
                 <div className="space-y-1">
                   <label className="text-[9.5px] font-bold text-[var(--text-secondary)] block">
@@ -1264,8 +1264,8 @@ export const SettingsView: React.FC = () => {
                       setIsDeletingAccount(true);
                       try {
                         await deleteAccountAndData();
-                      } catch {
-                        showGlobalToast("Penghapusan akun belum dapat dipastikan. Periksa koneksi atau masuk kembali lalu coba lagi.");
+                      } catch (error) {
+                        showGlobalToast(error instanceof Error ? error.message : "Penghapusan akun belum dapat dipastikan. Periksa koneksi atau masuk kembali lalu coba lagi.");
                         setIsDeletingAccount(false);
                       }
                     }}

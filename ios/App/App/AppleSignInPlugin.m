@@ -3,4 +3,5 @@
 
 CAP_PLUGIN(AppleSignInPlugin, "AppleSignInPlugin",
     CAP_PLUGIN_METHOD(signIn, CAPPluginReturnPromise);
+    CAP_PLUGIN_METHOD(getCredentialState, CAPPluginReturnPromise);
 )

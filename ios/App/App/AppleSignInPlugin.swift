@@ -3,8 +3,49 @@ import Capacitor
 import AuthenticationServices
 
 @objc(AppleSignInPlugin)
-public class AppleSignInPlugin: CAPPlugin, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+public class AppleSignInPlugin: CAPPlugin, CAPBridgedPlugin, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+    public let identifier = "AppleSignInPlugin"
+    public let jsName = "AppleSignInPlugin"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "signIn", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getCredentialState", returnType: CAPPluginReturnPromise)
+    ]
     private var pendingCall: CAPPluginCall?
+
+    public override func load() {
+        NotificationCenter.default.addObserver(self, selector: #selector(credentialsRevoked),
+            name: ASAuthorizationAppleIDProvider.credentialRevokedNotification, object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    @objc private func credentialsRevoked() {
+        notifyListeners("credentialsRevoked", data: [:])
+    }
+
+    @objc public func getCredentialState(_ call: CAPPluginCall) {
+        guard let user = call.getString("user"), !user.isEmpty else {
+            call.reject("Pengenal Apple tidak tersedia")
+            return
+        }
+        ASAuthorizationAppleIDProvider().getCredentialState(forUserID: user) { state, error in
+            if error != nil {
+                call.reject("Status kredensial Apple belum dapat diperiksa")
+                return
+            }
+            let status: String
+            switch state {
+            case .authorized: status = "authorized"
+            case .revoked: status = "revoked"
+            case .notFound: status = "notFound"
+            case .transferred: status = "transferred"
+            @unknown default: status = "unknown"
+            }
+            call.resolve(["state": status])
+        }
+    }
 
     @objc func signIn(_ call: CAPPluginCall) {
         self.pendingCall = call

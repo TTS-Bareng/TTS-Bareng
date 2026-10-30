@@ -17,6 +17,7 @@ import { supabase, isSupabaseConfigured, fetchUserProfile } from './lib/supabase
 import { syncWidgetSnapshot, getPendingWidgetAction, clearPendingWidgetAction } from './lib/widgetSync';
 import { getEloTier } from './lib/eloSystem';
 import { subscribeToSocialInbox, consumeAcceptedFriendships, type MabarInvite } from './lib/socialSync';
+import { watchAppleCredentialRevocation } from './lib/appleAuth';
 
 // Lazy-loaded views & modals for instant initial launch (< 200ms)
 const ArenaView = lazy(() => import('./views/ArenaView').then((m) => ({ default: m.ArenaView })));
@@ -110,6 +111,11 @@ export const App: React.FC = () => {
   } = useGameStore();
 
   const [incomingMabarInvite, setIncomingMabarInvite] = React.useState<MabarInvite | null>(null);
+
+  useEffect(() => watchAppleCredentialRevocation(async userId => {
+    // A delayed native result must never sign out a different account.
+    if (useGameStore.getState().user.id === userId) await useGameStore.getState().logout();
+  }), []);
 
   // Listen for real-time social events (Two-way friend requests, acceptances, mabar invites)
   useEffect(() => {

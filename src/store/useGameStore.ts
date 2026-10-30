@@ -47,7 +47,7 @@ import {
 import { haptic } from '../lib/haptics';
 import { notificationService } from '../lib/notificationService';
 import { calculateEloDelta, getEloTier } from '../lib/eloSystem';
-import { supabase, syncUserProfile, fetchUserProfile, isSupabaseConfigured } from '../lib/supabase';
+import { supabase, syncUserProfile, fetchUserProfile, isSupabaseConfigured, deleteCurrentAccount } from '../lib/supabase';
 import { performGoogleSignOut } from '../lib/googleAuth';
 import { revenueCatService } from '../lib/revenueCatService';
 import { decodeCustomCrosswordParam } from '../lib/deeplink';
@@ -4845,8 +4845,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         return data.session?.user.id ?? null;
       },
       async () => {
-        const { error } = await supabase.rpc('delete_user_account');
-        if (error) throw error;
+        await deleteCurrentAccount(user.id!);
       },
       user.id,
     );

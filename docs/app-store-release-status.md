@@ -15,15 +15,23 @@
 - Pemain tamu tetap dapat bermain; pertemanan cloud memerlukan akun terdaftar.
 - Inbox sosial lama dipindahkan ke arsip privat sebelum antrean aktif dikosongkan karena dahulu dapat ditulis publik. Perlu mengirim ulang permintaan lama yang masih diinginkan.
 - Build lama belum menggunakan RPC sosial baru, sehingga alur pertemanan lama tidak kompatibel dengan pembatasan akses baru. Gunakan kandidat baru untuk pengujian.
-- Halaman privasi web disiapkan secara lokal, belum terverifikasi terpublikasi pada domain Cloudflare.
+- Halaman privasi web sudah terpublikasi dan diperiksa pada `https://tts-bareng-web.akashaaa-id.workers.dev/#privacy`, termasuk Supabase, RevenueCat, moderasi, dan penghapusan akun.
 
-## Gerbang yang masih terbuka
+## Verifikasi App Store Connect terakhir
 
-- Kandidat iOS baru harus selesai di CI dan diproses Apple, lalu dipasang pada versi App Store yang kini masih memakai build #14.
-- Uji TestFlight pada iPhone/iPad: login/tamu, hapus akun (termasuk Apple), moderated UGC melalui tautan/QR/impor, blokir lintas logout, mabar dua perangkat, pembelian setiap produk aktif dan restore.
-- Screenshot iPad 13 inci dari aplikasi kandidat perlu disiapkan dan diunggah. Verifikasi screenshot iPhone sesuai perilaku kandidat.
-- Browser App Store Connect memerlukan login pemilik untuk meninjau Privacy Nutrition Label, hak konten, ketersediaan wilayah, agreement/tax/banking, dan validasi draft. Jangan mengisi pernyataan hak konten atau data yang belum terbukti.
-- Tinjau kuesioner usia untuk distribusi UGC yang sekarang didukung server. Catatan review final baru dipasang setelah nomor build kandidat diketahui dan akses reviewer diuji.
-- Tentukan dan uji operasi harian moderator. Konten pending tidak terbuka bagi reviewer lain sampai disetujui.
-- Periksa sesi Sign in with Apple dan mekanisme pencabutan akses; instruksi pencabutan manual disediakan ketika token revokasi tidak disimpan, tanpa menghalangi penghapusan akun.
-- Tidak ada Submit for Review yang dilakukan.
+- Versi `1.0`, build `51`, berstatus `READY_FOR_REVIEW`. Build Apple berstatus `VALID`; kandidat terbaru dikonfigurasi iPhone-only oleh commit `5b25028`.
+- Konflik screenshot diatasi dengan melepas dua **item antrean review** gambar `TTS - 8.png` dan `TTS - 07.png` dari draft. Berkas Asset Library tidak dihapus. Add for Review kemudian berhasil.
+- Draft `5eb4497b-be6a-4f3e-b360-04d778a5728d` berisi enam item siap: versi aplikasi, dua IAP, dua langganan, dan grup langganan. Tombol Submit for Review aktif; `submittedDate` masih null.
+- Distribusi hanya Indonesia (`IDN`); ekspansi otomatis ke wilayah baru dimatikan.
+- Privacy Nutrition Label delapan kategori sudah published. Deklarasi UGC dikoreksi menjadi true. Contests menjadi `FREQUENT_OR_INTENSE` karena arena, kompetisi harian, dan peringkat tersedia secara rutin, sesuai definisi Apple.
+- Catatan reviewer menjelaskan antrean moderasi dan fitur akun. Akun demo non-admin khusus Apple dibuat dengan persetujuan pengguna; login password ke Supabase diverifikasi. Kredensial disimpan di Sign-In Information App Store Connect dan berkas lokal yang diabaikan Git, tidak di dokumen ini.
+- Apple Developer Program License Agreement terbaru tercatat accepted 30 Oktober 2026. Paid Apps Agreement, Free Apps Agreement, rekening bank, dan formulir pajak berstatus Active pada pemeriksaan browser.
+- Pengguna mengonfirmasi uji TestFlight build 51 (login, mabar, pembelian VIP, restore, hapus akun) semuanya lulus. Ini laporan pengguna; bukan pengujian perangkat oleh agent.
+- Pengguna mengonfirmasi seluruh aset/audio memiliki hak atau izin dan petunjuk ditulis sendiri. Deklarasi hak konten diperiksa berdasarkan konfirmasi tersebut.
+- `npm run build` dan tiga tes helper penghapusan akun lulus pada checkout terakhir. Peringatan ukuran bundle tetap ada.
+
+## Handoff
+
+- Buka Distribution → Draft Submissions → draft iOS versi 1.0 (51), lalu pemilik dapat menekan Submit for Review. Agent belum mengirim submission.
+- Moderator tetap perlu memeriksa kreasi pending dan laporan setiap hari menurut `docs/app-store-moderation.md`.
+- Setelah pemeriksaan build 51, alur iOS pencabutan akses Apple otomatis diimplementasikan melalui otorisasi ulang dan Edge Function. Lihat `docs/apple-account-deletion.md`. Build kandidat baru dan tes Apple di perangkat harus lulus sebelum menggantikan build 51 di draft. Status Ready for Review adalah validasi draft Apple, bukan jaminan hasil penilaian kepatuhan saat review.

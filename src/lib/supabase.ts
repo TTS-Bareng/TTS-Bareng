@@ -1,7 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 import { Capacitor } from '@capacitor/core';
 import type { CommunityTournament } from './tournament';
-import { performAppleSignIn } from './appleAuth';
+import { performAppleSignIn, authorizeAppleAccountDeletion } from './appleAuth';
+import { deleteAuthenticatedAccount } from './deleteAuthenticatedAccount';
 import { performGoogleSignIn } from './googleAuth';
 
 const DEFAULT_SUPABASE_URL = 'https://qrkfjacugcalegzhcatp.supabase.co';
@@ -436,6 +437,46 @@ export function withTimeout<T>(
  */
 export async function signInWithApple(): Promise<{ user?: any; session?: any; error?: string; canceled?: boolean }> {
   return performAppleSignIn();
+}
+
+export async function deleteCurrentAccount(expectedUserId: string): Promise<void> {
+  // The released iOS app can reauthenticate Apple natively. Preserve the documented
+  // manual-revocation route for web clients that have no native Apple sheet.
+  if (!Capacitor.isNativePlatform() || Capacitor.getPlatform() !== 'ios') {
+    const { error } = await supabase.rpc('delete_user_account');
+    if (error) throw new Error('Penghapusan data akun belum dapat dipastikan. Silakan coba lagi.');
+    return;
+  }
+  await deleteAuthenticatedAccount(expectedUserId, {
+    getSession: async () => {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) throw error;
+      return data.session;
+    },
+    authorizeApple: authorizeAppleAccountDeletion,
+    removeAccount: async (token, authorizationCode) => {
+      // Deliberately bypass resilientFetch: a one-use Apple code must never be retried.
+      // Five bounded upstream calls may take up to 50 seconds; allow the server to finish.
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 60000);
+      try {
+        const response = await fetch(`${supabaseUrl}/functions/v1/delete-account`, {
+          method: 'POST',
+          headers: { apikey: supabaseAnonKey, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ authorizationCode }),
+          signal: controller.signal,
+        });
+        const result = await response.json();
+        if (!response.ok || result.deleted !== true || (authorizationCode && result.appleRevoked !== true)) {
+          throw new Error(result.error || 'Penghapusan akun belum dapat dipastikan. Silakan coba lagi.');
+        }
+      } catch (error: any) {
+        throw new Error(formatFriendlyNetworkError(error?.message));
+      } finally {
+        clearTimeout(timeout);
+      }
+    },
+  });
 }
 
 /**

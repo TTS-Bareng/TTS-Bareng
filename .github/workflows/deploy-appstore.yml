@@ -47,6 +47,9 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Verify Account Deletion
+        run: node --experimental-strip-types --test tests/deleteRemoteAccount.test.mjs tests/deleteAuthenticatedAccount.test.mjs tests/appleAccountDeletion.test.mjs
+
       # 5. Build Web App & Sync Capacitor iOS
       - name: Build Web & Sync Capacitor iOS
         env:
