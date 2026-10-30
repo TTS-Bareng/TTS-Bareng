@@ -1,3 +1,4 @@
+import { reportAndBlockCrossword, isPublishedCrosswordId } from '../lib/customCrosswordService';
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Settings, Star, Clock, ChevronDown, Zap, LogOut, Swords, Shield, Trophy, Flag } from 'lucide-react';
@@ -87,15 +88,24 @@ export const Header: React.FC = () => {
   const handleReportCustomCrossword = () => {
     openConfirmDialog({
       title: 'Laporkan & Blokir TTS Ini?',
-      message: 'Apakah teka-teki silang kustom ini memuat kata kasar, SARA, atau konten tidak pantas? TTS ini akan dilaporkan dan seketika dihapus dari perangkat Anda sesuai Ketentuan Komunitas (Apple Guideline 1.2).',
+      message: 'Laporan akan dikirim untuk ditinjau. Kreasi dari pembuat ini akan diblokir pada perangkat ini dan akun Anda bila sedang masuk.',
       confirmLabel: 'Laporkan & Hapus',
       isDestructive: true,
-      onConfirm: () => {
-        if (level?.id) {
-          deleteUserCustomCrossword(level.id);
+      onConfirm: async () => {
+        if (!level?.id || !isPublishedCrosswordId(level.id)) {
+          showGlobalToast('Kreasi lokal ini belum terdaftar untuk pelaporan.');
+          return;
         }
-        showGlobalToast('Terima kasih. Laporan telah dicatat dan TTS telah dihapus dari perangkat.', 3500);
-        setCurrentTab('profile');
+        try {
+          const authorId = await reportAndBlockCrossword(level.id);
+          const state = useGameStore.getState();
+          for (const item of state.userCustomCrosswords) {
+            if (item.id === level.id || item.authorId === authorId) deleteUserCustomCrossword(item.id);
+          }
+          state.selectLevel(0);
+          showGlobalToast('Laporan terkirim dan pembuat diblokir.', 3500);
+          setCurrentTab('profile');
+        } catch { showGlobalToast('Laporan belum terkirim. Periksa koneksi dan coba lagi.'); }
       },
     });
   };

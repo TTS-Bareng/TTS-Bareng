@@ -1239,6 +1239,9 @@ export const SettingsView: React.FC = () => {
                   bintang, rekor kata, serta akun login dari server dan perangkat ini secara permanen tanpa
                   dapat dipulihkan.
                 </p>
+                <p className="text-[10px] text-[var(--text-secondary)] leading-relaxed">
+                  Penghapusan akun tidak membatalkan langganan Apple. Kelola langganan melalui pengaturan Apple ID. Jika memakai Sign in with Apple, setelah penghapusan Anda juga dapat mencabut akses TTS Bareng melalui pengaturan Apple ID → Masuk & Keamanan → Sign in with Apple.
+                </p>
                 <div className="space-y-1">
                   <label className="text-[9.5px] font-bold text-[var(--text-secondary)] block">
                     Ketik kata <span className="text-[var(--accent-main)] font-black">hapus</span> di bawah ini untuk konfirmasi:
@@ -1259,7 +1262,12 @@ export const SettingsView: React.FC = () => {
                     onClick={async () => {
                       if (deleteConfirmText.trim().toLowerCase() !== "hapus") return;
                       setIsDeletingAccount(true);
-                      await deleteAccountAndData();
+                      try {
+                        await deleteAccountAndData();
+                      } catch {
+                        showGlobalToast("Penghapusan akun belum dapat dipastikan. Periksa koneksi atau masuk kembali lalu coba lagi.");
+                        setIsDeletingAccount(false);
+                      }
                     }}
                     className={`flex-1 py-2 rounded-xl font-black text-[11px] shadow-xs flex items-center justify-center gap-1.5 transition-all ${
                       deleteConfirmText.trim().toLowerCase() === "hapus" && !isDeletingAccount

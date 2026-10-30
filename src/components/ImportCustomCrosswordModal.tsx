@@ -45,7 +45,7 @@ export const ImportCustomCrosswordModal: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputVal.trim()) {
       showGlobalToast('Tempel tautan atau kode TTS kawanmu terlebih dahulu');
@@ -53,7 +53,7 @@ export const ImportCustomCrosswordModal: React.FC = () => {
     }
 
     setIsSubmitting(true);
-    const success = importCustomCrosswordFromPayload(inputVal.trim());
+    const success = await importCustomCrosswordFromPayload(inputVal.trim());
     setIsSubmitting(false);
 
     if (success) {
@@ -64,9 +64,9 @@ export const ImportCustomCrosswordModal: React.FC = () => {
     }
   };
 
-  const handleScanSuccess = (scannedText: string) => {
+  const handleScanSuccess = async (scannedText: string) => {
     closeScanner();
-    const success = importCustomCrosswordFromPayload(scannedText);
+    const success = await importCustomCrosswordFromPayload(scannedText);
     if (success) {
       closeImportCustomCrosswordModal();
     } else {

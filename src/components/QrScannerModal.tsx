@@ -58,14 +58,14 @@ export const QrScannerModal: React.FC<QrScannerModalProps> = ({
   }, [stopMediaStreams, onClose]);
 
   // Handle successful QR detection
-  const handleDetectedCode = useCallback((rawText: string) => {
+  const handleDetectedCode = useCallback(async (rawText: string) => {
     // Check if QR contains custom crossword payload
     if (rawText.includes('custom=')) {
       try {
         const url = new URL(rawText.startsWith('http') ? rawText : `https://domain.com/${rawText}`);
         const customParam = url.searchParams.get('custom');
         if (customParam) {
-          const decoded = decodeCustomCrosswordParam(customParam);
+          const decoded = await decodeCustomCrosswordParam(customParam);
           if (decoded) {
             const level = generateCustomCrossword(
               decoded.title,
@@ -74,7 +74,8 @@ export const QrScannerModal: React.FC<QrScannerModalProps> = ({
             );
             stopMediaStreams();
             const customItem = {
-              id: `custom_${Date.now()}`,
+              id: decoded.id,
+              authorId: decoded.authorId,
               title: decoded.title,
               category: decoded.category || 'Kreasi Teman',
               wordsList: decoded.wordsList.map((w) => ({ word: w.answer || w.word, clue: w.clue })),
@@ -82,7 +83,7 @@ export const QrScannerModal: React.FC<QrScannerModalProps> = ({
               createdAt: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
             };
             saveUserCustomCrossword(customItem);
-            playCustomCrossword(customItem);
+            if (!(await playCustomCrossword(customItem))) return;
             showGlobalToast(`Membuka TTS Kustom: "${decoded.title}"`, 3500);
             onClose();
             return;

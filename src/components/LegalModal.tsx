@@ -156,6 +156,9 @@ export const LegalModal: React.FC = () => {
                     <p className="text-[10px]">
                       Sinkronisasi papan real-time saat bermain bersama maupun turnamen berlangsung melalui kanal WebSockets terenkripsi. Seluruh transaksi pembelian dalam aplikasi dan status keanggotaan VIP diproses secara resmi oleh <strong>Apple StoreKit 2</strong> dan diverifikasi melalui <strong>RevenueCat</strong> tanpa menyimpan detail kartu pembayaran Anda.
                     </p>
+                    <p className="text-[10px]">
+                      Jika Anda menerbitkan TTS, isi kreasi dan pengenal pembuat disimpan di server untuk moderasi sebelum tersedia bagi pemain lain. Laporan konten dan pilihan blokir digunakan untuk menangani penyalahgunaan. Blokir tamu disimpan pada perangkat; blokir saat masuk juga disimpan pada akun.
+                    </p>
                   </div>
 
                   <div className="p-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10">

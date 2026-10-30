@@ -1,3 +1,4 @@
+import { isPublishedCrosswordId } from '../lib/customCrosswordService';
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -90,12 +91,8 @@ export const LevelCompleteModal: React.FC = () => {
   const handleShareLevel = () => {
     let levelUrl = '';
     if (isCustomCrossword) {
-      const wordsList = allClues.map((c) => ({ answer: c.answer, clue: c.text }));
-      levelUrl = createCustomCrosswordDeepLink({
-        title: level.title,
-        category: level.category || 'Kreasi Komunitas',
-        wordsList,
-      });
+      if (!isPublishedCrosswordId(level.id)) { useGameStore.getState().showGlobalToast('Terbitkan kreasi melalui Studio sebelum membagikannya.'); return; }
+      levelUrl = createCustomCrosswordDeepLink({id: level.id});
     } else {
       levelUrl = createDeepLink({ level: currentLevelIndex + 1 });
     }

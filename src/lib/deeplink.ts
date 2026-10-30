@@ -1,9 +1,12 @@
+import { readPublishedCrossword, isPublishedCrosswordId } from './customCrosswordService';
 /**
  * Deep Link & Native Web Share Engine for TTS Bareng
  * Handles URL query parameters parsing, link generation, and native share sheets.
  */
 
 export interface DecodedCustomCrossword {
+  id: string;
+  authorId: string;
   title: string;
   category: string;
   wordsList: { word: string; answer: string; clue: string }[];
@@ -62,92 +65,23 @@ export function createTournamentDeepLink(code: string): string {
   return createDeepLink({ tourney: code });
 }
 
-interface CustomCrosswordWireFormat {
-  t: string;
-  c: string;
-  w: { a: string; c: string }[];
+/** Shared content is resolved by the server; legacy unsigned payloads are rejected. */
+export async function decodeCustomCrosswordParam(param: string): Promise<DecodedCustomCrossword | null> {
+  const content = await readPublishedCrossword(param.trim());
+  if (!content) return null;
+  return {...content, wordsList: content.wordsList.map(w => ({...w, answer: w.word}))};
 }
 
-/**
- * URL-safe Base64 encoder for Custom Crossword payloads
- */
-export function encodeCustomCrosswordPayload(item: {
-  title: string;
-  category?: string;
-  wordsList: Array<{ word?: string; answer?: string; clue: string }>;
-}): string {
-  const minified: CustomCrosswordWireFormat = {
-    t: item.title,
-    c: item.category || 'Kreasi Komunitas',
-    w: item.wordsList.map((w) => ({
-      a: (w.answer || w.word || '').trim().toUpperCase(),
-      c: w.clue.trim(),
-    })),
-  };
-  const json = JSON.stringify(minified);
-  const bytes = new TextEncoder().encode(json);
-  let binary = '';
-  for (let i = 0; i < bytes.length; i++) {
-    binary += String.fromCharCode(bytes[i]);
-  }
-  const base64 = btoa(binary);
-  return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-}
-
-/**
- * URL-safe Base64 decoder for Custom Crossword payloads
- */
-export function decodeCustomCrosswordParam(param: string): DecodedCustomCrossword | null {
-  try {
-    if (!param || typeof param !== 'string') return null;
-    let base64 = param.trim().replace(/-/g, '+').replace(/_/g, '/');
-    while (base64.length % 4) {
-      base64 += '=';
-    }
-    const binary = atob(base64);
-    const bytes = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) {
-      bytes[i] = binary.charCodeAt(i);
-    }
-    const json = new TextDecoder().decode(bytes);
-    const data = JSON.parse(json) as CustomCrosswordWireFormat;
-    if (!data.t || !Array.isArray(data.w) || data.w.length < 2) return null;
-    return {
-      title: data.t,
-      category: data.c || 'Kreasi Komunitas',
-      wordsList: data.w.map((w) => {
-        const val = w.a.trim().toUpperCase();
-        return {
-          word: val,
-          answer: val,
-          clue: w.c.trim(),
-        };
-      }),
-    };
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Generates an absolute playable deep link for custom crosswords
- */
-export function createCustomCrosswordDeepLink(item: {
-  title: string;
-  category?: string;
-  wordsList: Array<{ word?: string; answer?: string; clue: string }>;
-}): string {
-  const origin = getBaseOrigin();
-  const url = new URL(origin);
-  const payload = encodeCustomCrosswordPayload(item);
-  url.searchParams.set('custom', payload);
+export function createCustomCrosswordDeepLink(item: {id: string}): string {
+  if (!isPublishedCrosswordId(item.id)) throw new Error('Publikasikan kreasi terlebih dahulu.');
+  const url = new URL(getBaseOrigin());
+  url.searchParams.set('custom', item.id);
   return url.toString();
 }
-
 /**
  * Parses current URL search parameters for room codes, tournament codes, or level numbers
  */
-export function parseDeepLink(totalLevels: number = 500): ParsedDeepLink {
+export async function parseDeepLink(totalLevels: number = 500): Promise<ParsedDeepLink> {
   if (typeof window === 'undefined') return {};
 
   try {
@@ -161,7 +95,7 @@ export function parseDeepLink(totalLevels: number = 500): ParsedDeepLink {
     const result: ParsedDeepLink = {};
 
     if (customParam) {
-      const decoded = decodeCustomCrosswordParam(customParam);
+      const decoded = await decodeCustomCrosswordParam(customParam);
       if (decoded) {
         result.customCrossword = decoded;
       }

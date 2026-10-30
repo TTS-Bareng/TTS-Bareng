@@ -1,3 +1,4 @@
+import { publishCrossword } from '../lib/customCrosswordService';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -52,6 +53,7 @@ export const CustomCrosswordModal: React.FC = () => {
   } = useGameStore();
 
   const [isRestoring, setIsRestoring] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
   const [sachetPriceLabel, setSachetPriceLabel] = useState('Rp 5.000');
   const [vipPriceLabel, setVipPriceLabel] = useState('Mulai Rp 16.500');
 
@@ -164,7 +166,9 @@ export const CustomCrosswordModal: React.FC = () => {
     }
   };
 
-  const handlePublishAndShare = () => {
+  const handlePublishAndShare = async () => {
+    if (isPublishing) return;
+    setIsPublishing(true);
     try {
       // Apple Guideline 1.2: Check for forbidden/objectionable words in title, category, words, and clues
       const FORBIDDEN_WORDS = ['anjing', 'bangsat', 'kontol', 'memek', 'ngentot', 'babi', 'jembut', 'itil', 'pepek', 'pantek', 'bajingan', 'kampret'];
@@ -178,6 +182,8 @@ export const CustomCrosswordModal: React.FC = () => {
 
       const generated = previewLevel || generateCustomCrossword(title || 'TTS Karyaku', category, wordsList);
 
+      if (!editingCustomCrossword && !isVip && customTtsTickets < 1) throw new Error('Tiket kreasi tidak mencukupi.');
+      const publishedId = await publishCrossword({title: generated.title, category, wordsList});
       // Only consume creation ticket for brand new crosswords (editing own existing crossword is free)
       if (!editingCustomCrossword) {
         const consumed = consumeCustomTtsTicket();
@@ -189,7 +195,7 @@ export const CustomCrosswordModal: React.FC = () => {
 
       // Save to user custom crosswords collection
       const customItem = {
-        id: editingCustomCrossword?.id || `custom_${Date.now()}`,
+        id: publishedId,
         title: generated.title,
         category: generated.category || 'Kreasi',
         wordsList,
@@ -202,11 +208,7 @@ export const CustomCrosswordModal: React.FC = () => {
       if (hapticEnabled) haptic.success([40, 80, 50]);
       confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
 
-      const shareUrl = createCustomCrosswordDeepLink({
-        title: generated.title,
-        category: generated.category || 'Kreasi',
-        wordsList,
-      });
+      const shareUrl = createCustomCrosswordDeepLink({id: publishedId});
       const shareText = `Ayo mainkan TTS Karyaku: "${generated.title}" (${
         generated.clues.across.length + generated.clues.down.length
       } Kata)! Buka dan pecahkan langsung di: ${shareUrl}`;
@@ -216,7 +218,7 @@ export const CustomCrosswordModal: React.FC = () => {
       }
 
       closeCustomCrosswordModal();
-      showGlobalToast('TTS Karyamu Berhasil Diterbitkan & Disimpan ke Profil!', 4000);
+      showGlobalToast('Kreasi tersimpan dan menunggu moderasi sebelum dapat dibuka pemain lain.', 4000);
 
       // Buka Tiket Undangan Resmi & QR Code untuk TTS Kustom
       openCustomCrosswordQrModal(customItem);
@@ -224,7 +226,7 @@ export const CustomCrosswordModal: React.FC = () => {
       const msg = err instanceof Error ? err.message : 'Gagal mempublikasikan TTS.';
       setErrorMsg(msg);
       if (soundEnabled) soundManager.playWordWrong();
-    }
+    } finally { setIsPublishing(false); }
   };
 
   return (
@@ -706,6 +708,7 @@ export const CustomCrosswordModal: React.FC = () => {
               <button
                 type="button"
                 onClick={handlePublishAndShare}
+                disabled={isPublishing}
                 className="flex-1 py-3 px-4 rounded-2xl font-black text-[12.5px] cursor-pointer tactile-active shadow-md flex items-center justify-center gap-2 border border-white/20 transition-all whitespace-nowrap overflow-hidden"
                 style={{ background: 'var(--accent-grad)', color: 'var(--accent-contrast)' }}
               >

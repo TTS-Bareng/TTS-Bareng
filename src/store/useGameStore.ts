@@ -52,6 +52,8 @@ import { performGoogleSignOut } from '../lib/googleAuth';
 import { revenueCatService } from '../lib/revenueCatService';
 import { decodeCustomCrosswordParam } from '../lib/deeplink';
 import { generateCustomCrossword } from '../lib/customCrosswordGenerator';
+import { readPublishedCrossword, isPublishedCrosswordId } from '../lib/customCrosswordService';
+import { deleteRemoteAccount } from '../lib/deleteRemoteAccount';
 import {
   type FriendRecord,
   loadFriendsFromStorage,
@@ -294,8 +296,8 @@ interface GameState {
   isImportCustomCrosswordOpen: boolean;
   openImportCustomCrosswordModal: () => void;
   closeImportCustomCrosswordModal: () => void;
-  importCustomCrosswordFromPayload: (payloadOrUrl: string) => boolean;
-  playCustomCrossword: (item: UserCustomCrossword) => void;
+  importCustomCrosswordFromPayload: (payloadOrUrl: string) => Promise<boolean>;
+  playCustomCrossword: (item: UserCustomCrossword) => Promise<boolean>;
   consumeCustomTtsTicket: () => boolean;
   recordBattleEloOutcome: (opponentElo: number, won: boolean | 'draw') => { delta: number; newElo: number };
 
@@ -529,7 +531,7 @@ interface GameState {
   openLegalModal: (tab?: 'privacy' | 'terms' | 'kbbi') => void;
   closeLegalModal: () => void;
   setLegalModalTab: (tab: 'privacy' | 'terms' | 'kbbi') => void;
-  deleteAccountAndData: () => void;
+  deleteAccountAndData: () => Promise<void>;
   isLeaderboardOpen: boolean;
   openLeaderboard: () => void;
   closeLeaderboard: () => void;
@@ -622,6 +624,7 @@ const STORAGE_KEY_BATTLES_STATS = 'tts_battles_stats_v1';
 
 export interface UserCustomCrossword {
   id: string;
+  authorId?: string;
   title: string;
   category: string;
   wordsList: Array<{ word: string; clue: string }>;
@@ -962,6 +965,7 @@ export function findLevelForWordCount(levels: LevelData[], preference: 'short' |
   return Math.floor(Math.random() * levels.length);
 }
 
+let customPlayRequest = 0;
 export const useGameStore = create<GameState>((set, get) => ({
   currentTab: 'home',
   previousTab: 'home',
@@ -2123,7 +2127,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   isImportCustomCrosswordOpen: false,
   openImportCustomCrosswordModal: () => set({ isImportCustomCrosswordOpen: true }),
   closeImportCustomCrosswordModal: () => set({ isImportCustomCrosswordOpen: false }),
-  importCustomCrosswordFromPayload: (payloadOrUrl: string) => {
+  importCustomCrosswordFromPayload: async (payloadOrUrl: string) => {
     if (!payloadOrUrl || typeof payloadOrUrl !== 'string') return false;
     let param = payloadOrUrl.trim();
     if (param.includes('custom=')) {
@@ -2140,7 +2144,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       if (match && match[1]) param = match[1];
     }
 
-    const decoded = decodeCustomCrosswordParam(param);
+    const decoded = await decodeCustomCrosswordParam(param);
     if (!decoded) return false;
 
     try {
@@ -2150,7 +2154,8 @@ export const useGameStore = create<GameState>((set, get) => ({
         decoded.wordsList.map((w) => ({ word: w.answer || w.word, clue: w.clue }))
       );
       const customItem: UserCustomCrossword = {
-        id: `custom_${Date.now()}`,
+        id: decoded.id,
+        authorId: decoded.authorId,
         title: decoded.title,
         category: decoded.category || 'Kreasi Teman',
         wordsList: decoded.wordsList.map((w) => ({ word: w.answer || w.word, clue: w.clue })),
@@ -2158,7 +2163,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         createdAt: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
       };
       get().saveUserCustomCrossword(customItem);
-      get().playCustomCrossword(customItem);
+      if (!(await get().playCustomCrossword(customItem))) return false;
       get().showGlobalToast(`Berhasil memuat TTS Teman: "${decoded.title}"`, 3500);
       return true;
     } catch {
@@ -2189,12 +2194,25 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({ userCustomCrosswords: updated });
     get().showGlobalToast('TTS Kustom berhasil dihapus');
   },
-  playCustomCrossword: (item) => {
+  playCustomCrossword: async (item) => {
+    const request = ++customPlayRequest;
+    const initialRoom = get().activeRoomCode;
+    const initialTab = get().currentTab;
+    if (isPublishedCrosswordId(item.id)) {
+      const content = await readPublishedCrossword(item.id);
+      if (!content) {
+        get().showGlobalToast('Kreasi belum disetujui, dihapus, atau pembuatnya diblokir.');
+        return false;
+      }
+      item = {...item, title: content.title, category: content.category,
+        level: generateCustomCrossword(content.title, content.category, content.wordsList)};
+    }
+    if (request !== customPlayRequest || get().activeRoomCode !== initialRoom || get().currentTab !== initialTab) return false;
     if (get().activeRoomCode) {
       get().leaveMabarSession();
     }
     set({
-      level: item.level,
+      level: {...item.level, id: item.id},
       currentLevelIndex: -1,
       userInputs: {},
       lockedCells: {},
@@ -2211,6 +2229,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       activeCommunityMatchId: null,
     });
     get().showGlobalToast(`Memainkan TTS Kustom: "${item.title}"`);
+    return true;
   },
 
   purchaseSachetPack: () => {
@@ -4817,17 +4836,20 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   deleteAccountAndData: async () => {
-    try {
-      const { data } = await supabase.auth.getSession();
-      if (data?.session?.user) {
+    const user = get().user;
+    await deleteRemoteAccount(
+      user.isGuest,
+      async () => {
+        const { data, error } = await supabase.auth.getSession();
+        if (error) throw error;
+        return data.session?.user.id ?? null;
+      },
+      async () => {
         const { error } = await supabase.rpc('delete_user_account');
-        if (error) {
-          console.warn('[Account] Supabase delete_user_account RPC returned error:', error.message);
-        }
-      }
-    } catch (err) {
-      console.warn('[Account] Error deleting user account from Supabase:', err);
-    }
+        if (error) throw error;
+      },
+      user.id,
+    );
     try {
       await supabase.auth.signOut();
     } catch {}
@@ -4849,6 +4871,7 @@ export const useGameStore = create<GameState>((set, get) => ({
             key.startsWith('mabar_') ||
             key.startsWith('sb-') ||
             key.startsWith('sidenotes_') ||
+            key === 'moderation_blocked_creators_v1' ||
             key.startsWith('noticed_') ||
             key.includes('supabase'))
         ) {

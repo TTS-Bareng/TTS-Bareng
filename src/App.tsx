@@ -129,9 +129,14 @@ export const App: React.FC = () => {
       onFriendRequest: (req) => {
         showGlobalToast(`Permintaan pertemanan baru dari ${req.fromName}!`, 3500);
       },
-      onFriendAccepted: (friend) => {
-        addFriend(friend);
-        showGlobalToast(`${friend.name} menerima permintaan berteman Anda!`, 3500);
+      onFriendAccepted: () => {
+        // A broadcast is only a refresh signal; friendship data comes from the private inbox.
+        consumeAcceptedFriendships(user.id!).then(friends => {
+          for (const friend of friends) {
+            addFriend(friend);
+            showGlobalToast(`${friend.name} menerima permintaan berteman Anda!`, 3500);
+          }
+        });
       },
       onMabarInvite: (invite) => {
         setIncomingMabarInvite(invite);
@@ -286,7 +291,8 @@ export const App: React.FC = () => {
 
   // Deep Link & URL Query Sync Engine (?room=TTS-XXXX, ?tourney=CUP-XXXX, ?level=N, ?custom=..., or ?vip=1)
   useEffect(() => {
-    const { roomCode, tournamentCode, levelIndex, vip, customCrossword } = parseDeepLink(levels.length);
+    void (async () => {
+    const { roomCode, tournamentCode, levelIndex, vip, customCrossword } = await parseDeepLink(levels.length);
     if (vip) {
       openVipModal();
       clearUrlParams();
@@ -298,7 +304,8 @@ export const App: React.FC = () => {
           customCrossword.wordsList.map((w) => ({ word: w.answer, clue: w.clue }))
         );
         const customItem = {
-          id: `custom_${Date.now()}`,
+          id: customCrossword.id,
+          authorId: customCrossword.authorId,
           title: customCrossword.title,
           category: customCrossword.category || 'Kreasi Teman',
           wordsList: customCrossword.wordsList.map((w) => ({ word: w.answer, clue: w.clue })),
@@ -306,7 +313,7 @@ export const App: React.FC = () => {
           createdAt: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
         };
         saveUserCustomCrossword(customItem);
-        playCustomCrossword(customItem);
+        if (!(await playCustomCrossword(customItem))) return;
         showGlobalToast(`Membuka TTS Kustom: "${customCrossword.title}"`, 3500);
       } catch {
         showGlobalToast('Gagal memuat TTS Kustom dari tautan.', 3000);
@@ -328,6 +335,7 @@ export const App: React.FC = () => {
       showGlobalToast(`Membuka Bab ${levelIndex + 1} dari Tautan Teman`, 3200);
       clearUrlParams();
     }
+    })().catch(() => showGlobalToast('Tautan kreasi belum tersedia. Periksa koneksi atau status moderasi.'));
   }, [joinTournament, levels.length, openVipModal, playCustomCrossword, selectLevel, setActiveRoomCode, setCurrentTab, showGlobalToast]);
 
   // Centralized action handler for widget taps and deep links
@@ -414,7 +422,7 @@ export const App: React.FC = () => {
   useEffect(() => {
     let removeListener: (() => void) | undefined;
     try {
-      CapacitorApp.addListener('appUrlOpen', (event) => {
+      CapacitorApp.addListener('appUrlOpen', async (event) => {
         if (!event?.url) return;
         try {
           // 0. Handle Supabase OAuth Deep Link Callback (e.g. ttsbareng://auth-callback#access_token=... or ?code=...)
@@ -467,7 +475,7 @@ export const App: React.FC = () => {
           const customParam = urlObj.searchParams.get('custom') || urlObj.searchParams.get('tts');
 
           if (customParam) {
-            const decoded = decodeCustomCrosswordParam(customParam);
+            const decoded = await decodeCustomCrosswordParam(customParam);
             if (decoded) {
               try {
                 const generatedLevel = generateCustomCrossword(
@@ -476,7 +484,8 @@ export const App: React.FC = () => {
                   decoded.wordsList.map((w) => ({ word: w.answer, clue: w.clue }))
                 );
                 const customItem = {
-                  id: `custom_${Date.now()}`,
+                  id: decoded.id,
+                  authorId: decoded.authorId,
                   title: decoded.title,
                   category: decoded.category || 'Kreasi Teman',
                   wordsList: decoded.wordsList.map((w) => ({ word: w.answer, clue: w.clue })),
@@ -484,7 +493,7 @@ export const App: React.FC = () => {
                   createdAt: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
                 };
                 saveUserCustomCrossword(customItem);
-                playCustomCrossword(customItem);
+                if (!(await playCustomCrossword(customItem))) return;
                 showGlobalToast(`Membuka TTS Kustom: "${decoded.title}"`, 3500);
                 return;
               } catch {}

@@ -1,3 +1,4 @@
+import { isPublishedCrosswordId } from '../lib/customCrosswordService';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Share2, Copy, Play, PenTool, Sparkles } from 'lucide-react';
@@ -23,11 +24,9 @@ export const CustomCrosswordQrModal: React.FC = () => {
   const item = customCrosswordQrData;
 
   useEffect(() => {
-    if (item && isCustomCrosswordQrOpen) {
+    if (item && isCustomCrosswordQrOpen && isPublishedCrosswordId(item.id)) {
       const inviteLink = createCustomCrosswordDeepLink({
-        title: item.title,
-        category: item.category,
-        wordsList: item.wordsList,
+        id: item.id,
       });
 
       QRCode.toDataURL(inviteLink, {
@@ -50,15 +49,12 @@ export const CustomCrosswordQrModal: React.FC = () => {
     item.wordsList?.length ||
     0;
 
-  const inviteLink = createCustomCrosswordDeepLink({
-    title: item.title,
-    category: item.category,
-    wordsList: item.wordsList,
-  });
+  const inviteLink = isPublishedCrosswordId(item.id) ? createCustomCrosswordDeepLink({id: item.id}) : '';
 
   const creatorName = user?.name || 'Kreator Komunitas';
 
   const handleCopyLink = async () => {
+    if (!inviteLink) { showGlobalToast('Buka Edit lalu terbitkan ulang kreasi lama untuk moderasi.'); return; }
     const success = await copyToClipboard(inviteLink);
     if (success) {
       showGlobalToast('Tautan TTS Kustom berhasil disalin ke clipboard!', 3000);
@@ -68,6 +64,7 @@ export const CustomCrosswordQrModal: React.FC = () => {
   };
 
   const handleShareWhatsApp = async () => {
+    if (!inviteLink) { showGlobalToast('Buka Edit lalu terbitkan ulang kreasi lama untuk moderasi.'); return; }
     const text =
       `Ayo pecahkan TTS Karyaku: *"${item.title}"*!\n\n` +
       `Kategori: *${item.category || 'Kreasi'}*\n` +
@@ -82,6 +79,7 @@ export const CustomCrosswordQrModal: React.FC = () => {
   };
 
   const handleShareNative = async () => {
+    if (!inviteLink) { showGlobalToast('Buka Edit lalu terbitkan ulang kreasi lama untuk moderasi.'); return; }
     const text = `Ayo mainkan TTS Karyaku: "${item.title}" (${totalWords} Kata) di TTS Bareng!`;
     const res = await shareNative({
       title: item.title,
@@ -95,9 +93,9 @@ export const CustomCrosswordQrModal: React.FC = () => {
     }
   };
 
-  const handlePlayNow = () => {
+  const handlePlayNow = async () => {
     closeCustomCrosswordQrModal();
-    playCustomCrossword(item);
+    await playCustomCrossword(item);
   };
 
   return (

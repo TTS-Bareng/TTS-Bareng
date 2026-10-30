@@ -36,53 +36,10 @@ export async function sendFriendRequestCloud(
   }
 
   try {
-    const inboxIdentifier = `inbox_${targetUserId}`;
 
-    // 1. Fetch target's current inbox
-    const { data: existingRows } = await supabase
-      .from('user_progress_backup')
-      .select('records')
-      .eq('user_identifier', inboxIdentifier)
-      .maybeSingle();
 
-    const currentRecords: UserInboxData = (existingRows?.records as UserInboxData) || {};
-    const existingRequests = currentRecords.requests || [];
-
-    // Check if already requested
-    if (existingRequests.some((r) => r.fromId === sender.id)) {
-      return { success: true, message: 'Permintaan berteman sudah dikirim sebelumnya.' };
-    }
-
-    const newRequest: FriendRequest = {
-      id: `req_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
-      fromId: sender.id,
-      fromName: sender.name,
-      fromAvatar: sender.avatar || '',
-      eloRating: sender.eloRating || 1200,
-      stars: sender.stars || 0,
-      sentAt: new Date().toISOString(),
-    };
-
-    const updatedRecords: UserInboxData = {
-      ...currentRecords,
-      requests: [newRequest, ...existingRequests],
-    };
-
-    // 2. Upsert updated inbox
-    const { error: upsertErr } = await supabase.from('user_progress_backup').upsert(
-      {
-        user_identifier: inboxIdentifier,
-        records: updatedRecords,
-        backup_version: 'social_v1',
-        updated_at: new Date().toISOString(),
-      },
-      { onConflict: 'user_identifier' }
-    );
-
-    if (upsertErr) {
-      return { success: false, message: 'Gagal mengirim permintaan pertemanan ke cloud.' };
-    }
-
+    const {data: newRequest, error} = await supabase.rpc('send_friend_request', {p_target: targetUserId});
+    if (error || !newRequest) return {success: false, message: 'Masuk ke akun untuk mengirim permintaan ke pemain terdaftar, atau coba lagi nanti.'};
     // 3. Broadcast real-time signal to recipient channel
     const channel = supabase.channel(`social_inbox:${targetUserId}`);
     channel.subscribe(async (status) => {
@@ -139,73 +96,9 @@ export async function acceptFriendRequestCloud(
   }
 
   try {
-    const myInboxId = `inbox_${currentUserId}`;
-    const senderInboxId = `inbox_${request.fromId}`;
-
-    // 1. Remove request from my inbox
-    const { data: myData } = await supabase
-      .from('user_progress_backup')
-      .select('records')
-      .eq('user_identifier', myInboxId)
-      .maybeSingle();
-
-    const myRecords: UserInboxData = (myData?.records as UserInboxData) || {};
-    const filteredRequests = (myRecords.requests || []).filter((r) => r.id !== request.id);
-
-    await supabase.from('user_progress_backup').upsert(
-      {
-        user_identifier: myInboxId,
-        records: { ...myRecords, requests: filteredRequests },
-        backup_version: 'social_v1',
-        updated_at: new Date().toISOString(),
-      },
-      { onConflict: 'user_identifier' }
-    );
-
-    // 2. Build mutual friend records
-    const newFriendForMe: FriendRecord = {
-      id: request.fromId,
-      name: request.fromName,
-      avatar: request.fromAvatar,
-      eloRating: request.eloRating,
-      stars: request.stars,
-      isVip: false,
-      addedAt: new Date().toISOString(),
-    };
-
-    const newFriendForSender: FriendRecord = {
-      id: currentUser.id,
-      name: currentUser.name,
-      avatar: currentUser.avatar,
-      eloRating: currentUser.eloRating,
-      stars: currentUser.stars,
-      isVip: false,
-      addedAt: new Date().toISOString(),
-    };
-
-    // 3. Post accepted notification into sender's inbox so they get the mutual connection
-    const { data: senderData } = await supabase
-      .from('user_progress_backup')
-      .select('records')
-      .eq('user_identifier', senderInboxId)
-      .maybeSingle();
-
-    const senderRecords: UserInboxData = (senderData?.records as UserInboxData) || {};
-    const existingAccepted = senderRecords.accepted || [];
-
-    await supabase.from('user_progress_backup').upsert(
-      {
-        user_identifier: senderInboxId,
-        records: {
-          ...senderRecords,
-          accepted: [{ friend: newFriendForSender, acceptedAt: new Date().toISOString() }, ...existingAccepted],
-        },
-        backup_version: 'social_v1',
-        updated_at: new Date().toISOString(),
-      },
-      { onConflict: 'user_identifier' }
-    );
-
+    const {data: newFriendForMe, error} = await supabase.rpc('accept_friend_request', {p_request: request.id});
+    if (error || !newFriendForMe) return {success: false};
+    const newFriendForSender: FriendRecord = {...currentUser, isVip: false, addedAt: new Date().toISOString()};
     // 4. Real-time broadcast to sender
     const channel = supabase.channel(`social_inbox:${request.fromId}`);
     channel.subscribe(async (status) => {
@@ -237,26 +130,8 @@ export async function declineFriendRequestCloud(
 ): Promise<boolean> {
   if (!isSupabaseConfigured || !currentUserId || !requestId) return false;
   try {
-    const myInboxId = `inbox_${currentUserId}`;
-    const { data: myData } = await supabase
-      .from('user_progress_backup')
-      .select('records')
-      .eq('user_identifier', myInboxId)
-      .maybeSingle();
-
-    const myRecords: UserInboxData = (myData?.records as UserInboxData) || {};
-    const filteredRequests = (myRecords.requests || []).filter((r) => r.id !== requestId);
-
-    await supabase.from('user_progress_backup').upsert(
-      {
-        user_identifier: myInboxId,
-        records: { ...myRecords, requests: filteredRequests },
-        backup_version: 'social_v1',
-        updated_at: new Date().toISOString(),
-      },
-      { onConflict: 'user_identifier' }
-    );
-
+    const {error} = await supabase.rpc('decline_friend_request', {p_request: requestId});
+    if (error) return false;
     return true;
   } catch {
     return false;
@@ -271,28 +146,9 @@ export async function consumeAcceptedFriendships(
 ): Promise<FriendRecord[]> {
   if (!isSupabaseConfigured || !currentUserId) return [];
   try {
-    const myInboxId = `inbox_${currentUserId}`;
-    const { data: myData } = await supabase
-      .from('user_progress_backup')
-      .select('records')
-      .eq('user_identifier', myInboxId)
-      .maybeSingle();
-
-    const myRecords: UserInboxData = (myData?.records as UserInboxData) || {};
-    const acceptedList = myRecords.accepted || [];
-    if (acceptedList.length === 0) return [];
-
-    // Clear accepted from cloud inbox
-    await supabase.from('user_progress_backup').upsert(
-      {
-        user_identifier: myInboxId,
-        records: { ...myRecords, accepted: [] },
-        backup_version: 'social_v1',
-        updated_at: new Date().toISOString(),
-      },
-      { onConflict: 'user_identifier' }
-    );
-
+    const {data, error} = await supabase.rpc('consume_friend_acceptances');
+    if (error || !Array.isArray(data)) return [];
+    const acceptedList = data as Array<{friend: FriendRecord}>;
     return acceptedList.map((a) => a.friend);
   } catch {
     return [];
