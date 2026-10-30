@@ -40,3 +40,6 @@ android/.cxx
 ios/App/Pods
 ios/App/DerivedData
 ios/App/.build
+
+# Supabase CLI temp
+supabase/.temp/
