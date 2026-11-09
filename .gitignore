@@ -43,3 +43,6 @@ ios/App/.build
 
 # Supabase CLI temp
 supabase/.temp/
+
+# App Store submission temporary screenshots & recordings
+app_store_screenshots/

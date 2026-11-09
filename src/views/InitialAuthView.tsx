@@ -28,6 +28,11 @@ import {
   resetPasswordForEmail,
   formatFriendlyNetworkError,
 } from "../lib/supabase";
+import {
+  normalizeEmailOtp,
+  isCompleteEmailOtp,
+  EMAIL_OTP_MAX_LENGTH,
+} from "../lib/emailOtp";
 
 const AppleLogoIcon: React.FC<{ className?: string }> = ({
   className = "w-4 h-4",
@@ -183,10 +188,11 @@ export const InitialAuthView: React.FC = () => {
   const [resetEmail, setResetEmail] = useState("");
   const [isSendingReset, setIsSendingReset] = useState(false);
 
-  // In-App 6-Digit OTP State
+  // In-App 6/8-Digit OTP & Recovery State
   const [otpCode, setOtpCode] = useState("");
   const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
   const [otpCooldown, setOtpCooldown] = useState(0);
+  const [pendingPassword, setPendingPassword] = useState<string | null>(null);
 
   // Auto-advance showcase carousel every 4.5 seconds
   useEffect(() => {
@@ -324,6 +330,7 @@ export const InitialAuthView: React.FC = () => {
 
     if (res?.session) {
       // New registration: MUST route to OnboardingView
+      setPendingPassword(null);
       showGlobalToast(
         "Pendaftaran akun berhasil! Silakan atur nama & avatar Anda...",
       );
@@ -334,15 +341,17 @@ export const InitialAuthView: React.FC = () => {
       });
     } else if (res?.user) {
       // Supabase sent verification OTP to email
+      setPendingPassword(password);
       setScreen("otp");
       setOtpCooldown(60);
       setOtpCode("");
-      showGlobalToast("Kode verifikasi 6 digit telah dikirim ke surel Anda.");
+      showGlobalToast("Kode verifikasi telah dikirim ke surel Anda.");
     } else if (res?.error) {
       if (
         res.error.toLowerCase().includes("already registered") ||
         res.error.toLowerCase().includes("terdaftar")
       ) {
+        setPendingPassword(null);
         showGlobalToast(
           "Surel ini sudah terdaftar. Silakan masuk menggunakan kata sandi Anda.",
         );
@@ -351,13 +360,15 @@ export const InitialAuthView: React.FC = () => {
         // Fallback: try sending in-app OTP
         const otpRes = await sendEmailOtp(cleanEmail);
         if (otpRes.success) {
+          setPendingPassword(password);
           setScreen("otp");
           setOtpCooldown(60);
           setOtpCode("");
           showGlobalToast(
-            "Kode verifikasi 6 digit telah dikirim ke surel Anda.",
+            "Kode verifikasi telah dikirim ke surel Anda.",
           );
         } else {
+          setPendingPassword(null);
           showGlobalToast(formatFriendlyNetworkError(res.error));
         }
       }
@@ -417,10 +428,11 @@ export const InitialAuthView: React.FC = () => {
     setIsSubmitting(false);
 
     if (res.success) {
+      setPendingPassword(null);
       setScreen("otp");
       setOtpCooldown(60);
       setOtpCode("");
-      showGlobalToast("Kode verifikasi 6 digit telah dikirim.");
+      showGlobalToast("Kode verifikasi telah dikirim.");
     } else {
       showGlobalToast(res.error || "Gagal mengirim kode OTP.");
     }
@@ -428,9 +440,9 @@ export const InitialAuthView: React.FC = () => {
 
   const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
-    const cleanToken = otpCode.trim();
-    if (cleanToken.length !== 6) {
-      showGlobalToast("Masukkan 6 digit kode verifikasi dengan lengkap.");
+    const cleanToken = normalizeEmailOtp(otpCode);
+    if (!isCompleteEmailOtp(cleanToken)) {
+      showGlobalToast("Masukkan 6 atau 8 digit kode verifikasi dengan lengkap.");
       return;
     }
 
@@ -438,9 +450,10 @@ export const InitialAuthView: React.FC = () => {
     showGlobalToast("Memverifikasi kode...");
 
     const res = await verifyEmailOtp(email.trim(), cleanToken);
-    setIsVerifyingOtp(false);
 
     if (res?.session) {
+      setIsVerifyingOtp(false);
+      setPendingPassword(null);
       const isAlreadyOnboarded =
         localStorage.getItem(getOnboardedKey(res.session.user.id)) === "true" ||
         res.session.user.user_metadata?.onboarded === true;
@@ -457,11 +470,32 @@ export const InitialAuthView: React.FC = () => {
           isGuest: false,
         });
       }
-    } else {
-      showGlobalToast(
-        res?.error || "Kode verifikasi tidak valid atau telah kedaluwarsa.",
-      );
+      return;
     }
+
+    // Link Scanner Auto-Confirm Recovery:
+    // If Apple Mail Privacy Protection prefetched/consumed the confirmation URL,
+    // the single-use token in the email is invalidated, but the user is already confirmed on Supabase!
+    // Try signing in directly with the pending registration password:
+    if (pendingPassword) {
+      const directLogin = await signInWithEmailPassword(email.trim(), pendingPassword);
+      if (directLogin?.session) {
+        setIsVerifyingOtp(false);
+        setPendingPassword(null);
+        showGlobalToast("Akun Anda telah terverifikasi! Menyiapkan profil...");
+        proceedToOnboarding({
+          id: directLogin.session.user.id,
+          email: email.trim(),
+          isGuest: false,
+        });
+        return;
+      }
+    }
+
+    setIsVerifyingOtp(false);
+    showGlobalToast(
+      res?.error || "Kode verifikasi tidak valid atau telah kedaluwarsa.",
+    );
   };
 
   const handleResendOtp = async () => {
@@ -1017,7 +1051,7 @@ export const InitialAuthView: React.FC = () => {
                       Verifikasi Kode OTP
                     </h2>
                     <p className="text-[10px] text-[var(--text-secondary)] font-medium leading-tight truncate">
-                      Masukkan 6 digit kode yang dikirim ke{" "}
+                      Masukkan kode verifikasi yang dikirim ke{" "}
                       <span className="font-bold text-[var(--accent-main)]">
                         {email}
                       </span>
@@ -1025,18 +1059,19 @@ export const InitialAuthView: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Segmented 6-Box OTP Display with iOS AutoFill support */}
+                {/* Segmented Adaptive 6/8-Box OTP Display with iOS AutoFill support */}
                 <form
                   onSubmit={handleVerifyOtp}
                   className="flex flex-col gap-3"
                 >
                   <div className="relative">
                     <div className="flex justify-between gap-1.5 sm:gap-2">
-                      {[0, 1, 2, 3, 4, 5].map((idx) => {
+                      {Array.from({ length: otpCode.length > 6 ? 8 : 6 }, (_, idx) => {
                         const digit = otpCode[idx] || "";
+                        const maxLen = otpCode.length > 6 ? 8 : 6;
                         const isFocused =
                           otpCode.length === idx ||
-                          (idx === 5 && otpCode.length === 6);
+                          (idx === maxLen - 1 && otpCode.length === maxLen);
                         return (
                           <div
                             key={idx}
@@ -1060,12 +1095,10 @@ export const InitialAuthView: React.FC = () => {
                       inputMode="numeric"
                       pattern="[0-9]*"
                       autoComplete="one-time-code"
-                      maxLength={6}
+                      maxLength={EMAIL_OTP_MAX_LENGTH}
                       value={otpCode}
                       onChange={(e) => {
-                        const val = e.target.value
-                          .replace(/\D/g, "")
-                          .slice(0, 6);
+                        const val = normalizeEmailOtp(e.target.value);
                         setOtpCode(val);
                       }}
                       autoFocus
@@ -1097,7 +1130,7 @@ export const InitialAuthView: React.FC = () => {
                   {/* Submit Verification Button */}
                   <button
                     type="submit"
-                    disabled={isVerifyingOtp || otpCode.length !== 6}
+                    disabled={isVerifyingOtp || !isCompleteEmailOtp(otpCode)}
                     className="w-full h-11.5 rounded-2xl bg-[var(--accent-main)] text-[var(--accent-contrast)] hover:opacity-95 active:scale-[0.98] font-black text-[13px] flex items-center justify-center gap-2 cursor-pointer shadow-md transition-all disabled:opacity-40 select-none mt-1"
                   >
                     <KeyRound className="w-4 h-4 stroke-[2.2]" />
