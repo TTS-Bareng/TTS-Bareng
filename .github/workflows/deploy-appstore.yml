@@ -61,12 +61,22 @@ jobs:
           npm run build
           npx cap sync ios
 
-      # 6. Set iOS Build Number
-      - name: Set iOS Build Number
+      # 6. Set iOS Build Number & Marketing Version
+      - name: Set iOS Build Number & Marketing Version
         run: |
-          BUILD_NUM="${{ github.run_number }}"
-          echo "Setting CFBundleVersion to: $BUILD_NUM"
+          export BUILD_NUM="${{ github.run_number }}"
+          export APP_VERSION=$(node -p "require('./package.json').version")
+          echo "Setting CFBundleVersion to: $BUILD_NUM and MARKETING_VERSION to: $APP_VERSION"
+          node -e '
+            const fs = require("fs");
+            const pbxPath = "ios/App/App.xcodeproj/project.pbxproj";
+            let pbx = fs.readFileSync(pbxPath, "utf8");
+            pbx = pbx.replace(/MARKETING_VERSION = [^;]+;/g, `MARKETING_VERSION = ${process.env.APP_VERSION};`);
+            pbx = pbx.replace(/CURRENT_PROJECT_VERSION = [^;]+;/g, `CURRENT_PROJECT_VERSION = ${process.env.BUILD_NUM};`);
+            fs.writeFileSync(pbxPath, pbx, "utf8");
+          '
           cd ios/App
+          agvtool new-marketing-version "$APP_VERSION" || true
           agvtool new-version -all "$BUILD_NUM" || true
           cd ../..
 
@@ -213,7 +223,7 @@ jobs:
             if (match) {
               keyId = match[0];
             } else {
-              keyId = "RFD9S3H8RW";
+              keyId = "X4SX9VQZ44";
             }
 
             let keyBuf;
@@ -323,7 +333,7 @@ jobs:
       # 12. Upload IPA to TestFlight / App Store Connect via xcrun altool
       - name: Upload IPA to TestFlight / App Store Connect
         env:
-          KEY_ID: ${{ env.APPSTORE_KEY_ID || 'RFD9S3H8RW' }}
+          KEY_ID: ${{ env.APPSTORE_KEY_ID || 'X4SX9VQZ44' }}
           ISSUER_ID: ${{ secrets.APPSTORE_ISSUER_ID || 'c32ee50b-c9f8-4532-898e-4c793cac57f6' }}
         run: |
           echo "Uploading build/App.ipa to App Store Connect with Key ID: $KEY_ID..."
@@ -332,10 +342,15 @@ jobs:
             -t ios \
             --apiKey "$KEY_ID" \
             --apiIssuer "$ISSUER_ID" \
-            --show-progress
+            --show-progress 2>&1 | tee upload.log
+          if grep -q "ERROR:" upload.log; then
+            echo "ERROR: xcrun altool upload reported failure!"
+            exit 1
+          fi
 
       # 13. Backup IPA as GitHub Artifact
       - name: Upload IPA as GitHub Artifact
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: tts-bareng-appstore-ipa
